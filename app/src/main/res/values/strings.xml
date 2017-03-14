@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PrintHome</string>
+    <string name="hello_world">Hello 妹子!</string>
+    <string name="action_settings">Settings</string>
+    <!-- LoginActivity -->
+    <string name="login">登录</string>
+    <string name="hint_phone">请输入您的手机号码</string>
+    <string name="hint_psd">请输入您的密码</string>
+    <string name="forget_pass">忘记密码？</string>
+    <string name="new_user">新用户，立即注册</string>
+    <string name="login_failure">登录失败，请重新登录</string>
+    <string name="exit_program">再按一次退出程序</string>
+    <!-- RegisterActivity -->
+    <string name="register">注册</string>
+    <string name="hint_code">请输入验证码</string>
+    <string name="eagerly_fetch">立即获取</string>
+    <string name="hint_set_psd">请设置6&#8211;16位登录密码</string>
+    <string name="hint_real_name">请输入您的真实姓名</string>
+    <string name="hint_invitation_code">请输入邀请码（可不填）</string>
+    <string name="register_agreement">点击注册即表示您同意</string>
+    <string name="register_user_agreement">货易帮用户协议</string>
+    <string name="eagerly_register">已有账号，立即登录</string>
+    <string name="register_failure">注册失败</string>
+    <string name="psd_no_null">登录密码不能为空</string>
+    <string name="psd_set">登录密码需要设置为6&#8211;16位</string>
+    <string name="psd_set_no_chinese">密码设置不能有汉字</string>
+    <string name="code_no_null">验证码不能为空</string>
+    <string name="phone_no_null">手机号码不能为空</string>
+    <string name="phone_set_null">密码格式有误，请重新输入</string>
+    <string name="phone_format_error">手机号码格式不正确</string>    
+    <string name="name_no_null">姓名不能为空</string> 
+    <string name="name_only_chinese">姓名只能填写为汉字</string> 
+    <string name="resend_code">重发验证码</string> 
+</resources>

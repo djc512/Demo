@@ -1,0 +1,175 @@
+package huanxing_print.com.cn.printhome.util;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Hashtable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import huanxing_print.com.cn.printhome.constant.HttpUrl;
+import huanxing_print.com.cn.printhome.util.time.TimeUtils;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.net.Uri;
+import android.widget.ImageView;
+
+public class BitmapUtils {
+
+	private static final int BLACK = 0xff000000;
+
+	public static void compressBitmap(Bitmap bitmap, String path, int quality) throws IOException {
+		TimeUtils.beginTime();
+		NativeUtil.compressBitmap(bitmap, quality, path, true);
+		TimeUtils.endTime();
+	}
+
+	public static Bitmap getBitmapFormUri(Context context, Uri uri) throws FileNotFoundException, IOException {
+		InputStream input = context.getContentResolver().openInputStream(uri);
+		BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+		onlyBoundsOptions.inJustDecodeBounds = true;
+		onlyBoundsOptions.inDither = true;
+		onlyBoundsOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
+		BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+		input.close();
+		int originalWidth = onlyBoundsOptions.outWidth;
+		int originalHeight = onlyBoundsOptions.outHeight;
+		if ((originalWidth == -1) || (originalHeight == -1))
+			return null;
+		float hh = 800f;
+		float ww = 480f;
+		int be = 1;
+		if (originalWidth > originalHeight && originalWidth > ww) {
+			be = (int) (originalWidth / ww);
+		} else if (originalWidth < originalHeight && originalHeight > hh) {
+			be = (int) (originalHeight / hh);
+		}
+		if (be <= 0)
+			be = 1;
+		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+		bitmapOptions.inSampleSize = be;
+		bitmapOptions.inDither = true;
+		bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
+		input = context.getContentResolver().openInputStream(uri);
+		Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+		input.close();
+
+		return bitmap;
+	}
+
+	public static void displayImage(Context context, String url, ImageView view) {
+		url = HttpUrl.getInstance().getImageUrl() + url;
+		Glide.with(context).load(url).into(view);
+	}
+
+	public static void displayImage(Context context, String url, int errorId, ImageView view) {
+		if (ObjectUtils.isNull(url)) {
+			view.setImageResource(errorId);
+			return;
+		}
+		url = HttpUrl.getInstance().getImageUrl() + url;
+		Glide.with(context).load(url).error(errorId).into(view);
+	}
+
+	public static void displayImage(Context context, File file, ImageView view) {
+		Glide.with(context).load(file).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(view);
+	}
+
+	public static Bitmap createQRCode(String str, int widthAndHeight, Bitmap logoBm) throws WriterException {
+		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
+		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+		BitMatrix matrix = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, widthAndHeight, widthAndHeight);
+		int width = matrix.getWidth();
+		int height = matrix.getHeight();
+		int[] pixels = new int[width * height];
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if (matrix.get(x, y)) {
+					pixels[y * width + x] = BLACK;
+				}
+			}
+		}
+		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+		if (logoBm != null) {
+			bitmap = addLogo(bitmap, logoBm);
+		}
+		return bitmap;
+	}
+
+	public static Bitmap createQRCode(String str, int widthAndHeight) throws WriterException {
+		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
+		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+		BitMatrix matrix = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, widthAndHeight, widthAndHeight);
+		int width = matrix.getWidth();
+		int height = matrix.getHeight();
+		int[] pixels = new int[width * height];
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if (matrix.get(x, y)) {
+					pixels[y * width + x] = BLACK;
+				}
+			}
+		}
+		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+		return bitmap;
+	}
+
+	/**
+	 * 在二维码中间添加Logo图案
+	 */
+	private static Bitmap addLogo(Bitmap src, Bitmap logo) {
+		if (src == null) {
+			return null;
+		}
+
+		if (logo == null) {
+			return src;
+		}
+
+		// 获取图片的宽高
+		int srcWidth = src.getWidth();
+		int srcHeight = src.getHeight();
+		int logoWidth = logo.getWidth();
+		int logoHeight = logo.getHeight();
+
+		if (srcWidth == 0 || srcHeight == 0) {
+			return null;
+		}
+
+		if (logoWidth == 0 || logoHeight == 0) {
+			return src;
+		}
+
+		// logo大小为二维码整体大小的1/5
+		float scaleFactor = srcWidth * 1.0f / 5 / logoWidth;
+		Bitmap bitmap = Bitmap.createBitmap(srcWidth, srcHeight, Bitmap.Config.ARGB_8888);
+		try {
+			Canvas canvas = new Canvas(bitmap);
+			canvas.drawBitmap(src, 0, 0, null);
+			canvas.scale(scaleFactor, scaleFactor, srcWidth / 2, srcHeight / 2);
+			canvas.drawBitmap(logo, (srcWidth - logoWidth) / 2, (srcHeight - logoHeight) / 2, null);
+
+			canvas.save(Canvas.ALL_SAVE_FLAG);
+			canvas.restore();
+		} catch (Exception e) {
+			bitmap = null;
+			e.getStackTrace();
+		}
+
+		return bitmap;
+	}
+
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/all_bg_color"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/fl_main_context"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/line_color" />
+    <RadioGroup
+        android:id="@+id/rgp_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="5dp"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rgb_home"
+            style="@style/main_option"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:checked="true"
+            android:drawableTop="@drawable/main_tab_home_selector"
+            android:text="首页" 
+            />
+
+        <RadioButton
+            android:id="@+id/rgb_contacts"
+            style="@style/main_option"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:drawableTop="@drawable/main_tab_contact_selector"
+            android:text="生意经"
+             />
+
+        <RadioButton
+            android:id="@+id/rgb_find"
+            style="@style/main_option"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:drawableTop="@drawable/main_tab_find_selector"
+            android:text="生意圈"
+            />
+        <RadioButton
+            android:id="@+id/rgb_center"
+            style="@style/main_option"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:drawableTop="@drawable/main_tab_centre_selector"
+            android:text="百宝箱"
+             />
+    </RadioGroup>
+
+</LinearLayout>
