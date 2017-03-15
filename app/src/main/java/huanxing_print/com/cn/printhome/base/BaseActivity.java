@@ -1,23 +1,5 @@
 package huanxing_print.com.cn.printhome.base;
 
-import java.util.Set;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
-import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.event.location.LocationEvent;
-import huanxing_print.com.cn.printhome.event.login.HasLoginEvent;
-import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
-import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
-import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
-import com.umeng.analytics.MobclickAgent;
-import com.zhy.http.okhttp.OkHttpUtils;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,13 +14,33 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.umeng.analytics.MobclickAgent;
+import com.zhy.http.okhttp.OkHttpUtils;
+
+import java.util.Set;
+
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import de.greenrobot.event.EventBus;
+import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.event.location.LocationEvent;
+import huanxing_print.com.cn.printhome.event.login.HasLoginEvent;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.logic.map.LocationCallBack;
+import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public abstract class BaseActivity extends Activity {
-
+//
 	protected abstract BaseActivity getSelfActivity();
 	protected BaseApplication baseApplication;
 	protected LocationCallBack locationCallBack;
