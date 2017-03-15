@@ -40,7 +40,7 @@ import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public abstract class BaseActivity extends Activity {
-//
+
 	protected abstract BaseActivity getSelfActivity();
 	protected BaseApplication baseApplication;
 	protected LocationCallBack locationCallBack;
