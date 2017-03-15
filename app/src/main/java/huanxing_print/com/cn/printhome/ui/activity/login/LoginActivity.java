@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	}
 
 	@Override
-	protected boolean isNeedLocate() {
+	protected boolean   isNeedLocate() {
 		return true;
 	}
 
