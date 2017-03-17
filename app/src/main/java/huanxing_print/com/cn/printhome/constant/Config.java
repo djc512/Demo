@@ -24,6 +24,4 @@ public class Config {
 	public static final String USER_TYPE = "2"; // 1:货主端 2：司机端
 
 	public static final String PAGESIZE = "10"; // 一页个数
-
-	public static final String[] TYPE_DOC = {"doc","docx","ppt","pptx","pdf"};
 }
