@@ -25,11 +25,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    testCompile 'junit:junit:4.12'
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'org.greenrobot:eventbus:3.0.0'
 
     compile files('libs/alipaySDK-20150610.jar')
     compile files('libs/baidumapapi_base_v3_6_1.jar')
@@ -54,4 +49,11 @@ dependencies {
     compile files('libs/umeng-update-v2.8.0.jar')
     compile files('libs/wire.jar')
     compile files('libs/zxing.jar')
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.1'
+    compile 'pub.devrel:easypermissions:0.2.0'
+    testCompile 'junit:junit:4.12'
 }
