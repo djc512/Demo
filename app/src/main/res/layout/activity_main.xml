@@ -31,7 +31,7 @@
             android:layout_weight="1.0"
             android:checked="true"
             android:drawableTop="@drawable/main_tab_home_selector"
-            android:text="首页" 
+            android:text="共享打印"
             />
 
         <RadioButton
@@ -41,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.0"
             android:drawableTop="@drawable/main_tab_contact_selector"
-            android:text="生意经"
+            android:text="我的"
              />
 
         <RadioButton
@@ -52,6 +52,7 @@
             android:layout_weight="1.0"
             android:drawableTop="@drawable/main_tab_find_selector"
             android:text="生意圈"
+            android:visibility="gone"
             />
         <RadioButton
             android:id="@+id/rgb_center"
@@ -61,6 +62,7 @@
             android:layout_weight="1.0"
             android:drawableTop="@drawable/main_tab_centre_selector"
             android:text="百宝箱"
+            android:visibility="gone"
              />
     </RadioGroup>
 
