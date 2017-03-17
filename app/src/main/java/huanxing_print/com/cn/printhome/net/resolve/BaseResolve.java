@@ -1,15 +1,17 @@
 package huanxing_print.com.cn.printhome.net.resolve;
 
+import com.google.gson.Gson;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import com.google.gson.Gson;
 import huanxing_print.com.cn.printhome.event.login.HasLoginEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.util.JsonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
-import de.greenrobot.event.EventBus;
 
 public abstract class BaseResolve<T> {
 

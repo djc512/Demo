@@ -24,11 +24,12 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-import de.greenrobot.event.EventBus;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.event.location.LocationEvent;
 import huanxing_print.com.cn.printhome.event.login.HasLoginEvent;
