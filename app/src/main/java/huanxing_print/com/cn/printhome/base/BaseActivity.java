@@ -75,7 +75,7 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		EventBus.getDefault().register(this);
+//		EventBus.getDefault().register(this);
 		init();
 	}
 
