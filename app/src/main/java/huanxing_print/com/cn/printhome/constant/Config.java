@@ -25,4 +25,5 @@ public class Config {
 
 	public static final String PAGESIZE = "10"; // 一页个数
 
+	public static final String[] TYPE_DOC = {"doc","docx","ppt","pptx","pdf"};
 }
