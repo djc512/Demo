@@ -4,7 +4,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.login.LoginBean;
 import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
-import huanxing_print.com.cn.printhome.net.ballback.login.LoginCallback;
+import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
 import huanxing_print.com.cn.printhome.net.request.login.LoginRequset;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
@@ -12,7 +12,6 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 

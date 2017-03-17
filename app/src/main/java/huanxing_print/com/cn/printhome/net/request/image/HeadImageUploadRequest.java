@@ -4,7 +4,7 @@ import java.io.File;
 
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
-import huanxing_print.com.cn.printhome.net.ballback.image.HeadImageUploadCallback;
+import huanxing_print.com.cn.printhome.net.callback.image.HeadImageUploadCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 import huanxing_print.com.cn.printhome.net.resolve.image.HeadImageUploadResolve;
 import huanxing_print.com.cn.printhome.util.HttpUtils;

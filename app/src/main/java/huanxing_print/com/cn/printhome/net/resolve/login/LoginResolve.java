@@ -1,7 +1,7 @@
 package huanxing_print.com.cn.printhome.net.resolve.login;
 
 import huanxing_print.com.cn.printhome.model.login.LoginBean;
-import huanxing_print.com.cn.printhome.net.ballback.login.LoginCallback;
+import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
 
 

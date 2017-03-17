@@ -1,7 +1,7 @@
-package huanxing_print.com.cn.printhome.net.ballback.login;
+package huanxing_print.com.cn.printhome.net.callback.login;
 
 import huanxing_print.com.cn.printhome.model.login.LoginBean;
-import huanxing_print.com.cn.printhome.net.ballback.BaseCallback;
+import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
 
 
 public interface LoginCallback extends BaseCallback {

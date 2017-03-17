@@ -1,7 +1,7 @@
 package huanxing_print.com.cn.printhome.net.resolve.image;
 
 import huanxing_print.com.cn.printhome.model.image.HeadImageBean;
-import huanxing_print.com.cn.printhome.net.ballback.image.HeadImageUploadCallback;
+import huanxing_print.com.cn.printhome.net.callback.image.HeadImageUploadCallback;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
 
 
