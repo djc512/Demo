@@ -77,7 +77,10 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".ui.activity.print.AddFileActivity"></activity>
+        <activity android:name=".ui.activity.print.AddFileActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
 
         <!--充值界面-->
         <activity android:name=".ui.activity.my.AccountActivity"
