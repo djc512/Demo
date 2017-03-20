@@ -18,6 +18,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <!-- 位置相关 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -77,6 +78,23 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity android:name=".ui.activity.print.AddFileActivity">
         </activity>
+
+        <!--充值界面-->
+        <activity
+            android:name=".ui.activity.login.AccountActivity"
+            android:screenOrientation="portrait"/>
+        <!--明细界面-->
+        <activity
+            android:name=".ui.activity.login.MingXiActivity"
+            android:screenOrientation="portrait"/>
+        <!--打印详情界面-->
+        <activity
+            android:name=".ui.activity.login.DaYinActivity"
+            android:screenOrientation="portrait"/>
+        <!--联系我们界面-->
+        <activity
+            android:name=".ui.activity.login.ContactActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
