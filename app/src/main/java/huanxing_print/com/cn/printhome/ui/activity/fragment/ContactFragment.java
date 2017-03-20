@@ -9,17 +9,16 @@ import android.widget.ImageView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
-import huanxing_print.com.cn.printhome.ui.activity.login.AccountActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.ContactActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.DaYinActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.MingXiActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.MyActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.NoticeActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.SettingActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.ShareActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.ContactActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.DaYinActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.NoticeActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.SettingActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.ShareActivity;
 
 public class ContactFragment extends BaseFragment implements OnClickListener{
-
 
 	private ImageView iv_chongzhi;
 	private ImageView iv_mingxi;
@@ -51,6 +50,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	}
 
 	private void initData() {
+		//网络请求，获取用户信息
 
 	}
 

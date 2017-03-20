@@ -39,4 +39,9 @@
 <item name="android:textSize">@dimen/text_size_ten</item>
 <item name="android:gravity">center</item>
 </style>
+    
+    <style name="dialog_theme" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>
