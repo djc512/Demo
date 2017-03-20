@@ -58,4 +58,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
     compile 'pub.devrel:easypermissions:0.2.0'
     testCompile 'junit:junit:4.12'
+
+    compile 'de.hdodenhof:circleimageview:2.1.0'//圆形头像
 }

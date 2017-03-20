@@ -1,4 +1,4 @@
-package huanxing_print.com.cn.printhome.ui.activity.login.view;
+package huanxing_print.com.cn.printhome.view.imageview;
 
 import android.content.Context;
 import android.graphics.Canvas;

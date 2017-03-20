@@ -1,4 +1,4 @@
-package huanxing_print.com.cn.printhome.ui.activity.login;
+package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

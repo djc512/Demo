@@ -12,6 +12,7 @@
         android:padding="5dp">
 
         <ImageView
+            android:id="@+id/iv_my_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/arrow_back" />
