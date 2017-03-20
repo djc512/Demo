@@ -80,46 +80,47 @@
         <activity android:name=".ui.activity.print.AddFileActivity"></activity>
 
         <!--充值界面-->
-        <activity android:name=".ui.activity.login.AccountActivity"
+        <activity android:name=".ui.activity.my.AccountActivity"
             android:screenOrientation="portrait"/>
         <!--明细界面-->
         <activity
-            android:name=".ui.activity.login.MingXiActivity"
+            android:name=".ui.activity.my.MingXiActivity"
             android:screenOrientation="portrait" />
         <!--打印详情界面-->
         <activity
-            android:name=".ui.activity.login.DaYinActivity"
+            android:name=".ui.activity.my.DaYinActivity"
             android:screenOrientation="portrait" />
         <!--联系我们界面-->
         <activity
-            android:name=".ui.activity.login.ContactActivity"
+            android:name=".ui.activity.my.ContactActivity"
             android:screenOrientation="portrait" />
         <!--设置界面-->
         <activity
-            android:name=".ui.activity.login.SettingActivity"
+            android:name=".ui.activity.my.SettingActivity"
             android:screenOrientation="portrait" />
         <!--建议界面-->
         <activity
-            android:name=".ui.activity.login.SuggestActivity"
+            android:name=".ui.activity.my.SuggestActivity"
             android:screenOrientation="portrait" />
         <!--分享界面-->
         <activity
-            android:name=".ui.activity.login.ShareActivity"
+            android:name=".ui.activity.my.ShareActivity"
             android:screenOrientation="portrait" />
         <!--通知界面-->
         <activity
-            android:name=".ui.activity.login.NoticeActivity"
+            android:name=".ui.activity.my.NoticeActivity"
             android:screenOrientation="portrait" />
         <!--通知列表界面-->
         <activity
-            android:name=".ui.activity.login.NoticeListActivity"
+            android:name=".ui.activity.my.NoticeListActivity"
             android:screenOrientation="portrait" />
         <!--我的界面-->
         <activity
-            android:name=".ui.activity.login.MyActivity"
+            android:name=".ui.activity.my.MyActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--裁剪界面-->
-        <activity android:name=".ui.activity.login.ClipeImageActivity"
+        <activity android:name=".ui.activity.my.ClipeImageActivity"
             android:screenOrientation="portrait"/>
     </application>
 

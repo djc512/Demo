@@ -1,4 +1,4 @@
-package huanxing_print.com.cn.printhome.ui.activity.login;
+package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.os.Bundle;
 
@@ -6,10 +6,10 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 
 /**
- * Created by Administrator on 2017/3/20 0020.
+ * Created by Administrator on 2017/3/17 0017.
  */
 
-public class SettingActivity extends BaseActivity {
+public class DaYinActivity extends BaseActivity {
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -18,6 +18,6 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_setting);
+        setContentView(R.layout.activty_user_dayin);
     }
 }
