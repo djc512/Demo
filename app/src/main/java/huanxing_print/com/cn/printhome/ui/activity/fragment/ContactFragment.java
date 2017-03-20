@@ -4,6 +4,7 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import huanxing_print.com.cn.printhome.R;
@@ -12,6 +13,9 @@ import huanxing_print.com.cn.printhome.ui.activity.login.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.ContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.DaYinActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.MingXiActivity;
+import huanxing_print.com.cn.printhome.ui.activity.login.NoticeActivity;
+import huanxing_print.com.cn.printhome.ui.activity.login.SettingActivity;
+import huanxing_print.com.cn.printhome.ui.activity.login.ShareActivity;
 
 public class ContactFragment extends BaseFragment implements OnClickListener{
 
@@ -20,13 +24,17 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	private ImageView iv_mingxi;
 	private ImageView iv_dayin;
 	private ImageView iv_contact;
+	private ImageView iv_share;
+	private ImageView iv_notice;
+
+	private Button btn_set;
 
 	@Override
 	protected void init() {
 		initViews();
 		initData();
 		setListener();
-		
+
 	}
 
 	@Override
@@ -39,7 +47,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	protected int getContextView() {
 		return R.layout.frag_usercenter;
 	}
-	
+
 	private void initData() {
 
 	}
@@ -50,6 +58,10 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		iv_mingxi = (ImageView) findViewById(R.id.iv_mingxi);
 		iv_dayin = (ImageView) findViewById(R.id.iv_dayin);
 		iv_contact = (ImageView) findViewById(R.id.iv_contact);
+		iv_share = (ImageView) findViewById(R.id.iv_share);
+		iv_notice = (ImageView) findViewById(R.id.iv_notice);
+
+		btn_set = (Button) findViewById(R.id.btn_set);
 
 	}
 	private void setListener() {
@@ -57,6 +69,11 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		iv_mingxi.setOnClickListener(this);
 		iv_dayin.setOnClickListener(this);
 		iv_contact.setOnClickListener(this);
+		iv_contact.setOnClickListener(this);
+		iv_notice.setOnClickListener(this);
+		iv_share.setOnClickListener(this);
+
+		btn_set.setOnClickListener(this);
 	}
 
 	@Override
@@ -68,6 +85,9 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 //					ContactAddActivity.class));
 //			break;
 
+			case R.id.iv_notice:
+				startActivity(new Intent(getActivity(), NoticeActivity.class));
+				break;
 			case R.id.iv_chongzhi:
 				startActivity(new Intent(getActivity(), AccountActivity.class));
 				break;
@@ -79,6 +99,12 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 				break;
 			case R.id.iv_contact:
 				startActivity(new Intent(getActivity(), ContactActivity.class));
+				break;
+            case R.id.iv_share:
+				startActivity(new Intent(getActivity(), ShareActivity.class));
+				break;
+			case R.id.btn_set:
+				startActivity(new Intent(getActivity(), SettingActivity.class));
 				break;
 
 		default:

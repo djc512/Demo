@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
@@ -19,6 +20,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 
 public class ContactActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_contact_phone;
+    private ImageView iv_suggest;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -33,12 +35,14 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
         setListener();
     }
 
-    private void setListener() {
-        tv_contact_phone.setOnClickListener(this);
-    }
 
     private void initView() {
         tv_contact_phone = (TextView) findViewById(R.id.tv_contact_phone);
+        iv_suggest = (ImageView) findViewById(R.id.iv_suggest);
+    }
+    private void setListener() {
+        tv_contact_phone.setOnClickListener(this);
+        iv_suggest.setOnClickListener(this);
     }
 
     @Override
@@ -52,6 +56,9 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
                     return;
                 }
                 startActivity(intent);
+                break;
+            case R.id.iv_suggest:
+                startActivity(new Intent(ContactActivity.this,SuggestActivity.class));
                 break;
         }
     }

@@ -95,6 +95,26 @@
         <activity
             android:name=".ui.activity.login.ContactActivity"
             android:screenOrientation="portrait"/>
+        <!--设置界面-->
+        <activity
+            android:name=".ui.activity.login.SettingActivity"
+            android:screenOrientation="portrait"/>
+        <!--建议界面-->
+        <activity
+            android:name=".ui.activity.login.SuggestActivity"
+            android:screenOrientation="portrait"/>
+        <!--分享界面-->
+        <activity
+            android:name=".ui.activity.login.ShareActivity"
+            android:screenOrientation="portrait"/>
+        <!--通知界面-->
+        <activity
+            android:name=".ui.activity.login.NoticeActivity"
+            android:screenOrientation="portrait"/>
+        <!--通知列表界面-->
+        <activity
+            android:name=".ui.activity.login.NoticeListActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
