@@ -111,15 +111,11 @@ public class FileType {
     public static final int TYPE_PDF = 3;
     public static final int TYPE_PPT = 4;
     public static final int TYPE_PPTX = 5;
-    public static final int TYPE_IMG = 6;
 
     public static final int getPrintType(String path) {
         FileType fileType = new FileType();
         fileType.initReflect();
         int type = fileType.getMediaFileType(path);
-        if (fileType.isImageFile(type)) {
-            return TYPE_IMG;
-        }
         String[] strs = path.split("\\.");
         String extension = strs[strs.length - 1];
         if ("doc".equalsIgnoreCase(extension))
