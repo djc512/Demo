@@ -14,7 +14,7 @@ import java.io.OutputStream;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.view.ClipViewLayout;
+import huanxing_print.com.cn.printhome.view.imageview.ClipViewLayout;
 
 /**
  * Created by Administrator on 2017/3/20 0020.

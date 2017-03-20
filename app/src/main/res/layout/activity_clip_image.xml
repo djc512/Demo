@@ -10,7 +10,7 @@
         app:clipType="circle"         ： 裁剪框类型为圆形
         app:mHorizontalPadding="30dp" ：裁剪框距离左右边距为30dp
      -->
-    <huanxing_print.com.cn.printhome.ui.activity.login.view.ClipViewLayout
+    <huanxing_print.com.cn.printhome.view.imageview.ClipViewLayout
         android:id="@+id/clipViewLayout1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
