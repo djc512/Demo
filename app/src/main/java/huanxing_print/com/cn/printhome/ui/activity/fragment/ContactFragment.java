@@ -13,6 +13,7 @@ import huanxing_print.com.cn.printhome.ui.activity.login.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.ContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.DaYinActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.MingXiActivity;
+import huanxing_print.com.cn.printhome.ui.activity.login.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.NoticeActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.SettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.ShareActivity;
@@ -26,6 +27,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	private ImageView iv_contact;
 	private ImageView iv_share;
 	private ImageView iv_notice;
+	private ImageView iv_my;
 
 	private Button btn_set;
 
@@ -60,6 +62,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		iv_contact = (ImageView) findViewById(R.id.iv_contact);
 		iv_share = (ImageView) findViewById(R.id.iv_share);
 		iv_notice = (ImageView) findViewById(R.id.iv_notice);
+		iv_my = (ImageView) findViewById(R.id.iv_my);
 
 		btn_set = (Button) findViewById(R.id.btn_set);
 
@@ -72,6 +75,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		iv_contact.setOnClickListener(this);
 		iv_notice.setOnClickListener(this);
 		iv_share.setOnClickListener(this);
+		iv_my.setOnClickListener(this);
 
 		btn_set.setOnClickListener(this);
 	}
@@ -85,6 +89,9 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 //					ContactAddActivity.class));
 //			break;
 
+			case R.id.iv_my:
+				startActivity(new Intent(getActivity(), MyActivity.class));
+				break;
 			case R.id.iv_notice:
 				startActivity(new Intent(getActivity(), NoticeActivity.class));
 				break;

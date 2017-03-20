@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.base;
 
 import android.app.Application;
 
+import com.dreamlive.cn.clog.CollectLog;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -146,6 +147,8 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CollectLog clog = CollectLog.getInstance();
+        clog.init(this);
         mInstance = this;
         initHttpConnection();
     }
