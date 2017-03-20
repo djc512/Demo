@@ -9,9 +9,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import java.io.File;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.net.HttpCallBack;
+import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.util.UriUtil;
 
 public class ImgPreviewActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,13 +52,32 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
         switch (id) {
             case R.id.upImgView:
                 ToastUtil.showToast("upload");
-                turnPreview();
+                uploadFile();
+//                turnPreview();
                 finish();
                 break;
             case R.id.closeImgView:
                 finish();
                 break;
         }
+    }
+
+    private void uploadFile() {
+        File file = UriUtil.getFile(ImgPreviewActivity.this, imgUri);
+        if (file == null) {
+            return;
+        }
+        PrintRequest.uploadFile(ImgPreviewActivity.this, "", "", "", "", new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                Logger.i(content);
+            }
+
+            @Override
+            public void fail(String exception) {
+                Logger.i(exception);
+            }
+        });
     }
 
     private void turnPreview() {
