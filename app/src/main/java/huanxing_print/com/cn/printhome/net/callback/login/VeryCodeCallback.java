@@ -8,5 +8,5 @@ import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
  */
 
 public interface VeryCodeCallback extends BaseCallback {
-    public void success(String msg);
+    public void success(String msg,VeryCodeBean bean);
 }

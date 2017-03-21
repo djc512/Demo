@@ -32,6 +32,6 @@ public class ConFig {
 	public static final String PHONE_TYPE = "android"; //android端
 
 	public static final String PAGESIZE = "10"; // 一页个数
-	
+
 	public static final long FILE_UPLOAD_MAX = 20 * 1024 * 1024;
 }

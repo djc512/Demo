@@ -4,10 +4,16 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.BaseActivity;
 
 public class ImgPrintSettingActivity extends BasePrintActivity {
 
     private Parcelable printSetting;
+
+    @Override
+    protected BaseActivity getSelfActivity() {
+        return this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
