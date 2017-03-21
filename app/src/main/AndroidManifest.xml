@@ -64,6 +64,11 @@
             android:name=".ui.activity.login.LoginActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"/>
+        <!-- 注册 -->
+        <activity
+            android:name=".ui.activity.login.RegisterActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
         <!-- 主页 -->
         <activity
             android:name=".ui.activity.main.MainActivity"

@@ -23,5 +23,10 @@ public class Config {
 
 	public static final String USER_TYPE = "2"; // 1:货主端 2：司机端
 
+	public static final String VERSION_TYPE = "1"; //代码版本号
+
+	public static final String PHONE_TYPE = "android"; //android端
+
 	public static final String PAGESIZE = "10"; // 一页个数
+
 }
