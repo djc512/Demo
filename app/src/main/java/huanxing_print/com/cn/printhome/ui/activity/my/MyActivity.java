@@ -1,4 +1,4 @@
-package huanxing_print.com.cn.printhome.ui.activity.login;
+package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -40,6 +40,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
     private static final int REQUEST_CROP_PHOTO = 102;
 
     private ImageView iv_my_head;
+    private ImageView iv_my_back;
+
     private File tempFile;
     private PopupWindow popupWindow;
     @Override
@@ -82,10 +84,12 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
     }
     private void initView() {
         iv_my_head = (ImageView) findViewById(R.id.iv_my_head);
+        iv_my_back = (ImageView) findViewById(R.id.iv_my_back);
     }
 
     private void setListener() {
         iv_my_head.setOnClickListener(this);
+        iv_my_back.setOnClickListener(this);
     }
 
     @Override
@@ -106,6 +110,9 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
                 break;
             case R.id.btn_cancel:
                 popupWindow.dismiss();
+                break;
+            case R.id.iv_my_back:
+                finish();
                 break;
         }
     }
@@ -177,8 +184,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
                     String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
                     Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
                     iv_my_head.setImageBitmap(bitMap);
-                    //此处后面可以将bitMap转为二进制上传后台网络
-                    //......
+                    //将用户头像上传到后台
+
                 }
                 break;
         }
@@ -226,5 +233,10 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
             }
         }
         return data;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
