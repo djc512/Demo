@@ -64,6 +64,16 @@
             android:name=".ui.activity.login.LoginActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"/>
+        <!--忘记密码-->
+        <activity
+            android:name=".ui.activity.login.ForgetPasswodActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
+        <!--修改密码-->
+        <activity
+            android:name=".ui.activity.login.ModifyPassWordActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"/>
         <!-- 注册 -->
         <activity
             android:name=".ui.activity.login.RegisterActivity"

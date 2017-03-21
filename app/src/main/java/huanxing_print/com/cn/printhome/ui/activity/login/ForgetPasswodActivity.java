@@ -37,7 +37,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_frogetpwd);
+        setContentView(R.layout.activity_forgetpwd);
         initView();
         setListener();
     }
