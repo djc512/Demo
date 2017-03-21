@@ -12,15 +12,15 @@ public class ModifyPasswordResolve extends BaseResolve<ModifyPasswordBean> {
 	}
 
 	public void resolve(ModifyPasswordCallback callback) {
-		switch (resultCode) {
+		switch (errorCode) {
 		case SUCCESS_CODE:
-			callback.success(resultMessage, bean);
+			callback.success(successMsg, bean);
 			break;
 		case FAIL_CODE:
-			callback.fail(resultMessage);
+			callback.fail(errorMsg);
 			break;
 		default:
-			callback.fail(resultMessage);
+			callback.fail(errorMsg);
 			break;
 		}
 

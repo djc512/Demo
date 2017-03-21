@@ -16,21 +16,23 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 public abstract class BaseResolve<T> {
 
-	protected int resultCode;
+	protected boolean success;
 
-	protected String resultMessage;
+	protected int errorCode;
 
-	protected String detail;
+	protected String errorMsg;
+    protected String successMsg;
+	protected  String detail;
 
-	protected final int SUCCESS_CODE = 0;
+	protected final int SUCCESS_CODE = 1;
 
-	protected final int FAIL_CODE = 1;
+	protected final int FAIL_CODE = 0;
 
 	protected final int FAIL_CODE_TWO = 2;
 
 	protected final int FAIL_CODE_OTHER = -1;
 
-	protected T bean;
+	protected  T bean;
 
 	public BaseResolve(String result) {
 		resolve(result);
@@ -38,16 +40,18 @@ public abstract class BaseResolve<T> {
 
 	public void resolve(String result) {
 
-		resultCode =Integer.parseInt(JsonUtils.getValueString("result", result));
-		resultMessage = JsonUtils.getValueString("message", result);
-		if (FAIL_CODE_TWO==resultCode) {
+		success = Boolean.parseBoolean(JsonUtils.getValueString("success", result));
+		errorMsg = JsonUtils.getValueString("errorMsg", result);
+        successMsg= JsonUtils.getValueString("message", result);
+		errorCode = Integer.parseInt(JsonUtils.getValueString("errorCode", result));
+		if (FAIL_CODE_TWO==errorCode) {
 			HasLoginEvent hasLoginEvent = new HasLoginEvent();
-			hasLoginEvent.setResultMessage(resultMessage);
+			hasLoginEvent.setResultMessage(errorMsg);
 			EventBus.getDefault().post(hasLoginEvent);
 		}
 		detail = JsonUtils.getValueString("detail", result);
-		Logger.d("resultCode:" + resultCode);
-		Logger.d("resultMessage:" + resultMessage);
+		Logger.d("resultCode:" + errorCode);
+		Logger.d("resultMessage:" + errorMsg);
 		Logger.d("detail:" + detail);
 		Gson gson = new Gson();
 

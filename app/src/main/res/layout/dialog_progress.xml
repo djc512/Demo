@@ -18,7 +18,7 @@
         android:textColor="@color/white"
         android:textSize="16sp" />
 
-    <com.store.view.loadingtext.DotsTextView
+    <huanxing_print.com.cn.printhome.view.loadingtext.DotsTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="top"

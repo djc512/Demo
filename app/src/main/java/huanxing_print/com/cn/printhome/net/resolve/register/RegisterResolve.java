@@ -12,15 +12,15 @@ public class RegisterResolve extends BaseResolve<LoginBean> {
 	}
 
 	public void resolve(RegisterCallback callback) {
-		switch (resultCode) {
+		switch (errorCode) {
 		case SUCCESS_CODE:
 			callback.success(bean);
 			break;
 		case FAIL_CODE:
-			callback.fail(resultMessage);
+			callback.fail(errorMsg);
 			break;
 		default:
-			callback.fail(resultMessage);
+			callback.fail(errorMsg);
 			break;
 		}
 

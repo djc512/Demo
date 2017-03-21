@@ -11,15 +11,15 @@ public class NullResolve extends BaseResolve<String> {
 	}
 
 	public void resolve(NullCallback callback) {
-		switch (resultCode) {
+		switch (errorCode) {
 		case SUCCESS_CODE:
-			callback.success(resultMessage);
+			callback.success(successMsg);
 			break;
 		case FAIL_CODE:
-			callback.fail(resultMessage);
+			callback.fail(errorMsg);
 			break;
 		default:
-			callback.fail(resultMessage);
+			callback.fail(errorMsg);
 			break;
 		}
 
