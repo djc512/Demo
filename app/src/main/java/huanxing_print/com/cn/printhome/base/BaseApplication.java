@@ -1,13 +1,15 @@
 package huanxing_print.com.cn.printhome.base;
 
-import java.util.concurrent.TimeUnit;
-
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
-import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
-import cn.jpush.android.api.JPushInterface;
+import android.app.Application;
 
 import com.zhy.http.okhttp.OkHttpUtils;
-import android.app.Application;
+
+import java.util.concurrent.TimeUnit;
+
+import cn.jpush.android.api.JPushInterface;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import okhttp3.OkHttpClient;
 
 public class BaseApplication extends Application {

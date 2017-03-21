@@ -13,14 +13,6 @@
  */
 package huanxing_print.com.cn.printhome.util;
 
-import java.security.MessageDigest;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -44,13 +36,23 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.view.Window;
 import android.view.WindowManager;
-import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.util.FileUtils.FileDeleteCallback;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
+
+import java.security.MessageDigest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.util.FileUtils.FileDeleteCallback;
 
 public class CommonUtils {
 	private static final String KEY = "GjZbaGry7m7sfTy0WllHvfyH";

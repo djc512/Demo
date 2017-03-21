@@ -1,20 +1,20 @@
 package huanxing_print.com.cn.printhome.util;
 
+import com.google.gson.GsonBuilder;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.builder.PostFormBuilder;
+import com.zhy.http.okhttp.callback.StringCallback;
+
 import java.io.File;
 import java.util.Map;
 
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.util.encrypt.Base64;
 import huanxing_print.com.cn.printhome.util.encrypt.RSAEncrypt;
 import huanxing_print.com.cn.printhome.util.encrypt.SHAUtils;
 import huanxing_print.com.cn.printhome.util.time.TimeUtils;
-
-import com.google.gson.GsonBuilder;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.builder.PostFormBuilder;
-import com.zhy.http.okhttp.callback.StringCallback;
-
 import okhttp3.Call;
 
 public class HttpUtils {

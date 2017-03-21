@@ -123,7 +123,7 @@ public class AddFileActivity extends AppCompatActivity implements EasyPermission
     private void getFileList(String path, int source) {
         List<File> fileList = FileUtils.getFileList(path);
         if (fileList == null) {
-            ToastUtil.showToast("file error");
+            ToastUtil.doToast(this ,"file error");
         } else {
             Intent intent = new Intent(AddFileActivity.this, FileListActivity.class);
             Bundle bundle = new Bundle();

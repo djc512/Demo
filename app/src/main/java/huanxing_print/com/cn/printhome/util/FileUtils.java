@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import huanxing_print.com.cn.printhome.constant.ConFig;
+
 public class FileUtils {
 
     public static final String FILE_SEPARATOR = File.separator;

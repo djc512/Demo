@@ -1,26 +1,21 @@
 package huanxing_print.com.cn.printhome.ui.activity.welcome;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.model.login.LoginBean;
-import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
 import huanxing_print.com.cn.printhome.model.welcome.GetVersionBean;
-import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
 import huanxing_print.com.cn.printhome.net.callback.welcome.VersionCallback;
-import huanxing_print.com.cn.printhome.net.request.login.LoginRequset;
 import huanxing_print.com.cn.printhome.net.request.welcome.VersionRequset;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.AppUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
-import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
-
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
 
 public class SplashActivity extends BaseActivity {
 
@@ -43,17 +38,17 @@ public class SplashActivity extends BaseActivity {
 		setContentView(R.layout.activity_splash);
 		isFirst = baseApplication.isHasLoginEvent();
 		version = AppUtils.getVersionName(getSelfActivity());
-		// if (!isFirst) {
-		// new Handler().postDelayed(new Runnable() {
-		// @Override
-		// public void run() {
-		// jumpActivity(GuideActivity.class);// 引导页
-		// finishCurrentActivity();
-		// }
-		// }, delayMillis);
-		// } else {
-		// autoLogin();
-		// }
+		 if (!isFirst) {
+		 new Handler().postDelayed(new Runnable() {
+		 @Override
+		 public void run() {
+		 jumpActivity(GuideActivity.class);// 引导页
+		 finishCurrentActivity();
+		 }
+		 }, delayMillis);
+		 } else {
+		 autoLogin();
+		 }
 		// 判断是否有网络
 		if (CommonUtils.isNetWorkConnected(this)) {
 			new Handler().postDelayed(new Runnable() {
@@ -68,15 +63,15 @@ public class SplashActivity extends BaseActivity {
 		}
 	}
 
-	// private boolean isFirstEnter() {
-	// boolean isFirst = baseApplication.isHasLoginEvent();
-	// if (isFirst) {
-	// return true;
-	// } else {
-	// return false;
-	// }
-	//
-	// }
+	 private boolean isFirstEnter() {
+	 boolean isFirst = baseApplication.isHasLoginEvent();
+	 if (isFirst) {
+	 return true;
+	 } else {
+	 return false;
+	 }
+
+	 }
 
 	private void autoLogin() {
 		String phone = baseApplication.getPhone();

@@ -71,11 +71,11 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
                 pwd1 = et_modify_pwd1.getText().toString().trim();
 
                 if (ObjectUtils.isNull(pwd) || ObjectUtils.isNull(pwd1)) {
-                    ToastUtil.showToast(ModifyPassWordActivity.this,"请先输入密码");
+                    ToastUtil.doToast(ModifyPassWordActivity.this,"请先输入密码");
                     return;
                 }
                 if (pwd1 != pwd){
-                    ToastUtil.showToast(ModifyPassWordActivity.this,"两次密码不一致");
+                    ToastUtil.doToast(ModifyPassWordActivity.this,"两次密码不一致");
                     return;
                 }
 

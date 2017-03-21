@@ -14,6 +14,8 @@ import com.google.gson.Gson;
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
@@ -32,6 +34,11 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     private Uri imgUri;
     private File file;
     private ImageView upImgView;
+
+    @Override
+    protected BaseActivity getSelfActivity() {
+        return this;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +101,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                     String url = uploadImgBean.getData().getUrl();
                     addFile(url);
                 } else {
-                    ToastUtil.showToast(getString(R.string.upload_failure));
+                    ToastUtil.doToast(getSelfActivity(),getString(R.string.upload_failure));
                 }
             }
 
@@ -114,7 +121,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                 if (addFileSettingBean.isSuccess()) {
                     turnPrintSetting(addFileSettingBean.getData().get(0));
                 } else {
-                    ToastUtil.showToast(getString(R.string.upload_failure));
+                    ToastUtil.doToast(getSelfActivity(),getString(R.string.upload_failure));
                 }
             }
 

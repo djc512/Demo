@@ -1,9 +1,18 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
+import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.login.LoginBean;
-import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
 import huanxing_print.com.cn.printhome.net.callback.register.GetVerCodeCallback;
 import huanxing_print.com.cn.printhome.net.callback.register.RegisterCallback;
 import huanxing_print.com.cn.printhome.net.request.register.RegisterRequst;
@@ -13,16 +22,6 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.time.ScheduledHandler;
 import huanxing_print.com.cn.printhome.util.time.ScheduledTimer;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
-
-import huanxing_print.com.cn.printhome.R;
-import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class RegisterActivity extends BaseActivity implements OnClickListener {
 
@@ -166,7 +165,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		if (!ObjectUtils.isNull(phone)) {
 			getCodeTv.setClickable(false);
 			DialogUtils.showProgressDialog(getSelfActivity(), "正在获取验证码").show();
-			RegisterRequst.getVerCode(getSelfActivity(),"", phone, 1, getVerCodeCallback);
+			RegisterRequst.getVerCode(getSelfActivity(),"1", phone, 1, getVerCodeCallback);
 		}
 	}
 
