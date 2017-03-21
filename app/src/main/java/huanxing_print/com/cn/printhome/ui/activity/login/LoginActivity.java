@@ -1,22 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
-import com.baidu.location.BDLocation;
-import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.base.ActivityHelper;
-import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.logic.map.LocationCallBack;
-import huanxing_print.com.cn.printhome.model.login.LoginBean;
-import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
-import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
-import huanxing_print.com.cn.printhome.net.request.login.LoginRequset;
-import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
-import huanxing_print.com.cn.printhome.util.BitmapUtils;
-import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
-import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
-import huanxing_print.com.cn.printhome.view.imageview.CircleImageView;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -24,14 +7,28 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
+import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.model.login.LoginBean;
+import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
+import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
+import huanxing_print.com.cn.printhome.net.request.login.LoginRequset;
+import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
 	private TextView tv_login;
 	private EditText login_phone, login_pass;
 	private TextView forget_pass, login_register;
-	private CircleImageView iv_head;
+	private ImageView iv_head;
 	private String phone, headImg;
 	private boolean isLoginOutDialogShow;// 是否显示登出的Dialog
 
@@ -57,7 +54,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// 改变状态栏的颜色使其与APP风格一体化
-		//CommonUtils.initSystemBar(this);
+		CommonUtils.initSystemBar(this);
 		setContentView(R.layout.activity_login);
 		initViews();
 		//initData();
@@ -66,7 +63,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	private void initData() {
 		phone = baseApplication.getPhone();
 		headImg = baseApplication.getHeadImg();
-		BitmapUtils.displayImage(getSelfActivity(), headImg, iv_head);
 		if (!ObjectUtils.isNull(phone)) {
 			login_phone.setText(phone);
 		}
@@ -79,7 +75,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		forget_pass = (TextView) findViewById(R.id.forget_pass);
 		login_register = (TextView) findViewById(R.id.login_register);
 		tv_login = (TextView) findViewById(R.id.tv_login);
-		iv_head = (CircleImageView) findViewById(R.id.iv_head);
+		iv_head = (ImageView) findViewById(R.id.iv_head);
 
 		tv_login.setOnClickListener(this);
 		forget_pass.setOnClickListener(this);
