@@ -7,7 +7,7 @@ import huanxing_print.com.cn.printhome.util.FileUtils;
 
 public class Config {
 
-	public static final Environment CURRENT_ENVIRONMENT = Environment.DAILY;
+	public static final Environment CURRENT_ENVIRONMENT = Environment.LOCAL_HF;
 
 	public static final int CONNECT_TIME_OUT = 15 * 1000;
 

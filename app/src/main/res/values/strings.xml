@@ -34,4 +34,9 @@
     <string name="name_no_null">姓名不能为空</string>
     <string name="name_only_chinese">姓名只能填写为汉字</string>
     <string name="resend_code">重发验证码</string>
+
+
+    <string name="upload_failure">上传失败</string>
+
+
 </resources>
