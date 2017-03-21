@@ -2,7 +2,7 @@ package huanxing_print.com.cn.printhome.constant;
 
 import java.io.File;
 
-import cn.com.huanxing.store.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 
 
 public class ConFig {
@@ -13,7 +13,7 @@ public class ConFig {
 
 	public static final int FILE_CONNECT_TIME_OUT = 30 * 1000;
 
-	public static final String IMG_CACHE_PATH =FileUtils.getSDCardPath() + "tuniu_store" + File.separator + "img";
+	public static final String IMG_CACHE_PATH = FileUtils.getSDCardPath() + "tuniu_store" + File.separator + "img";
 	
 	public static final String IMG_SAVE =FileUtils.getSDCardPath() + "tuniu_store" + File.separator + "save";
 
@@ -32,5 +32,5 @@ public class ConFig {
 	public static final String PHONE_TYPE = "android"; //android端
 
 	public static final String PAGESIZE = "10"; // 一页个数
-
+	public static final long FILE_UPLOAD_MAX = 20 * 1024 * 1024;
 }
