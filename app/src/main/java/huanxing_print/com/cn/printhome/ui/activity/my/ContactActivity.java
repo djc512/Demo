@@ -21,7 +21,6 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 public class ContactActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_contact_phone;
     private ImageView iv_suggest;
-    private ImageView iv_contact_back;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -40,12 +39,10 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     private void initView() {
         tv_contact_phone = (TextView) findViewById(R.id.tv_contact_phone);
         iv_suggest = (ImageView) findViewById(R.id.iv_suggest);
-        iv_contact_back = (ImageView) findViewById(R.id.iv_contact_back);
     }
     private void setListener() {
         tv_contact_phone.setOnClickListener(this);
         iv_suggest.setOnClickListener(this);
-        iv_contact_back.setOnClickListener(this);
     }
 
     @Override
@@ -62,9 +59,6 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.iv_suggest:
                 startActivity(new Intent(ContactActivity.this,SuggestActivity.class));
-                break;
-            case R.id.iv_contact_back:
-                finish();
                 break;
         }
     }

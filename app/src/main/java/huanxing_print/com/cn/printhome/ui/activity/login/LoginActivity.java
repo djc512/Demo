@@ -1,5 +1,22 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
+import com.baidu.location.BDLocation;
+import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
+import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.logic.map.LocationCallBack;
+import huanxing_print.com.cn.printhome.model.login.LoginBean;
+import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
+import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
+import huanxing_print.com.cn.printhome.net.request.login.LoginRequset;
+import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
+import huanxing_print.com.cn.printhome.util.BitmapUtils;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.imageview.CircleImageView;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -9,23 +26,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.baidu.location.BDLocation;
-
-import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.base.ActivityHelper;
-import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.logic.map.LocationCallBack;
-import huanxing_print.com.cn.printhome.model.login.LoginBean;
-import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
-import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
-import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
-import huanxing_print.com.cn.printhome.util.BitmapUtils;
-import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
-import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
-import huanxing_print.com.cn.printhome.view.imageview.CircleImageView;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
 	private TextView tv_login;
@@ -90,70 +90,47 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_login:
-			// jumpActivity(IncomeDetailActivity.class);
 			String name = login_phone.getText().toString().trim();
-			String pwd = login_pass.getText().toString().trim();
-			jumpActivity(MainActivity.class);
-			finishCurrentActivity();
-//			if (isUserNameAndPwdVali(name, pwd)) {
-//				String md5Pwd = MD5Util.MD5(pwd);
-//				password = md5Pwd;
-//				String lat = baseApplication.getLat()+"";
-//				String lon = baseApplication.getLon()+"";
-//				String cityName = baseApplication.getCity();
-//				String sessionId = baseApplication.getSessionId();
-//				DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
-//				LoginRequset.login(getSelfActivity(), name, md5Pwd, lat, lon, cityName, sessionId, loginCallback);
-//			}
+			password = login_pass.getText().toString().trim();
+//			jumpActivity(MainActivity.class);
+//			finishCurrentActivity();
+			if (isUserNameAndPwdVali(name, password)) {
+				DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
+				LoginRequset.login(getSelfActivity(), name, password, loginCallback);
+			}
 			break;
 		case R.id.login_register://跳转注册界面
 			jumpActivity(RegisterActivity.class);
 			break;
 
-		case R.id.forget_pass://跳转修改密码界面
-			jumpActivity(FrogetPasswodActivity.class);
-			break;
+//		case R.id.forget_pass://跳转修改密码界面
+//			jumpActivity(ModifyPasswodActivity.class);
+//			break;
 		
 		}
 	}
-    //登录接口返回
+	//登录接口返回
 	private LoginCallback loginCallback = new LoginCallback() {
 
 		@Override
 		public void success(LoginBean loginBean) {
-			
-			baseApplication.setHasLoginEvent(false);
+
+			baseApplication.setHasLoginEvent(true);
 			DialogUtils.closeProgressDialog();
-
 			if (!ObjectUtils.isNull(loginBean)) {
-				LoginBeanItem userInfo = loginBean.getUserInfo();
-				if (!ObjectUtils.isNull(loginBean)) {
-					baseApplication.setUserId(userInfo.getUserId());
-					baseApplication.setSessionId(userInfo.getSessionId());
-					baseApplication.setUserName(userInfo.getUserName());
-					baseApplication.setPhone(userInfo.getPhone());
-					baseApplication.setHeadImg(userInfo.getHeadImg());
+				String loginToken =loginBean.getLoginToken();
+				baseApplication.setLoginToken(loginToken);
+				LoginBeanItem userInfo = loginBean.getMemberInfo();
+				if (!ObjectUtils.isNull(userInfo)) {
+					baseApplication.setPhone(userInfo.getMobileNumber());
+					baseApplication.setSex(userInfo.getSex());
+					baseApplication.setNickName(userInfo.getNickName());
+					baseApplication.setHeadImg(userInfo.getFaceUrl());
 					baseApplication.setPassWord(password);
-
-//					if ("1".equals(approvalStatus)) {
-//						Intent intent = new Intent();
-//						intent.putExtra("name", baseApplication.getUserName());
-//						intent.putExtra("approvalStatus", "1");
-//						jumpActivity(intent, UserVerifyActivity.class);
-//						finishCurrentActivity();
-//					} else if ("3".equals(approvalStatus)) {
-//						startService(new Intent(getSelfActivity(), LocationServer.class));
-//						jumpActivity(MainActivity.class);
-//						finishCurrentActivity();
-//					} else if ("2".equals(approvalStatus) || "4".equals(approvalStatus)) {
-//						Intent intent = new Intent();
-//						intent.putExtra("approvalStatus", approvalStatus);
-//						jumpActivity(intent, UserVerifyActivity.class);
-//					}
+					jumpActivity(MainActivity.class);
+					finishCurrentActivity();
 				}
-
 			}
-
 		}
 
 		@Override
@@ -185,21 +162,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		} else if (ObjectUtils.isNull(psd)) {
 			toast(getStringFromResource(R.string.psd_no_null));
 			return false;
-		} else if (psd.length()<5) {
+		} else if (psd.length()<6) {
 			toast(getStringFromResource(R.string.phone_set_null));
 			return false;
 		}
 		return true;
 	}
 
-	private LocationCallBack locationCallBack = new LocationCallBack() {
-		@Override
-		public void location(BDLocation location) {
-			baseApplication.setLat(location.getLatitude());
-			baseApplication.setLon(location.getLongitude());
-			baseApplication.setCity(ObjectUtils.formatString(location.getCity()));
-		}
-	};
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

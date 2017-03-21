@@ -1,164 +1,190 @@
 package huanxing_print.com.cn.printhome.base;
 
-import android.app.Application;
-
-import com.zhy.http.okhttp.OkHttpUtils;
-
 import java.util.concurrent.TimeUnit;
 
 import huanxing_print.com.cn.printhome.constant.Config;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
+import cn.jpush.android.api.JPushInterface;
+
+import com.zhy.http.okhttp.OkHttpUtils;
+import android.app.Application;
 import okhttp3.OkHttpClient;
 
 public class BaseApplication extends Application {
-    private String sessionId;
-    private String phone, passWord;
-    private String userId;
-    private String userName;
-    private String headImg;
-    private String address, city;
-    private double lat, lon;
-    private static BaseApplication mInstance;
+	private String loginToken;//登录校验token，需要登录的接口需要校验该token
+	private String phone, passWord;
+	private String userId;
+	private String nickName;
+	private String comId;
+	private String sex;
+	private String headImg;
+	private String address, city;
+	private double lat, lon;
+	
+	public static int num = 9;
 
-    private boolean hasLoginEvent;
+	private boolean hasLoginEvent=false;
 
-    public synchronized static BaseApplication getInstance() {
-        return mInstance;
-    }
+	public boolean isHasLoginEvent() {
+		hasLoginEvent = SharedPreferencesUtils.getShareBoolean(this, "hasLoginEvent",false);
+		return hasLoginEvent;
+	}
 
-    public boolean isHasLoginEvent() {
-        return hasLoginEvent;
-    }
+	public void setHasLoginEvent(boolean hasLoginEvent) {
+		SharedPreferencesUtils.putShareValue(this, "hasLoginEvent", hasLoginEvent);
+		this.hasLoginEvent = hasLoginEvent;
+	}
 
-    public void setHasLoginEvent(boolean hasLoginEvent) {
-        this.hasLoginEvent = hasLoginEvent;
-    }
+	public String getLoginToken() {
 
-    public String getSessionId() {
+		if (ObjectUtils.isNull(loginToken)) {
+			loginToken = SharedPreferencesUtils.getShareString(this, "loginToken");
+		}
 
-        if (ObjectUtils.isNull(sessionId)) {
-            sessionId = SharedPreferencesUtils.getShareString(this, "sessionId");
-        }
+		return loginToken;
+	}
 
-        return sessionId;
-    }
+	public void setLoginToken(String loginToken) {
+		SharedPreferencesUtils.putShareValue(this, "loginToken", loginToken);
+		this.loginToken = loginToken;
+	}
+	public String getPhone() {
+		if (ObjectUtils.isNull(phone)) {
+			phone = SharedPreferencesUtils.getShareString(this, "phone");
+		}
+		return phone;
+	}
 
-    public void setSessionId(String sessionId) {
-        SharedPreferencesUtils.putShareValue(this, "sessionId", sessionId);
-        this.sessionId = sessionId;
-    }
+	public void setPhone(String phone) {
+		SharedPreferencesUtils.putShareValue(this, "phone", phone);
+		this.phone = phone;
+	}
 
-    public String getPhone() {
-        if (ObjectUtils.isNull(phone)) {
-            phone = SharedPreferencesUtils.getShareString(this, "phone");
-        }
-        return phone;
-    }
+	public String getPassWord() {
+		if (ObjectUtils.isNull(passWord)) {
+			passWord = SharedPreferencesUtils.getShareString(this, "passWord");
+		}
+		return passWord;
+	}
 
-    public void setPhone(String phone) {
-        SharedPreferencesUtils.putShareValue(this, "phone", phone);
-        this.phone = phone;
-    }
+	public void setPassWord(String passWord) {
+		SharedPreferencesUtils.putShareValue(this, "passWord", passWord);
+		this.passWord = passWord;
+	}
 
-    public String getPassWord() {
-        if (ObjectUtils.isNull(passWord)) {
-            passWord = SharedPreferencesUtils.getShareString(this, "passWord");
-        }
-        return passWord;
-    }
+	public String getUserId() {
+		if (ObjectUtils.isNull(userId)) {
+			userId = SharedPreferencesUtils.getShareString(this, "userId");
+		}
+		return userId;
+	}
 
-    public void setPassWord(String passWord) {
-        SharedPreferencesUtils.putShareValue(this, "passWord", passWord);
-        this.passWord = passWord;
-    }
+	public void setUserId(String userId) {
+		SharedPreferencesUtils.putShareValue(this, "userId", userId);
+		this.userId = userId;
+	}
 
-    public String getUserId() {
-        if (ObjectUtils.isNull(userId)) {
-            userId = SharedPreferencesUtils.getShareString(this, "userId");
-        }
-        return userId;
-    }
+	public String getNickName() {
+		if (ObjectUtils.isNull(nickName)) {
+			nickName = SharedPreferencesUtils.getShareString(this, "nickName");
+		}
+		return nickName;
+	}
 
-    public void setUserId(String userId) {
-        SharedPreferencesUtils.putShareValue(this, "userId", userId);
-        this.userId = userId;
-    }
+	public void setNickName(String nickName) {
+		SharedPreferencesUtils.putShareValue(this, "nickName", nickName);
+		this.nickName = nickName;
+	}
 
+	public String getComId() {
+		if (ObjectUtils.isNull(comId)) {
+			comId = SharedPreferencesUtils.getShareString(this, "comId");
+		}
+		return comId;
+	}
 
-    public String getUserName() {
-        if (ObjectUtils.isNull(userName)) {
-            userName = SharedPreferencesUtils.getShareString(this, "userName");
-        }
-        return userName;
-    }
+	public void setComId(String comId) {
+		SharedPreferencesUtils.putShareValue(this, "comId", comId);
+		this.comId = comId;
+	}
 
-    public void setUserName(String userName) {
-        SharedPreferencesUtils.putShareValue(this, "userName", userName);
-        this.userName = userName;
-    }
+	public String getSex() {
+		if (ObjectUtils.isNull(sex)) {
+			sex = SharedPreferencesUtils.getShareString(this, "sex");
+		}
+		return sex;
+	}
 
+	public void setSex(String sex) {
+		SharedPreferencesUtils.putShareValue(this, "sex", sex);
+		this.sex = sex;
+	}
 
-    public String getHeadImg() {
-        if (ObjectUtils.isNull(headImg)) {
-            headImg = SharedPreferencesUtils.getShareString(this, "headImg");
-        }
-        return headImg;
-    }
+	public String getHeadImg() {
+		if (ObjectUtils.isNull(headImg)) {
+			headImg = SharedPreferencesUtils.getShareString(this, "headImg");
+		}
+		return headImg;
+	}
 
-    public void setHeadImg(String headImg) {
-        SharedPreferencesUtils.putShareValue(this, "headImg", headImg);
-        this.headImg = headImg;
-    }
+	public void setHeadImg(String headImg) {
+		SharedPreferencesUtils.putShareValue(this, "headImg", headImg);
+		this.headImg = headImg;
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    public String getCity() {
-        return city;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public double getLat() {
-        return lat;
-    }
+	public double getLat() {
+		return lat;
+	}
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
 
-    public double getLon() {
-        return lon;
-    }
+	public double getLon() {
+		return lon;
+	}
 
-    public void setLon(double lon) {
-        this.lon = lon;
-    }
+	public void setLon(double lon) {
+		this.lon = lon;
+	}
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-        initHttpConnection();
-    }
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		initJPush();
+		initHttpConnection();
+	}
 
-    private void initHttpConnection() {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                // .addInterceptor(new LoggerInterceptor("TAG"))
-                .connectTimeout(Config.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
-                .readTimeout(Config.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS).build();
+	private void initHttpConnection() {
+		OkHttpClient okHttpClient = new OkHttpClient.Builder()
+				// .addInterceptor(new LoggerInterceptor("TAG"))
+				.connectTimeout(Config.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
+				.readTimeout(Config.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS).build();
 
-        OkHttpUtils.initClient(okHttpClient);
+		OkHttpUtils.initClient(okHttpClient);
 
-    }
-
+	}
+	
+	private void initJPush() {
+        JPushInterface.setDebugMode(false);     // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(getApplicationContext());             // 初始化 JPush
+	}
 
 }

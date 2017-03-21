@@ -5,6 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="huanxing_print.com.cn.printhome.ui.activity.print.ImgPrintSettingActivity">
+    tools:context="huanxing_print.com.cn.printhome.ui.activity.print.ImgPrintActivity">
 
 </android.support.constraint.ConstraintLayout>
