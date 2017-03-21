@@ -18,7 +18,6 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
-import huanxing_print.com.cn.printhome.util.DocTypeUtil;
 import huanxing_print.com.cn.printhome.util.FileType;
 
 public class FileListActivity extends AppCompatActivity {
@@ -112,7 +111,7 @@ public class FileListActivity extends AppCompatActivity {
     }
 
     public void onDoc(View view) {
-        mAdapter.setFileList(DocTypeUtil.getFiltFileList(fileList, FileType.TYPE_PPT));
+        mAdapter.setFileList(FileType.getFiltFileList(fileList, FileType.TYPE_PPT));
         mAdapter.notifyDataSetChanged();
     }
 }
