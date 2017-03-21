@@ -12,7 +12,7 @@ public class GetVerCodeResolve extends BaseResolve<GetVerVodeBean> {
 	}
 
 	public void resolve(GetVerCodeCallback callback) {
-		switch (errorCode) {
+		switch (code) {
 		case SUCCESS_CODE:
 			callback.success(detail);
 			break;

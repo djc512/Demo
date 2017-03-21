@@ -13,7 +13,7 @@ public class HeadImageUploadResolve extends BaseResolve<HeadImageBean>{
 	
 
 	public void resolve(HeadImageUploadCallback callback) {
-		switch (errorCode) {
+		switch (code) {
 		case SUCCESS_CODE:
 			callback.success(successMsg,bean);
 			break;

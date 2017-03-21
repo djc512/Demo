@@ -12,7 +12,7 @@ public class LoginResolve extends BaseResolve<LoginBean> {
 	}
 
 	public void resolve(LoginCallback callback) {
-		switch (errorCode) {
+		switch (code) {
 		case SUCCESS_CODE:
 			callback.success(bean);
 			break;

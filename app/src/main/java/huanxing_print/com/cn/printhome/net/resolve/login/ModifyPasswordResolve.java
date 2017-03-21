@@ -12,7 +12,7 @@ public class ModifyPasswordResolve extends BaseResolve<ModifyPasswordBean> {
 	}
 
 	public void resolve(ModifyPasswordCallback callback) {
-		switch (errorCode) {
+		switch (code) {
 		case SUCCESS_CODE:
 			callback.success(successMsg, bean);
 			break;

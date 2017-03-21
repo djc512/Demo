@@ -17,7 +17,7 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 public abstract class BaseResolve<T> {
 
 	protected boolean success;
-
+    protected int code;
 	protected int errorCode;
 
 	protected String errorMsg;
@@ -31,6 +31,7 @@ public abstract class BaseResolve<T> {
 	protected final int FAIL_CODE_TWO = 2;
 
 	protected final int FAIL_CODE_OTHER = -1;
+    private  final int FAIL_CODE_TOKEN_FAIL= 10001;
 
 	protected  T bean;
 
@@ -44,30 +45,37 @@ public abstract class BaseResolve<T> {
 		errorMsg = JsonUtils.getValueString("errorMsg", result);
         successMsg= JsonUtils.getValueString("message", result);
 		errorCode = Integer.parseInt(JsonUtils.getValueString("errorCode", result));
-		if (FAIL_CODE_TWO==errorCode) {
-			HasLoginEvent hasLoginEvent = new HasLoginEvent();
-			hasLoginEvent.setResultMessage(errorMsg);
-			EventBus.getDefault().post(hasLoginEvent);
-		}
-		detail = JsonUtils.getValueString("detail", result);
-		Logger.d("resultCode:" + errorCode);
-		Logger.d("resultMessage:" + errorMsg);
-		Logger.d("detail:" + detail);
-		Gson gson = new Gson();
+        if (success){
+            code =1;
+            detail = JsonUtils.getValueString("detail", result);
+            Logger.d("resultCode:" + errorCode);
+            Logger.d("resultMessage:" + errorMsg);
+            Logger.d("detail:" + detail);
+            Gson gson = new Gson();
 
-		try {
+            try {
 
-			Type[] types = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
-			bean = (T) gson.fromJson(detail, types[0]);
+                Type[] types = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
+                bean = (T) gson.fromJson(detail, types[0]);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Logger.e(e.getMessage());
-		}
+            } catch (Exception e) {
+                e.printStackTrace();
+                Logger.e(e.getMessage());
+            }
 
-		if (!ObjectUtils.isNull(bean)) {
-			Logger.d("bean:" + bean.toString());
-		}
+            if (!ObjectUtils.isNull(bean)) {
+                Logger.d("bean:" + bean.toString());
+            }
+
+        }else {
+            code =0;
+            if (FAIL_CODE_TOKEN_FAIL == errorCode) {
+                HasLoginEvent hasLoginEvent = new HasLoginEvent();
+                hasLoginEvent.setResultMessage(errorMsg);
+                EventBus.getDefault().post(hasLoginEvent);
+            }
+        }
+
 	}
 
 }
