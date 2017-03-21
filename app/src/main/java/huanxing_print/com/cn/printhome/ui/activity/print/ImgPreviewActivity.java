@@ -47,7 +47,6 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                 .FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_img_priview);
-        Logger.i("onCreate");
         initData();
         initView();
     }
