@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.constant.Config;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
@@ -75,7 +75,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         if (file == null || !file.exists()) {
             return;
         }
-        if (FileUtils.getFileSize(file) > Config.FILE_UPLOAD_MAX) {
+        if (FileUtils.getFileSize(file) > ConFig.FILE_UPLOAD_MAX) {
             AlertUtil.show(context, "提示", "文件超限", null, new
                     DialogInterface.OnClickListener() {
                         @Override

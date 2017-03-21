@@ -12,6 +12,7 @@ public class HttpUrl {
 	public static final String getVeryCode = "common/getValidCode"; // 获取短信验证码
 	public static final String resetPasswd = "member/resetPasswd"; // 重置密码
 	public static final String fileUpload = "common/fileUpload"; // 文件上传
+	public static final String versionCheck = "common/versionCheck"; // 文件上传
 
 	private static String postUrl;
 
@@ -36,7 +37,7 @@ public class HttpUrl {
 	}
 
 	private static void initEnvironment() {
-		switch (Config.CURRENT_ENVIRONMENT) {
+		switch (ConFig.CURRENT_ENVIRONMENT) {
 		case RELEASE:
 			setPostUrl(POSTHTTP_RELEASE);
 			break;

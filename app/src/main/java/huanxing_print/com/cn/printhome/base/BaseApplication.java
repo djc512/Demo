@@ -2,7 +2,7 @@ package huanxing_print.com.cn.printhome.base;
 
 import java.util.concurrent.TimeUnit;
 
-import huanxing_print.com.cn.printhome.constant.Config;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import cn.jpush.android.api.JPushInterface;
@@ -175,8 +175,8 @@ public class BaseApplication extends Application {
 	private void initHttpConnection() {
 		OkHttpClient okHttpClient = new OkHttpClient.Builder()
 				// .addInterceptor(new LoggerInterceptor("TAG"))
-				.connectTimeout(Config.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
-				.readTimeout(Config.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS).build();
+				.connectTimeout(ConFig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS)
+				.readTimeout(ConFig.CONNECT_TIME_OUT, TimeUnit.MILLISECONDS).build();
 
 		OkHttpUtils.initClient(okHttpClient);
 

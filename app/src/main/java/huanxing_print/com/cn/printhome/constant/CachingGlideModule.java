@@ -11,8 +11,8 @@ public class CachingGlideModule implements GlideModule {
 
 	@Override
 	public void applyOptions(Context context, GlideBuilder builder) {
-		String diskCacheFolder = Config.IMG_CACHE_PATH;
-		int diskCacheSize = Config.IMG_CACHE_SIZE;
+		String diskCacheFolder = ConFig.IMG_CACHE_PATH;
+		int diskCacheSize = ConFig.IMG_CACHE_SIZE;
 		DiskLruCacheFactory diskLruCacheFactory = new DiskLruCacheFactory(diskCacheFolder, diskCacheSize);
 		builder.setDiskCache(diskLruCacheFactory);
 

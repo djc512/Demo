@@ -20,11 +20,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.baidu.android.pushservice.PushConstants;
-import com.baidu.android.pushservice.PushManager;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
-import huanxing_print.com.cn.printhome.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -34,12 +29,12 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -49,6 +44,14 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.view.Window;
 import android.view.WindowManager;
+import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.util.FileUtils.FileDeleteCallback;
+
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 
 public class CommonUtils {
 	private static final String KEY = "GjZbaGry7m7sfTy0WllHvfyH";
@@ -206,25 +209,17 @@ public class CommonUtils {
        }  
        return false;  
    }  
-//	public static String getCarName(String code) {
-//		if ("1".equals(code)) {
-//			return "面包车";
-//		} else if ("2".equals(code)) {
-//			return "金杯车";
-//		} else if ("3".equals(code)) {
-//			return "依维柯";
-//		} else if ("4".equals(code)) {
-//			return "4.2米箱货";
-//		} else if ("5".equals(code)) {
-//			return "4.2米平板";
-//		} else if ("6".equals(code)) {
-//			return "6.8米箱货";
-//		} else if ("7".equals(code)) {
-//			return "6.8米平板";
-//		} else {
-//			return "";
-//		}
-//	}
+	/** * 根据手机的分辨率从dp 的单位 转成为px(像素) */ 
+   public static int dip2px(Context context, float dpValue) { 
+           final float scale = context.getResources().getDisplayMetrics().density; 
+           return (int) (dpValue * scale + 0.5f); 
+   } 
+
+   /** * 根据手机的分辨率从px(像素) 的单位 转成为dp */ 
+   public static int px2dip(Context context, float pxValue) { 
+           final float scale = context.getResources().getDisplayMetrics().density; 
+           return (int) (pxValue / scale + 0.5f); 
+   } 
 
 /*	*//**
 	 * 将日期信息转换成今天、明天、后天、星期
@@ -260,9 +255,7 @@ public class CommonUtils {
 
 	/**
 	 * 将日期差显示为日期或者星期
-	 * 
-	 * @param xcts
-	 * @param target
+	 *
 	 * @return
 	 *//*
 	private static String showDateDetail(int xcts, Calendar target) {
@@ -314,6 +307,17 @@ public class CommonUtils {
 			 bankCardNO = bankCardNO.substring(0, 4)+"****"+bankCardNO.substring(bankCardNOlenth);
 	     }
 		return bankCardNO;
+	}
+	
+	/**
+	 * 设置银行卡号中间为"*"号
+	 */
+	public static String changePhone(String phone) {
+		 if(!TextUtils.isEmpty(phone) ){
+			 int bankCardNOlenth = phone.length()-4;
+			 phone = phone.substring(0, 3)+"****"+phone.substring(bankCardNOlenth);
+	     }
+		return phone;
 	}
 	
 	/**
@@ -451,7 +455,7 @@ public class CommonUtils {
 
 		// 使用颜色资源
 
-		tintManager.setStatusBarTintResource(R.color.title_bg_color);
+		tintManager.setStatusBarTintResource(R.color.blue);
 
 	}
 
@@ -520,5 +524,14 @@ public class CommonUtils {
 //		}
 //		
 //	}
+    
+    public static void clearCache() {
+		FileUtils.deleteFile(ConFig.IMG_CACHE_PATH, new FileDeleteCallback() {
+			@Override
+			public void result(int state) {
+
+			}
+		}, true);
+	}
 	
 }

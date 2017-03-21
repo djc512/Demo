@@ -1,11 +1,9 @@
 package huanxing_print.com.cn.printhome.util;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 
-import huanxing_print.com.cn.printhome.base.BaseApplication;
-import huanxing_print.com.cn.printhome.constant.Config;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.util.encrypt.Base64;
@@ -33,9 +31,9 @@ public class HttpUtils {
 		String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
 		//Logger.d("http-request:" + url  +"----" + paramsStr);
 		TimeUtils.beginTime();
-		OkHttpUtils.postString().url(url).addHeader("apiversion", Config.VERSION_TYPE)
+		OkHttpUtils.postString().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
 		.addHeader("loginToken",loginToken)
-		.addHeader("platform", Config.PHONE_TYPE)
+		.addHeader("platform", ConFig.PHONE_TYPE)
 		.content(paramsStr).tag(obj).build().execute(new StringCallback() {
 
 					@Override
@@ -65,9 +63,9 @@ public class HttpUtils {
 		//String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
 		//Logger.d("http-request:" + url + "----" + "----" + paramsStr);
 		TimeUtils.beginTime();
-		OkHttpUtils.get().url(url).addHeader("apiversion", Config.VERSION_TYPE)
+		OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
 		.addHeader("loginToken",loginToken)
-		.addHeader("platform", Config.PHONE_TYPE).tag(obj).build().execute(new StringCallback() {
+		.addHeader("platform", ConFig.PHONE_TYPE).tag(obj).build().execute(new StringCallback() {
 
 					@Override
 					public void onResponse(String result, int arg1) {
@@ -96,9 +94,9 @@ public class HttpUtils {
 		//String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
 		//Logger.d("http-request:" + url + "----" + "----" + paramsStr);
 		TimeUtils.beginTime();
-		OkHttpUtils.get().url(url).addHeader("apiversion", Config.VERSION_TYPE)
+		OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
 		.addHeader("loginToken",loginToken)
-		.addHeader("platform", Config.PHONE_TYPE)
+		.addHeader("platform", ConFig.PHONE_TYPE)
 		.addParams("pageIdx", pageNo+"")
 		.addParams("pageSize", "10")
 		.tag(obj).build().execute(new StringCallback() {
@@ -130,9 +128,9 @@ public class HttpUtils {
 		//String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
 		//Logger.d("http-request:" + url + "----" + "----" + paramsStr);
 		TimeUtils.beginTime();
-		OkHttpUtils.get().url(url).addHeader("apiversion", Config.VERSION_TYPE)
+		OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
 		.addHeader("loginToken",loginToken)
-		.addHeader("platform", Config.PHONE_TYPE)
+		.addHeader("platform", ConFig.PHONE_TYPE)
 		.addParams("forumGuid", forumGuid)
 		.addParams("pageIdx", pageNo+"")
 		.addParams("pageSize", "10")
@@ -165,9 +163,9 @@ public class HttpUtils {
 		//String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
 		//Logger.d("http-request:" + url + "----" + "----" + paramsStr);
 		TimeUtils.beginTime();
-		OkHttpUtils.get().url(url).addHeader("apiversion", Config.VERSION_TYPE)
+		OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
 		.addHeader("loginToken",loginToken)
-		.addHeader("platform", Config.PHONE_TYPE)
+		.addHeader("platform", ConFig.PHONE_TYPE)
 		.addParams("version", version)
 		.tag(obj).build().execute(new StringCallback() {
 
@@ -196,8 +194,8 @@ public class HttpUtils {
 			final HttpCallBack callback) {
 		String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params).replace("\\n", "");
 		Logger.d("http-request:" + url + "----" + "----" + paramsStr);
-		OkHttpUtils.postString().url(url).addHeader("apiversion", Config.VERSION_TYPE)
-		.addHeader("platform", Config.PHONE_TYPE)
+		OkHttpUtils.postString().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
+		.addHeader("platform", ConFig.PHONE_TYPE)
 		.content(paramsStr).tag(obj).build().execute(new StringCallback() {
 
 					@Override
@@ -241,8 +239,8 @@ public class HttpUtils {
 		sb = sb.deleteCharAt(sb.lastIndexOf("&"));
 		Logger.d("http-request:" + url + "----" + sb.toString());
 
-		postFormBuilder.addParams("sig", sig(sig)).tag(obj).build().connTimeOut(Config.FILE_CONNECT_TIME_OUT)
-				.readTimeOut(Config.FILE_CONNECT_TIME_OUT).writeTimeOut(Config.FILE_CONNECT_TIME_OUT)
+		postFormBuilder.addParams("sig", sig(sig)).tag(obj).build().connTimeOut(ConFig.FILE_CONNECT_TIME_OUT)
+				.readTimeOut(ConFig.FILE_CONNECT_TIME_OUT).writeTimeOut(ConFig.FILE_CONNECT_TIME_OUT)
 				.execute(new StringCallback() {
 
 					@Override

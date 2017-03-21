@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import huanxing_print.com.cn.printhome.constant.Config;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 
 public class FileUtils {
 
@@ -200,7 +200,7 @@ public class FileUtils {
     }
 
     public static String savePic(Context c, String fileName, Bitmap bitmap) {
-        String filePath = Config.IMG_CACHE_PATH + File.separator + fileName;
+        String filePath = ConFig.IMG_CACHE_PATH + File.separator + fileName;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(CompressFormat.JPEG, 100, baos);
         byte[] bytes = baos.toByteArray();

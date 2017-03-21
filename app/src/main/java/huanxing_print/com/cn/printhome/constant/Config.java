@@ -5,7 +5,7 @@ import java.io.File;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 
 
-public class Config {
+public class ConFig {
 
     public static final Environment CURRENT_ENVIRONMENT = Environment.DAILY;
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
-import huanxing_print.com.cn.printhome.constant.Config;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
