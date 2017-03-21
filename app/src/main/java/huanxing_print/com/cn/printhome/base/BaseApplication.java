@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.base;
 
 import java.util.concurrent.TimeUnit;
 
-import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import cn.jpush.android.api.JPushInterface;

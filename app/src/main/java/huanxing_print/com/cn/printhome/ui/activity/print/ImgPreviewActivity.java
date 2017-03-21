@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;

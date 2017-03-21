@@ -83,24 +83,24 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
      * 获取验证码
      */
     private void getVeryCode() {
-        VeryCodeRequest.getVeryCode(this, phone, new VeryCodeCallback() {
-            @Override
-            public void success(String msg, VeryCodeBean bean) {
+        VeryCodeRequest.getVeryCode(this, "2",phone, new VeryCodeCallback() {
 
-            }
+                    @Override
+                    public void fail(String msg) {
 
-            @Override
-            public void fail(String msg) {
+                    }
 
-            }
+                    @Override
+                    public void connectFail() {
 
-            @Override
-            public void connectFail() {
+                    }
 
-            }
-        });
+                    @Override
+                    public void success(String msg) {
+
+                    }
+                });
     }
-
     /**
      * 设置倒计时
      */

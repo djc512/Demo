@@ -3,7 +3,6 @@ package huanxing_print.com.cn.printhome.util;
 import java.io.File;
 import java.util.Map;
 
-import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.util.encrypt.Base64;

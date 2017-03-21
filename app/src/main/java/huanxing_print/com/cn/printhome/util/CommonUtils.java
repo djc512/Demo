@@ -45,7 +45,6 @@ import android.text.TextUtils;
 import android.view.Window;
 import android.view.WindowManager;
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.util.FileUtils.FileDeleteCallback;
 
 import com.baidu.android.pushservice.PushConstants;

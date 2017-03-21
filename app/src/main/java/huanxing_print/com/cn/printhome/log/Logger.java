@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.log;
 
-import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 import android.text.TextUtils;
