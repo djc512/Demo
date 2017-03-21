@@ -141,6 +141,15 @@ public class FileType {
         return false;
     }
 
+    public static final String getType(String path) {
+        FileType fileType = new FileType();
+        fileType.initReflect();
+        int type = fileType.getMediaFileType(path);
+        String[] strs = path.split("\\.");
+        String extension = strs[strs.length - 1];
+        return "."+extension;
+    }
+
     public static final List<File> getFiltFileList(List<File> list, int type) {
         List<File> typeList = new ArrayList<File>();
         if (type == FileType.TYPE_DOC || type == FileType.TYPE_DOCX) {
@@ -151,9 +160,9 @@ public class FileType {
                 }
             }
         }
-        if (type == FileType.TYPE_PDF ) {
+        if (type == FileType.TYPE_PDF) {
             for (File file : list) {
-                if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF ) {
+                if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
                     typeList.add(file);
                 }
             }

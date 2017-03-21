@@ -12,6 +12,7 @@ import android.util.Base64;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -254,12 +255,20 @@ public class FileUtils {
         return fileList;
     }
 
-    public static final String getBase64(String path) throws Exception {
+    public static final String getBase64(String path) {
         File file = new File(path);
-        FileInputStream inputFile = new FileInputStream(file);
-        byte[] buffer = new byte[(int) file.length()];
-        inputFile.read(buffer);
-        inputFile.close();
-        return Base64.encodeToString(buffer, Base64.DEFAULT);
+        FileInputStream inputFile = null;
+        String base = null;
+        try {
+            inputFile = new FileInputStream(file);
+            byte[] buffer = new byte[(int) file.length()];
+            inputFile.close();
+            base = Base64.encodeToString(buffer, Base64.DEFAULT);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return base;
     }
 }
