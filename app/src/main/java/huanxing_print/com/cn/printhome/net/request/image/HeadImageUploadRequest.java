@@ -15,7 +15,7 @@ public class HeadImageUploadRequest extends BaseRequst {
 	public static void upload(Context context, String sessionId, String userId, File file,
 			final HeadImageUploadCallback callback) {
 
-		String url = HTTP_URL + HttpUrl.IMAGEHTTP_RELEASE;
+		String url = HTTP_URL + HttpUrl.fileUpload;
 
 		HttpUtils.postFile(context, url, sessionId, userId, file, new HttpCallBack() {
 

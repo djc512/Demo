@@ -67,7 +67,6 @@ public class BitmapUtils {
 	}
 
 	public static void displayImage(Context context, String url, ImageView view) {
-		url = HttpUrl.getInstance().getImageUrl() + url;
 		Glide.with(context).load(url).into(view);
 	}
 
@@ -76,7 +75,6 @@ public class BitmapUtils {
 			view.setImageResource(errorId);
 			return;
 		}
-		url = HttpUrl.getInstance().getImageUrl() + url;
 		Glide.with(context).load(url).error(errorId).into(view);
 	}
 
