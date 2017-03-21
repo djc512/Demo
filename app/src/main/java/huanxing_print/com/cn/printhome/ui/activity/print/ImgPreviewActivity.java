@@ -22,6 +22,7 @@ import huanxing_print.com.cn.printhome.model.print.UploadImgBean;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.AlertUtil;
+import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.UriUtil;
@@ -30,12 +31,14 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
 
     private ImageView imageView;
     private Uri imgUri;
+    private File file;
     private ImageView upImgView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams
+                .FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_img_priview);
         Logger.i("onCreate");
@@ -59,7 +62,6 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         int id = v.getId();
         switch (id) {
             case R.id.upImgView:
-                ToastUtil.showToast("upload");
                 uploadFile();
                 break;
             case R.id.closeImgView:
@@ -69,7 +71,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void uploadFile() {
-        File file = UriUtil.getFile(ImgPreviewActivity.this, imgUri);
+        file = UriUtil.getFile(ImgPreviewActivity.this, imgUri);
         if (file == null || !file.exists()) {
             return;
         }
@@ -83,7 +85,8 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                     });
             return;
         }
-        PrintRequest.uploadFile(ImgPreviewActivity.this, "1", "1", "1", "1", new HttpCallBack() {
+        PrintRequest.uploadFile(context, FileType.getType(file.getPath()), FileUtils.getBase64(file.getPath()), file
+                .getName(), "1", new HttpCallBack() {
             @Override
             public void success(String content) {
                 Logger.i(content);
@@ -91,7 +94,6 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                 if (uploadImgBean.isSuccess()) {
                     String url = uploadImgBean.getData().getUrl();
                     addFile(url);
-
                 } else {
                     ToastUtil.showToast(getString(R.string.upload_failure));
                 }
@@ -105,7 +107,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void addFile(String fileUrl) {
-        PrintRequest.addFile(ImgPreviewActivity.this, "1", "1", "1", new HttpCallBack() {
+        PrintRequest.addFile(ImgPreviewActivity.this, "1", file.getName(), fileUrl, new HttpCallBack() {
             @Override
             public void success(String content) {
                 Logger.i(content);
