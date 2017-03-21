@@ -20,6 +20,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private TextView tv_money;
     private Button btn_chongzhi;
     private Dialog dialog;
+    private ImageView iv_account_back;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -37,16 +38,21 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private void initView() {
         tv_money = (TextView) findViewById(R.id.tv_money);
         btn_chongzhi = (Button) findViewById(R.id.btn_chongzhi);
+        iv_account_back = (ImageView) findViewById(R.id.iv_account_back);
 
     }
     private void setListener() {
         btn_chongzhi.setOnClickListener(this);
+        iv_account_back.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_chongzhi:
                 showCZDialog();
+                break;
+            case R.id.iv_account_back:
+                finish();
                 break;
             case R.id.iv_cz_wechat:
                 dialog.dismiss();
