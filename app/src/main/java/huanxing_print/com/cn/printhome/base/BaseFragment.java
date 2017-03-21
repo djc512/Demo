@@ -14,7 +14,7 @@ public abstract class BaseFragment extends Fragment {
 
 	private View v;
 	//private OnekeyShare oks;
-	///protected BaseApplication baseApplication;
+	protected BaseApplication baseApplication;
 	@Override
 	public final View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public abstract class BaseFragment extends Fragment {
 
 
 	protected void init() {
-		//baseApplication = (BaseApplication) getActivity().getApplication();
+		baseApplication = (BaseApplication) getActivity().getApplication();
 	}
 
 	protected View findViewById(int id) {

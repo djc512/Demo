@@ -24,12 +24,11 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.http.okhttp.OkHttpUtils;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
+//import de.greenrobot.event.EventBus;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.event.location.LocationEvent;
 import huanxing_print.com.cn.printhome.event.login.HasLoginEvent;
@@ -75,7 +74,8 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		EventBus.getDefault().register(this);
+		//在当前界面注册一个订阅者
+		//EventBus.getDefault().register(this);
 		init();
 	}
 
@@ -106,7 +106,7 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		EventBus.getDefault().unregister(this);
+		//EventBus.getDefault().unregister(this);
 		DialogUtils.closeProgressDialog();
 		OkHttpUtils.getInstance().cancelTag(getSelfActivity());
 	}
@@ -419,45 +419,36 @@ public abstract class BaseActivity extends Activity {
 			LocationEvent locationEvent = new LocationEvent();
 			locationEvent.setLat(result.getLocation().latitude);
 			locationEvent.setLon(result.getLocation().longitude);
-			EventBus.getDefault().post(locationEvent);
+			//EventBus.getDefault().post(locationEvent);
 		}
 	};
 
 	/**
 	 * 退出事件
-	 * 
+	 *  //订阅事件FirstEvent
 	 * @param hasLoginEvent
 	 */
 	public void onEventMainThread(HasLoginEvent hasLoginEvent) {
-		if (!baseApplication.isHasLoginEvent()) {
-			initJPush("");
-			baseApplication.setHasLoginEvent(true);
-			toast(hasLoginEvent.getResultMessage());
-			clearUserData();
+		    clearUserData();
 			ActivityHelper.getInstance().finishAllActivity();
 			activityExitAnim();
-			Intent intent = new Intent();
-			intent.putExtra("isLoginOutDialogShow", true);
-			jumpActivityNoAnim(intent, LoginActivity.class);
-		}
+			jumpActivityNoAnim(null, LoginActivity.class);
 
 	}
 
 	protected void clearUserData() {
-		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "sessionId");
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "loginToken");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "passWord");
-		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "userId");
-		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "userName");
-		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "invitationCode");
-		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "sessionId");
-		baseApplication.setSessionId("");
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "sex");
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "headImg");
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "nickName");
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "comId");
 		baseApplication.setPassWord("");
-		baseApplication.setUserId("");
-		baseApplication.setUserName("");
-		baseApplication.setAddress("");
-		baseApplication.setCity("");
-		baseApplication.setLat(0d);
-		baseApplication.setLon(0d);
+		baseApplication.setSex("");
+		baseApplication.setNickName("");
+		baseApplication.setHeadImg("");
+		baseApplication.setLoginToken("");
+		baseApplication.setComId("");
 	}
 
 	protected void initJPush(String alias) {
