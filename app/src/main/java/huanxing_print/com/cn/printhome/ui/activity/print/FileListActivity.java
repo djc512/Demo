@@ -17,7 +17,8 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.ui.adapter.RecyclerAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
+import huanxing_print.com.cn.printhome.util.DocTypeUtil;
 import huanxing_print.com.cn.printhome.util.FileType;
 
 public class FileListActivity extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class FileListActivity extends AppCompatActivity {
 
     private RecyclerView mRcList;
     private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerAdapter mAdapter;
+    private FileRecyclerAdapter mAdapter;
 
     private List<File> fileList;
     private int source;
@@ -44,10 +45,10 @@ public class FileListActivity extends AppCompatActivity {
         mRcList.setLayoutManager(mLayoutManager);
         mRcList.setHasFixedSize(true);
         mRcList.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new RecyclerAdapter(fileList);
+        mAdapter = new FileRecyclerAdapter(fileList);
         mRcList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(
-                new RecyclerAdapter.OnItemClickListener() {
+                new FileRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(final View view, int position) {
                         File file = fileList.get(position);
@@ -108,5 +109,10 @@ public class FileListActivity extends AppCompatActivity {
         for (int i = 0; i < fileList.size(); i++) {
             Log.i(TAG, fileList.get(i).getName());
         }
+    }
+
+    public void onDoc(View view) {
+        mAdapter.setFileList(DocTypeUtil.getFiltFileList(fileList, FileType.TYPE_PPT));
+        mAdapter.notifyDataSetChanged();
     }
 }
