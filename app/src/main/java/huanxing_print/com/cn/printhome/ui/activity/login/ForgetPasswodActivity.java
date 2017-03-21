@@ -15,6 +15,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.login.VeryCodeBean;
 import huanxing_print.com.cn.printhome.net.callback.login.VeryCodeCallback;
 import huanxing_print.com.cn.printhome.net.request.login.VeryCodeRequest;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by Administrator on 2017/3/21 0021.
@@ -83,8 +84,9 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
      * 获取验证码
      */
     private void getVeryCode() {
-        VeryCodeRequest.getVeryCode(this, "2",phone, new VeryCodeCallback() {
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在获取验证码").show();
 
+        VeryCodeRequest.getVeryCode(this, "2",phone, new VeryCodeCallback() {
 
             @Override
             public void fail(String msg) {
@@ -98,7 +100,8 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
 
             @Override
             public void success(String msg, VeryCodeBean bean) {
-
+                DialogUtils.closeProgressDialog();
+                toast("获取验证码成功");
             }
         });
     }

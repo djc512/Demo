@@ -24,7 +24,7 @@ public class VeryCodeRequest extends BaseRequst {
     public static void getVeryCode(Context ctx, String type,String phoneNum, final VeryCodeCallback callback){
         String veryCodeUrl = HTTP_URL+ HttpUrl.getVeryCode;
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("phoneNum",phoneNum);
+        params.put("mobileNumber",phoneNum);
         params.put("type",type);
 
         HttpUtils.post(ctx, veryCodeUrl, "", params, new HttpCallBack() {
