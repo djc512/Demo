@@ -10,8 +10,12 @@ import android.widget.ImageView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.login.ModifyPasswordBean;
+import huanxing_print.com.cn.printhome.net.callback.login.ModifyPasswordCallback;
+import huanxing_print.com.cn.printhome.net.request.login.ModifyPassWordRequset;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by Administrator on 2017/3/21 0021.
@@ -27,6 +31,8 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
     private String pwd;
     private String pwd1;
 
+    private String validCode;//验证码
+    private String phoneNum;//手机号
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -36,6 +42,7 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifypwd);
+
         initView();
         initData();
         setListener();
@@ -74,10 +81,11 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
                     ToastUtil.doToast(ModifyPassWordActivity.this,"请先输入密码");
                     return;
                 }
-                if (pwd1 != pwd){
+                if (!pwd1.equals(pwd)){
                     ToastUtil.doToast(ModifyPassWordActivity.this,"两次密码不一致");
                     return;
                 }
+                modifyPwd();
 
                 break;
             case R.id.iv_modify_look:
@@ -102,5 +110,29 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
                 isLook1 =!isLook1;
                 break;
         }
+    }
+
+    /**
+     * 修改密码
+     */
+    private void modifyPwd() {
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在提交").show();
+        ModifyPassWordRequset.modifyPwd(getSelfActivity(), "123123", "123456", "15105144294", new ModifyPasswordCallback() {
+            @Override
+            public void success(String msg, ModifyPasswordBean bean) {
+                DialogUtils.closeProgressDialog();
+                toast("修改成功");
+            }
+
+            @Override
+            public void fail(String msg) {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+        });
     }
 }

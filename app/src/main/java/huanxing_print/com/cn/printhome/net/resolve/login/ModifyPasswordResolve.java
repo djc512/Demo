@@ -23,7 +23,5 @@ public class ModifyPasswordResolve extends BaseResolve<ModifyPasswordBean> {
 			callback.fail(errorMsg);
 			break;
 		}
-
 	}
-
 }

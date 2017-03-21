@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -66,7 +67,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
 //                    ToastUtil.showToast(ForgetPasswodActivity.this,"请输入验证码");
 //                    return;
 //                }
-//                startActivity(new Intent(ForgetPasswodActivity.this,ModifyPassWordActivity.class));
+                startActivity(new Intent(ForgetPasswodActivity.this,ModifyPassWordActivity.class));
                 break;
 
             case R.id.iv_forget_back:
