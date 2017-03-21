@@ -7,7 +7,6 @@ import java.util.Map;
 
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
-import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 /**
  * Created by LGH on 2017/3/20.
@@ -33,7 +32,8 @@ public class PrintRequest extends BaseRequst {
     public static final String BASE_URL = "http://appprint.inkin.cc/";
     public static final String UPLOAD = "common/fileUpload";
 
-    public static final void uploadFile(Context context, String fileType, String fileContent, String fileName, String needWater
+    public static final void uploadFile(Context context, String fileType, String fileContent, String fileName, String
+            needWater
             , final HttpCallBack callback) {
         String url = BASE_URL + UPLOAD;
         Map<String, Object> params = new HashMap<String, Object>();
@@ -41,6 +41,11 @@ public class PrintRequest extends BaseRequst {
         params.put(FILE_CONTENT, fileContent);
         params.put(FILE_NAME, fileName);
         params.put(NEED_WATER, needWater);
-        HttpUtils.post(context, url, "", params, callback);
+        Http.post(context, url, params, callback);
+    }
+
+    public static final void addFile(Context context, String printerNo, String fileName, String fileUrl, final
+    HttpCallBack callback) {
+
     }
 }
