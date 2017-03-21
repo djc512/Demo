@@ -13,11 +13,15 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapter.ViewHolder> {
 
     private List<File> fileList;
 
-    public RecyclerAdapter(List<File> fileList) {
+    public FileRecyclerAdapter(List<File> fileList) {
+        this.fileList = fileList;
+    }
+
+    public void setFileList(List<File> fileList) {
         this.fileList = fileList;
     }
 
