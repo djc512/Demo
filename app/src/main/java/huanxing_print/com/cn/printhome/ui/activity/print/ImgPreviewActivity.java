@@ -91,7 +91,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                     });
             return;
         }
-        PrintRequest.uploadFile(context, FileType.getType(file.getPath()), FileUtils.getBase64(file.getPath()), file
+        PrintRequest.uploadFile(context, FileType.getType(file.getPath()), FileUtils.getBase64(file), file
                 .getName(), "1", new HttpCallBack() {
             @Override
             public void success(String content) {

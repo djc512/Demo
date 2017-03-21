@@ -51,8 +51,9 @@ public class FileListActivity extends AppCompatActivity {
                     public void onItemClick(final View view, int position) {
                         File file = fileList.get(position);
                         int type = FileType.getPrintType(file.getPath());
+                        Logger.i(file.getPath());
                         try {
-                            Logger.i(FileUtils.getBase64(file.getPath()));
+                            Logger.i(FileUtils.getBase64(file));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
