@@ -1,123 +1,124 @@
 package huanxing_print.com.cn.printhome.model.login;
 
 public class LoginBeanItem {
-	private String userId;
-	private String phone;
-	private String sessionId;
-	private String invitationCode;
-	private String userName;
-	private String modelsId;
-	private String carModel;
-	private String headImg;
-	private String userType;
-	private String approvalStatus;
-	private String driverStatus;
-	private String newEnergy;
+	private String addTime;
+	private String faceUrl;
+	private String memberId;// 会员id
+	private String memberType;// 会员类型：0-普通会员，1-正式店，2-品牌商城，3-供应商
+	private String mobileNumber;
+	private String name;
+	private String nickName;
+	private String referrerMid;//上级id
+	private String sex;//0是女,1是男,2是保密
+	private String status;// 会员状态，0-有效，1-已注销
+	private String updateTime;
+	private String wechatId;// 微信id
 
-	public String getUserId() {
-		return userId;
+	public String getAddTime() {
+		return addTime;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setAddTime(String addTime) {
+		this.addTime = addTime;
 	}
 
-	public String getPhone() {
-		return phone;
+
+	public String getFaceUrl() {
+		return faceUrl;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	
-
-	public String getSessionId() {
-		return sessionId;
+	public void setFaceUrl(String faceUrl) {
+		this.faceUrl = faceUrl;
 	}
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public String getInvitationCode() {
-		return invitationCode;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
-	public void setInvitationCode(String invitationCode) {
-		this.invitationCode = invitationCode;
+	public String getMemberType() {
+		return memberType;
 	}
 
-	public String getUserName() {
-		return userName;
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	
-	public String getModelsId() {
-		return modelsId;
+	public String getMobileNumber() {
+		return mobileNumber;
 	}
 
-	public void setModelsId(String modelsId) {
-		this.modelsId = modelsId;
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
-	public String getCarModel() {
-		return carModel;
+	public String getName() {
+		return name;
 	}
 
-	public void setCarModel(String carModel) {
-		this.carModel = carModel;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getHeadImg() {
-		return headImg;
+	public String getNickName() {
+		return nickName;
 	}
 
-	public void setHeadImg(String headImg) {
-		this.headImg = headImg;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
-	public String getUserType() {
-		return userType;
+	public String getReferrerMid() {
+		return referrerMid;
 	}
 
-	public void setUserType(String userType) {
-		this.userType = userType;
+	public void setReferrerMid(String referrerMid) {
+		this.referrerMid = referrerMid;
 	}
 
-	public String getApprovalStatus() {
-		return approvalStatus;
+	public String getSex() {
+		return sex;
 	}
 
-	public void setApprovalStatus(String approvalStatus) {
-		this.approvalStatus = approvalStatus;
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
-	public String getDriverStatus() {
-		return driverStatus;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setDriverStatus(String driverStatus) {
-		this.driverStatus = driverStatus;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
-	
-	public String getNewEnergy() {
-		return newEnergy;
+	public String getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setNewEnergy(String newEnergy) {
-		this.newEnergy = newEnergy;
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getWechatId() {
+		return wechatId;
+	}
+
+	public void setWechatId(String wechatId) {
+		this.wechatId = wechatId;
 	}
 
 	@Override
 	public String toString() {
-		return "LoginBean [userId=" + userId + ", phone=" + phone + ", sessionId=" + sessionId 
-				+ ", invitationCode=" + invitationCode + ", userName=" + userName +", modelsId=" + modelsId 
-				+", carModel=" + carModel+", headImg=" + headImg +", userType=" + userType 
-				+", approvalStatus=" + approvalStatus+", driverStatus=" + driverStatus +", newEnergy=" + newEnergy +"]";
+		return "LoginBeanItem [addTime=" + addTime + ", faceUrl=" + faceUrl
+				+ ", memberId=" + memberId + ", memberType=" + memberType
+				+ ", mobileNumber=" + mobileNumber + ", name=" + name
+				+ ", nickName=" + nickName + ", referrerMid=" + referrerMid+ ", sex=" + sex 
+				+ ", status=" + status + ", updateTime=" + updateTime
+				+ ", wechatId=" + wechatId + "]";
 	}
 
 }

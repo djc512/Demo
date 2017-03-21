@@ -17,22 +17,16 @@ import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 public class LoginRequset extends BaseRequst {
 
-	public static void login(Context context,String phone, String password,String lat,String lon,String cityName,
-			String sessionId,final LoginCallback callback) {
+	public static void login(Context context, String phone, String password,
+							 final LoginCallback callback) {
 
 		String url = HTTP_URL + HttpUrl.login;
-		//password = MD5Util.MD5(password);
+		// password = MD5Util.MD5(password);
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("phone", phone);
+		params.put("account", phone);
 		params.put("password", password);
-		params.put("lat", lat);
-		params.put("lon", lon);
-		params.put("clientType", Config.CLIENT_TYPE);
-		params.put("channelId",  Config.CHANNEL_ID);
-		params.put("cityName", cityName);
-		params.put("sessionId", "");
 
-		HttpUtils.post(context,url, "", params, new HttpCallBack() {
+		HttpUtils.post(context, url, "", params, new HttpCallBack() {
 
 			@Override
 			public void success(String content) {

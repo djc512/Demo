@@ -1,9 +1,5 @@
 package huanxing_print.com.cn.printhome.util;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by LGH on 2017/3/17.
  */
@@ -43,33 +39,5 @@ public class DocTypeUtil {
             return true;
         }
         return false;
-    }
-
-    public static final List<File> getFiltFileList(List<File> list, int type) {
-        List<File> typeList = new ArrayList<File>();
-        if (type == FileType.TYPE_DOC || type == FileType.TYPE_DOCX) {
-            for (File file : list) {
-                if (FileType.getPrintType(file.getPath()) == FileType.TYPE_DOC || FileType.getPrintType(file.getPath())
-                        == FileType.TYPE_DOCX) {
-                    typeList.add(file);
-                }
-            }
-        }
-        if (type == FileType.TYPE_PDF ) {
-            for (File file : list) {
-                if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF ) {
-                    typeList.add(file);
-                }
-            }
-        }
-        if (type == FileType.TYPE_PPT || type == FileType.TYPE_PPTX) {
-            for (File file : list) {
-                if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PPT || FileType.getPrintType(file.getPath())
-                        == FileType.TYPE_PPTX) {
-                    typeList.add(file);
-                }
-            }
-        }
-        return typeList;
     }
 }

@@ -69,16 +69,6 @@
             android:name=".ui.activity.login.RegisterActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"/>
-        <!--忘记密码页面-->
-        <activity
-            android:name=".ui.activity.login.FrogetPasswodActivity"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"/>
-        <!--修改密码页面-->
-        <activity
-            android:name=".ui.activity.login.ModifyPassWordActivity"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait"/>
         <!-- 主页 -->
         <activity
             android:name=".ui.activity.main.MainActivity"
@@ -113,7 +103,10 @@
             android:name=".ui.activity.print.ImgPreviewActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
-
+        <activity
+            android:name=".ui.activity.print.ImgPrintActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
         <activity
             android:name=".ui.activity.print.PrintStatusActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

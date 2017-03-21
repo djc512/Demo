@@ -8,7 +8,7 @@ public class CommonResp {
 
     private int errorCode;
     private String errorMsg;
-    private boolean success;
+    private int success;
 
     public int getErrorCode() {
         return errorCode;
@@ -26,11 +26,11 @@ public class CommonResp {
         this.errorMsg = errorMsg;
     }
 
-    public boolean isSuccess() {
+    public int getSuccess() {
         return success;
     }
 
-    public void setSuccess(boolean success) {
+    public void setSuccess(int success) {
         this.success = success;
     }
 }
