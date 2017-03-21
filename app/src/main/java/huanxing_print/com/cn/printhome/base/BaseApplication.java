@@ -27,6 +27,13 @@ public class BaseApplication extends Application {
 
 	private boolean hasLoginEvent=false;
 
+	private static BaseApplication mInstance;
+
+	public synchronized static BaseApplication getInstance() {
+		return mInstance;
+	}
+
+
 	public boolean isHasLoginEvent() {
 		hasLoginEvent = SharedPreferencesUtils.getShareBoolean(this, "hasLoginEvent",false);
 		return hasLoginEvent;
