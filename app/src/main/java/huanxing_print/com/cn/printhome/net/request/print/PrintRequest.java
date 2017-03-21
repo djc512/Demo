@@ -46,4 +46,12 @@ public class PrintRequest extends BaseRequst {
     public static final void addFile(Context context, String printerNo, String fileName, String fileUrl, final HttpCallBack callback) {
 
     }
+
+    public static final void delFile() {
+
+    }
+
+    public static final void modifySetting() {
+
+    }
 }

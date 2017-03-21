@@ -7,30 +7,34 @@ import java.util.Map;
 
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
-import huanxing_print.com.cn.printhome.net.callback.login.VeryCodeCallback;
+import huanxing_print.com.cn.printhome.net.callback.login.ModifyPasswordCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
-import huanxing_print.com.cn.printhome.net.resolve.login.VeryCodeResolve;
+import huanxing_print.com.cn.printhome.net.resolve.login.ModifyPasswordResolve;
 import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 /**
  * Created by Administrator on 2017/3/21 0021.
  */
 
-public class VeryCodeRequest extends BaseRequst {
+public class ModifyPassWordRequset extends BaseRequst {
     /**
-     * 获取验证码
+     * 修改密码
+     * @param ctx
      * @param phoneNum
+     * @param callback
      */
-    public static void getVeryCode(Context ctx, String type,String phoneNum, final VeryCodeCallback callback){
-        String veryCodeUrl = HTTP_URL+ HttpUrl.getVeryCode;
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("mobileNumber",phoneNum);
-        params.put("type",type);
+    public static  void modifyPwd(Context ctx, String validCode, String pwd, String phoneNum, final ModifyPasswordCallback callback){
 
-        HttpUtils.post(ctx, veryCodeUrl, "", params, new HttpCallBack() {
+        String modifyPwdUrl = HTTP_URL+ HttpUrl.resetPasswd;
+        Map<String,Object> params = new HashMap<>();
+        params.put("newPwd",pwd);
+        params.put("mobileNumber",phoneNum);
+        params.put("validCode",validCode);
+
+        HttpUtils.post(ctx, modifyPwdUrl, "", params, new HttpCallBack() {
             @Override
             public void success(String content) {
-                VeryCodeResolve resolve = new VeryCodeResolve(content);
+                ModifyPasswordResolve resolve = new ModifyPasswordResolve(content);
                 resolve.resolve(callback);
             }
 

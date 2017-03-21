@@ -99,9 +99,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			jumpActivity(RegisterActivity.class);
 			break;
 
-//		case R.id.forget_pass://跳转修改密码界面
-//			jumpActivity(ModifyPasswodActivity.class);
-//			break;
+		case R.id.forget_pass://跳转修改密码界面
+			jumpActivity(ForgetPasswodActivity.class);
+			break;
 		
 		}
 	}

@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.login.VeryCodeBean;
 import huanxing_print.com.cn.printhome.net.callback.login.VeryCodeCallback;
 import huanxing_print.com.cn.printhome.net.request.login.VeryCodeRequest;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by Administrator on 2017/3/21 0021.
@@ -65,7 +67,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
 //                    ToastUtil.showToast(ForgetPasswodActivity.this,"请输入验证码");
 //                    return;
 //                }
-//                startActivity(new Intent(ForgetPasswodActivity.this,ModifyPassWordActivity.class));
+                startActivity(new Intent(ForgetPasswodActivity.this,ModifyPassWordActivity.class));
                 break;
 
             case R.id.iv_forget_back:
@@ -83,8 +85,9 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
      * 获取验证码
      */
     private void getVeryCode() {
-        VeryCodeRequest.getVeryCode(this, "2",phone, new VeryCodeCallback() {
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在获取验证码").show();
 
+        VeryCodeRequest.getVeryCode(this, "2",phone, new VeryCodeCallback() {
 
             @Override
             public void fail(String msg) {
@@ -98,7 +101,8 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
 
             @Override
             public void success(String msg, VeryCodeBean bean) {
-
+                DialogUtils.closeProgressDialog();
+                toast("获取验证码成功");
             }
         });
     }
