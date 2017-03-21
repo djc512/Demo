@@ -7,18 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 
 public class FileListActivity extends AppCompatActivity {
     private static final String TAG = "FileActivity";
@@ -53,7 +52,7 @@ public class FileListActivity extends AppCompatActivity {
                         File file = fileList.get(position);
                         int type = FileType.getPrintType(file.getPath());
                         try {
-                            Logger.i(encodeBase64File(file.getPath()));
+                            Logger.i(FileUtils.getBase64(file.getPath()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -83,14 +82,6 @@ public class FileListActivity extends AppCompatActivity {
                 });
     }
 
-    public static String encodeBase64File(String path) throws Exception {
-        File file = new File(path);
-        FileInputStream inputFile = new FileInputStream(file);
-        byte[] buffer = new byte[(int) file.length()];
-        inputFile.read(buffer);
-        inputFile.close();
-        return Base64.encodeToString(buffer, Base64.DEFAULT);
-    }
 
     private void turnActivity(String typeStr, String path) {
         Intent intent = new Intent("android.intent.action.VIEW");
