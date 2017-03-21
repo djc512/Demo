@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.view.dialog;
 
-
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -32,7 +31,7 @@ public class DialogUtils {
 	public static Dialog mTipsDialog;
 	public static Dialog mAuditStatusDialog;
 	public static Dialog mLocationDialog;
-	public static Dialog mMyReturnDialog;
+	public static Dialog mVersionDialog;
 	public static Dialog mPicChooseDialog;
 	public static Dialog mActivityDialog;
 
@@ -55,7 +54,10 @@ public class DialogUtils {
 		public void ok();
 
 	}
+	public interface VersionDialogCallBack {
+		public void update();
 
+	}
 	public interface PicChooseDialogCallBack {
 		public void camera();
 
@@ -84,6 +86,45 @@ public class DialogUtils {
 		return mProgressDialog;
 	}
 	
+	public static Dialog showTipsDialog(Context context, String content, final TipsDialogCallBack tipsDialogCallBack) {
+
+		LayoutInflater inflater = LayoutInflater.from(context);
+		View view = inflater.inflate(R.layout.dialog_tips, null);
+		mTipsDialog = new Dialog(context, R.style.loading_dialog);
+		mTipsDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		Window window = mTipsDialog.getWindow();
+		window.setGravity(Gravity.CENTER);
+
+		WindowManager windowManager = ((Activity) context).getWindowManager();
+		Display display = windowManager.getDefaultDisplay();
+		WindowManager.LayoutParams lp = mTipsDialog.getWindow().getAttributes();
+		lp.width = display.getWidth() - 100;
+		mTipsDialog.getWindow().setAttributes(lp);
+		mTipsDialog.setCanceledOnTouchOutside(true);
+
+		Button okCancel = (Button) view.findViewById(R.id.btn_canncel);
+		Button okBtn = (Button) view.findViewById(R.id.btn_ok);
+		TextView contentTv = (TextView) view.findViewById(R.id.tv_content);
+		contentTv.setText(content);
+		okBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mTipsDialog.dismiss();
+				tipsDialogCallBack.ok();
+			}
+		});
+		okCancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mTipsDialog.dismiss();
+
+			}
+		});
+
+		return mTipsDialog;
+	}
 	public static Dialog showShareDialog(final Context context, final ShareDialogCallBack shareDialogCallBack) {
 
 		LayoutInflater inflater = LayoutInflater.from(context);
@@ -112,18 +153,19 @@ public class DialogUtils {
 				} else {
 					ToastUtil.doToast(context, "您还没有安装微信，请先安装微信客户端");
 				}
+				mShareDialog.dismiss();
 			}
 		});
 		wechatBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (CommonUtils.isWeixinAvilible(context)) {
-				mShareDialog.dismiss();
+				if (CommonUtils.isWeixinAvilible(context)) {				
 				shareDialogCallBack.wechat();
 				} else {
 					ToastUtil.doToast(context, "您还没有安装微信，请先安装微信客户端");
 				}
+				mShareDialog.dismiss();
 			}
 		});
 		cancelBtn.setOnClickListener(new OnClickListener() {
@@ -164,7 +206,7 @@ public class DialogUtils {
 
 			}
 		});
-		cameraBtn.setOnClickListener(new OnClickListener() {
+		cameraBtn.setOnClickListener(new OnClickListener() {//拍照
 			@Override
 			public void onClick(View arg0) {
 				mPicChooseDialog.dismiss();
@@ -172,7 +214,7 @@ public class DialogUtils {
 			}
 		});
 
-		photoBtn.setOnClickListener(new OnClickListener() {
+		photoBtn.setOnClickListener(new OnClickListener() {//从相传选择
 			@Override
 			public void onClick(View arg0) {
 				mPicChooseDialog.dismiss();
@@ -180,6 +222,37 @@ public class DialogUtils {
 			}
 		});
 		return mPicChooseDialog;
+	}
+	
+	//版本更新
+	public static Dialog showVersionDialog(Context context, final VersionDialogCallBack callBack) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		View view = inflater.inflate(R.layout.dialog_version, null);
+		mVersionDialog = new Dialog(context, R.style.loading_dialog);
+		mVersionDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		Window window = mVersionDialog.getWindow();
+		window.setGravity(Gravity.CENTER);
+
+		WindowManager windowManager = ((Activity) context).getWindowManager();
+		Display display = windowManager.getDefaultDisplay();
+		WindowManager.LayoutParams lp = mVersionDialog.getWindow().getAttributes();
+		lp.width = display.getWidth() - 100;
+		mVersionDialog.getWindow().setAttributes(lp);
+		mVersionDialog.setCanceledOnTouchOutside(false);
+
+		Button okBtn = (Button) view.findViewById(R.id.btn_ok);
+//		TextView contentTv = (TextView) view.findViewById(R.id.tv_content);
+//		contentTv.setText(content);
+		okBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mVersionDialog.dismiss();
+				callBack.update();
+			}
+		});
+
+		return mVersionDialog;
 	}
 	static OnKeyListener keylistener = new OnKeyListener() {
 		public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {

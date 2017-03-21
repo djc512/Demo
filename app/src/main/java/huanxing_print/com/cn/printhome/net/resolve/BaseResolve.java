@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.net.resolve;
 
 import com.google.gson.Gson;
+import com.google.zxing.common.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -15,53 +16,66 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 public abstract class BaseResolve<T> {
 
-	protected String resultCode;
+	protected boolean success;
+    protected int code;
+	protected int errorCode;
 
-	protected String resultMessage;
+	protected String errorMsg;
+    protected String successMsg;
+	protected  String detail;
 
-	protected String detail;
+	protected final int SUCCESS_CODE = 1;
 
-	protected final String SUCCESS_CODE = "0";
+	protected final int FAIL_CODE = 0;
 
-	protected final String FAIL_CODE = "1";
+	protected final int FAIL_CODE_TWO = 2;
 
-	protected final String FAIL_CODE_TWO = "2";
+	protected final int FAIL_CODE_OTHER = -1;
+    private  final int FAIL_CODE_TOKEN_FAIL= 10001;
 
-	protected final String FAIL_CODE_OTHER = "-1";
-
-	protected T bean;
+	protected  T bean;
 
 	public BaseResolve(String result) {
 		resolve(result);
 	}
 
 	public void resolve(String result) {
-		resultCode = JsonUtils.getValueString("result", result);
-		resultMessage = JsonUtils.getValueString("message", result);
-		if (FAIL_CODE_TWO.equals(resultCode)) {
-			HasLoginEvent hasLoginEvent = new HasLoginEvent();
-			hasLoginEvent.setResultMessage(resultMessage);
-			EventBus.getDefault().post(hasLoginEvent);
-		}
-		detail = JsonUtils.getValueString("detail", result);
-		Logger.d("resultCode:" + resultCode);
-		Logger.d("resultMessage:" + resultMessage);
-		Logger.d("detail:" + detail);
-		Gson gson = new Gson();
 
-		try {
+		success = Boolean.parseBoolean(JsonUtils.getValueString("success", result));
+		errorMsg = JsonUtils.getValueString("errorMsg", result);
+        successMsg= JsonUtils.getValueString("message", result);
+		errorCode = Integer.parseInt(JsonUtils.getValueString("errorCode", result));
+        if (success){
+            code =1;
+            detail = JsonUtils.getValueString("detail", result);
+            Logger.d("resultCode:" + errorCode);
+            Logger.d("resultMessage:" + errorMsg);
+            Logger.d("detail:" + detail);
+            Gson gson = new Gson();
 
-			Type[] types = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
-			bean = (T) gson.fromJson(detail, types[0]);
+            try {
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			Logger.e(e.getMessage());
-		}
+                Type[] types = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
+                bean = (T) gson.fromJson(detail, types[0]);
 
-		if (!ObjectUtils.isNull(bean)) {
-			Logger.d("bean:" + bean.toString());
-		}
+            } catch (Exception e) {
+                e.printStackTrace();
+                Logger.e(e.getMessage());
+            }
+
+            if (!ObjectUtils.isNull(bean)) {
+                Logger.d("bean:" + bean.toString());
+            }
+
+        }else {
+            code =0;
+            if (FAIL_CODE_TOKEN_FAIL == errorCode) {
+                HasLoginEvent hasLoginEvent = new HasLoginEvent();
+                hasLoginEvent.setResultMessage(errorMsg);
+                EventBus.getDefault().post(hasLoginEvent);
+            }
+        }
+
 	}
 
 }

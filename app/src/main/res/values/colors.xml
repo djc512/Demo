@@ -5,7 +5,8 @@
     <color name="all_bg_color">#ebebeb</color>
     <color name="line_color">#dbdbdb</color>
     <color name="title_color">#5a5859</color>
-    <color name="title_bg_color">#2a313c</color>    
+    <color name="title_bg_color">#2a313c</color>
+    <color name="gray">#F9F9F9</color>
     <color name="gray1">#E2E2E2</color>   
     <color name="gray2">#999999</color> 
 	<color name="gray3">#9c9c9c</color>
