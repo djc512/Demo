@@ -1,11 +1,19 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
-import com.baidu.location.BDLocation;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.logic.map.LocationCallBack;
 import huanxing_print.com.cn.printhome.model.login.LoginBean;
 import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
 import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
@@ -16,16 +24,6 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.view.imageview.CircleImageView;
-
-import android.content.Context;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
 	private TextView tv_login;
@@ -103,9 +101,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			jumpActivity(RegisterActivity.class);
 			break;
 
-//		case R.id.forget_pass://跳转修改密码界面
-//			jumpActivity(ModifyPasswodActivity.class);
-//			break;
+		case R.id.forget_pass://跳转修改密码界面
+			jumpActivity(ForgetPasswodActivity.class);
+			break;
 		
 		}
 	}
