@@ -12,17 +12,17 @@ public class GetVerCodeResolve extends BaseResolve<GetVerVodeBean> {
 	}
 
 	public void resolve(GetVerCodeCallback callback) {
-//		switch (success) {
-//		case SUCCESS_CODE:
-//			callback.success(errorMsg);
-//			break;
-//		case FAIL_CODE:
-//			callback.fail(errorMsg);
-//			break;
-//		default:
-//			callback.fail(errorMsg);
-//			break;
-//		}
+		switch (resultCode) {
+		case SUCCESS_CODE:
+			callback.success(resultMessage);
+			break;
+		case FAIL_CODE:
+			callback.fail(resultMessage);
+			break;
+		default:
+			callback.fail(resultMessage);
+			break;
+		}
 
 	}
 

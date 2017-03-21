@@ -105,10 +105,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 //				LoginRequset.login(getSelfActivity(), name, md5Pwd, lat, lon, cityName, sessionId, loginCallback);
 //			}
 			break;
-//		case R.id.login_register://跳转注册界面
-//			jumpActivity(RegisterActivity.class);
-//			break;
-//
+		case R.id.login_register://跳转注册界面
+			jumpActivity(RegisterActivity.class);
+			break;
+
 //		case R.id.forget_pass://跳转修改密码界面
 //			jumpActivity(ModifyPasswodActivity.class);
 //			break;

@@ -19,7 +19,7 @@ import android.content.Context;
 public class RegisterRequst extends BaseRequst {
 
 	public static void register(Context context, String password, String phone, String verCode,final RegisterCallback callback) {
-		String url = HTTP_URL + HttpUrl.Register;
+		String url = HTTP_URL + HttpUrl.register;
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("mobileNumber", phone);
 		params.put("loginPwd", password);

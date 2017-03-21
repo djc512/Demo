@@ -6,14 +6,13 @@ public class HttpUrl {
 
 	public static final String POSTHTTP_RELEASE = "http://www.huoyibang.com/";// 生产
 
-	public static final String Login = "driver/driverLogin.do";// 登录
-	public static final String LoginOut = "commons/logout.do";// 退出登录
-	public static final String Register = "driver/driverRegister.do";// 注册
-	public static final String getVeryCode = "commons/getVerCode.do"; // 获取短信验证码
-
+	public static final String login = "member/login";// 登录
+	//public static final String LoginOut = "commons/logout.do";// 退出登录
+	public static final String register = "member/sign";// 注册
+	public static final String getVeryCode = "common/getValidCode"; // 获取短信验证码
+	public static final String resetPasswd = "member/resetPasswd"; // 获取短信验证码
 
 	private static String postUrl;
-
 
 	private static HttpUrl httpUrl;
 
