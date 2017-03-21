@@ -25,6 +25,7 @@ import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.AlertUtil;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.UriUtil;
 
@@ -100,7 +101,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                     String url = uploadImgBean.getData().getUrl();
                     addFile(url);
                 } else {
-                    ToastUtil.doToast(getSelfActivity(),getString(R.string.upload_failure));
+                    ShowUtil.showToast(getString(R.string.upload_failure));
                 }
             }
 
@@ -120,7 +121,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                 if (addFileSettingBean.isSuccess()) {
                     turnPrintSetting(addFileSettingBean.getData().get(0));
                 } else {
-                    ToastUtil.doToast(getSelfActivity(),getString(R.string.upload_failure));
+                    ToastUtil.doToast(getSelfActivity(), getString(R.string.upload_failure));
                 }
             }
 
