@@ -14,7 +14,7 @@
     <string name="hint_phone">请输入您的手机号码</string>
     <string name="hint_psd">请输入您的密码</string>
     <string name="forget_pass">忘记密码？</string>
-    <string name="new_user">新用户，立即注册</string>
+    <string name="new_user">注册新用户</string>
     <string name="login_failure">登录失败，请重新登录</string>
     <string name="exit_program">再按一次退出程序</string>
     <!-- RegisterActivity -->

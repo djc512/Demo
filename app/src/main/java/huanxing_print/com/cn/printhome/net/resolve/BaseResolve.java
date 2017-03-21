@@ -1,7 +1,6 @@
 package huanxing_print.com.cn.printhome.net.resolve;
 
 import com.google.gson.Gson;
-import com.google.zxing.common.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -22,7 +21,7 @@ public abstract class BaseResolve<T> {
 
 	protected String errorMsg;
     protected String successMsg;
-	protected  String detail;
+    protected String data;
 
 	protected final int SUCCESS_CODE = 1;
 
@@ -47,25 +46,7 @@ public abstract class BaseResolve<T> {
 		errorCode = Integer.parseInt(JsonUtils.getValueString("errorCode", result));
         if (success){
             code =1;
-            detail = JsonUtils.getValueString("detail", result);
-            Logger.d("resultCode:" + errorCode);
-            Logger.d("resultMessage:" + errorMsg);
-            Logger.d("detail:" + detail);
-            Gson gson = new Gson();
 
-            try {
-
-                Type[] types = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
-                bean = (T) gson.fromJson(detail, types[0]);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Logger.e(e.getMessage());
-            }
-
-            if (!ObjectUtils.isNull(bean)) {
-                Logger.d("bean:" + bean.toString());
-            }
 
         }else {
             code =0;
@@ -76,6 +57,26 @@ public abstract class BaseResolve<T> {
             }
         }
 
+        data = JsonUtils.getValueString("data", result);
+        Logger.d("resultCode:" + errorCode);
+        Logger.d("resultMessage:" + errorMsg);
+        Logger.d("data:" + data);
+        Gson gson = new Gson();
+
+        try {
+            Type[] types = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments();
+            bean = (T) gson.fromJson(data, types[0]);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Logger.e(e.getMessage());
+        }
+
+        if (!ObjectUtils.isNull(bean)) {
+            Logger.d("bean:" + bean.toString());
+        }
+    }
+
 	}
 
-}
+

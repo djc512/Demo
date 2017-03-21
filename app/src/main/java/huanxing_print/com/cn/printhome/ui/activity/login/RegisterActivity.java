@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
@@ -24,7 +25,7 @@ import huanxing_print.com.cn.printhome.util.time.ScheduledTimer;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class RegisterActivity extends BaseActivity implements OnClickListener {
-
+	private RelativeLayout rl_title;
 	private TextView  getCodeTv, registeTv;
 	private EditText registerPhoneEt, registerCodeEt, registerPassEt;
 
@@ -45,6 +46,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// 改变状态栏的颜色使其与APP风格一体化
+		CommonUtils.initSystemBar(this);
 		setContentView(R.layout.activity_register);
 		initData();
 		initViews();
@@ -61,7 +64,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		registerPhoneEt = (EditText) findViewById(R.id.register_phonenum);
 		registerCodeEt = (EditText) findViewById(R.id.register_code);
 		registerPassEt = (EditText) findViewById(R.id.register_pass);
-		findViewById(R.id.ll_back).setOnClickListener(this);
+		findViewById(R.id.rl_title).setOnClickListener(this);
 		getCodeTv.setOnClickListener(this);
 		registeTv.setOnClickListener(this);
 
@@ -75,7 +78,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ll_back:
+		case R.id.rl_title:
 			finishCurrentActivity();
 			break;
 		case R.id.code_btn:// 获取验证码
