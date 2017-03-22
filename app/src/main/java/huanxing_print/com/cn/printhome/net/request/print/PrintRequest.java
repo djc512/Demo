@@ -31,6 +31,7 @@ public class PrintRequest extends BaseRequst {
     public static final String BASE_URL = "http://appprint.inkin.cc/";
     public static final String FILE_UPLOAD = "common/fileUpload";
     public static final String FILE_ADD = "print/file/add";
+    public static final String FILE_DEL = "print/file/add";
 
     public static final String TOKEN = "33b2abe48a76468682880e86b6fa0c2f";
 
@@ -40,6 +41,7 @@ public class PrintRequest extends BaseRequst {
             put("platform", "android");
         }
     };
+
     public static final Map<String, String> headerTokenMap = new HashMap<String, String>() {
         {
             put("apiversion", "1");
@@ -69,8 +71,11 @@ public class PrintRequest extends BaseRequst {
         Http.postString(activity, url, params, headerTokenMap, callback);
     }
 
-    public static final void delFile() {
-
+    public static final void delFile(Activity activity, int id, final HttpListener callback) {
+        String url = BASE_URL + FILE_ADD;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(ID, id);
+        Http.postString(activity, url, params, headerTokenMap, callback);
     }
 
     public static final void modifySetting() {

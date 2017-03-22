@@ -9,12 +9,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
@@ -33,12 +33,6 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     private ImageView imageView;
     private Uri imgUri;
     private File file;
-    private ImageView upImgView;
-
-    @Override
-    protected BaseActivity getSelfActivity() {
-        return this;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +51,10 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
 
     private void initView() {
         imageView = (ImageView) findViewById(R.id.imageView);
-        imageView.setImageURI(imgUri);
+//        imageView.setImageURI(imgUri);
+        Glide.with(ImgPreviewActivity.this)
+                .load(imgUri)
+                .into(imageView);
         findViewById(R.id.upImgView).setOnClickListener(this);
         findViewById(R.id.closeImgView).setOnClickListener(this);
     }
@@ -118,7 +115,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                 if (addFileSettingBean.isSuccess()) {
                     turnPrintSetting(addFileSettingBean.getData());
                 } else {
-                    ToastUtil.doToast(getSelfActivity(), getString(R.string.upload_failure));
+                    ToastUtil.doToast(context, getString(R.string.upload_failure));
                 }
             }
 

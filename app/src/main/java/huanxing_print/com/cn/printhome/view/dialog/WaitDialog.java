@@ -35,6 +35,7 @@ public class WaitDialog extends ProgressDialog {
         setCanceledOnTouchOutside(false);
         setProgressStyle(STYLE_SPINNER);
         setMessage("请稍后");
+        setOnCancelListener(onCancelListener);
         this.request = request;
     }
 

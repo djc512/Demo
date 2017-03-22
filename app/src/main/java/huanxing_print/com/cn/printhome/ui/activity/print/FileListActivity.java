@@ -3,23 +3,28 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.model.print.UploadImgBean;
+import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
+import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
 
-public class FileListActivity extends AppCompatActivity {
+public class FileListActivity extends BasePrintActivity {
     private static final String TAG = "FileActivity";
 
     private RecyclerView mRcList;
@@ -57,6 +62,8 @@ public class FileListActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        upload(fileList.get(position));
+//                        startActivity(new Intent(context, DocPreviewActivity.class));
 //                        String typeStr = null;
 //                        switch (type) {
 //                            case FileType.TYPE_DOC:
@@ -78,11 +85,42 @@ public class FileListActivity extends AppCompatActivity {
 //                        if (typeStr != null) {
 //                            turnActivity(typeStr, file.getPath());
 //                        }
-
                     }
                 });
     }
 
+    private void upload(final File file) {
+        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), FileUtils.getBase64(file), file
+                .getName(), "1", new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                UploadImgBean uploadImgBean = new Gson().fromJson(content, UploadImgBean.class);
+                if (uploadImgBean.isSuccess()) {
+                    String url = uploadImgBean.getData().getImgUrl();
+                    turnPreView(url, file);
+                } else {
+                    ShowUtil.showToast(getString(R.string.upload_failure));
+                }
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
+    }
+
+    public final static String KEY_URL = "url";
+    public final static String KEY_FILE = "file";
+
+    private void turnPreView(String url, File file) {
+        Intent intent = new Intent(context, DocPreviewActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(KEY_FILE, file);
+        bundle.putString(KEY_URL, url);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
     private void turnActivity(String typeStr, String path) {
         Intent intent = new Intent("android.intent.action.VIEW");
