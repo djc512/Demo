@@ -8,42 +8,82 @@
 
 package huanxing_print.com.cn.printhome.wxapi;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.widget.Toast;
-import cn.sharesdk.wechat.utils.WXAppExtendObject;
-import cn.sharesdk.wechat.utils.WXMediaMessage;
-import cn.sharesdk.wechat.utils.WechatHandlerActivity;
+
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 
 /** 微信客户端回调activity示例 */
-public class WXEntryActivity extends WechatHandlerActivity {
+public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
+	private IWXAPI api;
 
-	/**
-	 * 处理微信发出的向第三方应用请求app message
-	 * <p>
-	 * 在微信客户端中的聊天页面有“添加工具”，可以将本应用的图标添加到其中
-	 * 此后点击图标，下面的代码会被执行。Demo仅仅只是打开自己而已，但你可
-	 * 做点其他的事情，包括根本不打开任何页面
-	 */
-	public void onGetMessageFromWXReq(WXMediaMessage msg) {
-		Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
-		startActivity(iLaunchMyself);
+	@Override
+	protected BaseActivity getSelfActivity() {
+		return this;
 	}
 
-	/**
-	 * 处理微信向第三方应用发起的消息
-	 * <p>
-	 * 此处用来接收从微信发送过来的消息，比方说本demo在wechatpage里面分享
-	 * 应用时可以不分享应用文件，而分享一段应用的自定义信息。接受方的微信
-	 * 客户端会通过这个方法，将这个信息发送回接收方手机上的本demo中，当作
-	 * 回调。
-	 * <p>
-	 * 本Demo只是将信息展示出来，但你可做点其他的事情，而不仅仅只是Toast
-	 */
-	public void onShowMessageFromWXReq(WXMediaMessage msg) {
-		if (msg != null && msg.mediaObject != null
-				&& (msg.mediaObject instanceof WXAppExtendObject)) {
-			WXAppExtendObject obj = (WXAppExtendObject) msg.mediaObject;
-			Toast.makeText(this, obj.extInfo, Toast.LENGTH_SHORT).show();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		api = WXAPIFactory.createWXAPI(this, baseApplication.WX_APPID, false);
+		//将你收到的intent和实现IWXAPIEventHandler接口的对象传递给handleIntent方法
+		api.handleIntent(getIntent(), this);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+		api.handleIntent(intent, this);
+		finish();
+	}
+
+	@Override
+	public void onReq(BaseReq baseReq) {
+
+	}
+
+	@Override
+	public void onResp(BaseResp baseResp) {
+		String result = "";
+		switch (baseResp.errCode) {
+			case BaseResp.ErrCode.ERR_OK:
+				String code = ((SendAuth.Resp) baseResp).code;
+				SharedPreferences WxSp = getApplicationContext().getSharedPreferences(ConFig.spName, Context.MODE_PRIVATE);
+				SharedPreferences.Editor WxSpEditor = WxSp.edit();
+				WxSpEditor.putString(ConFig.CODE,code);
+				WxSpEditor.apply();
+				Intent intent = new Intent();
+				intent.setAction("authlogin");
+				WXEntryActivity.this.sendBroadcast(intent);
+				finish();
+				break;
+			case BaseResp.ErrCode.ERR_USER_CANCEL:
+//				result = "发送取消";
+//				Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+				finish();
+				break;
+			case BaseResp.ErrCode.ERR_AUTH_DENIED:
+				result = "发送被拒绝";
+				Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+				finish();
+				break;
+			default:
+				result = "发送返回";
+				Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+				finish();
+				break;
 		}
 	}
 

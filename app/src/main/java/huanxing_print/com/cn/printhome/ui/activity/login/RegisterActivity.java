@@ -117,7 +117,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 		if (verify()) {
 			DialogUtils.showProgressDialog(getSelfActivity(), "正在注册").show();
-			RegisterRequst.register(getSelfActivity(),  password, phone, verCode, registerCallback);
+			RegisterRequst.register(getSelfActivity(),  password, phone, verCode,baseApplication.getWechatId(), registerCallback);
 		}
 	}
 

@@ -2,6 +2,8 @@ package huanxing_print.com.cn.printhome.base;
 
 import android.app.Application;
 
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -20,12 +22,16 @@ public class BaseApplication extends Application {
 	private String comId;
 	private String sex;
 	private String headImg;
+	private String wechatId;
 	private String address, city;
 	private double lat, lon;
-	
 	public static int num = 9;
 
 	private boolean hasLoginEvent=false;
+   //微信第三方登录
+	public static final String WX_APPID = "wxb53411a37963b886";
+	public static final String WX_APPSecret = "d72be30f31c81dcc507d8c08c0d700f8";
+	private IWXAPI api;
 
 	private static BaseApplication mInstance;
 
@@ -141,6 +147,18 @@ public class BaseApplication extends Application {
 		this.headImg = headImg;
 	}
 
+	public String getWechatId() {
+		if (ObjectUtils.isNull(wechatId)) {
+			wechatId = SharedPreferencesUtils.getShareString(this, "wechatId");
+		}
+		return wechatId;
+	}
+
+	public void setWechatId(String wechatId) {
+		SharedPreferencesUtils.putShareValue(this, "wechatId", wechatId);
+		this.wechatId = wechatId;
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -177,6 +195,8 @@ public class BaseApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
+		api = WXAPIFactory.createWXAPI(this, WX_APPID, true);
+		api.registerApp(WX_APPID);
 		initJPush();
 		initHttpConnection();
 	}

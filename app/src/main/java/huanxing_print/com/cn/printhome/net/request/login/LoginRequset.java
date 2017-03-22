@@ -9,9 +9,11 @@ import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
+import huanxing_print.com.cn.printhome.net.callback.login.WeiXinCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 import huanxing_print.com.cn.printhome.net.resolve.NullResolve;
 import huanxing_print.com.cn.printhome.net.resolve.login.LoginResolve;
+import huanxing_print.com.cn.printhome.net.resolve.login.WeiXinResolve;
 import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 public class LoginRequset extends BaseRequst {
@@ -41,6 +43,38 @@ public class LoginRequset extends BaseRequst {
 		});
 	}
 
+	public static void loginWeiXin(Context context, String city, String country,
+								   String headimgurl, String nickName,String openId,
+								   String privilege, String sex, String unionId,
+								   final WeiXinCallback callback) {
+
+		String url = HTTP_URL + HttpUrl.loginWeiXin;
+		// password = MD5Util.MD5(password);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("city", city);
+		params.put("country", country);
+		params.put("headimgurl", headimgurl);
+		params.put("nickName", nickName);
+		params.put("openId", openId);
+		params.put("privilege", privilege);
+		params.put("sex", sex);
+		params.put("unionId", unionId);
+
+		HttpUtils.post(context, url, "", params, new HttpCallBack() {
+
+			@Override
+			public void success(String content) {
+				WeiXinResolve weiXinResolve = new WeiXinResolve(content);
+				weiXinResolve.resolve(callback);
+
+			}
+
+			@Override
+			public void fail(String exception) {
+				callback.connectFail();
+			}
+		});
+	}
 	public static void modifyPassword(Context context, String verCode,
 									  String phone, String password, String loginToken,
 									  final NullCallback callback) {

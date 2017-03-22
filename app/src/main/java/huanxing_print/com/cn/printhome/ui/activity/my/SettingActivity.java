@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.ModifyPassWordActivity;
+import huanxing_print.com.cn.printhome.ui.activity.login.ForgetPasswodActivity;
 
 /**
  * Created by Administrator on 2017/3/20 0020.
@@ -61,7 +61,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.iv_change_pwd://跳转到修改密码
-                startActivity(new Intent(getSelfActivity(), ModifyPassWordActivity.class));
+                startActivity(new Intent(getSelfActivity(), ForgetPasswodActivity.class));
                 break;
             case R.id.iv_change_print://跳转设置打印机
 

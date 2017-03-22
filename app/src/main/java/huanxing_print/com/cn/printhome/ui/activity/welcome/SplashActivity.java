@@ -19,7 +19,7 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class SplashActivity extends BaseActivity {
 
-	private static final int delayMillis = 2000;
+	private static final int delayMillis = 1000;
 	private boolean isFirst;
 	private String version;
 
