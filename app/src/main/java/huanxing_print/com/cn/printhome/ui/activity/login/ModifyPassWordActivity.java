@@ -123,7 +123,7 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
      */
     private void modifyPwd() {
         DialogUtils.showProgressDialog(getSelfActivity(), "正在提交").show();
-        ModifyPassWordRequset.modifyPwd(getSelfActivity(), "123123", "123456", "15105144294", new ModifyPasswordCallback() {
+        ModifyPassWordRequset.modifyPwd(getSelfActivity(), veryCode, pwd1, phoneNum, new ModifyPasswordCallback() {
             @Override
             public void success(String msg, ModifyPasswordBean bean) {
                 DialogUtils.closeProgressDialog();
