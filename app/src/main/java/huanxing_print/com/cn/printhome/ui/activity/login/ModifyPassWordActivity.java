@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -32,7 +33,7 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
     private String pwd;
     private String pwd1;
 
-    private String validCode;//验证码
+    private String veryCode;//验证码
     private String phoneNum;//手机号
     private LinearLayout ll_back;
 
@@ -45,6 +46,9 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifypwd);
+        Intent intent = getIntent();
+        veryCode =intent.getStringExtra("veryCode");
+        phoneNum =intent.getStringExtra("phoneNum");
 
         initView();
         initData();
