@@ -263,7 +263,7 @@ public class FileUtils {
             byte[] buffer = new byte[(int) file.length()];
             inputFile.read(buffer);
             inputFile.close();
-            base = Base64.encodeToString(buffer, Base64.DEFAULT);
+            base = Base64.encodeToString(buffer, Base64.NO_WRAP);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

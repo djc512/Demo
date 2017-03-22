@@ -9,7 +9,7 @@ public class ConFig {
 
 	public static final Environment CURRENT_ENVIRONMENT = Environment.DAILY;
 
-	public static final int CONNECT_TIME_OUT = 15 * 1000;
+	public static final int CONNECT_TIME_OUT = 1000 * 1000;
 
 	public static final int FILE_CONNECT_TIME_OUT = 30 * 1000;
 
