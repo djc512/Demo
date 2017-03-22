@@ -42,8 +42,6 @@ public class SuggestActivity extends BaseActivity implements View.OnClickListene
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         et_my_feedBaxk = (EditText) findViewById(R.id.et_my_feedBaxk);
         btn_submit_feedback = (Button) findViewById(R.id.btn_submit_feedback);
-
-
     }
     private void setListener() {
         btn_submit_feedback.setOnClickListener(this);
@@ -54,6 +52,12 @@ public class SuggestActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_submit_feedback://提交反馈
+                feedBack = et_my_feedBaxk.getText().toString().trim();
+                if (ObjectUtils.isNull(feedBack)) {
+                    ToastUtil.doToast(getSelfActivity(),"请填写反馈内容");
+                    return;
+                }
+
                 sendFeedBack();
                 break;
             case R.id.ll_back:
@@ -66,11 +70,6 @@ public class SuggestActivity extends BaseActivity implements View.OnClickListene
      * 提交反馈
      */
     private void sendFeedBack() {
-        feedBack = et_my_feedBaxk.getText().toString().trim();
-        if (ObjectUtils.isNull(feedBack)) {
-            ToastUtil.doToast(getSelfActivity(),"请填写反馈内容");
-            return;
-        }
 
         DialogUtils.showProgressDialog(getSelfActivity(),"提交中");
         FeedBackRequest.sendFeedBack(getSelfActivity(), feedBack, new FeedBackCallBack() {

@@ -64,6 +64,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             case R.id.iv_userInfo_wechat:
                 break;
             case R.id.ll_back:
+                finish();
                 break;
         }
     }
