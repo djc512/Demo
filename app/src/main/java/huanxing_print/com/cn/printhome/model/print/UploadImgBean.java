@@ -17,15 +17,15 @@ public class UploadImgBean extends CommonResp {
         this.data = data;
     }
 
-   public class Url {
-        String url;
+    public class Url {
+        String imgUrl;
 
-        public String getUrl() {
-            return url;
+        public String getImgUrl() {
+            return imgUrl;
         }
 
-        public void setUrl(String url) {
-            this.url = url;
+        public void setImgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
         }
     }
 

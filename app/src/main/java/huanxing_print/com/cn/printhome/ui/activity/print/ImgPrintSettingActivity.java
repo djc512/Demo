@@ -22,8 +22,7 @@ public class ImgPrintSettingActivity extends BasePrintActivity {
     }
 
     private void initData() {
-//        printSetting  = getIntent().getExtras().getParcelable(ImgPreviewActivity.PRINT_SETTING);
-        printSetting  = getIntent().getExtras().getParcelable("aa");
+        printSetting  = getIntent().getExtras().getParcelable(ImgPreviewActivity.PRINT_SETTING);
     }
 
     private void delFile() {

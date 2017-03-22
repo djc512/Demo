@@ -9,16 +9,16 @@ import android.os.Parcelable;
 
 public class PrintSetting implements Parcelable {
 
-    int colourFlag;
-    int directionFlag;
-    int doubleFlag;
-    int fileName;
-    int filePage;
-    int fileUrl;
-    int id;
-    int printCount;
-    int printerType;
-    int sizeType;
+    private int colourFlag;
+    private int directionFlag;
+    private int doubleFlag;
+    private String fileName;
+    private int filePage;
+    private String fileUrl;
+    private int id;
+    private int printCount;
+    private int printerType;
+    private int sizeType;
 
     public int getColourFlag() {
         return colourFlag;
@@ -44,11 +44,11 @@ public class PrintSetting implements Parcelable {
         this.doubleFlag = doubleFlag;
     }
 
-    public int getFileName() {
+    public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(int fileName) {
+    public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
@@ -60,11 +60,11 @@ public class PrintSetting implements Parcelable {
         this.filePage = filePage;
     }
 
-    public int getFileUrl() {
+    public String getFileUrl() {
         return fileUrl;
     }
 
-    public void setFileUrl(int fileUrl) {
+    public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
     }
 
@@ -110,9 +110,9 @@ public class PrintSetting implements Parcelable {
         dest.writeInt(this.colourFlag);
         dest.writeInt(this.directionFlag);
         dest.writeInt(this.doubleFlag);
-        dest.writeInt(this.fileName);
+        dest.writeString(this.fileName);
         dest.writeInt(this.filePage);
-        dest.writeInt(this.fileUrl);
+        dest.writeString(this.fileUrl);
         dest.writeInt(this.id);
         dest.writeInt(this.printCount);
         dest.writeInt(this.printerType);
@@ -126,9 +126,9 @@ public class PrintSetting implements Parcelable {
         this.colourFlag = in.readInt();
         this.directionFlag = in.readInt();
         this.doubleFlag = in.readInt();
-        this.fileName = in.readInt();
+        this.fileName = in.readString();
         this.filePage = in.readInt();
-        this.fileUrl = in.readInt();
+        this.fileUrl = in.readString();
         this.id = in.readInt();
         this.printCount = in.readInt();
         this.printerType = in.readInt();
