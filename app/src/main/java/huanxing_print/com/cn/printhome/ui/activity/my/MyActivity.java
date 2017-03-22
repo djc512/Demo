@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -40,7 +41,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
     private static final int REQUEST_CROP_PHOTO = 102;
 
     private ImageView iv_my_head;
-    private ImageView iv_my_back;
+    private LinearLayout ll_back;
 
     private File tempFile;
     private PopupWindow popupWindow;
@@ -84,12 +85,12 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
     }
     private void initView() {
         iv_my_head = (ImageView) findViewById(R.id.iv_my_head);
-        iv_my_back = (ImageView) findViewById(R.id.iv_my_back);
+        ll_back = (LinearLayout) findViewById(R.id.ll_back);
     }
 
     private void setListener() {
         iv_my_head.setOnClickListener(this);
-        iv_my_back.setOnClickListener(this);
+        ll_back.setOnClickListener(this);
     }
 
     @Override
@@ -111,7 +112,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
             case R.id.btn_cancel:
                 popupWindow.dismiss();
                 break;
-            case R.id.iv_my_back:
+            case R.id.ll_back:
                 finish();
                 break;
         }

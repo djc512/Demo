@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +25,6 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  */
 
 public class ForgetPasswodActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView iv_forget_back;
     private EditText et_forget_phone;
     private EditText et_forget_VeryCode;
     private TextView tv_forget_VeryCode;
@@ -51,7 +49,6 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
 
     private void initView() {
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        iv_forget_back = (ImageView) findViewById(R.id.iv_forget_back);
         et_forget_phone = (EditText) findViewById(R.id.et_forget_phone);
         et_forget_VeryCode = (EditText) findViewById(R.id.et_forget_VeryCode);
         tv_forget_VeryCode = (TextView) findViewById(R.id.tv_forget_VeryCode);
@@ -60,7 +57,6 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     }
     private void setListener() {
         btn_forget_next.setOnClickListener(this);
-        iv_forget_back.setOnClickListener(this);
         tv_forget_VeryCode.setOnClickListener(this);
         ll_back.setOnClickListener(this);
     }

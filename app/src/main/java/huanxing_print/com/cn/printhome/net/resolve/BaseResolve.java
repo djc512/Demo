@@ -17,7 +17,7 @@ public abstract class BaseResolve<T> {
 
 	protected boolean success;
     protected int code;
-	protected int errorCode;
+	protected String errorCode;
 
 	protected String errorMsg;
     protected String successMsg;
@@ -30,7 +30,7 @@ public abstract class BaseResolve<T> {
 	protected final int FAIL_CODE_TWO = 2;
 
 	protected final int FAIL_CODE_OTHER = -1;
-    private  final int FAIL_CODE_TOKEN_FAIL= 10001;
+    private  final String FAIL_CODE_TOKEN_FAIL= "10001";
 
 	protected  T bean;
 
@@ -43,14 +43,14 @@ public abstract class BaseResolve<T> {
 		success = Boolean.parseBoolean(JsonUtils.getValueString("success", result));
 		errorMsg = JsonUtils.getValueString("errorMsg", result);
         successMsg= JsonUtils.getValueString("message", result);
-		errorCode = Integer.parseInt(JsonUtils.getValueString("errorCode", result));
+		errorCode = JsonUtils.getValueString("errorCode", result);
         if (success){
             code =1;
 
 
         }else {
             code =0;
-            if (FAIL_CODE_TOKEN_FAIL == errorCode) {
+            if (FAIL_CODE_TOKEN_FAIL.equals(errorCode)) {
                 HasLoginEvent hasLoginEvent = new HasLoginEvent();
                 hasLoginEvent.setResultMessage(errorMsg);
                 EventBus.getDefault().post(hasLoginEvent);

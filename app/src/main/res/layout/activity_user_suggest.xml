@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f4f6f8"
     android:orientation="vertical">
 
     <RelativeLayout style="@style/Re_title">
@@ -17,19 +18,27 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#e5e5e5" />
-
     <RelativeLayout
+        android:background="@drawable/shape_feedback_bg"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:padding="10sp">
-
-        <TextView
+        android:layout_height="250dp"
+        android:padding="15sp">
+        <EditText
+            android:id="@+id/et_my_feedBaxk"
+            style="?android:attr/textViewStyle"
+            android:background="@null"
+            android:textColor="#999999"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="亲爱的用户你，您有什么好意见或者建议，都可以反馈给我们"
-            android:textSize="15dp" />
+            android:hint="亲爱的用户，您有什么好意见或者建议，都可以反馈给我们!"
+            android:textSize="16dp" />
 
         <TextView
+            android:textColor="#999999"
+            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -37,6 +46,7 @@
             android:text="0/200" />
     </RelativeLayout>
     <Button
-        style="@style/btn_submit"
+        android:id="@+id/btn_submit_feedback"
+        style="@style/btn_submit1"
         android:text="提交反馈" />
 </LinearLayout>
