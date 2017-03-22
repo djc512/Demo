@@ -17,7 +17,7 @@
             android:id="@+id/iv_forget_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/back_2x"/>
+            android:src="@drawable/back_2x"/>
         <TextView
             android:layout_marginLeft="5dp"
             android:textColor="#ffffff"
@@ -47,7 +47,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/phone_2x"/>
+            android:src="@drawable/phone_2x"/>
         <EditText
             android:id="@+id/et_forget_phone"
             style="?android:attr/textViewStyle"
@@ -80,7 +80,7 @@
             android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/pwd_2x"/>
+            android:src="@drawable/pwd_2x"/>
         <EditText
             android:id="@+id/et_forget_VeryCode"
             style="?android:attr/textViewStyle"
