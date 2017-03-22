@@ -2,6 +2,8 @@ package huanxing_print.com.cn.printhome.ui.activity.login;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +30,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	private TextView tv_login;
 	private EditText login_phone, login_pass;
 	private TextView forget_pass, login_register;
-	private ImageView iv_head;
+	private ImageView iv_head,passShowIv,passNormalIv;
 	private String phone, headImg;
 	private boolean isLoginOutDialogShow;// 是否显示登出的Dialog
 
@@ -76,7 +78,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		login_register = (TextView) findViewById(R.id.login_register);
 		tv_login = (TextView) findViewById(R.id.tv_login);
 		iv_head = (ImageView) findViewById(R.id.iv_head);
-
+		passShowIv = (ImageView) findViewById(R.id.pass_show);
+		passNormalIv = (ImageView) findViewById(R.id.pass_normal);
+		passShowIv.setOnClickListener(this);
+		passNormalIv.setOnClickListener(this);
 		tv_login.setOnClickListener(this);
 		forget_pass.setOnClickListener(this);
 		login_register.setOnClickListener(this);
@@ -102,7 +107,18 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		case R.id.forget_pass://跳转修改密码界面
 			jumpActivity(ForgetPasswodActivity.class);
 			break;
-		
+			case R.id.pass_normal:
+				passShowIv.setVisibility(View.VISIBLE);
+				passNormalIv.setVisibility(View.GONE);
+				login_pass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+				break;
+			case R.id.pass_show:
+				passShowIv.setVisibility(View.GONE);
+				passNormalIv.setVisibility(View.VISIBLE);
+				login_pass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+				break;
+			default:
+				break;
 		}
 	}
 	//登录接口返回

@@ -95,8 +95,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="10dp"
                     android:background="@color/gray1" />
 
                 <LinearLayout
@@ -126,18 +125,38 @@
                         android:textColorHint="@color/gray3"
                         android:textSize="16sp" >
                     </EditText>
-
-                    <TextView
-                        android:id="@+id/forget_pass"
+                    <ImageView
+                        android:id="@+id/pass_show"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:gravity="center"
-                        android:text="@string/forget_pass"
-                        android:textColor="@color/green"
-                        android:textSize="16sp" />
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/btn_password_show"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/pass_normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:src="@drawable/btn_password_normal"
+                        />
                 </LinearLayout>
+                <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/gray1" />
+
+                <TextView
+                    android:id="@+id/forget_pass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="right"
+                    android:text="@string/forget_pass"
+                    android:textColor="@color/gray2"
+                    android:textSize="16sp" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -147,7 +166,7 @@
             android:layout_height="50dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:layout_marginTop="40dip"
+            android:layout_marginTop="20dip"
             android:background="@drawable/btn_login"
             android:gravity="center"
             android:text="@string/login"
@@ -159,7 +178,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_content"
         android:gravity="center"
-        android:layout_marginTop="60dip"
+        android:layout_marginTop="@dimen/distance_fifty"
         android:orientation="vertical"
          >
         <ImageView

@@ -24,7 +24,6 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  */
 
 public class ModifyPassWordActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView iv_modify_back;
     private EditText et_modify_pwd;
     private ImageView iv_modify_look;
     private EditText et_modify_pwd1;
@@ -60,13 +59,11 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
         btn_modify_ok.setOnClickListener(this);
         iv_modify_look.setOnClickListener(this);
         iv_modify_look1.setOnClickListener(this);
-        iv_modify_back.setOnClickListener(this);
         ll_back.setOnClickListener(this);
     }
 
     private void initView() {
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        iv_modify_back = (ImageView) findViewById(R.id.iv_modify_back);
         et_modify_pwd = (EditText) findViewById(R.id.et_modify_pwd);
         iv_modify_look = (ImageView) findViewById(R.id.iv_modify_look);
         et_modify_pwd1 = (EditText) findViewById(R.id.et_modify_pwd1);
