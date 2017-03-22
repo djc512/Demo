@@ -97,10 +97,10 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
             case R.id.iv_modify_look:
                 if(isLook){
                     et_modify_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    iv_modify_look.setBackgroundResource(R.drawable.look_2x);
+                    iv_modify_look.setBackgroundResource(R.drawable.btn_password_show);
                 }else {
                     et_modify_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    iv_modify_look.setBackgroundResource(R.drawable.colse_2x);
+                    iv_modify_look.setBackgroundResource(R.drawable.btn_password_normal);
                 }
                 isLook =!isLook;
 
@@ -108,10 +108,10 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
             case R.id.iv_modify_look1:
                 if(isLook1){
                     et_modify_pwd1.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    iv_modify_look1.setBackgroundResource(R.drawable.look_2x);
+                    iv_modify_look1.setBackgroundResource(R.drawable.btn_password_show);
                 }else {
                     et_modify_pwd1.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    iv_modify_look1.setBackgroundResource(R.drawable.colse_2x);
+                    iv_modify_look1.setBackgroundResource(R.drawable.btn_password_normal);
                 }
                 isLook1 =!isLook1;
                 break;

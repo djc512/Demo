@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/colse_2x" />
+            android:src="@drawable/btn_password_normal" />
     </LinearLayout>
 
     <View
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/colse_2x" />
+            android:src="@drawable/btn_password_normal" />
     </LinearLayout>
 
     <View
