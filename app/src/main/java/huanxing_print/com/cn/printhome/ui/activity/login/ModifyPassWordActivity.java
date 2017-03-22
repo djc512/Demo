@@ -7,11 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.login.ModifyPasswordBean;
+import huanxing_print.com.cn.printhome.net.callback.login.ModifyPasswordCallback;
+import huanxing_print.com.cn.printhome.net.request.login.ModifyPassWordRequset;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by Administrator on 2017/3/21 0021.
@@ -27,6 +32,10 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
     private String pwd;
     private String pwd1;
 
+    private String validCode;//验证码
+    private String phoneNum;//手机号
+    private LinearLayout ll_back;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -36,6 +45,7 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifypwd);
+
         initView();
         initData();
         setListener();
@@ -47,9 +57,11 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
         iv_modify_look.setOnClickListener(this);
         iv_modify_look1.setOnClickListener(this);
         iv_modify_back.setOnClickListener(this);
+        ll_back.setOnClickListener(this);
     }
 
     private void initView() {
+        ll_back = (LinearLayout) findViewById(R.id.ll_back);
         iv_modify_back = (ImageView) findViewById(R.id.iv_modify_back);
         et_modify_pwd = (EditText) findViewById(R.id.et_modify_pwd);
         iv_modify_look = (ImageView) findViewById(R.id.iv_modify_look);
@@ -58,12 +70,12 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
         btn_modify_ok = (Button) findViewById(R.id.btn_modify_ok);
 
     }
-    private boolean isLook;
-    private boolean isLook1;
+    private boolean isLook = true;
+    private boolean isLook1 = true;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_modify_back:
+            case R.id.ll_back:
                 finish();
                 break;
             case R.id.btn_modify_ok:
@@ -74,19 +86,20 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
                     ToastUtil.doToast(ModifyPassWordActivity.this,"请先输入密码");
                     return;
                 }
-                if (pwd1 != pwd){
+                if (!pwd1.equals(pwd)){
                     ToastUtil.doToast(ModifyPassWordActivity.this,"两次密码不一致");
                     return;
                 }
+                modifyPwd();
 
                 break;
             case R.id.iv_modify_look:
                 if(isLook){
                     et_modify_pwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    iv_modify_look.setBackgroundResource(R.mipmap.colse_2x);
+                    iv_modify_look.setBackgroundResource(R.mipmap.look_2x);
                 }else {
                     et_modify_pwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    iv_modify_look.setBackgroundResource(R.mipmap.look_2x);
+                    iv_modify_look.setBackgroundResource(R.mipmap.colse_2x);
                 }
                 isLook =!isLook;
 
@@ -94,13 +107,37 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
             case R.id.iv_modify_look1:
                 if(isLook1){
                     et_modify_pwd1.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    iv_modify_look1.setBackgroundResource(R.mipmap.colse_2x);
+                    iv_modify_look1.setBackgroundResource(R.mipmap.look_2x);
                 }else {
                     et_modify_pwd1.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    iv_modify_look1.setBackgroundResource(R.mipmap.look_2x);
+                    iv_modify_look1.setBackgroundResource(R.mipmap.colse_2x);
                 }
                 isLook1 =!isLook1;
                 break;
         }
+    }
+
+    /**
+     * 修改密码
+     */
+    private void modifyPwd() {
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在提交").show();
+        ModifyPassWordRequset.modifyPwd(getSelfActivity(), "123123", "123456", "15105144294", new ModifyPasswordCallback() {
+            @Override
+            public void success(String msg, ModifyPasswordBean bean) {
+                DialogUtils.closeProgressDialog();
+                toast("修改成功");
+            }
+
+            @Override
+            public void fail(String msg) {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+        });
     }
 }

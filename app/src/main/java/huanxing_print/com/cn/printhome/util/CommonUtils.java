@@ -456,7 +456,7 @@ public class CommonUtils {
 
 		// 使用颜色资源
 
-		tintManager.setStatusBarTintResource(R.color.blue);
+		tintManager.setStatusBarTintResource(R.color.white);
 
 	}
 

@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,8 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.login.VeryCodeBean;
 import huanxing_print.com.cn.printhome.net.callback.login.VeryCodeCallback;
 import huanxing_print.com.cn.printhome.net.request.login.VeryCodeRequest;
+import huanxing_print.com.cn.printhome.util.RegexUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -29,6 +33,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     private Button btn_forget_next;
     private String phone;
     private CountDownTimer time;
+    private LinearLayout ll_back;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -44,6 +49,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initView() {
+        ll_back = (LinearLayout) findViewById(R.id.ll_back);
         iv_forget_back = (ImageView) findViewById(R.id.iv_forget_back);
         et_forget_phone = (EditText) findViewById(R.id.et_forget_phone);
         et_forget_VeryCode = (EditText) findViewById(R.id.et_forget_VeryCode);
@@ -55,6 +61,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
         btn_forget_next.setOnClickListener(this);
         iv_forget_back.setOnClickListener(this);
         tv_forget_VeryCode.setOnClickListener(this);
+        ll_back.setOnClickListener(this);
     }
 
     @Override
@@ -66,15 +73,24 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
 //                    ToastUtil.showToast(ForgetPasswodActivity.this,"请输入验证码");
 //                    return;
 //                }
-//                startActivity(new Intent(ForgetPasswodActivity.this,ModifyPassWordActivity.class));
+                startActivity(new Intent(ForgetPasswodActivity.this,ModifyPassWordActivity.class));
                 break;
 
-            case R.id.iv_forget_back:
+            case R.id.ll_back:
                 finish();
                 break;
             case R.id.tv_forget_VeryCode://获取验证码
+
+                phone = et_forget_phone.getText().toString().trim();
+                if (TextUtils.isEmpty(phone)) {
+                    Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!RegexUtils.isTel(phone)){
+                    ToastUtil.doToast(getSelfActivity(),"手机号码格式不正确");
+                    return;
+                }
                 setTimeCount();
-                submit();
                 getVeryCode();
                 break;
         }
@@ -119,13 +135,6 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
                 tv_forget_VeryCode.setText("重新获取验证码");
             }
         }.start();
-    }
-    private void submit() {
-        phone = et_forget_phone.getText().toString().trim();
-        if (TextUtils.isEmpty(phone)) {
-            Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
-            return;
-        }
     }
 
     @Override

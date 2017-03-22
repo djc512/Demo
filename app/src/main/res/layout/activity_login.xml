@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray1"
+    android:background="@color/white"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -18,7 +19,8 @@
             android:background="@color/title_bg_color"
             android:gravity="center_vertical"
             android:padding="10dip"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/login_back"
@@ -41,13 +43,14 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <huanxing_print.com.cn.printhome.view.imageview.CircleImageView
+        <ImageView
             android:id="@+id/iv_head"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="30dp"
-            android:background="@drawable/iv_head" />
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/logo" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -131,7 +134,7 @@
                         android:layout_marginEnd="10dp"
                         android:gravity="center"
                         android:text="@string/forget_pass"
-                        android:textColor="@color/blue"
+                        android:textColor="@color/green"
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -153,9 +156,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
+        android:layout_marginBottom="@dimen/distance_twenty"
+        android:padding="10dip"
         android:gravity="center" >
 
         <TextView
@@ -163,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_user"
-            android:textColor="@color/blue"
+            android:textColor="@color/green"
             android:textSize="20sp" />
     </LinearLayout>
 
