@@ -51,7 +51,6 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
 
     private void initView() {
         imageView = (ImageView) findViewById(R.id.imageView);
-//        imageView.setImageURI(imgUri);
         Glide.with(ImgPreviewActivity.this)
                 .load(imgUri)
                 .into(imageView);

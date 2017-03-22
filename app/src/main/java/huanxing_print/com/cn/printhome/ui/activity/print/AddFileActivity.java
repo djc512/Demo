@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,11 +16,15 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
+import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class AddFileActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks, View.OnClickListener {
+public class AddFileActivity extends BasePrintActivity implements EasyPermissions.PermissionCallbacks, View
+        .OnClickListener {
 
     private Button imageBtn;
     private Button qqBtn;
@@ -107,14 +110,30 @@ public class AddFileActivity extends AppCompatActivity implements EasyPermission
         turnImgPreview(uri);
     }
 
+    public void onGetPrintList(View view) {
+        PrintRequest.queryPrintList(activity, 1, 100, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
+    }
+
 
     private void getImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
     }
 
-    private static final String PATH_QQ_FILE = Environment.getExternalStorageDirectory().getPath() + "/tencent/QQfile_recv/";
-    private static final String PATH_WECHAT_FILE = Environment.getExternalStorageDirectory().getPath() + "/tencent/MicroMsg/Download/";
+    private static final String PATH_QQ_FILE = Environment.getExternalStorageDirectory().getPath() +
+            "/tencent/QQfile_recv/";
+    private static final String PATH_WECHAT_FILE = Environment.getExternalStorageDirectory().getPath() +
+            "/tencent/MicroMsg/Download/";
     public static final String KEY_FILE = "file";
     public static final String KEY_SOURCE = "source";
     public static final int SOURCE_QQ = 1;
@@ -123,7 +142,7 @@ public class AddFileActivity extends AppCompatActivity implements EasyPermission
     private void getFileList(String path, int source) {
         List<File> fileList = FileUtils.getFileList(path);
         if (fileList == null) {
-            ToastUtil.doToast(this ,"file error");
+            ToastUtil.doToast(this, "file error");
         } else {
             Intent intent = new Intent(AddFileActivity.this, FileListActivity.class);
             Bundle bundle = new Bundle();

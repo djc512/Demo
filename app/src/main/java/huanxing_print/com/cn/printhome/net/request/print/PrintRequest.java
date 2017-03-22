@@ -31,7 +31,9 @@ public class PrintRequest extends BaseRequst {
     public static final String BASE_URL = "http://appprint.inkin.cc/";
     public static final String FILE_UPLOAD = "common/fileUpload";
     public static final String FILE_ADD = "print/file/add";
-    public static final String FILE_DEL = "print/file/add";
+    public static final String FILE_DEL = "print/file/del";
+    public static final String SETTING_MODIFY = "print/file/updateToPrint";
+    public static final String QUERY_PRINT_LIST = "print/file/queyList";
 
     public static final String TOKEN = "33b2abe48a76468682880e86b6fa0c2f";
 
@@ -72,13 +74,32 @@ public class PrintRequest extends BaseRequst {
     }
 
     public static final void delFile(Activity activity, int id, final HttpListener callback) {
-        String url = BASE_URL + FILE_ADD;
+        String url = BASE_URL + FILE_DEL;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(ID, id);
         Http.postString(activity, url, params, headerTokenMap, callback);
     }
 
-    public static final void modifySetting() {
+    public static final void modifySetting(Activity activity, int colourFlag, int directionFlag, int doubleFlag, int
+            id, int printCount, int sizeType, final HttpListener callback) {
+        String url = BASE_URL + SETTING_MODIFY;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(COLOUR_FLAG, colourFlag);
+        params.put(DIRECTION_FLAG, directionFlag);
+        params.put(DOUBLE_FLAG, doubleFlag);
+        params.put(ID, id);
+        params.put(PRINT_COUNT, printCount);
+        params.put(SIZE_TYPE, sizeType);
+        Http.postString(activity, url, params, headerTokenMap, callback);
+    }
 
+    public static final void queryPrintList(Activity activity, int pageNum, int pageSize, final HttpListener callback) {
+        String url = BASE_URL + QUERY_PRINT_LIST;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(PAGE_NUM, pageNum);
+        params.put(PAGE_SIZE, pageSize);
+        url += "?&pageNum=1&pageSize=1";
+        Http.get(activity, url, params, headerTokenMap, callback);
+//        Http.postString(activity, url, params, headerTokenMap, callback);
     }
 }

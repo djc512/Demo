@@ -51,6 +51,13 @@
         android:text="Perview"
         android:textAllCaps="false"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onGetPrintList"
+        android:text="GetPrintList"
+        android:textAllCaps="false"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

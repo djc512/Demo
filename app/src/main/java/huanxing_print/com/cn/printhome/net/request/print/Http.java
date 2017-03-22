@@ -29,7 +29,6 @@ public class Http {
         String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
         Logger.d("http-request:" + url + "----" + paramsStr);
         TimeUtils.beginTime();
-
         final RequestCall requestCall = OkHttpUtils.postString()
                 .url(url)
                 .headers(headerMap)
@@ -70,6 +69,67 @@ public class Http {
                 } else {
                     callback.onFailed(exception.getMessage());
                 }
+            }
+        });
+    }
+
+    public static final void get(final Activity activity, final String url, Map<String, Object> params, Map<String,
+            String>
+            headerMap, final HttpListener callback) {
+//        StringBuilder tempParams = new StringBuilder();
+//            //处理参数
+//            int pos = 0;
+//            for (String key : params.keySet()) {
+//                if (pos > 0) {
+//                    tempParams.append("&");
+//                }
+//                tempParams.append(String.format("%s=%s", key, URLEncoder.encode(params.get(key), "utf-8")));
+//                pos++;
+//            }
+//            String requestUrl = String.format("%s/%s?%s", BASE_URL, actionUrl, tempParams.toString());
+                TimeUtils.beginTime();
+        final RequestCall requestCall = OkHttpUtils.get()
+                .url(url)
+                .headers(headerMap)
+                .tag(activity)
+                .build();
+        requestCall.execute(new StringCallback() {
+
+            @Override
+            public void onAfter(int id) {
+                super.onAfter(id);
+                WaitDialog.dismissDialog();
+            }
+
+            @Override
+            public void onBefore(Request request, int id) {
+                super.onBefore(request, id);
+                WaitDialog.showDialog(activity, requestCall, new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        requestCall.cancel();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(String result, int arg1) {
+                TimeUtils.endTime();
+                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                callback.onSucceed(result);
+            }
+
+            @Override
+            public void onError(Call call, Exception exception, int arg2) {
+                TimeUtils.endTime();
+                Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                String message = exception.getMessage();
+                if ("Socket closed".equalsIgnoreCase(message)) {
+
+                } else {
+                    callback.onFailed(exception.getMessage());
+                }
+
             }
         });
     }
