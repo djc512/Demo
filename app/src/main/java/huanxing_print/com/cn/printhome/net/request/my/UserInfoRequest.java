@@ -20,7 +20,7 @@ public class UserInfoRequest extends BaseRequst {
     public static void getUserInfo(Context ctx, final UserInfoCallBack callback){
         String userInfoUrl = HTTP_URL+ HttpUrl.userInfo;
 
-      HttpUtils.get(ctx, userInfoUrl, "", new HttpCallBack() {
+      HttpUtils.get(ctx, userInfoUrl, "33b2abe48a76468682880e86b6fa0c2f", new HttpCallBack() {
           @Override
           public void success(String content) {
               UserInfoResolve resolve = new UserInfoResolve(content);
