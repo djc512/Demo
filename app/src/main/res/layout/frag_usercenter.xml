@@ -2,12 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f4f6f8"
     android:orientation="vertical">
     <RelativeLayout
+        android:background="#1aad19"
         android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:textColor="@color/white"
             android:layout_centerInParent="true"
             android:text="我的"
             android:textSize="20sp"
@@ -20,14 +23,10 @@
             android:layout_height="30dp"
             android:src="@mipmap/ic_launcher"/>
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#ddd"
-        />
     <RelativeLayout
+        android:background="#1aad19"
         android:layout_gravity="center_vertical"
-        android:padding="5dp"
+        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <de.hdodenhof.circleimageview.CircleImageView
@@ -36,12 +35,14 @@
             android:layout_height="50dp"
             android:src="@mipmap/ic_launcher"/>
         <LinearLayout
+            android:layout_marginLeft="15dp"
             android:layout_centerVertical="true"
            android:layout_toRightOf="@id/iv_head"
             android:layout_width="wrap_content"
             android:orientation="vertical"
             android:layout_height="wrap_content">
         <TextView
+            android:textColor="@color/white"
             android:layout_centerVertical="true"
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
@@ -49,6 +50,11 @@
             android:text="李承华"
             />
         <TextView
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/my_phone_2x"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
             android:layout_below="@id/tv_name"
             android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
@@ -66,11 +72,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#ddd"
+        android:background="#e5e5e5"
         />
     <LinearLayout
         android:gravity="center_vertical"
-        android:padding="5dp"
+        android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -81,7 +87,8 @@
             android:layout_height="wrap_content"
             android:text="账户余额"/>
         <TextView
-            android:textColor="#f00"
+            android:layout_marginLeft="15dp"
+            android:textColor="#ff6000"
             android:textSize="20sp"
             android:id="@+id/tv_account_money"
             android:layout_width="0dp"
@@ -89,23 +96,30 @@
             android:layout_height="wrap_content"
             android:text="￥88"/>
         <TextView
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@drawable/shape_cz_bg"
+            android:textColor="#ffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="充值有礼"/>
+
         <ImageView
             android:id="@+id/iv_chongzhi"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/arrow_go"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#ddd"
+        android:layout_height="10dp"
+        android:background="#e5e5e5"
      />
     <LinearLayout
         android:gravity="center_vertical"
-        android:padding="5dp"
+        android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -117,24 +131,24 @@
             android:layout_height="wrap_content"
             android:text="账单明细"/>
         <TextView
+            android:textColor="#999999"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="本月打印消费￥132"/>
         <ImageView
             android:id="@+id/iv_mingxi"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/arrow_go"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#ddd"
+        android:background="#e5e5e5"
         />
-
     <LinearLayout
         android:gravity="center_vertical"
-        android:padding="5dp"
+        android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -145,25 +159,20 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="打印订单"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="以打印12页"/>
         <ImageView
             android:id="@+id/iv_dayin"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/arrow_go"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#ddd"
+        android:background="#e5e5e5"
         />
-
     <LinearLayout
         android:gravity="center_vertical"
-        android:padding="5dp"
+        android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -176,18 +185,18 @@
             android:text="联系我们"/>
         <ImageView
             android:id="@+id/iv_contact"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/arrow_go"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#ddd"
+        android:background="#e5e5e5"
         />
     <LinearLayout
         android:gravity="center_vertical"
-        android:padding="5dp"
+        android:padding="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -198,27 +207,38 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="分享有奖"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="分享有礼"/>
         <ImageView
             android:id="@+id/iv_share"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/arrow_go"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#ddd"
+        android:background="#e5e5e5"
         />
-    <Button
-        android:layout_marginTop="10dp"
-        android:id="@+id/btn_set"
-        android:padding="5dp"
-        android:textSize="20sp"
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="设置"/>
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="20sp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="设置"/>
+        <ImageView
+            android:id="@+id/iv_set"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/arrow_go"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5"
+        />
 </LinearLayout>

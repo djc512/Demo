@@ -4,11 +4,13 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
+import huanxing_print.com.cn.printhome.model.my.UserInfoBean;
+import huanxing_print.com.cn.printhome.net.callback.my.UserInfoCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.UserInfoRequest;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.DaYinActivity;
@@ -27,21 +29,19 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	private ImageView iv_share;
 	private ImageView iv_notice;
 	private ImageView iv_my;
+	private ImageView iv_set;
 
-	private Button btn_set;
 
 	@Override
 	protected void init() {
 		initViews();
 		initData();
 		setListener();
-
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
 	}
 
 	@Override
@@ -51,9 +51,23 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 
 	private void initData() {
 		//网络请求，获取用户信息
+		UserInfoRequest.getUserInfo(getActivity(), new UserInfoCallBack() {
+			@Override
+			public void success(String msg, UserInfoBean bean) {
 
+			}
+
+			@Override
+			public void fail(String msg) {
+
+			}
+
+			@Override
+			public void connectFail() {
+
+			}
+		});
 	}
-
 
 	private void initViews() {
 		iv_chongzhi = (ImageView) findViewById(R.id.iv_chongzhi);
@@ -63,9 +77,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		iv_share = (ImageView) findViewById(R.id.iv_share);
 		iv_notice = (ImageView) findViewById(R.id.iv_notice);
 		iv_my = (ImageView) findViewById(R.id.iv_my);
-
-		btn_set = (Button) findViewById(R.id.btn_set);
-
+		iv_set = (ImageView) findViewById(R.id.iv_set);
 	}
 	private void setListener() {
 		iv_chongzhi.setOnClickListener(this);
@@ -76,19 +88,12 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		iv_notice.setOnClickListener(this);
 		iv_share.setOnClickListener(this);
 		iv_my.setOnClickListener(this);
-
-		btn_set.setOnClickListener(this);
+		iv_set.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-
-//		case R.id.ll_add_contact:
-//			startActivity(new Intent(getActivity(),
-//					ContactAddActivity.class));
-//			break;
-
 			case R.id.iv_my:
 				startActivity(new Intent(getActivity(), MyActivity.class));
 				break;
@@ -110,7 +115,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
             case R.id.iv_share:
 				startActivity(new Intent(getActivity(), ShareActivity.class));
 				break;
-			case R.id.btn_set:
+			case R.id.iv_set:
 				startActivity(new Intent(getActivity(), SettingActivity.class));
 				break;
 
@@ -118,6 +123,4 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 			break;
 		}
 	}
-
-
 }

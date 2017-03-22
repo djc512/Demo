@@ -90,7 +90,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
                     Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!RegexUtils.isTel(phone)){
+                if (!RegexUtils.isMobileExact(phone)){
                     ToastUtil.doToast(getSelfActivity(),"手机号码格式不正确");
                     return;
                 }

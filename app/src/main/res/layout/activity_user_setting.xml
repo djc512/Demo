@@ -4,26 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp">
+    <RelativeLayout style="@style/Re_title">
+
+        <include layout="@layout/ll_title_back"></include>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="设置"
-            android:textSize="20sp" />
-    </LinearLayout>
+            style="@style/title"
+            android:text="设置" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#ddd"></View>
+        android:layout_height="10dp"
+        android:background="#e5e5e5"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,11 +32,6 @@
             android:text="登录密码"
             android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="修改" />
-
         <ImageView
             android:id="@+id/iv_change_pwd"
             android:layout_width="50dp"
@@ -54,7 +42,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ddd"></View>
+        android:background="#e5e5e5"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,11 +58,6 @@
             android:text="默认打印机"
             android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="修改" />
-
         <ImageView
             android:id="@+id/iv_change_print"
             android:layout_width="50dp"
@@ -85,7 +68,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#ddd" />
+        android:background="#e5e5e5" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -111,7 +94,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ddd"></View>
+        android:background="#e5e5e5"></View>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -152,17 +135,7 @@
             android:src="@drawable/arrow_go" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp">
-
-        <Button
-            android:id="@+id/btn_login_out"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="50dp"
-            android:text="退出登录" />
-    </RelativeLayout>
+    <Button
+        style="@style/btn_submit"
+        android:text="退出登录" />
 </LinearLayout>

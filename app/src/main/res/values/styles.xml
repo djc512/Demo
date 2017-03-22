@@ -71,4 +71,15 @@
         <item name="android:layout_centerInParent">true</item>
         <item name="android:textSize">18sp</item>
     </style>
+    <!--提交btn-->
+    <style name="btn_submit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:layout_marginTop">45dp</item>
+        <item name="android:background">@drawable/btn_login</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>
