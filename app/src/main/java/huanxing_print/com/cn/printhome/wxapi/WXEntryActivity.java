@@ -70,8 +70,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 				finish();
 				break;
 			case BaseResp.ErrCode.ERR_USER_CANCEL:
-				result = "发送取消";
-				Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+//				result = "发送取消";
+//				Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 				finish();
 				break;
 			case BaseResp.ErrCode.ERR_AUTH_DENIED:
@@ -82,7 +82,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 			default:
 				result = "发送返回";
 				Toast.makeText(this, result, Toast.LENGTH_LONG).show();
-
 				finish();
 				break;
 		}
