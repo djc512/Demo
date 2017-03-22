@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
-import huanxing_print.com.cn.printhome.net.request.HttpCallBack;
+import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.login.VeryCodeCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 import huanxing_print.com.cn.printhome.net.resolve.login.VeryCodeResolve;
@@ -29,13 +29,13 @@ public class VeryCodeRequest extends BaseRequst {
 
         HttpUtils.post(ctx, veryCodeUrl, "", params, new HttpCallBack() {
             @Override
-            public void onSucceed(String content) {
+            public void success(String content) {
                 VeryCodeResolve resolve = new VeryCodeResolve(content);
                 resolve.resolve(callback);
             }
 
             @Override
-            public void onFailed(String exception) {
+            public void fail(String exception) {
                 callback.connectFail();
             }
         });

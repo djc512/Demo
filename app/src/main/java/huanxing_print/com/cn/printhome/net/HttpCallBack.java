@@ -1,8 +1,8 @@
 package huanxing_print.com.cn.printhome.net;
 
 public interface HttpCallBack {
+	
+	public void success(String content);
 
-	 void success(String content);
-
-	 void fail(String exception);
+	public void fail(String exception);
 }

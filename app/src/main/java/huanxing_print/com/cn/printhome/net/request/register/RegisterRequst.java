@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
-import huanxing_print.com.cn.printhome.net.request.HttpCallBack;
+import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.register.GetVerCodeCallback;
 import huanxing_print.com.cn.printhome.net.callback.register.RegisterCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
@@ -27,14 +27,14 @@ public class RegisterRequst extends BaseRequst {
 		HttpUtils.post(context, url,"", params, new HttpCallBack() {
 
 			@Override
-			public void onSucceed(String content) {
+			public void success(String content) {
 				RegisterResolve registerResolve = new RegisterResolve(content);
 				registerResolve.resolve(callback);
 
 			}
 
 			@Override
-			public void onFailed(String exception) {
+			public void fail(String exception) {
 
 			}
 		});
@@ -48,14 +48,14 @@ public class RegisterRequst extends BaseRequst {
 		HttpUtils.post(context, url,loginToken , params, new HttpCallBack() {
 
 			@Override
-			public void onSucceed(String content) {
+			public void success(String content) {
 				GetVerCodeResolve getVerCodeResolve = new GetVerCodeResolve(content);
 				getVerCodeResolve.resolve(callback);
 
 			}
 
 			@Override
-			public void onFailed(String exception) {
+			public void fail(String exception) {
 				callback.connectFail();
 			}
 		});

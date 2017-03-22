@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
-import huanxing_print.com.cn.printhome.net.request.HttpCallBack;
+import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
@@ -28,14 +28,14 @@ public class LoginRequset extends BaseRequst {
 		HttpUtils.post(context, url, "", params, new HttpCallBack() {
 
 			@Override
-			public void onSucceed(String content) {
+			public void success(String content) {
 				LoginResolve loginResolve = new LoginResolve(content);
 				loginResolve.resolve(callback);
 
 			}
 
 			@Override
-			public void onFailed(String exception) {
+			public void fail(String exception) {
 				callback.connectFail();
 			}
 		});
@@ -54,14 +54,14 @@ public class LoginRequset extends BaseRequst {
 		HttpUtils.post(context, url, loginToken, params, new HttpCallBack() {
 
 			@Override
-			public void onSucceed(String content) {
+			public void success(String content) {
 				NullResolve resolve = new NullResolve(content);
 				resolve.resolve(callback);
 
 			}
 
 			@Override
-			public void onFailed(String exception) {
+			public void fail(String exception) {
 				callback.connectFail();
 			}
 		});
