@@ -21,12 +21,21 @@ public class UserInfoBean {
     private String faceUrl;
     private String memberId;
     private String mobileNumber;
+    private String name;
     private String nickName;
     private String updateTime;
     private String wechatId;
     private int errorCode;
     private String errorMsg;
     private boolean success;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getAddTime() {
         return addTime;
