@@ -8,6 +8,7 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -74,7 +75,7 @@
                         android:layout_height="20dp"
                         android:layout_margin="10dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/icon_user_2" />
+                        android:src="@drawable/iv_phone" />
 
                     <EditText
                         android:id="@+id/login_user"
@@ -109,7 +110,7 @@
                         android:layout_height="20dp"
                         android:layout_margin="10dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/icon_password_2" />
+                        android:src="@drawable/iv_pwd" />
 
                     <EditText
                         android:id="@+id/login_pass"
@@ -153,14 +154,34 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_content"
+        android:gravity="center"
+        android:layout_marginTop="60dip"
+        android:orientation="vertical"
+         >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/logo_weixin" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/login_weixin"
+            android:textColor="@color/gray2"
+            android:textSize="16sp" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:gravity="center"
         android:layout_marginBottom="@dimen/distance_twenty"
-        android:padding="10dip"
-        android:gravity="center" >
+        >
 
         <TextView
             android:id="@+id/login_register"
