@@ -255,15 +255,15 @@ public class FileUtils {
         return fileList;
     }
 
-    public static final String getBase64(String path) {
-        File file = new File(path);
+    public static final String getBase64(File file) {
         FileInputStream inputFile = null;
         String base = null;
         try {
             inputFile = new FileInputStream(file);
             byte[] buffer = new byte[(int) file.length()];
+            inputFile.read(buffer);
             inputFile.close();
-            base = Base64.encodeToString(buffer, Base64.DEFAULT);
+            base = Base64.encodeToString(buffer, Base64.NO_WRAP);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

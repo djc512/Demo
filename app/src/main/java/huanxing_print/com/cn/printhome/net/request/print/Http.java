@@ -20,11 +20,14 @@ public class Http {
     public static void post(Object obj, final String url, Map<String, Object> params,
                             final HttpCallBack callback) {
         String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
-        Logger.d("http-request:" + url  + "----" + paramsStr);
+        Logger.d("http-request:" + url + "----" + paramsStr);
         TimeUtils.beginTime();
-        OkHttpUtils.post().url(url).addParams("param", paramsStr).addHeader("apiversion", "1").addHeader("platform", "android").tag(obj).build()
+        OkHttpUtils.postString().url(url)
+                .content(paramsStr)
+                .addHeader("apiversion", "1")
+                .addHeader("platform", "android")
+                .tag(obj).build()
                 .execute(new StringCallback() {
-
                     @Override
                     public void onResponse(String result, int arg1) {
                         TimeUtils.endTime();
@@ -37,12 +40,10 @@ public class Http {
                         TimeUtils.endTime();
                         Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
                         String message = exception.getMessage();
-                        if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
-
+                        if ("Socket closed".equalsIgnoreCase(message)) {
                         } else {
                             callback.fail(exception.getMessage());
                         }
-
                     }
                 });
     }
