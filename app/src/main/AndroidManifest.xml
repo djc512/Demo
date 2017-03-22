@@ -171,6 +171,10 @@
         <activity
             android:name=".ui.activity.my.MyModifyNameActivty"
             android:screenOrientation="portrait"/>
+        <!--打印协议-->
+        <activity
+            android:name=".ui.activity.my.XieYiActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

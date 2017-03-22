@@ -17,11 +17,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
             android:id="@+id/iv_notice"
             android:layout_alignParentRight="true"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notice_2x"/>
     </RelativeLayout>
 
     <RelativeLayout
