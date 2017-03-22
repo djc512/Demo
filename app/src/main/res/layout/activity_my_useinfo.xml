@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f4f6f8"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout style="@style/Re_title">
@@ -13,20 +15,23 @@
             style="@style/title"
             android:text="个人资料" />
     </RelativeLayout>
+
     <include layout="@layout/view" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dp">
+
         <TextView
-            android:padding="15dp"
-            android:textSize="20sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="头像" />
+            android:padding="15dp"
+            android:text="头像"
+            android:textSize="20sp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_userInfo_head"
@@ -34,8 +39,11 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher" />
     </LinearLayout>
+
     <include layout="@layout/view" />
+
     <LinearLayout
+        android:id="@+id/ll_userInfo_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -43,30 +51,31 @@
         android:padding="10dp">
 
         <TextView
-            android:padding="15dp"
-            android:textSize="20sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="昵称" />
+            android:padding="15dp"
+            android:text="昵称"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_userInfo_nickname"
-            android:textColor="#999999"
-            android:padding="15dp"
-            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="昵称" />
+            android:padding="15dp"
+            android:text="昵称"
+            android:textColor="#999999"
+            android:textSize="20sp" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/arrow_go"
-            android:id="@+id/iv_userinfo_nickname" />
+            android:id="@+id/iv_userinfo_nickname"
+            style="@style/arrow_go" />
     </LinearLayout>
+
     <include layout="@layout/view" />
+
     <LinearLayout
+        android:id="@+id/ll_userInfo_wechat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -74,30 +83,29 @@
         android:padding="10dp">
 
         <TextView
-            android:padding="15dp"
-            android:textSize="20sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="绑定微信" />
+            android:padding="15dp"
+            android:text="绑定微信"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_userInfo_wechat"
-            android:textColor="#999999"
-            android:padding="15dp"
-            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="未绑定" />
+            android:padding="15dp"
+            android:text="未绑定"
+            android:textColor="#999999"
+            android:textSize="20sp" />
+
         <ImageView
-            android:id="@+id/iv_userInfo_wechat"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/arrow_go"/>
+            style="@style/arrow_go"
+            android:src="@drawable/arrow_go" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e5e5e5"
-        />
+        android:background="#e5e5e5" />
 </LinearLayout>

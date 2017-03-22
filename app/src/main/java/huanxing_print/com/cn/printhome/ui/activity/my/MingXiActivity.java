@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
  * Created by Administrator on 2017/3/17 0017.
@@ -19,6 +20,7 @@ public class MingXiActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_user_mingxi);
     }
 }

@@ -25,13 +25,14 @@ import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 
 /**
  * Created by Administrator on 2017/3/20 0020.
  */
 
-public class MyActivity extends BaseActivity implements View.OnClickListener{
+public class MyActivity extends BaseActivity implements View.OnClickListener {
 
     //请求相机
     private static final int REQUEST_CAPTURE = 100;
@@ -45,6 +46,11 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
 
     private File tempFile;
     private PopupWindow popupWindow;
+    private LinearLayout my_ll_name;
+    private LinearLayout my_ll_sex;
+    private LinearLayout my_ll_city;
+    private LinearLayout my_ll_bind;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -53,6 +59,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_user_my);
         //创建拍照存储的临时文件
         createCameraTempFile(savedInstanceState);
@@ -83,19 +90,28 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
         }
         return dirPath;
     }
+
     private void initView() {
         iv_my_head = (ImageView) findViewById(R.id.iv_my_head);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
+        my_ll_name = (LinearLayout) findViewById(R.id.my_ll_name);
+        my_ll_sex = (LinearLayout) findViewById(R.id.my_ll_sex);
+        my_ll_city = (LinearLayout) findViewById(R.id.my_ll_city);
+        my_ll_bind = (LinearLayout) findViewById(R.id.my_ll_bind);
     }
 
     private void setListener() {
         iv_my_head.setOnClickListener(this);
         ll_back.setOnClickListener(this);
+        my_ll_name.setOnClickListener(this);
+        my_ll_sex.setOnClickListener(this);
+        my_ll_city.setOnClickListener(this);
+        my_ll_bind.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_my_head:
                 showSelectImage();
                 break;
@@ -162,6 +178,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
         super.onSaveInstanceState(outState);
         outState.putSerializable("tempFile", tempFile);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
@@ -191,6 +208,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
     }
+
     /**
      * 打开截图界面
      *
@@ -205,6 +223,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener{
         intent.setData(uri);
         startActivityForResult(intent, REQUEST_CROP_PHOTO);
     }
+
     /**
      * 根据Uri返回文件绝对路径
      * 兼容了file:///开头的 和 content://开头的情况

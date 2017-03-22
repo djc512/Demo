@@ -11,6 +11,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.FeedBackBean;
 import huanxing_print.com.cn.printhome.net.callback.my.FeedBackCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.FeedBackRequest;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -33,6 +34,7 @@ public class SuggestActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_user_suggest);
         initView();
         setListener();

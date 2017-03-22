@@ -9,10 +9,12 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
  * Created by Administrator on 2017/3/17 0017.
@@ -22,6 +24,7 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     private TextView tv_contact_phone;
     private ImageView iv_suggest;
     private LinearLayout ll_back;
+    private RelativeLayout rl;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -31,6 +34,7 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activty_user_contact);
         initView();
         setListener();
@@ -41,11 +45,15 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
         tv_contact_phone = (TextView) findViewById(R.id.tv_contact_phone);
         iv_suggest = (ImageView) findViewById(R.id.iv_suggest);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
+        rl = (RelativeLayout) findViewById(R.id.rl);
+
     }
+
     private void setListener() {
         tv_contact_phone.setOnClickListener(this);
         iv_suggest.setOnClickListener(this);
         ll_back.setOnClickListener(this);
+        rl.setOnClickListener(this);
     }
 
     @Override
@@ -60,8 +68,8 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
                 }
                 startActivity(intent);
                 break;
-            case R.id.iv_suggest:
-                startActivity(new Intent(ContactActivity.this,SuggestActivity.class));
+            case R.id.rl:
+                startActivity(new Intent(ContactActivity.this, SuggestActivity.class));
                 break;
             case R.id.ll_back:
                 finish();

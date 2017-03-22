@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
     <RelativeLayout style="@style/Re_title">
 
@@ -11,4 +13,8 @@
             style="@style/title"
             android:text="印家打印协议" />
     </RelativeLayout>
+    <WebView
+        android:id="@+id/wv_xieyi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
 </LinearLayout>

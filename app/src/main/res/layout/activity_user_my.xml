@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout style="@style/Re_title">
@@ -39,6 +41,7 @@
     <include layout="@layout/view" />
 
     <LinearLayout
+        android:id="@+id/my_ll_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -59,9 +62,7 @@
             android:text="张兮兮" />
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_go" />
     </LinearLayout>
 
     <View
@@ -70,6 +71,7 @@
         android:background="#e5e5e5" />
 
     <LinearLayout
+        android:id="@+id/my_ll_sex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -90,9 +92,7 @@
             android:text="男" />
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_go" />
     </LinearLayout>
 
     <View
@@ -101,6 +101,7 @@
         android:background="#e5e5e5" />
 
     <LinearLayout
+        android:id="@+id/my_ll_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -121,14 +122,13 @@
             android:text="江苏省南京市" />
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_go"/>
     </LinearLayout>
 
     <include layout="@layout/view" />
 
     <LinearLayout
+        android:id="@+id/my_ll_bind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -149,9 +149,7 @@
             android:text="未绑定" />
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_go" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"

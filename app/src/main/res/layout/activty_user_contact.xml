@@ -3,6 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     <RelativeLayout style="@style/Re_title">
 
         <include layout="@layout/ll_title_back"></include>
@@ -40,6 +42,7 @@
         android:background="#e5e5e5"
         />
     <RelativeLayout
+        android:id="@+id/rl"
         android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -51,9 +54,7 @@
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/iv_suggest"
-            android:src="@drawable/arrow_go"
             android:layout_alignParentRight="true"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            style="@style/arrow_go" />
     </RelativeLayout>
 </LinearLayout>
