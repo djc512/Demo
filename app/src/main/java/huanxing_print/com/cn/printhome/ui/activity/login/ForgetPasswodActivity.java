@@ -34,6 +34,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     private String phone;
     private CountDownTimer time;
     private LinearLayout ll_back;
+    private String veryCode;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -68,12 +69,15 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_forget_next:
-//                String veryCode = et_forget_VeryCode.getText().toString().trim();
+                veryCode = et_forget_VeryCode.getText().toString().trim();
 //                if(ObjectUtils.isNull(veryCode)){
 //                    ToastUtil.showToast(ForgetPasswodActivity.this,"请输入验证码");
 //                    return;
 //                }
-                startActivity(new Intent(ForgetPasswodActivity.this,ModifyPassWordActivity.class));
+                Intent intent = new Intent(getSelfActivity(),ModifyPassWordActivity.class);
+                intent.putExtra("veryCode",veryCode);
+                intent.putExtra("phoneNum",phone);
+                startActivity(intent);
                 break;
 
             case R.id.ll_back:
@@ -86,7 +90,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
                     Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!RegexUtils.isTel(phone)){
+                if (!RegexUtils.isMobileExact(phone)){
                     ToastUtil.doToast(getSelfActivity(),"手机号码格式不正确");
                     return;
                 }
