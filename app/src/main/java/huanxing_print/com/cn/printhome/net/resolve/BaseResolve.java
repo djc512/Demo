@@ -40,7 +40,7 @@ public abstract class BaseResolve<T> {
 
 	public void resolve(String result) {
 
-		success = Boolean.parseBoolean(JsonUtils.getValueString("success", result));
+		success = Boolean.parseBoolean(JsonUtils.getValueString("onSucceed", result));
 		errorMsg = JsonUtils.getValueString("errorMsg", result);
         successMsg= JsonUtils.getValueString("message", result);
 		errorCode = Integer.parseInt(JsonUtils.getValueString("errorCode", result));

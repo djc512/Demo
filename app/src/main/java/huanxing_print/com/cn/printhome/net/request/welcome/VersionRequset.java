@@ -1,7 +1,7 @@
 package huanxing_print.com.cn.printhome.net.request.welcome;
 
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
-import huanxing_print.com.cn.printhome.net.HttpCallBack;
+import huanxing_print.com.cn.printhome.net.request.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.welcome.VersionCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 import huanxing_print.com.cn.printhome.net.resolve.welcome.VersionResolve;
@@ -18,14 +18,14 @@ public class VersionRequset extends BaseRequst {
 		HttpUtils.getVersionParam(context, url, "", version, new HttpCallBack() {
 
 			@Override
-			public void success(String content) {
+			public void onSucceed(String content) {
 				VersionResolve versionResolve = new VersionResolve(content);
 				versionResolve.resolve(callback);
 
 			}
 
 			@Override
-			public void fail(String exception) {
+			public void onFailed(String exception) {
 				callback.connectFail();
 			}
 		});

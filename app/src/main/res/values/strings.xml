@@ -41,6 +41,7 @@
 
 
     <string name="upload_failure">上传失败</string>
+    <string name="add_failure">添加失败</string>
     <string name="net_error">网络错误</string>
 
 

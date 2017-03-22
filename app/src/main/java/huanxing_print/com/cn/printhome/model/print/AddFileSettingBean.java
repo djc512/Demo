@@ -1,7 +1,5 @@
 package huanxing_print.com.cn.printhome.model.print;
 
-import java.util.List;
-
 import huanxing_print.com.cn.printhome.model.CommonResp;
 
 /**
@@ -10,13 +8,13 @@ import huanxing_print.com.cn.printhome.model.CommonResp;
 
 public class AddFileSettingBean extends CommonResp {
 
-    private List<PrintSetting> data;
+    private PrintSetting data;
 
-    public List<PrintSetting> getData() {
+    public PrintSetting getData() {
         return data;
     }
 
-    public void setData(List<PrintSetting> data) {
+    public void setData(PrintSetting data) {
         this.data = data;
     }
 

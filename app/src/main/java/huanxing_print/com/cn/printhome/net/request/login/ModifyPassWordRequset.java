@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
-import huanxing_print.com.cn.printhome.net.HttpCallBack;
+import huanxing_print.com.cn.printhome.net.request.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.login.ModifyPasswordCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 import huanxing_print.com.cn.printhome.net.resolve.login.ModifyPasswordResolve;
@@ -33,13 +33,13 @@ public class ModifyPassWordRequset extends BaseRequst {
 
         HttpUtils.post(ctx, modifyPwdUrl, "", params, new HttpCallBack() {
             @Override
-            public void success(String content) {
+            public void onSucceed(String content) {
                 ModifyPasswordResolve resolve = new ModifyPasswordResolve(content);
                 resolve.resolve(callback);
             }
 
             @Override
-            public void fail(String exception) {
+            public void onFailed(String exception) {
                 callback.connectFail();
             }
         });

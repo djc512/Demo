@@ -18,14 +18,14 @@ public class UploadImgBean extends CommonResp {
     }
 
    public class Url {
-        String url;
+        String imgUrl;
 
-        public String getUrl() {
-            return url;
+        public String getImgUrl() {
+            return imgUrl;
         }
 
-        public void setUrl(String url) {
-            this.url = url;
+        public void setImgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
         }
     }
 

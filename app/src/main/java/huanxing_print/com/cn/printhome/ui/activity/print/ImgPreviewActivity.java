@@ -1,7 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.print;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -16,11 +15,10 @@ import java.io.File;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
-import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadImgBean;
-import huanxing_print.com.cn.printhome.net.HttpCallBack;
+import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.AlertUtil;
 import huanxing_print.com.cn.printhome.util.FileType;
@@ -91,14 +89,13 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                     });
             return;
         }
-        PrintRequest.uploadFile(context, FileType.getType(file.getPath()), FileUtils.getBase64(file), file
-                .getName(), "1", new HttpCallBack() {
+        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), FileUtils.getBase64(file), file
+                .getName(), "1", new HttpListener() {
             @Override
-            public void success(String content) {
-                Logger.i(content);
+            public void onSucceed(String content) {
                 UploadImgBean uploadImgBean = new Gson().fromJson(content, UploadImgBean.class);
                 if (uploadImgBean.isSuccess()) {
-                    String url = uploadImgBean.getData().getUrl();
+                    String url = uploadImgBean.getData().getImgUrl();
                     addFile(url);
                 } else {
                     ShowUtil.showToast(getString(R.string.upload_failure));
@@ -106,28 +103,28 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
             }
 
             @Override
-            public void fail(String exception) {
-                Logger.i(exception);
+            public void onFailed(String exception) {
+
             }
         });
     }
 
     private void addFile(String fileUrl) {
-        PrintRequest.addFile(ImgPreviewActivity.this, "1", file.getName(), fileUrl, new HttpCallBack() {
+        PrintRequest.addFile(ImgPreviewActivity.this, null, file.getName(), fileUrl, new HttpListener() {
             @Override
-            public void success(String content) {
-                Logger.i(content);
+            public void onSucceed(String content) {
                 AddFileSettingBean addFileSettingBean = new Gson().fromJson(content, AddFileSettingBean.class);
                 if (addFileSettingBean.isSuccess()) {
-                    turnPrintSetting(addFileSettingBean.getData().get(0));
+                    turnPrintSetting(addFileSettingBean.getData());
+                    finish();
                 } else {
-                    ToastUtil.doToast(getSelfActivity(), getString(R.string.upload_failure));
+                    ToastUtil.doToast(getSelfActivity(), getString(R.string.add_failure));
                 }
             }
 
             @Override
-            public void fail(String exception) {
-                Logger.i(exception);
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
             }
         });
     }
@@ -135,11 +132,11 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     public static final String PRINT_SETTING = "print_setting";
 
     private void turnPrintSetting(PrintSetting printSetting) {
-        Intent intent = new Intent(ImgPreviewActivity.this, ImgPrintSettingActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(PRINT_SETTING, printSetting);
-        intent.putExtras(bundle);
-        startActivity(intent);
-        finish();
+//        Intent intent = new Intent(ImgPreviewActivity.this, ImgPrintSettingActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putParcelable(PRINT_SETTING, printSetting);
+//        intent.putExtras(bundle);
+//        startActivity(intent);
+//        finish();
     }
 }

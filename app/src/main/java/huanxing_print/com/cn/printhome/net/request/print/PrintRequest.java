@@ -1,11 +1,10 @@
 package huanxing_print.com.cn.printhome.net.request.print;
 
-import android.content.Context;
+import android.app.Activity;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 
 /**
@@ -30,21 +29,44 @@ public class PrintRequest extends BaseRequst {
     public static final String PAGE_SIZE = "pageSize";
 
     public static final String BASE_URL = "http://appprint.inkin.cc/";
-    public static final String UPLOAD = "common/fileUpload";
+    public static final String FILE_UPLOAD = "common/fileUpload";
+    public static final String FILE_ADD = "print/file/add";
 
-    public static final void uploadFile(Context context, String fileType, String fileContent, String fileName, String needWater
-            , final HttpCallBack callback) {
-        String url = BASE_URL + UPLOAD;
+    public static final String TOKEN = "33b2abe48a76468682880e86b6fa0c2f";
+
+    public static final Map<String, String> headerMap = new HashMap<String, String>() {
+        {
+            put("apiversion", "1");
+            put("platform", "android");
+        }
+    };
+    public static final Map<String, String> headerTokenMap = new HashMap<String, String>() {
+        {
+            put("apiversion", "1");
+            put("platform", "android");
+            put("loginToken", TOKEN);
+        }
+    };
+
+    public static final void uploadFile(Activity activity, String fileType, String fileContent, String fileName, String
+            needWater, final HttpListener callback) {
+        String url = BASE_URL + FILE_UPLOAD;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(FILE_TYPE, fileType);
         params.put(FILE_CONTENT, fileContent);
         params.put(FILE_NAME, fileName);
         params.put(NEED_WATER, needWater);
-        Http.post(context, url, params, callback);
+        Http.postString(activity, url, params, headerMap, callback);
     }
 
-    public static final void addFile(Context context, String printerNo, String fileName, String fileUrl, final HttpCallBack callback) {
-
+    public static final void addFile(Activity activity, String printerNo, String fileName, String fileUrl, final
+    HttpListener callback) {
+        String url = BASE_URL + FILE_ADD;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(FILE_NAME, fileName);
+        params.put(FILE_URL, fileUrl);
+        params.put(PRINTER_NO, printerNo);
+        Http.postString(activity, url, params, headerTokenMap, callback);
     }
 
     public static final void delFile() {

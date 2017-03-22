@@ -25,46 +25,14 @@ public class HttpUtils {
 
 	}
 
-	public static void post(Object obj, final String url,String loginToken, Map<String, Object> params,
-			final HttpCallBack callback) {	
+	public static void post(Object obj, final String url, String sessionId, Map<String, Object> params,
+							final HttpCallBack callback) {
 		String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
-		//Logger.d("http-request:" + url  +"----" + paramsStr);
+		Logger.d("http-request:" + url + "----" + sessionId + "----" + paramsStr);
 		TimeUtils.beginTime();
-		OkHttpUtils.postString().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
-		.addHeader("loginToken",loginToken)
-		.addHeader("platform", ConFig.PHONE_TYPE)
-		.content(paramsStr).tag(obj).build().execute(new StringCallback() {
-
-					@Override
-					public void onResponse(String result, int arg1) {
-						TimeUtils.endTime();
-						Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
-						callback.success(result);
-					}
-
-					@Override
-					public void onError(Call call, Exception exception, int arg2) {
-						TimeUtils.endTime();
-						Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
-						String message = exception.getMessage();
-						if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
-
-						} else {
-							callback.fail(exception.getMessage());
-						}
-
-					}
-				});
-	}
-	
-	public static void get(Object obj, final String url,String loginToken,
-			final HttpCallBack callback) {	
-		//String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
-		//Logger.d("http-request:" + url + "----" + "----" + paramsStr);
-		TimeUtils.beginTime();
-		OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
-		.addHeader("loginToken",loginToken)
-		.addHeader("platform", ConFig.PHONE_TYPE).tag(obj).build().execute(new StringCallback() {
+		OkHttpUtils.post().url(url).addParams("param", paramsStr).addParams("sessionId", sessionId)
+				.addParams("sig", sig("param=" + paramsStr + "&sessionId=" + sessionId)).tag(obj).build()
+				.execute(new StringCallback() {
 
 					@Override
 					public void onResponse(String result, int arg1) {
@@ -88,114 +56,15 @@ public class HttpUtils {
 				});
 	}
 
-	public static void getParam(Object obj, final String url,String loginToken, int pageNo,
-			final HttpCallBack callback) {	
-		//String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
-		//Logger.d("http-request:" + url + "----" + "----" + paramsStr);
-		TimeUtils.beginTime();
-		OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
-		.addHeader("loginToken",loginToken)
-		.addHeader("platform", ConFig.PHONE_TYPE)
-		.addParams("pageIdx", pageNo+"")
-		.addParams("pageSize", "10")
-		.tag(obj).build().execute(new StringCallback() {
+	public static void postFile(Object obj, final String url, String sessionId, String userId, File file,
+								final HttpCallBack callback) {
+		Logger.d("http-request:" + url + "----" + sessionId + "----" + file.getName());
+		String sig = sig("sessionId=" + sessionId + "&userId=" + userId);
 
-					@Override
-					public void onResponse(String result, int arg1) {
-						TimeUtils.endTime();
-						Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
-						callback.success(result);
-					}
-
-					@Override
-					public void onError(Call call, Exception exception, int arg2) {
-						TimeUtils.endTime();
-						Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
-						String message = exception.getMessage();
-						if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
-
-						} else {
-							callback.fail(exception.getMessage());
-						}
-
-					}
-				});
-	}
-	
-	public static void getCommentParam(Object obj, final String url,String loginToken,String forumGuid,  int pageNo,
-			final HttpCallBack callback) {	
-		//String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
-		//Logger.d("http-request:" + url + "----" + "----" + paramsStr);
-		TimeUtils.beginTime();
-		OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
-		.addHeader("loginToken",loginToken)
-		.addHeader("platform", ConFig.PHONE_TYPE)
-		.addParams("forumGuid", forumGuid)
-		.addParams("pageIdx", pageNo+"")
-		.addParams("pageSize", "10")
-		.tag(obj).build().execute(new StringCallback() {
-
-					@Override
-					public void onResponse(String result, int arg1) {
-						TimeUtils.endTime();
-						Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
-						callback.success(result);
-					}
-
-					@Override
-					public void onError(Call call, Exception exception, int arg2) {
-						TimeUtils.endTime();
-						Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
-						String message = exception.getMessage();
-						if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
-
-						} else {
-							callback.fail(exception.getMessage());
-						}
-
-					}
-				});
-	}
-
-	public static void getVersionParam(Object obj, final String url,String loginToken,String version, 
-			final HttpCallBack callback) {	
-		//String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
-		//Logger.d("http-request:" + url + "----" + "----" + paramsStr);
-		TimeUtils.beginTime();
-		OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
-		.addHeader("loginToken",loginToken)
-		.addHeader("platform", ConFig.PHONE_TYPE)
-		.addParams("version", version)
-		.tag(obj).build().execute(new StringCallback() {
-
-					@Override
-					public void onResponse(String result, int arg1) {
-						TimeUtils.endTime();
-						Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
-						callback.success(result);
-					}
-
-					@Override
-					public void onError(Call call, Exception exception, int arg2) {
-						TimeUtils.endTime();
-						Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
-						String message = exception.getMessage();
-						if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
-
-						} else {
-							callback.fail(exception.getMessage());
-						}
-
-					}
-				});
-	}
-	public static void postFile(Object obj, final String url,  Map<String, Object> params,
-			final HttpCallBack callback) {
-		String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params).replace("\\n", "");
-		Logger.d("http-request:" + url + "----" + "----" + paramsStr);
-		OkHttpUtils.postString().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
-		.addHeader("platform", ConFig.PHONE_TYPE)
-		.content(paramsStr).tag(obj).build().execute(new StringCallback() {
+		OkHttpUtils.post().url(url).addParams("sessionId", sessionId).addParams("userId", userId).addParams("sig", sig)
+				.addFile("file", file.getName(), file).tag(obj).build().connTimeOut(ConFig.FILE_CONNECT_TIME_OUT)
+				.readTimeOut(ConFig.FILE_CONNECT_TIME_OUT).writeTimeOut(ConFig.FILE_CONNECT_TIME_OUT)
+				.execute(new StringCallback() {
 
 					@Override
 					public void onResponse(String result, int arg1) {
@@ -220,7 +89,7 @@ public class HttpUtils {
 	}
 
 	public static void postFiles(Object obj, final String url, String sig, Map<String, Object> params,
-			Map<String, File> files, final HttpCallBack callback) {
+								 Map<String, File> files, final HttpCallBack callback) {
 		StringBuilder sb = new StringBuilder();
 		PostFormBuilder postFormBuilder = OkHttpUtils.post().url(url);
 		for (Map.Entry<String, Object> entry : params.entrySet()) {
