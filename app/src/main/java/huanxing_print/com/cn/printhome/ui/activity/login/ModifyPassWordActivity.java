@@ -15,6 +15,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.login.ModifyPasswordBean;
 import huanxing_print.com.cn.printhome.net.callback.login.ModifyPasswordCallback;
 import huanxing_print.com.cn.printhome.net.request.login.ModifyPassWordRequset;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -44,6 +45,8 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 改变状态栏的颜色使其与APP风格一体化
+        CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_modifypwd);
         Intent intent = getIntent();
         veryCode =intent.getStringExtra("veryCode");

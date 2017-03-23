@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout style="@style/Re_title">
@@ -98,6 +100,16 @@
 
     <Button
         android:id="@+id/btn_forget_next"
-        style="@style/btn_submit"
-        android:text="下一步" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="40dip"
+        android:background="@drawable/btn_login"
+        android:gravity="center"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+         />
 </LinearLayout>
