@@ -144,7 +144,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 			case R.id.iv_notice:
 				startActivity(new Intent(getActivity(), NoticeActivity.class));
 				break;
-			case R.id.iv_chongzhi:
+			case R.id.ll_my_account:
 				startActivity(new Intent(getActivity(), AccountActivity.class));
 				break;
 			case R.id.ll_my_mx:
