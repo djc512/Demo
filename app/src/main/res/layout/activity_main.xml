@@ -32,8 +32,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1.0"
             android:checked="true"
-            android:drawableTop="@drawable/main_tab_home_selector"
-            android:text="共享打印"
+            android:drawableTop="@drawable/main_tab_print_selector"
+            android:text="打印"
             />
 
         <RadioButton
@@ -42,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
-            android:drawableTop="@drawable/main_tab_contact_selector"
+            android:drawableTop="@drawable/main_tab_my_selector"
             android:text="我的"
              />
 
