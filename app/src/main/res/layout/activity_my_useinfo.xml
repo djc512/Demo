@@ -15,31 +15,45 @@
             style="@style/title"
             android:text="个人资料" />
     </RelativeLayout>
-
-    <include layout="@layout/view1" />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/distance_fifteen"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="头像"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_userInfo_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/appicon_print" />
     </LinearLayout>
 
-    <include layout="@layout/view" />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dip"/>
 
     <LinearLayout
         android:id="@+id/ll_userInfo_name"
@@ -47,30 +61,40 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="昵称"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/tv_userInfo_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="昵称"
             android:textColor="#999999"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/iv_userinfo_nickname"
             style="@style/arrow_go" />
     </LinearLayout>
 
-    <include layout="@layout/view" />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dip"/>
 
     <LinearLayout
         android:id="@+id/ll_userInfo_wechat"
@@ -78,31 +102,32 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="绑定微信"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_userInfo_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:text="未绑定"
             android:textColor="#999999"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <ImageView
             style="@style/arrow_go"
             android:src="@drawable/arrow_go" />
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
+        android:background="#e5e5e5"
         android:layout_height="1dp"
-        android:background="#e5e5e5" />
+        />
 </LinearLayout>
