@@ -9,13 +9,15 @@ public class ConFig {
 
 	public static final Environment CURRENT_ENVIRONMENT = Environment.DAILY;
 
+	public static final String SHAREDPREFERENCES_NAME = "print_home";
+
 	public static final int CONNECT_TIME_OUT = 1000 * 1000;
 
 	public static final int FILE_CONNECT_TIME_OUT = 30 * 1000;
 
-	public static final String IMG_CACHE_PATH =FileUtils.getSDCardPath() + "tuniu_store" + File.separator + "img";
+	public static final String IMG_CACHE_PATH =FileUtils.getSDCardPath() + "print_home" + File.separator + "img";
 	
-	public static final String IMG_SAVE =FileUtils.getSDCardPath() + "tuniu_store" + File.separator + "save";
+	public static final String IMG_SAVE =FileUtils.getSDCardPath() + "print_home" + File.separator + "save";
 
 	public static final int IMG_CACHE_SIZE = 100 * 1024 * 1024;
 

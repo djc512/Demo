@@ -1,25 +1,24 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
-import java.util.List;
-
-import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
-import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
-import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
-
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import java.util.List;
+
+import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
+import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 
 public class GuideViewPageAdapter extends PagerAdapter {
 
 	private List<View> pageViews;
 
 	private BaseActivity baseActivity;
-
-	private static final String SHAREDPREFERENCES_NAME = "my_pref";
 
 	private static final String KEY_GUIDE_ACTIVITY = "guide_activity";
 
@@ -52,8 +51,8 @@ public class GuideViewPageAdapter extends PagerAdapter {
 
 				@Override
 				public void onClick(View v) {
-					SharedPreferencesUtils.putShareValue(baseActivity, SHAREDPREFERENCES_NAME, KEY_GUIDE_ACTIVITY,
-							"false");
+					SharedPreferencesUtils.putShareValue(baseActivity, ConFig.SHAREDPREFERENCES_NAME,
+							"isFirstEnter",false);
 					if (ObjectUtils.isNull(SharedPreferencesUtils.getShareString(baseActivity, "password"))) {
 						baseActivity.jumpActivity(LoginActivity.class);
 					}else{
