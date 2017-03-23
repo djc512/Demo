@@ -101,4 +101,23 @@ public class LoginRequset extends BaseRequst {
 		});
 	}
 
+	public static void loginOut(Context context,String loginToken, final NullCallback callback) {
+
+		String url = HTTP_URL + HttpUrl.LoginOut;
+
+		HttpUtils.post(context, url, loginToken, null, new HttpCallBack() {
+
+			@Override
+			public void success(String content) {
+				NullResolve resolve = new NullResolve(content);
+				resolve.resolve(callback);
+
+			}
+
+			@Override
+			public void fail(String exception) {
+				callback.connectFail();
+			}
+		});
+	}
 }

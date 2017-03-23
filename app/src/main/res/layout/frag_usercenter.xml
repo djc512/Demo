@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f4f6f8"
+    android:background="@color/all_bg_color"
     android:orientation="vertical">
     <RelativeLayout
         android:background="#1aad19"
@@ -27,7 +27,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:background="#1aad19"
+        android:background="@color/green"
         android:layout_gravity="center_vertical"
         android:padding="15dp"
         android:layout_width="match_parent"
@@ -73,8 +73,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
         android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/distance_fifteen"
         />
 
     <LinearLayout
@@ -83,9 +84,10 @@
         android:padding="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
         <TextView
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:id="@+id/tv_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,7 +95,7 @@
         <TextView
             android:layout_marginLeft="15dp"
             android:textColor="#ff6000"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:id="@+id/tv_account_money"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -117,18 +119,19 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
         android:background="#e5e5e5"
-     />
+        android:layout_height="1dp"
+        />
     <LinearLayout
         android:id="@+id/ll_my_mx"
         android:gravity="center_vertical"
         android:padding="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
         <TextView
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:id="@+id/tv_detail"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -145,8 +148,14 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
         android:background="#e5e5e5"
+        android:layout_height="1dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/distance_ten"
         />
     <LinearLayout
         android:id="@+id/ll_my_dy"
@@ -154,9 +163,10 @@
         android:padding="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
         <TextView
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:id="@+id/tv_dingdan"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -168,8 +178,14 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
         android:background="#e5e5e5"
+        android:layout_height="1dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/distance_ten"
         />
     <LinearLayout
         android:id="@+id/ll_my_contact"
@@ -177,9 +193,10 @@
         android:padding="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
         <TextView
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:id="@+id/tv_lianxi"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -191,8 +208,14 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
         android:background="#e5e5e5"
+        android:layout_height="1dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/distance_ten"
         />
     <LinearLayout
         android:id="@+id/ll_my_share"
@@ -200,9 +223,10 @@
         android:padding="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
         <TextView
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:id="@+id/tv_share"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -214,8 +238,14 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
         android:background="#e5e5e5"
+        android:layout_height="1dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/distance_ten"
         />
 
     <LinearLayout
@@ -224,7 +254,8 @@
         android:padding="15dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
         <TextView
             android:textSize="20sp"
             android:layout_width="0dp"
@@ -238,7 +269,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
         android:background="#e5e5e5"
+        android:layout_height="1dp"
         />
+
 </LinearLayout>

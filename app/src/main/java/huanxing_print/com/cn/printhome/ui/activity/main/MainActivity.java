@@ -58,9 +58,6 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-//        // 改变状态栏的颜色使其与APP风格一体化
-//        CommonUtils.initSystemBarGreen(getSelfActivity());
-
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
 

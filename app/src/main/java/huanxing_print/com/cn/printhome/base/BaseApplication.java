@@ -28,6 +28,10 @@ public class BaseApplication extends Application {
 	public static int num = 9;
 	//判断是否第一次进入
 	private boolean isFirstEnter=true;
+	//判断App是否为最新版本
+	private boolean isNewApp=false;
+	//APK下载地址
+	private String ApkUrl;
 	//判断是否登录
 	private boolean hasLoginEvent=false;
    //微信第三方登录
@@ -49,6 +53,28 @@ public class BaseApplication extends Application {
 	public void setFirstEnter(boolean firstEnter) {
 		SharedPreferencesUtils.putShareValue(this, "isFirstEnter", firstEnter);
 		isFirstEnter = firstEnter;
+	}
+
+	public boolean isNewApp() {
+		isNewApp = SharedPreferencesUtils.getShareBoolean(this, "isNewApp",true);
+		return isNewApp;
+	}
+
+	public void setNewApp(boolean newApp) {
+		SharedPreferencesUtils.putShareValue(this, "isNewApp", newApp);
+		isNewApp = newApp;
+	}
+
+	public String getApkUrl() {
+		if (ObjectUtils.isNull(ApkUrl)) {
+			ApkUrl = SharedPreferencesUtils.getShareString(this, "ApkUrl");
+		}
+		return ApkUrl;
+	}
+
+	public void setApkUrl(String apkUrl) {
+		SharedPreferencesUtils.putShareValue(this, "ApkUrl", apkUrl);
+		ApkUrl = apkUrl;
 	}
 
 	public boolean isHasLoginEvent() {

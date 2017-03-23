@@ -102,10 +102,12 @@ public class SplashActivity extends BaseActivity {
 				//String deployTime = bean.getDeployTime(); // 发布日期
 				final String downloadUrl = bean.getDownloadUrl(); // 下载地址
 				String isForceUpdate = bean.getIsForceUpdate(); // 是否要强制更新
-				String isNew = bean.getIsNew(); // 是否是最新版本0 否 1 是最新版本，以下信息都可以忽略
-				//String versionCode = bean.getVersionCode(); // 版本号
+				String isNew = bean.getIsNew(); // 是否是最新版本0 否 1 是最新版本
+				String versionCode = bean.getVersionCode(); // 版本号
 				//String versionDetail = bean.getVersionDetail(); // 版本更新细节
+				baseApplication.setApkUrl(downloadUrl);
 				if ("0".equals(isNew)) {
+					baseApplication.setNewApp(false);
 					if(!ObjectUtils.isNull(isForceUpdate)&&"1".equals(isForceUpdate)){
 						DialogUtils.showVersionDialog(getSelfActivity(),new DialogUtils.VersionDialogCallBack() {
 
@@ -119,6 +121,8 @@ public class SplashActivity extends BaseActivity {
 						}).show();
 
 					}
+				}else{
+					baseApplication.setNewApp(true);
 				}
 			}
 
