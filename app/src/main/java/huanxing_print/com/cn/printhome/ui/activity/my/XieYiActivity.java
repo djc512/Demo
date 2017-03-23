@@ -36,7 +36,7 @@ public class XieYiActivity extends BaseActivity implements View.OnClickListener{
         wv_xieyi = (WebView) findViewById(R.id.wv_xieyi);
     }
     private void initData() {
-        String printUrl = "file:///android_asset/printAgreement.html";
+        String printUrl = "file:///android_asset/print.html";
         wv_xieyi.loadUrl(printUrl);
     }
     private void setListener() {
