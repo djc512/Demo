@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,8 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
     private RecyclerView rv_account_record;
     private String pageSize;
     private String pageNum;
+    private AccountRecordAdapter adapter;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -43,7 +46,8 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         ChongZhiRecordRequest.getCzRecord(getSelfActivity(),"1","2",new MyChongzhiRecordCallBack());
 
         rv_account_record.setLayoutManager(new LinearLayoutManager(this));
-        rv_account_record.setAdapter(new AccountRecordAdapter(getSelfActivity(),null));
+        adapter = new AccountRecordAdapter(getSelfActivity(),null);
+        rv_account_record.setAdapter(adapter);
     }
 
     private void initView() {
