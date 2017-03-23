@@ -3,14 +3,15 @@ package huanxing_print.com.cn.printhome.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import huanxing_print.com.cn.printhome.constant.ConFig;
+
 public class SharedPreferencesUtils {
-    private static String DEFAULT_SPACE = "hyb_driver";
 
     private static SharedPreferences initSharedPreferences(Context context,
                                                            String space) {
         SharedPreferences sp;
         if (ObjectUtils.isNull(space)) {
-            sp = context.getSharedPreferences(DEFAULT_SPACE, 0);
+            sp = context.getSharedPreferences(ConFig.SHAREDPREFERENCES_NAME, 0);
         } else {
             sp = context.getSharedPreferences(space, 0);
         }

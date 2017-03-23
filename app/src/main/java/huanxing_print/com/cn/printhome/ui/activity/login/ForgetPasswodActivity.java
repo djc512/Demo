@@ -16,6 +16,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.login.VeryCodeBean;
 import huanxing_print.com.cn.printhome.net.callback.login.VeryCodeCallback;
 import huanxing_print.com.cn.printhome.net.request.login.VeryCodeRequest;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.RegexUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -42,6 +43,8 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 改变状态栏的颜色使其与APP风格一体化
+        CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_forgetpwd);
         initView();
         setListener();

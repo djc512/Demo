@@ -26,7 +26,9 @@ public class BaseApplication extends Application {
 	private String address, city;
 	private double lat, lon;
 	public static int num = 9;
-
+	//判断是否第一次进入
+	private boolean isFirstEnter=true;
+	//判断是否登录
 	private boolean hasLoginEvent=false;
    //微信第三方登录
 	public static final String WX_APPID = "wxb53411a37963b886";
@@ -39,6 +41,15 @@ public class BaseApplication extends Application {
 		return mInstance;
 	}
 
+	public boolean isFirstEnter() {
+		isFirstEnter = SharedPreferencesUtils.getShareBoolean(this, "isFirstEnter",true);
+		return isFirstEnter;
+	}
+
+	public void setFirstEnter(boolean firstEnter) {
+		SharedPreferencesUtils.putShareValue(this, "isFirstEnter", firstEnter);
+		isFirstEnter = firstEnter;
+	}
 
 	public boolean isHasLoginEvent() {
 		hasLoginEvent = SharedPreferencesUtils.getShareBoolean(this, "hasLoginEvent",false);

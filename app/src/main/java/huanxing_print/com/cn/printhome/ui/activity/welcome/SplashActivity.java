@@ -15,6 +15,7 @@ import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.AppUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class SplashActivity extends BaseActivity {
@@ -36,9 +37,9 @@ public class SplashActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
-		isFirst = baseApplication.isHasLoginEvent();
 		version = AppUtils.getVersionName(getSelfActivity());
-		 if (!isFirst) {
+
+		 if (isFirstEnter()) {
 		 new Handler().postDelayed(new Runnable() {
 		 @Override
 		 public void run() {
@@ -47,7 +48,9 @@ public class SplashActivity extends BaseActivity {
 		 }
 		 }, delayMillis);
 		 } else {
+
 		 autoLogin();
+
 		 }
 		// 判断是否有网络
 		if (CommonUtils.isNetWorkConnected(this)) {
@@ -62,9 +65,9 @@ public class SplashActivity extends BaseActivity {
 			toast("没有可用的网络连接，请打开蜂窝数据或者wifi");
 		}
 	}
-
+//判断是否第一次打开
 	 private boolean isFirstEnter() {
-	 boolean isFirst = baseApplication.isHasLoginEvent();
+	 boolean isFirst = baseApplication.isFirstEnter();
 	 if (isFirst) {
 	 return true;
 	 } else {
@@ -76,21 +79,16 @@ public class SplashActivity extends BaseActivity {
 	private void autoLogin() {
 		String phone = baseApplication.getPhone();
 		String password = baseApplication.getPassWord();
-		String comId = baseApplication.getComId();
 		if (ObjectUtils.isAllNotNull(phone, password)) {
-//			if (ObjectUtils.isNull(comId)) {
-//				jumpActivity(SelectCompanyActivity.class);
-//			} else {
-				jumpActivity(MainActivity.class);
-			//}
+			jumpActivity(MainActivity.class);
 		} else {
 			jumpActivityNoAnim(LoginActivity.class);
-			// new Handler().postDelayed(new Runnable() {
-			// @Override
-			// public void run() {
-			// jumpActivity(LoginActivity.class);
-			// }
-			// }, delayMillis);
+//			 new Handler().postDelayed(new Runnable() {
+//			 @Override
+//			 public void run() {
+//			 jumpActivity(LoginActivity.class);
+//			 }
+//			 }, delayMillis);
 		}
 		finishCurrentActivity();
 	}
@@ -137,6 +135,7 @@ public class SplashActivity extends BaseActivity {
 
 		@Override
 		public void connectFail() {
+			ToastUtil.doToast(getSelfActivity(),"网络连接失败，请检查网络！");
 			autoLogin();
 		}
 
