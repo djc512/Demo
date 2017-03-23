@@ -8,7 +8,7 @@ public class HttpUrl {
 
 	public static final String login = "member/login";// 登录
 	public static final String loginWeiXin = "member/loginByWechat";// 微信登录
-	//public static final String LoginOut = "commons/logout.do";// 退出登录
+	public static final String LoginOut = "member/signOut";// 退出登录
 	public static final String register = "member/sign";// 注册
 	public static final String getVeryCode = "common/getValidCode"; // 获取短信验证码
 	public static final String resetPasswd = "member/resetPasswd"; // 重置密码

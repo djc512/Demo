@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f4f6f8"
+    android:background="@color/all_bg_color"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -15,52 +15,72 @@
             style="@style/title"
             android:text="设置" />
     </RelativeLayout>
-
-    <include layout="@layout/view1" />
-
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dip"
+        />
     <LinearLayout
         android:id="@+id/ll_set_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="登录密码"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/iv_change_pwd"
             style="@style/arrow_go" />
     </LinearLayout>
-
-    <include layout="@layout/view" />
-
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dip"/>
     <LinearLayout
         android:id="@+id/ll_set_print"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="默认打印机"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/iv_change_print"
             style="@style/arrow_go" />
     </LinearLayout>
-
-    <include layout="@layout/view" />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dip"/>
 
     <LinearLayout
         android:id="@+id/ll_set_xy"
@@ -68,14 +88,15 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="印加打印服务协议"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/iv_xieyi"
@@ -91,7 +112,8 @@
         android:id="@+id/rl_set_version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/tv_version"
@@ -99,11 +121,11 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="软件版本"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_set_version"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -119,27 +141,34 @@
             android:layout_alignParentRight="true"
             />
     </RelativeLayout>
-
     <View
         android:layout_width="match_parent"
         android:background="#e5e5e5"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+      />
     <View
-        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:background="#e5e5e5"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:layout_marginTop="30dip"/>
 
+    <RelativeLayout
+        android:id="@+id/ll_loginout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:background="@color/white">
     <TextView
         android:id="@+id/tv_set_loginout"
         android:textColor="#f73d34"
-        android:paddingTop="17dp"
-        android:paddingBottom="17dp"
         android:textSize="18sp"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="退出登录"/>
+        android:text="退出登录"
+        />
+    </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:background="#e5e5e5"
