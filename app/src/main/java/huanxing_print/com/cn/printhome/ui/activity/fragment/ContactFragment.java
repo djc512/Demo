@@ -11,9 +11,9 @@ import android.widget.TextView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
-import huanxing_print.com.cn.printhome.model.my.UserInfoBean;
-import huanxing_print.com.cn.printhome.net.callback.my.UserInfoCallBack;
-import huanxing_print.com.cn.printhome.net.request.my.UserInfoRequest;
+import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
+import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.DaYinActivity;
@@ -35,7 +35,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	private ImageView iv_my;
 	private ImageView iv_set;
 
-	private UserInfoBean useBean;
+	private MyInfoBean useBean;
 	private CircleImageView iv_head;
 	private TextView tv_phone;
 	private TextView tv_name;
@@ -67,7 +67,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 
 	private void initData() {
 		//网络请求，获取用户信息
-		UserInfoRequest.getUserInfo(getActivity(), new MyUserInfoCallBack());
+		MyInfoRequest.getMyInfo(getActivity(),new MyMyInfoCallBack());
 		//设置用户头像
 //		Glide.with(getActivity())
 //				.load(useBean.getFaceUrl())
@@ -77,11 +77,12 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 //		tv_phone.setText(useBean.getMobileNumber());
 	}
 
-	public class MyUserInfoCallBack extends UserInfoCallBack{
+	public class MyMyInfoCallBack extends MyInfoCallBack{
 		@Override
-		public void success(String msg, UserInfoBean bean) {
+		public void success(String msg, MyInfoBean bean) {
 			showToast("获取成功");
 			useBean = bean;
+
 		}
 
 		@Override

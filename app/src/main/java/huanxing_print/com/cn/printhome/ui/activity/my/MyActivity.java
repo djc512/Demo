@@ -25,6 +25,9 @@ import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.my.UserInfoBean;
+import huanxing_print.com.cn.printhome.net.callback.my.UserInfoCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.UserInfoRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 
@@ -64,7 +67,32 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         //创建拍照存储的临时文件
         createCameraTempFile(savedInstanceState);
         initView();
+        initData();
         setListener();
+    }
+
+    /**
+     * 获取用户信息
+     */
+    private void initData() {
+        UserInfoRequest.getUserInfo(getSelfActivity(),new MyUserInfoCallBack());
+    }
+    private class MyUserInfoCallBack extends UserInfoCallBack{
+
+        @Override
+        public void success(String msg, UserInfoBean bean) {
+            toast("获取成功");
+        }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
+        }
     }
 
     private void createCameraTempFile(Bundle savedInstanceState) {

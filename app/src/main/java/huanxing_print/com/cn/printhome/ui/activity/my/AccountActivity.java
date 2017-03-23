@@ -16,6 +16,8 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
+import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -64,7 +66,11 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initData() {
+        //获取账户信息
+
         //通过接口获取充值数据
+        ChongzhiRequest.getChongZhi(getSelfActivity(),new MyChongzhiCallBack());
+
     }
 
     private void setListener() {
@@ -120,5 +126,23 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
 
         iv_cz_wechat.setOnClickListener(this);
         iv_cz_alipay.setOnClickListener(this);
+    }
+
+    public class MyChongzhiCallBack extends ChongzhiCallBack{
+
+        @Override
+        public void success(String msg, ChongZhiBean bean) {
+            toast("获取成功");
+        }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
+        }
     }
 }
