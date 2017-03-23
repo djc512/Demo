@@ -58,6 +58,13 @@
         android:text="GetPrintList"
         android:textAllCaps="false"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onGetPrinters"
+        android:text="GetPrinters"
+        android:textAllCaps="false"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -28,7 +28,6 @@ public class FileListActivity extends BasePrintActivity {
     private static final String TAG = "FileActivity";
 
     private RecyclerView mRcList;
-    private RecyclerView.LayoutManager mLayoutManager;
     private FileRecyclerAdapter mAdapter;
 
     private List<File> fileList;
@@ -44,7 +43,7 @@ public class FileListActivity extends BasePrintActivity {
 
     private void initView() {
         mRcList = (RecyclerView) findViewById(R.id.mRecView);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRcList.setLayoutManager(mLayoutManager);
         mRcList.setHasFixedSize(true);
         mRcList.setItemAnimator(new DefaultItemAnimator());

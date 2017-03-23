@@ -133,6 +133,10 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         });
     }
 
+    public void onGetPrinters(View view) {
+        startActivity(new Intent(context,RecentPrintersActivity.class));
+    }
+
 
     private void getImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

@@ -34,6 +34,7 @@ public class PrintRequest extends BaseRequst {
     public static final String FILE_DEL = "print/file/del";
     public static final String SETTING_MODIFY = "print/file/updateToPrint";
     public static final String QUERY_PRINT_LIST = "print/file/queyList";
+    public static final String QUERY_PRINTERS = "print/printer/history";
 
     public static final String TOKEN = "33b2abe48a76468682880e86b6fa0c2f";
 
@@ -98,8 +99,14 @@ public class PrintRequest extends BaseRequst {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(PAGE_NUM, pageNum);
         params.put(PAGE_SIZE, pageSize);
-        url += "?&pageNum=1&pageSize=1";
+        url += "?pageNum=0&pageSize=10";
         Http.get(activity, url, params, headerTokenMap, callback);
-//        Http.postString(activity, url, params, headerTokenMap, callback);
     }
+
+    public static final void queryRecentPrinters(Activity activity,  final HttpListener callback) {
+        String url = BASE_URL + QUERY_PRINTERS;
+        Http.get(activity, url, null, headerTokenMap, callback);
+    }
+
+
 }
