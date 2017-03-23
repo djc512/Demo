@@ -459,6 +459,23 @@ public class CommonUtils {
 		tintManager.setStatusBarTintResource(R.color.white);
 
 	}
+	public static void initSystemBarGreen(Activity activity) {
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+			setTranslucentStatus(activity, true);
+
+		}
+
+		SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+
+		tintManager.setStatusBarTintEnabled(true);
+
+		// 使用颜色资源
+
+		tintManager.setStatusBarTintResource(R.color.green);
+
+	}
 
 	@SuppressLint("InlinedApi")
 	private static void setTranslucentStatus(Activity activity, boolean on) {

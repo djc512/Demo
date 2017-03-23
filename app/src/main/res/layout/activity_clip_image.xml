@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
     <!--圆形裁剪框示例
         app:clipBorderWidth="5dp"     ： 裁剪框边框宽度

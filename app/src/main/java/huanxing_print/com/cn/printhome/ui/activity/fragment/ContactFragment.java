@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -21,6 +22,7 @@ import huanxing_print.com.cn.printhome.ui.activity.my.NoticeActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.SettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ShareActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.UserInfoActivity;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 public class ContactFragment extends BaseFragment implements OnClickListener{
 
@@ -37,8 +39,14 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	private CircleImageView iv_head;
 	private TextView tv_phone;
 	private TextView tv_name;
+    private LinearLayout ll_my_account;
+    private LinearLayout ll_my_contact;
+    private LinearLayout ll_my_dy;
+    private LinearLayout ll_my_mx;
+    private LinearLayout ll_my_set;
+    private LinearLayout ll_my_share;
 
-	@Override
+    @Override
 	protected void init() {
 		initViews();
 		initData();
@@ -52,6 +60,8 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 
 	@Override
 	protected int getContextView() {
+		// 改变状态栏的颜色使其与APP风格一体化
+		CommonUtils.initSystemBarGreen(getActivity());
 		return R.layout.frag_usercenter;
 	}
 
@@ -98,6 +108,13 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		iv_notice = (ImageView) findViewById(R.id.iv_notice);
 		iv_my = (ImageView) findViewById(R.id.iv_my);
 		iv_set = (ImageView) findViewById(R.id.iv_set);
+
+        ll_my_account = (LinearLayout) findViewById(R.id.ll_my_account);
+        ll_my_contact = (LinearLayout) findViewById(R.id.ll_my_contact);
+        ll_my_dy = (LinearLayout) findViewById(R.id.ll_my_dy);
+        ll_my_mx = (LinearLayout) findViewById(R.id.ll_my_mx);
+        ll_my_set = (LinearLayout) findViewById(R.id.ll_my_set);
+        ll_my_share = (LinearLayout) findViewById(R.id.ll_my_share);
 	}
 	private void setListener() {
 		iv_chongzhi.setOnClickListener(this);
@@ -109,6 +126,13 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		iv_share.setOnClickListener(this);
 		iv_my.setOnClickListener(this);
 		iv_set.setOnClickListener(this);
+
+		ll_my_account.setOnClickListener(this);
+		ll_my_contact.setOnClickListener(this);
+		ll_my_dy.setOnClickListener(this);
+		ll_my_mx.setOnClickListener(this);
+		ll_my_set.setOnClickListener(this);
+		ll_my_share.setOnClickListener(this);
 	}
 
 	@Override
@@ -123,19 +147,19 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 			case R.id.iv_chongzhi:
 				startActivity(new Intent(getActivity(), AccountActivity.class));
 				break;
-			case R.id.iv_mingxi:
+			case R.id.ll_my_mx:
 				startActivity(new Intent(getActivity(), MingXiActivity.class));
 				break;
-			case R.id.iv_dayin:
+			case R.id.ll_my_dy:
 				startActivity(new Intent(getActivity(), DaYinActivity.class));
 				break;
-			case R.id.iv_contact:
+			case R.id.ll_my_contact:
 				startActivity(new Intent(getActivity(), ContactActivity.class));
 				break;
-            case R.id.iv_share:
+            case R.id.ll_my_share:
 				startActivity(new Intent(getActivity(), ShareActivity.class));
 				break;
-			case R.id.iv_set:
+			case R.id.ll_my_set:
 				startActivity(new Intent(getActivity(), SettingActivity.class));
 				break;
 

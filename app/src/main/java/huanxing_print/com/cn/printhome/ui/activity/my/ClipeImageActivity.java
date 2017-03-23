@@ -14,6 +14,7 @@ import java.io.OutputStream;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.view.imageview.ClipViewLayout;
 
 /**
@@ -34,6 +35,7 @@ public class ClipeImageActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_clip_image);
         initView();
         setListener();

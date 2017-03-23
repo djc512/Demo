@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f4f6f8"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout style="@style/Re_title">
@@ -17,6 +19,7 @@
     <include layout="@layout/view1" />
 
     <LinearLayout
+        android:id="@+id/ll_set_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -32,14 +35,13 @@
 
         <ImageView
             android:id="@+id/iv_change_pwd"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_go" />
     </LinearLayout>
 
     <include layout="@layout/view" />
 
     <LinearLayout
+        android:id="@+id/ll_set_print"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -55,14 +57,13 @@
 
         <ImageView
             android:id="@+id/iv_change_print"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_go" />
     </LinearLayout>
 
     <include layout="@layout/view" />
 
     <LinearLayout
+        android:id="@+id/ll_set_xy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -78,9 +79,7 @@
 
         <ImageView
             android:id="@+id/iv_xieyi"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_go" />
     </LinearLayout>
 
     <View
@@ -89,6 +88,7 @@
         android:background="#e5e5e5"></View>
 
     <RelativeLayout
+        android:id="@+id/rl_set_version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp">
@@ -115,10 +115,9 @@
 
         <ImageView
             android:id="@+id/iv_version"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            style="@style/arrow_go"
             android:layout_alignParentRight="true"
-            android:src="@drawable/arrow_go" />
+            />
     </RelativeLayout>
 
     <View
