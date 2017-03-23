@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:clipToPadding="true"
+    android:background="@color/all_bg_color"
     android:fitsSystemWindows="true"
     android:layout_height="match_parent">
     <RelativeLayout style="@style/Re_title">
@@ -13,11 +14,7 @@
             style="@style/title"
             android:text="系统消息" />
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e5e5e5"
-        />
+    <include layout="@layout/viewline"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
