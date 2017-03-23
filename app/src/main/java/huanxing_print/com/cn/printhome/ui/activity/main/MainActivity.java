@@ -1,12 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.main;
 
-import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.base.BaseFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.CenterFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.ContactFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.FindFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.HomeFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.NotificationManager;
@@ -15,6 +8,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+
+import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.base.BaseFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.CenterFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.ContactFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.FindFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.HomeFragment;
 
 /**
  * 主界面
@@ -57,6 +58,9 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+//        // 改变状态栏的颜色使其与APP风格一体化
+//        CommonUtils.initSystemBarGreen(getSelfActivity());
+
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
 

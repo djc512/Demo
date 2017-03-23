@@ -118,11 +118,7 @@ public class SplashActivity extends BaseActivity {
 							}
 						}).show();
 
-					}else{
-						autoLogin();
 					}
-				}else{
-					autoLogin();
 				}
 			}
 
@@ -130,13 +126,13 @@ public class SplashActivity extends BaseActivity {
 
 		@Override
 		public void fail(String msg) {
-			autoLogin();
+			ToastUtil.doToast(getSelfActivity(),"服务器连接失败，请检查网络！");
 		}
 
 		@Override
 		public void connectFail() {
 			ToastUtil.doToast(getSelfActivity(),"网络连接失败，请检查网络！");
-			autoLogin();
+			//autoLogin();
 		}
 
 	};
