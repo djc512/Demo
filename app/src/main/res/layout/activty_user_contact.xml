@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
+    android:background="@color/all_bg_color"
+    android:orientation="vertical">
     <RelativeLayout style="@style/Re_title">
 
         <include layout="@layout/ll_title_back"></include>
@@ -15,13 +16,14 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
         android:background="#e5e5e5"
-        />
+        android:layout_height="1dp"
+        android:layout_marginTop="15dip"/>
     <RelativeLayout
         android:padding="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
         <TextView
             android:textSize="18sp"
             android:text="客服电话"
@@ -38,14 +40,20 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
         android:background="#e5e5e5"
+        android:layout_height="1dp"
         />
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dip"/>
     <RelativeLayout
         android:id="@+id/rl"
         android:padding="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
         <TextView
             android:textSize="18sp"
             android:layout_centerVertical="true"
@@ -57,4 +65,9 @@
             android:layout_alignParentRight="true"
             style="@style/arrow_go" />
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="#e5e5e5"
+        android:layout_height="1dp"
+        />
 </LinearLayout>

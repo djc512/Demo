@@ -41,7 +41,7 @@
             android:id="@+id/iv_userInfo_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/appicon_print" />
+            android:src="@drawable/iv_head" />
     </LinearLayout>
 
     <View
