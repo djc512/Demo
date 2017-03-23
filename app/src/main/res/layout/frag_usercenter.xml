@@ -51,6 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="李承华"
+            android:textSize="16sp"
             />
         <TextView
             android:gravity="center_vertical"
@@ -62,7 +63,8 @@
             android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="11511111111"/>
+            android:text="11511111111"
+            android:textSize="16sp"/>
         </LinearLayout>
         <ImageView
             android:layout_centerVertical="true"
@@ -231,7 +233,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="分享有奖"/>
+            android:text="分享有礼"/>
         <ImageView
             android:id="@+id/iv_share"
             style="@style/arrow_go"/>
