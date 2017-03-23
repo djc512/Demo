@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:clipToPadding="true"
+    android:background="#f4f6f8"
     android:fitsSystemWindows="true"
     android:layout_height="match_parent">
     <RelativeLayout style="@style/Re_title">
@@ -11,15 +12,13 @@
 
         <TextView
             style="@style/title"
-            android:text="系统消息" />
+            android:text="充值记录" />
     </RelativeLayout>
-    <View
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_account_record"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e5e5e5"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="消息列表"/>
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

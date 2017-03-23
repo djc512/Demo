@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
@@ -37,6 +39,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private AccountCZAdapter adapter;
 
     private List<ChongZhiBean> list = new ArrayList<>();
+    private ChongZhiBean czBean;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -66,11 +70,9 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initData() {
-        //获取账户信息
 
         //通过接口获取充值数据
         ChongzhiRequest.getChongZhi(getSelfActivity(),new MyChongzhiCallBack());
-
     }
 
     private void setListener() {
@@ -84,7 +86,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
             public void onItemClick(View view, int position) {
                 adapter.setSeclection(position);
                 adapter.notifyDataSetChanged();
-
+//                czBean = list.get(position);
             }
         });
     }
@@ -93,6 +95,10 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_chongzhi:
+                if(ObjectUtils.isNull(czBean.getRechargeAmout())){//如果没有选择充值数
+                    ToastUtil.doToast(getSelfActivity(),"请先选择充值金额");
+                    return;
+                }
                 showCZDialog();
                 break;
             case R.id.iv_cz_wechat:
@@ -104,7 +110,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 ToastUtil.doToast(AccountActivity.this, "支付宝充值");
                 break;
             case R.id.tv_account_record://充值记录
-
+                startActivity(new Intent(getSelfActivity(),AccountRecordActivity.class));
                 break;
             case R.id.ll_back://返回
                 finish();
