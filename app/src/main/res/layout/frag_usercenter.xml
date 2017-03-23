@@ -27,6 +27,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_userInfo"
         android:background="@color/green"
         android:layout_gravity="center_vertical"
         android:padding="15dp"
