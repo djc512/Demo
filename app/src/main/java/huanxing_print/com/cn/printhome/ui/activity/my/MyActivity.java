@@ -49,10 +49,12 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
 
     private File tempFile;
     private PopupWindow popupWindow;
-    private LinearLayout my_ll_name;
-    private LinearLayout my_ll_sex;
-    private LinearLayout my_ll_city;
-    private LinearLayout my_ll_bind;
+    private LinearLayout ll_userInfo_name;
+    private LinearLayout ll_userInfo_wechat;
+//    private LinearLayout my_ll_name;
+//    private LinearLayout my_ll_sex;
+//    private LinearLayout my_ll_city;
+//    private LinearLayout my_ll_bind;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -75,9 +77,10 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
      * 获取用户信息
      */
     private void initData() {
-        UserInfoRequest.getUserInfo(getSelfActivity(),new MyUserInfoCallBack());
+        UserInfoRequest.getUserInfo(getSelfActivity(), new MyUserInfoCallBack());
     }
-    private class MyUserInfoCallBack extends UserInfoCallBack{
+
+    private class MyUserInfoCallBack extends UserInfoCallBack {
 
         @Override
         public void success(String msg, UserInfoBean bean) {
@@ -122,19 +125,16 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     private void initView() {
         iv_my_head = (ImageView) findViewById(R.id.iv_my_head);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        my_ll_name = (LinearLayout) findViewById(R.id.my_ll_name);
-        my_ll_sex = (LinearLayout) findViewById(R.id.my_ll_sex);
-        my_ll_city = (LinearLayout) findViewById(R.id.my_ll_city);
-        my_ll_bind = (LinearLayout) findViewById(R.id.my_ll_bind);
+        ll_userInfo_name = (LinearLayout) findViewById(R.id.ll_userInfo_name);
+        ll_userInfo_wechat = (LinearLayout) findViewById(R.id.ll_userInfo_wechat);
     }
 
     private void setListener() {
         iv_my_head.setOnClickListener(this);
         ll_back.setOnClickListener(this);
-        my_ll_name.setOnClickListener(this);
-        my_ll_sex.setOnClickListener(this);
-        my_ll_city.setOnClickListener(this);
-        my_ll_bind.setOnClickListener(this);
+
+        ll_userInfo_name.setOnClickListener(this);
+        ll_userInfo_wechat.setOnClickListener(this);
     }
 
     @Override
@@ -158,6 +158,12 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.ll_back:
                 finish();
+                break;
+            case R.id.ll_userInfo_name:
+                startActivity(new Intent(getSelfActivity(), MyModifyNameActivty.class));
+                break;
+            case R.id.ll_userInfo_wechat:
+
                 break;
         }
     }

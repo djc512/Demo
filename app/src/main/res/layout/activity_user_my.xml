@@ -37,97 +37,59 @@
             android:id="@+id/iv_my_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher" />
-    </LinearLayout>
-
-    <include layout="@layout/view" />
-
-    <LinearLayout
-        android:id="@+id/my_ll_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="15dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="姓名"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="张兮兮"
-            android:textSize="20sp" />
-
-        <ImageView style="@style/arrow_go" />
+            android:src="@drawable/iv_head" />
     </LinearLayout>
 
     <include layout="@layout/viewline" />
 
-    <LinearLayout
-        android:id="@+id/my_ll_sex"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="15dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="性别"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="男"
-            android:textSize="20sp" />
-
-        <ImageView style="@style/arrow_go" />
-    </LinearLayout>
-
-    <include layout="@layout/viewline" />
-
-    <LinearLayout
-        android:background="@color/white"
-        android:id="@+id/my_ll_city"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="15dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="地区"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="江苏省南京市"
-            android:textSize="20sp" />
-
-        <ImageView style="@style/arrow_go" />
-    </LinearLayout>
-
     <include layout="@layout/view" />
 
     <LinearLayout
-        android:background="@color/white"
-        android:id="@+id/my_ll_bind"
+        android:id="@+id/ll_userInfo_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="昵称"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_userInfo_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="昵称"
+            android:textColor="#999999"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/iv_userinfo_nickname"
+            style="@style/arrow_go" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#e5e5e5" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dip"
+        android:background="#e5e5e5" />
+
+    <LinearLayout
+        android:id="@+id/ll_userInfo_wechat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="15dp">
@@ -137,15 +99,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="绑定微信"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/tv_userInfo_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:text="未绑定"
-            android:textSize="20sp" />
+            android:textColor="#999999"
+            android:textSize="18sp" />
 
-        <ImageView style="@style/arrow_go" />
+        <ImageView
+            style="@style/arrow_go"
+            android:src="@drawable/arrow_go" />
     </LinearLayout>
 
     <include layout="@layout/viewline"/>

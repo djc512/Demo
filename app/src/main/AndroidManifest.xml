@@ -119,10 +119,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
 
-        <!--个人资料界面-->
-        <activity
-            android:name=".ui.activity.my.UserInfoActivity"
-            android:screenOrientation="portrait"/>
         <!--充值界面-->
         <activity
             android:name=".ui.activity.my.AccountActivity"

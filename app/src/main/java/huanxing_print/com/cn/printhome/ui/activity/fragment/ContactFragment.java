@@ -18,10 +18,10 @@ import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.DaYinActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.NoticeActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.SettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ShareActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.UserInfoActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 public class ContactFragment extends BaseFragment implements OnClickListener{
@@ -140,7 +140,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.iv_my:
-				startActivity(new Intent(getActivity(), UserInfoActivity.class));
+				startActivity(new Intent(getActivity(), MyActivity.class));
 				break;
 			case R.id.iv_notice:
 				startActivity(new Intent(getActivity(), NoticeActivity.class));
