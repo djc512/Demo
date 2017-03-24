@@ -8,7 +8,7 @@ public class HttpUrl {
 
 	public static final String login = "member/login";// 登录
 	public static final String loginWeiXin = "member/loginByWechat";// 微信登录
-	//public static final String LoginOut = "commons/logout.do";// 退出登录
+	public static final String LoginOut = "member/signOut";// 退出登录
 	public static final String register = "member/sign";// 注册
 	public static final String getVeryCode = "common/getValidCode"; // 获取短信验证码
 	public static final String resetPasswd = "member/resetPasswd"; // 重置密码
@@ -16,6 +16,9 @@ public class HttpUrl {
 	public static final String versionCheck = "common/versionCheck"; // 版本检查
 	public static final String userInfo = "member/getMemberInfo"; // 用户信息
 	public static final String feedBack = "feedback/add"; // 反馈信息
+	public static final String chongzhi = "pay/recharge/queryConfig"; // 充值接口
+	public static final String myinfo = "member/getBalance"; // 充值接口
+	public static final String czRecord = "pay/recharge/queryOrder"; // 充值记录接口
 
 	private static String postUrl;
 

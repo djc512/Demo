@@ -6,22 +6,23 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
-import huanxing_print.com.cn.printhome.model.my.UserInfoBean;
-import huanxing_print.com.cn.printhome.net.callback.my.UserInfoCallBack;
-import huanxing_print.com.cn.printhome.net.request.my.UserInfoRequest;
+import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
+import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.DaYinActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.NoticeActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.SettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ShareActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.UserInfoActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 public class ContactFragment extends BaseFragment implements OnClickListener{
@@ -35,7 +36,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	private ImageView iv_my;
 	private ImageView iv_set;
 
-	private UserInfoBean useBean;
+	private MyInfoBean useBean;
 	private CircleImageView iv_head;
 	private TextView tv_phone;
 	private TextView tv_name;
@@ -45,8 +46,9 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
     private LinearLayout ll_my_mx;
     private LinearLayout ll_my_set;
     private LinearLayout ll_my_share;
+	private RelativeLayout rl_userInfo;
 
-    @Override
+	@Override
 	protected void init() {
 		initViews();
 		initData();
@@ -67,7 +69,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 
 	private void initData() {
 		//网络请求，获取用户信息
-		UserInfoRequest.getUserInfo(getActivity(), new MyUserInfoCallBack());
+		MyInfoRequest.getMyInfo(getActivity(),new MyMyInfoCallBack());
 		//设置用户头像
 //		Glide.with(getActivity())
 //				.load(useBean.getFaceUrl())
@@ -77,11 +79,12 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 //		tv_phone.setText(useBean.getMobileNumber());
 	}
 
-	public class MyUserInfoCallBack extends UserInfoCallBack{
+	public class MyMyInfoCallBack extends MyInfoCallBack{
 		@Override
-		public void success(String msg, UserInfoBean bean) {
+		public void success(String msg, MyInfoBean bean) {
 			showToast("获取成功");
 			useBean = bean;
+
 		}
 
 		@Override
@@ -115,6 +118,8 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
         ll_my_mx = (LinearLayout) findViewById(R.id.ll_my_mx);
         ll_my_set = (LinearLayout) findViewById(R.id.ll_my_set);
         ll_my_share = (LinearLayout) findViewById(R.id.ll_my_share);
+
+		rl_userInfo = (RelativeLayout) findViewById(R.id.rl_userInfo);
 	}
 	private void setListener() {
 		iv_chongzhi.setOnClickListener(this);
@@ -133,13 +138,15 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		ll_my_mx.setOnClickListener(this);
 		ll_my_set.setOnClickListener(this);
 		ll_my_share.setOnClickListener(this);
+
+		rl_userInfo.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.iv_my:
-				startActivity(new Intent(getActivity(), UserInfoActivity.class));
+			case R.id.rl_userInfo:
+				startActivity(new Intent(getActivity(), MyActivity.class));
 				break;
 			case R.id.iv_notice:
 				startActivity(new Intent(getActivity(), NoticeActivity.class));

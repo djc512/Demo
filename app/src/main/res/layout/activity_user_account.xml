@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
+    android:background="@color/all_bg_color"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -50,15 +51,16 @@
             android:textColor="@color/white"
             android:textSize="13sp" />
     </LinearLayout>
-
+    <include layout="@layout/view1"/>
     <TextView
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#e5e5e5"
         android:padding="15dp"
         android:text="充值金额"
         android:textColor="@color/gray3"
         android:textSize="18sp" />
+    <include layout="@layout/viewline"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_account"
@@ -97,11 +99,7 @@
 
     <Button
         android:id="@+id/btn_chongzhi"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_margin="30dp"
-        android:background="@drawable/btn_login"
+        style="@style/btn_submit1"
         android:text="充值"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+         />
 </LinearLayout>

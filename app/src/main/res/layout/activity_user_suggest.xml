@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f4f6f8"
+    android:background="@color/all_bg_color"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -16,10 +16,6 @@
             android:text="意见反馈" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#e5e5e5" />
     <RelativeLayout
         android:background="@drawable/shape_feedback_bg"
         android:layout_marginTop="15dp"

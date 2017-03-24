@@ -21,6 +21,10 @@ import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
 
 public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyViewHolder> {
 
+    private Context ctx;
+    private List<ChongZhiBean> list = new ArrayList<>();
+    private int clickTemp = -1;
+
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
     }
@@ -30,11 +34,6 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
-
-    private Context ctx;
-    private List<ChongZhiBean> list = new ArrayList<>();
-    private int clickTemp = -1;
-
     //标识选择的Item
     public void setSeclection(int position) {
         clickTemp = position;
@@ -50,7 +49,6 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
         MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
                 ctx).inflate(R.layout.item_cz_money, parent,
                 false));
-
         return holder;
     }
 

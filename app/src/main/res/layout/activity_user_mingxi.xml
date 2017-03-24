@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:clipToPadding="true"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/all_bg_color"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <RelativeLayout style="@style/Re_title">
 
@@ -12,13 +13,13 @@
 
         <TextView
             style="@style/title"
-            android:text="账单明细"/>
+            android:text="账单明细" />
 
         <TextView
             style="@style/title"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="开发票"/>
+            android:text="开发票" />
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -26,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true" />
 
 
 </LinearLayout>
