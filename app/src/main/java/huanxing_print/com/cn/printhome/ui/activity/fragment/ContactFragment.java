@@ -9,6 +9,7 @@ import android.widget.TextView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
@@ -20,7 +21,6 @@ import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.NoticeActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.SettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ShareActivity;
-import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -30,8 +30,7 @@ import static huanxing_print.com.cn.printhome.R.id.iv_notice;
 public class ContactFragment extends BaseFragment implements OnClickListener{
 
 	private CircleImageView iv_head;
-	private TextView tv_phone;
-	private TextView tv_name;
+	private TextView tv_phone,tv_name,tv_account_money,tv_month_money;
     private String token;
 	@Override
 	protected void init() {
@@ -53,7 +52,8 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	}
 
 	private void initData() {
-		token = SharedPreferencesUtils.getShareString(getActivity(), "loginToken");
+		token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
+				"loginToken");
 		//网络请求，获取用户信息
 		MyInfoRequest.getMyInfo(getActivity(),token,new MyMyInfoCallBack());
 	}
@@ -61,6 +61,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	public class MyMyInfoCallBack extends MyInfoCallBack{
 		@Override
 		public void success(String msg, MyInfoBean bean) {
+			//showToast("jkdd");
 			if (!ObjectUtils.isNull(bean)) {
 				String headUrl = bean.getFaceUrl();
 				String nickName = bean.getNickName();
@@ -70,9 +71,11 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 
 				tv_name.setText(nickName);
 				tv_phone.setText(phone);
+				tv_account_money.setText("￥"+totleBalance);
+				tv_month_money.setText("本月打印消费￥"+monthConsume);
 				//设置用户头像
-		      BitmapUtils.displayImage(getActivity(), headUrl,R.drawable.iv_head, iv_head);
-		//Glide.with(getActivity()).load(headUrl).into(iv_head);
+		    //  BitmapUtils.displayImage(getActivity(), headUrl,R.drawable.iv_head, iv_head);
+		    //    Glide.with(getActivity()).load(headUrl).into(iv_head);
 			}
 
 		}
@@ -91,6 +94,8 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	private void initViews() {
 		tv_phone = (TextView)findViewById(R.id.tv_phone);
 		tv_name = (TextView)findViewById(R.id.tv_name);
+		tv_account_money = (TextView)findViewById(R.id.tv_account_money);
+		tv_month_money = (TextView)findViewById(R.id.tv_month_money);
 		iv_head = (CircleImageView) findViewById(R.id.iv_head);
 
 	}
