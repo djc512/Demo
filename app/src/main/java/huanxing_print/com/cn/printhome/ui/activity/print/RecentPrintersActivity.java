@@ -6,8 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.google.gson.Gson;
-
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -16,6 +14,7 @@ import huanxing_print.com.cn.printhome.model.print.PrinterListBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.PrinterRcAdapter;
+import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 public class RecentPrintersActivity extends BasePrintActivity {
@@ -60,7 +59,10 @@ public class RecentPrintersActivity extends BasePrintActivity {
         PrintRequest.queryRecentPrinters(activity, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                PrinterListBean printerListBean = new Gson().fromJson(content, PrinterListBean.class);
+                PrinterListBean printerListBean = GsonUtil.GsonToBean(content, PrinterListBean.class);
+                if (printerListBean == null) {
+                    return;
+                }
                 if (printerListBean.isSuccess()) {
                     printerList = printerListBean.getData();
                     initView();

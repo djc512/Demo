@@ -9,8 +9,6 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;
@@ -22,6 +20,7 @@ import huanxing_print.com.cn.printhome.model.print.PrinterPriceBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -115,10 +114,12 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         PrintRequest.queryPrintList(activity, 1, 100, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                PrintListBean printListBean = new Gson().fromJson(content, PrintListBean.class);
+                PrintListBean printListBean = GsonUtil.GsonToBean(content, PrintListBean.class);
+                if (printListBean == null) {
+                    return;
+                }
                 if (printListBean.isSuccess()) {
                     ShowUtil.showToast(printListBean.getData().size() + "");
-                    ;
                 } else {
                     ShowUtil.showToast(getString(R.string.upload_failure));
                 }
@@ -139,7 +140,10 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         PrintRequest.queryPrinterPrice(activity, "48TZ-13102-1251581193", new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                PrinterPriceBean printerPriceBean = new Gson().fromJson(content, PrinterPriceBean.class);
+                PrinterPriceBean printerPriceBean = GsonUtil.GsonToBean(content, PrinterPriceBean.class);
+                if (printerPriceBean == null) {
+                    return;
+                }
                 if (printerPriceBean.isSuccess()) {
 
                 }

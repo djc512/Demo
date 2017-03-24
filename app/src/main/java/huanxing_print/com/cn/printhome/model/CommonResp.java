@@ -1,7 +1,7 @@
 package huanxing_print.com.cn.printhome.model;
 
 /**
- * Created by Liugh on 2016/11/30.
+ * Created by LGH on 2017/3/20.
  */
 
 public class CommonResp {

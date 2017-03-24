@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
@@ -13,6 +11,7 @@ import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 
@@ -38,7 +37,10 @@ public class DocPreviewActivity extends BasePrintActivity {
         PrintRequest.addFile(activity, "1", file.getName(), url, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                AddFileSettingBean addFileSettingBean = new Gson().fromJson(content, AddFileSettingBean.class);
+                AddFileSettingBean addFileSettingBean = GsonUtil.GsonToBean(content, AddFileSettingBean.class);
+                if (addFileSettingBean == null) {
+                    return;
+                }
                 if (addFileSettingBean.isSuccess()) {
                     turnPrintSetting(addFileSettingBean.getData());
                 } else {

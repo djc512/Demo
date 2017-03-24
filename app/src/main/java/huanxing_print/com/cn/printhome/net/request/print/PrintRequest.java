@@ -41,7 +41,8 @@ public class PrintRequest extends BaseRequst {
     public static final String QUERY_PRINTERS = "print/printer/history";
     public static final String QUERY_PRINTER_PRICE = "print/printer/getDetail";
     public static final String ADD_ORDER = "order/add";
-    public static final String PRINT = "order/add";
+    public static final String PRINT = "print/doPrint";
+    public static final String QUERY_ORDER_STATUS = "order/queryStatus";
 
     public static final String TOKEN = "33b2abe48a76468682880e86b6fa0c2f";
 
@@ -78,7 +79,7 @@ public class PrintRequest extends BaseRequst {
         params.put(FILE_CONTENT, fileContent);
         params.put(FILE_NAME, fileName);
         params.put(NEED_WATER, needWater);
-        Http.postString(activity, url, params, headerMap, callback);
+        Http.postString(activity, url, params, headerMap, callback, true);
     }
 
     /**
@@ -97,7 +98,7 @@ public class PrintRequest extends BaseRequst {
         params.put(FILE_NAME, fileName);
         params.put(FILE_URL, fileUrl);
         params.put(PRINTER_NO, printerNo);
-        Http.postString(activity, url, params, headerTokenMap, callback);
+        Http.postString(activity, url, params, headerTokenMap, callback, true);
     }
 
     /**
@@ -111,7 +112,7 @@ public class PrintRequest extends BaseRequst {
         String url = BASE_URL + FILE_DEL;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(ID, id);
-        Http.postString(activity, url, params, headerTokenMap, callback);
+        Http.postString(activity, url, params, headerTokenMap, callback, true);
     }
 
     /**
@@ -136,7 +137,7 @@ public class PrintRequest extends BaseRequst {
         params.put(ID, id);
         params.put(PRINT_COUNT, printCount);
         params.put(SIZE_TYPE, sizeType);
-        Http.postString(activity, url, params, headerTokenMap, callback);
+        Http.postString(activity, url, params, headerTokenMap, callback, true);
     }
 
     /**
@@ -152,7 +153,7 @@ public class PrintRequest extends BaseRequst {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(PAGE_NUM, pageNum);
         params.put(PAGE_SIZE, pageSize);
-        Http.get(activity, url, params, headerTokenMap, callback);
+        Http.get(activity, url, params, headerTokenMap, callback, true);
     }
 
     /**
@@ -163,7 +164,7 @@ public class PrintRequest extends BaseRequst {
      */
     public static final void queryRecentPrinters(Activity activity, final HttpListener callback) {
         String url = BASE_URL + QUERY_PRINTERS;
-        Http.get(activity, url, null, headerTokenMap, callback);
+        Http.get(activity, url, null, headerTokenMap, callback, true);
     }
 
     /**
@@ -177,11 +178,11 @@ public class PrintRequest extends BaseRequst {
         String url = BASE_URL + QUERY_PRINTER_PRICE;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(PRINT_NO, printerNo);
-        Http.get(activity, url, params, headerTokenMap, callback);
+        Http.get(activity, url, params, headerTokenMap, callback, true);
     }
 
     /**
-     * 下单成功
+     * 添加订单
      *
      * @param activity
      * @param printNo
@@ -193,13 +194,27 @@ public class PrintRequest extends BaseRequst {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(PRINTER_NO, printNo);
         params.put(FILE_LIST, fileList);
-        Http.postString(activity, url, params, headerTokenMap, callback);
+        Http.postString(activity, url, params, headerTokenMap, callback, true);
     }
 
-    public static final void print(Activity activity, int orderId, final HttpListener callback) {
+    /**
+     * 打印
+     *
+     * @param activity
+     * @param orderId
+     * @param callback
+     */
+    public static final void print(Activity activity, long orderId, final HttpListener callback) {
         String url = BASE_URL + PRINT;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(ORDER_ID, orderId);
-        Http.postString(activity, url, params, headerTokenMap, callback);
+        Http.postString(activity, url, params, headerTokenMap, callback, true);
+    }
+
+    public static final void queryOrderStatus(Activity activity, long orderId, final HttpListener callback) {
+        String url = BASE_URL + QUERY_ORDER_STATUS;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(ORDER_ID, orderId);
+        Http.get(activity, url, params, headerTokenMap, callback, false);
     }
 }

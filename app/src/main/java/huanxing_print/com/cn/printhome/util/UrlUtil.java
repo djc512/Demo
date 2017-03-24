@@ -15,7 +15,7 @@ public class UrlUtil {
             StringBuffer sb = null;
             while (it.hasNext()) {
                 String key = it.next();
-                String value = (String) params.get(key);
+                String value =  params.get(key).toString();
                 if (sb == null) {
                     sb = new StringBuffer();
                     sb.append("?");
