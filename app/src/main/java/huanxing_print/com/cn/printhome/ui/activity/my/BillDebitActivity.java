@@ -41,7 +41,6 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
         WindowManager wm = (WindowManager) this
                 .getSystemService(Context.WINDOW_SERVICE);
         width = wm.getDefaultDisplay().getWidth()/2;
-
         initView();
         initData();
         setListener();
@@ -67,6 +66,7 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
     private void setListener() {
         tv_bill_normal.setOnClickListener(this);
         tv_bill_value.setOnClickListener(this);
+        ll_back.setOnClickListener(this);
 
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -121,6 +121,9 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
                 position = 1;
                 viewAnimation(position);
                 vp.setCurrentItem(1);
+                break;
+            case R.id.ll_back:
+                finish();
                 break;
         }
     }

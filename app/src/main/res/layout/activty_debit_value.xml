@@ -38,7 +38,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:hint="填写公司名称" />
+                    android:hint="填写公司名称"
+                    android:id="@+id/et_debit_value_name" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -51,7 +52,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:hint="填写纳税人识别码" />
+                    android:hint="填写纳税人识别码"
+                    android:id="@+id/et_debit_value_shui" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -64,7 +66,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:hint="填写收票单位注册地址" />
+                    android:hint="填写收票单位注册地址"
+                    android:id="@+id/et_debit_value_address" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -77,7 +80,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:hint="填写公司电话号码" />
+                    android:hint="填写公司电话号码"
+                    android:id="@+id/et_debit_value_phone" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -90,7 +94,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:hint="填写收票单位开户银行" />
+                    android:hint="填写收票单位开户银行"
+                    android:id="@+id/et_debit_value_blank" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -103,7 +108,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:hint="填写收票单位银行账户" />
+                    android:hint="填写收票单位银行账户"
+                    android:id="@+id/et_debit_value_blanknum" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -136,7 +142,8 @@
                     android:layout_marginLeft="25dp"
                     android:text="188"
                     android:textColor="#FF9000"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:id="@+id/tv_debit_value_money" />
 
                 <TextView
                     android:paddingLeft="5dp"
@@ -170,7 +177,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:hint="选择地区信息" />
+                    android:hint="选择地区信息"
+                    android:id="@+id/et_debit_value_location" />
             </LinearLayout>
 
 
@@ -184,7 +192,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:hint="填写联系方式" />
+                    android:hint="填写联系方式"
+                    android:id="@+id/et_debit_value_num" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -196,6 +205,7 @@
                     android:text="所在地区" />
 
                 <EditText
+                    android:id="@+id/et_debit_value_location1"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -222,6 +232,7 @@
                     android:text="详细地址" />
 
                 <EditText
+                    android:id="@+id/et_debit_value_dlocation"
                     style="@style/et_debit"
                     android:hint="填写详细地址" />
             </LinearLayout>
@@ -254,9 +265,10 @@
                     android:text="微信支付"
                     />
                 <ImageView
+                    android:id="@+id/iv_value_wechat"
                     android:layout_marginLeft="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/uncheck_2x"/>
             </LinearLayout>
 
@@ -279,13 +291,15 @@
                     android:text="支付宝支付"
                     />
                 <ImageView
+                    android:id="@+id/iv_value_alipay"
                     android:layout_marginLeft="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/check_2x"/>
             </LinearLayout>
 
             <Button
+                android:id="@+id/btn_value_submit"
                 android:text="提交"
                 android:layout_marginBottom="10dp"
                 style="@style/btn_submit1"/>
