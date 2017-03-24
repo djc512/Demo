@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/all_bg_color"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:text="发票详情"
+                android:textColor="#999999"
+                android:textSize="14sp" />
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="公司名称" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="填写公司名称" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="纳税人识别码" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="填写纳税人识别码" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="公司地址" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="填写收票单位注册地址" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="公司电话" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="填写公司电话号码" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="开户银行" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="填写收票单位开户银行" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="银行账户" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="填写收票单位银行账户" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="发票内容" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:text="打印费"
+                    android:textColor="#333333"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="发票金额" />
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:layout_marginLeft="25dp"
+                    android:text="188"
+                    android:textColor="#FF9000"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:paddingLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="元"
+                    android:textColor="#333333"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:text="收件信息"
+                android:textColor="#999999"
+                android:textSize="14sp"
+                android:id="@+id/textView" />
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="公司地址" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="选择地区信息" />
+            </LinearLayout>
+
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="联系电话" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="填写联系方式" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="所在地区" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="填写收票单位注册地址" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout style="@style/ll_debit">
+
+                <TextView
+                    style="@style/tv_debit"
+                    android:text="详细地址" />
+
+                <EditText
+                    style="@style/et_debit"
+                    android:text="填写详细地址" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="20dp"
+                android:text="开票金额不足200元，需支付邮费"
+                android:textColor="#999999"
+                android:textSize="14sp" />
+            <include layout="@layout/viewline"/>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                style="@style/ll_debit"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wechat_2x"/>
+                <TextView
+                    android:paddingLeft="17dp"
+                    android:textColor="#333333"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="微信支付"
+                    />
+                <ImageView
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/uncheck_2x"/>
+            </LinearLayout>
+
+            <include layout="@layout/viewline"/>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                style="@style/ll_debit"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/alipay_2x"/>
+                <TextView
+                    android:paddingLeft="17dp"
+                    android:textColor="#333333"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="支付宝支付"
+                    />
+                <ImageView
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/check_2x"/>
+            </LinearLayout>
+
+            <Button
+                android:text="提交"
+                android:layout_marginBottom="10dp"
+                style="@style/btn_submit1"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
