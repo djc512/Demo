@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+    <RelativeLayout
+        android:id="@+id/rl_bill_item"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="17sp"
+            android:textColor="#333333"
+            android:id="@+id/tv_bill_czway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="充值-微信支付"/>
+        <TextView
+            android:id="@+id/tv_bill_time"
+            android:layout_marginTop="10dp"
+            android:textSize="13sp"
+            android:textColor="#999999"
+            android:layout_below="@+id/tv_bill_czway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3月15日&#160;16:00"/>
+
+        <TextView
+            android:id="@+id/tv_bill_money"
+            android:text="+10.00"
+            android:textSize="17sp"
+            android:textColor="#333333"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <include
+        layout="@layout/viewline"/>
+</LinearLayout>

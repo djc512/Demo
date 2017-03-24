@@ -118,12 +118,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             case R.id.tv_login:
                 String name = login_phone.getText().toString().trim();
                 password = login_pass.getText().toString().trim();
-			jumpActivity(MainActivity.class);
-			finishCurrentActivity();
-                if (isUserNameAndPwdVali(name, password)) {
-                    DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
-                    LoginRequset.login(getSelfActivity(), name, password, loginCallback);
-                }
+//                if (isUserNameAndPwdVali(name, password)) {
+//                    DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
+//                    LoginRequset.login(getSelfActivity(), name, password, loginCallback);
+//                }
+                jumpActivity(MainActivity.class);
                 break;
             case R.id.login_register://跳转注册界面
                 jumpActivity(RegisterActivity.class);
@@ -365,8 +364,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             getAccessToken();
-            Intent intent1 = new Intent(getSelfActivity(), MainActivity.class);
-            startActivity(intent1);
+//            Intent intent1 = new Intent(getSelfActivity(), MainActivity.class);
+//            startActivity(intent1);
         }
     }
 
