@@ -11,6 +11,7 @@ import com.zhy.http.okhttp.request.RequestCall;
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.util.UrlUtil;
 import huanxing_print.com.cn.printhome.util.time.TimeUtils;
 import huanxing_print.com.cn.printhome.view.dialog.WaitDialog;
 import okhttp3.Call;
@@ -74,22 +75,11 @@ public class Http {
     }
 
     public static final void get(final Activity activity, final String url, Map<String, Object> params, Map<String,
-            String>
-            headerMap, final HttpListener callback) {
-//        StringBuilder tempParams = new StringBuilder();
-//            //处理参数
-//            int pos = 0;
-//            for (String key : params.keySet()) {
-//                if (pos > 0) {
-//                    tempParams.append("&");
-//                }
-//                tempParams.append(String.format("%s=%s", key, URLEncoder.encode(params.get(key), "utf-8")));
-//                pos++;
-//            }
-//            String requestUrl = String.format("%s/%s?%s", BASE_URL, actionUrl, tempParams.toString());
-                TimeUtils.beginTime();
+            String> headerMap, final HttpListener callback) {
+        TimeUtils.beginTime();
+        final String getUrl = UrlUtil.getUrl(url, params);
         final RequestCall requestCall = OkHttpUtils.get()
-                .url(url)
+                .url(getUrl)
                 .headers(headerMap)
                 .tag(activity)
                 .build();
@@ -115,14 +105,14 @@ public class Http {
             @Override
             public void onResponse(String result, int arg1) {
                 TimeUtils.endTime();
-                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                Logger.d("http-result:" + getUrl + "----" + result + "----" + TimeUtils.subTime() + " ms");
                 callback.onSucceed(result);
             }
 
             @Override
             public void onError(Call call, Exception exception, int arg2) {
                 TimeUtils.endTime();
-                Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                Logger.e("http-exception:" + getUrl + "----" + exception + "----" + TimeUtils.subTime() + " ms");
                 String message = exception.getMessage();
                 if ("Socket closed".equalsIgnoreCase(message)) {
 

@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
+import huanxing_print.com.cn.printhome.model.print.PrinterPriceBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.FileUtils;
@@ -33,7 +33,6 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private Button qqBtn;
     private Button wechatBtn;
     private Button pcBtn;
-    private Context context;
     private static final int REQUEST_CODE = 1;
 
     private static final int REQUEST_IMG = 1;
@@ -43,7 +42,6 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_file);
-        context = AddFileActivity.this;
         initView();
     }
 
@@ -134,7 +132,24 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     }
 
     public void onGetPrinters(View view) {
-        startActivity(new Intent(context,RecentPrintersActivity.class));
+        startActivity(new Intent(context, RecentPrintersActivity.class));
+    }
+
+    public void onGetPrinterPrice(View view) {
+        PrintRequest.queryPrinterPrice(activity, "48TZ-13102-1251581193", new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                PrinterPriceBean printerPriceBean = new Gson().fromJson(content, PrinterPriceBean.class);
+                if (printerPriceBean.isSuccess()) {
+
+                }
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
     }
 
 

@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <Button
@@ -16,4 +18,16 @@
         android:layout_height="wrap_content"
         android:onClick="onModify"
         android:text="modify"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onAddOrder"
+        android:text="AddOrder"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onPrint"
+        android:text="Print"/>
 </LinearLayout>

@@ -1,9 +1,12 @@
 package huanxing_print.com.cn.printhome.ui.activity.print;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,11 +31,14 @@ import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.UriUtil;
 
-public class ImgPreviewActivity extends BasePrintActivity implements View.OnClickListener {
+public class ImgPreviewActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView imageView;
     private Uri imgUri;
     private File file;
+
+    private Context context;
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,8 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void initData() {
+        context = this;
+        activity = this;
         imgUri = (Uri) getIntent().getExtras().get(AddFileActivity.KEY_IMG_URI);
     }
 

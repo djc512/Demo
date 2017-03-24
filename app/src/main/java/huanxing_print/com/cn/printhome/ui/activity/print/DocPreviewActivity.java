@@ -14,7 +14,6 @@ import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 
 public class DocPreviewActivity extends BasePrintActivity {
@@ -43,7 +42,7 @@ public class DocPreviewActivity extends BasePrintActivity {
                 if (addFileSettingBean.isSuccess()) {
                     turnPrintSetting(addFileSettingBean.getData());
                 } else {
-                    ToastUtil.doToast(context, getString(R.string.upload_failure));
+                    ShowUtil.showToast(getString(R.string.upload_failure));
                 }
             }
 
