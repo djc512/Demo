@@ -15,10 +15,10 @@ import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 public class MyInfoRequest extends BaseRequst {
 
-    public static void getMyInfo(Context ctx, final MyInfoCallBack callBack) {
+    public static void getMyInfo(Context ctx,String logintoken, final MyInfoCallBack callBack) {
         String myInfoUrl = HTTP_URL + HttpUrl.myinfo;
 
-        HttpUtils.get(ctx, myInfoUrl, "33b2abe48a76468682880e86b6fa0c2f", new HttpCallBack() {
+        HttpUtils.get(ctx, myInfoUrl,logintoken , new HttpCallBack() {
             @Override
             public void success(String content) {
                 MyInfoResolve resolve = new MyInfoResolve(content);

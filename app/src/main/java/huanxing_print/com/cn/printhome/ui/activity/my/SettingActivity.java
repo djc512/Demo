@@ -87,13 +87,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
             case R.id.ll_set_pwd://跳转到修改密码
-                startActivity(new Intent(getSelfActivity(), ForgetPasswodActivity.class));
+                jumpActivity(ForgetPasswodActivity.class);
                 break;
             case R.id.ll_set_print://跳转设置打印机
-
+                jumpActivity(SetDefaultPrinterActivity.class);
                 break;
             case R.id.ll_set_xy://打印协议
                 startActivity(new Intent(getSelfActivity(), XieYiActivity.class));

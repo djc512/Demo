@@ -80,7 +80,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
                 break;
 
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
             case R.id.tv_forget_VeryCode://获取验证码
 
