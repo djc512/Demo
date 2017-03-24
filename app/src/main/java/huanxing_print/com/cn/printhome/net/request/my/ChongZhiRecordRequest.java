@@ -14,11 +14,11 @@ import huanxing_print.com.cn.printhome.util.HttpUtils;
  */
 
 public class ChongZhiRecordRequest extends BaseRequst {
-    public static void getCzRecord(Context ctx,String pageNum,String pageSize,final ChongZhiRecordCallBack callBack) {
+    public static void getCzRecord(Context ctx,int pageNum,final ChongZhiRecordCallBack callBack) {
 
-        String czRecordUrl = HTTP_URL + HttpUrl.czRecord+"?"+"pageNum="+pageNum+"&"+"pageSize="+pageSize;
+        String czRecordUrl = HTTP_URL + HttpUrl.czRecord;
 
-        HttpUtils.get(ctx, czRecordUrl, "33b2abe48a76468682880e86b6fa0c2f", new HttpCallBack() {
+        HttpUtils.getParam(ctx, czRecordUrl, "33b2abe48a76468682880e86b6fa0c2f",pageNum, new HttpCallBack() {
 
             @Override
             public void success(String content) {

@@ -22,8 +22,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
 
     private LinearLayout ll_back;
     private RecyclerView rv_account_record;
-    private String pageSize;
-    private String pageNum;
+    private int pageNum;
     private AccountRecordAdapter adapter;
 
     @Override
@@ -42,7 +41,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
     }
     private void initData() {
         //获取充值记录
-        ChongZhiRecordRequest.getCzRecord(getSelfActivity(),"1","2",new MyChongzhiRecordCallBack());
+        ChongZhiRecordRequest.getCzRecord(getSelfActivity(),1,new MyChongzhiRecordCallBack());
 
         rv_account_record.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AccountRecordAdapter(getSelfActivity(),null);
