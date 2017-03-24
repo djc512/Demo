@@ -38,7 +38,7 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:text="填写公司名称或者个人" />
+                    android:hint="填写公司名称或者个人" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -105,7 +105,7 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:text="选择地区信息" />
+                    android:hint="选择地区信息" />
             </LinearLayout>
 
 
@@ -119,7 +119,7 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:text="填写联系方式" />
+                    android:hint="填写联系方式" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -139,7 +139,7 @@
                     android:textColor="#999999"
                     android:textSize="17sp"
                     android:paddingLeft="5dp"
-                    android:text="选择地区信息" />
+                    android:hint="选择地区信息" />
 
                 <ImageView
                     android:paddingLeft="10dp"
@@ -159,7 +159,7 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:text="填写详细地址" />
+                    android:hint="填写详细地址" />
             </LinearLayout>
 
             <TextView
