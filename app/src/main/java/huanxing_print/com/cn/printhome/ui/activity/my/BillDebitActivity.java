@@ -19,6 +19,6 @@ public class BillDebitActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activty_debit_normal);
+        setContentView(R.layout.activty_debit_value);
     }
 }

@@ -34,76 +34,11 @@
 
                 <TextView
                     style="@style/tv_debit"
-                    android:text="公司名称" />
+                    android:text="发票抬头" />
 
                 <EditText
                     style="@style/et_debit"
-                    android:text="填写公司名称" />
-            </LinearLayout>
-
-            <include layout="@layout/viewline" />
-
-            <LinearLayout style="@style/ll_debit">
-
-                <TextView
-                    style="@style/tv_debit"
-                    android:text="纳税人识别码" />
-
-                <EditText
-                    style="@style/et_debit"
-                    android:text="填写纳税人识别码" />
-            </LinearLayout>
-
-            <include layout="@layout/viewline" />
-
-            <LinearLayout style="@style/ll_debit">
-
-                <TextView
-                    style="@style/tv_debit"
-                    android:text="公司地址" />
-
-                <EditText
-                    style="@style/et_debit"
-                    android:text="填写收票单位注册地址" />
-            </LinearLayout>
-
-            <include layout="@layout/viewline" />
-
-            <LinearLayout style="@style/ll_debit">
-
-                <TextView
-                    style="@style/tv_debit"
-                    android:text="公司电话" />
-
-                <EditText
-                    style="@style/et_debit"
-                    android:text="填写公司电话号码" />
-            </LinearLayout>
-
-            <include layout="@layout/viewline" />
-
-            <LinearLayout style="@style/ll_debit">
-
-                <TextView
-                    style="@style/tv_debit"
-                    android:text="开户银行" />
-
-                <EditText
-                    style="@style/et_debit"
-                    android:text="填写收票单位开户银行" />
-            </LinearLayout>
-
-            <include layout="@layout/viewline" />
-
-            <LinearLayout style="@style/ll_debit">
-
-                <TextView
-                    style="@style/tv_debit"
-                    android:text="银行账户" />
-
-                <EditText
-                    style="@style/et_debit"
-                    android:text="填写收票单位银行账户" />
+                    android:text="填写公司名称或者个人" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -196,8 +131,22 @@
                     android:text="所在地区" />
 
                 <EditText
-                    style="@style/et_debit"
-                    android:text="填写收票单位注册地址" />
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_marginLeft="25dp"
+                    android:textColor="#999999"
+                    android:textSize="17sp"
+                    android:paddingLeft="5dp"
+                    android:text="选择地区信息" />
+
+                <ImageView
+                    android:paddingLeft="10dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/arrow_go"/>
+
             </LinearLayout>
 
             <include layout="@layout/viewline" />
