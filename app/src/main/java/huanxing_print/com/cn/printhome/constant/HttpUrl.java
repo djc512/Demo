@@ -17,7 +17,7 @@ public class HttpUrl {
 	public static final String userInfo = "member/getMemberInfo"; // 用户信息
 	public static final String feedBack = "feedback/add"; // 反馈信息
 	public static final String chongzhi = "pay/recharge/queryConfig"; // 充值接口
-	public static final String myinfo = "member/getBalance"; // 充值接口
+	public static final String myinfo = "member/getBalance"; //余额查询
 	public static final String czRecord = "pay/recharge/queryOrder"; // 充值记录接口
 
 	private static String postUrl;

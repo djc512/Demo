@@ -68,11 +68,11 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 				String totleBalance = bean.getTotleBalance();
 				String monthConsume = bean.getMonthConsume();
 
+				tv_name.setText(nickName);
+				tv_phone.setText(phone);
 				//设置用户头像
 		      BitmapUtils.displayImage(getActivity(), headUrl,R.drawable.iv_head, iv_head);
 		//Glide.with(getActivity()).load(headUrl).into(iv_head);
-		      tv_name.setText(nickName);
-		      tv_phone.setText(phone);
 			}
 
 		}

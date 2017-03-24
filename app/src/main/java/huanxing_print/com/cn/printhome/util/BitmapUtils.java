@@ -1,27 +1,21 @@
 package huanxing_print.com.cn.printhome.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Hashtable;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import huanxing_print.com.cn.printhome.constant.HttpUrl;
-import huanxing_print.com.cn.printhome.util.time.TimeUtils;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import huanxing_print.com.cn.printhome.util.time.TimeUtils;
 
 public class BitmapUtils {
 
@@ -82,48 +76,6 @@ public class BitmapUtils {
 		Glide.with(context).load(file).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(view);
 	}
 
-	public static Bitmap createQRCode(String str, int widthAndHeight, Bitmap logoBm) throws WriterException {
-		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
-		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-		BitMatrix matrix = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, widthAndHeight, widthAndHeight);
-		int width = matrix.getWidth();
-		int height = matrix.getHeight();
-		int[] pixels = new int[width * height];
-
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				if (matrix.get(x, y)) {
-					pixels[y * width + x] = BLACK;
-				}
-			}
-		}
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-		if (logoBm != null) {
-			bitmap = addLogo(bitmap, logoBm);
-		}
-		return bitmap;
-	}
-
-	public static Bitmap createQRCode(String str, int widthAndHeight) throws WriterException {
-		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();
-		hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
-		BitMatrix matrix = new MultiFormatWriter().encode(str, BarcodeFormat.QR_CODE, widthAndHeight, widthAndHeight);
-		int width = matrix.getWidth();
-		int height = matrix.getHeight();
-		int[] pixels = new int[width * height];
-
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				if (matrix.get(x, y)) {
-					pixels[y * width + x] = BLACK;
-				}
-			}
-		}
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-		return bitmap;
-	}
 
 	/**
 	 * 在二维码中间添加Logo图案
