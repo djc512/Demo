@@ -25,8 +25,7 @@ import okhttp3.Request;
 public class Http {
 
     public static void postString(final Activity activity, final String url, Map<String, Object> params, Map<String,
-            String>
-            headerMap, final HttpListener callback) {
+            String> headerMap, final HttpListener callback, final boolean showDialog) {
         String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
         Logger.d("http-request:" + url + "----" + paramsStr);
         TimeUtils.beginTime();
@@ -40,18 +39,22 @@ public class Http {
             @Override
             public void onAfter(int id) {
                 super.onAfter(id);
-                WaitDialog.dismissDialog();
+                if (showDialog) {
+                    WaitDialog.dismissDialog();
+                }
             }
 
             @Override
             public void onBefore(Request request, int id) {
                 super.onBefore(request, id);
-                WaitDialog.showDialog(activity, requestCall, new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        requestCall.cancel();
-                    }
-                });
+                if (showDialog) {
+                    WaitDialog.showDialog(activity, requestCall, new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            requestCall.cancel();
+                        }
+                    });
+                }
             }
 
             @Override
@@ -75,7 +78,7 @@ public class Http {
     }
 
     public static final void get(final Activity activity, final String url, Map<String, Object> params, Map<String,
-            String> headerMap, final HttpListener callback) {
+            String> headerMap, final HttpListener callback, final boolean showDilog) {
         TimeUtils.beginTime();
         final String getUrl = UrlUtil.getUrl(url, params);
         final RequestCall requestCall = OkHttpUtils.get()
@@ -88,18 +91,22 @@ public class Http {
             @Override
             public void onAfter(int id) {
                 super.onAfter(id);
-                WaitDialog.dismissDialog();
+                if (showDilog) {
+                    WaitDialog.dismissDialog();
+                }
             }
 
             @Override
             public void onBefore(Request request, int id) {
                 super.onBefore(request, id);
-                WaitDialog.showDialog(activity, requestCall, new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        requestCall.cancel();
-                    }
-                });
+                if (showDilog) {
+                    WaitDialog.showDialog(activity, requestCall, new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            requestCall.cancel();
+                        }
+                    });
+                }
             }
 
             @Override
@@ -119,7 +126,6 @@ public class Http {
                 } else {
                     callback.onFailed(exception.getMessage());
                 }
-
             }
         });
     }

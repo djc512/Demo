@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
@@ -12,18 +11,31 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.print.OrderStatusBean;
+import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
+import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
-public class PrintStatusActivity extends AppCompatActivity {
+
+public class PrintStatusActivity extends BasePrintActivity {
 
 
     private TextView stausTv;
+    private long orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_status);
+        initData();
         initView();
-        timer.schedule(task, 1000 * 3, 1000 * 2); //启动timer
+        timer.schedule(task, 1000 * 3, 1000 * 2);
+    }
+
+    private void initData() {
+        orderId = getIntent().getLongExtra(DocPrintActivity.ORDER_ID, -1);
     }
 
     static class MyHandler extends Handler {
@@ -57,18 +69,40 @@ public class PrintStatusActivity extends AppCompatActivity {
     Timer timer = new Timer();
     TimerTask task = new TimerTask() {
         public void run() {
-            Message message = new Message();
-            message.what = 1;
-            handler.sendMessage(message);
+            PrintRequest.queryOrderStatus(activity, orderId, new HttpListener() {
+                @Override
+                public void onSucceed(String content) {
+                    OrderStatusBean orderStatusBean = GsonUtil.GsonToBean(content, OrderStatusBean.class);
+                    if (orderStatusBean == null) {
+                        return;
+                    }
+                    if (orderStatusBean.isSuccess()) {
+
+                    } else {
+                        ToastUtil.doToast(context, orderStatusBean.getErrorMsg());
+                        stopTimerTask();
+                    }
+                }
+
+                @Override
+                public void onFailed(String exception) {
+                    ShowUtil.showToast(getString(R.string.net_error));
+                    stopTimerTask();
+                }
+            });
         }
     };
 
-    @Override
-    protected void onDestroy() {
-        if (timer != null) {// 停止timer
+    private void stopTimerTask() {
+        if (timer != null) {
             timer.cancel();
             timer = null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopTimerTask();
         super.onDestroy();
     }
 

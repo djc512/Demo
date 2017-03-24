@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 
 import java.io.File;
 
@@ -27,6 +26,7 @@ import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.AlertUtil;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.UriUtil;
@@ -98,7 +98,10 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
                 .getName(), "1", new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                UploadImgBean uploadImgBean = new Gson().fromJson(content, UploadImgBean.class);
+                UploadImgBean uploadImgBean = GsonUtil.GsonToBean(content, UploadImgBean.class);
+                if (uploadImgBean == null) {
+                    return;
+                }
                 if (uploadImgBean.isSuccess()) {
                     String url = uploadImgBean.getData().getImgUrl();
                     addFile(url);
@@ -118,7 +121,10 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
         PrintRequest.addFile(activity, "1", file.getName(), fileUrl, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                AddFileSettingBean addFileSettingBean = new Gson().fromJson(content, AddFileSettingBean.class);
+                AddFileSettingBean addFileSettingBean = GsonUtil.GsonToBean(content, AddFileSettingBean.class);
+                if (addFileSettingBean == null) {
+                    return;
+                }
                 if (addFileSettingBean.isSuccess()) {
                     turnPrintSetting(addFileSettingBean.getData());
                 } else {

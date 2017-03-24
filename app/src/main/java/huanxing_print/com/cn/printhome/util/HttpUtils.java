@@ -96,7 +96,7 @@ public class HttpUtils {
 		OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
 		.addHeader("loginToken",loginToken)
 		.addHeader("platform", ConFig.PHONE_TYPE)
-		.addParams("pageIdx", pageNo+"")
+		.addParams("pageNum", pageNo+"")
 		.addParams("pageSize", "10")
 		.tag(obj).build().execute(new StringCallback() {
 

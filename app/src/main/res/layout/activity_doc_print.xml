@@ -30,4 +30,10 @@
         android:layout_height="wrap_content"
         android:onClick="onPrint"
         android:text="Print"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onQueryStatus"
+        android:text="QueryStatus"/>
 </LinearLayout>

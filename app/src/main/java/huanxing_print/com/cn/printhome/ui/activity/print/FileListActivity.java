@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import com.google.gson.Gson;
-
 import java.io.File;
 import java.util.List;
 
@@ -22,6 +20,7 @@ import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 public class FileListActivity extends BasePrintActivity {
@@ -62,28 +61,6 @@ public class FileListActivity extends BasePrintActivity {
                             e.printStackTrace();
                         }
                         upload(fileList.get(position));
-//                        startActivity(new Intent(context, DocPreviewActivity.class));
-//                        String typeStr = null;
-//                        switch (type) {
-//                            case FileType.TYPE_DOC:
-//                                typeStr = "application/msword";
-//                                break;
-//                            case FileType.TYPE_DOCX:
-//                                typeStr = "application/msword";
-//                                break;
-//                            case FileType.TYPE_PDF:
-//                                typeStr = "application/pdf";
-//                                break;
-//                            case FileType.TYPE_PPT:
-//                                typeStr = "application/vnd.ms-powerpoint";
-//                                break;
-//                            case FileType.TYPE_PPTX:
-//                                typeStr = "application/vnd.ms-powerpoint";
-//                                break;
-//                        }
-//                        if (typeStr != null) {
-//                            turnActivity(typeStr, file.getPath());
-//                        }
                     }
                 });
     }
@@ -93,7 +70,10 @@ public class FileListActivity extends BasePrintActivity {
                 .getName(), "1", new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                UploadImgBean uploadImgBean = new Gson().fromJson(content, UploadImgBean.class);
+                UploadImgBean uploadImgBean = GsonUtil.GsonToBean(content, UploadImgBean.class);
+                if (uploadImgBean == null) {
+                    return;
+                }
                 if (uploadImgBean.isSuccess()) {
                     String url = uploadImgBean.getData().getImgUrl();
                     turnPreView(url, file);
