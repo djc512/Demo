@@ -119,7 +119,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
         ll_my_set = (LinearLayout) findViewById(R.id.ll_my_set);
         ll_my_share = (LinearLayout) findViewById(R.id.ll_my_share);
 
-		rl_userInfo = (RelativeLayout) findViewById(R.id.rl_userInfo);
+		rl_userInfo = (RelativeLayout) findViewById(R.id.rl_userMsg);
 	}
 	private void setListener() {
 		iv_chongzhi.setOnClickListener(this);
@@ -145,7 +145,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.rl_userInfo:
+			case R.id.rl_userMsg:
 				startActivity(new Intent(getActivity(), MyActivity.class));
 				break;
 			case R.id.iv_notice:

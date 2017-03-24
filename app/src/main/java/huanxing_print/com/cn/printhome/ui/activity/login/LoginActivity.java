@@ -365,8 +365,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             getAccessToken();
-            Intent intent1 = new Intent(getSelfActivity(), MainActivity.class);
-            startActivity(intent1);
+//            Intent intent1 = new Intent(getSelfActivity(), MainActivity.class);
+//            startActivity(intent1);
         }
     }
 
