@@ -118,8 +118,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             case R.id.tv_login:
                 String name = login_phone.getText().toString().trim();
                 password = login_pass.getText().toString().trim();
-			jumpActivity(MainActivity.class);
-			finishCurrentActivity();
                 if (isUserNameAndPwdVali(name, password)) {
                     DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
                     LoginRequset.login(getSelfActivity(), name, password, loginCallback);
