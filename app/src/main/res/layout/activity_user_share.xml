@@ -11,7 +11,7 @@
 
         <TextView
             style="@style/title"
-            android:text="印家打印协议" />
+            android:text="分享有礼" />
     </RelativeLayout>
     <include layout="@layout/viewline"/>
     <RelativeLayout

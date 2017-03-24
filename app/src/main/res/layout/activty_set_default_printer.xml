@@ -12,61 +12,8 @@
 
         <TextView
             style="@style/title"
-            android:text="联系我们" />
+            android:text="设置默认打印机" />
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:background="#e5e5e5"
-        android:layout_height="1dp"
-        android:layout_marginTop="15dip"/>
-    <RelativeLayout
-        android:padding="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textSize="18sp"
-            android:text="客服电话"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:textSize="18sp"
-            android:id="@+id/tv_contact_phone"
-            android:layout_alignParentRight="true"
-            android:text="400-888-000"
-            android:textColor="#1aa919"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:background="#e5e5e5"
-        android:layout_height="1dp"
-        />
-    <View
-        android:layout_width="match_parent"
-        android:background="#e5e5e5"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dip"/>
-    <RelativeLayout
-        android:id="@+id/rl"
-        android:padding="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
-        <TextView
-            android:textSize="18sp"
-            android:layout_centerVertical="true"
-            android:text="投诉建议"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/iv_suggest"
-            android:layout_alignParentRight="true"
-            style="@style/arrow_go" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:background="#e5e5e5"
-        android:layout_height="1dp"
-        />
+
+
 </LinearLayout>

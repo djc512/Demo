@@ -1,21 +1,18 @@
 package huanxing_print.com.cn.printhome.model.my;
 
 public class PrinterInfoBean {
+
 	private String addTime;
-	private String email;
-	private String faceUrl;
     private int id;
 	private String memberId;// 会员id
-	private String memberType;// 会员类型：0-普通会员，1-正式店，2-品牌商城，3-供应商
-	private String mobileNumber;
-	private String name;
-	private String nickName;
-	private String referrerMid;//上级id
-    private String registerSource;
-	private String sex;//0是女,1是男,2是保密
-	private String status;// 会员状态，0-有效，1-已注销
-	private String updateTime;
-	private String wechatId;// 微信id
+	private String pageCount;// 打印页数
+	private String printerAddress;//打印机地址
+	private int printerDef;//默认打印机0否 1是
+	private String printerNo;//打印机id
+	private String remark;//打印机名称
+    private String remarkCount;//评论数量
+	private boolean status;//状态 true-可用 false-不可用
+	private String updateTime;//
 
 	public String getAddTime() {
 		return addTime;
@@ -23,22 +20,6 @@ public class PrinterInfoBean {
 
 	public void setAddTime(String addTime) {
 		this.addTime = addTime;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getFaceUrl() {
-		return faceUrl;
-	}
-
-	public void setFaceUrl(String faceUrl) {
-		this.faceUrl = faceUrl;
 	}
 
 	public int getId() {
@@ -57,67 +38,59 @@ public class PrinterInfoBean {
 		this.memberId = memberId;
 	}
 
-	public String getMemberType() {
-		return memberType;
+	public String getPageCount() {
+		return pageCount;
 	}
 
-	public void setMemberType(String memberType) {
-		this.memberType = memberType;
+	public void setPageCount(String pageCount) {
+		this.pageCount = pageCount;
 	}
 
-	public String getMobileNumber() {
-		return mobileNumber;
+	public String getPrinterAddress() {
+		return printerAddress;
 	}
 
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
+	public void setPrinterAddress(String printerAddress) {
+		this.printerAddress = printerAddress;
 	}
 
-	public String getName() {
-		return name;
+	public int getPrinterDef() {
+		return printerDef;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPrinterDef(int printerDef) {
+		this.printerDef = printerDef;
 	}
 
-	public String getNickName() {
-		return nickName;
+	public String getPrinterNo() {
+		return printerNo;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setPrinterNo(String printerNo) {
+		this.printerNo = printerNo;
 	}
 
-	public String getReferrerMid() {
-		return referrerMid;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setReferrerMid(String referrerMid) {
-		this.referrerMid = referrerMid;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
-	public String getRegisterSource() {
-		return registerSource;
+	public String getRemarkCount() {
+		return remarkCount;
 	}
 
-	public void setRegisterSource(String registerSource) {
-		this.registerSource = registerSource;
+	public void setRemarkCount(String remarkCount) {
+		this.remarkCount = remarkCount;
 	}
 
-	public String getSex() {
-		return sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-
-	public String getStatus() {
+	public boolean isStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
@@ -129,32 +102,20 @@ public class PrinterInfoBean {
 		this.updateTime = updateTime;
 	}
 
-	public String getWechatId() {
-		return wechatId;
-	}
-
-	public void setWechatId(String wechatId) {
-		this.wechatId = wechatId;
-	}
-
 	@Override
 	public String toString() {
-		return "LoginBeanItem{" +
+		return "PrinterInfoBean{" +
 				"addTime='" + addTime + '\'' +
-				", email='" + email + '\'' +
-				", faceUrl='" + faceUrl + '\'' +
 				", id=" + id +
 				", memberId='" + memberId + '\'' +
-				", memberType='" + memberType + '\'' +
-				", mobileNumber='" + mobileNumber + '\'' +
-				", name='" + name + '\'' +
-				", nickName='" + nickName + '\'' +
-				", referrerMid='" + referrerMid + '\'' +
-				", registerSource='" + registerSource + '\'' +
-				", sex='" + sex + '\'' +
-				", status='" + status + '\'' +
+				", pageCount='" + pageCount + '\'' +
+				", printerAddress='" + printerAddress + '\'' +
+				", printerDef=" + printerDef +
+				", printerNo='" + printerNo + '\'' +
+				", remark='" + remark + '\'' +
+				", remarkCount='" + remarkCount + '\'' +
+				", status=" + status +
 				", updateTime='" + updateTime + '\'' +
-				", wechatId='" + wechatId + '\'' +
 				'}';
 	}
 }
