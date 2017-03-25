@@ -2,9 +2,13 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
@@ -34,16 +38,25 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
     private String token;
 	@Override
 	protected void init() {
+		EventBus.getDefault().register(this);
+
 		initViews();
 		initData();
 		setListener();
 	}
-
+	private Bitmap bitMap;
 	@Override
 	public void onResume() {
 		super.onResume();
+		if(bitMap != null){
+			iv_head.setImageBitmap(bitMap);
+		}
 	}
-
+	@Subscriber(tag = "head")
+	private void getHead(Bitmap bitMap){
+		// 这里实现你的逻辑即可
+		this.bitMap = bitMap;
+	}
 	@Override
 	protected int getContextView() {
 		// 改变状态栏的颜色使其与APP风格一体化
@@ -141,5 +154,11 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
 	}
 }

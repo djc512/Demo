@@ -21,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import org.simple.eventbus.EventBus;
+
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
@@ -29,6 +31,7 @@ import huanxing_print.com.cn.printhome.model.my.UserInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.UserInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.UserInfoRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 
 /**
@@ -51,7 +54,10 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     private PopupWindow popupWindow;
     private LinearLayout ll_userInfo_name;
     private LinearLayout ll_userInfo_wechat;
-//    private LinearLayout my_ll_name;
+    private String faceUrl;
+    private String wechatId;
+    private TextView tv_userInfo_wechat;
+    //    private LinearLayout my_ll_name;
 //    private LinearLayout my_ll_sex;
 //    private LinearLayout my_ll_city;
 //    private LinearLayout my_ll_bind;
@@ -66,6 +72,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_user_my);
+        EventBus.getDefault().register(this);
         //创建拍照存储的临时文件
         createCameraTempFile(savedInstanceState);
         initView();
@@ -77,13 +84,27 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
      * 获取用户信息
      */
     private void initData() {
+
         UserInfoRequest.getUserInfo(getSelfActivity(), new MyUserInfoCallBack());
+
+        if(!ObjectUtils.isNull(faceUrl)){
+//            Glide.with(getSelfActivity()).load(faceUrl).into(iv_my_head);
+        }
+
+        if (ObjectUtils.isNull(wechatId)) {
+            tv_userInfo_wechat.setText("未绑定");
+        }else {
+            tv_userInfo_wechat.setText("已绑定");
+        }
     }
 
     private class MyUserInfoCallBack extends UserInfoCallBack {
 
         @Override
         public void success(String msg, UserInfoBean bean) {
+            faceUrl = bean.getFaceUrl();
+            wechatId = bean.getWechatId();
+
             toast("获取成功");
         }
 
@@ -127,6 +148,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         ll_userInfo_name = (LinearLayout) findViewById(R.id.ll_userInfo_name);
         ll_userInfo_wechat = (LinearLayout) findViewById(R.id.ll_userInfo_wechat);
+
+        tv_userInfo_wechat = (TextView) findViewById(R.id.tv_userInfo_wechat);
     }
 
     private void setListener() {
@@ -237,7 +260,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                     Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
                     iv_my_head.setImageBitmap(bitMap);
                     //将用户头像上传到后台
-
+                    EventBus.getDefault().post(bitMap,"head");
                 }
                 break;
         }
@@ -292,5 +315,6 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
