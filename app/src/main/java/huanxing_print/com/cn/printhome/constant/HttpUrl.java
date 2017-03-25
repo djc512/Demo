@@ -15,6 +15,7 @@ public class HttpUrl {
 	public static final String fileUpload = "common/fileUpload"; // 文件上传
 	public static final String versionCheck = "common/versionCheck"; // 版本检查
 	public static final String userInfo = "member/getMemberInfo"; // 用户信息
+	public static final String updateInfo = "member/updateMember"; // 修改用户信息
 	public static final String feedBack = "feedback/add"; // 反馈信息
 	public static final String chongzhi = "pay/recharge/queryConfig"; // 充值接口
 	public static final String myinfo = "member/getBalance"; //余额查询

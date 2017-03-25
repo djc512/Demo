@@ -27,8 +27,11 @@ import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.my.UpdateInfoBean;
 import huanxing_print.com.cn.printhome.model.my.UserInfoBean;
+import huanxing_print.com.cn.printhome.net.callback.my.UpdateInfoCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.UserInfoCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.UpdateIfoRequest;
 import huanxing_print.com.cn.printhome.net.request.my.UserInfoRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
@@ -259,10 +262,33 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                     String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
                     Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
                     iv_my_head.setImageBitmap(bitMap);
-                    //将用户头像上传到后台
+
                     EventBus.getDefault().post(bitMap,"head");
+                    //将用户头像上传到后台
+                    UpdateIfoRequest.updateInfo(getSelfActivity(),cropImagePath,
+                            null,null,null,null,null,
+                            new MyUpdateInfoCallBack()
+                            );
                 }
                 break;
+        }
+    }
+
+    private class MyUpdateInfoCallBack extends UpdateInfoCallBack{
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
+        }
+
+        @Override
+        public void success(String msg, UpdateInfoBean bean) {
+
         }
     }
 
