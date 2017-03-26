@@ -107,9 +107,13 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_normal_wechat:
+                iv_normal_wechat.setImageResource(R.drawable.check_2x);
+                iv_normal_alipay.setImageResource(R.drawable.uncheck_2x);
                 type = 0;
                 break;
             case R.id.iv_normal_alipay:
+                iv_normal_alipay.setImageResource(R.drawable.check_2x);
+                iv_normal_wechat.setImageResource(R.drawable.uncheck_2x);
                 type = 1;
                 break;
             case R.id.btn_normal_submit:

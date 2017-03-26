@@ -51,7 +51,6 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
 
     private void setListener() {
         tv_contact_phone.setOnClickListener(this);
-        iv_suggest.setOnClickListener(this);
         ll_back.setOnClickListener(this);
         rl.setOnClickListener(this);
     }

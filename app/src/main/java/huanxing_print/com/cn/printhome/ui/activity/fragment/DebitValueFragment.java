@@ -144,9 +144,13 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_value_alipay:
+                iv_value_alipay.setBackgroundResource(R.drawable.check_2x);
+                iv_value_wechat.setBackgroundResource(R.drawable.uncheck_2x);
                 type = 2;
                 break;
             case R.id.iv_value_wechat:
+                iv_value_wechat.setBackgroundResource(R.drawable.check_2x);
+                iv_value_alipay.setBackgroundResource(R.drawable.uncheck_2x);
                 type = 1;
                 break;
             case R.id.btn_value_submit:
