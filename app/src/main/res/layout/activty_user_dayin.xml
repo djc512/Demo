@@ -16,11 +16,16 @@
             android:text="打印订单" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_dingdan"
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrf_dingdan"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_dingdan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+    </com.andview.refreshview.XRefreshView>
 
 </LinearLayout>

@@ -6,13 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
+
 import huanxing_print.com.cn.printhome.R;
 
 /**
  * Created by DjC512 on 2017-3-26.
  */
 
-public class DingDanListAdapter extends RecyclerView.Adapter<DingDanListAdapter.MyHolder> {
+public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.MyHolder> {
 
     private Context ctx;
 
@@ -21,22 +23,25 @@ public class DingDanListAdapter extends RecyclerView.Adapter<DingDanListAdapter.
     }
 
     @Override
-    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyHolder holder = new MyHolder(LayoutInflater.from(ctx).inflate(R.layout.activity_dy_item, null));
+    public MyHolder getViewHolder(View view) {
+        return new MyHolder(view);
+    }
 
+    @Override
+    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
+        MyHolder holder = new MyHolder(LayoutInflater.from(ctx).inflate(R.layout.activity_dy_item, null));
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position) {
+    public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
 
     }
 
     @Override
-    public int getItemCount() {
+    public int getAdapterItemCount() {
         return 3;
     }
-
 
     public class MyHolder extends RecyclerView.ViewHolder {
 

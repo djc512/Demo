@@ -55,4 +55,5 @@ dependencies {
     compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
 
     compile 'org.simple:androideventbus:1.0.5.1'//eventbus
+    compile 'com.huxq17.xrefreshview:xrefreshview:3.5.5'//刷新功能的容器可以填充RecycleView
 }
