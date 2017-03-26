@@ -1,12 +1,14 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.ui.adapter.DingDanListAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
@@ -28,6 +30,13 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener{
         CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activty_user_dayin);
         initView();
+        initData();
+    }
+
+    private void initData() {
+        DingDanListAdapter adapter = new DingDanListAdapter(this);
+        rv_dingdan.setLayoutManager(new LinearLayoutManager(this));
+        rv_dingdan.setAdapter(adapter);
     }
 
     private void initView() {
