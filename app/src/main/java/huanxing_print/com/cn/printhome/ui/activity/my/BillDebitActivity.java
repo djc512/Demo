@@ -19,6 +19,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.DebitNormalFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.DebitValueFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
  * Created by Administrator on 2017/3/24 0024.
@@ -37,6 +38,7 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_debit);
         WindowManager wm = (WindowManager) this
                 .getSystemService(Context.WINDOW_SERVICE);

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:clipToPadding="true"
+    android:layout_height="match_parent"
     android:background="#f4f6f8"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
+
     <RelativeLayout style="@style/Re_title">
 
         <include layout="@layout/ll_title_back"></include>
@@ -14,11 +15,18 @@
             style="@style/title"
             android:text="充值记录" />
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_account_record"
+
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrf_czrecord"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_account_record"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </com.andview.refreshview.XRefreshView>
 
 </LinearLayout>

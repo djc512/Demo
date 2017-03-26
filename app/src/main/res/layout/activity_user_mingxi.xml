@@ -22,13 +22,17 @@
             android:layout_centerVertical="true"
             android:text="开发票" />
     </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_bill_detail"
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xrf_zdmx"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_bill_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+        </android.support.v7.widget.RecyclerView>
+    </com.andview.refreshview.XRefreshView>
 
 </LinearLayout>

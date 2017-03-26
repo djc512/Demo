@@ -6,6 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.andview.refreshview.XRefreshView;
+import com.andview.refreshview.XRefreshViewFooter;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
@@ -24,6 +27,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
     private RecyclerView rv_account_record;
     private int pageNum;
     private AccountRecordAdapter adapter;
+    private XRefreshView xrf_czrecord;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -46,9 +50,19 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         rv_account_record.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AccountRecordAdapter(getSelfActivity(),null);
         rv_account_record.setAdapter(adapter);
+
+        xrf_czrecord.setPinnedTime(1000);
+        xrf_czrecord.setMoveForHorizontal(true);
+        xrf_czrecord.setPullLoadEnable(true);
+        xrf_czrecord.setAutoLoadMore(false);
+        adapter.setCustomLoadMoreView(new XRefreshViewFooter(this));
+        xrf_czrecord.enableReleaseToLoadMore(true);
+        xrf_czrecord.enableRecyclerViewPullUp(true);
+        xrf_czrecord.enablePullUpWhenLoadCompleted(true);
     }
 
     private void initView() {
+        xrf_czrecord = (XRefreshView) findViewById(R.id.xrf_czrecord);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         rv_account_record = (RecyclerView) findViewById(R.id.rv_account_record);
     }

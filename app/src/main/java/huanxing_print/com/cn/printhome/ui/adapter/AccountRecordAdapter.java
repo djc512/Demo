@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
+
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -18,17 +20,10 @@ import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
  * Created by Administrator on 2017/3/23 0023.
  */
 
-public class AccountRecordAdapter extends RecyclerView.Adapter<AccountRecordAdapter.MyViewHolder>{
-
+public class AccountRecordAdapter extends BaseRecyclerAdapter<AccountRecordAdapter.MyViewHolder> {
     private Context ctx;
 //    private List<ChongZhiRecordBean.DataBean> list = new ArrayList<>();
     private ChongZhiRecordBean.DataBean dataBean;
-
-    public AccountRecordAdapter(Context ctx, List<ChongZhiRecordBean.DataBean> list) {
-        this.ctx = ctx;
-//        this.list = list;
-    }
-
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
     }
@@ -39,17 +34,26 @@ public class AccountRecordAdapter extends RecyclerView.Adapter<AccountRecordAdap
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
+    public AccountRecordAdapter(Context ctx, List<ChongZhiRecordBean.DataBean> list) {
+        this.ctx = ctx;
+//        this.list = list;
+    }
+
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder getViewHolder(View view) {
+        return new MyViewHolder(view);
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
         MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
                 ctx).inflate(R.layout.item_account_record, parent,
                 false));
-
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position, boolean isItem) {
 //        List<ChongZhiRecordBean.DataBean.ListBean> listBean = dataBean.getList();
 //        ChongZhiRecordBean.DataBean.ListBean listBean1 = listBean.get(position);
 //        holder.tv_time.setText(listBean.get(position).getDate());
@@ -68,10 +72,43 @@ public class AccountRecordAdapter extends RecyclerView.Adapter<AccountRecordAdap
     }
 
     @Override
-    public int getItemCount() {
-        return 3;
+    public int getAdapterItemCount() {
+        return 5;
     }
-
+//
+//    @Override
+//    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
+//                ctx).inflate(R.layout.item_account_record, parent,
+//                false));
+//
+//        return holder;
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+////        List<ChongZhiRecordBean.DataBean.ListBean> listBean = dataBean.getList();
+////        ChongZhiRecordBean.DataBean.ListBean listBean1 = listBean.get(position);
+////        holder.tv_time.setText(listBean.get(position).getDate());
+////        List<ChongZhiRecordBean.DataBean.ListBean.DetailBean> details = listBean1.getDetail();
+//
+//        holder.rv_item_record.setLayoutManager(new LinearLayoutManager(ctx));
+//        holder.rv_item_record.setAdapter(new AccountRecordItemAdapter(ctx,null));
+//        holder.ll_account_record.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mOnItemClickLitener != null){
+//                    mOnItemClickLitener.onItemClick(holder.ll_account_record,position);
+//                }
+//            }
+//        });
+//    }
+//
+//    @Override
+//    public int getItemCount() {
+//        return 3;
+//    }
+//
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_time;

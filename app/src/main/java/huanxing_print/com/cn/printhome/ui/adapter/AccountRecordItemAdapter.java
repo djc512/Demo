@@ -17,7 +17,7 @@ import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
  * Created by Administrator on 2017/3/23 0023.
  */
 
-public class AccountRecordItemAdapter extends RecyclerView.Adapter<AccountRecordItemAdapter.MyViewHolder>{
+public class AccountRecordItemAdapter extends RecyclerView.Adapter<AccountRecordItemAdapter.MyViewHolder> {
     private Context ctx;
     private List<ChongZhiRecordBean.DataBean.ListBean.DetailBean> list = new ArrayList<>();
 
@@ -28,19 +28,25 @@ public class AccountRecordItemAdapter extends RecyclerView.Adapter<AccountRecord
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(ctx).inflate(R.layout.activity_account_record_item,parent,
+        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(ctx).inflate(R.layout.activity_account_record_item, parent,
                 false));
         return holder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
+//        holder.tv_record_time.setText();//设置充值时间
+//        int type;
+//        if (type == 0) {//微信充值
+//            holder.tv_record_czway.setText("充值—微信支付");
+//        } else {//支付宝充值
+//            holder.tv_record_czway.setText("充值-支付宝支付");
+//        }
+//        holder.tv_record_money.setText("+"+"");
     }
 
     @Override
     public int getItemCount() {
-
         return 2;
     }
 

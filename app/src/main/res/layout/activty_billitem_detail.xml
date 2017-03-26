@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:text="交易类型:充值"/>
         <TextView
+            android:id="@+id/tv_billdetail_type"
             android:padding="10dp"
             android:textSize="14sp"
             android:textColor="#333333"
@@ -59,6 +60,7 @@
             android:layout_height="wrap_content"
             android:text="交易方式:微信支付"/>
         <TextView
+            android:id="@+id/tv_billdetail_num"
             android:padding="10dp"
             android:textSize="14sp"
             android:textColor="#333333"
@@ -66,6 +68,7 @@
             android:layout_height="wrap_content"
             android:text="交易号:2011112025332"/>
         <TextView
+            android:id="@+id/tv_billdetail_time"
             android:padding="10dp"
             android:textSize="14sp"
             android:textColor="#333333"
