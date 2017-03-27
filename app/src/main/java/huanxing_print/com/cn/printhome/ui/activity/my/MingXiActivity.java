@@ -12,11 +12,13 @@ import android.widget.TextView;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.my.MingxiDetailBean;
+import huanxing_print.com.cn.printhome.net.callback.my.MingXiDetailCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.MingXiDetailRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.MyBillAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
@@ -30,7 +32,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
     private RecyclerView rv_bill_detail;
     private TextView tv_bill_debit;
     private XRefreshView xrf_zdmx;
-
+    private List<MingxiDetailBean.DataBean.ListBean> list;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -46,12 +48,11 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
         setListener();
     }
 
-    private List<String> list = new ArrayList<>();
-
     private void initData() {
         //获取账单明细
+        MingXiDetailRequest.getMxDetail(getSelfActivity(),1,new MyCallBack());
 
-        adapter = new MyBillAdapter(getSelfActivity());
+        adapter = new MyBillAdapter(getSelfActivity(),list);
         rv_bill_detail.setLayoutManager(new LinearLayoutManager(this));
         rv_bill_detail.setAdapter(adapter);
 
@@ -89,4 +90,25 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
+
+    public class MyCallBack extends MingXiDetailCallBack{
+
+        @Override
+        public void success(String msg, MingxiDetailBean bean) {
+            MingxiDetailBean.DataBean data = bean.getData();
+            list = data.getList();//获取数据列表
+
+        }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
+        }
+    }
+
 }
