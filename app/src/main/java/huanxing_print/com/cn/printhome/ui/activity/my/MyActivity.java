@@ -82,11 +82,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = getIntent();
         headImg = intent.getStringExtra("headUrl");
         wechatId = intent.getStringExtra("wechatId");
-
-        if(ObjectUtils.isNull(headImg)){
-            BitmapUtils.displayImage(getSelfActivity(), headImg, R.drawable.iv_head, iv_user_head);
-        }
-
+        BitmapUtils.displayImage(getSelfActivity(), headImg, R.drawable.iv_head, iv_user_head);
         if (ObjectUtils.isNull(wechatId)) {
             tv_userInfo_wechat.setText("未绑定");
         } else {

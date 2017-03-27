@@ -29,6 +29,7 @@ import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 import static huanxing_print.com.cn.printhome.R.id.iv_notice;
 
@@ -42,6 +43,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener {
     private String phone;
     private String totleBalance;
     private String monthConsume;
+    private String wechatId;
 
     @Override
     protected void init() {
@@ -88,17 +90,17 @@ public class ContactFragment extends BaseFragment implements OnClickListener {
     private void initData() {
         token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
+        DialogUtils.showProgressDialog(getActivity(),"加载中");
         //网络请求，获取用户信息
         MyInfoRequest.getMyInfo(getActivity(), token, new MyMyInfoCallBack());
     }
 
     public class MyMyInfoCallBack extends MyInfoCallBack {
 
-        private String wechatId;
-
         @Override
         public void success(String msg, MyInfoBean bean) {
-            //showToast("jkdd");
+            DialogUtils.closeProgressDialog();
+
             if (!ObjectUtils.isNull(bean)) {
                 headUrl = bean.getFaceUrl();
                 nickName = bean.getNickName();

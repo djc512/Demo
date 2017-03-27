@@ -51,7 +51,6 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="李承华"
             android:textSize="16sp"
             />
         <TextView
@@ -64,7 +63,6 @@
             android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="11511111111"
             android:textSize="16sp"/>
         </LinearLayout>
         <ImageView
@@ -105,7 +103,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="￥88"/>
+            />
         <TextView
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
