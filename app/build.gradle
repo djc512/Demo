@@ -55,4 +55,5 @@ dependencies {
 
     compile 'org.simple:androideventbus:1.0.5.1'//eventbus
     compile 'com.huxq17.xrefreshview:xrefreshview:3.5.5'//刷新功能的容器可以填充RecycleView
+    compile 'com.dreamlive.cn.clog:ClogLibrary:0.0.1'//将日志写入到内存中
 }

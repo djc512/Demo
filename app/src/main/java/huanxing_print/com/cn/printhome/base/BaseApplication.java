@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.base;
 
 import android.app.Application;
 
+import com.dreamlive.cn.clog.CollectLog;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -232,6 +233,8 @@ public class BaseApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
+		CollectLog clog = CollectLog.getInstance();
+		clog.init(this);
 		api = WXAPIFactory.createWXAPI(this, WX_APPID, true);
 		api.registerApp(WX_APPID);
 		initJPush();

@@ -109,11 +109,11 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
 
         @Override
         public void success(String msg, ChongZhiRecordBean bean) {
-            ChongZhiRecordBean.DataBean data = bean.getData();
-            //返回的条目列表个数
-            countX = data.getCountX();
-            //数据的列表
-            dataList = data.getList();
+//            ChongZhiRecordBean.DataBean data = bean.getData();
+//            //返回的条目列表个数
+//            countX = data.getCountX();
+//            //数据的列表
+//            dataList = data.getList();
 
             toast("请求成功");
         }
