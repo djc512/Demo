@@ -22,6 +22,7 @@ public class HttpUrl {
 	public static final String czRecord = "pay/recharge/queryOrder"; // 充值记录接口
 	public static final String normalDebit = "pay/bill/addCommonBill"; // 普通发票接口
 	public static final String valueDebit = "pay/bill/addVATBill"; // 增值发票接口
+	public static final String mxDetail = "/pay/queryConsume"; // 账单明细接口
 
 	private static String postUrl;
 

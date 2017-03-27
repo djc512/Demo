@@ -7,10 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.my.MingxiDetailBean;
 import huanxing_print.com.cn.printhome.ui.activity.my.BillDetailActivity;
 
 /**
@@ -20,8 +25,10 @@ import huanxing_print.com.cn.printhome.ui.activity.my.BillDetailActivity;
 public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
 
     private Context ctx;
-    public MyBillAdapter(Context ctx) {
+    private  List<MingxiDetailBean.DataBean.ListBean> list = new ArrayList<>();
+    public MyBillAdapter(Context ctx, List<MingxiDetailBean.DataBean.ListBean> list) {
         this.ctx =ctx;
+        this.list = list;
     }
 
     @Override
@@ -39,7 +46,16 @@ public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
-        MyBillItemAdapter adapter = new MyBillItemAdapter(ctx);
+
+        MingxiDetailBean.DataBean.ListBean listBean = list.get(position);
+        String date = listBean.getDate();
+        String monthAount = listBean.getMonthAount();
+        List<MingxiDetailBean.DataBean.ListBean.DetailBean> detail = listBean.getDetail();
+
+        holder.tv_bill_time.setText(date);
+        holder.tv_bill_consume.setText("累计消费"+monthAount+"元");
+
+        MyBillItemAdapter adapter = new MyBillItemAdapter(ctx,detail);
         holder.rv_item_bill.setLayoutManager(new LinearLayoutManager(ctx));
         holder.rv_item_bill.setAdapter(adapter);
 
@@ -59,10 +75,14 @@ public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
     public class MyHolder extends RecyclerView.ViewHolder{
 
         RecyclerView rv_item_bill;
+        private final TextView tv_bill_time;
+        private final TextView tv_bill_consume;
 
         public MyHolder(View view) {
             super(view);
             rv_item_bill = (RecyclerView) view.findViewById(R.id.rv_item_bill);
+            tv_bill_time = (TextView) view.findViewById(R.id.tv_bill_time);
+            tv_bill_consume = (TextView) view.findViewById(R.id.tv_bill_consume);
         }
     }
 }
