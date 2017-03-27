@@ -10,7 +10,11 @@ import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.my.DaYinListBean;
 
 /**
  * Created by DjC512 on 2017-3-26.
@@ -19,9 +23,11 @@ import huanxing_print.com.cn.printhome.R;
 public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.MyHolder> {
 
     private Context ctx;
+    private List<DaYinListBean.DataBean.ListBean> list = new ArrayList<>();
 
-    public DingDanListAdapter(Context ctx) {
-        this.ctx =ctx;
+    public DingDanListAdapter(Context ctx, List<DaYinListBean.DataBean.ListBean> list) {
+        this.ctx = ctx;
+        this.list = list;
     }
 
     @Override
@@ -35,18 +41,53 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
         return holder;
     }
 
+    private String statusStr;
+
     @Override
     public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
+//        DaYinListBean.DataBean.ListBean listBean = list.get(position);
+//        int status = listBean.getStatus();
+//        List<DaYinListBean.DataBean.ListBean.FileInfosBean> fileInfos = listBean.getFileInfos();
+//
+//        initStatus(status);
+//
+//        holder.tv_dylist_state.setText(statusStr);
 
-        DingDanItemListAdapter adapter = new DingDanItemListAdapter(ctx);
+        DingDanItemListAdapter adapter = new DingDanItemListAdapter(ctx,null);
 
         holder.rv_dy_list.setLayoutManager(new LinearLayoutManager(ctx));
         holder.rv_dy_list.setAdapter(adapter);
     }
 
+    private void initStatus(int status) {
+        switch (status) {
+            case 0:
+                statusStr = "未交费";
+                break;
+            case 1:
+                statusStr = "已交费";
+                break;
+            case 2:
+                statusStr = "打印失败";
+                break;
+            case 3:
+                statusStr = "退款中";
+                break;
+            case 4:
+                statusStr = "已经退款完毕";
+                break;
+            case 5:
+                statusStr = "打印成功";
+                break;
+
+        }
+
+    }
+
     @Override
     public int getAdapterItemCount() {
         return 3;
+//        return list.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {

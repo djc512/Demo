@@ -9,8 +9,13 @@ import android.widget.LinearLayout;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.my.DaYinListBean;
+import huanxing_print.com.cn.printhome.net.callback.my.DaYinListCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.DaYinListRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.DingDanListAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
@@ -23,6 +28,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
     private RecyclerView rv_dingdan;
     private XRefreshView xrf_dingdan;
     private DingDanListAdapter adapter;
+    private List<DaYinListBean.DataBean.ListBean> list;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -58,7 +64,11 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initData() {
-        adapter = new DingDanListAdapter(this);
+        //获取数据
+        DaYinListRequest.getDaYinList(getSelfActivity(),1,new MyCallBack());
+
+
+        adapter = new DingDanListAdapter(this,null);
         rv_dingdan.setLayoutManager(new LinearLayoutManager(this));
         rv_dingdan.setAdapter(adapter);
 
@@ -90,6 +100,25 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             case R.id.ll_back:
                 finish();
                 break;
+        }
+    }
+
+    public class MyCallBack extends DaYinListCallBack{
+
+        @Override
+        public void success(String msg, DaYinListBean bean) {
+            DaYinListBean.DataBean data = bean.getData();
+            list = data.getList();
+        }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
         }
     }
 }

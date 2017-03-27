@@ -25,6 +25,7 @@ public class HttpUrl {
 	public static final String mxDetail = "/pay/queryConsume"; // 账单明细接口
 	public static final String payOrderId = "pay/recharge/addOrder"; // 获取充值订单号接口
 	public static final String doPay = "pay/doAlipay"; // 跳转支付宝的接口
+	public static final String dyList = "order/getPrintHistory"; //打印订单列表接口
 
 	private static String postUrl;
 
