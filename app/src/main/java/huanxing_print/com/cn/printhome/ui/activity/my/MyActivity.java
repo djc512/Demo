@@ -21,18 +21,15 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 
 import org.simple.eventbus.EventBus;
 
 import java.io.File;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.model.my.UpdateInfoBean;
-import huanxing_print.com.cn.printhome.model.my.UserInfoBean;
-import huanxing_print.com.cn.printhome.net.callback.my.UpdateInfoCallBack;
-import huanxing_print.com.cn.printhome.net.callback.my.UserInfoCallBack;
-import huanxing_print.com.cn.printhome.net.request.my.UpdateIfoRequest;
-import huanxing_print.com.cn.printhome.net.request.my.UserInfoRequest;
+import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
@@ -50,20 +47,17 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     //请求截图
     private static final int REQUEST_CROP_PHOTO = 102;
 
-    private ImageView iv_my_head;
+    private ImageView iv_user_head;
     private LinearLayout ll_back;
 
     private File tempFile;
     private PopupWindow popupWindow;
     private LinearLayout ll_userInfo_name;
     private LinearLayout ll_userInfo_wechat;
-    private String faceUrl;
     private String wechatId;
     private TextView tv_userInfo_wechat;
-    //    private LinearLayout my_ll_name;
-//    private LinearLayout my_ll_sex;
-//    private LinearLayout my_ll_city;
-//    private LinearLayout my_ll_bind;
+    private String cropImagePath;
+    private String headImg;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -87,38 +81,20 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
      * 获取用户信息
      */
     private void initData() {
+        Intent intent = getIntent();
+        headImg = intent.getStringExtra("headUrl");
+        wechatId = intent.getStringExtra("wechatId");
+        Glide.with(getSelfActivity()).load(headImg)
+                .placeholder(R.drawable.iv_head)
+                .into(iv_user_head);
 
-        UserInfoRequest.getUserInfo(getSelfActivity(), new MyUserInfoCallBack());
-
-        if(!ObjectUtils.isNull(faceUrl)){
-//            Glide.with(getSelfActivity()).load(faceUrl).into(iv_my_head);
-        }
-
+//        if(ObjectUtils.isNull(headImg)){
+            BitmapUtils.displayImage(getSelfActivity(), headImg, R.drawable.iv_head, iv_user_head);
+//        }
         if (ObjectUtils.isNull(wechatId)) {
             tv_userInfo_wechat.setText("未绑定");
-        }else {
+        } else {
             tv_userInfo_wechat.setText("已绑定");
-        }
-    }
-
-    private class MyUserInfoCallBack extends UserInfoCallBack {
-
-        @Override
-        public void success(String msg, UserInfoBean bean) {
-            faceUrl = bean.getFaceUrl();
-            wechatId = bean.getWechatId();
-
-            toast("获取成功");
-        }
-
-        @Override
-        public void fail(String msg) {
-
-        }
-
-        @Override
-        public void connectFail() {
-
         }
     }
 
@@ -147,7 +123,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
-        iv_my_head = (ImageView) findViewById(R.id.iv_my_head);
+
+        iv_user_head = (ImageView) findViewById(R.id.iv_user_head);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         ll_userInfo_name = (LinearLayout) findViewById(R.id.ll_userInfo_name);
         ll_userInfo_wechat = (LinearLayout) findViewById(R.id.ll_userInfo_wechat);
@@ -156,7 +133,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void setListener() {
-        iv_my_head.setOnClickListener(this);
+        iv_user_head.setOnClickListener(this);
         ll_back.setOnClickListener(this);
 
         ll_userInfo_name.setOnClickListener(this);
@@ -166,7 +143,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_my_head:
+            case R.id.iv_user_head:
                 showSelectImage();
                 break;
             case R.id.btn_camera:
@@ -186,7 +163,9 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.ll_userInfo_name:
-                startActivity(new Intent(getSelfActivity(), MyModifyNameActivty.class));
+                Intent intent = new Intent(getSelfActivity(), MyModifyNameActivty.class);
+                intent.putExtra("cropImagePath", cropImagePath);
+                startActivity(intent);
                 break;
             case R.id.ll_userInfo_wechat:
 
@@ -259,36 +238,14 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                     if (uri == null) {
                         return;
                     }
-                    String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
-                    Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
-                    iv_my_head.setImageBitmap(bitMap);
+                    cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
 
-                    EventBus.getDefault().post(bitMap,"head");
-                    //将用户头像上传到后台
-                    UpdateIfoRequest.updateInfo(getSelfActivity(),cropImagePath,
-                            null,null,null,null,null,
-                            new MyUpdateInfoCallBack()
-                            );
+                    BitmapUtils.displayImage(this, cropImagePath, R.drawable.iv_head, iv_user_head);
+
+                    Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+                    EventBus.getDefault().post(bitMap, "head");
                 }
                 break;
-        }
-    }
-
-    private class MyUpdateInfoCallBack extends UpdateInfoCallBack{
-
-        @Override
-        public void fail(String msg) {
-
-        }
-
-        @Override
-        public void connectFail() {
-
-        }
-
-        @Override
-        public void success(String msg, UpdateInfoBean bean) {
-
         }
     }
 

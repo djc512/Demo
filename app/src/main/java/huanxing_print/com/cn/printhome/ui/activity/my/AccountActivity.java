@@ -23,6 +23,8 @@ import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
 import huanxing_print.com.cn.printhome.net.request.my.OrderIdRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * Created by Administrator on 2017/3/17 0017.
@@ -97,10 +99,10 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_chongzhi:
-//                if(ObjectUtils.isNull(czBean.getRechargeAmout())){//如果没有选择充值数
-//                    ToastUtil.doToast(getSelfActivity(),"请先选择充值金额");
-//                    return;
-//                }
+                if(ObjectUtils.isNull(czBean.getRechargeAmout())){//如果没有选择充值数
+                    ToastUtil.doToast(getSelfActivity(),"请先选择充值金额");
+                    return;
+                }
                 //充值金额
 //                rechargeAmout = czBean.getRechargeAmout();
                 getOrderId();

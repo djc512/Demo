@@ -38,6 +38,7 @@ public class UpdateIfoRequest extends BaseRequst {
         Map<String, Object> params = new HashMap<>();
 
         params.put("faceUrl", url);
+        params.put("nickName", nickName);
         params.put("mobileNumber", num);
         params.put("password", password);
         params.put("sex", sex);

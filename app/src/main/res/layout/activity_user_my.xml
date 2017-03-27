@@ -18,27 +18,26 @@
 
     <include layout="@layout/view1" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:padding="15dp">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="头像"
             android:textSize="20sp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_my_head"
+            android:layout_alignParentRight="true"
+            android:id="@+id/iv_user_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/iv_head" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <include layout="@layout/viewline" />
 

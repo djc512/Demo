@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -7,8 +8,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.simple.eventbus.EventBus;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.my.UpdateInfoBean;
+import huanxing_print.com.cn.printhome.net.callback.my.UpdateInfoCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.UpdateIfoRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -22,6 +28,7 @@ public class MyModifyNameActivty extends BaseActivity implements View.OnClickLis
     private TextView iv_modifyName_finish;
     private EditText et_modify_nickName;
     private ImageView iv_modify_delete;
+    private String cropImagePath;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -33,9 +40,15 @@ public class MyModifyNameActivty extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_useinfo_midifyname);
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
         initView();
+        initData();
         setListener();
+    }
+
+    private void initData() {
+        Intent intent = getIntent();
+        cropImagePath = intent.getStringExtra("cropImagePath");
     }
 
     private void initView() {
@@ -63,9 +76,17 @@ public class MyModifyNameActivty extends BaseActivity implements View.OnClickLis
                     ToastUtil.doToast(getSelfActivity(),"请输入用户名");
                     return;
                 }
-                //发送一个消息，用户名已经改变
-//                EventBus.TAG = "name";
-//                EventBus.getDefault().post(name);
+
+                //修改上一个页面的用户名
+                EventBus.getDefault().post(name,"name");
+
+                //将用户头像上传到后台
+                UpdateIfoRequest.updateInfo(getSelfActivity(),cropImagePath,
+                        null,name,null,null,null,
+                        new MyUpdateInfoCallBack()
+                );
+                ToastUtil.doToast(getSelfActivity(),"修改成功");
+                finish();
                 break;
             case R.id.iv_modify_delete:
                 et_modify_nickName.setText("");
@@ -76,6 +97,24 @@ public class MyModifyNameActivty extends BaseActivity implements View.OnClickLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    private class MyUpdateInfoCallBack extends UpdateInfoCallBack {
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
+        }
+
+        @Override
+        public void success(String msg, UpdateInfoBean bean) {
+
+        }
     }
 }

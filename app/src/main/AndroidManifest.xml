@@ -42,7 +42,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar">
         <meta-data
-            android:name=".constant.CachingGlideModule"
+            android:name="huanxing_print.com.cn.printhome.constant.CachingGlideModule"
             android:value="GlideModule"/>
 
         <activity

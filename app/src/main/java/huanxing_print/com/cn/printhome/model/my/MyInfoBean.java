@@ -13,7 +13,15 @@ public class MyInfoBean {
     private String name;
     private String nickName;
     private String totleBalance;//余额
+    private String wechatId;
 
+    public String getWechatId() {
+        return wechatId;
+    }
+
+    public void setWechatId(String wechatId) {
+        this.wechatId = wechatId;
+    }
     public String getFaceUrl() {
         return faceUrl;
     }
