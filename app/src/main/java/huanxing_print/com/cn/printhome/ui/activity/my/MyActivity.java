@@ -21,8 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import org.simple.eventbus.EventBus;
 
 import java.io.File;
@@ -84,13 +82,11 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = getIntent();
         headImg = intent.getStringExtra("headUrl");
         wechatId = intent.getStringExtra("wechatId");
-        Glide.with(getSelfActivity()).load(headImg)
-                .placeholder(R.drawable.iv_head)
-                .into(iv_user_head);
 
-//        if(ObjectUtils.isNull(headImg)){
+        if(ObjectUtils.isNull(headImg)){
             BitmapUtils.displayImage(getSelfActivity(), headImg, R.drawable.iv_head, iv_user_head);
-//        }
+        }
+
         if (ObjectUtils.isNull(wechatId)) {
             tv_userInfo_wechat.setText("未绑定");
         } else {
