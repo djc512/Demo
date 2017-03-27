@@ -21,7 +21,6 @@ import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
@@ -95,10 +94,10 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_chongzhi:
-                if(ObjectUtils.isNull(czBean.getRechargeAmout())){//如果没有选择充值数
-                    ToastUtil.doToast(getSelfActivity(),"请先选择充值金额");
-                    return;
-                }
+//                if(ObjectUtils.isNull(czBean.getRechargeAmout())){//如果没有选择充值数
+//                    ToastUtil.doToast(getSelfActivity(),"请先选择充值金额");
+//                    return;
+//                }
                 showCZDialog();
                 break;
             case R.id.iv_cz_wechat:

@@ -17,6 +17,7 @@ import huanxing_print.com.cn.printhome.model.login.VeryCodeBean;
 import huanxing_print.com.cn.printhome.net.callback.login.VeryCodeCallback;
 import huanxing_print.com.cn.printhome.net.request.login.VeryCodeRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.RegexUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -58,6 +59,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
         btn_forget_next = (Button) findViewById(R.id.btn_forget_next);
 
     }
+
     private void setListener() {
         btn_forget_next.setOnClickListener(this);
         tv_forget_VeryCode.setOnClickListener(this);
@@ -68,19 +70,22 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_forget_next:
+                if (time != null) {
+                    time.cancel();
+                }
                 veryCode = et_forget_VeryCode.getText().toString().trim();
-//                if(ObjectUtils.isNull(veryCode)){
-//                    ToastUtil.showToast(ForgetPasswodActivity.this,"请输入验证码");
-//                    return;
-//                }
-                Intent intent = new Intent(getSelfActivity(),ModifyPassWordActivity.class);
-                intent.putExtra("veryCode",veryCode);
-                intent.putExtra("phoneNum",phone);
+                if(ObjectUtils.isNull(veryCode)){
+                    ToastUtil.doToast(getSelfActivity(),"请输入验证码");
+                    return;
+                }
+                Intent intent = new Intent(getSelfActivity(), ModifyPassWordActivity.class);
+                intent.putExtra("veryCode", veryCode);
+                intent.putExtra("phoneNum", phone);
                 startActivity(intent);
                 break;
 
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
             case R.id.tv_forget_VeryCode://获取验证码
 
@@ -89,8 +94,8 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
                     Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!RegexUtils.isMobileExact(phone)){
-                    ToastUtil.doToast(getSelfActivity(),"手机号码格式不正确");
+                if (!RegexUtils.isMobileExact(phone)) {
+                    ToastUtil.doToast(getSelfActivity(), "手机号码格式不正确");
                     return;
                 }
                 setTimeCount();
@@ -105,7 +110,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     private void getVeryCode() {
         DialogUtils.showProgressDialog(getSelfActivity(), "正在获取验证码").show();
 
-        VeryCodeRequest.getVeryCode(this, "2",phone, new VeryCodeCallback() {
+        VeryCodeRequest.getVeryCode(this, "2", phone, new VeryCodeCallback() {
 
             @Override
             public void fail(String msg) {
@@ -124,15 +129,17 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
             }
         });
     }
+
     /**
      * 设置倒计时
      */
     private void setTimeCount() {
-        time = new CountDownTimer(60000,1000) {
+        time = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                tv_forget_VeryCode.setText(""+ millisUntilFinished / 1000);
-             }
+                tv_forget_VeryCode.setText("" + millisUntilFinished / 1000+"秒");
+            }
+
             @Override
             public void onFinish() {
                 tv_forget_VeryCode.setText("重新获取验证码");

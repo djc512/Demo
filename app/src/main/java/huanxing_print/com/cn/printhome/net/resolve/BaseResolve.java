@@ -2,7 +2,8 @@ package huanxing_print.com.cn.printhome.net.resolve;
 
 import com.google.gson.Gson;
 
-import org.greenrobot.eventbus.EventBus;
+
+import org.simple.eventbus.EventBus;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

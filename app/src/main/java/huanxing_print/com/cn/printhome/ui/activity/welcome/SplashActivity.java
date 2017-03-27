@@ -20,7 +20,7 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class SplashActivity extends BaseActivity {
 
-	private static final int delayMillis = 1000;
+	private static final int delayMillis = 2000;
 	private boolean isFirst;
 	private String version;
 
@@ -48,8 +48,12 @@ public class SplashActivity extends BaseActivity {
 		 }
 		 }, delayMillis);
 		 } else {
-
-		 autoLogin();
+			 new Handler().postDelayed(new Runnable() {
+				 @Override
+				 public void run() {
+					 autoLogin();
+				 }
+			 }, delayMillis);
 
 		 }
 		// 判断是否有网络

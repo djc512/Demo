@@ -37,8 +37,9 @@
                     android:text="发票抬头" />
 
                 <EditText
+                    android:id="@+id/et_debit_normal_name"
                     style="@style/et_debit"
-                    android:text="填写公司名称或者个人" />
+                    android:hint="填写公司名称或者个人" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -71,7 +72,8 @@
                     android:layout_marginLeft="25dp"
                     android:text="188"
                     android:textColor="#FF9000"
-                    android:textSize="17sp" />
+                    android:textSize="17sp"
+                    android:id="@+id/tv_debit_normal_money" />
 
                 <TextView
                     android:paddingLeft="5dp"
@@ -105,7 +107,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:text="选择地区信息" />
+                    android:hint="选择地区信息"
+                    android:id="@+id/et_debit_normal_address" />
             </LinearLayout>
 
 
@@ -119,7 +122,8 @@
 
                 <EditText
                     style="@style/et_debit"
-                    android:text="填写联系方式" />
+                    android:hint="填写联系方式"
+                    android:id="@+id/et_debit_normal_phone" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -139,7 +143,8 @@
                     android:textColor="#999999"
                     android:textSize="17sp"
                     android:paddingLeft="5dp"
-                    android:text="选择地区信息" />
+                    android:hint="选择地区信息"
+                    android:id="@+id/et_debit_normal_location" />
 
                 <ImageView
                     android:paddingLeft="10dp"
@@ -158,8 +163,9 @@
                     android:text="详细地址" />
 
                 <EditText
+                    android:id="@+id/et_debit_normal_dlocation"
                     style="@style/et_debit"
-                    android:text="填写详细地址" />
+                    android:hint="填写详细地址" />
             </LinearLayout>
 
             <TextView
@@ -190,9 +196,10 @@
                     android:text="微信支付"
                     />
                 <ImageView
+                    android:id="@+id/iv_normal_wechat"
                     android:layout_marginLeft="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/uncheck_2x"/>
             </LinearLayout>
 
@@ -215,13 +222,15 @@
                     android:text="支付宝支付"
                     />
                 <ImageView
+                    android:id="@+id/iv_normal_alipay"
                     android:layout_marginLeft="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/check_2x"/>
             </LinearLayout>
 
             <Button
+                android:id="@+id/btn_normal_submit"
                 android:text="提交"
                 android:layout_marginBottom="10dp"
                 style="@style/btn_submit1"/>

@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.ui.activity.my.BillDetailActivity;
 
@@ -15,14 +17,20 @@ import huanxing_print.com.cn.printhome.ui.activity.my.BillDetailActivity;
  * Created by Administrator on 2017/3/24 0024.
  */
 
-public class MyBillAdapter extends RecyclerView.Adapter<MyBillAdapter.MyHolder>{
+public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
 
     private Context ctx;
     public MyBillAdapter(Context ctx) {
         this.ctx =ctx;
     }
+
     @Override
-    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyHolder getViewHolder(View view) {
+        return new MyHolder(view);
+    }
+
+    @Override
+    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
         MyHolder holder = new MyHolder(LayoutInflater.from(
                 ctx).inflate(R.layout.activity_bill_detail, parent,
                 false));
@@ -30,8 +38,7 @@ public class MyBillAdapter extends RecyclerView.Adapter<MyBillAdapter.MyHolder>{
     }
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position) {
-
+    public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
         MyBillItemAdapter adapter = new MyBillItemAdapter(ctx);
         holder.rv_item_bill.setLayoutManager(new LinearLayoutManager(ctx));
         holder.rv_item_bill.setAdapter(adapter);
@@ -45,7 +52,7 @@ public class MyBillAdapter extends RecyclerView.Adapter<MyBillAdapter.MyHolder>{
     }
 
     @Override
-    public int getItemCount() {
+    public int getAdapterItemCount() {
         return 4;
     }
 

@@ -5,23 +5,14 @@ package huanxing_print.com.cn.printhome.model.my;
  */
 
 public class MyInfoBean {
-    //    faceUrl	头像	number
-//    memberId		number
-//    mobileNumber		number
-//    monthConsume	本月消费	string
-//    name		number
-//    nickName		number
-//    totleBalance	余额	string
-//    success		number
-    private String faceUrl;
-    private int memberId;
-    private int mobileNumber;
 
-    private String monthConsume;
+    private String faceUrl;//头像
+    private int memberId;
+    private String mobileNumber;
+    private String monthConsume;//本月消费
     private String name;
     private String nickName;
-    private String totleBalance;
-    private boolean success;
+    private String totleBalance;//余额
 
     public String getFaceUrl() {
         return faceUrl;
@@ -39,11 +30,11 @@ public class MyInfoBean {
         this.memberId = memberId;
     }
 
-    public int getMobileNumber() {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(int mobileNumber) {
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 
@@ -79,11 +70,16 @@ public class MyInfoBean {
         this.totleBalance = totleBalance;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
+    @Override
+    public String toString() {
+        return "MyInfoBean{" +
+                "faceUrl='" + faceUrl + '\'' +
+                ", memberId=" + memberId +
+                ", mobileNumber=" + mobileNumber +
+                ", monthConsume='" + monthConsume + '\'' +
+                ", name='" + name + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", totleBalance='" + totleBalance + '\'' +
+                '}';
     }
 }

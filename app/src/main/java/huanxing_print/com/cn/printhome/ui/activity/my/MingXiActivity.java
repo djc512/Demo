@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.andview.refreshview.XRefreshView;
+import com.andview.refreshview.XRefreshViewFooter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
     private MyBillAdapter adapter;
     private RecyclerView rv_bill_detail;
     private TextView tv_bill_debit;
+    private XRefreshView xrf_zdmx;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -50,6 +54,15 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
         adapter = new MyBillAdapter(getSelfActivity());
         rv_bill_detail.setLayoutManager(new LinearLayoutManager(this));
         rv_bill_detail.setAdapter(adapter);
+
+        xrf_zdmx.setPinnedTime(1000);
+        xrf_zdmx.setMoveForHorizontal(true);
+        xrf_zdmx.setPullLoadEnable(true);
+        xrf_zdmx.setAutoLoadMore(false);
+        adapter.setCustomLoadMoreView(new XRefreshViewFooter(this));
+        xrf_zdmx.enableReleaseToLoadMore(true);
+        xrf_zdmx.enableRecyclerViewPullUp(true);
+        xrf_zdmx.enablePullUpWhenLoadCompleted(true);
     }
 
     private void setListener() {
@@ -59,6 +72,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initView() {
+        xrf_zdmx = (XRefreshView) findViewById(R.id.xrf_zdmx);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         rv_bill_detail = (RecyclerView) findViewById(R.id.rv_bill_detail);
         tv_bill_debit = (TextView) findViewById(R.id.tv_bill_debit);

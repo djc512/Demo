@@ -26,6 +26,7 @@ public abstract class BaseFragment extends Fragment {
 
 
 	protected void init() {
+
 		baseApplication = (BaseApplication) getActivity().getApplication();
 	}
 

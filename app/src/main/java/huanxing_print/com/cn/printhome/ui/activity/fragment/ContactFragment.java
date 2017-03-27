@@ -2,16 +2,18 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
@@ -24,42 +26,37 @@ import huanxing_print.com.cn.printhome.ui.activity.my.NoticeActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.SettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ShareActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
+
+import static huanxing_print.com.cn.printhome.R.id.iv_notice;
 
 public class ContactFragment extends BaseFragment implements OnClickListener{
 
-	private ImageView iv_chongzhi;
-	private ImageView iv_mingxi;
-	private ImageView iv_dayin;
-	private ImageView iv_contact;
-	private ImageView iv_share;
-	private ImageView iv_notice;
-	private ImageView iv_my;
-	private ImageView iv_set;
-
-	private MyInfoBean useBean;
 	private CircleImageView iv_head;
-	private TextView tv_phone;
-	private TextView tv_name;
-    private LinearLayout ll_my_account;
-    private LinearLayout ll_my_contact;
-    private LinearLayout ll_my_dy;
-    private LinearLayout ll_my_mx;
-    private LinearLayout ll_my_set;
-    private LinearLayout ll_my_share;
-	private RelativeLayout rl_userInfo;
-
+	private TextView tv_phone,tv_name,tv_account_money,tv_month_money;
+    private String token;
 	@Override
 	protected void init() {
+		EventBus.getDefault().register(this);
+
 		initViews();
 		initData();
 		setListener();
 	}
-
+	private Bitmap bitMap;
 	@Override
 	public void onResume() {
 		super.onResume();
+		if(bitMap != null){
+			iv_head.setImageBitmap(bitMap);
+		}
 	}
-
+	@Subscriber(tag = "head")
+	private void getHead(Bitmap bitMap){
+		// 这里实现你的逻辑即可
+		this.bitMap = bitMap;
+	}
 	@Override
 	protected int getContextView() {
 		// 改变状态栏的颜色使其与APP风格一体化
@@ -68,22 +65,31 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	}
 
 	private void initData() {
+		token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
+				"loginToken");
 		//网络请求，获取用户信息
-		MyInfoRequest.getMyInfo(getActivity(),new MyMyInfoCallBack());
-		//设置用户头像
-//		Glide.with(getActivity())
-//				.load(useBean.getFaceUrl())
-//				.into(iv_head);
-
-//		tv_name.setText(useBean.getName());
-//		tv_phone.setText(useBean.getMobileNumber());
+		MyInfoRequest.getMyInfo(getActivity(),token,new MyMyInfoCallBack());
 	}
 
 	public class MyMyInfoCallBack extends MyInfoCallBack{
 		@Override
 		public void success(String msg, MyInfoBean bean) {
-			showToast("获取成功");
-			useBean = bean;
+			//showToast("jkdd");
+			if (!ObjectUtils.isNull(bean)) {
+				String headUrl = bean.getFaceUrl();
+				String nickName = bean.getNickName();
+				String phone = bean.getMobileNumber();
+				String totleBalance = bean.getTotleBalance();
+				String monthConsume = bean.getMonthConsume();
+
+				tv_name.setText(nickName);
+				tv_phone.setText(phone);
+				tv_account_money.setText("￥"+totleBalance);
+				tv_month_money.setText("本月打印消费￥"+monthConsume);
+				//设置用户头像
+		    //  BitmapUtils.displayImage(getActivity(), headUrl,R.drawable.iv_head, iv_head);
+		    //    Glide.with(getActivity()).load(headUrl).into(iv_head);
+			}
 
 		}
 
@@ -101,45 +107,20 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 	private void initViews() {
 		tv_phone = (TextView)findViewById(R.id.tv_phone);
 		tv_name = (TextView)findViewById(R.id.tv_name);
-
+		tv_account_money = (TextView)findViewById(R.id.tv_account_money);
+		tv_month_money = (TextView)findViewById(R.id.tv_month_money);
 		iv_head = (CircleImageView) findViewById(R.id.iv_head);
-		iv_chongzhi = (ImageView) findViewById(R.id.iv_chongzhi);
-		iv_mingxi = (ImageView) findViewById(R.id.iv_mingxi);
-		iv_dayin = (ImageView) findViewById(R.id.iv_dayin);
-		iv_contact = (ImageView) findViewById(R.id.iv_contact);
-		iv_share = (ImageView) findViewById(R.id.iv_share);
-		iv_notice = (ImageView) findViewById(R.id.iv_notice);
-		iv_my = (ImageView) findViewById(R.id.iv_my);
-		iv_set = (ImageView) findViewById(R.id.iv_set);
 
-        ll_my_account = (LinearLayout) findViewById(R.id.ll_my_account);
-        ll_my_contact = (LinearLayout) findViewById(R.id.ll_my_contact);
-        ll_my_dy = (LinearLayout) findViewById(R.id.ll_my_dy);
-        ll_my_mx = (LinearLayout) findViewById(R.id.ll_my_mx);
-        ll_my_set = (LinearLayout) findViewById(R.id.ll_my_set);
-        ll_my_share = (LinearLayout) findViewById(R.id.ll_my_share);
-
-		rl_userInfo = (RelativeLayout) findViewById(R.id.rl_userMsg);
 	}
 	private void setListener() {
-		iv_chongzhi.setOnClickListener(this);
-		iv_mingxi.setOnClickListener(this);
-		iv_dayin.setOnClickListener(this);
-		iv_contact.setOnClickListener(this);
-		iv_contact.setOnClickListener(this);
-		iv_notice.setOnClickListener(this);
-		iv_share.setOnClickListener(this);
-		iv_my.setOnClickListener(this);
-		iv_set.setOnClickListener(this);
 
-		ll_my_account.setOnClickListener(this);
-		ll_my_contact.setOnClickListener(this);
-		ll_my_dy.setOnClickListener(this);
-		ll_my_mx.setOnClickListener(this);
-		ll_my_set.setOnClickListener(this);
-		ll_my_share.setOnClickListener(this);
-
-		rl_userInfo.setOnClickListener(this);
+		findViewById(R.id.ll_my_account).setOnClickListener(this);
+		findViewById(R.id.ll_my_contact).setOnClickListener(this);
+		findViewById(R.id.ll_my_dy).setOnClickListener(this);
+		findViewById(R.id.ll_my_mx).setOnClickListener(this);
+		findViewById(R.id.ll_my_set).setOnClickListener(this);
+		findViewById(R.id.ll_my_share).setOnClickListener(this);
+		findViewById(R.id.rl_userMsg).setOnClickListener(this);
 	}
 
 	@Override
@@ -148,7 +129,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 			case R.id.rl_userMsg:
 				startActivity(new Intent(getActivity(), MyActivity.class));
 				break;
-			case R.id.iv_notice:
+			case iv_notice:
 				startActivity(new Intent(getActivity(), NoticeActivity.class));
 				break;
 			case R.id.ll_my_account:
@@ -173,5 +154,11 @@ public class ContactFragment extends BaseFragment implements OnClickListener{
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
 	}
 }

@@ -60,7 +60,6 @@
         android:text="充值金额"
         android:textColor="@color/gray3"
         android:textSize="18sp" />
-    <include layout="@layout/viewline"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_account"
