@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_dingdan"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="afterDescendants"
     android:orientation="vertical">
 
     <include layout="@layout/view1" />
@@ -10,10 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="15dp"
-        android:paddingRight="15dp"
         android:paddingLeft="15dp"
-        >
+        android:paddingRight="15dp"
+        android:paddingTop="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,14 +66,20 @@
 
         <include layout="@layout/viewline" />
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
+        <RelativeLayout
+            android:id="@+id/rl_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rv_dy_list">
+            >
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_dy_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginTop="7dp">
 
-        </android.support.v7.widget.RecyclerView>
+            </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
 
         <include layout="@layout/viewline" />
 
@@ -89,16 +96,16 @@
                 android:text="总价:" />
 
             <TextView
+                android:id="@+id/tv_dylist_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
-                android:text="￥15"
-                android:textColor="#ff9000"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/tv_total_price"
-                android:layout_toEndOf="@+id/tv_total_price"
+                android:layout_marginLeft="14dp"
                 android:layout_marginStart="14dp"
-                android:id="@+id/tv_dylist_money" />
+                android:layout_toEndOf="@+id/tv_total_price"
+                android:layout_toRightOf="@+id/tv_total_price"
+                android:text="￥15"
+                android:textColor="#ff9000" />
         </RelativeLayout>
 
         <include layout="@layout/viewline" />
@@ -106,20 +113,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <Button
-            android:id="@+id/bt_dylist_comment"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="15dp"
+            android:id="@+id/btn_dylist_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/shape_comment_bg"
             android:padding="10dp"
-            android:textSize="14sp"
-            android:text="我要评价" />
+            android:text="我要评价"
+            android:textSize="14sp" />
     </RelativeLayout>
 </LinearLayout>

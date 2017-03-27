@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +48,15 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
 
     private void setListener() {
         ll_back.setOnClickListener(this);
+
+        adapter.setOnItemClickLitener(new DingDanListAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(getSelfActivity(),OrderDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         xrf_dingdan.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             //刷新

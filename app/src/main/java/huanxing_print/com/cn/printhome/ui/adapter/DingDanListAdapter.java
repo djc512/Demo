@@ -6,6 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
@@ -15,6 +18,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.my.DaYinListBean;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * Created by DjC512 on 2017-3-26.
@@ -24,6 +28,16 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
 
     private Context ctx;
     private List<DaYinListBean.DataBean.ListBean> list = new ArrayList<>();
+
+    public interface OnItemClickLitener {
+        void onItemClick(int position);
+    }
+
+    private OnItemClickLitener mOnItemClickLitener;
+
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
+        this.mOnItemClickLitener = mOnItemClickLitener;
+    }
 
     public DingDanListAdapter(Context ctx, List<DaYinListBean.DataBean.ListBean> list) {
         this.ctx = ctx;
@@ -44,7 +58,23 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
     private String statusStr;
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
+    public void onBindViewHolder(MyHolder holder, final int position, boolean isItem) {
+
+        if (mOnItemClickLitener != null){
+            holder.ll_dingdan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickLitener.onItemClick(position);
+                }
+            });
+        }
+        holder.btn_dylist_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.doToast(ctx,"去评论");
+            }
+        });
+
 //        DaYinListBean.DataBean.ListBean listBean = list.get(position);
 //        int status = listBean.getStatus();
 //        List<DaYinListBean.DataBean.ListBean.FileInfosBean> fileInfos = listBean.getFileInfos();
@@ -96,6 +126,9 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
         private final TextView tv_dylist_state;
         private final TextView tv_dylist_money;
         private final RecyclerView rv_dy_list;
+        private final LinearLayout ll_dingdan;
+        private final Button btn_dylist_comment;
+        private final RelativeLayout rl_rv;
 
         public MyHolder(View view) {
             super(view);
@@ -103,6 +136,9 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
             tv_dylist_state = (TextView) view.findViewById(R.id.tv_dylist_state);
             tv_dylist_money = (TextView) view.findViewById(R.id.tv_dylist_money);
             rv_dy_list = (RecyclerView) view.findViewById(R.id.rv_dy_list);
+            ll_dingdan = (LinearLayout) view.findViewById(R.id.ll_dingdan);
+            btn_dylist_comment = (Button) view.findViewById(R.id.btn_dylist_comment);
+            rl_rv = (RelativeLayout) view.findViewById(R.id.rl_rv);
         }
     }
 }
