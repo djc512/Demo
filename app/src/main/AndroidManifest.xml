@@ -176,14 +176,6 @@
         <activity
             android:name=".ui.activity.my.AccountRecordActivity"
             android:screenOrientation="portrait"/>
-        <!--充值明细-->
-        <activity
-            android:name=".ui.activity.my.BillDetailActivity"
-            android:screenOrientation="portrait"/>
-        <!--开发票-->
-        <activity
-            android:name=".ui.activity.my.BillDebitActivity"
-            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

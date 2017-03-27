@@ -43,16 +43,16 @@ dependencies {
     compile files('libs/umeng-update-v2.8.0.jar')
     compile files('libs/wire.jar')
     compile files('libs/zxing.jar')
-    compile 'com.android.support:appcompat-v7:25.0.1'
+    //圆形头像
+//    compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
+    compile files('libs/wechat-sdk-android-without-mta-1.0.2.jar')
+    compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:recyclerview-v7:25.1.1'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
     compile 'pub.devrel:easypermissions:0.2.0'
-    testCompile 'junit:junit:4.12'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    //圆形头像
-    compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
-    compile files('libs/wechat-sdk-android-without-mta-1.0.2.jar')
+    testCompile 'junit:junit:4.12'
 }
