@@ -10,10 +10,11 @@
     <color name="gray1">#E2E2E2</color>   
     <color name="gray2">#999999</color> 
 	<color name="gray3">#9c9c9c</color>
+    <color name="gray4">#cacaca</color>
 	<color name="green">#1aad19</color>
     <color name="text_content">#666666</color>
     <color name="transparent">#9000</color>
-
+    <color name="text_color">#333333</color>
     <color name="text_black">#343434</color>
     <color name="text_yellow">#ff9102</color>
 
