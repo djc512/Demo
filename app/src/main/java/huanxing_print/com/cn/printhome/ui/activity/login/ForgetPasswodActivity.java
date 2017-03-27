@@ -17,6 +17,7 @@ import huanxing_print.com.cn.printhome.model.login.VeryCodeBean;
 import huanxing_print.com.cn.printhome.net.callback.login.VeryCodeCallback;
 import huanxing_print.com.cn.printhome.net.request.login.VeryCodeRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.RegexUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -73,10 +74,10 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
                     time.cancel();
                 }
                 veryCode = et_forget_VeryCode.getText().toString().trim();
-//                if(ObjectUtils.isNull(veryCode)){
-//                    ToastUtil.showToast(ForgetPasswodActivity.this,"请输入验证码");
-//                    return;
-//                }
+                if(ObjectUtils.isNull(veryCode)){
+                    ToastUtil.doToast(getSelfActivity(),"请输入验证码");
+                    return;
+                }
                 Intent intent = new Intent(getSelfActivity(), ModifyPassWordActivity.class);
                 intent.putExtra("veryCode", veryCode);
                 intent.putExtra("phoneNum", phone);
@@ -136,7 +137,7 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
         time = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                tv_forget_VeryCode.setText("" + millisUntilFinished / 1000);
+                tv_forget_VeryCode.setText("" + millisUntilFinished / 1000+"秒");
             }
 
             @Override

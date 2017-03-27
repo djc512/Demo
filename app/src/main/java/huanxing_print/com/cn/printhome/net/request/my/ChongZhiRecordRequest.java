@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.net.request.my;
 
 import android.content.Context;
 
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongZhiRecordCallBack;
@@ -18,7 +19,7 @@ public class ChongZhiRecordRequest extends BaseRequst {
 
         String czRecordUrl = HTTP_URL + HttpUrl.czRecord;
 
-        HttpUtils.getParam(ctx, czRecordUrl, "33b2abe48a76468682880e86b6fa0c2f",pageNum, new HttpCallBack() {
+        HttpUtils.getParam(ctx, czRecordUrl, BaseApplication.getInstance().getLoginToken(),pageNum, new HttpCallBack() {
 
             @Override
             public void success(String content) {

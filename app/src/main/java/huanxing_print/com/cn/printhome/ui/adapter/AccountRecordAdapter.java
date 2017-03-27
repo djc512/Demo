@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -22,8 +23,9 @@ import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
 
 public class AccountRecordAdapter extends BaseRecyclerAdapter<AccountRecordAdapter.MyViewHolder> {
     private Context ctx;
-//    private List<ChongZhiRecordBean.DataBean> list = new ArrayList<>();
     private ChongZhiRecordBean.DataBean dataBean;
+    private List<ChongZhiRecordBean.DataBean.ListBean> list = new ArrayList<>();
+
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
     }
@@ -34,9 +36,9 @@ public class AccountRecordAdapter extends BaseRecyclerAdapter<AccountRecordAdapt
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
-    public AccountRecordAdapter(Context ctx, List<ChongZhiRecordBean.DataBean> list) {
+    public AccountRecordAdapter(Context ctx, List<ChongZhiRecordBean.DataBean.ListBean> list) {
         this.ctx = ctx;
-//        this.list = list;
+        this.list = list;
     }
 
     @Override
@@ -54,13 +56,13 @@ public class AccountRecordAdapter extends BaseRecyclerAdapter<AccountRecordAdapt
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position, boolean isItem) {
-//        List<ChongZhiRecordBean.DataBean.ListBean> listBean = dataBean.getList();
-//        ChongZhiRecordBean.DataBean.ListBean listBean1 = listBean.get(position);
-//        holder.tv_time.setText(listBean.get(position).getDate());
-//        List<ChongZhiRecordBean.DataBean.ListBean.DetailBean> details = listBean1.getDetail();
+        ChongZhiRecordBean.DataBean.ListBean listBean = list.get(position);
+        String date = listBean.getDate();//充值月份
+        holder.tv_time.setText(date);
+        List<ChongZhiRecordBean.DataBean.ListBean.DetailBean> detail = listBean.getDetail();
 
         holder.rv_item_record.setLayoutManager(new LinearLayoutManager(ctx));
-        holder.rv_item_record.setAdapter(new AccountRecordItemAdapter(ctx,null));
+        holder.rv_item_record.setAdapter(new AccountRecordItemAdapter(ctx,detail));
         holder.ll_account_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,42 +75,9 @@ public class AccountRecordAdapter extends BaseRecyclerAdapter<AccountRecordAdapt
 
     @Override
     public int getAdapterItemCount() {
-        return 5;
+        return list.size();
     }
-//
-//    @Override
-//    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
-//                ctx).inflate(R.layout.item_account_record, parent,
-//                false));
-//
-//        return holder;
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-////        List<ChongZhiRecordBean.DataBean.ListBean> listBean = dataBean.getList();
-////        ChongZhiRecordBean.DataBean.ListBean listBean1 = listBean.get(position);
-////        holder.tv_time.setText(listBean.get(position).getDate());
-////        List<ChongZhiRecordBean.DataBean.ListBean.DetailBean> details = listBean1.getDetail();
-//
-//        holder.rv_item_record.setLayoutManager(new LinearLayoutManager(ctx));
-//        holder.rv_item_record.setAdapter(new AccountRecordItemAdapter(ctx,null));
-//        holder.ll_account_record.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mOnItemClickLitener != null){
-//                    mOnItemClickLitener.onItemClick(holder.ll_account_record,position);
-//                }
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return 3;
-//    }
-//
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_time;
