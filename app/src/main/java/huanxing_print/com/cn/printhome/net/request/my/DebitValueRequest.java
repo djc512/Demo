@@ -49,7 +49,7 @@ public class DebitValueRequest extends BaseRequst {
                                     String fileSize,
                                     String orderId,
                                     int payType,
-                                    int ratepayerId,
+                                    String ratepayerId,
                                     String receiver,
                                     String telPhone,
                                     final DebitValueCallBack callBack) {

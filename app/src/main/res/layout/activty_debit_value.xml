@@ -121,6 +121,7 @@
                     android:text="发票内容" />
 
                 <TextView
+                    android:id="@+id/tv_bill_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
@@ -173,12 +174,12 @@
 
                 <TextView
                     style="@style/tv_debit"
-                    android:text="公司地址" />
+                    android:text="收件人" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_location"
+                    android:id="@+id/et_debit_value_reciver"
                     style="@style/et_debit"
-                    android:hint="选择地区信息" />
+                    android:hint="填写收件人" />
             </LinearLayout>
 
 

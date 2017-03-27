@@ -37,6 +37,8 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
     private String address;
     private String name;
     private String money;
+    private TextView tv_bill_content;
+    private String billContent;
 
     @Nullable
     @Override
@@ -50,6 +52,7 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
     }
 
     private void initView(View view) {
+        tv_bill_content = (TextView) view.findViewById(R.id.tv_bill_content);
 
         et_debit_normal_name = (EditText) view.findViewById(R.id.et_debit_normal_name);
         tv_debit_normal_money = (TextView) view.findViewById(R.id.tv_debit_normal_money);
@@ -63,6 +66,7 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
 
     private void initData() {
         money = tv_debit_normal_money.getText().toString().trim();
+        billContent = tv_bill_content.getText().toString().trim();
 
         name = et_debit_normal_name.getText().toString().trim();
         if (TextUtils.isEmpty(name)) {
@@ -138,17 +142,17 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
         DialogUtils.showProgressDialog(getActivity(),"正在提交");
         DebitNormalRequest.sendNormalBack(
                 getActivity(),
-                dlocation,
-                money,
-                null,
-                address,
-                name,
+                dlocation,//详细地址
+                money,//发票金额
+                billContent,//发票内容
+                location,//所在城市
+                name,//发票抬头
                 null,
                 null,
                 null,
                 type,
-                null,
-                phone,
+                address,//收件人
+                phone,//联系方式
                 new DebitNormalCallBack() {
                     @Override
                     public void success(String msg, DebitNormalBean bean) {

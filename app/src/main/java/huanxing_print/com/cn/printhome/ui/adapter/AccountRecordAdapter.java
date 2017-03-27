@@ -56,13 +56,13 @@ public class AccountRecordAdapter extends BaseRecyclerAdapter<AccountRecordAdapt
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position, boolean isItem) {
-        ChongZhiRecordBean.DataBean.ListBean listBean = list.get(position);
-        String date = listBean.getDate();//充值月份
-        holder.tv_time.setText(date);
-        List<ChongZhiRecordBean.DataBean.ListBean.DetailBean> detail = listBean.getDetail();
+//        ChongZhiRecordBean.DataBean.ListBean listBean = list.get(position);
+//        String date = listBean.getDate();//充值月份
+//        holder.tv_time.setText(date);
+//        List<ChongZhiRecordBean.DataBean.ListBean.DetailBean> detail = listBean.getDetail();
 
         holder.rv_item_record.setLayoutManager(new LinearLayoutManager(ctx));
-        holder.rv_item_record.setAdapter(new AccountRecordItemAdapter(ctx,detail));
+        holder.rv_item_record.setAdapter(new AccountRecordItemAdapter(ctx,null));
         holder.ll_account_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +75,8 @@ public class AccountRecordAdapter extends BaseRecyclerAdapter<AccountRecordAdapt
 
     @Override
     public int getAdapterItemCount() {
-        return list.size();
+//        return list.size();
+        return 4;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

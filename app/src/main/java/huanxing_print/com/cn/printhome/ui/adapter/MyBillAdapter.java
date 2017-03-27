@@ -47,15 +47,15 @@ public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
     @Override
     public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
 
-        MingxiDetailBean.DataBean.ListBean listBean = list.get(position);
-        String date = listBean.getDate();
-        String monthAount = listBean.getMonthAount();
-        List<MingxiDetailBean.DataBean.ListBean.DetailBean> detail = listBean.getDetail();
+//        MingxiDetailBean.DataBean.ListBean listBean = list.get(position);
+//        String date = listBean.getDate();
+//        String monthAount = listBean.getMonthAount();
+//        List<MingxiDetailBean.DataBean.ListBean.DetailBean> detail = listBean.getDetail();
+//
+//        holder.tv_bill_time.setText(date);
+//        holder.tv_bill_consume.setText("累计消费"+monthAount+"元");
 
-        holder.tv_bill_time.setText(date);
-        holder.tv_bill_consume.setText("累计消费"+monthAount+"元");
-
-        MyBillItemAdapter adapter = new MyBillItemAdapter(ctx,detail);
+        MyBillItemAdapter adapter = new MyBillItemAdapter(ctx,null);
         holder.rv_item_bill.setLayoutManager(new LinearLayoutManager(ctx));
         holder.rv_item_bill.setAdapter(adapter);
 
