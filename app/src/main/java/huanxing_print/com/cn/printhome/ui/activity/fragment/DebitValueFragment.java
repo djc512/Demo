@@ -13,12 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.my.DebitValuelBean;
+import huanxing_print.com.cn.printhome.net.callback.my.DebitValueCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.DebitValueRequest;
 
 /**
  * Created by Administrator on 2017/3/24 0024.
  */
 
 public class DebitValueFragment extends Fragment implements View.OnClickListener {
+
     private EditText et_debit_value_name;
     private EditText et_debit_value_shui;
     private EditText et_debit_value_address;
@@ -26,23 +30,26 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     private EditText et_debit_value_blank;
     private EditText et_debit_value_blanknum;
     private TextView tv_debit_value_money;
-    private EditText et_debit_value_location;
+    private EditText et_debit_value_reciver;
     private EditText et_debit_value_num;
     private EditText et_debit_value_location1;
     private EditText et_debit_value_dlocation;
+
     private String name;
     private String shui;
     private String address;
     private String phone;
     private String blank;
     private String blanknum;
-    private String location;
+    private String reciver;
     private String num;
     private String location1;
     private String dlocation;
     private ImageView iv_value_wechat;
     private ImageView iv_value_alipay;
     private String money;
+    private TextView tv_bill_content;
+    private String bill_content;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activty_debit_value, null);
@@ -59,6 +66,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
 
     private void initView(View view) {
 
+        tv_bill_content = (TextView) view.findViewById(R.id.tv_bill_content);
         et_debit_value_name = (EditText) view.findViewById(R.id.et_debit_value_name);
         et_debit_value_shui = (EditText) view.findViewById(R.id.et_debit_value_shui);
         et_debit_value_address = (EditText) view.findViewById(R.id.et_debit_value_address);
@@ -66,7 +74,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
         et_debit_value_blank = (EditText) view.findViewById(R.id.et_debit_value_blank);
         et_debit_value_blanknum = (EditText) view.findViewById(R.id.et_debit_value_blanknum);
         tv_debit_value_money = (TextView) view.findViewById(R.id.tv_debit_value_money);
-        et_debit_value_location = (EditText) view.findViewById(R.id.et_debit_value_location);
+        et_debit_value_reciver = (EditText) view.findViewById(R.id.et_debit_value_reciver);
         et_debit_value_num = (EditText) view.findViewById(R.id.et_debit_value_num);
         et_debit_value_location1 = (EditText) view.findViewById(R.id.et_debit_value_location1);
         et_debit_value_dlocation = (EditText) view.findViewById(R.id.et_debit_value_dlocation);
@@ -77,6 +85,8 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
 
     private void initData() {
         money = tv_debit_value_money.getText().toString().trim();
+        bill_content = tv_bill_content.getText().toString().trim();
+
         name = et_debit_value_name.getText().toString().trim();
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(getContext(), "填写公司名称", Toast.LENGTH_SHORT).show();
@@ -113,9 +123,9 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             return;
         }
 
-        location = et_debit_value_location.getText().toString().trim();
-        if (TextUtils.isEmpty(location)) {
-            Toast.makeText(getContext(), "选择地区信息", Toast.LENGTH_SHORT).show();
+        reciver = et_debit_value_reciver.getText().toString().trim();
+        if (TextUtils.isEmpty(reciver)) {
+            Toast.makeText(getContext(), "填写收件人", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -146,12 +156,12 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             case R.id.iv_value_alipay:
                 iv_value_alipay.setBackgroundResource(R.drawable.check_2x);
                 iv_value_wechat.setBackgroundResource(R.drawable.uncheck_2x);
-                type = 2;
+                type = 1;
                 break;
             case R.id.iv_value_wechat:
                 iv_value_wechat.setBackgroundResource(R.drawable.check_2x);
                 iv_value_alipay.setBackgroundResource(R.drawable.uncheck_2x);
-                type = 1;
+                type = 0;
                 break;
             case R.id.btn_value_submit:
                 sendValue();
@@ -177,6 +187,40 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
 //    telPhone	联系人号码
 
     private void sendValue() {
+        DebitValueRequest.sendValueBack(
+                getActivity(),
+                dlocation,//详细地址
+                money,//发票金额
+                blanknum,//银行账户
+                blank,//开户银行
+                bill_content,//发票内容
+                location1,//所在城市
+                address,//公司地址
+                name,//公司名称
+                phone,// 公司电话
+                null,
+                null,
+                null,
+                type,//支付类型
+                shui,//纳税人识别号
+                reciver,//接收人
+                num,//接受人电话
+                new DebitValueCallBack() {
+                    @Override
+                    public void success(String msg, DebitValuelBean bean) {
 
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+
+                    }
+
+                    @Override
+                    public void connectFail() {
+
+                    }
+                }
+        );
     }
 }
