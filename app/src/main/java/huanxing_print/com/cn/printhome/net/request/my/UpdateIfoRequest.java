@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.UpdateInfoCallBack;
@@ -42,7 +43,7 @@ public class UpdateIfoRequest extends BaseRequst {
         params.put("sex", sex);
         params.put("validCode", validCode);
 
-        HttpUtils.post(ctx, updateInfoUrl, "", params, new HttpCallBack() {
+        HttpUtils.post(ctx, updateInfoUrl, BaseApplication.getInstance().getLoginToken(), params, new HttpCallBack() {
             @Override
             public void success(String content) {
                 UpdateInfoResolve resolve = new UpdateInfoResolve(content);

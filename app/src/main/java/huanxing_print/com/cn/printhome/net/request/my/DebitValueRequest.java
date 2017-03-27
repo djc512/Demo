@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitValueCallBack;
@@ -74,7 +75,7 @@ public class DebitValueRequest extends BaseRequst {
         params.put("receiver", receiver);
         params.put("telPhone", telPhone);
 
-        HttpUtils.post(ctx, valueUrl, "33b2abe48a76468682880e86b6fa0c2f", params, new HttpCallBack() {
+        HttpUtils.post(ctx, valueUrl, BaseApplication.getInstance().getLoginToken(), params, new HttpCallBack() {
             @Override
             public void success(String content) {
                 DebitValueResolve resolve = new DebitValueResolve(content);

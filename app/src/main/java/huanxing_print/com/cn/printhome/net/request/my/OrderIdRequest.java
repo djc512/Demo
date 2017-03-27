@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.OrderIdCallBack;
@@ -25,7 +26,7 @@ public class OrderIdRequest extends BaseRequst {
         Map<String,Object> params = new HashMap<>();
         params.put("amount",money);
 
-        HttpUtils.post(ctx, orderIdurl, "33b2abe48a76468682880e86b6fa0c2f", params, new HttpCallBack() {
+        HttpUtils.post(ctx, orderIdurl, BaseApplication.getInstance().getLoginToken(), params, new HttpCallBack() {
             @Override
             public void success(String content) {
                 OrderIdResolve resolve = new OrderIdResolve(content);

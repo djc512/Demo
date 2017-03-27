@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.DaYinListCallBack;
@@ -23,7 +24,7 @@ public class DaYinListRequest extends BaseRequst {
 
         params.put("pageNum",pageNum);
 
-        HttpUtils.getParam(ctx, url, "", pageNum, new HttpCallBack() {
+        HttpUtils.getParam(ctx, url, BaseApplication.getInstance().getLoginToken(), pageNum, new HttpCallBack() {
             @Override
             public void success(String content) {
                 DaYinListResolve resolve = new DaYinListResolve(content);
