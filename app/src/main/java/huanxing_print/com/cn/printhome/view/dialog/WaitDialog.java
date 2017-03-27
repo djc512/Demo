@@ -22,6 +22,8 @@ import android.view.Window;
 
 import com.zhy.http.okhttp.request.RequestCall;
 
+import huanxing_print.com.cn.printhome.log.Logger;
+
 /**
  * Created by LGH on 2017/3/20.
  */
@@ -52,6 +54,7 @@ public class WaitDialog extends ProgressDialog {
     }
 
     public static void showDialog(Context context, final RequestCall request,OnCancelListener onCancelListener) {
+        Logger.i("showDialog");
         if (mWaitDialog != null) {
             mWaitDialog.show();
         } else {
@@ -61,6 +64,7 @@ public class WaitDialog extends ProgressDialog {
 
     public static void dismissDialog() {
         if (mWaitDialog != null) {
+            Logger.i("dismiss");
             mWaitDialog.dismiss();
             mWaitDialog = null;
         }

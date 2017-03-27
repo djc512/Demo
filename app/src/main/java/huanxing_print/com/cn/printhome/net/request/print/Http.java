@@ -39,6 +39,7 @@ public class Http {
             @Override
             public void onAfter(int id) {
                 super.onAfter(id);
+                Logger.i(url);
                 if (showDialog) {
                     WaitDialog.dismissDialog();
                 }
@@ -47,6 +48,7 @@ public class Http {
             @Override
             public void onBefore(Request request, int id) {
                 super.onBefore(request, id);
+                Logger.i(url);
                 if (showDialog) {
                     WaitDialog.showDialog(activity, requestCall, new DialogInterface.OnCancelListener() {
                         @Override
@@ -67,6 +69,7 @@ public class Http {
             @Override
             public void onError(Call call, Exception exception, int arg2) {
                 TimeUtils.endTime();
+                Logger.i(url);
                 Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
                 String message = exception.getMessage();
                 if ("Socket closed".equalsIgnoreCase(message)) {

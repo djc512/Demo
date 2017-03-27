@@ -18,6 +18,7 @@ import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadImgBean;
@@ -114,7 +115,7 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
             public void onFailed(String exception) {
                 ShowUtil.showToast(getString(R.string.net_error));
             }
-        });
+        }, false);
     }
 
     private void addFile(String fileUrl) {
@@ -128,15 +129,17 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
                 if (addFileSettingBean.isSuccess()) {
                     turnPrintSetting(addFileSettingBean.getData());
                 } else {
+                    Logger.i("net error");
                     ToastUtil.doToast(context, getString(R.string.upload_failure));
                 }
             }
 
             @Override
             public void onFailed(String exception) {
+                Logger.i("网络错误");
                 ShowUtil.showToast(getString(R.string.net_error));
             }
-        });
+        }, false);
     }
 
     public static final String PRINT_SETTING = "print_setting";

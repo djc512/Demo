@@ -86,7 +86,7 @@ public class FileListActivity extends BasePrintActivity {
             public void onFailed(String exception) {
                 ShowUtil.showToast(getString(R.string.net_error));
             }
-        });
+        }, false);
     }
 
     public final static String KEY_URL = "url";

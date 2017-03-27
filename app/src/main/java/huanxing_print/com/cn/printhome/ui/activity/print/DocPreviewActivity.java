@@ -52,7 +52,7 @@ public class DocPreviewActivity extends BasePrintActivity {
             public void onFailed(String exception) {
                 ShowUtil.showToast(getString(R.string.net_error));
             }
-        });
+        },true);
     }
 
     public static final String PRINT_SETTING = "print_setting";

@@ -32,7 +32,8 @@ public class PrintRequest extends BaseRequst {
     public static final String FILE_LIST = "fileList";
     public static final String ORDER_ID = "orderId";
 
-    public static final String BASE_URL = "http://appprint.inkin.cc/";
+//    public static final String BASE_URL = "http://appprint.inkin.cc/";
+    public static final String BASE_URL = "http://106.14.77.102:22012/";
     public static final String FILE_UPLOAD = "common/fileUpload";
     public static final String FILE_ADD = "print/file/add";
     public static final String FILE_DEL = "print/file/del";
@@ -42,6 +43,7 @@ public class PrintRequest extends BaseRequst {
     public static final String QUERY_PRINTER_PRICE = "print/printer/getDetail";
     public static final String ADD_ORDER = "order/add";
     public static final String PRINT = "print/doPrint";
+    public static final String RE_PRINT = "print/rePrint";
     public static final String QUERY_ORDER_STATUS = "order/queryStatus";
 
     public static final String TOKEN = "33b2abe48a76468682880e86b6fa0c2f";
@@ -72,14 +74,14 @@ public class PrintRequest extends BaseRequst {
      * @param callback
      */
     public static final void uploadFile(Activity activity, String fileType, String fileContent, String fileName, String
-            needWater, final HttpListener callback) {
+            needWater, final HttpListener callback,boolean showDialog) {
         String url = BASE_URL + FILE_UPLOAD;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(FILE_TYPE, fileType);
         params.put(FILE_CONTENT, fileContent);
         params.put(FILE_NAME, fileName);
         params.put(NEED_WATER, needWater);
-        Http.postString(activity, url, params, headerMap, callback, true);
+        Http.postString(activity, url, params, headerMap, callback, showDialog);
     }
 
     /**
@@ -92,13 +94,13 @@ public class PrintRequest extends BaseRequst {
      * @param callback
      */
     public static final void addFile(Activity activity, String printerNo, String fileName, String fileUrl, final
-    HttpListener callback) {
+    HttpListener callback,boolean showDialog) {
         String url = BASE_URL + FILE_ADD;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(FILE_NAME, fileName);
         params.put(FILE_URL, fileUrl);
         params.put(PRINTER_NO, printerNo);
-        Http.postString(activity, url, params, headerTokenMap, callback, true);
+        Http.postString(activity, url, params, headerTokenMap, callback, showDialog);
     }
 
     /**
@@ -206,6 +208,13 @@ public class PrintRequest extends BaseRequst {
      */
     public static final void print(Activity activity, long orderId, final HttpListener callback) {
         String url = BASE_URL + PRINT;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(ORDER_ID, orderId);
+        Http.postString(activity, url, params, headerTokenMap, callback, true);
+    }
+
+    public static final void rePrint(Activity activity, long orderId, final HttpListener callback) {
+        String url = BASE_URL + RE_PRINT;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(ORDER_ID, orderId);
         Http.postString(activity, url, params, headerTokenMap, callback, true);

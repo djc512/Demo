@@ -143,8 +143,37 @@ public class DocPrintActivity extends BasePrintActivity {
         intent.putExtra(ORDER_ID, id);
         startActivity(intent);
         finish();
+    }
 
+    public void onRePrint(View view) {
+        if (orderId == null) {
+            return;
+        }
+        long id = StringUtil.stringToLong(orderId);
+        try {
+            id = Integer.parseInt(orderId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        if (id < 0) {
+            ShowUtil.showToast("参数错误");
+            return;
+        }
+        PrintRequest.rePrint(activity, id, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                AddOrderRespBean addOrderRespBean = new Gson().fromJson(content, AddOrderRespBean.class);
+                if (addOrderRespBean.isSuccess()) {
+                } else {
+                    ToastUtil.doToast(context, addOrderRespBean.getErrorMsg());
+                }
+            }
 
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
     }
 
 

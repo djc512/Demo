@@ -23,6 +23,7 @@ import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.WaitDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class AddFileActivity extends BasePrintActivity implements EasyPermissions.PermissionCallbacks, View
@@ -154,6 +155,14 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         });
+    }
+
+    public void onShow(View view) {
+        WaitDialog.showDialog(activity, null, null);
+    }
+
+    public void onDismiss(View view) {
+        WaitDialog.dismissDialog();
     }
 
 
