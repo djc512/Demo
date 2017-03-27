@@ -42,6 +42,7 @@
                     android:textColor="#333333" />
 
                 <TextView
+                    android:id="@+id/tv_dylist_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_dy_share"
@@ -51,6 +52,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tv_dylist_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -63,10 +65,14 @@
 
         <include layout="@layout/viewline" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="会议纪要" />
+            android:id="@+id/rv_dy_list">
+
+        </android.support.v7.widget.RecyclerView>
 
         <include layout="@layout/viewline" />
 
@@ -85,10 +91,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@id/tv_total_price"
+                android:layout_marginLeft="14dp"
                 android:text="￥15"
-                android:textColor="#ff9000" />
+                android:textColor="#ff9000"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/tv_total_price"
+                android:layout_toEndOf="@+id/tv_total_price"
+                android:layout_marginStart="14dp"
+                android:id="@+id/tv_dylist_money" />
         </RelativeLayout>
 
         <include layout="@layout/viewline" />
@@ -99,6 +109,7 @@
         android:layout_height="match_parent"
         >
         <Button
+            android:id="@+id/bt_dylist_comment"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="15dp"
