@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitValueCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.DebitValueRequest;
@@ -53,6 +56,8 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     private String billContext;
     private String amount;
     private String billValue;
+    private List<String> citys;
+    private String expAmount;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activty_debit_value, null);
@@ -128,7 +133,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
         DebitValueRequest.sendValueBack(
                 getActivity(),
                 address,//收件人地址
-                amount,//发票金额
+                billValue,//发票金额
                 bankAccount,//开户行账号
                 bankName,//开户行
                 "0",//发票内容0-打印费	number
@@ -136,7 +141,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
                 companyAddress,//发票公司地址
                 companyName,//发票公司名称
                 companyPhone,// 发票公司电话
-                billValue,//邮费
+                expAmount,//邮费
                 null,//文件份数
                 payType,//支付方式0-微信 1-支付宝 2-货到付款	number
                 ratepayerId,//纳税人识别号
@@ -212,11 +217,15 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             Toast.makeText(getContext(), "填写联系方式", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        citys = Arrays.asList("江苏", "浙江", "上海");
         city = et_debit_value_city.getText().toString().trim();
         if (TextUtils.isEmpty(city)) {
             Toast.makeText(getContext(), "填写收票单位注册地址", Toast.LENGTH_SHORT).show();
             return;
+        }else if (citys.contains(city)){
+            expAmount = "6";
+        }else {
+            expAmount ="15";
         }
 
         address = et_debit_value_address.getText().toString().trim();

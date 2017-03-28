@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitNormalCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.DebitNormalRequest;
@@ -45,6 +48,8 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
     private String amount;
 
     private String billValue;
+    private List<String> citys;
+    private String expAmount;
 
     @Nullable
     @Override
@@ -70,8 +75,8 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
         iv_normal_wechat = (ImageView) view.findViewById(R.id.iv_normal_wechat);
         iv_normal_alipay = (ImageView) view.findViewById(R.id.iv_normal_alipay);
     }
-
     private void getData() {
+        citys = Arrays.asList("上海", "浙江", "江苏");
         billContext = tv_bill_billContext.getText().toString().trim();
         tv_debit_normal_amount.setText(billValue);
 
@@ -97,6 +102,10 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
         if (TextUtils.isEmpty(city)) {
             Toast.makeText(getContext(), "选择地区信息", Toast.LENGTH_SHORT).show();
             return;
+        }else if(citys.contains(city)){
+            expAmount = "6";
+        }else {
+            expAmount ="15";
         }
 
         address = et_debit_normal_address.getText().toString().trim();
@@ -154,7 +163,7 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
                 billContext,//发票内容
                 city,//所在城市
                 companyName,//发票抬头
-                null,//邮费
+                expAmount,//邮费
                 null,//文件份数
                 payType,//支付方式0-微信 1-支付宝 2-货到付款	number
                 receiver,//收件人
