@@ -64,7 +64,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
 
     private void initData() {
         //获取数据
-        DaYinListRequest.getDaYinList(getSelfActivity(),1,new MyCallBack());
+        DaYinListRequest.getDaYinList(getSelfActivity(), 1, new MyCallBack());
     }
 
     private void initView() {
@@ -82,13 +82,13 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    public class MyCallBack extends DaYinListCallBack{
+    public class MyCallBack extends DaYinListCallBack {
 
         @Override
         public void success(String msg, DaYinListBean bean) {
             List<DaYinListBean.ListBean> list = bean.getList();
 
-            adapter = new DingDanListAdapter(getSelfActivity(),list);
+            adapter = new DingDanListAdapter(getSelfActivity(), list);
             rv_dingdan.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
             rv_dingdan.setAdapter(adapter);
 
@@ -110,7 +110,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             adapter.setOnItemClickLitener(new DingDanListAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(int position) {
-                    Intent intent = new Intent(getSelfActivity(),OrderDetailActivity.class);
+                    Intent intent = new Intent(getSelfActivity(), OrderDetailActivity.class);
                     startActivity(intent);
                 }
             });
