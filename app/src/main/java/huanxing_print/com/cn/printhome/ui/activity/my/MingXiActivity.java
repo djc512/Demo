@@ -23,7 +23,6 @@ import huanxing_print.com.cn.printhome.net.request.my.Go2DebitRequest;
 import huanxing_print.com.cn.printhome.net.request.my.MingXiDetailRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.MyBillAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * Created by Administrator on 2017/3/17 0017.
@@ -69,7 +68,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
         rv_bill_detail = (RecyclerView) findViewById(R.id.rv_bill_detail);
         tv_bill_debit = (TextView) findViewById(R.id.tv_bill_debit);
     }
-
+    private String billValue;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -81,10 +80,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 Go2DebitRequest.getRequset(getSelfActivity(), new Go2PayCallBack() {
                     @Override
                     public void success(String msg, String s) {
-                        if ("0" == s){
-                            ToastUtil.doToast(getSelfActivity(),"没有发票可开");
-                            return;
-                        }
+                        billValue = s;
                     }
 
                     @Override
@@ -98,7 +94,9 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                     }
                 });
 
-                startActivity(new Intent(getSelfActivity(),BillDebitActivity.class));
+                Intent intent = new Intent(getSelfActivity(),BillDebitActivity.class);
+                intent.putExtra("billValue",billValue);
+                startActivity(intent);
                 break;
         }
     }

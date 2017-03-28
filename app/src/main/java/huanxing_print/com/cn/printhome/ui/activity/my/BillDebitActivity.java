@@ -35,6 +35,8 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
     private int width;
 
     private List<Fragment> fragmentList = new ArrayList<>();
+    private String billValue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +51,10 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
     }
 
     private void initData() {
+        billValue = getIntent().getStringExtra("billValue");
+
         fragmentList.clear();
-        fragmentList.add(new DebitNormalFragment());
+        fragmentList.add(new DebitNormalFragment(billValue));
         fragmentList.add(new DebitValueFragment());
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);

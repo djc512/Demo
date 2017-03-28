@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.my.OrderDetailBean;
 
 /**
  * Created by Administrator on 2017/3/28 0028.
@@ -16,9 +19,11 @@ import huanxing_print.com.cn.printhome.R;
 public class OrderItemDetailAdapter extends RecyclerView.Adapter<OrderItemDetailAdapter.MyHolder> {
 
     private Context ctx;
+    private List<OrderDetailBean.PrintFilesBean> printFiles;
 
-    public OrderItemDetailAdapter(Context ctx) {
+    public OrderItemDetailAdapter(Context ctx, List<OrderDetailBean.PrintFilesBean> printFiles) {
         this.ctx = ctx;
+        this.printFiles = printFiles;
     }
 
     @Override
@@ -30,7 +35,7 @@ public class OrderItemDetailAdapter extends RecyclerView.Adapter<OrderItemDetail
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-
+        OrderDetailBean.PrintFilesBean printFilesBean = printFiles.get(position);
     }
 
     @Override
@@ -51,6 +56,7 @@ public class OrderItemDetailAdapter extends RecyclerView.Adapter<OrderItemDetail
 
         public MyHolder(View view) {
             super(view);
+
             tv_orderitem_title = (TextView) view.findViewById(R.id.tv_orderitem_title);
             tv_orderitem_fenshu = (TextView) view.findViewById(R.id.tv_orderitem_fenshu);
             tv_orderitem_num = (TextView) view.findViewById(R.id.tv_orderitem_num);

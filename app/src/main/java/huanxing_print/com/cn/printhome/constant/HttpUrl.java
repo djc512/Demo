@@ -31,6 +31,7 @@ public class HttpUrl {
 	public static final String printerList = "print/printer/history"; // 最近使用的打印机列表
 	public static final String setDefaultprinter= "print/printer/setDefault"; // 设置默认打印机
 	public static final String go2Debit= "pay/bill/getBillAmount"; // 获取能否开发票的接口
+	public static final String orderDetail= "order/getOrderDetail"; // 查询订单详情
 	private static String postUrl;
 
 	private static HttpUrl httpUrl;

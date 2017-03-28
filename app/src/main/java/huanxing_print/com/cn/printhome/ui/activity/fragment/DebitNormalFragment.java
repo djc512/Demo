@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,6 +45,7 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
     private String billContext;
     private String amount;
 
+    private String billValue;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,6 +53,11 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
         initView(view);
         setListener();
         return view;
+    }
+
+    @SuppressLint("ValidFragment")
+    public DebitNormalFragment(String billValue) {
+        this.billValue = billValue;
     }
 
     private void initView(View view) {
@@ -70,7 +77,7 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
 
     private void getData() {
         billContext = tv_bill_billContext.getText().toString().trim();
-        amount = tv_debit_normal_amount.getText().toString().trim();
+        tv_debit_normal_amount.setText(billValue);
 
         companyName = et_debit_normal_companyName.getText().toString().trim();
         if (TextUtils.isEmpty(companyName)) {

@@ -6,8 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.my.OrderDetailBean;
+import huanxing_print.com.cn.printhome.net.callback.my.OrderDetailCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.OrderDetailRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.OrderItemDetailAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
@@ -32,10 +37,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initData() {
-
-        OrderItemDetailAdapter adapter = new OrderItemDetailAdapter(getSelfActivity());
-        rv_order_item.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
-        rv_order_item.setAdapter(adapter);
+        OrderDetailRequest.getOrderDetail(getSelfActivity(),"11111111111111",new MyCallBack());
     }
 
     private void setListener() {
@@ -53,6 +55,28 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
             case  R.id.ll_back:
                 finish();
                 break;
+        }
+    }
+    public class MyCallBack extends OrderDetailCallBack{
+
+        @Override
+        public void success(String msg, OrderDetailBean bean) {
+            OrderDetailBean.OrderInfoBean orderInfo = bean.getOrderInfo();
+            List<OrderDetailBean.PrintFilesBean> printFiles = bean.getPrintFiles();
+
+            OrderItemDetailAdapter adapter = new OrderItemDetailAdapter(getSelfActivity(),printFiles);
+            rv_order_item.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
+            rv_order_item.setAdapter(adapter);
+        }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
         }
     }
 }

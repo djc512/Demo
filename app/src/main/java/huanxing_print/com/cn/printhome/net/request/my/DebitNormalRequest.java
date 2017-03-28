@@ -42,7 +42,7 @@ public class DebitNormalRequest extends BaseRequst {
                                       String receiver,//收件人
                                       String telPhone,//联系方式
                                     final DebitNormalCallBack callBack) {
-        String normalUrl = HttpUrl.test + HttpUrl.normalDebit;
+        String normalUrl = HTTP_URL + HttpUrl.normalDebit;
 
         Map<String, Object> params = new HashMap<>();
 

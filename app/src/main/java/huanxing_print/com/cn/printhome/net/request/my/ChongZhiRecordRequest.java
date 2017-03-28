@@ -17,7 +17,7 @@ import huanxing_print.com.cn.printhome.util.HttpUtils;
 public class ChongZhiRecordRequest extends BaseRequst {
     public static void getCzRecord(Context ctx,int pageNum,final ChongZhiRecordCallBack callBack) {
 
-        String czRecordUrl = HttpUrl.test + HttpUrl.czRecord;
+        String czRecordUrl = HTTP_URL + HttpUrl.czRecord;
 
         HttpUtils.getParam(ctx, czRecordUrl, BaseApplication.getInstance().getLoginToken(),pageNum, new HttpCallBack() {
 

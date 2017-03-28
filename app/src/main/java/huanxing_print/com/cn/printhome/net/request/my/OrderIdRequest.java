@@ -21,7 +21,7 @@ public class OrderIdRequest extends BaseRequst {
 
     public static void getOrderId(Context ctx, String money, final OrderIdCallBack callBack){
 
-        String orderIdurl = HttpUrl.test + HttpUrl.payOrderId;
+        String orderIdurl = HTTP_URL + HttpUrl.payOrderId;
 
         Map<String,Object> params = new HashMap<>();
         params.put("amount",money);
