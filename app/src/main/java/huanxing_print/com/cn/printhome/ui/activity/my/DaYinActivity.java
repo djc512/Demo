@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.DaYinListBean;
@@ -45,16 +47,6 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
 
     private void setListener() {
         ll_back.setOnClickListener(this);
-
-        adapter.setOnItemClickLitener(new DingDanListAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(int position) {
-                Intent intent = new Intent(getSelfActivity(),OrderDetailActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
         xrf_dingdan.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             //刷新
             @Override
@@ -73,25 +65,6 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
     private void initData() {
         //获取数据
         DaYinListRequest.getDaYinList(getSelfActivity(),1,new MyCallBack());
-
-        adapter = new DingDanListAdapter(this,null);
-        rv_dingdan.setLayoutManager(new LinearLayoutManager(this));
-        rv_dingdan.setAdapter(adapter);
-
-        // 设置静默加载模式
-        // xRefreshView1.setSilenceLoadMore();
-        // 静默加载模式不能设置footerview
-        //设置刷新完成以后，headerview固定的时间
-        xrf_dingdan.setPinnedTime(1000);
-        xrf_dingdan.setMoveForHorizontal(true);
-        xrf_dingdan.setPullLoadEnable(true);
-        xrf_dingdan.setAutoLoadMore(false);
-        adapter.setCustomLoadMoreView(new XRefreshViewFooter(this));
-        xrf_dingdan.enableReleaseToLoadMore(true);
-        xrf_dingdan.enableRecyclerViewPullUp(true);
-        xrf_dingdan.enablePullUpWhenLoadCompleted(true);
-        //设置静默加载时提前加载的item个数
-        //xRefreshView1.setPreLoadCount(4);
     }
 
     private void initView() {
@@ -113,6 +86,34 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
 
         @Override
         public void success(String msg, DaYinListBean bean) {
+            List<DaYinListBean.ListBean> list = bean.getList();
+
+            adapter = new DingDanListAdapter(getSelfActivity(),list);
+            rv_dingdan.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
+            rv_dingdan.setAdapter(adapter);
+
+            // 设置静默加载模式
+            // xRefreshView1.setSilenceLoadMore();
+            // 静默加载模式不能设置footerview
+            //设置刷新完成以后，headerview固定的时间
+            xrf_dingdan.setPinnedTime(1000);
+            xrf_dingdan.setMoveForHorizontal(true);
+            xrf_dingdan.setPullLoadEnable(true);
+            xrf_dingdan.setAutoLoadMore(false);
+            adapter.setCustomLoadMoreView(new XRefreshViewFooter(getSelfActivity()));
+            xrf_dingdan.enableReleaseToLoadMore(true);
+            xrf_dingdan.enableRecyclerViewPullUp(true);
+            xrf_dingdan.enablePullUpWhenLoadCompleted(true);
+            //设置静默加载时提前加载的item个数
+            //xRefreshView1.setPreLoadCount(4);
+
+            adapter.setOnItemClickLitener(new DingDanListAdapter.OnItemClickLitener() {
+                @Override
+                public void onItemClick(int position) {
+                    Intent intent = new Intent(getSelfActivity(),OrderDetailActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override

@@ -7,11 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.my.DaYinListBean;
 
 /**
  * Created by Administrator on 2017/3/27 0027.
@@ -20,11 +16,9 @@ import huanxing_print.com.cn.printhome.model.my.DaYinListBean;
 public class DingDanItemListAdapter extends RecyclerView.Adapter<DingDanItemListAdapter.MyHolder> {
 
     private Context ctx;
-    private List<DaYinListBean.DataBean.ListBean.FileInfosBean> fileInfos =new ArrayList<>();
 
-    public DingDanItemListAdapter(Context ctx, List<DaYinListBean.DataBean.ListBean.FileInfosBean> fileInfos) {
+    public DingDanItemListAdapter(Context ctx) {
         this.ctx = ctx;
-        this.fileInfos = fileInfos;
     }
 
     @Override

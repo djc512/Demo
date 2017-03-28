@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -27,7 +26,12 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.MyHolder> {
 
     private Context ctx;
-    private List<DaYinListBean.DataBean.ListBean> list = new ArrayList<>();
+    private List<DaYinListBean.ListBean> list;
+
+    public DingDanListAdapter(Context ctx, List<DaYinListBean.ListBean> list) {
+        this.ctx = ctx;
+        this.list = list;
+    }
 
     public interface OnItemClickLitener {
         void onItemClick(int position);
@@ -38,12 +42,6 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
-
-    public DingDanListAdapter(Context ctx, List<DaYinListBean.DataBean.ListBean> list) {
-        this.ctx = ctx;
-        this.list = list;
-    }
-
     @Override
     public MyHolder getViewHolder(View view) {
         return new MyHolder(view);
@@ -59,6 +57,21 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
 
     @Override
     public void onBindViewHolder(MyHolder holder, final int position, boolean isItem) {
+        DaYinListBean.ListBean listBean = list.get(position);
+        int status = listBean.getStatus();//打印状态
+        initStatus(status);
+        String addTime = listBean.getAddTime();
+        double totalAmount = listBean.getTotalAmount();
+
+        holder.tv_dylist_time.setText(addTime);
+        holder.tv_dylist_state.setText(statusStr);
+        holder.tv_dylist_money.setText(totalAmount+"");
+
+        DingDanItemListAdapter adapter = new DingDanItemListAdapter(ctx);
+
+        holder.rv_dy_list.setLayoutManager(new LinearLayoutManager(ctx));
+        holder.rv_dy_list.setAdapter(adapter);
+
 
         if (mOnItemClickLitener != null){
             holder.ll_dingdan.setOnClickListener(new View.OnClickListener() {
@@ -74,19 +87,6 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
                 ToastUtil.doToast(ctx,"去评论");
             }
         });
-
-//        DaYinListBean.DataBean.ListBean listBean = list.get(position);
-//        int status = listBean.getStatus();
-//        List<DaYinListBean.DataBean.ListBean.FileInfosBean> fileInfos = listBean.getFileInfos();
-//
-//        initStatus(status);
-//
-//        holder.tv_dylist_state.setText(statusStr);
-
-        DingDanItemListAdapter adapter = new DingDanItemListAdapter(ctx,null);
-
-        holder.rv_dy_list.setLayoutManager(new LinearLayoutManager(ctx));
-        holder.rv_dy_list.setAdapter(adapter);
     }
 
     private void initStatus(int status) {
@@ -109,15 +109,13 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
             case 5:
                 statusStr = "打印成功";
                 break;
-
         }
 
     }
 
     @Override
     public int getAdapterItemCount() {
-        return 3;
-//        return list.size();
+        return list.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
@@ -132,6 +130,7 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
 
         public MyHolder(View view) {
             super(view);
+
             tv_dylist_time = (TextView) view.findViewById(R.id.tv_dylist_time);
             tv_dylist_state = (TextView) view.findViewById(R.id.tv_dylist_state);
             tv_dylist_money = (TextView) view.findViewById(R.id.tv_dylist_money);
