@@ -10,14 +10,17 @@ import android.widget.TextView;
 
 import org.simple.eventbus.EventBus;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.model.my.UpdateInfoBean;
-import huanxing_print.com.cn.printhome.net.callback.my.UpdateInfoCallBack;
-import huanxing_print.com.cn.printhome.net.request.my.UpdateIfoRequest;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
+import huanxing_print.com.cn.printhome.net.request.my.UpdatePersonInfoRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by Administrator on 2017/3/22 0022.
@@ -28,7 +31,7 @@ public class MyModifyNameActivty extends BaseActivity implements View.OnClickLis
     private TextView iv_modifyName_finish;
     private EditText et_modify_nickName;
     private ImageView iv_modify_delete;
-    private String cropImagePath;
+    private String nickName;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -47,8 +50,10 @@ public class MyModifyNameActivty extends BaseActivity implements View.OnClickLis
     }
 
     private void initData() {
-        Intent intent = getIntent();
-        cropImagePath = intent.getStringExtra("cropImagePath");
+        String infoName = getIntent().getStringExtra("nickName");
+        if (!ObjectUtils.isNull(infoName)) {
+            et_modify_nickName.setText(infoName);
+        }
     }
 
     private void initView() {
@@ -68,28 +73,25 @@ public class MyModifyNameActivty extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
             case R.id.iv_modifyName_finish:
-                String name = et_modify_nickName.getText().toString().trim();
-                if(ObjectUtils.isNull(name)){
+                nickName = et_modify_nickName.getText().toString().trim();
+                if(ObjectUtils.isNull(nickName)){
                     ToastUtil.doToast(getSelfActivity(),"请输入用户名");
                     return;
                 }
 
-                //修改上一个页面的用户名
-                EventBus.getDefault().post(name,"name");
+                Map<String, Object> params = new HashMap<String, Object>();
+                params.put("nickName", nickName);
+                DialogUtils.showProgressDialog(getSelfActivity(), "正在保存").show();
+                UpdatePersonInfoRequest.update(getSelfActivity(),  baseApplication.getLoginToken(),params, callback);
 
-                //将用户头像上传到后台
-                UpdateIfoRequest.updateInfo(getSelfActivity(),cropImagePath,
-                        null,name,null,null,null,
-                        new MyUpdateInfoCallBack()
-                );
-                ToastUtil.doToast(getSelfActivity(),"修改成功");
-                finish();
                 break;
             case R.id.iv_modify_delete:
                 et_modify_nickName.setText("");
+                break;
+            default:
                 break;
         }
     }
@@ -97,24 +99,32 @@ public class MyModifyNameActivty extends BaseActivity implements View.OnClickLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
 
-    private class MyUpdateInfoCallBack extends UpdateInfoCallBack {
+    }
+    private NullCallback callback = new NullCallback() {
 
         @Override
         public void fail(String msg) {
-
+            toast(msg);
+            DialogUtils.closeProgressDialog();
         }
 
         @Override
         public void connectFail() {
-
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
         }
 
         @Override
-        public void success(String msg, UpdateInfoBean bean) {
-
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            baseApplication.setNickName(nickName);
+            Intent carlist = new Intent(getSelfActivity() , MyActivity.class);
+            carlist.putExtra("nickName", nickName);
+            setResult(103, carlist);
+            finishCurrentActivity();
+            EventBus.getDefault().post(nickName, "name");
+            //EventBus.getDefault().post(new UpdateEvent());
         }
-    }
+    };
 }

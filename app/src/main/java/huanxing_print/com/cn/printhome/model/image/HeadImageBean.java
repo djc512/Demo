@@ -2,23 +2,15 @@ package huanxing_print.com.cn.printhome.model.image;
 
 public class HeadImageBean {
 
-	private String headImg;
-	private String userId;
+	private String imgUrl;
 
-	public String getHeadImg() {
-		return headImg;
+	public String getImgUrl() {
+		return imgUrl;
 	}
 
-	public void setHeadImg(String headImg) {
-		this.headImg = headImg;
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 
 }

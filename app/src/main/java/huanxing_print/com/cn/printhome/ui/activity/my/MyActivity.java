@@ -8,14 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.util.Base64;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -24,12 +20,24 @@ import android.widget.TextView;
 import org.simple.eventbus.EventBus;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.model.image.HeadImageBean;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
+import huanxing_print.com.cn.printhome.net.callback.image.HeadImageUploadCallback;
+import huanxing_print.com.cn.printhome.net.request.image.HeadImageUploadRequest;
+import huanxing_print.com.cn.printhome.net.request.my.UpdatePersonInfoRequest;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 
 /**
@@ -39,12 +47,13 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 public class MyActivity extends BaseActivity implements View.OnClickListener {
 
     //请求相机
-    private static final int REQUEST_CAPTURE = 100;
+    private  final int REQUEST_CAPTURE = 100;
     //请求相册
-    private static final int REQUEST_PICK = 101;
+    private  final int REQUEST_PICK = 101;
     //请求截图
-    private static final int REQUEST_CROP_PHOTO = 102;
-
+    private  final int REQUEST_CROP_PHOTO = 102;
+    private  final int NAME_CODE = 103;
+    private String oriPath = ConFig.IMG_CACHE_PATH + File.separator + "headImg.jpg";
     private ImageView iv_user_head;
     private LinearLayout ll_back;
 
@@ -53,9 +62,10 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_userInfo_name;
     private LinearLayout ll_userInfo_wechat;
     private String wechatId;
-    private TextView tv_userInfo_wechat;
+    private TextView tv_userInfo_wechat,tv_userInfo_nickname;
     private String cropImagePath;
-    private String headImg;
+    private String nickName;
+    private Bitmap bitMap;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -68,8 +78,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_user_my);
         EventBus.getDefault().register(this);
-        //创建拍照存储的临时文件
-        createCameraTempFile(savedInstanceState);
+
         initView();
         initData();
         setListener();
@@ -80,9 +89,13 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
      */
     private void initData() {
         Intent intent = getIntent();
-        headImg = intent.getStringExtra("headUrl");
+        nickName = intent.getStringExtra("nickName");
         wechatId = intent.getStringExtra("wechatId");
-        BitmapUtils.displayImage(getSelfActivity(), headImg, R.drawable.iv_head, iv_user_head);
+        BitmapUtils.displayImage(getSelfActivity(), baseApplication.getHeadImg(),
+                R.drawable.iv_head, iv_user_head);
+        if (!ObjectUtils.isNull(nickName)) {
+            tv_userInfo_nickname.setText(nickName);
+        }
         if (ObjectUtils.isNull(wechatId)) {
             tv_userInfo_wechat.setText("未绑定");
         } else {
@@ -90,15 +103,6 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    private void createCameraTempFile(Bundle savedInstanceState) {
-
-        if (savedInstanceState != null && savedInstanceState.containsKey("tempFile")) {
-            tempFile = (File) savedInstanceState.getSerializable("tempFile");
-        } else {
-            tempFile = new File(checkDirPath(Environment.getExternalStorageDirectory().getPath() + "/image/"),
-                    System.currentTimeMillis() + ".jpg");
-        }
-    }
 
     /**
      * 检查文件是否存在
@@ -120,7 +124,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         ll_userInfo_name = (LinearLayout) findViewById(R.id.ll_userInfo_name);
         ll_userInfo_wechat = (LinearLayout) findViewById(R.id.ll_userInfo_wechat);
-
+        tv_userInfo_nickname = (TextView) findViewById(R.id.tv_userInfo_nickname);
         tv_userInfo_wechat = (TextView) findViewById(R.id.tv_userInfo_wechat);
     }
 
@@ -135,95 +139,64 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_user_head:
-                showSelectImage();
-                break;
-            case R.id.btn_camera:
-                //跳转到调用系统相机
-                gotoCarema();
-                popupWindow.dismiss();
-                break;
-            case R.id.btn_photo:
-                //跳转到调用系统图库
-                gotoPhoto();
-                popupWindow.dismiss();
-                break;
-            case R.id.btn_cancel:
-                popupWindow.dismiss();
-                break;
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
+            case R.id.iv_user_head:
+                DialogUtils.showPicChooseDialog(getSelfActivity(), new DialogUtils.PicChooseDialogCallBack() {
+
+                    @Override
+                    public void photo() {
+                        Intent intent = new Intent(Intent.ACTION_PICK, null);
+                        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                        startActivityForResult(intent, REQUEST_CAPTURE);
+                    }
+
+                    @Override
+                    public void camera() {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(oriPath)));
+                        startActivityForResult(intent, REQUEST_PICK);
+
+                    }
+                }).show();
+                break;
+
             case R.id.ll_userInfo_name:
-                Intent intent = new Intent(getSelfActivity(), MyModifyNameActivty.class);
-                intent.putExtra("cropImagePath", cropImagePath);
-                startActivity(intent);
+                Intent nameIntent = new Intent(getSelfActivity(), MyModifyNameActivty.class);
+                nameIntent.putExtra("nickName", nickName);
+                startActivityForResult(nameIntent, NAME_CODE);
                 break;
             case R.id.ll_userInfo_wechat:
 
                 break;
+            default:
+                break;
         }
     }
 
-    private void gotoPhoto() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(Intent.createChooser(intent, "请选择图片"), REQUEST_PICK);
-    }
 
-    private void gotoCarema() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
-        startActivityForResult(intent, REQUEST_CAPTURE);
-    }
 
-    private void showSelectImage() {
-        View view = LayoutInflater.from(this).inflate(R.layout.layout_popupwindow, null);
-        TextView btnCarema = (TextView) view.findViewById(R.id.btn_camera);
-        TextView btnPhoto = (TextView) view.findViewById(R.id.btn_photo);
-        TextView btnCancel = (TextView) view.findViewById(R.id.btn_cancel);
-        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-        View parent = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
-        popupWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
-        //popupWindow在弹窗的时候背景半透明
-        final WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 0.5f;
-        getWindow().setAttributes(params);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                params.alpha = 1.0f;
-                getWindow().setAttributes(params);
-            }
-        });
-
-        btnCarema.setOnClickListener(this);
-        btnPhoto.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("tempFile", tempFile);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
-            case REQUEST_CAPTURE: //调用系统相机返回
-                if (resultCode == RESULT_OK) {
-                    gotoClipActivity(Uri.fromFile(tempFile));
+            case REQUEST_CAPTURE:
+                if (null != intent) {
+                    gotoClipActivity(intent.getData());
                 }
                 break;
-            case REQUEST_PICK:  //调用系统相册返回
+            case REQUEST_PICK:
                 if (resultCode == RESULT_OK) {
-                    Uri uri = intent.getData();
-                    gotoClipActivity(uri);
+                    File temp = new File(oriPath);
+                    gotoClipActivity(Uri.fromFile(temp));
                 }
                 break;
+//            case REQUEST_CROP_PHOTO:
+//                if (null != intent) {
+//                    setPicToView(intent);
+//                }
+//                break;
             case REQUEST_CROP_PHOTO:  //剪切图片返回
                 if (resultCode == RESULT_OK) {
                     final Uri uri = intent.getData();
@@ -234,9 +207,21 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
 
                     BitmapUtils.displayImage(this, cropImagePath, R.drawable.iv_head, iv_user_head);
 
-                    Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
-                    EventBus.getDefault().post(bitMap, "head");
+                    bitMap = BitmapFactory.decodeFile(cropImagePath);
+                    setPicToView(bitMap);
+                    //EventBus.getDefault().post(bitMap, "head");
                 }
+                break;
+            case NAME_CODE:
+                if (null != intent) {
+                    String name = intent.getStringExtra("nickName");
+                    if (!ObjectUtils.isNull(name)) {
+                        tv_userInfo_wechat.setText(name);
+                    }
+
+                }
+                break;
+            default:
                 break;
         }
     }
@@ -255,6 +240,88 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         intent.setData(uri);
         startActivityForResult(intent, REQUEST_CROP_PHOTO);
     }
+
+    private void setPicToView(Bitmap bitMap) {
+        //Bundle extras = picdata.getExtras();
+        if (null != bitMap) {
+            //Bitmap photo = extras.getParcelable("data");
+            //Bitmap photo =filterColor(phmp);
+            iv_user_head.setImageBitmap(bitMap);
+            String filePath = FileUtils.savePic(getSelfActivity(), "headImg.jpg", bitMap);
+            if (!ObjectUtils.isNull(filePath)) {
+                File file = new File(filePath);
+                //file转化成二进制
+                byte[] buffer = null;
+                FileInputStream in ;
+                int length = 0;
+                try {
+                    in = new FileInputStream(file);
+                    buffer = new byte[(int) file.length() + 100];
+                    length = in.read(buffer);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+
+                DialogUtils.showProgressDialog(getSelfActivity(), "文件上传中").show();
+                Map<String, Object> params = new HashMap<String, Object>();
+                params.put("fileContent", data);
+                params.put("fileName", filePath);
+                params.put("fileType", ".jpg");
+                HeadImageUploadRequest.upload(getSelfActivity(),  params,
+                        new HeadImageUploadCallback() {
+
+                            @Override
+                            public void fail(String msg) {
+                                toast(msg);
+                                DialogUtils.closeProgressDialog();
+                            }
+
+                            @Override
+                            public void connectFail() {
+                                toastConnectFail();
+                                DialogUtils.closeProgressDialog();
+                            }
+
+                            @Override
+                            public void success(String msg, HeadImageBean bean) {
+                                //Logger.d("PersonInfoActivity ---------HeadImage--------:" + bean.getImgUrl() );
+                                baseApplication.setHeadImg(bean.getImgUrl());
+                                //DialogUtils.closeProgressDialog();
+                                Map<String, Object> params = new HashMap<String, Object>();
+                                params.put("faceUrl", bean.getImgUrl());
+                                UpdatePersonInfoRequest.update(getSelfActivity(),  baseApplication.getLoginToken(),params, callback);
+                            }
+                        });
+            }
+
+        }
+    }
+
+    private NullCallback callback = new NullCallback() {
+
+        @Override
+        public void fail(String msg) {
+            toast(msg);
+            DialogUtils.closeProgressDialog();
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
+        }
+
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            EventBus.getDefault().post(bitMap, "head");
+            BitmapUtils.displayImage(getSelfActivity(), baseApplication.getHeadImg(), R.drawable.iv_head, iv_user_head);
+            toast("头像更新成功");
+        }
+    };
+
+
 
     /**
      * 根据Uri返回文件绝对路径

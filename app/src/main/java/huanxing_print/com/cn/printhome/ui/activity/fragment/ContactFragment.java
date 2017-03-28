@@ -154,8 +154,8 @@ public class ContactFragment extends BaseFragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.rl_userMsg:
                 Intent intent = new Intent(getActivity(), MyActivity.class);
-                intent.putExtra("headUrl",headUrl);
-                intent.putExtra("wechatId",headUrl);
+                intent.putExtra("nickName",nickName);
+                intent.putExtra("wechatId",wechatId);
                 startActivity(intent);
                 break;
             case iv_notice:
