@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,6 +18,16 @@ import huanxing_print.com.cn.printhome.model.my.DaYinListBean;
  */
 
 public class DingDanItemListAdapter extends RecyclerView.Adapter<DingDanItemListAdapter.MyHolder> {
+
+    public interface OnItemClickLitener {
+        void onItemClick(int position);
+    }
+
+    private OnItemClickLitener mOnItemClickLitener;
+
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
+        this.mOnItemClickLitener = mOnItemClickLitener;
+    }
 
     private Context ctx;
     private List<DaYinListBean.ListBean.FileInfosBean> fileInfos;
@@ -34,7 +45,7 @@ public class DingDanItemListAdapter extends RecyclerView.Adapter<DingDanItemList
     }
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position) {
+    public void onBindViewHolder(MyHolder holder, final int position) {
 
         DaYinListBean.ListBean.FileInfosBean fileInfosBean = fileInfos.get(position);
         String fileName = fileInfosBean.getFileName();
@@ -42,6 +53,13 @@ public class DingDanItemListAdapter extends RecyclerView.Adapter<DingDanItemList
 
         holder.tv_list_name.setText(fileName);
         holder.tv_list_num.setText("X"+printCount);
+
+        holder.rl_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnItemClickLitener.onItemClick(position);
+            }
+        });
     }
 
     @Override
@@ -53,11 +71,13 @@ public class DingDanItemListAdapter extends RecyclerView.Adapter<DingDanItemList
 
         private final TextView tv_list_name;
         private final TextView tv_list_num;
+        private final RelativeLayout rl_item;
 
         public MyHolder(View view) {
             super(view);
             tv_list_name = (TextView) view.findViewById(R.id.tv_list_name);
             tv_list_num = (TextView) view.findViewById(R.id.tv_list_num);
+            rl_item = (RelativeLayout) view.findViewById(R.id.rl_item);
         }
     }
 }

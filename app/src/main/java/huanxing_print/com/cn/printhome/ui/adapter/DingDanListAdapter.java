@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.my.DaYinListBean;
+import huanxing_print.com.cn.printhome.ui.activity.my.OrderDetailActivity;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
@@ -42,6 +44,7 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
+
     @Override
     public MyHolder getViewHolder(View view) {
         return new MyHolder(view);
@@ -65,16 +68,22 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
 
         holder.tv_dylist_time.setText(addTime);
         holder.tv_dylist_state.setText(statusStr);
-        holder.tv_dylist_money.setText(totalAmount+"");
+        holder.tv_dylist_money.setText(totalAmount + "");
 
         List<DaYinListBean.ListBean.FileInfosBean> fileInfos = listBean.getFileInfos();
-        DingDanItemListAdapter adapter = new DingDanItemListAdapter(ctx,fileInfos);
 
+        DingDanItemListAdapter adapter = new DingDanItemListAdapter(ctx, fileInfos);
         holder.rv_dy_list.setLayoutManager(new LinearLayoutManager(ctx));
         holder.rv_dy_list.setAdapter(adapter);
+        adapter.setOnItemClickLitener(new DingDanItemListAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(ctx, OrderDetailActivity.class);
+                ctx.startActivity(intent);
+            }
+        });
 
-
-        if (mOnItemClickLitener != null){
+        if (mOnItemClickLitener != null) {
             holder.ll_dingdan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -85,7 +94,7 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
         holder.btn_dylist_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.doToast(ctx,"去评论");
+                ToastUtil.doToast(ctx, "去评论");
             }
         });
     }
