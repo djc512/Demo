@@ -26,6 +26,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_pay_alipay;
     private Button btn_pay;
     private String orderId;
+    private String rechargeAmout;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -45,8 +46,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private void initData() {
         Intent intent = getIntent();
         orderId = intent.getStringExtra("orderId");
+        rechargeAmout = intent.getStringExtra("rechargeAmout");
 
-        tv_pay_money.setText("￥"+orderId);
+        tv_pay_money.setText("￥"+rechargeAmout);
     }
 
     private void setListener() {
