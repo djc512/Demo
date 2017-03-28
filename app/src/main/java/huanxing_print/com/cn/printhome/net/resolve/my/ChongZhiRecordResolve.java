@@ -1,5 +1,7 @@
 package huanxing_print.com.cn.printhome.net.resolve.my;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongZhiRecordCallBack;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;

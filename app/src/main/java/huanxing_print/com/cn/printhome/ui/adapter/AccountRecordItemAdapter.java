@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -19,11 +18,10 @@ import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
 
 public class AccountRecordItemAdapter extends RecyclerView.Adapter<AccountRecordItemAdapter.MyViewHolder> {
     private Context ctx;
-    private List<ChongZhiRecordBean.DataBean.ListBean.DetailBean> list = new ArrayList<>();
-
-    public AccountRecordItemAdapter(Context ctx, List<ChongZhiRecordBean.DataBean.ListBean.DetailBean> list) {
+    private List<ChongZhiRecordBean.ListBean.DetailBean> detail;
+    public AccountRecordItemAdapter(Context ctx, List<ChongZhiRecordBean.ListBean.DetailBean> detail) {
         this.ctx = ctx;
-        this.list = list;
+        this.detail = detail;
     }
 
     @Override
@@ -35,23 +33,24 @@ public class AccountRecordItemAdapter extends RecyclerView.Adapter<AccountRecord
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-//        ChongZhiRecordBean.DataBean.ListBean.DetailBean detailBean = list.get(position);
-//        String date = detailBean.getDate();//充值时间
-//        int type = detailBean.getType();//充值类型
-//        String amount = detailBean.getAmount();//充值金额
-//
-//        holder.tv_record_time.setText(date);//设置充值时间
-//        if (type == 0) {//微信充值
-//            holder.tv_record_czway.setText("充值—微信支付");
-//        } else {//支付宝充值
-//            holder.tv_record_czway.setText("充值-支付宝支付");
-//        }
-//        holder.tv_record_money.setText("+"+amount);
+
+        ChongZhiRecordBean.ListBean.DetailBean detailBean = detail.get(position);
+        String date = detailBean.getDate();//充值时间
+        int type = detailBean.getType();//充值类型
+        String amount = detailBean.getAmount();//充值金额
+
+        holder.tv_record_time.setText(date);//设置充值时间
+        if (type == 0) {//微信充值
+            holder.tv_record_czway.setText("充值—微信支付");
+        } else {//支付宝充值
+            holder.tv_record_czway.setText("充值-支付宝支付");
+        }
+        holder.tv_record_money.setText("+"+amount);
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return detail.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
