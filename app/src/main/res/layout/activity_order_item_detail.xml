@@ -45,7 +45,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/tv_orderitem_type"
+        android:id="@+id/tv_orderitem_pagetype"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="3dp"

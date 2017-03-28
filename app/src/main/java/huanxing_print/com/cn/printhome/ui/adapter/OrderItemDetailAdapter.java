@@ -35,12 +35,20 @@ public class OrderItemDetailAdapter extends RecyclerView.Adapter<OrderItemDetail
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-        OrderDetailBean.PrintFilesBean printFilesBean = printFiles.get(position);
+//        OrderDetailBean.PrintFilesBean bean = printFiles.get(position);
+//        holder.tv_orderitem_title.setText(bean.getFileName());
+//        holder.tv_orderitem_fenshu.setText(bean.getPrintCount());
+//        holder.tv_orderitem_num.setText(bean.getPrintNo());
+//        holder.tv_orderitem_price.setText(bean.get);
+//        holder.tv_orderitem_color.setText();
+//        holder.tv_orderitem_style.setText();
+//        holder.tv_orderitem_pagetype.setText();
+//        holder.tv_orderitem_printtype.setText();
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return printFiles.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder{
@@ -49,7 +57,7 @@ public class OrderItemDetailAdapter extends RecyclerView.Adapter<OrderItemDetail
         private TextView tv_orderitem_fenshu;
         private TextView tv_orderitem_num;
         private TextView tv_orderitem_price;
-        private TextView tv_orderitem_type;
+        private TextView tv_orderitem_pagetype;
         private TextView tv_orderitem_color;
         private TextView tv_orderitem_style;
         private TextView tv_orderitem_printtype;
@@ -61,7 +69,7 @@ public class OrderItemDetailAdapter extends RecyclerView.Adapter<OrderItemDetail
             tv_orderitem_fenshu = (TextView) view.findViewById(R.id.tv_orderitem_fenshu);
             tv_orderitem_num = (TextView) view.findViewById(R.id.tv_orderitem_num);
             tv_orderitem_price = (TextView) view.findViewById(R.id.tv_orderitem_price);
-            tv_orderitem_type = (TextView) view.findViewById(R.id.tv_orderitem_type);
+            tv_orderitem_pagetype = (TextView) view.findViewById(R.id.tv_orderitem_pagetype);
             tv_orderitem_color = (TextView) view.findViewById(R.id.tv_orderitem_color);
             tv_orderitem_style = (TextView) view.findViewById(R.id.tv_orderitem_style);
             tv_orderitem_printtype = (TextView) view.findViewById(R.id.tv_orderitem_printtype);
