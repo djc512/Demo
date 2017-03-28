@@ -17,10 +17,13 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.MingxiDetailBean;
+import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.MingXiDetailCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.Go2DebitRequest;
 import huanxing_print.com.cn.printhome.net.request.my.MingXiDetailRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.MyBillAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * Created by Administrator on 2017/3/17 0017.
@@ -74,6 +77,27 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.tv_bill_debit://开发票
+                //根据后台判断能否开发票
+                Go2DebitRequest.getRequset(getSelfActivity(), new Go2PayCallBack() {
+                    @Override
+                    public void success(String msg, String s) {
+                        if ("0" == s){
+                            ToastUtil.doToast(getSelfActivity(),"没有发票可开");
+                            return;
+                        }
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+
+                    }
+
+                    @Override
+                    public void connectFail() {
+
+                    }
+                });
+
                 startActivity(new Intent(getSelfActivity(),BillDebitActivity.class));
                 break;
         }
