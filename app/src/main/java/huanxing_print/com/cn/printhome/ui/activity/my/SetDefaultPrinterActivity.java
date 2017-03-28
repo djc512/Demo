@@ -1,8 +1,13 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -14,6 +19,7 @@ import huanxing_print.com.cn.printhome.net.request.my.SetDefaultPrinterRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.SetDefaultPrinterListAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+
 import static huanxing_print.com.cn.printhome.R.id.ll_back;
 
 /**
@@ -24,6 +30,7 @@ public class SetDefaultPrinterActivity extends BaseActivity implements View.OnCl
 
     private ListView lv_print;
     private SetDefaultPrinterListAdapter adapter;
+    private final String BROADCAST_ACTION_REFRESH= "SetDefaultPrinterActivity.refresh";
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -41,6 +48,10 @@ public class SetDefaultPrinterActivity extends BaseActivity implements View.OnCl
 
 
     private void initView() {
+        // 注册广播
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BROADCAST_ACTION_REFRESH);
+        registerReceiver(mBroadcastReceiver, intentFilter);
         lv_print = (ListView) findViewById(R.id.lv_print);
 
     }
@@ -64,6 +75,17 @@ public class SetDefaultPrinterActivity extends BaseActivity implements View.OnCl
         }
     }
 
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(BROADCAST_ACTION_REFRESH)) {
+                SetDefaultPrinterRequest.getPrinterList(getSelfActivity(),
+                        baseApplication.getLoginToken(), printCallback);
+            }
+        }
+    };
     //登录接口返回
     private SetPrinterInfoCallback printCallback = new SetPrinterInfoCallback() {
 
@@ -93,4 +115,10 @@ public class SetDefaultPrinterActivity extends BaseActivity implements View.OnCl
         }
 
     };
+    public void onDestroy() {
+        // 注销服务
+        unregisterReceiver(mBroadcastReceiver);
+        super.onDestroy();
+
+    }
 }

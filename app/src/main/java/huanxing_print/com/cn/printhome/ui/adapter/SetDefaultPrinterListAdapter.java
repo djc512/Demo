@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
@@ -29,12 +30,12 @@ public class SetDefaultPrinterListAdapter extends BaseAdapter {
     private Context context;
     private  List<PrinterInfoBean> list;
     private  String token;
+    private final String BROADCAST_ACTION_REFRESH= "SetDefaultPrinterActivity.refresh";
     public SetDefaultPrinterListAdapter(Context context,String token,List<PrinterInfoBean> list) {
         this.context =context;
         this.token =token;
         this.list =list;
     }
-
 
 
     @Override
@@ -125,12 +126,10 @@ public class SetDefaultPrinterListAdapter extends BaseAdapter {
                     @Override
                     public void success(String msg) {
                         DialogUtils.closeProgressDialog();
-                        holder.tv_set.setText("已默认");
-                        holder.tv_set.setTextColor(context.getResources().getColor(R.color.white));
-                        holder.tv_set.setBackground(context.getResources()
-                                .getDrawable(R.drawable.broder_green_full));
-                        notifyDataSetInvalidated();
-
+                        //发送一个广播更新页面
+                        Intent intent = new Intent();
+                        intent.setAction(BROADCAST_ACTION_REFRESH);
+                        context.sendBroadcast(intent);
                     }
                 });
             }
@@ -147,6 +146,5 @@ public class SetDefaultPrinterListAdapter extends BaseAdapter {
         TextView tv_comments;
 
     }
-
 
 }
