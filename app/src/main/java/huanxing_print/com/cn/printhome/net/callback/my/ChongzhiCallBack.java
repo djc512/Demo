@@ -1,5 +1,7 @@
 package huanxing_print.com.cn.printhome.net.callback.my;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
 import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
 
@@ -8,5 +10,5 @@ import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
  */
 
 public abstract class ChongzhiCallBack implements BaseCallback{
-    public abstract void success(String msg,ChongZhiBean bean);
+    public abstract void success(String msg, List<ChongZhiBean> bean);
 }

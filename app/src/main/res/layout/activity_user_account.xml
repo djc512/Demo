@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
@@ -95,10 +99,18 @@
         android:text="印加不会要求您以任何形式输入银行账户和密码"
         android:textColor="@color/gray2"
         android:textSize="13sp" />
-
     <Button
+        android:background="@drawable/btn_login"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
         android:id="@+id/btn_chongzhi"
-        style="@style/btn_submit1"
+        android:layout_height="60dp"
         android:text="充值"
          />
 </LinearLayout>
+</ScrollView>

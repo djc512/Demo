@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -22,8 +21,8 @@ import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
 public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyViewHolder> {
 
     private Context ctx;
-    private List<ChongZhiBean> list = new ArrayList<>();
     private int clickTemp = -1;
+    private List<ChongZhiBean> data ;
 
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
@@ -34,14 +33,15 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
+
     //标识选择的Item
     public void setSeclection(int position) {
         clickTemp = position;
     }
 
-    public AccountCZAdapter(Context ctx, List<ChongZhiBean> list) {
+    public AccountCZAdapter(Context ctx, List<ChongZhiBean> data) {
         this.ctx = ctx;
-        this.list = list;
+        this.data = data;
     }
 
     @Override
@@ -54,10 +54,10 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-//        ChongZhiBean bean = list.get(position);
-//
-//        holder.tv_chong.setText(bean.getRechargeAmout());
-//        holder.tv_song.setText(bean.getSendAmount());
+
+        ChongZhiBean chongZhiBean = data.get(position);
+        holder.tv_chong.setText("冲"+chongZhiBean.getRechargeAmout()+"元");
+        holder.tv_song.setText("送"+chongZhiBean.getSendAmount()+"元");
 
         if (clickTemp == position) {
             holder.ll_cz.setBackgroundResource(R.drawable.shape_cz_money_green);
@@ -81,7 +81,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return 4;
+        return data.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

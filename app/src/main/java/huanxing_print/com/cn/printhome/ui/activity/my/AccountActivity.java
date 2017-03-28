@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,16 +33,15 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
 
     private TextView tv_money;
     private Button btn_chongzhi;
-    private Dialog dialog;
     private LinearLayout ll_back;
     private TextView tv_account_record;
     private RecyclerView rv_account;
     private AccountCZAdapter adapter;
+    private List<ChongZhiBean> listBean = new ArrayList<>();
 
-    private List<ChongZhiBean> list = new ArrayList<>();
-    private ChongZhiBean czBean;
     private String rechargeAmout;
     private String orderId;
+    private ChongZhiBean chongZhiBean;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -68,13 +66,10 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         tv_account_record = (TextView) findViewById(R.id.tv_account_record);
         rv_account = (RecyclerView) findViewById(R.id.rv_account);
 
-        rv_account.setLayoutManager(new GridLayoutManager(this, 2));
-        adapter = new AccountCZAdapter(this, list);
-        rv_account.setAdapter(adapter);
     }
 
     private void initData() {
-
+        tv_money.setText(getIntent().getStringExtra("totleBalance"));
         //通过接口获取充值数据
         ChongzhiRequest.getChongZhi(getSelfActivity(), new MyChongzhiCallBack());
     }
@@ -84,30 +79,22 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         ll_back.setOnClickListener(this);
         btn_chongzhi.setOnClickListener(this);
 
-        //条目点击事件
-        adapter.setOnItemClickLitener(new AccountCZAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                adapter.setSeclection(position);
-                adapter.notifyDataSetChanged();
-                czBean = list.get(position);
-            }
-        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_chongzhi:
-                if(ObjectUtils.isNull(czBean.getRechargeAmout())){//如果没有选择充值数
-                    ToastUtil.doToast(getSelfActivity(),"请先选择充值金额");
+                if (ObjectUtils.isNull(chongZhiBean.getRechargeAmout())) {//如果没有选择充值数
+                    ToastUtil.doToast(getSelfActivity(), "请先选择充值金额");
                     return;
                 }
                 //充值金额
-//                rechargeAmout = czBean.getRechargeAmout();
+                rechargeAmout = chongZhiBean.getRechargeAmout();
                 getOrderId();
                 Intent intent = new Intent(getSelfActivity(), PayActivity.class);
-                intent.putExtra("orderId",orderId);
+                intent.putExtra("orderId", orderId);
+                intent.putExtra("rechargeAmout", rechargeAmout);
                 startActivity(intent);
                 break;
             case R.id.tv_account_record://充值记录
@@ -146,8 +133,22 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     public class MyChongzhiCallBack extends ChongzhiCallBack {
 
         @Override
-        public void success(String msg, ChongZhiBean bean) {
+        public void success(String msg, List<ChongZhiBean> list) {
+            listBean = list;
             toast("获取成功");
+            rv_account.setLayoutManager(new GridLayoutManager(getSelfActivity(), 2));
+            adapter = new AccountCZAdapter(getSelfActivity(), listBean);
+            rv_account.setAdapter(adapter);
+
+            //条目点击事件
+            adapter.setOnItemClickLitener(new AccountCZAdapter.OnItemClickLitener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    adapter.setSeclection(position);
+                    adapter.notifyDataSetChanged();
+                    chongZhiBean = listBean.get(position);
+                }
+            });
         }
 
         @Override

@@ -1,5 +1,7 @@
 package huanxing_print.com.cn.printhome.net.resolve.my;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
@@ -8,7 +10,7 @@ import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
  * Created by Administrator on 2017/3/23 0023.
  */
 
-public class ChongzhiResolve extends BaseResolve<ChongZhiBean> {
+public class ChongzhiResolve extends BaseResolve<List<ChongZhiBean>> {
     public ChongzhiResolve(String result) {
         super(result);
     }

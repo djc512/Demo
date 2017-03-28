@@ -162,7 +162,9 @@ public class ContactFragment extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(getActivity(), NoticeActivity.class));
                 break;
             case R.id.ll_my_account:
-                startActivity(new Intent(getActivity(), AccountActivity.class));
+                Intent accIntent = new Intent(getActivity(),AccountActivity.class);
+                accIntent.putExtra("totleBalance",totleBalance);
+                startActivity(accIntent);
                 break;
             case R.id.ll_my_mx:
                 startActivity(new Intent(getActivity(), MingXiActivity.class));
