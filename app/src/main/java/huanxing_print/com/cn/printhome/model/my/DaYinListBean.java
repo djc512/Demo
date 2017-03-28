@@ -9,133 +9,177 @@ import java.util.List;
 public class DaYinListBean {
 
     /**
-     * data : {"count":5,"list":[{"fileInfos":[{"fileName":"img_0080.png","filePage":1,"printCount":1}],"status":70581}]}
-     * errorCode : 0
-     * errorMsg :
-     * success : true
+     * count : 39
+     * list : [{"addTime":"2017-03-07 09:47:58","companyName":"南京图妞妞","fileInfos":[{"fileName":"img_2108.jpg","filePage":1,"printCount":1}],"fileNum":1,"id":10000607,"printNo":"yangjiandeyiliao","printerName":"测测测试","remarkId":0,"status":5,"timeStamp":"20170307094758000","totalAmount":0.01},{"addTime":"2017-03-07 01:18:28","companyName":"南京图妞妞","fileInfos":[{"fileName":"airbnb旅行行程单.pdf","filePage":1,"printCount":1}],"fileNum":1,"id":10000589,"printNo":"yangjiandeyiliao","printerName":"测测测试","remarkId":0,"status":5,"timeStamp":"20170307011828000","totalAmount":0.01},{"addTime":"2017-03-07 01:13:53","companyName":"南京图妞妞","fileInfos":[{"fileName":"img_2106.jpg","filePage":1,"printCount":1}],"fileNum":1,"id":10000585,"printNo":"yangjiandeyiliao","printerName":"测测测试","remarkId":0,"status":5,"timeStamp":"20170307011353000","totalAmount":0.01},{"addTime":"2017-03-07 00:09:28","companyName":"南京图妞妞","fileInfos":[{"fileName":"img_2106.jpg","filePage":1,"printCount":1}],"fileNum":1,"id":10000577,"printNo":"00009","printerName":"ceshi2","remarkId":0,"status":5,"timeStamp":"20170307000928000","totalAmount":0.01},{"addTime":"2017-03-06 23:14:05","companyName":"南京图妞妞","fileInfos":[{"fileName":"img_2106.jpg","filePage":1,"printCount":1}],"fileNum":1,"id":10000571,"printNo":"00009","printerName":"ceshi2","remarkId":0,"status":5,"timeStamp":"20170306231405000","totalAmount":0.01},{"addTime":"2017-03-06 23:05:45","companyName":"南京图妞妞","fileInfos":[{"fileName":"img_2106.jpg","filePage":1,"printCount":1}],"fileNum":1,"id":10000569,"printNo":"00009","printerName":"ceshi2","remarkId":0,"status":5,"timeStamp":"20170306230545000","totalAmount":0.01}]
      */
 
-    private DataBean data;
-    private int errorCode;
-    private String errorMsg;
-    private boolean success;
+    private int count;
+    private List<ListBean> list;
 
-    public DataBean getData() {
-        return data;
+    public int getCount() {
+        return count;
     }
 
-    public void setData(DataBean data) {
-        this.data = data;
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    public int getErrorCode() {
-        return errorCode;
+    public List<ListBean> getList() {
+        return list;
     }
 
-    public void setErrorCode(int errorCode) {
-        this.errorCode = errorCode;
+    public void setList(List<ListBean> list) {
+        this.list = list;
     }
 
-    public String getErrorMsg() {
-        return errorMsg;
-    }
-
-    public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public static class DataBean {
+    public static class ListBean {
         /**
-         * count : 5
-         * list : [{"fileInfos":[{"fileName":"img_0080.png","filePage":1,"printCount":1}],"status":70581}]
+         * addTime : 2017-03-07 09:47:58
+         * companyName : 南京图妞妞
+         * fileInfos : [{"fileName":"img_2108.jpg","filePage":1,"printCount":1}]
+         * fileNum : 1
+         * id : 10000607
+         * printNo : yangjiandeyiliao
+         * printerName : 测测测试
+         * remarkId : 0
+         * status : 5
+         * timeStamp : 20170307094758000
+         * totalAmount : 0.01
          */
 
-        private int count;
-        private List<ListBean> list;
+        private String addTime;
+        private String companyName;
+        private int fileNum;
+        private int id;
+        private String printNo;
+        private String printerName;
+        private int remarkId;
+        private int status;
+        private String timeStamp;
+        private double totalAmount;
+        private List<FileInfosBean> fileInfos;
 
-        public int getCount() {
-            return count;
+        public String getAddTime() {
+            return addTime;
         }
 
-        public void setCount(int count) {
-            this.count = count;
+        public void setAddTime(String addTime) {
+            this.addTime = addTime;
         }
 
-        public List<ListBean> getList() {
-            return list;
+        public String getCompanyName() {
+            return companyName;
         }
 
-        public void setList(List<ListBean> list) {
-            this.list = list;
+        public void setCompanyName(String companyName) {
+            this.companyName = companyName;
         }
 
-        public static class ListBean {
+        public int getFileNum() {
+            return fileNum;
+        }
+
+        public void setFileNum(int fileNum) {
+            this.fileNum = fileNum;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getPrintNo() {
+            return printNo;
+        }
+
+        public void setPrintNo(String printNo) {
+            this.printNo = printNo;
+        }
+
+        public String getPrinterName() {
+            return printerName;
+        }
+
+        public void setPrinterName(String printerName) {
+            this.printerName = printerName;
+        }
+
+        public int getRemarkId() {
+            return remarkId;
+        }
+
+        public void setRemarkId(int remarkId) {
+            this.remarkId = remarkId;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public String getTimeStamp() {
+            return timeStamp;
+        }
+
+        public void setTimeStamp(String timeStamp) {
+            this.timeStamp = timeStamp;
+        }
+
+        public double getTotalAmount() {
+            return totalAmount;
+        }
+
+        public void setTotalAmount(double totalAmount) {
+            this.totalAmount = totalAmount;
+        }
+
+        public List<FileInfosBean> getFileInfos() {
+            return fileInfos;
+        }
+
+        public void setFileInfos(List<FileInfosBean> fileInfos) {
+            this.fileInfos = fileInfos;
+        }
+
+        public static class FileInfosBean {
             /**
-             * fileInfos : [{"fileName":"img_0080.png","filePage":1,"printCount":1}]
-             * status : 70581
+             * fileName : img_2108.jpg
+             * filePage : 1
+             * printCount : 1
              */
 
-            private int status;
-            private List<FileInfosBean> fileInfos;
+            private String fileName;
+            private int filePage;
+            private int printCount;
 
-            public int getStatus() {
-                return status;
+            public String getFileName() {
+                return fileName;
             }
 
-            public void setStatus(int status) {
-                this.status = status;
+            public void setFileName(String fileName) {
+                this.fileName = fileName;
             }
 
-            public List<FileInfosBean> getFileInfos() {
-                return fileInfos;
+            public int getFilePage() {
+                return filePage;
             }
 
-            public void setFileInfos(List<FileInfosBean> fileInfos) {
-                this.fileInfos = fileInfos;
+            public void setFilePage(int filePage) {
+                this.filePage = filePage;
             }
 
-            public static class FileInfosBean {
-                /**
-                 * fileName : img_0080.png
-                 * filePage : 1
-                 * printCount : 1
-                 */
+            public int getPrintCount() {
+                return printCount;
+            }
 
-                private String fileName;
-                private int filePage;
-                private int printCount;
-
-                public String getFileName() {
-                    return fileName;
-                }
-
-                public void setFileName(String fileName) {
-                    this.fileName = fileName;
-                }
-
-                public int getFilePage() {
-                    return filePage;
-                }
-
-                public void setFilePage(int filePage) {
-                    this.filePage = filePage;
-                }
-
-                public int getPrintCount() {
-                    return printCount;
-                }
-
-                public void setPrintCount(int printCount) {
-                    this.printCount = printCount;
-                }
+            public void setPrintCount(int printCount) {
+                this.printCount = printCount;
             }
         }
     }

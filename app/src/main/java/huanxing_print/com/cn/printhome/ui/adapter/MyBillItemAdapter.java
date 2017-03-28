@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -32,9 +31,8 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
     }
 
     private Context ctx;
-    private List<MingxiDetailBean.DataBean.ListBean.DetailBean> detail = new ArrayList<>();
-
-    public MyBillItemAdapter(Context ctx, List<MingxiDetailBean.DataBean.ListBean.DetailBean> detail) {
+    private  List<MingxiDetailBean.ListBean.DetailBean> detail;
+    public MyBillItemAdapter(Context ctx, List<MingxiDetailBean.ListBean.DetailBean> detail) {
         this.ctx = ctx;
         this.detail = detail;
     }
@@ -50,15 +48,14 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
     @Override
     public void onBindViewHolder(MyHolder holder, final int position) {
 
-//        MingxiDetailBean.DataBean.ListBean.DetailBean detailBean = detail.get(position);
-//        String date = detailBean.getDate();
-//        String amount = detailBean.getAmount();
-//        int type = detailBean.getType();
-//        String context = detailBean.getContext();
-//
-//        holder.tv_bill_czway.setText(context);
-//        holder.tv_bill_time.setText(date);
-//        holder.tv_bill_money.setText(amount);
+        MingxiDetailBean.ListBean.DetailBean detailBean = detail.get(position);
+        String date = detailBean.getDate();
+        String context = detailBean.getContext();
+        String amount = detailBean.getAmount();
+
+        holder.tv_bill_czway.setText(context);
+        holder.tv_bill_time.setText(date);
+        holder.tv_bill_money.setText(amount);
 
         if (mOnItemClickLitener != null) {
             holder.rv_bill_item.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +69,7 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
 
     @Override
     public int getItemCount() {
-        return 4;
+        return detail.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {

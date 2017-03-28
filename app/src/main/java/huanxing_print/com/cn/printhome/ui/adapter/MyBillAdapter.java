@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -25,8 +24,9 @@ import huanxing_print.com.cn.printhome.ui.activity.my.BillDetailActivity;
 public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
 
     private Context ctx;
-    private  List<MingxiDetailBean.DataBean.ListBean> list = new ArrayList<>();
-    public MyBillAdapter(Context ctx, List<MingxiDetailBean.DataBean.ListBean> list) {
+    private  List<MingxiDetailBean.ListBean> list;
+
+    public MyBillAdapter(Context ctx, List<MingxiDetailBean.ListBean> list) {
         this.ctx =ctx;
         this.list = list;
     }
@@ -47,21 +47,23 @@ public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
     @Override
     public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
 
-//        MingxiDetailBean.DataBean.ListBean listBean = list.get(position);
-//        String date = listBean.getDate();
-//        String monthAount = listBean.getMonthAount();
-//        List<MingxiDetailBean.DataBean.ListBean.DetailBean> detail = listBean.getDetail();
-//
-//        holder.tv_bill_time.setText(date);
-//        holder.tv_bill_consume.setText("累计消费"+monthAount+"元");
+        MingxiDetailBean.ListBean listBean = list.get(position);
+        List<MingxiDetailBean.ListBean.DetailBean> detail = listBean.getDetail();
+        String monthAmount = listBean.getMonthAmount();
+        String date = listBean.getDate();
 
-        MyBillItemAdapter adapter = new MyBillItemAdapter(ctx,null);
+        holder.tv_bill_time.setText(date);
+        holder.tv_bill_consume.setText("累计消费"+monthAmount+"元");
+
+        MyBillItemAdapter adapter = new MyBillItemAdapter(ctx,detail);
         holder.rv_item_bill.setLayoutManager(new LinearLayoutManager(ctx));
         holder.rv_item_bill.setAdapter(adapter);
 
         adapter.setOnItemClickLitener(new MyBillItemAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int position) {
+
+                Intent intent = new Intent(ctx,BillDetailActivity.class);
                 ctx.startActivity(new Intent(ctx, BillDetailActivity.class));
             }
         });
@@ -69,7 +71,7 @@ public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
 
     @Override
     public int getAdapterItemCount() {
-        return 4;
+        return list.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder{

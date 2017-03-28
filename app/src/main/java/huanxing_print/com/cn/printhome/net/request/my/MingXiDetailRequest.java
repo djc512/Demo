@@ -21,7 +21,7 @@ public class MingXiDetailRequest extends BaseRequst {
 
     public static void getMxDetail(Context ctx, int pageNum, final MingXiDetailCallBack callBack){
 
-        String mxDetailUrl = HTTP_URL + HttpUrl.mxDetail;
+        String mxDetailUrl = HttpUrl.test + HttpUrl.mxDetail;
         Map<String,Object> params = new HashMap<>();
         params.put("pageNum",pageNum);
 

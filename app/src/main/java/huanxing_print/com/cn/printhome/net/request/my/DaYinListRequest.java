@@ -19,7 +19,7 @@ import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 public class DaYinListRequest extends BaseRequst {
     public static void getDaYinList(Context ctx, int pageNum, final DaYinListCallBack callBack){
-        String url = HTTP_URL+ HttpUrl.dyList;
+        String url = HttpUrl.test+ HttpUrl.dyList;
         Map<String,Object> params = new HashMap<>();
 
         params.put("pageNum",pageNum);
