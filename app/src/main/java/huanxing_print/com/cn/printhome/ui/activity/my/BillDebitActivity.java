@@ -54,8 +54,19 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
         billValue = getIntent().getStringExtra("billValue");
 
         fragmentList.clear();
-        fragmentList.add(new DebitNormalFragment(billValue));
-        fragmentList.add(new DebitValueFragment());
+
+        DebitNormalFragment debitNormalFragment = new DebitNormalFragment();
+        Bundle norBundle = new Bundle();
+        norBundle.putString("billValue",billValue);
+        debitNormalFragment.setArguments(norBundle);
+
+        DebitValueFragment debitValueFragment =new DebitValueFragment();
+        Bundle valBundle = new Bundle();
+        valBundle.putString("billValue",billValue);
+        debitValueFragment.setArguments(valBundle);
+
+        fragmentList.add(debitNormalFragment);
+        fragmentList.add(debitValueFragment);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
         adapter.notifyDataSetChanged();

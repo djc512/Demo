@@ -52,9 +52,11 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     private String address;
     private String billContext;
     private String amount;
+    private String billValue;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activty_debit_value, null);
+        billValue = getArguments().getString("billValue");
         initView(view);
         setListener();
         return view;
@@ -134,7 +136,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
                 companyAddress,//发票公司地址
                 companyName,//发票公司名称
                 companyPhone,// 发票公司电话
-                "100",//邮费
+                billValue,//邮费
                 null,//文件份数
                 payType,//支付方式0-微信 1-支付宝 2-货到付款	number
                 ratepayerId,//纳税人识别号
@@ -160,9 +162,8 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     }
 
     private void getData() {
-
+        tv_debit_value_amount.setText(billValue);
         billContext = tv_bill_billContext.getText().toString().trim();
-        amount = tv_debit_value_amount.getText().toString().trim();
 
         companyName = et_debit_value_companyName.getText().toString().trim();
         if (TextUtils.isEmpty(companyName)) {

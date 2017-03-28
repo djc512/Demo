@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -46,18 +45,15 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
     private String amount;
 
     private String billValue;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activty_debit_normal, null);
+        billValue = getArguments().getString("billValue");
         initView(view);
         setListener();
         return view;
-    }
-
-    @SuppressLint("ValidFragment")
-    public DebitNormalFragment(String billValue) {
-        this.billValue = billValue;
     }
 
     private void initView(View view) {
@@ -154,7 +150,7 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
         DebitNormalRequest.sendNormalBack(
                 getActivity(),
                 address,//详细地址
-                amount,//发票金额
+                billValue,//发票金额
                 billContext,//发票内容
                 city,//所在城市
                 companyName,//发票抬头
