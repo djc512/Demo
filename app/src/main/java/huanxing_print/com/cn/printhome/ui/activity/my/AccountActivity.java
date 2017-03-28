@@ -85,12 +85,11 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_chongzhi:
-                if (ObjectUtils.isNull(chongZhiBean.getRechargeAmout())) {//如果没有选择充值数
+                if (ObjectUtils.isNull(rechargeAmout)) {//如果没有选择充值数
                     ToastUtil.doToast(getSelfActivity(), "请先选择充值金额");
                     return;
                 }
-                //充值金额
-                rechargeAmout = chongZhiBean.getRechargeAmout();
+
                 getOrderId();
                 Intent intent = new Intent(getSelfActivity(), PayActivity.class);
                 intent.putExtra("orderId", orderId);
@@ -110,11 +109,11 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
      * 获取订单号
      */
     private void getOrderId() {
-        OrderIdRequest.getOrderId(getSelfActivity(), "1000", new OrderIdCallBack() {
+        OrderIdRequest.getOrderId(getSelfActivity(), rechargeAmout, new OrderIdCallBack() {
             @Override
             public void success(String msg, OrderIdBean bean) {
                 toast("请求成功");
-//                orderId = bean.getData();
+                orderId = bean.getData();
             }
 
             @Override
@@ -147,6 +146,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                     adapter.setSeclection(position);
                     adapter.notifyDataSetChanged();
                     chongZhiBean = listBean.get(position);
+                    //充值金额
+                    rechargeAmout = chongZhiBean.getRechargeAmout();
                 }
             });
         }
