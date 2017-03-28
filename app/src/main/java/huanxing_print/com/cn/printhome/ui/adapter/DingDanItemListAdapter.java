@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.my.DaYinListBean;
 
 /**
  * Created by Administrator on 2017/3/27 0027.
@@ -16,9 +19,11 @@ import huanxing_print.com.cn.printhome.R;
 public class DingDanItemListAdapter extends RecyclerView.Adapter<DingDanItemListAdapter.MyHolder> {
 
     private Context ctx;
+    private List<DaYinListBean.ListBean.FileInfosBean> fileInfos;
 
-    public DingDanItemListAdapter(Context ctx) {
+    public DingDanItemListAdapter(Context ctx, List<DaYinListBean.ListBean.FileInfosBean> fileInfos) {
         this.ctx = ctx;
+        this.fileInfos = fileInfos;
     }
 
     @Override
@@ -30,18 +35,18 @@ public class DingDanItemListAdapter extends RecyclerView.Adapter<DingDanItemList
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-//        DaYinListBean.DataBean.ListBean.FileInfosBean fileInfosBean = fileInfos.get(position);
-//        String fileName = fileInfosBean.getFileName();
-//        int printCount = fileInfosBean.getPrintCount();
-//
-//        holder.tv_list_name.setText(fileName);
-//        holder.tv_list_num.setText("X"+printCount);
+
+        DaYinListBean.ListBean.FileInfosBean fileInfosBean = fileInfos.get(position);
+        String fileName = fileInfosBean.getFileName();
+        int printCount = fileInfosBean.getPrintCount();
+
+        holder.tv_list_name.setText(fileName);
+        holder.tv_list_num.setText("X"+printCount);
     }
 
     @Override
     public int getItemCount() {
-        return 3;
-//        return fileInfos.size();
+        return fileInfos.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
