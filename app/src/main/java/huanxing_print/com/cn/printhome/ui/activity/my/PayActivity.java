@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,7 +45,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private void initData() {
         Intent intent = getIntent();
         orderId = intent.getStringExtra("orderId");
-        Log.i("orderId",orderId);
         rechargeAmout = intent.getStringExtra("rechargeAmout");
 
         tv_pay_money.setText("￥"+rechargeAmout);

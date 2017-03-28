@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.net.resolve.my;
 
-import huanxing_print.com.cn.printhome.model.my.DebitNormalBean;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitNormalCallBack;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
 
@@ -8,7 +7,7 @@ import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
  * Created by Administrator on 2017/3/24 0024.
  */
 
-public class DebitNormalResolve extends BaseResolve <DebitNormalBean>{
+public class DebitNormalResolve extends BaseResolve <String>{
     public DebitNormalResolve(String result) {
         super(result);
     }

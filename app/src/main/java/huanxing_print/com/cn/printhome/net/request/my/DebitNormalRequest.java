@@ -26,25 +26,23 @@ public class DebitNormalRequest extends BaseRequst {
 //    companyName	发票抬头	string
 //    expAmount	邮费	string
 //    fileSize	文件份数	string
-//    orderId	订单列表	string
 //    payType	支付方式0-微信 1-支付宝 2-货到付款	number
 //    receiver	接收人	string
-//    telPhone	联系电话
+//    telPhone	联系电话	string
 
     public static void sendNormalBack(Context ctx,
-                                    String address,
-                                    String amount,
-                                    String billContext,
-                                    String city,
-                                    String companyName,
-                                    String expAmount,
-                                    String fileSize,
-                                    String orderId,
-                                    int payType,
-                                    String receiver,
-                                    String telPhone,
+                                      String address,//详细地址
+                                      String amount,//发票金额
+                                      String billContext,//发票内容
+                                      String city,//所在城市
+                                      String companyName,//发票抬头
+                                      String expAmount,//邮费
+                                      String fileSize,//文件份数
+                                      int payType,//支付方式0-微信 1-支付宝 2-货到付款	number
+                                      String receiver,//收件人
+                                      String telPhone,//联系方式
                                     final DebitNormalCallBack callBack) {
-        String normalUrl = HTTP_URL + HttpUrl.normalDebit;
+        String normalUrl = HttpUrl.test + HttpUrl.normalDebit;
 
         Map<String, Object> params = new HashMap<>();
 
@@ -55,7 +53,6 @@ public class DebitNormalRequest extends BaseRequst {
         params.put("companyName", companyName);
         params.put("expAmount", expAmount);
         params.put("fileSize", fileSize);
-        params.put("orderId", orderId);
         params.put("payType", payType);
         params.put("receiver", receiver);
         params.put("telPhone", telPhone);

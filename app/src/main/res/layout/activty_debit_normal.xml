@@ -37,7 +37,7 @@
                     android:text="发票抬头" />
 
                 <EditText
-                    android:id="@+id/et_debit_normal_name"
+                    android:id="@+id/et_debit_normal_companyName"
                     style="@style/et_debit"
                     android:hint="填写公司名称或者个人" />
             </LinearLayout>
@@ -51,7 +51,7 @@
                     android:text="发票内容" />
 
                 <TextView
-                    android:id="@+id/tv_bill_content"
+                    android:id="@+id/tv_bill_billContext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
@@ -74,7 +74,7 @@
                     android:text="188"
                     android:textColor="#FF9000"
                     android:textSize="17sp"
-                    android:id="@+id/tv_debit_normal_money" />
+                    android:id="@+id/tv_debit_normal_amount" />
 
                 <TextView
                     android:paddingLeft="5dp"
@@ -109,7 +109,7 @@
                 <EditText
                     style="@style/et_debit"
                     android:hint="填写收件人"
-                    android:id="@+id/et_debit_normal_address" />
+                    android:id="@+id/et_debit_normal_receiver" />
             </LinearLayout>
 
 
@@ -124,7 +124,7 @@
                 <EditText
                     style="@style/et_debit"
                     android:hint="填写联系方式"
-                    android:id="@+id/et_debit_normal_phone" />
+                    android:id="@+id/et_debit_normal_telPhone" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -145,7 +145,7 @@
                     android:textSize="17sp"
                     android:paddingLeft="5dp"
                     android:hint="选择地区信息"
-                    android:id="@+id/et_debit_normal_location" />
+                    android:id="@+id/et_debit_normal_city" />
 
                 <ImageView
                     android:paddingLeft="10dp"
@@ -164,7 +164,7 @@
                     android:text="详细地址" />
 
                 <EditText
-                    android:id="@+id/et_debit_normal_dlocation"
+                    android:id="@+id/et_debit_normal_address"
                     style="@style/et_debit"
                     android:hint="填写详细地址" />
             </LinearLayout>
@@ -227,7 +227,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/check_2x"/>
+                    android:src="@drawable/uncheck_2x"/>
             </LinearLayout>
 
             <Button

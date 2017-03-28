@@ -7,13 +7,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.my.DebitNormalBean;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitNormalCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.DebitNormalRequest;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -23,89 +23,93 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  */
 
 public class DebitNormalFragment extends Fragment implements View.OnClickListener {
-    private EditText et_debit_normal_name;
-    private TextView tv_debit_normal_money;
+
+    private Button btn_normal_submit;
+    private EditText et_debit_normal_companyName;
+    private TextView tv_bill_billContext;
+    private TextView tv_debit_normal_amount;
+    private TextView textView;
+    private EditText et_debit_normal_receiver;
+    private EditText et_debit_normal_telPhone;
+    private EditText et_debit_normal_city;
     private EditText et_debit_normal_address;
-    private EditText et_debit_normal_phone;
-    private EditText et_debit_normal_location;
-    private EditText et_debit_normal_dlocation;
     private ImageView iv_normal_wechat;
     private ImageView iv_normal_alipay;
-    private String dlocation;
-    private String location;
-    private String phone;
+
+    private String companyName;
+    private String receiver;
+    private String telPhone;
+    private String city;
     private String address;
-    private String name;
-    private String money;
-    private TextView tv_bill_content;
-    private String billContent;
+    private String billContext;
+    private String amount;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activty_debit_normal, null);
-
         initView(view);
-        initData();
         setListener();
         return view;
     }
 
     private void initView(View view) {
-        tv_bill_content = (TextView) view.findViewById(R.id.tv_bill_content);
 
-        et_debit_normal_name = (EditText) view.findViewById(R.id.et_debit_normal_name);
-        tv_debit_normal_money = (TextView) view.findViewById(R.id.tv_debit_normal_money);
+        btn_normal_submit = (Button) view.findViewById(R.id.btn_normal_submit);
+        et_debit_normal_companyName = (EditText) view.findViewById(R.id.et_debit_normal_companyName);
+        tv_bill_billContext = (TextView) view.findViewById(R.id.tv_bill_billContext);
+        tv_debit_normal_amount = (TextView) view.findViewById(R.id.tv_debit_normal_amount);
+        textView = (TextView) view.findViewById(R.id.textView);
+        et_debit_normal_receiver = (EditText) view.findViewById(R.id.et_debit_normal_receiver);
+        et_debit_normal_telPhone = (EditText) view.findViewById(R.id.et_debit_normal_telPhone);
+        et_debit_normal_city = (EditText) view.findViewById(R.id.et_debit_normal_city);
         et_debit_normal_address = (EditText) view.findViewById(R.id.et_debit_normal_address);
-        et_debit_normal_phone = (EditText) view.findViewById(R.id.et_debit_normal_phone);
-        et_debit_normal_location = (EditText) view.findViewById(R.id.et_debit_normal_location);
-        et_debit_normal_dlocation = (EditText) view.findViewById(R.id.et_debit_normal_dlocation);
         iv_normal_wechat = (ImageView) view.findViewById(R.id.iv_normal_wechat);
         iv_normal_alipay = (ImageView) view.findViewById(R.id.iv_normal_alipay);
     }
 
-    private void initData() {
-        money = tv_debit_normal_money.getText().toString().trim();
-        billContent = tv_bill_content.getText().toString().trim();
+    private void getData() {
+        billContext = tv_bill_billContext.getText().toString().trim();
+        amount = tv_debit_normal_amount.getText().toString().trim();
 
-        name = et_debit_normal_name.getText().toString().trim();
-        if (TextUtils.isEmpty(name)) {
+        companyName = et_debit_normal_companyName.getText().toString().trim();
+        if (TextUtils.isEmpty(companyName)) {
             Toast.makeText(getContext(), "填写公司名称或者个人", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        receiver = et_debit_normal_receiver.getText().toString().trim();
+        if (TextUtils.isEmpty(receiver)) {
+            Toast.makeText(getContext(), "填写收件人", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        telPhone = et_debit_normal_telPhone.getText().toString().trim();
+        if (TextUtils.isEmpty(telPhone)) {
+            Toast.makeText(getContext(), "填写联系方式", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        city = et_debit_normal_city.getText().toString().trim();
+        if (TextUtils.isEmpty(city)) {
+            Toast.makeText(getContext(), "选择地区信息", Toast.LENGTH_SHORT).show();
             return;
         }
 
         address = et_debit_normal_address.getText().toString().trim();
         if (TextUtils.isEmpty(address)) {
-            Toast.makeText(getContext(), "选择地区信息", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        phone = et_debit_normal_phone.getText().toString().trim();
-        if (TextUtils.isEmpty(phone)) {
-            Toast.makeText(getContext(), "填写联系方式", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        location = et_debit_normal_location.getText().toString().trim();
-        if (TextUtils.isEmpty(location)) {
-            Toast.makeText(getContext(), "选择地区信息", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        dlocation = et_debit_normal_dlocation.getText().toString().trim();
-        if (TextUtils.isEmpty(dlocation)) {
             Toast.makeText(getContext(), "填写详细地址", Toast.LENGTH_SHORT).show();
             return;
         }
     }
 
-
     private void setListener() {
         iv_normal_wechat.setOnClickListener(this);
         iv_normal_alipay.setOnClickListener(this);
+        btn_normal_submit.setOnClickListener(this);
     }
 
-    private int type;
+    private int payType;
 
     @Override
     public void onClick(View v) {
@@ -113,14 +117,15 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
             case R.id.iv_normal_wechat:
                 iv_normal_wechat.setImageResource(R.drawable.check_2x);
                 iv_normal_alipay.setImageResource(R.drawable.uncheck_2x);
-                type = 0;
+                payType = 0;
                 break;
             case R.id.iv_normal_alipay:
                 iv_normal_alipay.setImageResource(R.drawable.check_2x);
                 iv_normal_wechat.setImageResource(R.drawable.uncheck_2x);
-                type = 1;
+                payType = 1;
                 break;
             case R.id.btn_normal_submit:
+                getData();
                 senRequest();
                 break;
         }
@@ -133,29 +138,27 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
 //    companyName	发票抬头	string
 //    expAmount	邮费	string
 //    fileSize	文件份数	string
-//    orderId	订单列表	string
 //    payType	支付方式0-微信 1-支付宝 2-货到付款	number
 //    receiver	接收人	string
-//    telPhone	联系电话
+//    telPhone	联系电话	string
 
     private void senRequest() {
-        DialogUtils.showProgressDialog(getActivity(),"正在提交");
+        DialogUtils.showProgressDialog(getActivity(), "正在提交");
         DebitNormalRequest.sendNormalBack(
                 getActivity(),
-                dlocation,//详细地址
-                money,//发票金额
-                billContent,//发票内容
-                location,//所在城市
-                name,//发票抬头
-                null,
-                null,
-                null,
-                type,
-                address,//收件人
-                phone,//联系方式
+                address,//详细地址
+                amount,//发票金额
+                billContext,//发票内容
+                city,//所在城市
+                companyName,//发票抬头
+                null,//邮费
+                null,//文件份数
+                payType,//支付方式0-微信 1-支付宝 2-货到付款	number
+                receiver,//收件人
+                telPhone,//联系方式
                 new DebitNormalCallBack() {
                     @Override
-                    public void success(String msg, DebitNormalBean bean) {
+                    public void success(String msg, String bean) {
 
                     }
 

@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.net.callback.my;
 
-import huanxing_print.com.cn.printhome.model.my.DebitNormalBean;
 import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
 
 /**
@@ -8,5 +7,5 @@ import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
  */
 
 public abstract class DebitNormalCallBack implements BaseCallback {
-    public abstract void success(String msg, DebitNormalBean bean);
+    public abstract void success(String msg, String bean);
 }

@@ -37,22 +37,21 @@ public class DebitValueRequest extends BaseRequst {
 //    telPhone	联系人号码	string
 
     public static void sendValueBack(Context ctx,
-                                    String address,
-                                    String amount,
-                                    String bankAccount,
-                                    String bankName,
-                                    String billContext,
-                                    String city,
-                                    String companyAddress,
-                                    String companyName,
-                                    String companyPhone,
-                                    String expAmount,
-                                    String fileSize,
-                                    String orderId,
-                                    int payType,
-                                    String ratepayerId,
-                                    String receiver,
-                                    String telPhone,
+                                     String address,//收件人地址
+                                     String amount,//发票金额
+                                     String bankAccount,//开户行账号
+                                     String bankName,//开户行
+                                     String billContext,//发票内容0-打印费	number
+                                     String city,//城市
+                                     String companyAddress,//发票公司地址
+                                     String companyName,//发票公司名称
+                                     String companyPhone,// 发票公司电话
+                                     String expAmount,//邮费
+                                     String fileSize,//文件份数
+                                     int payType,//支付方式0-微信 1-支付宝 2-货到付款	number
+                                     String ratepayerId,//纳税人识别号
+                                     String receiver,//接收人
+                                     String telPhone,//接受人电话
                                     final DebitValueCallBack callBack) {
         String valueUrl = HTTP_URL + HttpUrl.normalDebit;
 
@@ -60,18 +59,17 @@ public class DebitValueRequest extends BaseRequst {
         
         params.put("address", address);
         params.put("amount", amount);
-        params.put("amount", bankAccount);
-        params.put("amount", bankName);
+        params.put("bankAccount", bankAccount);
+        params.put("bankName", bankName);
         params.put("billContext", billContext);
         params.put("city", city);
-        params.put("city", companyAddress);
+        params.put("companyAddress", companyAddress);
         params.put("companyName", companyName);
-        params.put("companyName", companyPhone);
+        params.put("companyPhone", companyPhone);
         params.put("expAmount", expAmount);
         params.put("fileSize", fileSize);
-        params.put("orderId", orderId);
         params.put("payType", payType);
-        params.put("payType", ratepayerId);
+        params.put("ratepayerId", ratepayerId);
         params.put("receiver", receiver);
         params.put("telPhone", telPhone);
 

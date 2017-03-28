@@ -37,7 +37,7 @@
                     android:text="公司名称" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_name"
+                    android:id="@+id/et_debit_value_companyName"
                     style="@style/et_debit"
                     android:hint="填写公司名称" />
             </LinearLayout>
@@ -51,7 +51,7 @@
                     android:text="纳税人识别码" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_shui"
+                    android:id="@+id/et_debit_value_ratepayerId"
                     style="@style/et_debit"
                     android:hint="填写纳税人识别码" />
             </LinearLayout>
@@ -65,7 +65,7 @@
                     android:text="公司地址" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_address"
+                    android:id="@+id/et_debit_value_companyAddress"
                     style="@style/et_debit"
                     android:hint="填写收票单位注册地址" />
             </LinearLayout>
@@ -79,7 +79,7 @@
                     android:text="公司电话" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_phone"
+                    android:id="@+id/et_debit_value_companyPhone"
                     style="@style/et_debit"
                     android:hint="填写公司电话号码" />
             </LinearLayout>
@@ -93,7 +93,7 @@
                     android:text="开户银行" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_blank"
+                    android:id="@+id/et_debit_value_bankName"
                     style="@style/et_debit"
                     android:hint="填写收票单位开户银行" />
             </LinearLayout>
@@ -107,7 +107,7 @@
                     android:text="银行账户" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_blanknum"
+                    android:id="@+id/et_debit_value_bankAccount"
                     style="@style/et_debit"
                     android:hint="填写收票单位银行账户" />
             </LinearLayout>
@@ -121,7 +121,7 @@
                     android:text="发票内容" />
 
                 <TextView
-                    android:id="@+id/tv_bill_content"
+                    android:id="@+id/tv_value_billContext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
@@ -139,7 +139,7 @@
                     android:text="发票金额" />
 
                 <TextView
-                    android:id="@+id/tv_debit_value_money"
+                    android:id="@+id/tv_debit_value_amount"
                     style="@style/tv_debit"
                     android:layout_marginLeft="25dp"
                     android:text="188"
@@ -177,7 +177,7 @@
                     android:text="收件人" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_reciver"
+                    android:id="@+id/et_debit_value_receiver"
                     style="@style/et_debit"
                     android:hint="填写收件人" />
             </LinearLayout>
@@ -192,7 +192,7 @@
                     android:text="联系电话" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_num"
+                    android:id="@+id/et_debit_value_telPhone"
                     style="@style/et_debit"
                     android:hint="填写联系方式" />
             </LinearLayout>
@@ -206,7 +206,7 @@
                     android:text="所在地区" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_location1"
+                    android:id="@+id/et_debit_value_city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"
@@ -233,7 +233,7 @@
                     android:text="详细地址" />
 
                 <EditText
-                    android:id="@+id/et_debit_value_dlocation"
+                    android:id="@+id/et_debit_value_address"
                     style="@style/et_debit"
                     android:hint="填写详细地址" />
             </LinearLayout>
