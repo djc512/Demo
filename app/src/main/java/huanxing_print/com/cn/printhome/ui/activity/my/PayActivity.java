@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.model.my.Go2PayBean;
 import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -94,7 +93,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private void go2Pay() {
         Go2PayRequest.go2Pay(getSelfActivity(), orderId, "CZ", new Go2PayCallBack() {
             @Override
-            public void success(String msg, Go2PayBean bean) {
+            public void success(String msg, String id) {
 
             }
 

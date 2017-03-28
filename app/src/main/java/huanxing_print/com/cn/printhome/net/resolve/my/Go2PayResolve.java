@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.net.resolve.my;
 
-import huanxing_print.com.cn.printhome.model.my.Go2PayBean;
 import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
 
@@ -8,7 +7,7 @@ import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
  * Created by Administrator on 2017/3/27 0027.
  */
 
-public class Go2PayResolve extends BaseResolve<Go2PayBean> {
+public class Go2PayResolve extends BaseResolve<String> {
     public Go2PayResolve(String result) {
         super(result);
     }
