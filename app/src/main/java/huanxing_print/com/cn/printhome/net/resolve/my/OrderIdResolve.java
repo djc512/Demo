@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.net.resolve.my;
 
-import huanxing_print.com.cn.printhome.model.my.OrderIdBean;
 import huanxing_print.com.cn.printhome.net.callback.my.OrderIdCallBack;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
 
@@ -8,7 +7,7 @@ import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
  * Created by Administrator on 2017/3/27 0027.
  */
 
-public class OrderIdResolve extends BaseResolve<OrderIdBean> {
+public class OrderIdResolve extends BaseResolve<String> {
     public OrderIdResolve(String result) {
         super(result);
     }

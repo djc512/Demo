@@ -15,7 +15,6 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
-import huanxing_print.com.cn.printhome.model.my.OrderIdBean;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.OrderIdCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
@@ -111,9 +110,9 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private void getOrderId() {
         OrderIdRequest.getOrderId(getSelfActivity(), rechargeAmout, new OrderIdCallBack() {
             @Override
-            public void success(String msg, OrderIdBean bean) {
+            public void success(String msg, String data) {
                 toast("请求成功");
-                orderId = bean.getData();
+                orderId = data;
             }
 
             @Override

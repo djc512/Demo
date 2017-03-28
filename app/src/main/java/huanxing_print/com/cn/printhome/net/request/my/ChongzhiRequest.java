@@ -18,7 +18,7 @@ public class ChongzhiRequest extends BaseRequst{
 
     public static void getChongZhi(Context ctx, final ChongzhiCallBack callBack){
 
-        String chongzhiUrl = "http://106.14.77.102:22012/"+ HttpUrl.chongzhi;
+        String chongzhiUrl = HttpUrl.test+ HttpUrl.chongzhi;
 
         HttpUtils.get(ctx, chongzhiUrl, BaseApplication.getInstance().getLoginToken(),new HttpCallBack() {
             @Override

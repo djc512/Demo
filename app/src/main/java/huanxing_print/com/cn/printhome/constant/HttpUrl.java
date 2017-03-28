@@ -2,6 +2,8 @@ package huanxing_print.com.cn.printhome.constant;
 
 public class HttpUrl {
 
+	public static final String test = "http://106.14.77.102:22012/";//测试的，正式环境替换
+
 	public static final String POSTHTTP_DAILY = "http://appprint.inkin.cc/";// 线下
 
 	public static final String POSTHTTP_RELEASE = "http://www.huoyibang.com/";// 生产
