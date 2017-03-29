@@ -53,9 +53,9 @@ public class DaYinListBean {
         private int id;
         private String printNo;
         private String printerName;
-        private int remarkId;
         private int status;
         private String timeStamp;
+        private String remarkId;
         private double totalAmount;
         private List<FileInfosBean> fileInfos;
 
@@ -107,11 +107,11 @@ public class DaYinListBean {
             this.printerName = printerName;
         }
 
-        public int getRemarkId() {
+        public String getRemarkId() {
             return remarkId;
         }
 
-        public void setRemarkId(int remarkId) {
+        public void setRemarkId(String remarkId) {
             this.remarkId = remarkId;
         }
 

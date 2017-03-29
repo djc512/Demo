@@ -31,8 +31,6 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
-import static huanxing_print.com.cn.printhome.R.id.iv_notice;
-
 public class ContactFragment extends BaseFragment implements OnClickListener {
 
     private CircleImageView iv_head;
@@ -158,7 +156,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener {
                 intent.putExtra("wechatId",wechatId);
                 startActivity(intent);
                 break;
-            case iv_notice:
+            case R.id.iv_notice:
                 startActivity(new Intent(getActivity(), NoticeActivity.class));
                 break;
             case R.id.ll_my_account:

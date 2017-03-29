@@ -15,8 +15,52 @@
             android:text="系统消息" />
     </RelativeLayout>
     <include layout="@layout/viewline"/>
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:padding="15dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="消息列表"/>
+        android:orientation="vertical">
+        <TextView
+            android:textColor="#fff"
+            android:textSize="17sp"
+            android:background="@drawable/shape_notice_bg"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017年2月31日"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/shape_noticeconten_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="13sp"
+                android:textColor="#c4c4c4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="亲爱的用户，恭候您多时了，我们为你准备了10元打印红包，从此开始您的打印之旅吧~"
+                />
+            <RelativeLayout
+                android:gravity="center_vertical"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#333333"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="去打印文件"/>
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow_go"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
