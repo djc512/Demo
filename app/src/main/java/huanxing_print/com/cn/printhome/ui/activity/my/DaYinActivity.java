@@ -86,7 +86,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
 
         @Override
         public void success(String msg, DaYinListBean bean) {
-            List<DaYinListBean.ListBean> list = bean.getList();
+            final List<DaYinListBean.ListBean> list = bean.getList();
 
             adapter = new DingDanListAdapter(getSelfActivity(), list);
             rv_dingdan.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
@@ -110,7 +110,10 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             adapter.setOnItemClickLitener(new DingDanListAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(int position) {
+                    int id = list.get(position).getId();
+
                     Intent intent = new Intent(getSelfActivity(), OrderDetailActivity.class);
+                    intent.putExtra("id",String.valueOf(id));
                     startActivity(intent);
                 }
             });

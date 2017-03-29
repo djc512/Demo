@@ -69,16 +69,18 @@ public class DingDanListAdapter extends BaseRecyclerAdapter<DingDanListAdapter.M
         holder.tv_dylist_time.setText(addTime);
         holder.tv_dylist_state.setText(statusStr);
         holder.tv_dylist_money.setText(totalAmount + "");
-
         List<DaYinListBean.ListBean.FileInfosBean> fileInfos = listBean.getFileInfos();
 
         DingDanItemListAdapter adapter = new DingDanItemListAdapter(ctx, fileInfos);
         holder.rv_dy_list.setLayoutManager(new LinearLayoutManager(ctx));
         holder.rv_dy_list.setAdapter(adapter);
+
+        final int id = listBean.getId();
         adapter.setOnItemClickLitener(new DingDanItemListAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(ctx, OrderDetailActivity.class);
+                intent.putExtra("id",String.valueOf(id));
                 ctx.startActivity(intent);
             }
         });

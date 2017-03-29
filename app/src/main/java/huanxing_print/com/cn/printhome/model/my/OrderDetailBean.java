@@ -229,17 +229,16 @@ public class OrderDetailBean {
     }
 
     public static class PrintFilesBean {
-        /**
-         * colourFlag : 0
-         * directionFlag : 1
-         * doubleFlag : 1
-         * fileName : img_0080.png
-         * fileUrl : http://139.196.224.235:12003/file/df_/g1/M00/00/19/Ci-4nVjSLdmALwJKAAnLadZDeSY670.png
-         * printCount : 1
-         * printNo : 48TZ-13102-1251581193
-         * printType : 2
-         * sizeType : 0
-         */
+
+//        colourFlag	彩色打印0-彩色 1-黑白	number
+//        directionFlag	方向标识0-横向 1-纵向	number
+//        doubleFlag	双面打印0-是 1-否	number
+//        fileName	文件名	string
+//        fileUrl	文件url	string
+//        printCount	打印份数	number
+//        printNo	打印机编号	string
+//        printType	打印类型	string
+//        sizeType	大小类型0-A4 1-A3
 
         private int colourFlag;
         private int directionFlag;

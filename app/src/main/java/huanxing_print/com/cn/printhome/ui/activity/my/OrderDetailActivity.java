@@ -37,7 +37,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initData() {
-        OrderDetailRequest.getOrderDetail(getSelfActivity(),"11111111111111",new MyCallBack());
+        String id = getIntent().getStringExtra("id");
+        OrderDetailRequest.getOrderDetail(getSelfActivity(),id,new MyCallBack());
     }
 
     private void setListener() {
@@ -61,7 +62,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
         @Override
         public void success(String msg, OrderDetailBean bean) {
-            OrderDetailBean.OrderInfoBean orderInfo = bean.getOrderInfo();
+            OrderDetailBean.OrderInfoBean orderInfo =  bean.getOrderInfo();
             List<OrderDetailBean.PrintFilesBean> printFiles = bean.getPrintFiles();
 
             OrderItemDetailAdapter adapter = new OrderItemDetailAdapter(getSelfActivity(),printFiles);
