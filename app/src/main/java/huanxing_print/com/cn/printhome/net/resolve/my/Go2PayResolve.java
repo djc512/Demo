@@ -14,7 +14,7 @@ public class Go2PayResolve extends BaseResolve<String> {
     public void resolve(Go2PayCallBack callback) {
         switch (code) {
             case SUCCESS_CODE:
-                callback.success(successMsg, bean);
+                callback.success(successMsg,data);
                 break;
             case FAIL_CODE:
                 callback.fail(errorMsg);

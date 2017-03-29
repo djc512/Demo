@@ -51,7 +51,7 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
 
     private void initView() {
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        tv_billdetail_type = (TextView) findViewById(R.id.tv_billdetail_type);
+        tv_billdetail_type = (TextView) findViewById(R.id.tv_billdetail_paytype);
         tv_billdetail_num = (TextView) findViewById(R.id.tv_billdetail_num);
         tv_billdetail_time = (TextView) findViewById(R.id.tv_billdetail_time);
         tv_billdetail_money = (TextView) findViewById(R.id.tv_billdetail_money);

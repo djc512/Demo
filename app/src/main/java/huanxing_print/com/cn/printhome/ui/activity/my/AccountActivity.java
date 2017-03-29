@@ -39,7 +39,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private List<ChongZhiBean> listBean = new ArrayList<>();
 
     private String rechargeAmout;
-    private String orderId;
     private ChongZhiBean chongZhiBean;
 
     @Override
@@ -88,12 +87,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                     ToastUtil.doToast(getSelfActivity(), "请先选择充值金额");
                     return;
                 }
-
                 getOrderId();
-                Intent intent = new Intent(getSelfActivity(), PayActivity.class);
-                intent.putExtra("orderId", orderId);
-                intent.putExtra("rechargeAmout", rechargeAmout);
-                startActivity(intent);
                 break;
             case R.id.tv_account_record://充值记录
                 startActivity(new Intent(getSelfActivity(), AccountRecordActivity.class));
@@ -112,7 +106,10 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void success(String msg, String data) {
                 toast("请求成功");
-                orderId = data;
+                Intent intent = new Intent(getSelfActivity(), PayActivity.class);
+                intent.putExtra("orderId", data);
+                intent.putExtra("rechargeAmout", rechargeAmout);
+                startActivity(intent);
             }
 
             @Override

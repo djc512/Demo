@@ -7,5 +7,5 @@ import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
  */
 
 public abstract class Go2PayCallBack implements BaseCallback {
-    public abstract void success(String msg, String bean);
+    public abstract void success(String msg, String s);
 }
