@@ -1,6 +1,8 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -21,7 +23,9 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitNormalCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.DebitNormalRequest;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.RegexUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -53,6 +57,8 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
     private String billValue;
     private List<String> citys;
     private String expAmount;
+    private String editStr;
+    private Runnable phoneRun;
 
     @Nullable
     @Override
@@ -126,7 +132,10 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
         et_debit_normal_telPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                
+                if(editStr!=null){
+                    //每次editText有变化的时候，则移除上次发出的延迟线程
+                    handler.removeCallbacks(phoneRun);
+                }
             }
 
             @Override
@@ -136,14 +145,35 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void afterTextChanged(Editable s) {
-                String editStr = s.toString().trim();
-                if (!RegexUtils.isMobileSimple(editStr)){
-                    Toast.makeText(getContext(), "手机号码格式不正确", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                editStr = s.toString().trim();
+                //延迟800ms，如果不再输入字符，则执行该线程的run方法
+                Message msg = handler.obtainMessage();
+                msg.what = 0;
+                handler.postDelayed(phoneRun, 800);
             }
         });
     }
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what){
+                case 0:
+                    phoneRun = new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!ObjectUtils.isNull(editStr) && !RegexUtils.isMobileSimple(editStr)) {
+                                ToastUtil.doToast(getActivity(), "手机号码格式不正确");
+                                return;
+                            }
+                        }
+                    };
+                    break;
+            }
+        }
+    };
 
     private int payType;
 

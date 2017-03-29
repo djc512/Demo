@@ -1,6 +1,8 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -21,6 +23,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitValueCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.DebitValueRequest;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.RegexUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
@@ -63,6 +66,10 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     private String billValue;
     private List<String> citys;
     private String expAmount;
+    private Runnable phoneRun;
+    private String editString;
+    private String companyNum;
+    private Runnable companyRun;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activty_debit_value, null);
@@ -80,7 +87,9 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
         et_debit_value_companyPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if (companyRun != null) {
+                    handler.removeCallbacks(phoneRun);
+                }
             }
 
             @Override
@@ -90,18 +99,20 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void afterTextChanged(Editable s) {
-                String companyNum = s.toString().trim();
-                if (!RegexUtils.isMobileSimple(companyNum)){
-                    ToastUtil.doToast(getActivity(),"手机号码格式不正确");
-                    return;
-                }
+                companyNum = s.toString().trim();
+                Message msg = handler.obtainMessage();
+                msg.what = 1;
+                handler.postDelayed(companyRun,800);
             }
         });
 
         et_debit_value_telPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                if(phoneRun!=null){
+                    //每次editText有变化的时候，则移除上次发出的延迟线程
+                    handler.removeCallbacks(phoneRun);
+                }
             }
 
             @Override
@@ -111,14 +122,46 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void afterTextChanged(Editable s) {
-                String telephone = s.toString().trim();
-                if (!RegexUtils.isMobileSimple(telephone)){
-                    ToastUtil.doToast(getActivity(),"手机号码格式不正确");
-                    return;
-                }
+                editString = s.toString().trim();
+                //延迟800ms，如果不再输入字符，则执行该线程的run方法
+                Message msg = handler.obtainMessage();
+                msg.what = 0;
+                handler.postDelayed(phoneRun, 800);
             }
         });
     }
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what){
+                case 0:
+                    phoneRun = new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!ObjectUtils.isNull(editString)&&!RegexUtils.isMobileSimple(editString)){
+                                ToastUtil.doToast(getActivity(),"手机号码格式不正确");
+                                return;
+                            }
+                        }
+                    };
+                    break;
+                case 1:
+                    companyRun = new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!ObjectUtils.isNull(companyNum) && !RegexUtils.isMobileSimple(companyNum)) {
+                                ToastUtil.doToast(getActivity(),"手机号码格式不正确");
+                                return;
+                            }
+                        }
+                    };
+                    break;
+            }
+
+        }
+    };
 
     private void initView(View view) {
         et_debit_value_companyName = (EditText) view.findViewById(R.id.et_debit_value_companyName);
