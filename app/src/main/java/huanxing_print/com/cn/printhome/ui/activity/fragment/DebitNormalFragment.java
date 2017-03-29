@@ -3,7 +3,9 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitNormalCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.DebitNormalRequest;
+import huanxing_print.com.cn.printhome.util.RegexUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -98,7 +101,6 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
             Toast.makeText(getContext(), "填写联系方式", Toast.LENGTH_SHORT).show();
             return;
         }
-
         city = et_debit_normal_city.getText().toString().trim();
         if (TextUtils.isEmpty(city)) {
             Toast.makeText(getContext(), "选择地区信息", Toast.LENGTH_SHORT).show();
@@ -120,6 +122,27 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
         iv_normal_wechat.setOnClickListener(this);
         iv_normal_alipay.setOnClickListener(this);
         btn_normal_submit.setOnClickListener(this);
+
+        et_debit_normal_telPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String editStr = s.toString().trim();
+                if (!RegexUtils.isMobileSimple(editStr)){
+                    Toast.makeText(getContext(), "手机号码格式不正确", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 
     private int payType;

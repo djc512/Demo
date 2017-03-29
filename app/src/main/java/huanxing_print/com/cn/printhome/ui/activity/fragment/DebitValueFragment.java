@@ -3,7 +3,9 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitValueCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.DebitValueRequest;
+import huanxing_print.com.cn.printhome.util.RegexUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * Created by Administrator on 2017/3/24 0024.
@@ -43,6 +47,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     private ImageView iv_value_wechat;
     private ImageView iv_value_alipay;
     private Button btn_value_submit;
+
     private String companyName;
     private String ratepayerId;
     private String companyAddress;
@@ -71,6 +76,48 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
         iv_value_wechat.setOnClickListener(this);
         iv_value_alipay.setOnClickListener(this);
         btn_value_submit.setOnClickListener(this);
+
+        et_debit_value_companyPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String companyNum = s.toString().trim();
+                if (!RegexUtils.isMobileSimple(companyNum)){
+                    ToastUtil.doToast(getActivity(),"手机号码格式不正确");
+                    return;
+                }
+            }
+        });
+
+        et_debit_value_telPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String telephone = s.toString().trim();
+                if (!RegexUtils.isMobileSimple(telephone)){
+                    ToastUtil.doToast(getActivity(),"手机号码格式不正确");
+                    return;
+                }
+            }
+        });
     }
 
     private void initView(View view) {
