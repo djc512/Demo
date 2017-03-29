@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.simple.eventbus.Subscriber;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
 
     private String rechargeAmout;
     private ChongZhiBean chongZhiBean;
+    private String totleBalance;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -55,6 +58,19 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         initData();
         setListener();
     }
+    private String amount;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!ObjectUtils.isNull(amount)) {
+            int accountMoney = Integer.parseInt(totleBalance) + Integer.parseInt(amount);
+            tv_money.setText(accountMoney+"");
+        }
+    }
+    @Subscriber(tag = "rechargeAmout")
+    private void getRechargeAmout(String rechargeAmout){
+        amount = rechargeAmout;
+    }
 
     private void initView() {
         tv_money = (TextView) findViewById(R.id.tv_money);
@@ -67,7 +83,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initData() {
-        tv_money.setText(getIntent().getStringExtra("totleBalance"));
+        totleBalance = getIntent().getStringExtra("totleBalance");
+        tv_money.setText(totleBalance);
         //通过接口获取充值数据
         ChongzhiRequest.getChongZhi(getSelfActivity(), new MyChongzhiCallBack());
     }

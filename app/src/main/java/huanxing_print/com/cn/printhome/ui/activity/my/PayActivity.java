@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 
+import org.simple.eventbus.EventBus;
+
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
@@ -167,6 +169,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(getSelfActivity(), "支付成功", Toast.LENGTH_SHORT).show();
+
+                        //修改账户余额
+                        EventBus.getDefault().post(rechargeAmout,"rechargeAmout");
+
+                        finish();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(getSelfActivity(), "支付失败", Toast.LENGTH_SHORT).show();
