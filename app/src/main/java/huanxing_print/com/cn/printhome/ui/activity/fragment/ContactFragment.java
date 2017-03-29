@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.simple.eventbus.EventBus;
@@ -42,6 +43,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener {
     private String totleBalance;
     private String monthConsume;
     private String wechatId;
+    private ImageView iv_notice;
 
     @Override
     protected void init() {
@@ -133,6 +135,7 @@ public class ContactFragment extends BaseFragment implements OnClickListener {
         tv_account_money = (TextView) findViewById(R.id.tv_account_money);
         tv_month_money = (TextView) findViewById(R.id.tv_month_money);
         iv_head = (CircleImageView) findViewById(R.id.iv_head);
+        iv_notice = (ImageView) findViewById(R.id.iv_notice);
 
     }
 
@@ -145,6 +148,8 @@ public class ContactFragment extends BaseFragment implements OnClickListener {
         findViewById(R.id.ll_my_set).setOnClickListener(this);
         findViewById(R.id.ll_my_share).setOnClickListener(this);
         findViewById(R.id.rl_userMsg).setOnClickListener(this);
+
+        iv_notice.setOnClickListener(this);
     }
 
     @Override

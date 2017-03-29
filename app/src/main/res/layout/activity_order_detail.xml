@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/all_bg_color"
@@ -126,4 +125,8 @@
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
+    <Button
+        android:id="@+id/btn_go_comment"
+        android:text="去评论"
+        style="@style/btn_submit1" />
 </LinearLayout>
