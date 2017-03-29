@@ -61,6 +61,17 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
         ll_back.setOnClickListener(this);
         tv_bill_debit.setOnClickListener(this);
 
+        xrf_zdmx.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener(){
+            @Override
+            public void onRefresh() {
+                super.onRefresh();
+            }
+
+            @Override
+            public void onLoadMore(boolean isSilence) {
+                super.onLoadMore(isSilence);
+            }
+        });
     }
 
     private void initView() {

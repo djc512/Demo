@@ -12,6 +12,7 @@
         android:orientation="vertical"
         android:padding="15dp"
         >
+
         <TextView
             android:id="@+id/tv_orderitem_title"
             android:layout_width="match_parent"
