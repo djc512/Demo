@@ -73,7 +73,6 @@ public class SetDefaultPrinterListAdapter extends BaseAdapter {
                     .findViewById(R.id.tv_print_total);
             holder.tv_comments = (TextView) convertView
                     .findViewById(R.id.tv_comments);
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

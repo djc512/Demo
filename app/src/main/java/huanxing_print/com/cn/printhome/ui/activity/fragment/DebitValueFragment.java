@@ -17,10 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.pickerview.OptionsPickerView;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.address.CityModel;
+import huanxing_print.com.cn.printhome.model.address.DistrictModel;
+import huanxing_print.com.cn.printhome.model.address.ProvinceModel;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitValueCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.DebitValueRequest;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
@@ -70,6 +76,21 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     private String editString;
     private String companyNum;
     private Runnable companyRun;
+
+    // 省数据集合
+    private ArrayList<String> mListProvince = new ArrayList<String>();
+    // 市数据集合
+    private ArrayList<ArrayList<String>> mListCiry = new ArrayList<ArrayList<String>>();
+    // 区数据集合
+    private ArrayList<ArrayList<ArrayList<String>>> mListArea = new ArrayList<ArrayList<ArrayList<String>>>();
+
+    private List<ProvinceModel> provinceList =  new ArrayList<ProvinceModel>();
+    private List<CityModel> cityList =  new ArrayList<CityModel>();
+    private List<DistrictModel> areaList =  new ArrayList<DistrictModel>();
+
+    private OptionsPickerView<String> mOpv;
+    //   private JSONObject mJsonObj;
+    private String comAreaAddress,comAreaAddressId,comDetailAddress;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activty_debit_value, null);

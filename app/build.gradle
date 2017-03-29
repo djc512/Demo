@@ -58,4 +58,5 @@ dependencies {
     compile 'com.dreamlive.cn.clog:ClogLibrary:0.0.1'
     //将日志写入到内存中
     compile files('libs/alipaySdk-20170309.jar')
+    compile project(':pickerViewLib')
 }

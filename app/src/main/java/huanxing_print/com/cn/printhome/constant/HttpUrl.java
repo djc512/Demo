@@ -24,6 +24,7 @@ public class HttpUrl {
 	public static final String czRecord = "pay/recharge/queryOrder"; // 充值记录接口
 	public static final String normalDebit = "pay/bill/addCommBill"; // 普通发票接口
 	public static final String valueDebit = "pay/bill/addVATBill"; // 增值发票接口
+	public static final String getAreaInfo = "common/getAreaInfo";// 省市地区查询
 	public static final String mxDetail = "/pay/queryConsume"; // 账单明细接口
 	public static final String payOrderId = "pay/recharge/addOrder"; // 获取充值订单号接口
 	public static final String doPay = "pay/doAlipay"; // 跳转支付宝的接口

@@ -129,23 +129,26 @@
 
             <include layout="@layout/viewline" />
 
-            <LinearLayout style="@style/ll_debit">
+            <LinearLayout
+                android:id="@+id/ll_address_city"
+                style="@style/ll_debit">
 
                 <TextView
                     style="@style/tv_debit"
                     android:text="所在地区" />
 
-                <EditText
+                <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:layout_marginLeft="25dp"
-                    android:textColor="#999999"
+                    android:textColor="@color/text_color"
                     android:textSize="17sp"
                     android:paddingLeft="5dp"
                     android:hint="选择地区信息"
-                    android:id="@+id/et_debit_normal_city" />
+                    android:textColorHint="@color/gray2"
+                    android:id="@+id/tv_debit_normal_city" />
 
                 <ImageView
                     android:paddingLeft="10dp"
