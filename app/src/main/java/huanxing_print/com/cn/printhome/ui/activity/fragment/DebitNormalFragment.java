@@ -74,11 +74,12 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
         et_debit_normal_address = (EditText) view.findViewById(R.id.et_debit_normal_address);
         iv_normal_wechat = (ImageView) view.findViewById(R.id.iv_normal_wechat);
         iv_normal_alipay = (ImageView) view.findViewById(R.id.iv_normal_alipay);
+
+        tv_debit_normal_amount.setText(billValue);
     }
     private void getData() {
         citys = Arrays.asList("上海", "浙江", "江苏");
         billContext = tv_bill_billContext.getText().toString().trim();
-        tv_debit_normal_amount.setText(billValue);
 
         companyName = et_debit_normal_companyName.getText().toString().trim();
         if (TextUtils.isEmpty(companyName)) {

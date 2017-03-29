@@ -23,6 +23,7 @@ import huanxing_print.com.cn.printhome.net.request.my.Go2DebitRequest;
 import huanxing_print.com.cn.printhome.net.request.my.MingXiDetailRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.MyBillAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * Created by Administrator on 2017/3/17 0017.
@@ -81,6 +82,14 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void success(String msg, String s) {
                         billValue = s;
+                        if("0" == billValue){
+                            ToastUtil.doToast(getSelfActivity(),"可开发票金额为0");
+                            return;
+                        }else {
+                            Intent intent = new Intent(getSelfActivity(),BillDebitActivity.class);
+                            intent.putExtra("billValue",billValue);
+                            startActivity(intent);
+                        }
                     }
 
                     @Override
@@ -93,10 +102,6 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
 
                     }
                 });
-
-                Intent intent = new Intent(getSelfActivity(),BillDebitActivity.class);
-                intent.putExtra("billValue",billValue);
-                startActivity(intent);
                 break;
         }
     }

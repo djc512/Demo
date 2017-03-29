@@ -90,6 +90,8 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
         iv_value_wechat = (ImageView) view.findViewById(R.id.iv_value_wechat);
         iv_value_alipay = (ImageView) view.findViewById(R.id.iv_value_alipay);
         btn_value_submit = (Button) view.findViewById(R.id.btn_value_submit);
+
+        tv_debit_value_amount.setText(billValue);
     }
     private int payType;
 
@@ -167,7 +169,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     }
 
     private void getData() {
-        tv_debit_value_amount.setText(billValue);
+
         billContext = tv_bill_billContext.getText().toString().trim();
 
         companyName = et_debit_value_companyName.getText().toString().trim();
