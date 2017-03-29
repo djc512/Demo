@@ -30,6 +30,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_billdetail_money"
                 android:layout_marginTop="15dp"
                 android:textSize="30sp"
                 android:layout_width="wrap_content"
@@ -45,6 +46,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_billdetail_dealtype"
             android:padding="10dp"
             android:textSize="14sp"
             android:textColor="#333333"
@@ -52,7 +54,7 @@
             android:layout_height="wrap_content"
             android:text="交易类型:充值"/>
         <TextView
-            android:id="@+id/tv_billdetail_type"
+            android:id="@+id/tv_billdetail_paytype"
             android:padding="10dp"
             android:textSize="14sp"
             android:textColor="#333333"

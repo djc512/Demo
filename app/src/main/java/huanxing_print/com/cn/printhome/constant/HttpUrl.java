@@ -32,6 +32,7 @@ public class HttpUrl {
 	public static final String setDefaultprinter= "print/printer/setDefault"; // 设置默认打印机
 	public static final String go2Debit= "pay/bill/getBillAmount"; // 获取能否开发票的接口
 	public static final String orderDetail= "order/getOrderDetail"; // 查询订单详情
+	public static final String queryOrderDetail= "pay/recharge/queryOrderDetail"; // 充值订单详情查询
 	private static String postUrl;
 
 	private static HttpUrl httpUrl;

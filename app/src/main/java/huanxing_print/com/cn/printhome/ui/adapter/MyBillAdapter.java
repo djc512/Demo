@@ -64,7 +64,7 @@ public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
             public void onItemClick(int position) {
 
                 Intent intent = new Intent(ctx,BillDetailActivity.class);
-                ctx.startActivity(new Intent(ctx, BillDetailActivity.class));
+                ctx.startActivity(intent);
             }
         });
     }
