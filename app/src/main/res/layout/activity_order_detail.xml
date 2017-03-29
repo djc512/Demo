@@ -61,6 +61,7 @@
             android:orientation="vertical"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_order_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
@@ -69,6 +70,7 @@
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/tv_order_channel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
@@ -77,6 +79,7 @@
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/tv_order_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
@@ -85,6 +88,7 @@
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/tv_order_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
@@ -103,11 +107,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="总价"
+                android:text="总价:"
                 android:textColor="@color/text_black"
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/tv_order_totalprice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥58.4"
