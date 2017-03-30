@@ -139,10 +139,11 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
             return;
         }
         city = tv_debit_normal_city.getText().toString().trim();
-        if (TextUtils.isEmpty(city)) {
+        String citySub = city.substring(0, 1);
+        if (TextUtils.isEmpty(citySub)) {
             Toast.makeText(getContext(), "选择地区信息", Toast.LENGTH_SHORT).show();
             return;
-        }else if(citys.contains(city)){
+        }else if(citys.contains(citySub)){
             expAmount = "6";
         }else {
             expAmount ="15";

@@ -199,14 +199,17 @@
 
             <include layout="@layout/viewline" />
 
-            <LinearLayout style="@style/ll_debit">
+            <LinearLayout
+                android:id="@+id/ll_value_city"
+                style="@style/ll_debit">
 
                 <TextView
                     style="@style/tv_debit"
                     android:text="所在地区" />
 
-                <EditText
-                    android:id="@+id/et_debit_value_city"
+                <TextView
+                    android:clickable="false"
+                    android:id="@+id/tv_debit_value_city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="25dp"

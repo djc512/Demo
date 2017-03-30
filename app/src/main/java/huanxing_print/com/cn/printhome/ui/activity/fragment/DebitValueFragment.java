@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,14 +24,20 @@ import java.util.Arrays;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.address.CityModel;
 import huanxing_print.com.cn.printhome.model.address.DistrictModel;
 import huanxing_print.com.cn.printhome.model.address.ProvinceModel;
+import huanxing_print.com.cn.printhome.net.callback.my.CompanyAddressListCallback;
 import huanxing_print.com.cn.printhome.net.callback.my.DebitValueCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.CompanyAddressListRequest;
 import huanxing_print.com.cn.printhome.net.request.my.DebitValueRequest;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.RegexUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by Administrator on 2017/3/24 0024.
@@ -50,11 +57,12 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     private TextView textView;
     private EditText et_debit_value_receiver;
     private EditText et_debit_value_telPhone;
-    private EditText et_debit_value_city;
+    private TextView tv_debit_value_city;
     private EditText et_debit_value_address;
     private ImageView iv_value_wechat;
     private ImageView iv_value_alipay;
     private Button btn_value_submit;
+    private LinearLayout ll_value_city;
 
     private String companyName;
     private String ratepayerId;
@@ -85,22 +93,34 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     private List<CityModel> cityList =  new ArrayList<CityModel>();
     private List<DistrictModel> areaList =  new ArrayList<DistrictModel>();
 
+
     private OptionsPickerView<String> mOpv;
     //   private JSONObject mJsonObj;
     private String comAreaAddress,comAreaAddressId,comDetailAddress;
+    private String token;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activty_debit_value, null);
         billValue = getArguments().getString("billValue");
         initView(view);
         setListener();
+        initData();
         return view;
+    }
+
+    private void initData() {
+        token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
+                "loginToken");
+        DialogUtils.showProgressDialog(getActivity(), "数据加载中").show();
+        CompanyAddressListRequest.verify(getActivity(),token,companyAddressListCallback);
     }
 
     private void setListener() {
         iv_value_wechat.setOnClickListener(this);
         iv_value_alipay.setOnClickListener(this);
         btn_value_submit.setOnClickListener(this);
+        ll_value_city.setOnClickListener(this
+        );
 
         et_debit_value_companyPhone.addTextChangedListener(new TextWatcher() {
             @Override
@@ -166,6 +186,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     };
 
     private void initView(View view) {
+        ll_value_city= (LinearLayout) view.findViewById(R.id.ll_value_city);
         et_debit_value_companyName = (EditText) view.findViewById(R.id.et_debit_value_companyName);
         et_debit_value_ratepayerId = (EditText) view.findViewById(R.id.et_debit_value_ratepayerId);
         et_debit_value_companyAddress = (EditText) view.findViewById(R.id.et_debit_value_companyAddress);
@@ -177,7 +198,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
         textView = (TextView) view.findViewById(R.id.textView);
         et_debit_value_receiver = (EditText) view.findViewById(R.id.et_debit_value_receiver);
         et_debit_value_telPhone = (EditText) view.findViewById(R.id.et_debit_value_telPhone);
-        et_debit_value_city = (EditText) view.findViewById(R.id.et_debit_value_city);
+        tv_debit_value_city = (TextView) view.findViewById(R.id.tv_debit_value_city);
         et_debit_value_address = (EditText) view.findViewById(R.id.et_debit_value_address);
         iv_value_wechat = (ImageView) view.findViewById(R.id.iv_value_wechat);
         iv_value_alipay = (ImageView) view.findViewById(R.id.iv_value_alipay);
@@ -203,6 +224,9 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             case R.id.btn_value_submit:
                 getData();
                 sendValue();
+                break;
+            case R.id.ll_value_city:
+                mOpv.show();
                 break;
         }
     }
@@ -312,11 +336,12 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             return;
         }
         citys = Arrays.asList("江苏", "浙江", "上海");
-        city = et_debit_value_city.getText().toString().trim();
-        if (TextUtils.isEmpty(city)) {
+        city = tv_debit_value_city.getText().toString().trim();
+        String citySub = city.substring(0, 1);
+        if (TextUtils.isEmpty(citySub)) {
             Toast.makeText(getContext(), "填写收票单位注册地址", Toast.LENGTH_SHORT).show();
             return;
-        }else if (citys.contains(city)){
+        }else if (citys.contains(citySub)){
             expAmount = "6";
         }else {
             expAmount ="15";
@@ -328,5 +353,83 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             return;
         }
 
+    }
+    //查询接口返回
+    private CompanyAddressListCallback companyAddressListCallback = new CompanyAddressListCallback() {
+
+        @Override
+        public void success(List<ProvinceModel> bean) {
+            DialogUtils.closeProgressDialog();
+            provinceList = bean;
+            if (null!=provinceList&&provinceList.size()>0) {
+                initJsonDatas();
+
+            }
+
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+
+        }
+
+        @Override
+        public void connectFail() {
+            Logger.d("connectFail:");
+            DialogUtils.closeProgressDialog();
+        }
+
+    };
+
+    /** 初始化Json数据，并释放Json对象 */
+    private void initJsonDatas(){
+        for (int i = 0; i < provinceList.size(); i++) {
+            String province = provinceList.get(i).getAreaName();
+            ArrayList<String> options2Items_01 = new ArrayList<String>();
+            ArrayList<ArrayList<String>> options3Items_01 = new ArrayList<ArrayList<String>>();
+            cityList = provinceList.get(i).getChildren();
+            for (int j = 0; j < cityList.size(); j++) {
+                String city = cityList.get(j).getAreaName();// 获取每个市的Json对象
+                options2Items_01.add(city);// 添加市数据
+
+                ArrayList<String> options3Items_01_01 = new ArrayList<String>();
+                areaList = cityList.get(j).getChildren();
+                for (int k = 0; k < areaList.size(); k++) {
+                    options3Items_01_01.add(areaList.get(k).getAreaName());// 添加区数据
+                }
+                options3Items_01.add(options3Items_01_01);
+            }
+            mListProvince.add(province);// 添加省数据
+            mListCiry.add(options2Items_01);
+            mListArea.add(options3Items_01);
+        }
+
+        // 创建选项选择器对象
+        mOpv = new OptionsPickerView<String>(getActivity());
+
+        // 设置标题
+        mOpv.setTitle("选择城市");
+
+        // 设置三级联动效果
+        mOpv.setPicker(mListProvince, mListCiry, mListArea, true);
+
+        // 设置是否循环滚动
+        mOpv.setCyclic(false, false, false);
+
+        // 设置默认选中的三级项目
+        mOpv.setSelectOptions(0, 0, 0);
+
+        // 监听确定选择按钮
+        mOpv.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3) {
+                // 返回的分别是三个级别的选中位置
+                comAreaAddress = mListProvince.get(options1) + mListCiry.get(options1).get(option2) + mListArea.get(options1).get(option2).get(options3);
+                comAreaAddressId = provinceList.get(options1).getAreaId()+","+provinceList.get(options1).getChildren().get(option2).getAreaId()+","
+                        +provinceList.get(options1).getChildren().get(option2).getChildren().get(options3).getAreaId();
+                tv_debit_value_city.setText(comAreaAddress);
+            }
+        });
     }
 }
