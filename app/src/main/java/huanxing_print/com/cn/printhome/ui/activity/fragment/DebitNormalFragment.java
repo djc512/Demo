@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -36,8 +35,8 @@ import huanxing_print.com.cn.printhome.net.request.my.CompanyAddressListRequest;
 import huanxing_print.com.cn.printhome.net.request.my.DebitNormalRequest;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.RegexUtils;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -69,7 +68,6 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
     private List<String> citys;
     private String expAmount;
     private String editStr;
-    private Runnable phoneRun;
     // 省数据集合
     private ArrayList<String> mListProvince = new ArrayList<String>();
     // 市数据集合
@@ -180,35 +178,23 @@ public class DebitNormalFragment extends Fragment implements View.OnClickListene
             public void afterTextChanged(Editable s) {
                 editStr = s.toString().trim();
                 //延迟800ms，如果不再输入字符，则执行该线程的run方法
-                Message msg = handler.obtainMessage();
-                msg.what = 0;
                 handler.postDelayed(phoneRun, 800);
             }
         });
         ll_address_city.setOnClickListener(this);
     }
 
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+    private Handler handler = new Handler();
 
-            switch (msg.what){
-                case 0:
-                    phoneRun = new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!ObjectUtils.isNull(editStr) && !RegexUtils.isMobileSimple(editStr)) {
-                                ToastUtil.doToast(getActivity(), "手机号码格式不正确");
-                                return;
-                            }
-                        }
-                    };
-                    break;
+    private Runnable phoneRun = new Runnable() {
+        @Override
+        public void run() {
+            if (!ObjectUtils.isNull(editStr) && !RegexUtils.isMobileSimple(editStr)) {
+                ToastUtil.doToast(getActivity(), "手机号码格式不正确");
+                return;
             }
         }
     };
-
     private int payType;
 
     @Override

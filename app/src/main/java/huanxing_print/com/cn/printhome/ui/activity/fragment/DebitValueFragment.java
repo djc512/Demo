@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -72,10 +71,8 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
     private String billValue;
     private List<String> citys;
     private String expAmount;
-    private Runnable phoneRun;
     private String editString;
     private String companyNum;
-    private Runnable companyRun;
 
     // 省数据集合
     private ArrayList<String> mListProvince = new ArrayList<String>();
@@ -109,7 +106,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (companyRun != null) {
-                    handler.removeCallbacks(phoneRun);
+                    handler.removeCallbacks(companyRun);
                 }
             }
 
@@ -121,8 +118,6 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             @Override
             public void afterTextChanged(Editable s) {
                 companyNum = s.toString().trim();
-                Message msg = handler.obtainMessage();
-                msg.what = 1;
                 handler.postDelayed(companyRun,800);
             }
         });
@@ -145,42 +140,28 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             public void afterTextChanged(Editable s) {
                 editString = s.toString().trim();
                 //延迟800ms，如果不再输入字符，则执行该线程的run方法
-                Message msg = handler.obtainMessage();
-                msg.what = 0;
                 handler.postDelayed(phoneRun, 800);
             }
         });
     }
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler();
+
+    private Runnable phoneRun = new Runnable() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            switch (msg.what){
-                case 0:
-                    phoneRun = new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!ObjectUtils.isNull(editString)&&!RegexUtils.isMobileSimple(editString)){
-                                ToastUtil.doToast(getActivity(),"手机号码格式不正确");
-                                return;
-                            }
-                        }
-                    };
-                    break;
-                case 1:
-                    companyRun = new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!ObjectUtils.isNull(companyNum) && !RegexUtils.isMobileSimple(companyNum)) {
-                                ToastUtil.doToast(getActivity(),"手机号码格式不正确");
-                                return;
-                            }
-                        }
-                    };
-                    break;
+        public void run() {
+            if (!ObjectUtils.isNull(editString)&&!RegexUtils.isMobileSimple(editString)){
+                ToastUtil.doToast(getActivity(),"手机号码格式不正确");
+                return;
             }
-
+        }
+    };
+    private Runnable companyRun = new Runnable() {
+        @Override
+        public void run() {
+            if (!ObjectUtils.isNull(companyNum) && !RegexUtils.isMobileSimple(companyNum)) {
+                ToastUtil.doToast(getActivity(),"手机号码格式不正确");
+                return;
+            }
         }
     };
 
