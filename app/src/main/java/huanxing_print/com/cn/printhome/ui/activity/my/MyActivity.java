@@ -174,10 +174,6 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
     }
-
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {

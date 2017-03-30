@@ -82,6 +82,9 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
                 intent.putExtra("veryCode", veryCode);
                 intent.putExtra("phoneNum", phone);
                 startActivity(intent);
+
+                et_forget_VeryCode.setText("");
+                et_forget_phone.setText("");
                 break;
 
             case R.id.ll_back:

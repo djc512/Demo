@@ -95,7 +95,8 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
                     return;
                 }
                 modifyPwd();
-
+                finish();
+                startActivity(new Intent(this,LoginActivity.class));
                 break;
             case R.id.iv_modify_look:
                 if(isLook){
