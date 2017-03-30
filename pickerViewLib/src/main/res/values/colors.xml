@@ -13,8 +13,8 @@
     <!--覆盖颜色-->
     <color name="bgColor_overlay">#60000000</color>
     <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color> 
-    <color name="blue">#1864D7</color>
+    <color name="white">#FFFFFF</color>
+    <color name="green">#1aad19</color>
     
 
 </resources>
