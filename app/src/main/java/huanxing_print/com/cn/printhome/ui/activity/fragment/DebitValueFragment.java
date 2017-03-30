@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -33,6 +34,7 @@ import huanxing_print.com.cn.printhome.net.callback.my.CompanyAddressListCallbac
 import huanxing_print.com.cn.printhome.net.callback.my.DebitValueCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.CompanyAddressListRequest;
 import huanxing_print.com.cn.printhome.net.request.my.DebitValueRequest;
+import huanxing_print.com.cn.printhome.ui.activity.my.DebitListActivity;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.RegexUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -224,6 +226,7 @@ public class DebitValueFragment extends Fragment implements View.OnClickListener
             case R.id.btn_value_submit:
                 getData();
                 sendValue();
+                startActivity(new Intent(getActivity(),DebitListActivity.class));
                 break;
             case R.id.ll_value_city:
                 mOpv.show();

@@ -227,6 +227,11 @@
             android:exported="false"
             android:screenOrientation="behind" >
         </activity>
+
+        <!--开发票列表界面-->
+        <activity
+            android:name=".ui.activity.my.DebitListActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
