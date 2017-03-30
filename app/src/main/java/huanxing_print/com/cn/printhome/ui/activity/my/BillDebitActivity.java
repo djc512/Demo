@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,7 +43,7 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
         setContentView(R.layout.activity_debit);
         WindowManager wm = (WindowManager) this
                 .getSystemService(Context.WINDOW_SERVICE);
-        width = wm.getDefaultDisplay().getWidth()/2;
+        width = wm.getDefaultDisplay().getWidth() / 2;
         initView();
         initData();
         setListener();
@@ -57,18 +56,18 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
 
         DebitNormalFragment debitNormalFragment = new DebitNormalFragment();
         Bundle norBundle = new Bundle();
-        norBundle.putString("billValue",billValue);
+        norBundle.putString("billValue", billValue);
         debitNormalFragment.setArguments(norBundle);
 
-        DebitValueFragment debitValueFragment =new DebitValueFragment();
+        DebitValueFragment debitValueFragment = new DebitValueFragment();
         Bundle valBundle = new Bundle();
-        valBundle.putString("billValue",billValue);
+        valBundle.putString("billValue", billValue);
         debitValueFragment.setArguments(valBundle);
 
         fragmentList.add(debitNormalFragment);
         fragmentList.add(debitValueFragment);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),fragmentList);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragmentList);
         adapter.notifyDataSetChanged();
         vp.setAdapter(adapter);
     }
@@ -76,7 +75,7 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
     @Override
     protected void onResume() {
         super.onResume();
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, dip2px(this,2));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, dip2px(this, 2));
         view_bill.setLayoutParams(lp);
     }
 
@@ -88,23 +87,28 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view_bill.getLayoutParams();
+                if (params != null && positionOffset != 0) {
+                    params.leftMargin = (int) ((position + positionOffset) * width);
+                    view_bill.setLayoutParams(params);
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
-                if(position == 0){
+                if (position == 0) {
                     tv_bill_normal.setTextColor(getResources().getColor(R.color.green));
                     tv_bill_value.setTextColor(Color.parseColor("#999999"));
-                    position =0;
-                    viewAnimation(position);
-                }else {
+//                    position =0;
+//                    viewAnimation(position);
+                } else {
                     tv_bill_value.setTextColor(getResources().getColor(R.color.green));
                     tv_bill_normal.setTextColor(Color.parseColor("#999999"));
-                    position = 1;
-                    viewAnimation(position);
+//                    position = 1;
+//                    viewAnimation(position);
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -120,23 +124,25 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
         view_bill = findViewById(R.id.view_bill);
         vp = (ViewPager) findViewById(R.id.vp);
     }
+
     private int start;
     private int position;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_bill_normal:
                 tv_bill_normal.setTextColor(getResources().getColor(R.color.green));
                 tv_bill_value.setTextColor(Color.parseColor("#999999"));
-                position =0;
-                viewAnimation(position);
+                position = 0;
+//                viewAnimation(position);
                 vp.setCurrentItem(0);
                 break;
             case R.id.tv_bill_value:
                 tv_bill_value.setTextColor(getResources().getColor(R.color.green));
                 tv_bill_normal.setTextColor(Color.parseColor("#999999"));
                 position = 1;
-                viewAnimation(position);
+//                viewAnimation(position);
                 vp.setCurrentItem(1);
                 break;
             case R.id.ll_back:
@@ -145,15 +151,15 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
         }
     }
 
-    private void viewAnimation(int i) {
-        int end = width*i;
-        TranslateAnimation ta = new TranslateAnimation(start,width*i,0,0);
-        ta.setDuration(500);
-        ta.setFillAfter(true);
-        view_bill.startAnimation(ta);
-
-        start = end;
-    }
+//    private void viewAnimation(int i) {
+//        int end = width * i;
+//        TranslateAnimation ta = new TranslateAnimation(start, width * i, 0, 0);
+//        ta.setDuration(500);
+//        ta.setFillAfter(true);
+//        view_bill.startAnimation(ta);
+//
+//        start = end;
+//    }
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
