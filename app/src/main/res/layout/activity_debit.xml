@@ -49,11 +49,11 @@
         android:layout_height="2dp"
         android:background="@color/green"
         />
-    <android.support.v4.view.ViewPager
+    <huanxing_print.com.cn.printhome.view.viewpager.MyViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v4.view.ViewPager>
+    </huanxing_print.com.cn.printhome.view.viewpager.MyViewPager>
 
 </LinearLayout>
