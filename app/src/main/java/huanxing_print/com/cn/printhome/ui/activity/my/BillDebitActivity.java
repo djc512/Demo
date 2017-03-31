@@ -19,6 +19,7 @@ import huanxing_print.com.cn.printhome.ui.activity.fragment.DebitNormalFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.DebitValueFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.view.viewpager.MyViewPager;
 
 /**
  * Created by Administrator on 2017/3/24 0024.
@@ -30,7 +31,7 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
     private TextView tv_bill_normal;
     private TextView tv_bill_value;
     private View view_bill;
-    private ViewPager vp;
+    private MyViewPager vp;
     private int width;
 
     private List<Fragment> fragmentList = new ArrayList<>();
@@ -122,7 +123,7 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
         tv_bill_normal = (TextView) findViewById(R.id.tv_bill_normal);
         tv_bill_value = (TextView) findViewById(R.id.tv_bill_value);
         view_bill = findViewById(R.id.view_bill);
-        vp = (ViewPager) findViewById(R.id.vp);
+        vp = (MyViewPager) findViewById(R.id.vp);
     }
 
     private int start;

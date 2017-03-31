@@ -93,7 +93,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void success(String msg, String s) {
                         billValue = s;
-                        if("0" == billValue){
+                        if(billValue.equals("0")){
                             ToastUtil.doToast(getSelfActivity(),"可开发票金额为0");
                             return;
                         }else {
