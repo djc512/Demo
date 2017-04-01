@@ -30,7 +30,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
 
     private LinearLayout ll_back;
     private RecyclerView rv_account_record;
-    private int pageNum = 1;
+    private int pageNum =1;
     private AccountRecordAdapter adapter;
     private XRefreshView xrf_czrecord;
     private List<ChongZhiRecordBean.ListBean> list = new ArrayList<>();
@@ -70,18 +70,17 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onRefresh() {
                 super.onRefresh();
+                list.clear();
                 pageNum = 1;
-//                //获取充值记录
+                //获取充值记录
                 ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
                 xrf_czrecord.stopRefresh();
-                manager.scrollToPosition(0);
-                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
-                pageNum++;
+                pageNum = pageNum + 1;
                 ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
                 xrf_czrecord.stopLoadMore();
             }
@@ -105,11 +104,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         public void success(String msg, ChongZhiRecordBean bean) {
             List<ChongZhiRecordBean.ListBean> datalist = bean.getList();
             if (!ObjectUtils.isNull(datalist)) {
-                if (datalist.size() > list.size()) {//获取最新的数据
-                    list.addAll(0, datalist);
-                } else {
-                    ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
-                }
+                list.addAll(datalist);
             } else {
                 ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
                 return;
@@ -117,9 +112,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             manager = new LinearLayoutManager(getSelfActivity());
 
             rv_account_record.setLayoutManager(manager);
-            manager.scrollToPosition(0);
             adapter = new AccountRecordAdapter(getSelfActivity(), list);
-            manager.scrollToPosition(0);
             rv_account_record.setAdapter(adapter);
 
             xrf_czrecord.setPinnedTime(1000);

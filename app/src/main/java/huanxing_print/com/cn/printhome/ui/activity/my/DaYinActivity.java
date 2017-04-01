@@ -55,6 +55,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onRefresh() {
                 super.onRefresh();
+                listAll.clear();
                 pageNum = 1;
                 DaYinListRequest.getDaYinList(getSelfActivity(), pageNum, new MyCallBack());
                 xrf_dingdan.stopRefresh();
@@ -98,11 +99,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             final List<DaYinListBean.ListBean> list = bean.getList();
 
             if (!ObjectUtils.isNull(list)) {
-                if (list.size() > listAll.size()) {//获取最新的数据
-                    listAll.addAll(0, list);
-                } else {
-                    ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
-                }
+                listAll.addAll(list);
             } else {
                 ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
                 return;
