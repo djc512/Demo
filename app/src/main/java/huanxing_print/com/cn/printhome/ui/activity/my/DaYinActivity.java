@@ -96,17 +96,20 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
 
         @Override
         public void success(String msg, DaYinListBean bean) {
-            final List<DaYinListBean.ListBean> list = bean.getList();
+            List<DaYinListBean.ListBean> list = bean.getList();
 
+            LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
+            manager.scrollToPositionWithOffset(listAll.size() -1,0);
             if (!ObjectUtils.isNull(list)) {
                 listAll.addAll(list);
             } else {
                 ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
+                xrf_dingdan.stopLoadMore();
                 return;
             }
 
             adapter = new DingDanListAdapter(getSelfActivity(), listAll);
-            rv_dingdan.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
+            rv_dingdan.setLayoutManager(manager);
             rv_dingdan.setAdapter(adapter);
 
             // 设置静默加载模式

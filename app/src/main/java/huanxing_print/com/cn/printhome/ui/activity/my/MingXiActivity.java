@@ -136,12 +136,14 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 listAll.addAll(list);
             } else {
                 ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
+                xrf_zdmx.stopLoadMore();
                 return;
             }
+            LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
             adapter = new MyBillAdapter(getSelfActivity(),listAll);
-            rv_bill_detail.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
+            rv_bill_detail.setLayoutManager(manager);
             rv_bill_detail.setAdapter(adapter);
-
+            manager.scrollToPositionWithOffset(listAll.size() -1,0);
             xrf_zdmx.setPinnedTime(1000);
             xrf_zdmx.setMoveForHorizontal(true);
             xrf_zdmx.setPullLoadEnable(true);

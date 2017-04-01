@@ -34,7 +34,6 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
     private AccountRecordAdapter adapter;
     private XRefreshView xrf_czrecord;
     private List<ChongZhiRecordBean.ListBean> list = new ArrayList<>();
-    private LinearLayoutManager manager;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -103,18 +102,18 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         @Override
         public void success(String msg, ChongZhiRecordBean bean) {
             List<ChongZhiRecordBean.ListBean> datalist = bean.getList();
+
             if (!ObjectUtils.isNull(datalist)) {
                 list.addAll(datalist);
             } else {
                 ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
                 return;
             }
-            manager = new LinearLayoutManager(getSelfActivity());
-
+            LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
             rv_account_record.setLayoutManager(manager);
             adapter = new AccountRecordAdapter(getSelfActivity(), list);
             rv_account_record.setAdapter(adapter);
-
+            manager.scrollToPositionWithOffset(list.size()-1,0);
             xrf_czrecord.setPinnedTime(1000);
             xrf_czrecord.setMoveForHorizontal(true);
             xrf_czrecord.setPullLoadEnable(true);
