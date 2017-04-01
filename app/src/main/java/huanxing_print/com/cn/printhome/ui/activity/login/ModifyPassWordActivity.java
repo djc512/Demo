@@ -80,7 +80,7 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
             case R.id.btn_modify_ok:
                 pwd = et_modify_pwd.getText().toString().trim();
@@ -95,7 +95,7 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
                     return;
                 }
                 modifyPwd();
-                finish();
+                finishCurrentActivity();
                 startActivity(new Intent(this,LoginActivity.class));
                 break;
             case R.id.iv_modify_look:

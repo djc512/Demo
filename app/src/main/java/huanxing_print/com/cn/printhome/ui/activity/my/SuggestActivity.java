@@ -63,7 +63,7 @@ public class SuggestActivity extends BaseActivity implements View.OnClickListene
                 sendFeedBack();
                 break;
             case R.id.ll_back:
-                finish();
+               finishCurrentActivity();
                 break;
         }
     }

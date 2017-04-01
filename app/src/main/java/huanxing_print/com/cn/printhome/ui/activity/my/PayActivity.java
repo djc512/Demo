@@ -85,7 +85,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 go2Pay();
                 break;
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
             case R.id.iv_pay_alipay:
                 iv_pay_alipay.setBackgroundResource(R.drawable.check_2x);
@@ -173,7 +173,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                         //修改账户余额
                         EventBus.getDefault().post(rechargeAmout,"rechargeAmout");
 
-                        finish();
+                        finishCurrentActivity();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(getSelfActivity(), "支付失败", Toast.LENGTH_SHORT).show();

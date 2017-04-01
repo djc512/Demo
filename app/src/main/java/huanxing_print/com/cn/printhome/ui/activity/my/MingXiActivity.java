@@ -85,7 +85,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
             case R.id.tv_bill_debit://开发票
                 //根据后台判断能否开发票

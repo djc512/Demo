@@ -110,7 +110,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 startActivity(new Intent(getSelfActivity(), AccountRecordActivity.class));
                 break;
             case R.id.ll_back://返回
-                finish();
+                finishCurrentActivity();
                 break;
         }
     }

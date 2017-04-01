@@ -71,7 +71,7 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
                 startActivity(new Intent(ContactActivity.this, SuggestActivity.class));
                 break;
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
         }
     }

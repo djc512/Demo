@@ -65,7 +65,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
         }
     }

@@ -62,7 +62,7 @@ public class BillDetailActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
         }
     }

@@ -62,7 +62,7 @@ public class NoticeActivity extends BaseActivity implements View.OnClickListener
 
                 break;
             case R.id.ll_back://充值消息详情
-                    finish();
+                   finishCurrentActivity();
                 break;
         }
     }

@@ -53,7 +53,7 @@ public class DebitListActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_back:
-                finish();
+                finishCurrentActivity();
                 break;
             case R.id.ll_debitlist:
                 startActivity(new Intent(getSelfActivity(),DebitListDetailActivity.class));
