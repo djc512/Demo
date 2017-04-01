@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -19,6 +20,8 @@ import huanxing_print.com.cn.printhome.net.callback.my.DaYinListCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.DaYinListRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.DingDanListAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * Created by Administrator on 2017/3/17 0017.
@@ -44,7 +47,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
         initData();
         setListener();
     }
-
+    private int pageNum = 1;
     private void setListener() {
         ll_back.setOnClickListener(this);
         xrf_dingdan.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
@@ -52,19 +55,25 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onRefresh() {
                 super.onRefresh();
+                pageNum = 1;
+                DaYinListRequest.getDaYinList(getSelfActivity(), pageNum, new MyCallBack());
+                xrf_dingdan.stopRefresh();
             }
 
             //加载更多
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
+                pageNum++;
+                DaYinListRequest.getDaYinList(getSelfActivity(), pageNum, new MyCallBack());
+                xrf_dingdan.stopLoadMore();
             }
         });
     }
 
     private void initData() {
         //获取数据
-        DaYinListRequest.getDaYinList(getSelfActivity(), 1, new MyCallBack());
+        DaYinListRequest.getDaYinList(getSelfActivity(), pageNum, new MyCallBack());
     }
 
     private void initView() {
@@ -81,14 +90,25 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
     }
-
+    private  List<DaYinListBean.ListBean> listAll = new ArrayList<>();
     public class MyCallBack extends DaYinListCallBack {
 
         @Override
         public void success(String msg, DaYinListBean bean) {
             final List<DaYinListBean.ListBean> list = bean.getList();
 
-            adapter = new DingDanListAdapter(getSelfActivity(), list);
+            if (!ObjectUtils.isNull(list)) {
+                if (list.size() > listAll.size()) {//获取最新的数据
+                    listAll.addAll(0, list);
+                } else {
+                    ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
+                }
+            } else {
+                ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
+                return;
+            }
+
+            adapter = new DingDanListAdapter(getSelfActivity(), listAll);
             rv_dingdan.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
             rv_dingdan.setAdapter(adapter);
 
@@ -110,7 +130,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             adapter.setOnItemClickLitener(new DingDanListAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(int position) {
-                    int id = list.get(position).getId();
+                    int id = listAll.get(position).getId();
 
                     Intent intent = new Intent(getSelfActivity(), OrderDetailActivity.class);
                     intent.putExtra("id",String.valueOf(id));

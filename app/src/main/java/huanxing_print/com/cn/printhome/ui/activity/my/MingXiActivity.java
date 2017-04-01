@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -23,6 +24,7 @@ import huanxing_print.com.cn.printhome.net.request.my.Go2DebitRequest;
 import huanxing_print.com.cn.printhome.net.request.my.MingXiDetailRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.MyBillAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
@@ -35,7 +37,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
     private RecyclerView rv_bill_detail;
     private TextView tv_bill_debit;
     private XRefreshView xrf_zdmx;
-    private List<MingxiDetailBean.ListBean> list;
+    private List<MingxiDetailBean.ListBean> listAll = new ArrayList<>();
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -51,10 +53,10 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
         initData();
         setListener();
     }
-
+    private int pageNum = 1;
     private void initData() {
         //获取账单明细
-        MingXiDetailRequest.getMxDetail(getSelfActivity(),1,new MyCallBack());
+        MingXiDetailRequest.getMxDetail(getSelfActivity(),pageNum,new MyCallBack());
     }
 
     private void setListener() {
@@ -65,11 +67,17 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onRefresh() {
                 super.onRefresh();
+                pageNum = 1;
+                MingXiDetailRequest.getMxDetail(getSelfActivity(),pageNum,new MyCallBack());
+                xrf_zdmx.stopRefresh();
             }
 
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
+                pageNum++;
+                MingXiDetailRequest.getMxDetail(getSelfActivity(),pageNum,new MyCallBack());
+                xrf_zdmx.stopLoadMore();
             }
         });
     }
@@ -121,8 +129,19 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void success(String msg, MingxiDetailBean bean) {
-            list = bean.getList();
-            adapter = new MyBillAdapter(getSelfActivity(),list);
+            List<MingxiDetailBean.ListBean> list = bean.getList();
+
+            if (!ObjectUtils.isNull(list)) {
+                if (list.size() > listAll.size()) {//获取最新的数据
+                    listAll.addAll(0, list);
+                } else {
+                    ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
+                }
+            } else {
+                ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
+                return;
+            }
+            adapter = new MyBillAdapter(getSelfActivity(),listAll);
             rv_bill_detail.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
             rv_bill_detail.setAdapter(adapter);
 
