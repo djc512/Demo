@@ -36,8 +36,8 @@ public class BaseApplication extends Application {
 	//判断是否登录
 	private boolean hasLoginEvent=false;
    //微信第三方登录
-	public static final String WX_APPID = "wxb53411a37963b886";
-	public static final String WX_APPSecret = "d72be30f31c81dcc507d8c08c0d700f8";
+	public static final String WX_APPID = "wx4c877768d9a9fc08";
+	public static final String WX_APPSecret = "d7ba93d327cfdd1d02b8d5a4b43b1223";
 	private IWXAPI api;
 
 	private static BaseApplication mInstance;

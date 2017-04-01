@@ -3,6 +3,7 @@ package huanxing_print.com.cn.printhome.ui.activity.login;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -84,6 +85,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.activity_login);
         initViews();
         //initData();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        receiveBroadCast = new ReceiveBroadCast();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("authlogin");
+        registerReceiver(receiveBroadCast, filter);
     }
 
     private void initData() {
@@ -386,6 +395,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(receiveBroadCast);
         if (getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),

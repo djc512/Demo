@@ -6,10 +6,13 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.Toast;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.CenterFragment;
@@ -112,6 +115,20 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     protected void onActivityResult(int arg0, int arg1, Intent arg2)
     {
         fragHome.onActivityResult(arg0, arg1, arg2);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                ActivityHelper.getInstance().finishAllActivity();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
