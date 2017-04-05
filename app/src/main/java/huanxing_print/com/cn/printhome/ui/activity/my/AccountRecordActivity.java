@@ -1,13 +1,11 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.andview.refreshview.XRefreshView;
-import com.andview.refreshview.XRefreshViewFooter;
 
 import java.util.List;
 
@@ -28,7 +26,7 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 public class AccountRecordActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout ll_back;
-    private RecyclerView rv_account_record;
+    private ListView lv_account_record;
     private int pageNum = 1;
     private AccountRecordAdapter adapter;
     private XRefreshView xrf_czrecord;
@@ -58,7 +56,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
     private void initView() {
         xrf_czrecord = (XRefreshView) findViewById(R.id.xrf_czrecord);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        rv_account_record = (RecyclerView) findViewById(R.id.rv_account_record);
+        lv_account_record = (ListView) findViewById(R.id.lv_account_record);
     }
 
     private void setListener() {
@@ -118,17 +116,15 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             } else {
                 datalist = bean.getList();
                 adapter = new AccountRecordAdapter(getSelfActivity(), datalist);
-                rv_account_record.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
-                rv_account_record.setAdapter(adapter);
+                lv_account_record.setAdapter(adapter);
             }
+            xrf_czrecord.setPullLoadEnable(true);
+            //设置在上拉加载被禁用的情况下，是否允许界面被上拉
             xrf_czrecord.setPinnedTime(1000);
             xrf_czrecord.setMoveForHorizontal(true);
-            xrf_czrecord.setPullLoadEnable(true);
-            xrf_czrecord.setAutoLoadMore(false);
-            adapter.setCustomLoadMoreView(new XRefreshViewFooter(getSelfActivity()));
-            xrf_czrecord.enableReleaseToLoadMore(true);
-            xrf_czrecord.enableRecyclerViewPullUp(true);
-            xrf_czrecord.enablePullUpWhenLoadCompleted(true);
+//            xrf_czrecord.setCustomFooterView(new CustomerFooter(this));
+            //设置当非RecyclerView上拉加载完成以后的回弹时间
+//            xrf_czrecord.setScrollBackDuration(300);
         }
 
         @Override

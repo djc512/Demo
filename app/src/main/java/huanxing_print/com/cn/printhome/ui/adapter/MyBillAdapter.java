@@ -7,9 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ import huanxing_print.com.cn.printhome.ui.activity.my.BillDetailActivity;
  * Created by Administrator on 2017/3/24 0024.
  */
 
-public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
+public class MyBillAdapter extends BaseAdapter{
 
     private Context ctx;
     private  List<MingxiDetailBean.ListBean> list;
@@ -31,34 +30,47 @@ public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
         this.list = list;
     }
 
+
     @Override
-    public MyHolder getViewHolder(View view) {
-        return new MyHolder(view);
+    public int getCount() {
+        return list.size();
     }
 
     @Override
-    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
-        MyHolder holder = new MyHolder(LayoutInflater.from(
-                ctx).inflate(R.layout.activity_bill_detail, parent,
-                false));
-        return holder;
+    public Object getItem(int position) {
+        return list.get(position);
     }
 
     @Override
-    public void onBindViewHolder(MyHolder holder, int position, boolean isItem) {
+    public long getItemId(int position) {
+        return position;
+    }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        MyViewHolder holder = null;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(ctx).inflate(R.layout.activity_bill_detail,null);
+            holder = new MyViewHolder();
+            holder.tv_bill_time = (TextView) convertView.findViewById(R.id.tv_bill_time);
+            holder.tv_bill_consume = (TextView) convertView.findViewById(R.id.tv_bill_consume);
+            holder.rv_item_bill = (RecyclerView) convertView.findViewById(R.id.rv_item_bill);
+
+            convertView.setTag(holder);
+        }else {
+            holder = (MyViewHolder) convertView.getTag();
+        }
         MingxiDetailBean.ListBean listBean = list.get(position);
-        List<MingxiDetailBean.ListBean.DetailBean> detail = listBean.getDetail();
-        String monthAmount = listBean.getMonthAmount();
         String date = listBean.getDate();
-
         holder.tv_bill_time.setText(date);
-        holder.tv_bill_consume.setText("累计消费"+monthAmount+"元");
+        String monthAmount = listBean.getMonthAmount();
+        holder.tv_bill_consume.setText(monthAmount);
+        List<MingxiDetailBean.ListBean.DetailBean> detail = listBean.getDetail();
 
         MyBillItemAdapter adapter = new MyBillItemAdapter(ctx,detail);
         holder.rv_item_bill.setLayoutManager(new LinearLayoutManager(ctx));
         holder.rv_item_bill.setAdapter(adapter);
-
+        holder.rv_item_bill.setNestedScrollingEnabled(false);
         adapter.setOnItemClickLitener(new MyBillItemAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int position) {
@@ -67,24 +79,12 @@ public class MyBillAdapter extends BaseRecyclerAdapter<MyBillAdapter.MyHolder> {
                 ctx.startActivity(intent);
             }
         });
+
+        return convertView;
     }
-
-    @Override
-    public int getAdapterItemCount() {
-        return list.size();
-    }
-
-    public class MyHolder extends RecyclerView.ViewHolder{
-
+    public class MyViewHolder {
+        TextView tv_bill_time;
+        TextView tv_bill_consume;
         RecyclerView rv_item_bill;
-        private final TextView tv_bill_time;
-        private final TextView tv_bill_consume;
-
-        public MyHolder(View view) {
-            super(view);
-            rv_item_bill = (RecyclerView) view.findViewById(R.id.rv_item_bill);
-            tv_bill_time = (TextView) view.findViewById(R.id.tv_bill_time);
-            tv_bill_consume = (TextView) view.findViewById(R.id.tv_bill_consume);
-        }
     }
 }

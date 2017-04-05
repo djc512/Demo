@@ -3,14 +3,12 @@ package huanxing_print.com.cn.printhome.ui.activity.my;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.andview.refreshview.XRefreshView;
-import com.andview.refreshview.XRefreshViewFooter;
 
 import java.util.List;
 
@@ -33,7 +31,7 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 public class MingXiActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_back;
     private MyBillAdapter adapter;
-    private RecyclerView rv_bill_detail;
+    private ListView lv_bill_detail;
     private TextView tv_bill_debit;
     private XRefreshView xrf_zdmx;
     private List<MingxiDetailBean.ListBean> list;
@@ -88,7 +86,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
     private void initView() {
         xrf_zdmx = (XRefreshView) findViewById(R.id.xrf_zdmx);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        rv_bill_detail = (RecyclerView) findViewById(R.id.rv_bill_detail);
+        lv_bill_detail = (ListView) findViewById(R.id.lv_bill_detail);
         tv_bill_debit = (TextView) findViewById(R.id.tv_bill_debit);
     }
 
@@ -154,10 +152,8 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 }
             } else {
                 list = bean.getList();
-                LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
                 adapter = new MyBillAdapter(getSelfActivity(), list);
-                rv_bill_detail.setLayoutManager(manager);
-                rv_bill_detail.setAdapter(adapter);
+                lv_bill_detail.setAdapter(adapter);
             }
 
             if (!ObjectUtils.isNull(list)) {
@@ -167,14 +163,10 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 xrf_zdmx.stopLoadMore();
                 return;
             }
+            xrf_zdmx.setPullLoadEnable(true);
+            //设置在上拉加载被禁用的情况下，是否允许界面被上拉
             xrf_zdmx.setPinnedTime(1000);
             xrf_zdmx.setMoveForHorizontal(true);
-            xrf_zdmx.setPullLoadEnable(true);
-            xrf_zdmx.setAutoLoadMore(false);
-            adapter.setCustomLoadMoreView(new XRefreshViewFooter(getSelfActivity()));
-            xrf_zdmx.enableReleaseToLoadMore(true);
-            xrf_zdmx.enableRecyclerViewPullUp(true);
-            xrf_zdmx.enablePullUpWhenLoadCompleted(true);
         }
 
         @Override

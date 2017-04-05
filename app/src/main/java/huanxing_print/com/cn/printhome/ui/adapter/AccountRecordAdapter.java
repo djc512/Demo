@@ -6,10 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 
 import java.util.List;
 
@@ -20,19 +18,9 @@ import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
  * Created by Administrator on 2017/3/23 0023.
  */
 
-public class AccountRecordAdapter extends BaseRecyclerAdapter<AccountRecordAdapter.MyViewHolder> {
+public class AccountRecordAdapter extends BaseAdapter {
     private Context ctx;
     private List<ChongZhiRecordBean.ListBean> list;
-
-    public interface OnItemClickLitener {
-        void onItemClick(View view, int position);
-    }
-
-    private OnItemClickLitener mOnItemClickLitener;
-
-    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
-        this.mOnItemClickLitener = mOnItemClickLitener;
-    }
 
     public AccountRecordAdapter(Context ctx, List<ChongZhiRecordBean.ListBean> list) {
         this.ctx = ctx;
@@ -40,53 +28,45 @@ public class AccountRecordAdapter extends BaseRecyclerAdapter<AccountRecordAdapt
     }
 
     @Override
-    public MyViewHolder getViewHolder(View view) {
-        return new MyViewHolder(view);
-    }
-
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
-                ctx).inflate(R.layout.item_account_record,
-                null));
-        return holder;
-    }
-
-    @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position, boolean isItem) {
-
-        ChongZhiRecordBean.ListBean listBean = list.get(position);
-
-        holder.tv_time.setText(listBean.getDate());
-
-        holder.rv_item_record.setLayoutManager(new LinearLayoutManager(ctx));
-        holder.rv_item_record.setAdapter(new AccountRecordItemAdapter(ctx,listBean.getDetail()));
-        holder.ll_account_record.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mOnItemClickLitener != null){
-                    mOnItemClickLitener.onItemClick(holder.ll_account_record,position);
-                }
-            }
-        });
-    }
-
-    @Override
-    public int getAdapterItemCount() {
+    public int getCount() {
         return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        MyViewHolder holder = null;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(ctx).inflate(R.layout.item_account_record,null);
+            holder = new MyViewHolder();
+            holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
+            holder.rv_item_record = (RecyclerView) convertView.findViewById(R.id.rv_item_record);
+            convertView.setTag(holder);
+        }else {
+           holder = (MyViewHolder) convertView.getTag();
+        }
+        ChongZhiRecordBean.ListBean listBean = list.get(position);
+        String date = listBean.getDate();
+        holder.tv_time.setText(date);
+        AccountRecordItemAdapter adapter =new AccountRecordItemAdapter(ctx,listBean.getDetail());
+        holder.rv_item_record.setLayoutManager(new LinearLayoutManager(ctx));
+        holder.rv_item_record.setNestedScrollingEnabled(false);
+        holder.rv_item_record.setAdapter(adapter);
+//        recyclerView.setNestedScrollingEnabled(false
+
+        return convertView;
+    }
+    public class MyViewHolder{
         TextView tv_time;
         RecyclerView rv_item_record;
-        private final LinearLayout ll_account_record;
-
-        public MyViewHolder(View view) {
-            super(view);
-            tv_time = (TextView) view.findViewById(R.id.tv_time);
-            rv_item_record = (RecyclerView) view.findViewById(R.id.rv_item_record);
-            ll_account_record = (LinearLayout) view.findViewById(R.id.ll_account_record);
-        }
     }
 }

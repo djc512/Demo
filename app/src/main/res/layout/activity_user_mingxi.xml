@@ -27,12 +27,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_bill_detail"
+        <ListView
+            android:scrollbars="none"
+            android:id="@+id/lv_bill_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </android.support.v7.widget.RecyclerView>
+        </ListView>
     </com.andview.refreshview.XRefreshView>
 
 </LinearLayout>
