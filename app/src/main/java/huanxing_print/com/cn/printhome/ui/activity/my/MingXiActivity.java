@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -37,7 +36,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
     private RecyclerView rv_bill_detail;
     private TextView tv_bill_debit;
     private XRefreshView xrf_zdmx;
-    private List<MingxiDetailBean.ListBean> listAll = new ArrayList<>();
+    private List<MingxiDetailBean.ListBean> list;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -67,7 +66,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onRefresh() {
                 super.onRefresh();
-                listAll.clear();
+                list.clear();
                 pageNum = 1;
                 MingXiDetailRequest.getMxDetail(getSelfActivity(),pageNum,new MyCallBack());
                 xrf_zdmx.stopRefresh();
@@ -76,6 +75,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
+                isLoadMore =true;
                 pageNum++;
                 MingXiDetailRequest.getMxDetail(getSelfActivity(),pageNum,new MyCallBack());
                 xrf_zdmx.stopLoadMore();
@@ -125,25 +125,37 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
-
+    private boolean isLoadMore =false;
     public class MyCallBack extends MingXiDetailCallBack{
 
         @Override
         public void success(String msg, MingxiDetailBean bean) {
-            List<MingxiDetailBean.ListBean> list = bean.getList();
+
+            if (isLoadMore) {
+                if (ObjectUtils.isNull(bean)) {
+                    list.addAll(bean.getList());
+                    adapter.notifyDataSetChanged();
+                    xrf_zdmx.stopLoadMore();
+                }else {
+                    ToastUtil.doToast(getSelfActivity(),"没有更多数据");
+                    xrf_zdmx.stopLoadMore();
+                    return;
+                }
+            }else {
+                list = bean.getList();
+                LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
+                adapter = new MyBillAdapter(getSelfActivity(),list);
+                rv_bill_detail.setLayoutManager(manager);
+                rv_bill_detail.setAdapter(adapter);
+            }
 
             if (!ObjectUtils.isNull(list)) {
-                listAll.addAll(list);
+                list.addAll(list);
             } else {
                 ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
                 xrf_zdmx.stopLoadMore();
                 return;
             }
-            LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
-            adapter = new MyBillAdapter(getSelfActivity(),listAll);
-            rv_bill_detail.setLayoutManager(manager);
-            rv_bill_detail.setAdapter(adapter);
-            manager.scrollToPositionWithOffset(listAll.size() -1,0);
             xrf_zdmx.setPinnedTime(1000);
             xrf_zdmx.setMoveForHorizontal(true);
             xrf_zdmx.setPullLoadEnable(true);

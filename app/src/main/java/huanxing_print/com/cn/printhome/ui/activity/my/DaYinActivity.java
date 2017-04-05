@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -32,6 +31,8 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
     private RecyclerView rv_dingdan;
     private XRefreshView xrf_dingdan;
     private DingDanListAdapter adapter;
+    private boolean isLoadMore = false;
+    private List<DaYinListBean.ListBean> list;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -55,7 +56,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onRefresh() {
                 super.onRefresh();
-                listAll.clear();
+                list.clear();
                 pageNum = 1;
                 DaYinListRequest.getDaYinList(getSelfActivity(), pageNum, new MyCallBack());
                 xrf_dingdan.stopRefresh();
@@ -65,6 +66,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
+                isLoadMore = true;
                 pageNum++;
                 DaYinListRequest.getDaYinList(getSelfActivity(), pageNum, new MyCallBack());
                 xrf_dingdan.stopLoadMore();
@@ -91,26 +93,25 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
                 break;
         }
     }
-    private  List<DaYinListBean.ListBean> listAll = new ArrayList<>();
     public class MyCallBack extends DaYinListCallBack {
 
         @Override
         public void success(String msg, DaYinListBean bean) {
-            List<DaYinListBean.ListBean> list = bean.getList();
-
             LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
-            manager.scrollToPositionWithOffset(listAll.size() -1,0);
-            if (!ObjectUtils.isNull(list)) {
-                listAll.addAll(list);
-            } else {
-                ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
-                xrf_dingdan.stopLoadMore();
-                return;
+            if (isLoadMore) {
+                if (!ObjectUtils.isNull(bean)) {
+                    list.addAll(bean.getList());
+                    adapter.notifyDataSetChanged();
+                    xrf_dingdan.stopRefresh();
+                }else {
+                    ToastUtil.doToast(getSelfActivity(),"没有更多数据");
+                }
+            }else {
+                list = bean.getList();
+                adapter = new DingDanListAdapter(getSelfActivity(), list);
+                rv_dingdan.setLayoutManager(manager);
+                rv_dingdan.setAdapter(adapter);
             }
-
-            adapter = new DingDanListAdapter(getSelfActivity(), listAll);
-            rv_dingdan.setLayoutManager(manager);
-            rv_dingdan.setAdapter(adapter);
 
             // 设置静默加载模式
             // xRefreshView1.setSilenceLoadMore();
@@ -130,7 +131,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             adapter.setOnItemClickLitener(new DingDanListAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(int position) {
-                    int id = listAll.get(position).getId();
+                    int id = list.get(position).getId();
 
                     Intent intent = new Intent(getSelfActivity(), OrderDetailActivity.class);
                     intent.putExtra("id",String.valueOf(id));

@@ -26,8 +26,8 @@ public class AccountRecordItemAdapter extends RecyclerView.Adapter<AccountRecord
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(ctx).inflate(R.layout.activity_account_record_item, parent,
-                false));
+        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(ctx).inflate(R.layout.activity_account_record_item,
+                null));
         return holder;
     }
 

@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshViewFooter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -33,7 +32,8 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
     private int pageNum =1;
     private AccountRecordAdapter adapter;
     private XRefreshView xrf_czrecord;
-    private List<ChongZhiRecordBean.ListBean> list = new ArrayList<>();
+    private boolean isLoadMore = false;
+    private List<ChongZhiRecordBean.ListBean> datalist;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -69,7 +69,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onRefresh() {
                 super.onRefresh();
-                list.clear();
+                datalist.clear();
                 pageNum = 1;
                 //获取充值记录
                 ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
@@ -79,6 +79,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
+                isLoadMore = true;
                 pageNum = pageNum + 1;
                 ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
                 xrf_czrecord.stopLoadMore();
@@ -97,23 +98,23 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
 
     private class MyChongzhiRecordCallBack extends ChongZhiRecordCallBack {
 
-        private int countX;
-
         @Override
         public void success(String msg, ChongZhiRecordBean bean) {
-            List<ChongZhiRecordBean.ListBean> datalist = bean.getList();
-
-            if (!ObjectUtils.isNull(datalist)) {
-                list.addAll(datalist);
-            } else {
-                ToastUtil.doToast(getSelfActivity(), "已经是最新数据了");
-                return;
+            if (isLoadMore) {//如果是加载更多
+                if (!ObjectUtils.isNull(bean.getList())) {
+                    xrf_czrecord.stopLoadMore();
+                    datalist.addAll(bean.getList());
+                    adapter.notifyDataSetChanged();
+                }else {
+                    ToastUtil.doToast(getSelfActivity(),"没有更多数据");
+                    return;
+                }
+            }else {
+                datalist = bean.getList();
+                adapter = new AccountRecordAdapter(getSelfActivity(), datalist);
+                rv_account_record.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
+                rv_account_record.setAdapter(adapter);
             }
-            LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
-            rv_account_record.setLayoutManager(manager);
-            adapter = new AccountRecordAdapter(getSelfActivity(), list);
-            rv_account_record.setAdapter(adapter);
-            manager.scrollToPositionWithOffset(list.size()-1,0);
             xrf_czrecord.setPinnedTime(1000);
             xrf_czrecord.setMoveForHorizontal(true);
             xrf_czrecord.setPullLoadEnable(true);
