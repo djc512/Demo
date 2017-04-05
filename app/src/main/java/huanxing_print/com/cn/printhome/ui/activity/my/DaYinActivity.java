@@ -56,6 +56,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void onRefresh() {
                 super.onRefresh();
+                isLoadMore = false;
                 list.clear();
                 pageNum = 1;
                 DaYinListRequest.getDaYinList(getSelfActivity(), pageNum, new MyCallBack());
@@ -69,7 +70,6 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
                 isLoadMore = true;
                 pageNum++;
                 DaYinListRequest.getDaYinList(getSelfActivity(), pageNum, new MyCallBack());
-                xrf_dingdan.stopLoadMore();
             }
         });
     }
@@ -100,11 +100,18 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
             if (isLoadMore) {
                 if (!ObjectUtils.isNull(bean)) {
-                    list.addAll(bean.getList());
-                    adapter.notifyDataSetChanged();
-                    xrf_dingdan.stopRefresh();
+                    xrf_dingdan.stopLoadMore();
+                    if (!ObjectUtils.isNull(bean.getList())) {
+                        list.addAll(bean.getList());
+                        adapter.notifyDataSetChanged();
+                    }else {
+                        ToastUtil.doToast(getSelfActivity(),"没有更多数据");
+                        return;
+                    }
                 }else {
                     ToastUtil.doToast(getSelfActivity(),"没有更多数据");
+                    xrf_dingdan.stopLoadMore();
+                    return;
                 }
             }else {
                 list = bean.getList();

@@ -52,33 +52,35 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
         initData();
         setListener();
     }
+
     private int pageNum = 1;
+
     private void initData() {
         //获取账单明细
-        MingXiDetailRequest.getMxDetail(getSelfActivity(),pageNum,new MyCallBack());
+        MingXiDetailRequest.getMxDetail(getSelfActivity(), pageNum, new MyCallBack());
     }
 
     private void setListener() {
         ll_back.setOnClickListener(this);
         tv_bill_debit.setOnClickListener(this);
 
-        xrf_zdmx.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener(){
+        xrf_zdmx.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
             @Override
             public void onRefresh() {
                 super.onRefresh();
+                isLoadMore = false;
                 list.clear();
                 pageNum = 1;
-                MingXiDetailRequest.getMxDetail(getSelfActivity(),pageNum,new MyCallBack());
+                MingXiDetailRequest.getMxDetail(getSelfActivity(), pageNum, new MyCallBack());
                 xrf_zdmx.stopRefresh();
             }
 
             @Override
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
-                isLoadMore =true;
+                isLoadMore = true;
                 pageNum++;
-                MingXiDetailRequest.getMxDetail(getSelfActivity(),pageNum,new MyCallBack());
-                xrf_zdmx.stopLoadMore();
+                MingXiDetailRequest.getMxDetail(getSelfActivity(), pageNum, new MyCallBack());
             }
         });
     }
@@ -89,7 +91,9 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
         rv_bill_detail = (RecyclerView) findViewById(R.id.rv_bill_detail);
         tv_bill_debit = (TextView) findViewById(R.id.tv_bill_debit);
     }
+
     private String billValue;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -102,12 +106,12 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                     @Override
                     public void success(String msg, String s) {
                         billValue = s;
-                        if(billValue.equals("0")){
-                            ToastUtil.doToast(getSelfActivity(),"可开发票金额为0");
+                        if (billValue.equals("0")) {
+                            ToastUtil.doToast(getSelfActivity(), "可开发票金额为0");
                             return;
-                        }else {
-                            Intent intent = new Intent(getSelfActivity(),BillDebitActivity.class);
-                            intent.putExtra("billValue",billValue);
+                        } else {
+                            Intent intent = new Intent(getSelfActivity(), BillDebitActivity.class);
+                            intent.putExtra("billValue", billValue);
                             startActivity(intent);
                         }
                     }
@@ -125,26 +129,33 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
-    private boolean isLoadMore =false;
-    public class MyCallBack extends MingXiDetailCallBack{
+
+    private boolean isLoadMore = false;
+
+    public class MyCallBack extends MingXiDetailCallBack {
 
         @Override
         public void success(String msg, MingxiDetailBean bean) {
 
             if (isLoadMore) {
+                xrf_zdmx.stopLoadMore();
                 if (ObjectUtils.isNull(bean)) {
-                    list.addAll(bean.getList());
-                    adapter.notifyDataSetChanged();
-                    xrf_zdmx.stopLoadMore();
-                }else {
-                    ToastUtil.doToast(getSelfActivity(),"没有更多数据");
+                    if (!ObjectUtils.isNull(bean.getList())) {
+                        list.addAll(bean.getList());
+                        adapter.notifyDataSetChanged();
+                    }else {
+                        ToastUtil.doToast(getSelfActivity(), "没有更多数据");
+                        return;
+                    }
+                } else {
+                    ToastUtil.doToast(getSelfActivity(), "没有更多数据");
                     xrf_zdmx.stopLoadMore();
                     return;
                 }
-            }else {
+            } else {
                 list = bean.getList();
                 LinearLayoutManager manager = new LinearLayoutManager(getSelfActivity());
-                adapter = new MyBillAdapter(getSelfActivity(),list);
+                adapter = new MyBillAdapter(getSelfActivity(), list);
                 rv_bill_detail.setLayoutManager(manager);
                 rv_bill_detail.setAdapter(adapter);
             }

@@ -29,7 +29,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
 
     private LinearLayout ll_back;
     private RecyclerView rv_account_record;
-    private int pageNum =1;
+    private int pageNum = 1;
     private AccountRecordAdapter adapter;
     private XRefreshView xrf_czrecord;
     private boolean isLoadMore = false;
@@ -69,6 +69,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onRefresh() {
                 super.onRefresh();
+                isLoadMore = false;
                 datalist.clear();
                 pageNum = 1;
                 //获取充值记录
@@ -80,9 +81,8 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             public void onLoadMore(boolean isSilence) {
                 super.onLoadMore(isSilence);
                 isLoadMore = true;
-                pageNum = pageNum + 1;
+                pageNum++;
                 ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
-                xrf_czrecord.stopLoadMore();
             }
         });
     }
@@ -101,15 +101,21 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         @Override
         public void success(String msg, ChongZhiRecordBean bean) {
             if (isLoadMore) {//如果是加载更多
-                if (!ObjectUtils.isNull(bean.getList())) {
+                if (!ObjectUtils.isNull(bean)) {
                     xrf_czrecord.stopLoadMore();
-                    datalist.addAll(bean.getList());
-                    adapter.notifyDataSetChanged();
-                }else {
-                    ToastUtil.doToast(getSelfActivity(),"没有更多数据");
+                    if (!ObjectUtils.isNull(bean.getList())) {
+                        datalist.addAll(bean.getList());
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        ToastUtil.doToast(getSelfActivity(), "没有更多数据");
+                        return;
+                    }
+                } else {
+                    ToastUtil.doToast(getSelfActivity(), "没有更多数据");
+                    xrf_czrecord.stopLoadMore();
                     return;
                 }
-            }else {
+            } else {
                 datalist = bean.getList();
                 adapter = new AccountRecordAdapter(getSelfActivity(), datalist);
                 rv_account_record.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
