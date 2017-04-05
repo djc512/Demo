@@ -23,6 +23,7 @@ import huanxing_print.com.cn.printhome.ui.adapter.MyBillAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.refresh.CustomerFooter;
 
 /**
  * Created by Administrator on 2017/3/17 0017.
@@ -164,8 +165,10 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 return;
             }
             xrf_zdmx.setPullLoadEnable(true);
+            xrf_zdmx.setAutoLoadMore(false);
             //设置在上拉加载被禁用的情况下，是否允许界面被上拉
             xrf_zdmx.setPinnedTime(1000);
+            xrf_zdmx.setCustomFooterView(new CustomerFooter(getSelfActivity()));
             xrf_zdmx.setMoveForHorizontal(true);
         }
 

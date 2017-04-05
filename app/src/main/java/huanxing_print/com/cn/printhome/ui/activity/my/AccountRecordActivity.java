@@ -18,6 +18,7 @@ import huanxing_print.com.cn.printhome.ui.adapter.AccountRecordAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.refresh.CustomerFooter;
 
 /**
  * Created by Administrator on 2017/3/23 0023.
@@ -119,10 +120,11 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                 lv_account_record.setAdapter(adapter);
             }
             xrf_czrecord.setPullLoadEnable(true);
+            xrf_czrecord.setAutoLoadMore(false);
             //设置在上拉加载被禁用的情况下，是否允许界面被上拉
             xrf_czrecord.setPinnedTime(1000);
             xrf_czrecord.setMoveForHorizontal(true);
-//            xrf_czrecord.setCustomFooterView(new CustomerFooter(this));
+            xrf_czrecord.setCustomFooterView(new CustomerFooter(getSelfActivity()));
             //设置当非RecyclerView上拉加载完成以后的回弹时间
 //            xrf_czrecord.setScrollBackDuration(300);
         }
