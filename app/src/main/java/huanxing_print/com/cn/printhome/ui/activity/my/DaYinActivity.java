@@ -3,12 +3,12 @@ package huanxing_print.com.cn.printhome.ui.activity.my;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.andview.refreshview.XRefreshView;
-import com.andview.refreshview.XRefreshViewFooter;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ import huanxing_print.com.cn.printhome.ui.adapter.DingDanListAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.refresh.CustomerFooter;
 
 /**
  * Created by Administrator on 2017/3/17 0017.
@@ -28,7 +29,7 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 public class DaYinActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_back;
-    private RecyclerView rv_dingdan;
+    private ListView lv_dingdan;
     private XRefreshView xrf_dingdan;
     private DingDanListAdapter adapter;
     private boolean isLoadMore = false;
@@ -72,6 +73,16 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
                 DaYinListRequest.getDaYinList(getSelfActivity(), pageNum, new MyCallBack());
             }
         });
+
+        lv_dingdan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                int id = list.get(position).getId();
+                Intent intent = new Intent(getSelfActivity(), OrderDetailActivity.class);
+                intent.putExtra("id",String.valueOf(id));
+                startActivity(intent);
+            }
+        });
     }
 
     private void initData() {
@@ -82,7 +93,7 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
     private void initView() {
         xrf_dingdan = (XRefreshView) findViewById(R.id.xrf_dingdan);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        rv_dingdan = (RecyclerView) findViewById(R.id.rv_dingdan);
+        lv_dingdan = (ListView) findViewById(R.id.lv_dingdan);
     }
 
     @Override
@@ -116,35 +127,13 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
             }else {
                 list = bean.getList();
                 adapter = new DingDanListAdapter(getSelfActivity(), list);
-                rv_dingdan.setLayoutManager(manager);
-                rv_dingdan.setAdapter(adapter);
+                lv_dingdan.setAdapter(adapter);
             }
-
-            // 设置静默加载模式
-            // xRefreshView1.setSilenceLoadMore();
-            // 静默加载模式不能设置footerview
-            //设置刷新完成以后，headerview固定的时间
-            xrf_dingdan.setPinnedTime(1000);
-            xrf_dingdan.setMoveForHorizontal(true);
             xrf_dingdan.setPullLoadEnable(true);
             xrf_dingdan.setAutoLoadMore(false);
-            adapter.setCustomLoadMoreView(new XRefreshViewFooter(getSelfActivity()));
-            xrf_dingdan.enableReleaseToLoadMore(true);
-            xrf_dingdan.enableRecyclerViewPullUp(true);
-            xrf_dingdan.enablePullUpWhenLoadCompleted(true);
-            //设置静默加载时提前加载的item个数
-            //xRefreshView1.setPreLoadCount(4);
-
-            adapter.setOnItemClickLitener(new DingDanListAdapter.OnItemClickLitener() {
-                @Override
-                public void onItemClick(int position) {
-                    int id = list.get(position).getId();
-
-                    Intent intent = new Intent(getSelfActivity(), OrderDetailActivity.class);
-                    intent.putExtra("id",String.valueOf(id));
-                    startActivity(intent);
-                }
-            });
+            xrf_dingdan.setPinnedTime(1000);
+            xrf_dingdan.setMoveForHorizontal(true);
+            xrf_dingdan.setCustomFooterView(new CustomerFooter(getSelfActivity()));
         }
 
         @Override
