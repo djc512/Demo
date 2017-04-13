@@ -254,9 +254,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 //解析以及存储获取到的信息
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    Log.d(TAG, "-----获取到的json数据1-----" + jsonObject.toString());
+                    //Log.d(TAG, "-----获取到的json数据1-----" + jsonObject.toString());
                     String access_token = jsonObject.getString("access_token");
-                    Log.d(TAG, "--------获取到的access_token的地址--------" + access_token);
+                    //Log.d(TAG, "--------获取到的access_token的地址--------" + access_token);
                     openid = jsonObject.getString("openid");
                     String refresh_token = jsonObject.getString("refresh_token");
                     if (!access_token.equals("")) {
@@ -301,11 +301,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     String province = jsonObject.getString("province");
                     String city = jsonObject.getString("city");
                     String country = jsonObject.getString("country");
-                    String headimgurl = jsonObject.getString("headimgurl");
+                    String headImgurl = jsonObject.getString("headimgurl");
                     String privilege = jsonObject.getString("privilege");
                     String unionId = jsonObject.getString("unionid");
                     LoginRequset.loginWeiXin(getSelfActivity(), city, country,
-                            headimgurl, nickName, openid,
+                            headImgurl, nickName, openid,
                             privilege, sex, unionId, weiXinCallback);
                 } catch (JSONException e) {
                     e.printStackTrace();
