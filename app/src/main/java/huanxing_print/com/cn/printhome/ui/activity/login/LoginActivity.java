@@ -52,6 +52,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private TextView forget_pass, login_register;
     private ImageView iv_head, passShowIv, passNormalIv;
     private String phone, headImg;
+    //ceshi
     private boolean isLoginOutDialogShow;// 是否显示登出的Dialog
 
     public static boolean isForeground = false;
