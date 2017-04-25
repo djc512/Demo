@@ -210,9 +210,9 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case NAME_CODE:
                 if (null != intent) {
-                    String name = intent.getStringExtra("nickName");
-                    if (!ObjectUtils.isNull(name)) {
-                        tv_userInfo_wechat.setText(name);
+                    nickName = intent.getStringExtra("nickName");
+                    if (!ObjectUtils.isNull(nickName)) {
+                        tv_userInfo_nickname.setText(nickName);
                     }
 
                 }

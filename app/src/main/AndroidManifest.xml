@@ -55,6 +55,37 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:mimeType="text/plain"></data>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:mimeType="application/pdf"></data>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:mimeType="application/msword"></data>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"></data>
+            </intent-filter>
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW"></action>
+            <category android:name="android.intent.category.DEFAULT"></category>
+            <data android:mimeType="application/vnd.ms-powerpoint"></data>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation"></data>
+            </intent-filter>
+
         </activity>
         <!-- 引导页 -->
         <activity
@@ -84,7 +115,9 @@
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <!-- 第三方类 -->
         <!-- 微信分享 -->

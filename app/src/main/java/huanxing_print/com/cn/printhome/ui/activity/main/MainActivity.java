@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         }
         tran.commitAllowingStateLoss();
     }
-    
+
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2)
     {
