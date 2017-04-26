@@ -27,7 +27,6 @@ import huanxing_print.com.cn.printhome.ui.activity.my.NoticeActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.SettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ShareActivity;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
-import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -82,9 +81,8 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
     @Override
     protected int getContextView() {
-        // 改变状态栏的颜色使其与APP风格一体化
-        CommonUtils.initSystemBarGreen(getActivity());
         return R.layout.frag_usercenter;
+
     }
 
     private void initData() {

@@ -12,6 +12,7 @@
 	<color name="gray3">#9c9c9c</color>
     <color name="gray4">#cacaca</color>
 	<color name="green">#1aad19</color>
+    <color name="red">#FF0000</color>
     <color name="text_content">#666666</color>
     <color name="transparent">#9000</color>
     <color name="text_color">#333333</color>

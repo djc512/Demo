@@ -20,6 +20,7 @@ import huanxing_print.com.cn.printhome.ui.activity.fragment.ChatFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ContantsFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.MyFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.PrintFragment;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
  * 主界面
@@ -61,6 +62,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        // 改变状态栏的颜色使其与APP风格一体化
+        CommonUtils.initSystemBarGreen(this);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
 
