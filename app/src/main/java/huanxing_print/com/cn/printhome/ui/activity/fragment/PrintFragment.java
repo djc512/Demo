@@ -8,7 +8,7 @@ import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 
-public class HomeFragment extends BaseFragment implements OnClickListener{
+public class PrintFragment extends BaseFragment implements OnClickListener{
 
 	@Override
 	protected void init() {

@@ -32,7 +32,7 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
-public class ContactFragment extends BaseFragment implements OnClickListener {
+public class MyFragment extends BaseFragment implements OnClickListener {
 
     private CircleImageView iv_head;
     private TextView tv_phone, tv_name, tv_account_money, tv_month_money;

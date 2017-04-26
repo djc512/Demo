@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 
-public class CenterFragment extends BaseFragment implements OnClickListener {
+public class ChatFragment extends BaseFragment implements OnClickListener {
 	private Context mContext;
 
 

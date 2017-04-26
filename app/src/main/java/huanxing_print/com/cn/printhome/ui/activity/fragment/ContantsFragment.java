@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 
-public class FindFragment extends BaseFragment implements 
+public class ContantsFragment extends BaseFragment implements
      OnClickListener
 {
 
