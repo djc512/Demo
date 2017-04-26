@@ -15,10 +15,11 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.CenterFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.ContactFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.FindFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.HomeFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.ApplyFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.ChatFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.ContantsFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.MyFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.PrintFragment;
 
 /**
  * 主界面
@@ -31,22 +32,21 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     private Context mContext;
     private RadioGroup rgp;
     
-    private HomeFragment fragHome;
+    private PrintFragment fragPrint;
     
-    private ContactFragment fragContact;
+    private MyFragment fragMy;
     
-    private FindFragment fragFind;
+    private ContantsFragment fragContants;
     
-    private CenterFragment fragCenter;
+    private ChatFragment fragChat;
+
+    private ApplyFragment fragApply;
     
     private BaseFragment fragTemp;
     
     private FragmentManager fragMananger;
-    
 
     private NotificationManager manager;
-    
-//    private VersionUpdateDialog dlg;
     
     private long exitTime;
     
@@ -72,12 +72,15 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         rgp = (RadioGroup)findViewById(R.id.rgp_option);
         fragMananger = getFragmentManager();
-        fragHome = new HomeFragment();
-        fragContact = new ContactFragment();
-        fragFind = new FindFragment();
-        fragCenter = new CenterFragment();
+
+        fragPrint = new PrintFragment();
+        fragMy = new MyFragment();
+        fragContants = new ContantsFragment();
+        fragChat = new ChatFragment();
+        fragApply = new ApplyFragment();
+
         rgp.setOnCheckedChangeListener(this);
-        onCheckedChanged(rgp, R.id.rgb_home);
+        onCheckedChanged(rgp, R.id.rgb_print);
 
     }
     
@@ -90,18 +93,23 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         }
         switch (checkedId)
         {
-            case R.id.rgb_home:
-                fragTemp = fragHome;
+            case R.id.rgb_chat:
+                fragTemp = fragChat;
+                break;
+            case R.id.rgb_apply:
+                fragTemp = fragApply;
+                break;
+            case R.id.rgb_print:
+                fragTemp = fragPrint;
                 break;
             case R.id.rgb_contacts:
-                fragTemp = fragContact;
+                fragTemp = fragContants;
                 break;
-            case R.id.rgb_find:
-                fragTemp = fragFind;
+            case R.id.rgb_my:
+                fragTemp = fragMy;
                 break;
-            case R.id.rgb_center:
-                fragTemp = fragCenter;
-                break;
+
+
         }
         if(fragTemp.isAdded()) {
             tran.show(fragTemp);
@@ -114,7 +122,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2)
     {
-        fragHome.onActivityResult(arg0, arg1, arg2);
+        fragPrint.onActivityResult(arg0, arg1, arg2);
     }
 
     @Override
