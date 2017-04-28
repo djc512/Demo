@@ -265,6 +265,11 @@
         <activity
             android:name=".ui.activity.my.DebitListActivity"
             android:screenOrientation="portrait"/>
+        <!--复印先关的界面-->
+        <!--复印界面-->
+        <activity
+            android:name=".ui.activity.Copy.CopyActivity"
+            android:configChanges="orientation|keyboardHidden|navigation" />
     </application>
 
 </manifest>
