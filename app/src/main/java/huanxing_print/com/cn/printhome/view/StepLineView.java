@@ -22,8 +22,8 @@ public class StepLineView extends View {
     private int step = 0;
 
     public static final int STEP_DEFAULT = 0;
-    public static final int STEP_SELECT_FILE = 1;
-    public static final int STEP_SELECT_PRINTER = 2;
+    public static final int STEP_PICK_FILE = 1;
+    public static final int STEP_PICK_PRINTER = 2;
     public static final int STEP_PAY = 3;
 
     private final int RADIUS = 10;
@@ -110,7 +110,7 @@ public class StepLineView extends View {
             canvas.drawCircle(pointX3, pointY3, RADIUS, p);
             canvas.drawCircle(pointX5, pointY5, RADIUS, p);
         }
-        if (step == STEP_SELECT_FILE) {
+        if (step == STEP_PICK_FILE) {
             p.setColor(ContextCompat.getColor(context, R.color.stepline_red));
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);
@@ -130,7 +130,7 @@ public class StepLineView extends View {
             canvas.drawCircle(pointX3, pointY3, RADIUS, p);
             canvas.drawCircle(pointX5, pointY5, RADIUS, p);
         }
-        if (step == STEP_SELECT_PRINTER) {
+        if (step == STEP_PICK_PRINTER) {
             p.setColor(ContextCompat.getColor(context, R.color.stepline_red));
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);

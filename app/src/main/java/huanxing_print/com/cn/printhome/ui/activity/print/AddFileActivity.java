@@ -8,13 +8,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.io.File;
 import java.io.Serializable;
@@ -37,6 +33,7 @@ import huanxing_print.com.cn.printhome.ui.adapter.FinderFragmentAdapter;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.WaitDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -89,28 +86,14 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         fragments.add(new QQFileFragment());
         fragments.add(new WifiImportFragment());
         fragments.add(new PcFileFragment());
-        FinderFragmentAdapter mFragmentAdapteradapter = new FinderFragmentAdapter(getSupportFragmentManager(), fragments, titles);
+        FinderFragmentAdapter mFragmentAdapteradapter = new FinderFragmentAdapter(getSupportFragmentManager(),
+                fragments, titles);
         viewpager.setAdapter(mFragmentAdapteradapter);
         tabs.setupWithViewPager(viewpager);
     }
 
     private void initStepLine() {
-        stepView = (StepLineView) findViewById(R.id.stepView);
-        TextView pickFileTv = (TextView) findViewById(R.id.pickFileTv);
-        pickFileTv.setTextColor(ContextCompat.getColor(context, R.color.stepline_red));
-        final LinearLayout lv = (LinearLayout) findViewById(R.id.lv);
-        ViewTreeObserver vto2 = lv.getViewTreeObserver();
-        vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                lv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int width = lv.getWidth();
-                int padding = lv.getPaddingLeft() + lv.getPaddingRight();
-                stepView.setPadding((width - padding) / 6, 0, (width - padding) / 6, 0);
-            }
-        });
-        stepView.setStep(StepLineView.STEP_SELECT_FILE);
-        stepView.invalidate();
+        StepViewUtil.init(context, findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
     }
 
     @Override
