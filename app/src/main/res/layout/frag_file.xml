@@ -24,10 +24,7 @@
                 <RadioButton
                     android:button="@null"
                     android:checked="true"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
+                    android:padding="15dp"
                     android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -38,10 +35,7 @@
                 <RadioButton
                     android:id="@+id/btn_pic"
                     android:button="@null"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
+                    android:padding="15dp"
                     android:textSize="15sp"
                     android:background="@drawable/yellow_selector_right"
                     android:layout_width="wrap_content"
