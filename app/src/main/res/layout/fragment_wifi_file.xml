@@ -7,6 +7,7 @@
               android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -87,7 +88,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_margin="20dp"
+            android:layout_marginTop="20dp"
             android:background="@color/devide_gray"
             />
     </LinearLayout>
@@ -96,10 +97,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/ipTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_dotted_rectangle"
@@ -129,5 +131,10 @@
             android:progressDrawable="@drawable/progressbar_bc"
             android:progress="0"
             android:layout_marginTop="10dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fileRecView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </LinearLayout>
