@@ -16,8 +16,12 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.FileFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.HuKouFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.IDFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.PassportFragment;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.StepViewUtil;
+import huanxing_print.com.cn.printhome.view.StepLineView;
 
 /**
  * Created by Administrator on 2017/4/28 0028.
@@ -45,6 +49,8 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_copy);
         ctx = this;
+        CommonUtils.initSystemBarGreen(this);
+        StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
         initView();
         initData();
         initListener();
@@ -97,8 +103,8 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
         fragments = new ArrayList<>();
         fragments.add(new FileFragment());
         fragments.add(new IDFragment());
-//        fragments.add(new HuKouFragment());
-//        fragments.add(new PassportFragment());
+        fragments.add(new HuKouFragment());
+        fragments.add(new PassportFragment());
     }
 
     private void initListener() {
@@ -128,9 +134,15 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case R.id.ll_hukou:
                 index = 2;
+                FragmentTransaction transactionhukou = getSupportFragmentManager().beginTransaction();
+                transactionhukou.replace(R.id.ll_container, fragments.get(index));
+                transactionhukou.commit();
                 break;
             case R.id.ll_passport:
                 index = 3;
+                FragmentTransaction transactionport= getSupportFragmentManager().beginTransaction();
+                transactionport.replace(R.id.ll_container, fragments.get(index));
+                transactionport.commit();
                 break;
         }
         setTextState(index);

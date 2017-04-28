@@ -2,17 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout style="@style/Re_title">
-
         <include layout="@layout/ll_title_back"></include>
-
         <TextView
             style="@style/title"
             android:text="复印" />
     </RelativeLayout>
-
+    <RelativeLayout
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:background="@color/gray5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/step"
+            layout="@layout/copy_step_lineview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"/>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,6 +110,7 @@
         android:background="@color/yellow" />
 
     <LinearLayout
+        android:background="@color/gray5"
         android:id="@+id/ll_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
