@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,7 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
-import huanxing_print.com.cn.printhome.ui.activity.Copy.CopyActivity;
+import huanxing_print.com.cn.printhome.util.StepViewUtil;
+import huanxing_print.com.cn.printhome.view.StepLineView;
 
 
 public class PrintFragment extends BaseFragment implements OnClickListener{
@@ -42,10 +42,10 @@ public class PrintFragment extends BaseFragment implements OnClickListener{
 	private ScheduledExecutorService scheduledExecutorService;
 	@Override
 	protected void init() {
-
+        StepViewUtil.init(getActivity(), findViewById(R.id.step), StepLineView.STEP_DEFAULT);
 		mViewPaper = (ViewPager) findViewById(R.id.vp);
-		findViewById(R.id.tv_copy).setOnClickListener(this);
-		findViewById(R.id.tv_print).setOnClickListener(this);
+		findViewById(R.id.rgb_copy).setOnClickListener(this);
+		findViewById(R.id.rgb_print).setOnClickListener(this);
 		findViewById(R.id.tv_instructions).setOnClickListener(this);
 
 		//显示的图片
@@ -72,8 +72,8 @@ public class PrintFragment extends BaseFragment implements OnClickListener{
 			@Override
 			public void onPageSelected(int position) {
 				//title.setText(titles[position]);
-//				dots.get(position).setBackgroundResource(R.drawable.dot_focused);
-//				dots.get(oldPosition).setBackgroundResource(R.drawable.dot_normal);
+				dots.get(position).setBackgroundResource(R.drawable.dot_focused);
+				dots.get(oldPosition).setBackgroundResource(R.drawable.dot_normal);
 
 				oldPosition = position;
 				currentItem = position;
@@ -104,6 +104,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener{
 	@Override
 	protected int getContextView() {
 		return R.layout.frag_print;
+
 	}
 
 
@@ -112,10 +113,10 @@ public class PrintFragment extends BaseFragment implements OnClickListener{
     {
         switch (v.getId())
         {
-        case R.id.tv_copy:
-     	    startActivity(new Intent(getActivity(), CopyActivity.class));
+        case R.id.rgb_copy:
+     	    //startActivity(new Intent(getActivity(), PersonInfoActivity.class));
              break;
-		case R.id.tv_print:
+		case R.id.rgb_print:
 			//startActivity(new Intent(getActivity(), PersonInfoActivity.class));
 			 break;
 		case R.id.tv_instructions:

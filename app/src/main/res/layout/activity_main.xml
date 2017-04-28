@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
-            android:drawableTop="@drawable/main_tab_find_selector"
+            android:drawableTop="@drawable/main_tab_chat_selector"
             android:text="印信"
             />
         <RadioButton
@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
-            android:drawableTop="@drawable/main_tab_find_selector"
+            android:drawableTop="@drawable/main_tab_apply_selector"
             android:text="应用"
             />
         <RadioButton
@@ -58,7 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
-            android:drawableTop="@drawable/main_tab_my_selector"
+            android:drawableTop="@drawable/main_tab_contacts_selector"
             android:text="联系人"
             />
         <RadioButton
