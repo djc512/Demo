@@ -50,7 +50,7 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_copy);
         ctx = this;
-        CommonUtils.initSystemBarGreen(this);
+        CommonUtils.initSystemBar(this);
         StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
         initView();
         initData();
