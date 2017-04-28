@@ -35,7 +35,8 @@ public class FileUtils {
     }
 
     public static String getWifiUploadPath() {
-        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "WiFi" + File.separator;
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "ecostar" + File
+                .separator + "WiFi" + File.separator;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)

@@ -57,7 +57,7 @@ public class WebServer extends NanoHTTPD {
                 for (String key : keys) {
                     String location = files.get(key);
                     File temp = new File(location);
-                    String afileName = session.getParms().get("upload");
+                    String afileName = new String(session.getParms().get("upload").getBytes("ISO-8859-1"), "UTF-8");
                     FileUtils.makeFile(FileUtils.getWifiUploadPath() + afileName);
                     File target = new File(FileUtils.getWifiUploadPath() + afileName);
                     msg += "upload success to " + target.getPath();

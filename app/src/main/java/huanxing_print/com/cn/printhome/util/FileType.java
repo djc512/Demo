@@ -7,6 +7,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import huanxing_print.com.cn.printhome.log.Logger;
+
 /**
  * Created by LGH on 2017/3/6.
  */
@@ -28,15 +30,11 @@ public class FileType {
         try {
             mMediaFile = Class.forName("android.media.MediaFile");
             mMediaFileType = Class.forName("android.media.MediaFile$MediaFileType");
-
             fileType = mMediaFileType.getField("fileType");
-
             getFileTypeMethod = mMediaFile.getMethod(getFileType, String.class);
-
             isAudioFileTypeMethod = mMediaFile.getMethod(isAudioFileType, int.class);
             isVideoFileTypeMethod = mMediaFile.getMethod(isVideoFileType, int.class);
             isImageFileTypeMethod = mMediaFile.getMethod(isImageFileType, int.class);
-
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -44,7 +42,6 @@ public class FileType {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-
     }
 
     public int getMediaFileType(String path) {
@@ -63,7 +60,6 @@ public class FileType {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-
         return type;
     }
 
@@ -114,6 +110,7 @@ public class FileType {
     public static final int TYPE_PDF = 3;
     public static final int TYPE_PPT = 4;
     public static final int TYPE_PPTX = 5;
+    public static final int TYPE_IMG = 6;
 
     public static final int getPrintType(String path) {
         FileType fileType = new FileType();
@@ -131,8 +128,13 @@ public class FileType {
             return TYPE_PPT;
         if ("pptx".equalsIgnoreCase(extension))
             return TYPE_PPTX;
+        if (fileType.isImageFile(type)) {
+            Logger.i("isImageFile" + path);
+            return TYPE_IMG;
+        }
         return -1;
     }
+
 
     public static final boolean isPrintType(String path) {
         if (getPrintType(path) > 0) {
@@ -147,7 +149,7 @@ public class FileType {
         int type = fileType.getMediaFileType(path);
         String[] strs = path.split("\\.");
         String extension = strs[strs.length - 1];
-        return "."+extension;
+        return "." + extension;
     }
 
     public static final List<File> getFiltFileList(List<File> list, int type) {

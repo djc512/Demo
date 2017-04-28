@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -37,10 +38,12 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Logger.i("onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Logger.i("onCreateView");
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_all_file, container, false);
             initView(view);
@@ -65,6 +68,12 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Logger.i("onResume");
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         Logger.i("onDestroyView");
@@ -74,6 +83,18 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     public void onDestroy() {
         super.onDestroy();
         Logger.i("onDestroy");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Logger.i("onDetach");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Logger.i("onAttach");
     }
 
     @Override

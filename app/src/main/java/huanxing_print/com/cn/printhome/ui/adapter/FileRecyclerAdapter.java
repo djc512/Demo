@@ -95,6 +95,9 @@ public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapte
         if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
             return R.drawable.ic_pdf;
         }
+        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
+            return R.drawable.ic_img;
+        }
         return R.drawable.ic_defaut_file;
     }
 

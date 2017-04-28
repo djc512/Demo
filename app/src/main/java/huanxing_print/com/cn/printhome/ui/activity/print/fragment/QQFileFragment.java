@@ -69,5 +69,6 @@ public class QQFileFragment extends BaseLazyFragment {
                     public void onItemClick(final View view, int position) {
                     }
                 });
+        isLoaded = true;
     }
 }
