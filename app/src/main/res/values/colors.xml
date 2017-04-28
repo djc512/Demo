@@ -13,21 +13,19 @@
     <color name="gray4">#cacaca</color>
 	<color name="green">#1aad19</color>
     <color name="red">#FF0000</color>
-    <color name="devide_gray">#E2E2E2</color>
-    <color name="stepline_red">#f87161</color>
     <color name="text_content">#666666</color>
     <color name="transparent">#9000</color>
     <color name="text_color">#333333</color>
     <color name="text_black">#343434</color>
     <color name="text_gray">#818181</color>
+    <color name="devide_gray">#E2E2E2</color>
+    <color name="stepline_red">#f87161</color>
     <color name="text_yellow">#ff9102</color>
     <color name="bc_gray">#efeff4</color>
     <color name="theme_yellow">#ffd902</color>
-
     <!--复印界面-->
     <color name="gray5">#efeff4</color>
     <color name="black1">#333333</color>
     <color name="gray6">#b5b5b5</color>
     <color name="yellow">#ffd900</color>
-
 </resources>

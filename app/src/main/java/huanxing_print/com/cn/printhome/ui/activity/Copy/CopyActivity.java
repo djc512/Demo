@@ -1,6 +1,10 @@
 package huanxing_print.com.cn.printhome.ui.activity.Copy;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
@@ -11,13 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.FileFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.HuKouFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.IDFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.PassportFragment;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.StepViewUtil;
+import huanxing_print.com.cn.printhome.view.StepLineView;
 
 /**
  * Created by Administrator on 2017/4/28 0028.
  */
 
-public class CopyActivity extends BaseActivity implements View.OnClickListener {
+public class CopyActivity extends FragmentActivity implements View.OnClickListener {
     private LinearLayout ll_back;
     private TextView tv_file;
     private View view_line;
@@ -31,16 +42,16 @@ public class CopyActivity extends BaseActivity implements View.OnClickListener {
     private int llWidth;
     private int tvWidth;
     private List<TextView> tvList = new ArrayList<>();
-
-    @Override
-    protected BaseActivity getSelfActivity() {
-        return this;
-    }
+    private List<Fragment> fragments;
+    private Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_copy);
+        ctx = this;
+        CommonUtils.initSystemBarGreen(this);
+        StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
         initView();
         initData();
         initListener();
@@ -59,9 +70,9 @@ public class CopyActivity extends BaseActivity implements View.OnClickListener {
      * 动态设置指示线的宽度
      */
     private void setViewWidth(int width) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, dip2px(3));
-        params.topMargin = dip2px(10);
-        params.leftMargin = dip2px(25) + (llWidth - width) / 2;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, CommonUtils.dip2px(ctx, 3));
+        params.topMargin = CommonUtils.dip2px(ctx, 10);
+        params.leftMargin = CommonUtils.dip2px(ctx, 25) + (llWidth - width) / 2;
         view_line.setLayoutParams(params);
     }
 
@@ -90,6 +101,11 @@ public class CopyActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initData() {
+        fragments = new ArrayList<>();
+        fragments.add(new FileFragment());
+        fragments.add(new IDFragment());
+        fragments.add(new HuKouFragment());
+        fragments.add(new PassportFragment());
     }
 
     private void initListener() {
@@ -98,6 +114,8 @@ public class CopyActivity extends BaseActivity implements View.OnClickListener {
         ll_id.setOnClickListener(this);
         ll_hukou.setOnClickListener(this);
         ll_passport.setOnClickListener(this);
+
+        ll_file.performClick();
     }
 
     @Override
@@ -105,15 +123,30 @@ public class CopyActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.ll_file:
                 index = 0;
+                FragmentTransaction transactionfile = getSupportFragmentManager().beginTransaction();
+                transactionfile.replace(R.id.ll_container, fragments.get(index));
+                transactionfile.commit();
                 break;
             case R.id.ll_id:
                 index = 1;
+                FragmentTransaction transactionid = getSupportFragmentManager().beginTransaction();
+                transactionid.replace(R.id.ll_container, fragments.get(index));
+                transactionid.commit();
                 break;
             case R.id.ll_hukou:
                 index = 2;
+                FragmentTransaction transactionhukou = getSupportFragmentManager().beginTransaction();
+                transactionhukou.replace(R.id.ll_container, fragments.get(index));
+                transactionhukou.commit();
                 break;
             case R.id.ll_passport:
                 index = 3;
+                FragmentTransaction transactionport = getSupportFragmentManager().beginTransaction();
+                transactionport.replace(R.id.ll_container, fragments.get(index));
+                transactionport.commit();
+                break;
+            case R.id.ll_back:
+                ActivityHelper.getInstance().finishCurrentActivity();
                 break;
         }
         setTextState(index);
@@ -127,7 +160,7 @@ public class CopyActivity extends BaseActivity implements View.OnClickListener {
         for (int i = 0; i < tvList.size(); i++) {
             if (index == i) {
                 tvList.get(index).setTextColor(getResources().getColor(R.color.black1));
-            }else {
+            } else {
                 tvList.get(i).setTextColor(getResources().getColor(R.color.gray6));
             }
         }

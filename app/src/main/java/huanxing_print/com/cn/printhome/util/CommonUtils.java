@@ -473,7 +473,7 @@ public class CommonUtils {
 
 		// 使用颜色资源
 
-		tintManager.setStatusBarTintResource(R.color.green);
+		tintManager.setStatusBarTintResource(R.color.yellow);
 
 	}
 

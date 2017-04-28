@@ -2,39 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/all_bg_color"
+    android:background="@color/yellow"
     android:orientation="vertical">
     <RelativeLayout
-        android:background="#1aad19"
-        android:padding="5dp"
+        android:padding="10dp"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:textColor="@color/white"
+            android:textColor="@color/text_color"
             android:layout_centerInParent="true"
             android:text="共享打印"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:padding="5dp"
             android:id="@+id/iv_notice"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/notice_2x"/>
+            android:src="@drawable/btn_scan"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_userMsg"
-        android:background="@color/green"
-        android:layout_gravity="center_vertical"
-        android:padding="30dp"
+        android:background="@color/gray4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
+        <include
+            android:id="@+id/step"
+            layout="@layout/step_lineview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"/>
     </RelativeLayout>
 
 
@@ -45,10 +48,11 @@
         />
 
     <FrameLayout
-        android:layout_width="250dip"
-        android:layout_height="300dip"
-        android:layout_marginTop="30dip"
-        android:layout_gravity="center_horizontal">
+        android:layout_width="300dip"
+        android:layout_height="200dip"
+        android:layout_marginTop="20dip"
+        android:layout_gravity="center_horizontal"
+        >
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp"
@@ -112,63 +116,78 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/broder_red"
+    <RelativeLayout
+        android:layout_width="300dip"
+        android:layout_height="200dip"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dip"
-        android:padding="10dip">
-        <TextView
-            android:id="@+id/tv_copy"
+        android:padding="10dip"
+        android:background="@drawable/broder_white_full">
+        <LinearLayout
+            android:id="@+id/tv_instructions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/red"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:layout_centerInParent="true"
-            android:text="复印"
-            android:textSize="18sp"
-            />
-        <View
-            android:layout_height="match_parent"
-            android:layout_width="1dp"
-            android:background="#FF0000"
-            />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/iv_instructions"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/text_color"
+                android:text="操作说明"
+                android:textSize="18sp"
+                />
 
-        <TextView
-            android:id="@+id/tv_print"
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/rgp_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/red"
-            android:paddingLeft="20dip"
-            android:paddingRight="20dip"
-            android:layout_centerInParent="true"
-            android:text="打印"
-            android:textSize="18sp"
-            />
-    </LinearLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/tv_instructions"
+            android:orientation="horizontal" >
+            <RadioButton
+                android:id="@+id/rgb_print"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:paddingLeft="30dip"
+                android:paddingRight="30dip"
+                android:checked="true"
+                android:background="@drawable/yellow_selector_left"
+                android:text="打印"
+                android:gravity="center"
+                android:textSize="18sp"
+                />
+            <RadioButton
+                android:id="@+id/rgb_copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:paddingLeft="30dip"
+                android:paddingRight="30dip"
+                android:background="@drawable/yellow_selector_right"
+                android:text="复印"
+                android:textSize="18sp"
+                />
 
-    <LinearLayout
-        android:id="@+id/tv_instructions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dip"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray2"
-            android:text="操作说明"
-            android:textSize="18sp"
-            />
-        <View
-            android:layout_height="1dp"
-            android:layout_width="72dip"
-            android:background="@color/gray2"
-            />
+        </RadioGroup>
 
-    </LinearLayout>
+    </RelativeLayout>
+
+
 
 </LinearLayout>

@@ -269,6 +269,13 @@
             android:name=".util.webserver.WebServer"
             android:enabled="true"
             android:exported="true"/>
+        <!--复印的相关界面-->
+        <activity
+            android:name=".ui.activity.Copy.CopyActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind">
+        </activity>
     </application>
 
 </manifest>
