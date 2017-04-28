@@ -21,14 +21,29 @@
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
-                <Button
+                <RadioButton
+                    android:button="@null"
+                    android:checked="true"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
                     android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="拍照采集" />
+                    android:text="拍照采集"
+                    android:background="@drawable/yellow_selector_left"
+                    android:id="@+id/btn_camera" />
 
-                <Button
+                <RadioButton
+                    android:id="@+id/btn_pic"
+                    android:button="@null"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
                     android:textSize="15sp"
+                    android:background="@drawable/yellow_selector_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="本地相册" />

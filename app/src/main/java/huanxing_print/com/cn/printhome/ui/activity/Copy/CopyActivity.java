@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.FileFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.HuKouFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.IDFragment;
@@ -140,9 +141,12 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case R.id.ll_passport:
                 index = 3;
-                FragmentTransaction transactionport= getSupportFragmentManager().beginTransaction();
+                FragmentTransaction transactionport = getSupportFragmentManager().beginTransaction();
                 transactionport.replace(R.id.ll_container, fragments.get(index));
                 transactionport.commit();
+                break;
+            case R.id.ll_back:
+                ActivityHelper.getInstance().finishCurrentActivity();
                 break;
         }
         setTextState(index);
