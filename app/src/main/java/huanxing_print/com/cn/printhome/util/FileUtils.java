@@ -34,6 +34,10 @@ public class FileUtils {
         return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
     }
 
+    public static String getWifiUploadPath() {
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "WiFi" + File.separator;
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static long getSDCardAllSize() {
         if (isSDCardEnable()) {
@@ -51,7 +55,6 @@ public class FileUtils {
                 long freeBlocks = stat.getAvailableBlocks();
                 return freeBlocks * availableBlocks;
             }
-
         }
         return 0;
     }
@@ -62,27 +65,18 @@ public class FileUtils {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static long getAvailableInternalMemorySize() {
-
         File path = Environment.getDataDirectory();
-
         StatFs stat = new StatFs(path.getPath());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             long blockSize = stat.getBlockSizeLong();
-
             long availableBlocks = stat.getAvailableBlocksLong();
-
             return availableBlocks * blockSize;
         } else {
             long blockSize = stat.getBlockSize();
-
             long availableBlocks = stat.getAvailableBlocks();
-
             return availableBlocks * blockSize;
-
         }
-
     }
-
 
     public static String prettySize(long size) {
         int unitNum = 1000;
@@ -91,7 +85,6 @@ public class FileUtils {
             return size + "B";
         }
         float newSize = size;
-
         String[] units = {"KB", "MB", "GB", "TB"};
         for (String unit : units) {
             newSize = newSize / (float) unitNum;
@@ -120,7 +113,6 @@ public class FileUtils {
 
     public static boolean makeFile(String path) {
         File file = new File(path);
-
         if (path.endsWith(FILE_SEPARATOR)) {
             return false;
         }

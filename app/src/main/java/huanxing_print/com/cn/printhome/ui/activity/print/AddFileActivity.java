@@ -38,7 +38,7 @@ import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.WaitDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-;
+;import static huanxing_print.com.cn.printhome.constant.ConFig.IMG_CACHE_PATH;
 
 public class AddFileActivity extends BasePrintActivity implements EasyPermissions.PermissionCallbacks, View
         .OnClickListener {
@@ -59,6 +59,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pickfile);
+        Logger.i(IMG_CACHE_PATH);
 //        setContentView(R.layout.activity_add_file);
         initStepLine();
         initView1();
