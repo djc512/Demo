@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
+import huanxing_print.com.cn.printhome.ui.activity.Copy.CopyActivity;
 
 
 public class PrintFragment extends BaseFragment implements OnClickListener{
@@ -111,7 +113,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener{
         switch (v.getId())
         {
         case R.id.tv_copy:
-     	    //startActivity(new Intent(getActivity(), PersonInfoActivity.class));
+     	    startActivity(new Intent(getActivity(), CopyActivity.class));
              break;
 		case R.id.tv_print:
 			//startActivity(new Intent(getActivity(), PersonInfoActivity.class));
