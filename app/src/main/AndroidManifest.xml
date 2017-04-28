@@ -37,12 +37,12 @@
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
-        tools:replace="Android:icon, android:theme"
         android:name=".base.BaseApplication"
         android:allowBackup="true"
         android:icon="@drawable/appicon_print"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
+        android:theme="@android:style/Theme.Light.NoTitleBar"
+        tools:replace="Android:icon, android:theme">
         <meta-data
             android:name="huanxing_print.com.cn.printhome.constant.CachingGlideModule"
             android:value="GlideModule"/>
@@ -72,9 +72,9 @@
                 <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"></data>
             </intent-filter>
             <intent-filter>
-            <action android:name="android.intent.action.VIEW"></action>
-            <category android:name="android.intent.category.DEFAULT"></category>
-            <data android:mimeType="application/vnd.ms-powerpoint"></data>
+                <action android:name="android.intent.action.VIEW"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+                <data android:mimeType="application/vnd.ms-powerpoint"></data>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"></action>
@@ -112,7 +112,11 @@
             android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <!-- 第三方类 -->
@@ -128,11 +132,6 @@
             android:name=".ui.activity.print.AddFileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.print.DocPreviewActivity"
@@ -252,19 +251,24 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" >
+            android:screenOrientation="behind">
         </activity>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" >
+            android:screenOrientation="behind">
         </activity>
 
         <!--开发票列表界面-->
         <activity
             android:name=".ui.activity.my.DebitListActivity"
             android:screenOrientation="portrait"/>
+
+        <service
+            android:name=".util.webserver.WebServer"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>
