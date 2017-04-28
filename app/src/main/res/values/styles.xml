@@ -134,4 +134,5 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:padding">15dp</item>
     </style>
+
 </resources>

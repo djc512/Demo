@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import huanxing_print.com.cn.printhome.constant.ConFig;
 
@@ -80,6 +81,26 @@ public class FileUtils {
 
         }
 
+    }
+
+
+    public static String prettySize(long size) {
+        int unitNum = 1000;
+        String result = null;
+        if (size < unitNum) {
+            return size + "B";
+        }
+        float newSize = size;
+
+        String[] units = {"KB", "MB", "GB", "TB"};
+        for (String unit : units) {
+            newSize = newSize / (float) unitNum;
+            if (newSize < unitNum) {
+                result = String.format(Locale.getDefault(), "%.02f", newSize) + unit;
+                break;
+            }
+        }
+        return result;
     }
 
     public static boolean isFileExist(String path) {

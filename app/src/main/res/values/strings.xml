@@ -46,6 +46,7 @@
     <string name="add_order_failure">下单失败</string>
     <string name="add_order_success">下单成功</string>
     <string name="net_error">网络错误</string>
+    <string name="file_pick">选取文件</string>
 
 
 </resources>

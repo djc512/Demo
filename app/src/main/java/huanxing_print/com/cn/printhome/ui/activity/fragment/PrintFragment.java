@@ -70,8 +70,8 @@ public class PrintFragment extends BaseFragment implements OnClickListener{
 			@Override
 			public void onPageSelected(int position) {
 				//title.setText(titles[position]);
-				dots.get(position).setBackgroundResource(R.drawable.dot_focused);
-				dots.get(oldPosition).setBackgroundResource(R.drawable.dot_normal);
+//				dots.get(position).setBackgroundResource(R.drawable.dot_focused);
+//				dots.get(oldPosition).setBackgroundResource(R.drawable.dot_normal);
 
 				oldPosition = position;
 				currentItem = position;

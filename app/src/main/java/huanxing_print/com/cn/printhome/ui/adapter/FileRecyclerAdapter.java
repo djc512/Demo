@@ -5,13 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.util.FileType;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 
 public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapter.ViewHolder> {
 
@@ -37,17 +41,21 @@ public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView textView;
-        public RelativeLayout rlyt;
+        public TextView nameTv;
+        public TextView timeTv;
+        public TextView sizeTv;
+        public LinearLayout lv;
         public ImageView icImg;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            rlyt = (RelativeLayout) itemView.findViewById(R.id.rlayt);
-            textView = (TextView) itemView.findViewById(R.id.nameTv);
-            icImg = (ImageView) itemView.findViewById(R.id.icImg);
-            rlyt.setOnClickListener(this);
+            lv = (LinearLayout) itemView.findViewById(R.id.lv);
+            nameTv = (TextView) itemView.findViewById(R.id.nameTv);
+            timeTv = (TextView) itemView.findViewById(R.id.timeTv);
+            sizeTv = (TextView) itemView.findViewById(R.id.sizeTv);
+            icImg = (ImageView) itemView.findViewById(R.id.fileImg);
+            lv.setOnClickListener(this);
         }
 
         @Override
@@ -66,14 +74,28 @@ public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.textView.setText(fileList.get(i).getName());
-//        if (FileType.TYPE_IMG == FileType.getPrintType(fileList.get(i).getPath())) {
-//            Uri uri = Uri.fromFile(new File(fileList.get(i).getPath()));
-//            viewHolder.icImg.setImageURI(uri);
-//        } else {
-        viewHolder.icImg.setImageResource(R.drawable.ic_word);
-//        }
+        File file = fileList.get(i);
+        viewHolder.nameTv.setText(file.getName());
+        viewHolder.timeTv.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(file
+                .lastModified()));
+        if (!file.isDirectory()) {
+            viewHolder.sizeTv.setText(FileUtils.prettySize(file.length()));
+        }
+        viewHolder.icImg.setImageResource(getFileImgId(file));
+    }
 
+    private int getFileImgId(File file) {
+        if (file.isDirectory()) {
+            return R.drawable.ic_folder;
+        }
+        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_DOC || FileType.getPrintType(file.getPath()) ==
+                FileType.TYPE_DOCX) {
+            return R.drawable.ic_word;
+        }
+        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
+            return R.drawable.ic_pdf;
+        }
+        return R.drawable.ic_defaut_file;
     }
 
     @Override

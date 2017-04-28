@@ -6,11 +6,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -19,12 +27,21 @@ import huanxing_print.com.cn.printhome.model.print.PrintListBean;
 import huanxing_print.com.cn.printhome.model.print.PrinterPriceBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.print.fragment.AllFileFragment;
+import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PcFileFragment;
+import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PhotoFragment;
+import huanxing_print.com.cn.printhome.ui.activity.print.fragment.QQFileFragment;
+import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WechatFileFragment;
+import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WifiImportFragment;
+import huanxing_print.com.cn.printhome.ui.adapter.FinderFragmentAdapter;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.WaitDialog;
 import pub.devrel.easypermissions.EasyPermissions;
+
+;
 
 public class AddFileActivity extends BasePrintActivity implements EasyPermissions.PermissionCallbacks, View
         .OnClickListener {
@@ -33,16 +50,80 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private Button qqBtn;
     private Button wechatBtn;
     private Button pcBtn;
+    private StepLineView stepView;
+    private ViewPager viewpager;
+    private TabLayout tabs;
+    private AllFileFragment allFileFragment;
     private static final int REQUEST_CODE = 1;
 
     private static final int REQUEST_IMG = 1;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_file);
-        initView();
+        setContentView(R.layout.activity_pickfile);
+//        setContentView(R.layout.activity_add_file);
+        initStepLine();
+        initView1();
+//        initView();
+    }
+
+    private void initView1() {
+        viewpager = (ViewPager) findViewById(R.id.viewpager);
+        tabs = (TabLayout) findViewById(R.id.tabs);
+        List<String> titles = new ArrayList<>();
+        titles.add("全部文件");
+        titles.add("手机相册");
+        titles.add("微信");
+        titles.add("QQ");
+        titles.add("WIFI导入");
+        titles.add("电脑上传");
+        for (int i = 0; i < titles.size(); i++) {
+            tabs.addTab(tabs.newTab().setText(titles.get(i)));
+        }
+        List<Fragment> fragments = new ArrayList<>();
+        allFileFragment = new AllFileFragment();
+        fragments.add(allFileFragment);
+        fragments.add(new PhotoFragment());
+        fragments.add(new WechatFileFragment());
+        fragments.add(new QQFileFragment());
+        fragments.add(new WifiImportFragment());
+        fragments.add(new PcFileFragment());
+        FinderFragmentAdapter mFragmentAdapteradapter = new FinderFragmentAdapter(getSupportFragmentManager(), fragments, titles);
+        viewpager.setAdapter(mFragmentAdapteradapter);
+        tabs.setupWithViewPager(viewpager);
+    }
+
+    private void initStepLine() {
+        stepView = (StepLineView) findViewById(R.id.stepView);
+        TextView pickFileTv = (TextView) findViewById(R.id.pickFileTv);
+        pickFileTv.setTextColor(ContextCompat.getColor(context, R.color.stepline_red));
+        final LinearLayout lv = (LinearLayout) findViewById(R.id.lv);
+        ViewTreeObserver vto2 = lv.getViewTreeObserver();
+        vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                lv.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int width = lv.getWidth();
+                int padding = lv.getPaddingLeft() + lv.getPaddingRight();
+                stepView.setPadding((width - padding) / 6, 0, (width - padding) / 6, 0);
+            }
+        });
+        stepView.setStep(StepLineView.STEP_SELECT_FILE);
+        stepView.invalidate();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewpager.getCurrentItem() == 0) {
+            if (allFileFragment != null && allFileFragment.isVisible()) {
+                if (!allFileFragment.onBackPressed()) {
+                    super.onBackPressed();
+                }
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 
     private boolean isPermissionsGranted() {
@@ -183,7 +264,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private void getFileList(String path, int source) {
         List<File> fileList = FileUtils.getFileList(path);
         if (fileList == null) {
-            ToastUtil.doToast(this, "file error");
+            ShowUtil.showToast("file error");
         } else {
             Intent intent = new Intent(AddFileActivity.this, FileListActivity.class);
             Bundle bundle = new Bundle();
