@@ -25,7 +25,8 @@
     <color name="theme_yellow">#ffd902</color>
     <!--复印界面-->
     <color name="gray5">#efeff4</color>
-    <color name="black1">#333333</color>
     <color name="gray6">#b5b5b5</color>
+    <color name="gray7">#cacaca</color>
+    <color name="black1">#333333</color>
     <color name="yellow">#ffd900</color>
 </resources>
