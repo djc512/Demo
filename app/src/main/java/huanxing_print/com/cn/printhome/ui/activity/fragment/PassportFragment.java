@@ -7,8 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
@@ -22,8 +22,7 @@ public class PassportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ctx = getActivity();
         CommonUtils.initSystemBar(getActivity());
-        TextView tv= new TextView(getActivity());
-        tv.setText("PassportFragment");
-        return tv;
+        View view = inflater.inflate(R.layout.frag_passport,null);
+        return view;
     }
 }

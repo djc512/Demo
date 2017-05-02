@@ -26,7 +26,7 @@
             android:layout_below="@+id/tv_id"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <ImageView
@@ -58,7 +58,8 @@
                         android:button="@null"
                         android:checked="true"
                         android:gravity="center"
-                        android:padding="5dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:text="拍照采集"
                         android:textSize="15sp" />
 
@@ -70,7 +71,8 @@
                         android:background="@drawable/yellow_selector_right_id"
                         android:button="@null"
                         android:gravity="center"
-                        android:padding="5dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:text="本地相册"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -99,7 +101,7 @@
             android:layout_below="@+id/tv_idf"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <ImageView
@@ -131,7 +133,8 @@
                         android:button="@null"
                         android:checked="true"
                         android:gravity="center"
-                        android:padding="5dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:text="拍照采集"
                         android:textSize="15sp" />
 
@@ -143,7 +146,8 @@
                         android:background="@drawable/yellow_selector_right_id"
                         android:button="@null"
                         android:gravity="center"
-                        android:padding="5dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:text="本地相册"
                         android:textSize="15sp" />
                 </LinearLayout>

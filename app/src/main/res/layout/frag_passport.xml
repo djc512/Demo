@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="身份证正面" />
+            android:text="护照内页" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:layout_below="@+id/tv_id"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:orientation="vertical">
 
             <ImageView
@@ -79,82 +79,6 @@
             </RadioGroup>
         </LinearLayout>
     </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:paddingBottom="15dp">
-
-        <TextView
-            android:id="@+id/tv_idf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="身份证背面" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/tv_idf"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:src="@drawable/c"
-                android:scaleType="fitXY"
-                android:id="@+id/iv_previewf"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1" />
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <RadioButton
-                        android:id="@+id/btn_cameraf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/yellow_selector_left_id"
-                        android:button="@null"
-                        android:checked="true"
-                        android:gravity="center"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="拍照采集"
-                        android:textSize="15sp" />
-
-                    <RadioButton
-                        android:id="@+id/btn_galleyf"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/yellow_selector_right_id"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="本地相册"
-                        android:textSize="15sp" />
-                </LinearLayout>
-            </RadioGroup>
-        </LinearLayout>
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -173,4 +97,5 @@
             android:textColor="@color/gray7"
             android:text="完成" />
     </LinearLayout>
+
 </LinearLayout>
