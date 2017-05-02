@@ -45,7 +45,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBarGreen(this);
+        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_user_mingxi);
         initView();
         initData();

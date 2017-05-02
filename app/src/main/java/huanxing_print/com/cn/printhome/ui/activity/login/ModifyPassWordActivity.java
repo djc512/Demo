@@ -46,7 +46,7 @@ public class ModifyPassWordActivity extends BaseActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 改变状态栏的颜色使其与APP风格一体化
-        CommonUtils.initSystemBarGreen(this);
+        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_modifypwd);
         Intent intent = getIntent();
         veryCode =intent.getStringExtra("veryCode");
