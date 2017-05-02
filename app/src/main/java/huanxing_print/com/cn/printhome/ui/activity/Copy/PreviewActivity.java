@@ -44,8 +44,8 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.perspectiveT
  */
 
 public class PreviewActivity extends BaseActivity implements View.OnClickListener {
-    private Button btn_adjust;
-    private Button btn_confirm;
+    private TextView btn_adjust;
+    private TextView btn_confirm;
     private Bitmap mBitmap;
     private static final int MAX_HEIGHT = 500;
     private Context ctx;
@@ -69,6 +69,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private TextView btn_save;
     private huanxing_print.com.cn.printhome.util.copy.PicSaveUtil saveUtil;
     private Bitmap compBitmap;
+    private TextView btn_reset1;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -95,8 +96,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initView() {
-        btn_adjust = (Button) findViewById(R.id.btn_adjust);
-        btn_confirm = (Button) findViewById(R.id.btn_confirm);
+        btn_adjust = (TextView) findViewById(R.id.btn_adjust);
+        btn_confirm = (TextView) findViewById(R.id.btn_confirm);
         selectionView = (SelectionImageView) findViewById(R.id.selectView);
         ll = (LinearLayout) findViewById(R.id.ll);
         ll1 = (LinearLayout) findViewById(R.id.ll1);
@@ -107,6 +108,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         btn_reset = (Button) findViewById(R.id.btn_reset);
         btn_photoconfirm = (Button) findViewById(R.id.btn_photoconfirm);
         btn_save = (TextView) findViewById(R.id.btn_save);
+        btn_reset1 = (TextView) findViewById(R.id.btn_reset1);
     }
 
     private void initData() {
@@ -138,6 +140,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 btn_adjust.performClick();
             }
         }, 1000);
+        btn_adjust.setVisibility(View.GONE);
     }
 
     private void initListener() {
@@ -147,20 +150,32 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         btn_black.setOnClickListener(this);
         btn_original.setOnClickListener(this);
         btn_reset.setOnClickListener(this);
+        btn_reset1.setOnClickListener(this);
         btn_photoconfirm.setOnClickListener(this);
         btn_save.setOnClickListener(this);
     }
+
     private String saveName;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_adjust:
+            case R.id.btn_adjust://调整
                 selectionView.setVisibility(View.VISIBLE);
                 try {
                     clipPic();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.btn_reset1://重拍
+                selectionView.setVisibility(View.VISIBLE);
+                try {
+                    clipPic();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                gotoCamera();
                 break;
             case R.id.btn_confirm:
                 ll.setVisibility(View.GONE);
@@ -289,7 +304,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_save:
                 if (compBitmap != null) {
                     saveName = System.currentTimeMillis() + ".jpg";
-                    saveUtil.saveClipPic(compBitmap,saveName);
+                    saveUtil.saveClipPic(compBitmap, saveName);
                     Toast.makeText(ctx, "保存成功", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -364,5 +379,14 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         if (mBitmap != null) {
             selectionView.setImageBitmap(mBitmap);
         }
+    }
+
+    /**
+     * 拍照
+     */
+    private void gotoCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+        startActivityForResult(intent, REQUEST_CAPTURE);
     }
 }

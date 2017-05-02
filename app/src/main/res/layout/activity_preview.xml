@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -23,25 +24,36 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
+                android:textColor="@color/white"
                 android:id="@+id/btn_adjust"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:text="重拍" />
+            <TextView
+                android:textColor="@color/white"
+                android:id="@+id/btn_reset1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="重拍" />
 
-            <Button
+            <TextView
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
                 android:id="@+id/btn_confirm"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="完成" />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
