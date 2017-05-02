@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +34,7 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.BitmpaUtil;
 import huanxing_print.com.cn.printhome.util.copy.ClipPicUtil;
 import huanxing_print.com.cn.printhome.util.copy.OpenCVCallback;
+import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 import huanxing_print.com.cn.printhome.view.SelectionImageView;
 import timber.log.Timber;
 
@@ -58,18 +59,19 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private LinearLayout ll;
     private LinearLayout ll1;
     private Bitmap mResult;
-    private Button btn_gray;
-    private Button btn_black;
-    private Button btn_original;
-    private Button btn_reset;
-    private Button btn_photoconfirm;
+    private TextView btn_gray;
+    private TextView btn_black;
+    private TextView btn_original;
+    private TextView btn_reset;
+    private TextView btn_photoconfirm;
     //请求相机
     private static final int REQUEST_CAPTURE = 100;
     private File tempFile;
     private TextView btn_save;
-    private huanxing_print.com.cn.printhome.util.copy.PicSaveUtil saveUtil;
+    private PicSaveUtil saveUtil;
     private Bitmap compBitmap;
     private TextView btn_reset1;
+    private TextView tv_back;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -102,16 +104,22 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         ll = (LinearLayout) findViewById(R.id.ll);
         ll1 = (LinearLayout) findViewById(R.id.ll1);
         iv = (PhotoView) findViewById(R.id.imageView);
-        btn_original = (Button) findViewById(R.id.btn_original);
-        btn_gray = (Button) findViewById(R.id.btn_gray);
-        btn_black = (Button) findViewById(R.id.btn_black);
-        btn_reset = (Button) findViewById(R.id.btn_reset);
-        btn_photoconfirm = (Button) findViewById(R.id.btn_photoconfirm);
+        btn_original = (TextView) findViewById(R.id.btn_original);
+        btn_gray = (TextView) findViewById(R.id.btn_gray);
+        btn_black = (TextView) findViewById(R.id.btn_black);
+        btn_reset = (TextView) findViewById(R.id.btn_reset);
+        btn_photoconfirm = (TextView) findViewById(R.id.btn_photoconfirm);
         btn_save = (TextView) findViewById(R.id.btn_save);
         btn_reset1 = (TextView) findViewById(R.id.btn_reset1);
+        tv_back = (TextView) findViewById(R.id.tv_back);
     }
 
     private void initData() {
+        Drawable d = getResources().getDrawable(R.drawable.ic_launcher);
+        d.setBounds(0,0,50,50);
+        btn_gray.setCompoundDrawables(d,null,null,null);
+        btn_black.setCompoundDrawables(d,null,null,null);
+
         try {
             mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
         } catch (IOException e) {
@@ -153,6 +161,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         btn_reset1.setOnClickListener(this);
         btn_photoconfirm.setOnClickListener(this);
         btn_save.setOnClickListener(this);
+        tv_back.setOnClickListener(this);
     }
 
     private String saveName;
@@ -160,6 +169,9 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_back:
+                finishCurrentActivity();
+                break;
             case R.id.btn_adjust://调整
                 selectionView.setVisibility(View.VISIBLE);
                 try {
