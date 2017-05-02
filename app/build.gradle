@@ -59,7 +59,9 @@ dependencies {
     //将日志写入到内存中
     compile files('libs/alipaySdk-20170309.jar')
     compile project(':pickerViewLib')
-    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:design:25.1.1'
     compile project(':openCVLibrary2411')
     compile project(':photoview')
+    compile 'com.jakewharton.timber:timber:4.5.1'
+    compile 'com.afollestad.material-dialogs:core:0.9.4.3'
 }
