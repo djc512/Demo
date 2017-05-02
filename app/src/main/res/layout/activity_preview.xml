@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,62 +25,67 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:paddingTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingBottom="15dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:paddingTop="15dp">
 
             <TextView
-                android:textColor="@color/white"
                 android:id="@+id/btn_adjust"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="@color/white" />
+
             <TextView
-                android:textColor="@color/white"
                 android:id="@+id/btn_reset1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="重拍" />
+                android:text="重拍"
+                android:textColor="@color/white" />
 
             <TextView
-                android:layout_alignParentRight="true"
-                android:textColor="@color/white"
                 android:id="@+id/btn_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="完成" />
+                android:layout_alignParentRight="true"
+                android:text="完成"
+                android:textColor="@color/white" />
         </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:id="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
+            android:id="@+id/rl_adjust"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="15dp">
 
             <TextView
                 android:id="@+id/tv_back"
-                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="返回" />
+                android:text="返回"
+                android:textSize="15sp"
+                android:textColor="@color/yellow" />
 
             <TextView
-                android:textColor="@color/white"
+                android:textSize="15sp"
                 android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="保存" />
+                android:text="保存"
+                android:textColor="@color/yellow" />
         </RelativeLayout>
 
         <com.github.chrisbanes.photoview.PhotoView
@@ -90,65 +95,65 @@
             android:layout_weight="1" />
 
         <LinearLayout
-            android:gravity="center_horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="20dp">
 
             <TextView
-                android:layout_marginRight="20dp"
-                android:textColor="@color/white"
                 android:id="@+id/btn_original"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="原图" />
+                android:layout_marginRight="20dp"
+                android:text="原图"
+                android:textColor="@color/white" />
 
             <TextView
-                android:drawableLeft="@drawable/ic_launcher"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:textColor="@color/white"
                 android:id="@+id/btn_gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="灰度" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:drawableLeft="@drawable/ic_launcher"
+                android:text="灰度"
+                android:textColor="@color/white" />
 
             <TextView
-                android:drawableLeft="@drawable/ic_launcher"
-                android:layout_marginLeft="20dp"
-                android:textColor="@color/white"
                 android:id="@+id/btn_black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="黑白" />
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/ic_launcher"
+                android:text="黑白"
+                android:textColor="@color/white" />
 
 
         </LinearLayout>
 
         <RelativeLayout
-            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="15dp">
 
             <TextView
-                android:textSize="15sp"
-                android:textColor="@color/white"
                 android:id="@+id/btn_reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="重拍" />
+                android:text="重拍"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
             <TextView
-                android:textSize="15sp"
-                android:layout_alignParentRight="true"
-                android:textColor="@color/white"
                 android:id="@+id/btn_photoconfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="完成" />
+                android:layout_alignParentRight="true"
+                android:text="完成"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

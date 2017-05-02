@@ -23,6 +23,7 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -44,7 +45,7 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.perspectiveT
  * Created by Administrator on 2017/4/26 0026.
  */
 
-public class PreviewActivity extends BaseActivity implements View.OnClickListener {
+public class IDPreviewActivity extends BaseActivity implements View.OnClickListener {
     private TextView btn_adjust;
     private TextView btn_confirm;
     private Bitmap mBitmap;
@@ -315,8 +316,22 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.btn_save:
                 if (compBitmap != null) {
-                    saveName = System.currentTimeMillis() + ".jpg";
-                    saveUtil.saveClipPic(compBitmap, saveName);
+                    //发广播
+                    Intent intentsave = new Intent();  //Itent就是我们要发送的内容
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    compBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+                    int options = 100;
+                    while (baos.toByteArray().length / 1024 > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+                        baos.reset();//重置baos即清空baos
+                        compBitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+                        options -= 10;//每次都减少10
+                    }
+                    byte[] bytes = baos.toByteArray();
+                    intentsave.putExtra("bytes",bytes);
+                    intentsave.setAction("bitmap");   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                    sendBroadcast(intentsave);   //发送广播
+                    saveName = System.currentTimeMillis()+".jpg";
+                    saveUtil.saveClipPic(compBitmap,saveName);
                     Toast.makeText(ctx, "保存成功", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -400,5 +415,9 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
         startActivityForResult(intent, REQUEST_CAPTURE);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

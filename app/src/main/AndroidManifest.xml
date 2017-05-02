@@ -271,8 +271,8 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"></activity>
-        <!--&lt;!&ndash;身份证矫正页面&ndash;&gt;-->
-        <!--<activity android:name="com.example.administrator.smiplescaner.activities.IDPreviewActivity"></activity>-->
+        <!--身份证矫正页面-->
+        <activity android:name=".ui.activity.Copy.IDPreviewActivity"></activity>
         <!--&lt;!&ndash;身份证拼接界面&ndash;&gt;-->
         <!--<activity android:name="com.example.administrator.smiplescaner.activities.IDClipActivity"></activity>-->
         <!--&lt;!&ndash;户口矫正界面&ndash;&gt;-->
