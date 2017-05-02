@@ -273,14 +273,14 @@
             android:screenOrientation="behind"></activity>
         <!--身份证矫正页面-->
         <activity android:name=".ui.activity.Copy.IDPreviewActivity"></activity>
-        <!--&lt;!&ndash;身份证拼接界面&ndash;&gt;-->
-        <!--<activity android:name="com.example.administrator.smiplescaner.activities.IDClipActivity"></activity>-->
+        <!--身份证拼接界面-->
+        <activity android:name=".ui.activity.Copy.IDClipActivity"></activity>
         <!--&lt;!&ndash;户口矫正界面&ndash;&gt;-->
         <!--<activity android:name="com.example.administrator.smiplescaner.activities.HuKouPreviewActivity"></activity>-->
         <!--&lt;!&ndash;户口拼接界面&ndash;&gt;-->
         <!--<activity android:name="com.example.administrator.smiplescaner.activities.HukouClipActivity"></activity>-->
-        <!--&lt;!&ndash;护照拼接界面&ndash;&gt;-->
-        <!--<activity android:name="com.example.administrator.smiplescaner.activities.PassportClipActivity"></activity>-->
+        <!--护照拼接界面-->
+        <activity android:name=".ui.activity.Copy.PassportClipActivity"></activity>
     </application>
     <supports-screens
         android:anyDensity="true"
