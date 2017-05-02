@@ -24,6 +24,13 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
 
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提示：拖拽锚点可以调整图片比例"
+            android:textColor="@color/yellow" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,10 +64,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:id="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -75,17 +82,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="返回"
-                android:textSize="15sp"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/yellow"
+                android:textSize="15sp" />
 
             <TextView
-                android:textSize="15sp"
                 android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text="保存"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/yellow"
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <com.github.chrisbanes.photoview.PhotoView
