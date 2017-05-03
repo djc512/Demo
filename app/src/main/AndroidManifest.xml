@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="huanxing_print.com.cn.printhome">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="huanxing_print.com.cn.printhome">
 
     <!-- 网络相关 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <!-- 存储相关 -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAG" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAG"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <!-- 手机状态 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 位置相关 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <!-- 系统相关 -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
     <!--相机-->
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".base.BaseApplication"
@@ -45,7 +45,7 @@
         tools:replace="Android:icon, android:theme">
         <meta-data
             android:name="huanxing_print.com.cn.printhome.constant.CachingGlideModule"
-            android:value="GlideModule" />
+            android:value="GlideModule"/>
 
         <activity
             android:name=".ui.activity.welcome.SplashActivity"
@@ -86,36 +86,36 @@
         <!-- 引导页 -->
         <activity
             android:name=".ui.activity.welcome.GuideActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!-- 登录页 -->
         <activity
             android:name=".ui.activity.login.LoginActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--忘记密码-->
         <activity
             android:name=".ui.activity.login.ForgetPasswodActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--修改密码-->
         <activity
             android:name=".ui.activity.login.ModifyPassWordActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!-- 注册 -->
         <activity
             android:name=".ui.activity.login.RegisterActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!-- 主页 -->
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -126,7 +126,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity
             android:name=".ui.activity.print.AddFileActivity"
@@ -160,84 +160,88 @@
             android:name=".ui.activity.print.ImgPrintSettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-
+        <activity
+            android:name=".ui.activity.print.PickPrinterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
         <!--充值界面-->
         <activity
             android:name=".ui.activity.my.AccountActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--明细界面-->
         <activity
             android:name=".ui.activity.my.MingXiActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--打印详情界面-->
         <activity
             android:name=".ui.activity.my.DaYinActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--联系我们界面-->
         <activity
             android:name=".ui.activity.my.ContactActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--设置界面-->
         <activity
             android:name=".ui.activity.my.SettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--设置界面-->
         <activity
             android:name=".ui.activity.my.SetDefaultPrinterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--建议界面-->
         <activity
             android:name=".ui.activity.my.SuggestActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--分享界面-->
         <activity
             android:name=".ui.activity.my.ShareActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--通知界面-->
         <activity
             android:name=".ui.activity.my.NoticeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--通知列表界面-->
         <activity
             android:name=".ui.activity.my.NoticeListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--我的界面-->
         <activity
             android:name=".ui.activity.my.MyActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--裁剪界面-->
         <activity
             android:name=".ui.activity.my.ClipeImageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--修改昵称界面-->
         <activity
             android:name=".ui.activity.my.MyModifyNameActivty"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--打印协议-->
         <activity
             android:name=".ui.activity.my.XieYiActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--充值记录-->
         <activity
             android:name=".ui.activity.my.AccountRecordActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--发票页面-->
         <activity
             android:name=".ui.activity.my.BillDebitActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--发票详情页面-->
         <activity
             android:name=".ui.activity.my.BillDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--充值界面-->
         <activity
             android:name=".ui.activity.my.PayActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--订单详情界面-->
         <activity
             android:name=".ui.activity.my.OrderDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <!--支付宝相关-->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -253,12 +257,12 @@
         <!--开发票列表界面-->
         <activity
             android:name=".ui.activity.my.DebitListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".util.webserver.WebServer"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"/>
         <!--复印的相关界面-->
         <activity
             android:name=".ui.activity.Copy.CopyActivity"
@@ -278,25 +282,25 @@
         <!--护照拼接界面-->
         <activity android:name=".ui.activity.Copy.PassportClipActivity"></activity>
         <!--复印设置界面-->
-        <activity android:name=".ui.activity.Copy.CopySettingActivity" />
+        <activity android:name=".ui.activity.Copy.CopySettingActivity"/>
     </application>
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
-        android:smallScreens="true" />
+        android:smallScreens="true"/>
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.camera.autofocus"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.camera.front"
-        android:required="false" />
+        android:required="false"/>
     <uses-feature
         android:name="android.hardware.camera.front.autofocus"
-        android:required="false" />
+        android:required="false"/>
 </manifest>
