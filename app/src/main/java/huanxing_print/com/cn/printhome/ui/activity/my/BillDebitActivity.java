@@ -40,7 +40,7 @@ public class BillDebitActivity extends FragmentActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBarGreen(this);
+        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_debit);
         WindowManager wm = (WindowManager) this
                 .getSystemService(Context.WINDOW_SERVICE);

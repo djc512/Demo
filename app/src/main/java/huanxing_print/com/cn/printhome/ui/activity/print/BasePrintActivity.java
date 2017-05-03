@@ -30,7 +30,7 @@ public abstract class BasePrintActivity extends AppCompatActivity {
         activity = this;
         initStatusBar();
 //        setStatusBarColor();
-        CommonUtils.initSystemBarGreen(this);
+        CommonUtils.initSystemBar(this);
     }
 
     protected void initStatusBar() {

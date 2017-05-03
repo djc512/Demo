@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.FileFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.HuKouFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.IDFragment;
@@ -50,7 +49,7 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_copy);
         ctx = this;
-        CommonUtils.initSystemBarGreen(this);
+        CommonUtils.initSystemBar(this);
         StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
         initView();
         initData();
@@ -114,7 +113,6 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
         ll_id.setOnClickListener(this);
         ll_hukou.setOnClickListener(this);
         ll_passport.setOnClickListener(this);
-
         ll_file.performClick();
     }
 
@@ -146,7 +144,7 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
                 transactionport.commit();
                 break;
             case R.id.ll_back:
-                ActivityHelper.getInstance().finishCurrentActivity();
+                finish();
                 break;
         }
         setTextState(index);

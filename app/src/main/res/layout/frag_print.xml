@@ -28,9 +28,11 @@
 
     <RelativeLayout
         android:id="@+id/rl_userMsg"
-        android:background="@color/gray4"
+        android:background="@color/gray5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp">
 
         <include
             android:id="@+id/step"
@@ -148,43 +150,41 @@
 
         </LinearLayout>
 
-        <RadioGroup
+        <LinearLayout
             android:id="@+id/rgp_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/tv_instructions"
             android:orientation="horizontal" >
-            <RadioButton
-                android:id="@+id/rgb_print"
+            <TextView
+                android:id="@+id/tv_print"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
                 android:paddingTop="10dip"
                 android:paddingBottom="10dip"
                 android:paddingLeft="30dip"
                 android:paddingRight="30dip"
                 android:checked="true"
-                android:background="@drawable/yellow_selector_left"
+                android:background="@drawable/broder_yellow_on_full_left"
                 android:text="打印"
                 android:gravity="center"
                 android:textSize="18sp"
                 />
-            <RadioButton
-                android:id="@+id/rgb_copy"
+            <TextView
+                android:id="@+id/tv_copy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
                 android:paddingTop="10dip"
                 android:paddingBottom="10dip"
                 android:paddingLeft="30dip"
                 android:paddingRight="30dip"
-                android:background="@drawable/yellow_selector_right"
+                android:background="@drawable/broder_yellow_off_full_right"
                 android:text="复印"
                 android:textSize="18sp"
                 />
 
-        </RadioGroup>
+        </LinearLayout>
 
     </RelativeLayout>
 

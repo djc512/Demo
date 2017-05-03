@@ -7,3 +7,8 @@
 /build
 /captures
 .externalNativeBuild
+/openCVLibrary2411/build
+/photoview/build
+/pickerViewLib/build
+/.idea/gradle.xml
+/.idea/modules.xml

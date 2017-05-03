@@ -459,7 +459,7 @@ public class CommonUtils {
 		tintManager.setStatusBarTintResource(R.color.white);
 
 	}
-	public static void initSystemBarGreen(Activity activity) {
+	public static void initSystemBarBlack(Activity activity) {
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
@@ -473,7 +473,7 @@ public class CommonUtils {
 
 		// 使用颜色资源
 
-		tintManager.setStatusBarTintResource(R.color.yellow);
+		tintManager.setStatusBarTintResource(R.color.black);
 
 	}
 
