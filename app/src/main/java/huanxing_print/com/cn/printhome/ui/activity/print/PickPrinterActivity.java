@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.AllFileFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PickPrinterFragment;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
@@ -41,8 +42,7 @@ public class PickPrinterActivity extends BasePrintActivity {
     }
 
     private void initView() {
-        titleTv = (TextView) findViewById(R.id.titleTv);
-        titleTv.setText("打印");
+        initTitleBar("打印");
     }
 
     private void initStepLine() {
@@ -57,5 +57,12 @@ public class PickPrinterActivity extends BasePrintActivity {
         fragmentTransaction.add(R.id.content, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Logger.i("onBackPressed");
+        finish();
     }
 }
