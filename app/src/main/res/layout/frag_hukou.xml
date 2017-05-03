@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="户口簙第1页" />
+            android:text="户口簿第1页" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="户口簙第2页" />
+            android:text="户口簿第2页" />
 
         <LinearLayout
             android:layout_width="match_parent"

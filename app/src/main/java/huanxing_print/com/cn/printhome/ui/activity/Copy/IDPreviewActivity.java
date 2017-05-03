@@ -82,7 +82,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
+        CommonUtils.initSystemBarBlack(this);
         setContentView(R.layout.activity_preview);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();

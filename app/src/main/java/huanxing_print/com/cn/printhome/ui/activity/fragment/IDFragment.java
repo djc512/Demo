@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.ui.activity.Copy.IDClipActivity;
 import huanxing_print.com.cn.printhome.ui.activity.Copy.IDPreviewActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
@@ -119,10 +120,10 @@ public class IDFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(ctx, "请先上传图片", Toast.LENGTH_SHORT).show();
                     return;
                 }
-//                Intent intent = new Intent(ctx, IDClipActivity.class);
-//                intent.putExtra("bytes",bytes);
-//                intent.putExtra("bytesf",bytesf);
-//                startActivity(intent);
+                Intent intent = new Intent(ctx, IDClipActivity.class);
+                intent.putExtra("bytes",bytes);
+                intent.putExtra("bytesf",bytesf);
+                startActivity(intent);
                 break;
         }
     }
