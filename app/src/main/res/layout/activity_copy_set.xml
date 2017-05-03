@@ -46,7 +46,7 @@
                 android:layout_centerInParent="true"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:src="@drawable/vertical" />
+                android:src="@drawable/orientation" />
         </RelativeLayout>
 
         <LinearLayout
@@ -76,9 +76,9 @@
 
                 <ImageView
                     android:id="@+id/iv_minus"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_launcher" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/minus" />
 
                 <TextView
                     android:id="@+id/tv_mount"
@@ -90,9 +90,9 @@
 
                 <ImageView
                     android:id="@+id/iv_plus"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_launcher" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/plus" />
             </LinearLayout>
 
             <include layout="@layout/viewline1" />
@@ -120,23 +120,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="竖版"
-                    android:textColor="@color/black2"
+                    android:textColor="@color/gray8"
                     android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/iv_orientation"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/on" />
 
                 <TextView
                     android:id="@+id/tv_orientation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="横版"
-                    android:textColor="@color/gray8"
+                    android:textColor="@color/black2"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -165,23 +165,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="黑白"
-                    android:textColor="@color/black2"
+                    android:textColor="@color/gray8"
                     android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/iv_color"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/on" />
 
                 <TextView
                     android:id="@+id/tv_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="彩色"
-                    android:textColor="@color/gray8"
+                    android:textColor="@color/black2"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -209,24 +209,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A4"
-                    android:textColor="@color/black2"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/gray8"
                     android:textSize="16sp"
                     android:id="@+id/tv_a4" />
 
                 <ImageView
                     android:id="@+id/iv_a43"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/on" />
 
                 <TextView
                     android:id="@+id/tv_a3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A3"
-                    android:textColor="@color/gray8"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/black2"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -255,23 +258,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="单面"
-                    android:textColor="@color/black2"
+                    android:textColor="@color/gray8"
                     android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/iv_print_type"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/on" />
 
                 <TextView
                     android:id="@+id/tv_double"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="双面"
-                    android:textColor="@color/gray8"
+                    android:textColor="@color/black2"
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
@@ -301,27 +304,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="个人"
-                android:textColor="@color/black2"
+                android:textColor="@color/gray8"
                 android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/iv_copy_cz"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/on" />
 
             <TextView
                 android:id="@+id/tv_qun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="共印群"
-                android:textColor="@color/gray8"
+                android:textColor="@color/black2"
                 android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_cz_persion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -354,7 +358,6 @@
                 android:src="@drawable/arrow_go" />
         </LinearLayout>
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_cz_qun"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

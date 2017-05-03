@@ -158,13 +158,15 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_orientation://方向
                 if (isVertical) {//竖向
-                    iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.vertical));
-                    tv_orientation.setTextColor(getResources().getColor(R.color.gray8));
-                    tv_vertical.setTextColor(getResources().getColor(R.color.black2));
-                } else {//横向
+                    iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.orientation));
                     tv_orientation.setTextColor(getResources().getColor(R.color.black2));
                     tv_vertical.setTextColor(getResources().getColor(R.color.gray8));
+                } else {//横向
+                    iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.vertical));
+                    tv_orientation.setTextColor(getResources().getColor(R.color.gray8));
+                    tv_vertical.setTextColor(getResources().getColor(R.color.black2));
+                    iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                 }
                 isVertical = !isVertical;
                 break;
@@ -172,43 +174,51 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 if (isColor) {//彩色
                     tv_black.setTextColor(getResources().getColor(R.color.gray8));
                     tv_color.setTextColor(getResources().getColor(R.color.black2));
+                    iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                 } else {//黑白
                     tv_black.setTextColor(getResources().getColor(R.color.black2));
                     tv_color.setTextColor(getResources().getColor(R.color.gray8));
+                    iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                 }
                 isColor = !isColor;
                 break;
             case R.id.iv_a43://纸张
                 if (isA4) {
-                    tv_a3.setTextColor(getResources().getColor(R.color.gray8));
-                    tv_a4.setTextColor(getResources().getColor(R.color.black2));
-                } else {
-                    tv_a4.setTextColor(getResources().getColor(R.color.gray8));
+                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     tv_a3.setTextColor(getResources().getColor(R.color.black2));
+                    tv_a4.setTextColor(getResources().getColor(R.color.gray8));
+                } else {
+                    tv_a4.setTextColor(getResources().getColor(R.color.black2));
+                    tv_a3.setTextColor(getResources().getColor(R.color.gray8));
+                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                 }
                 isA4 = !isA4;
                 break;
             case R.id.iv_print_type://单双面
                 if (isSingle) {
-                    tv_double.setTextColor(getResources().getColor(R.color.gray8));
-                    tv_single.setTextColor(getResources().getColor(R.color.black2));
-                } else {
-                    tv_single.setTextColor(getResources().getColor(R.color.gray8));
+                    iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     tv_double.setTextColor(getResources().getColor(R.color.black2));
+                    tv_single.setTextColor(getResources().getColor(R.color.gray8));
+                } else {
+                    iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                    tv_single.setTextColor(getResources().getColor(R.color.black2));
+                    tv_double.setTextColor(getResources().getColor(R.color.gray8));
                 }
                 isSingle = !isSingle;
                 break;
             case R.id.iv_copy_cz://支付方式
                 if (isPersion) {//个人
-                    tv_qun.setTextColor(getResources().getColor(R.color.gray8));
-                    tv_persion.setTextColor(getResources().getColor(R.color.black2));
-                    ll_cz_persion.setVisibility(View.VISIBLE);
-                    ll_cz_qun.setVisibility(View.GONE);
-                } else {//群
+                    iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     tv_qun.setTextColor(getResources().getColor(R.color.black2));
                     tv_persion.setTextColor(getResources().getColor(R.color.gray8));
                     ll_cz_persion.setVisibility(View.GONE);
                     ll_cz_qun.setVisibility(View.VISIBLE);
+                } else {//群
+                    iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                    tv_qun.setTextColor(getResources().getColor(R.color.gray8));
+                    tv_persion.setTextColor(getResources().getColor(R.color.black2));
+                    ll_cz_persion.setVisibility(View.VISIBLE);
+                    ll_cz_qun.setVisibility(View.GONE);
                 }
                 isPersion = !isPersion;
                 break;
@@ -218,6 +228,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     public void wechat() {
                         Toast.makeText(ctx, "微信支付", Toast.LENGTH_SHORT).show();
                     }
+
                     @Override
                     public void alipay() {
                         Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
