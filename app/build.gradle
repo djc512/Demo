@@ -41,23 +41,24 @@ dependencies {
     compile files('libs/umeng-analytics-v5.6.7.jar')
     compile files('libs/umeng-update-v2.8.0.jar')
     compile files('libs/wire.jar')
+    //圆形头像
+    compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
+    //eventbus
+    //刷新功能的容器可以填充RecycleView
+    //将日志写入到内存中
+    compile files('libs/alipaySdk-20170309.jar')
+    compile project(':pickerViewLib')
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:recyclerview-v7:25.1.1'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
     compile 'pub.devrel:easypermissions:0.2.0'
-    testCompile 'junit:junit:4.12'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    //圆形头像
-    compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
     compile 'org.simple:androideventbus:1.0.5.1'
-    //eventbus
     compile 'com.huxq17.xrefreshview:xrefreshview:3.5.5'
-    //刷新功能的容器可以填充RecycleView
     compile 'com.dreamlive.cn.clog:ClogLibrary:0.0.1'
-    //将日志写入到内存中
-    compile files('libs/alipaySdk-20170309.jar')
-    compile project(':pickerViewLib')
     compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:support-v4:25.3.1'
+    testCompile 'junit:junit:4.12'
 }
