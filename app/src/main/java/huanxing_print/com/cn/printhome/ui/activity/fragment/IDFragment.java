@@ -7,9 +7,11 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,8 +123,8 @@ public class IDFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
                 Intent intent = new Intent(ctx, IDClipActivity.class);
-                intent.putExtra("bytes",bytes);
-                intent.putExtra("bytesf",bytesf);
+                intent.putExtra("bytes", bytes);
+                intent.putExtra("bytesf", bytesf);
                 startActivity(intent);
                 break;
         }
@@ -186,7 +188,7 @@ public class IDFragment extends Fragment implements View.OnClickListener {
     }
 
     public class ReceiveBroadCast extends BroadcastReceiver {
-
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void onReceive(Context context, Intent intent) {
             //得到广播中得到的数据，并显示出来
@@ -194,14 +196,21 @@ public class IDFragment extends Fragment implements View.OnClickListener {
                 bytes = intent.getByteArrayExtra("bytes");
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 iv_preview.setImageBitmap(bitmap);
+                initBtnPreview();
             } else if (tag.equals("2")) {
                 bytesf = intent.getByteArrayExtra("bytes");
                 Bitmap bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
                 iv_previewf.setImageBitmap(bitmapf);
+                initBtnPreview();
             }
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private  void initBtnPreview(){
+        btn_preview.setBackground(getResources().getDrawable(R.drawable.shape_preview_finish_bg));
+        btn_preview.setTextColor(getResources().getColor(R.color.black));
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
