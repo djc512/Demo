@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.ui.activity.Copy.CopyActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 
@@ -46,8 +47,8 @@ public class PrintFragment extends BaseFragment implements OnClickListener{
 	protected void init() {
         StepViewUtil.init(getActivity(), findViewById(R.id.step), StepLineView.STEP_DEFAULT);
 		mViewPaper = (ViewPager) findViewById(R.id.vp);
-		findViewById(R.id.rgb_copy).setOnClickListener(this);
-		findViewById(R.id.rgb_print).setOnClickListener(this);
+		findViewById(R.id.tv_copy).setOnClickListener(this);
+		findViewById(R.id.tv_print).setOnClickListener(this);
 		findViewById(R.id.tv_instructions).setOnClickListener(this);
 
 		//显示的图片
@@ -115,11 +116,11 @@ public class PrintFragment extends BaseFragment implements OnClickListener{
     {
         switch (v.getId())
         {
-        case R.id.rgb_copy:
+        case R.id.tv_copy:
      	    startActivity(new Intent(getActivity(), CopyActivity.class));
              break;
-		case R.id.rgb_print:
-			//startActivity(new Intent(getActivity(), PersonInfoActivity.class));
+		case R.id.tv_print:
+			startActivity(new Intent(getActivity(), AddFileActivity.class));
 			 break;
 		case R.id.tv_instructions:
 			//startActivity(new Intent(getActivity(), PersonInfoActivity.class));
