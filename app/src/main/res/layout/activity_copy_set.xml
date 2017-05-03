@@ -5,6 +5,7 @@
     android:background="@color/gray5">
 
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -35,10 +36,11 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:background="@color/white">
 
             <ImageView
+                android:id="@+id/iv_paper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -73,11 +75,13 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/iv_minus"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
+                    android:id="@+id/tv_mount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -85,6 +89,7 @@
                     android:text="1" />
 
                 <ImageView
+                    android:id="@+id/iv_plus"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_launcher" />
@@ -111,13 +116,15 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="竖版"
-                    android:textColor="@color/gray8"
+                    android:textColor="@color/black2"
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/iv_orientation"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="15dp"
@@ -125,10 +132,11 @@
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
+                    android:id="@+id/tv_orientation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="横版"
-                    android:textColor="@color/black2"
+                    android:textColor="@color/gray8"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -153,6 +161,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="黑白"
@@ -160,6 +169,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/iv_color"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="15dp"
@@ -167,6 +177,7 @@
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
+                    android:id="@+id/tv_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="彩色"
@@ -199,9 +210,11 @@
                     android:layout_height="wrap_content"
                     android:text="A4"
                     android:textColor="@color/gray8"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:id="@+id/tv_a4" />
 
                 <ImageView
+                    android:id="@+id/iv_a43"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="15dp"
@@ -209,6 +222,7 @@
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
+                    android:id="@+id/tv_a3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A3"
@@ -237,6 +251,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_single"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="单面"
@@ -244,6 +259,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/iv_print_type"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="15dp"
@@ -251,6 +267,7 @@
                     android:src="@drawable/ic_launcher" />
 
                 <TextView
+                    android:id="@+id/tv_double"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="双面"
@@ -275,11 +292,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="充值方式"
+                android:text="支付方式"
                 android:textColor="@color/black2"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tv_persion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="个人"
@@ -287,6 +305,7 @@
                 android:textSize="16sp" />
 
             <ImageView
+                android:id="@+id/iv_copy_cz"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="15dp"
@@ -294,6 +313,7 @@
                 android:src="@drawable/ic_launcher" />
 
             <TextView
+                android:id="@+id/tv_qun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="共印群"
@@ -302,6 +322,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_cz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -326,14 +347,16 @@
                 android:text="充值最高5折优惠" />
 
             <ImageView
+                android:id="@+id/iv_cz"
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:src="@drawable/arrow_go" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_finish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

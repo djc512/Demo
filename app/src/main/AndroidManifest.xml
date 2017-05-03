@@ -275,12 +275,10 @@
         <activity android:name=".ui.activity.Copy.IDPreviewActivity"></activity>
         <!--身份证拼接界面-->
         <activity android:name=".ui.activity.Copy.IDClipActivity"></activity>
-        <!--&lt;!&ndash;户口矫正界面&ndash;&gt;-->
-        <!--<activity android:name="com.example.administrator.smiplescaner.activities.HuKouPreviewActivity"></activity>-->
-        <!--&lt;!&ndash;户口拼接界面&ndash;&gt;-->
-        <!--<activity android:name="com.example.administrator.smiplescaner.activities.HukouClipActivity"></activity>-->
         <!--护照拼接界面-->
         <activity android:name=".ui.activity.Copy.PassportClipActivity"></activity>
+        <!--复印设置界面-->
+        <activity android:name=".ui.activity.Copy.CopySettingActivity" />
     </application>
     <supports-screens
         android:anyDensity="true"
