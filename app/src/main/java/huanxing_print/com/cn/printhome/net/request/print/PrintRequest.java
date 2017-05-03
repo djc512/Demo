@@ -81,7 +81,7 @@ public class PrintRequest extends BaseRequst {
         params.put(FILE_CONTENT, fileContent);
         params.put(FILE_NAME, fileName);
         params.put(NEED_WATER, needWater);
-        Http.postString(activity, url, params, headerMap, callback, showDialog);
+        Http.postString(activity, url, params, headerTokenMap, callback, showDialog);
     }
 
     /**

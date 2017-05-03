@@ -1,25 +1,39 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
-import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.widget.PopupMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter;
+import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.file.FileComparator;
+import huanxing_print.com.cn.printhome.view.ClearEditText;
 
 import static huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter.FILE_OBJ;
 import static huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter.FILE_TYPE_DIR;
@@ -32,18 +46,21 @@ import static huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter.FILE
 public class AllFileFragment extends BaseLazyFragment implements AllFileListAdapter.BackHandledInterface {
 
     protected AllFileListAdapter mAdapter;
-    private LinkedList<String> mHistory;//访问的文件夹历史记录
+    private LinkedList<String> mHistory;
     private ListView fileListView;
+    private int mode;
+    private ClearEditText searchEditText;
+    private ImageView filterBtn;
+    private File showFile;
+    private boolean isSearch = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.i("onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Logger.i("onCreateView");
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_all_file, container, false);
             initView(view);
@@ -56,55 +73,44 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        Logger.i("onStop");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Logger.i("onPause");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Logger.i("onResume");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Logger.i("onDestroyView");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Logger.i("onDestroy");
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Logger.i("onDetach");
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Logger.i("onAttach");
-    }
-
-    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         Logger.i(isVisibleToUser);
     }
 
     private void initView(View view) {
+        mode = FileComparator.MODE_NAME;
         fileListView = (ListView) view.findViewById(R.id.fileListView);
+        filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
+        filterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilter();
+            }
+        });
+
+        searchEditText = (ClearEditText) view.findViewById(R.id.searchEditText);
+        searchEditText.setOnClearListener(new ClearEditText.OnClearListener() {
+            @Override
+            public void onClear() {
+                isSearch = false;
+                initHistory();
+                File file = new File(mHistory.get(0));
+                updateList(file);
+            }
+        });
+        searchEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        isSearch = true;
+                        serchFileList(v.getText().toString());
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -112,19 +118,83 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
         if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
-        File file = Environment.getExternalStorageDirectory();
+        showFile = Environment.getExternalStorageDirectory();
         mHistory = new LinkedList<>();
-        mHistory.add(file.getAbsolutePath());
-        initShowAdapter(file);
+        initHistory();
+        initShowAdapter(showFile);
         isLoaded = true;
     }
 
+    private void showFilter() {
+        PopupMenu popup = new PopupMenu(getActivity(), filterBtn);
+        popup.getMenuInflater().inflate(R.menu.filter, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.time:
+                        mode = FileComparator.MODE_TIME;
+                        updateList(showFile);
+                        break;
+                    case R.id.name:
+                        mode = FileComparator.MODE_NAME;
+                        updateList(showFile);
+                        break;
+                    case R.id.type:
+                        mode = FileComparator.MODE_TYPE;
+                        updateList(showFile);
+                        break;
+                }
+                return false;
+            }
+        });
+        popup.show();
+    }
+
+    private void initHistory() {
+        mHistory.clear();
+        mHistory.add(Environment.getExternalStorageDirectory().getAbsolutePath());
+    }
+
     private void initShowAdapter(File fileToShow) {
-        String path = fileToShow.getAbsolutePath();
         mAdapter = new AllFileListAdapter(context);
-        File[] files = fileToShow.listFiles();
+        fileListView.setAdapter(mAdapter);
+        fileListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap<String, Object> map = mAdapter.getItem(position);
+                File file = (File) map.get(AllFileListAdapter.FILE_OBJ);
+                if (file.isDirectory()) {
+                    if (file.list().length == 0) {
+                        ShowUtil.showToast("目录为空");
+                    } else {
+                        showFile = file;
+                        mHistory.add(file.getAbsolutePath());
+                        updateList(file);
+                    }
+                } else {
+                    if (!FileType.isPrintType(file.getPath())) {
+                        ShowUtil.showToast("文件不可打印");
+                    }
+                }
+                Logger.i(mHistory);
+            }
+        });
+        updateList(fileToShow);
+    }
+
+    private void updateList(File fileToShow) {
+        mAdapter.clearData();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        File[] files = fileToShow.listFiles();
+        List<File> fileList = new ArrayList<>();
+        List<String> fileNameList = new ArrayList<>();
         for (File file : files) {
+            fileList.add(file);
+            fileNameList.add(file.getName());
+        }
+        Collections.sort(fileList, new FileComparator(mode));
+        for (File file : fileList) {
             HashMap<String, Object> map = new HashMap<>();
             String fileName = file.getName();
             String fileSize;
@@ -144,33 +214,82 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
             map.put(FILE_OBJ, file);
             mAdapter.addData(map);
         }
-        fileListView.setAdapter(mAdapter);
-        fileListView.setOnItemClickListener(new OnItemClickListener() {
+        mAdapter.notifyDataSetChanged();
+    }
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String, Object> map = mAdapter.getItem(position);
-                File file = (File) map.get(AllFileListAdapter.FILE_OBJ);
-                if (file.isDirectory()) {
-                    mHistory.add(file.getAbsolutePath());
-                    initShowAdapter(file);
-                }
-            }
-        });
+    private void serchFileList(String keyword) {
+        String[] keywordStr = {keyword};
+        SearchFileExecutor searchFileExecutor = new SearchFileExecutor();
+        searchFileExecutor.execute(keywordStr);
     }
 
     @Override
     public boolean onBackPressed() {
+        if (isSearch) {
+            isSearch = false;
+            initHistory();
+            File file = new File(mHistory.get(0));
+            updateList(file);
+            return true;
+        }
         if (mHistory.size() <= 1) {
             return false;
         }
         mHistory.removeLast();
         String previousPath = mHistory.getLast();
         File file = new File(previousPath);
-        initShowAdapter(file);
+        updateList(file);
+        Logger.i(mHistory);
         return true;
     }
 
+    class SearchFileExecutor extends AsyncTask<String, Integer, List<File>> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mAdapter.clearData();
+            mAdapter.notifyDataSetChanged();
+            ShowUtil.showToast("搜索中...");
+        }
+
+        @Override
+        protected void onPostExecute(List list) {
+            Logger.i("onPostExecute");
+            if (isSearch) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        protected List<File> doInBackground(String... params) {
+            List<File> fileList = new ArrayList<>();
+            FileUtils.searchFileList(params[0], fileList, Environment.getExternalStorageDirectory().getPath());
+            HashMap<String, Object> map = new HashMap<>();
+            List<HashMap<String, Object>> list = new ArrayList<>();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            for (File file : fileList) {
+                map = new HashMap<>();
+                String fileName = file.getName();
+                String fileSize;
+                String fileType;
+                if (file.isDirectory()) {
+                    fileSize = file.list().length + "项";
+                    fileType = FILE_TYPE_DIR;
+                } else {
+                    fileSize = FileUtils.prettySize(file.length());
+                    fileType = FILE_TYPE_FILE;
+                }
+                String fileUpdateTime = sdf.format(file.lastModified());
+                map.put(AllFileListAdapter.FILE_NAME, fileName);
+                map.put(AllFileListAdapter.FILE_SIZE, fileSize);
+                map.put(AllFileListAdapter.FILE_UPDATE_TIME, fileUpdateTime);
+                map.put(AllFileListAdapter.FILE_TYPE, fileType);
+                map.put(FILE_OBJ, file);
+                mAdapter.addData(map);
+            }
+            return null;
+        }
+    }
 }
 

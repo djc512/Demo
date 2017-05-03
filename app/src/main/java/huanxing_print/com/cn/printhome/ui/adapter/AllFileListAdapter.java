@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +31,14 @@ public class AllFileListAdapter extends BaseAdapter {
     public static final String FILE_OBJ = "FILE_OBJ";
     public static final String APP_IMG = "APP_IMG";
 
+    private Context context;
     private LayoutInflater mInflater;
     private List<HashMap<String, Object>> mData;
     private boolean showHiddenFiles = false;
     private List<Integer> notHiddenFileIndexList; //非隐藏文件列表
 
     public AllFileListAdapter(Context context) {
+        this.context = context;
         mData = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
         notHiddenFileIndexList = new ArrayList<>();
@@ -53,6 +56,14 @@ public class AllFileListAdapter extends BaseAdapter {
         }
     }
 
+    public List<HashMap<String, Object>> getData() {
+        return mData;
+    }
+
+    public void setData(List<HashMap<String, Object>> mData) {
+        this.mData = mData;
+    }
+
     @Override
     public int getCount() {
         if (showHiddenFiles) {
@@ -60,6 +71,11 @@ public class AllFileListAdapter extends BaseAdapter {
         } else {
             return notHiddenFileIndexList.size();
         }
+    }
+
+    public void clearData() {
+        mData.clear();
+        notHiddenFileIndexList.clear();
     }
 
     @Override
@@ -99,6 +115,11 @@ public class AllFileListAdapter extends BaseAdapter {
         File file = (File) data.get(FILE_OBJ);
         int fileImgId = getFileImgId(file);
         holder.fileImg.setImageResource(fileImgId);
+        if (!file.isDirectory() && !FileType.isPrintType(file.getPath())) {
+            holder.fileName.setTextColor(ContextCompat.getColor(context, R.color.text_gray));
+        } else {
+            holder.fileName.setTextColor(ContextCompat.getColor(context, R.color.text_black));
+        }
         return convertView;
     }
 

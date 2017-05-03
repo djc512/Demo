@@ -22,6 +22,7 @@ public abstract class BasePrintActivity extends AppCompatActivity {
     public Context context;
     public Activity activity;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

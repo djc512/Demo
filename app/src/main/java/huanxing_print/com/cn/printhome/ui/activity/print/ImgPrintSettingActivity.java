@@ -11,6 +11,8 @@ import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 public class ImgPrintSettingActivity extends BasePrintActivity {
 
+    public static final String PRINT_SETTING = "print_setting";
+
     private PrintSetting printSetting;
 
     @Override
@@ -21,7 +23,7 @@ public class ImgPrintSettingActivity extends BasePrintActivity {
     }
 
     private void initData() {
-        printSetting = getIntent().getExtras().getParcelable(ImgPreviewActivity.PRINT_SETTING);
+        printSetting = getIntent().getExtras().getParcelable(PRINT_SETTING);
     }
 
     private void delFile() {

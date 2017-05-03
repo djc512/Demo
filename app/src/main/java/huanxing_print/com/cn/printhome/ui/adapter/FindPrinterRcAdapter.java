@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,14 +14,14 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.Printer;
 
 /**
- * Created by LGH on 2017/3/23.
+ * Created by LGH on 2017/5/3.
  */
 
-public class PrinterRcAdapter extends RecyclerView.Adapter<PrinterRcAdapter.ViewHolder> {
+public class FindPrinterRcAdapter extends RecyclerView.Adapter<FindPrinterRcAdapter.ViewHolder> {
 
     private List<Printer> printerList;
 
-    public PrinterRcAdapter(List<Printer> printerList) {
+    public FindPrinterRcAdapter(List<Printer> printerList) {
         this.printerList = printerList;
     }
 
@@ -42,18 +42,29 @@ public class PrinterRcAdapter extends RecyclerView.Adapter<PrinterRcAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView textView;
-        public RelativeLayout rlyt;
-        public ImageView icImg;
-
+        private LinearLayout printerLyt;
+        private ImageView navImg;
+        private ImageView typeImg;
+        private TextView nameTv;
+        private TextView detailTv;
+        private TextView commentTv;
+        private TextView printCountTv;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            rlyt = (RelativeLayout) itemView.findViewById(R.id.rlayt);
-            textView = (TextView) itemView.findViewById(R.id.nameTv);
-            icImg = (ImageView) itemView.findViewById(R.id.icImg);
-            textView.setOnClickListener(this);
-            icImg.setOnClickListener(this);
+            printerLyt = (LinearLayout) itemView.findViewById(R.id.printerLyt);
+            typeImg = (ImageView) itemView.findViewById(R.id.typeImg);
+            navImg = (ImageView) itemView.findViewById(R.id.navImg);
+            nameTv = (TextView) itemView.findViewById(R.id.nameTv);
+            detailTv = (TextView) itemView.findViewById(R.id.detailTv);
+            printCountTv = (TextView) itemView.findViewById(R.id.printCountTv);
+            commentTv = (TextView) itemView.findViewById(R.id.commentTv);
+            printerLyt.setOnClickListener(this);
+            nameTv.setOnClickListener(this);
+            detailTv.setOnClickListener(this);
+            printCountTv.setOnClickListener(this);
+            commentTv.setOnClickListener(this);
+            navImg.setOnClickListener(this);
         }
 
         @Override
@@ -66,13 +77,13 @@ public class PrinterRcAdapter extends RecyclerView.Adapter<PrinterRcAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_filelist, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_printer_find_list, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.textView.setText("aaaaa");
+//        viewHolder.nameTv.setText("aaaaa");
     }
 
     @Override
@@ -80,3 +91,4 @@ public class PrinterRcAdapter extends RecyclerView.Adapter<PrinterRcAdapter.View
         return printerList.size();
     }
 }
+

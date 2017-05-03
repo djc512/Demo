@@ -246,6 +246,31 @@ public class FileUtils {
         public void result(int state);
     }
 
+    /**
+     * 搜索文件列表
+     *
+     * @param keyword
+     * @param list
+     * @param path
+     */
+    public static final void searchFileList(String keyword, List list, String path) {
+        File file = new File(path);
+        File[] files = file.listFiles();
+        for (File f : files) {
+            if (f.isDirectory()) {
+                searchFileList(keyword, list, f.getPath());
+            } else if (f.getName().indexOf(keyword) >= 0) {
+                list.add(f);
+            }
+        }
+    }
+
+    /**
+     * 根据路径获取路径下可打印文件列表
+     *
+     * @param path
+     * @return
+     */
     public static final List getFileList(String path) {
         List<File> fileList = new ArrayList<File>();
         try {

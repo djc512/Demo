@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,7 +17,10 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.PhotoRecylerAdapter;
+
+import static huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity.KEY_IMG_URI;
 
 
 /**
@@ -45,7 +49,7 @@ public class PhotoFragment extends BaseLazyFragment {
         if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
-        List<String> photoList = new ArrayList<>();
+      final List<String> photoList = new ArrayList<>();
         Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null,
                 null, null);
         cursor.moveToLast();
@@ -57,7 +61,6 @@ public class PhotoFragment extends BaseLazyFragment {
             photoList.add(photoPath);
             Logger.i(name + photoPath);
         }
-//        photoList.add("/storage/emulated/0/DCIM/Camera/20151017_160338.jpg");
         mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         mRcList.setLayoutManager(new GridLayoutManager(context, 4));
@@ -68,6 +71,12 @@ public class PhotoFragment extends BaseLazyFragment {
         mAdapter.setOnItemClickListener(new PhotoRecylerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final View view, int position) {
+                Intent intent = new Intent(context, ImgPreviewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putCharSequence(KEY_IMG_URI, photoList.get(position));
+//                bundle.putParcelable(KEY_IMG_URI, photoList.get(position));
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         isLoaded = true;

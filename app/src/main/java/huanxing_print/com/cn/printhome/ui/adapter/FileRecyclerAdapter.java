@@ -25,8 +25,20 @@ public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapte
         this.fileList = fileList;
     }
 
+    public void clearData() {
+        fileList.clear();
+    }
+
     public void setFileList(List<File> fileList) {
         this.fileList = fileList;
+    }
+
+    public List<File> getFileList() {
+        return fileList;
+    }
+
+    public void clear() {
+        fileList.clear();
     }
 
     public OnItemClickListener itemClickListener;

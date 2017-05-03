@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+    <huanxing_print.com.cn.printhome.view.ClearEditText
+        android:id="@+id/searchEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/filterBtn"
+        android:background="@drawable/shape_rectangle_gray"
+        android:drawableLeft="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:hint="搜索文件"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:textColor="@color/text_black"
+        android:textSize="14sp"/>
+
+    <ImageView
+        android:id="@+id/filterBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:padding="10dp"
+        app:srcCompat="@drawable/ic_filtrate"/>
+
+</RelativeLayout>

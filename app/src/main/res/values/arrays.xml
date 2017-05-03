@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="distance">
+        <item>1公里内</item>
+        <item>2公里内</item>
+        <item>3公里内</item>
+        <item>4公里内</item>
+    </string-array>
+</resources>

@@ -1,21 +1,36 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.file.FileComparator;
+import huanxing_print.com.cn.printhome.view.ClearEditText;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 
 /**
@@ -28,13 +43,18 @@ public class WechatFileFragment extends BaseLazyFragment {
             "/tencent/MicroMsg/Download/";
     private RecyclerView mRcList;
     private FileRecyclerAdapter mAdapter;
+    private ImageView filterBtn;
+    private ClearEditText searchEditText;
+    private boolean isSearch = false;
 
-    private List<File> fileList;
+    private int mode = FileComparator.MODE_NAME;
+
+    private List<File> fileList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_wechat_file, container, false);
+            view = inflater.inflate(R.layout.fragment_file_list, container, false);
             initView(view);
             isPrepared = true;
             if (!isLoaded) {
@@ -46,7 +66,34 @@ public class WechatFileFragment extends BaseLazyFragment {
 
     private void initView(View view) {
         mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
-
+        filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
+        filterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFilter();
+            }
+        });
+        searchEditText = (ClearEditText) view.findViewById(R.id.searchEditText);
+        searchEditText.setOnClearListener(new ClearEditText.OnClearListener() {
+            @Override
+            public void onClear() {
+                isSearch = false;
+                fileList = FileUtils.getFileList(PATH_WECHAT_FILE);
+                updateList(fileList);
+            }
+        });
+        searchEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                switch (actionId) {
+                    case EditorInfo.IME_ACTION_SEARCH:
+                        isSearch = true;
+                        serchFileList(v.getText().toString());
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -54,7 +101,7 @@ public class WechatFileFragment extends BaseLazyFragment {
         if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
-        List<File> fileList = FileUtils.getFileList(PATH_WECHAT_FILE);
+        fileList = FileUtils.getFileList(PATH_WECHAT_FILE);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         mRcList.setLayoutManager(mLayoutManager);
         mRcList.setHasFixedSize(true);
@@ -69,6 +116,73 @@ public class WechatFileFragment extends BaseLazyFragment {
                     public void onItemClick(final View view, int position) {
                     }
                 });
+        updateList(fileList);
         isLoaded = true;
+    }
+
+    private void showFilter() {
+        PopupMenu popup = new PopupMenu(getActivity(), filterBtn);
+        popup.getMenuInflater().inflate(R.menu.filter, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.time:
+                        mode = FileComparator.MODE_TIME;
+                        updateList(mAdapter.getFileList());
+                        break;
+                    case R.id.name:
+                        mode = FileComparator.MODE_NAME;
+                        updateList(mAdapter.getFileList());
+                        break;
+                    case R.id.type:
+                        mode = FileComparator.MODE_TYPE;
+                        updateList(mAdapter.getFileList());
+                        break;
+                }
+                return false;
+            }
+        });
+        popup.show();
+    }
+
+    private void serchFileList(String keyword) {
+        String[] keywordStr = {keyword};
+        SearchFileExecutor searchFileExecutor = new SearchFileExecutor();
+        searchFileExecutor.execute(keywordStr);
+    }
+
+    private void updateList(List<File> fileList) {
+        Collections.sort(fileList, new FileComparator(mode));
+        mAdapter.setFileList(fileList);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    class SearchFileExecutor extends AsyncTask<String, Integer, List<File>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mAdapter.clearData();
+            mAdapter.notifyDataSetChanged();
+            ShowUtil.showToast("搜索中...");
+        }
+
+        @Override
+        protected void onPostExecute(List list) {
+            Logger.i("onPostExecute");
+            if (isSearch) {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        protected List<File> doInBackground(String... params) {
+            List<File> fileList = new ArrayList<>();
+            FileUtils.searchFileList(params[0], fileList, PATH_WECHAT_FILE);
+            HashMap<String, Object> map = new HashMap<>();
+            List<HashMap<String, Object>> list = new ArrayList<>();
+            mAdapter.setFileList(fileList);
+            return null;
+        }
     }
 }

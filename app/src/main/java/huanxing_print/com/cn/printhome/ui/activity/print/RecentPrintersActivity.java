@@ -13,7 +13,7 @@ import huanxing_print.com.cn.printhome.model.print.Printer;
 import huanxing_print.com.cn.printhome.model.print.PrinterListBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
-import huanxing_print.com.cn.printhome.ui.adapter.PrinterRcAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.UsedPrinterRcAdapter;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
@@ -21,7 +21,7 @@ public class RecentPrintersActivity extends BasePrintActivity {
 
     private RecyclerView printerRcList;
     private List<Printer> printerList;
-    private PrinterRcAdapter printerRcAdapter;
+    private UsedPrinterRcAdapter usedPrinterRcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +36,10 @@ public class RecentPrintersActivity extends BasePrintActivity {
         printerRcList.setLayoutManager(mLayoutManager);
         printerRcList.setHasFixedSize(true);
         printerRcList.setItemAnimator(new DefaultItemAnimator());
-        printerRcAdapter = new PrinterRcAdapter(printerList);
-        printerRcList.setAdapter(printerRcAdapter);
-        printerRcAdapter.setOnItemClickListener(
-                new PrinterRcAdapter.OnItemClickListener() {
+        usedPrinterRcAdapter = new UsedPrinterRcAdapter(printerList);
+        printerRcList.setAdapter(usedPrinterRcAdapter);
+        usedPrinterRcAdapter.setOnItemClickListener(
+                new UsedPrinterRcAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(final View view, int position) {
                         int id = view.getId();

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -30,12 +29,12 @@ import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
-import huanxing_print.com.cn.printhome.util.UriUtil;
 
 public class ImgPreviewActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String KEY_IMG_URI = "image";
     private ImageView imageView;
-    private Uri imgUri;
+    private String imgPath;
     private File file;
 
     private Context context;
@@ -55,13 +54,13 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
     private void initData() {
         context = this;
         activity = this;
-        imgUri = (Uri) getIntent().getExtras().get(AddFileActivity.KEY_IMG_URI);
+        imgPath = (String) getIntent().getExtras().get(KEY_IMG_URI);
     }
 
     private void initView() {
         imageView = (ImageView) findViewById(R.id.imageView);
         Glide.with(ImgPreviewActivity.this)
-                .load(imgUri)
+                .load(imgPath)
                 .into(imageView);
         findViewById(R.id.upImgView).setOnClickListener(this);
         findViewById(R.id.closeImgView).setOnClickListener(this);
@@ -81,7 +80,7 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void uploadFile() {
-        file = UriUtil.getFile(ImgPreviewActivity.this, imgUri);
+        file = new File(imgPath);
         if (file == null || !file.exists()) {
             return;
         }
@@ -142,12 +141,12 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
         }, false);
     }
 
-    public static final String PRINT_SETTING = "print_setting";
+;
 
     private void turnPrintSetting(PrintSetting printSetting) {
         Intent intent = new Intent(ImgPreviewActivity.this, ImgPrintSettingActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(PRINT_SETTING, printSetting);
+        bundle.putParcelable(ImgPrintSettingActivity.PRINT_SETTING, printSetting);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();

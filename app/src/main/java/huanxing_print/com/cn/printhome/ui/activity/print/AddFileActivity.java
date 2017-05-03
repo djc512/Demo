@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.Serializable;
@@ -38,11 +39,15 @@ import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.WaitDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
-;import static huanxing_print.com.cn.printhome.constant.ConFig.IMG_CACHE_PATH;
+import static huanxing_print.com.cn.printhome.constant.ConFig.IMG_CACHE_PATH;
+import static huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity.KEY_IMG_URI;
+
+;
 
 public class AddFileActivity extends BasePrintActivity implements EasyPermissions.PermissionCallbacks, View
         .OnClickListener {
 
+    private TextView titleTv;
     private Button imageBtn;
     private Button qqBtn;
     private Button wechatBtn;
@@ -67,6 +72,8 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     }
 
     private void initView1() {
+        titleTv = (TextView) findViewById(R.id.titleTv);
+        titleTv.setText("选取文件");
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         tabs = (TabLayout) findViewById(R.id.tabs);
         List<String> titles = new ArrayList<>();
@@ -258,8 +265,6 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
             startActivity(intent);
         }
     }
-
-    public static final String KEY_IMG_URI = "image";
 
     private void turnImgPreview(Uri uri) {
         Intent intent = new Intent(context, ImgPreviewActivity.class);

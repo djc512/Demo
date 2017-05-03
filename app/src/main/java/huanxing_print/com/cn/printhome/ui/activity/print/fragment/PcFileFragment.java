@@ -17,6 +17,7 @@ public class PcFileFragment extends BaseLazyFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_pc_file, container, false);
+            initView(view);
             isPrepared = true;
             if (!isLoaded) {
                 lazyLoad();
@@ -25,11 +26,17 @@ public class PcFileFragment extends BaseLazyFragment {
         return view;
     }
 
+    private void initView(View view) {
+
+    }
+
     @Override
     protected void lazyLoad() {
-        if (!isPrepared || !isVisible) {
+        if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
+
+        isLoaded = true;
     }
 
 }
