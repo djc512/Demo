@@ -283,6 +283,23 @@
         <activity android:name=".ui.activity.Copy.PassportClipActivity"></activity>
         <!--复印设置界面-->
         <activity android:name=".ui.activity.Copy.CopySettingActivity"/>
+
+        <!--联系人模块-->
+        <!--添加联系人-->
+        <activity
+            android:name=".ui.activity.contact.AddContactActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!--添加联系人-->
+        <activity
+            android:name=".ui.activity.contact.SearchYinJiaNumActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!--手机通讯录-->
+        <activity
+            android:name=".ui.activity.contact.AddressBookActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
     <supports-screens
         android:anyDensity="true"
