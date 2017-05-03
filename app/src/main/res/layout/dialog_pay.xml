@@ -54,7 +54,7 @@
             android:paddingLeft="13dp"
             android:text="微信支付"
             android:textColor="@color/black2"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/iv_pay_wechat"
@@ -89,7 +89,7 @@
             android:paddingLeft="17dp"
             android:text="支付宝支付"
             android:textColor="@color/black2"
-            android:textSize="13sp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/iv_pay_alipay"
@@ -108,5 +108,6 @@
         android:background="@color/white"
         android:gravity="center"
         android:padding="15dp"
+        android:textSize="15sp"
         android:text="取消" />
 </LinearLayout>

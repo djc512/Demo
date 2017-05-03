@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
@@ -68,6 +69,12 @@ public class DialogUtils {
 		public void wechat();
 
 		public void alipay();
+
+	}
+	public interface PayQunChooseDialogCallBack {
+		public void tuniu();
+
+		public void yinjia();
 
 	}
 
@@ -230,6 +237,12 @@ public class DialogUtils {
 		return mPicChooseDialog;
 	}
 
+	/**
+	 * 支付选择对话框
+	 * @param context
+	 * @param callBack
+     * @return
+     */
 	public static Dialog showPayChooseDialog(Context context, final PayChooseDialogCallBack callBack) {
 		View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay, null);
 		mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
@@ -268,6 +281,49 @@ public class DialogUtils {
 			public void onClick(View arg0) {
 				mPicChooseDialog.dismiss();
 				callBack.alipay();
+			}
+		});
+		return mPicChooseDialog;
+	}
+
+	public static Dialog showQunChooseDialog(Context context, final PayQunChooseDialogCallBack callBack) {
+		View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay_qun, null);
+		mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
+		mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		Window window = mPicChooseDialog.getWindow();
+		window.setWindowAnimations(R.style.main_menu_animstyle);
+		WindowManager.LayoutParams wl = window.getAttributes();
+		wl.x = 0;
+		wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
+		wl.width = LayoutParams.MATCH_PARENT;
+		wl.height = LayoutParams.WRAP_CONTENT;
+
+		mPicChooseDialog.onWindowAttributesChanged(wl);
+		mPicChooseDialog.setCanceledOnTouchOutside(true);
+		mPicChooseDialog.show();
+		RelativeLayout ll_yinjia = (RelativeLayout) view.findViewById(R.id.ll_yinjia);
+		RelativeLayout ll_tuniu = (RelativeLayout) view.findViewById(R.id.ll_tuniu);
+		TextView tv_cancle = (TextView) view.findViewById(R.id.tv_cancle);
+		tv_cancle.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				mPicChooseDialog.dismiss();
+			}
+		});
+		ll_yinjia.setOnClickListener(new OnClickListener() {//微信支付
+			@Override
+			public void onClick(View arg0) {
+				mPicChooseDialog.dismiss();
+				callBack.yinjia();
+			}
+		});
+
+		ll_tuniu.setOnClickListener(new OnClickListener() {//支付宝支付
+			@Override
+			public void onClick(View arg0) {
+				mPicChooseDialog.dismiss();
+				callBack.tuniu();
 			}
 		});
 		return mPicChooseDialog;

@@ -128,6 +128,8 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         iv_cz_persion.setOnClickListener(this);
         iv_cz_qun.setOnClickListener(this);
         ll_finish.setOnClickListener(this);
+        ll_cz_persion.setOnClickListener(this);
+        ll_cz_qun.setOnClickListener(this);
     }
 
     private boolean isVertical;
@@ -224,7 +226,17 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
                 break;
             case R.id.ll_cz_qun://群支付
+                DialogUtils.showQunChooseDialog(ctx, new DialogUtils.PayQunChooseDialogCallBack() {
+                    @Override
+                    public void tuniu() {
+                        Toast.makeText(ctx, "图牛群支付", Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void yinjia() {
+                        Toast.makeText(ctx, "印加群支付", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
             case R.id.ll_finish://完成
                 break;
