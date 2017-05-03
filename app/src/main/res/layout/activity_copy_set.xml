@@ -165,7 +165,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="黑白"
-                    android:textColor="@color/gray8"
+                    android:textColor="@color/black2"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -181,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="彩色"
-                    android:textColor="@color/black2"
+                    android:textColor="@color/gray8"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -209,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A4"
-                    android:textColor="@color/gray8"
+                    android:textColor="@color/black2"
                     android:textSize="16sp"
                     android:id="@+id/tv_a4" />
 
@@ -226,7 +226,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="A3"
-                    android:textColor="@color/black2"
+                    android:textColor="@color/gray8"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -255,7 +255,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="单面"
-                    android:textColor="@color/gray8"
+                    android:textColor="@color/black2"
                     android:textSize="16sp" />
 
                 <ImageView
@@ -271,7 +271,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="双面"
-                    android:textColor="@color/black2"
+                    android:textColor="@color/gray8"
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
@@ -301,7 +301,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="个人"
-                android:textColor="@color/gray8"
+                android:textColor="@color/black2"
                 android:textSize="16sp" />
 
             <ImageView
@@ -317,12 +317,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="共印群"
-                android:textColor="@color/black2"
+                android:textColor="@color/gray8"
                 android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_cz"
+            android:id="@+id/ll_cz_persion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -347,7 +347,35 @@
                 android:text="充值最高5折优惠" />
 
             <ImageView
-                android:id="@+id/iv_cz"
+                android:id="@+id/iv_cz_persion"
+                android:paddingLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow_go" />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_cz_qun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="图牛研发打印群"
+                android:textColor="@color/black2"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_cz_qun"
                 android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

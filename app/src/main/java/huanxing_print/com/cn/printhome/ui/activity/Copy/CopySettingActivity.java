@@ -48,12 +48,14 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private TextView tv_persion;
     private ImageView iv_copy_cz;
     private TextView tv_qun;
-    private ImageView iv_cz;
+    private ImageView iv_cz_persion;
     private TextView btn_preview;
     private LinearLayout ll_finish;
     private TextView tv_mount;
     private int copy_mount;
-    private LinearLayout ll_cz;
+    private LinearLayout ll_cz_persion;
+    private ImageView iv_cz_qun;
+    private LinearLayout ll_cz_qun;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -101,8 +103,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         tv_persion = (TextView) findViewById(R.id.tv_persion);
         iv_copy_cz = (ImageView) findViewById(R.id.iv_copy_cz);
         tv_qun = (TextView) findViewById(R.id.tv_qun);
-        iv_cz = (ImageView) findViewById(R.id.iv_cz);
-        ll_cz = (LinearLayout) findViewById(R.id.ll_cz);
+        iv_cz_persion = (ImageView) findViewById(R.id.iv_cz_persion);
+        ll_cz_persion = (LinearLayout) findViewById(R.id.ll_cz_persion);
+        iv_cz_qun = (ImageView) findViewById(R.id.iv_cz_qun);
+        ll_cz_qun = (LinearLayout) findViewById(R.id.ll_cz_qun);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
         ll_finish = (LinearLayout) findViewById(R.id.ll_finish);
     }
@@ -120,7 +124,8 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         iv_a43.setOnClickListener(this);
         iv_print_type.setOnClickListener(this);
         iv_copy_cz.setOnClickListener(this);
-        iv_cz.setOnClickListener(this);
+        iv_cz_persion.setOnClickListener(this);
+        iv_cz_qun.setOnClickListener(this);
         ll_finish.setOnClickListener(this);
     }
 
@@ -193,15 +198,22 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             case R.id.iv_copy_cz://支付方式
                 if (isPersion) {//个人
                     tv_qun.setTextColor(getResources().getColor(R.color.gray8));
-                    tv_single.setTextColor(getResources().getColor(R.color.black2));
-
+                    tv_persion.setTextColor(getResources().getColor(R.color.black2));
+                    ll_cz_persion.setVisibility(View.VISIBLE);
+                    ll_cz_qun.setVisibility(View.GONE);
                 } else {//群
                     tv_qun.setTextColor(getResources().getColor(R.color.black2));
-                    tv_single.setTextColor(getResources().getColor(R.color.gray8));
+                    tv_persion.setTextColor(getResources().getColor(R.color.gray8));
+                    ll_cz_persion.setVisibility(View.GONE);
+                    ll_cz_qun.setVisibility(View.VISIBLE);
                 }
                 isPersion = !isPersion;
                 break;
-            case R.id.iv_cz://充值
+            case R.id.iv_cz_persion://第三方支付
+                
+
+                break;
+            case R.id.iv_cz_qun://群支付
 
                 break;
             case R.id.ll_finish://完成
