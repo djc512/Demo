@@ -1,10 +1,5 @@
 package huanxing_print.com.cn.printhome.view.dialog;
 
-import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.base.ActivityHelper;
-import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -15,13 +10,18 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 
 public class DialogUtils {
@@ -62,6 +62,12 @@ public class DialogUtils {
 		public void camera();
 
 		public void photo();
+
+	}
+	public interface PayChooseDialogCallBack {
+		public void wechat();
+
+		public void alipay();
 
 	}
 
@@ -219,6 +225,49 @@ public class DialogUtils {
 			public void onClick(View arg0) {
 				mPicChooseDialog.dismiss();
 				callBack.photo();
+			}
+		});
+		return mPicChooseDialog;
+	}
+
+	public static Dialog showPayChooseDialog(Context context, final PayChooseDialogCallBack callBack) {
+		View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay, null);
+		mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
+		mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		Window window = mPicChooseDialog.getWindow();
+		window.setWindowAnimations(R.style.main_menu_animstyle);
+		WindowManager.LayoutParams wl = window.getAttributes();
+		wl.x = 0;
+		wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
+		wl.width = LayoutParams.MATCH_PARENT;
+		wl.height = LayoutParams.WRAP_CONTENT;
+
+		mPicChooseDialog.onWindowAttributesChanged(wl);
+		mPicChooseDialog.setCanceledOnTouchOutside(true);
+		mPicChooseDialog.show();
+		LinearLayout ll_wechat = (LinearLayout) view.findViewById(R.id.ll_wechat);
+		LinearLayout ll_alipay = (LinearLayout) view.findViewById(R.id.ll_alipay);
+		TextView tv_cancle = (TextView) view.findViewById(R.id.tv_cancle);
+		tv_cancle.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				mPicChooseDialog.dismiss();
+			}
+		});
+		ll_wechat.setOnClickListener(new OnClickListener() {//微信支付
+			@Override
+			public void onClick(View arg0) {
+				mPicChooseDialog.dismiss();
+				callBack.wechat();
+			}
+		});
+
+		ll_alipay.setOnClickListener(new OnClickListener() {//支付宝支付
+			@Override
+			public void onClick(View arg0) {
+				mPicChooseDialog.dismiss();
+				callBack.alipay();
 			}
 		});
 		return mPicChooseDialog;

@@ -14,6 +14,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by Administrator on 2017/5/3 0003.
@@ -209,11 +210,20 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 isPersion = !isPersion;
                 break;
-            case R.id.iv_cz_persion://第三方支付
-                
+            case R.id.ll_cz_persion://第三方支付
+                DialogUtils.showPayChooseDialog(ctx, new DialogUtils.PayChooseDialogCallBack() {
+                    @Override
+                    public void wechat() {
+                        Toast.makeText(ctx, "微信支付", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void alipay() {
+                        Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 break;
-            case R.id.iv_cz_qun://群支付
+            case R.id.ll_cz_qun://群支付
 
                 break;
             case R.id.ll_finish://完成
