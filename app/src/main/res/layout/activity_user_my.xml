@@ -38,17 +38,20 @@
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:text="头像"
             android:textSize="20sp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_alignParentRight="true"
             android:id="@+id/iv_user_head"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/iv_right"
             android:src="@drawable/iv_head" />
         <ImageView
+            android:id="@+id/iv_right"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             style="@style/arrow_go" />
     </RelativeLayout>
 
