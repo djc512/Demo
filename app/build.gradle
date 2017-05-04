@@ -65,4 +65,5 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.afollestad.material-dialogs:core:0.9.4.3'
     testCompile 'junit:junit:4.12'
+    compile 'com.xingliuhua:xlhratingbar_lib:1.0.1'
 }
