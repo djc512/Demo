@@ -25,14 +25,14 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
  * Created by Administrator on 2017/4/27 0027.
  */
 
-public class IDClipActivity extends BaseActivity implements View.OnClickListener {
+public class HuKouClipActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_preview;
     private Button btn_reset;
     private Button btn_confirm;
     private double a4Width = 210;
     private double a4Height = 297;
-    private double idWidth = 85.5;
-    private double idHeight = 54;
+    private double idWidth = 105;
+    private double idHeight = 143;
     private int screenWidth;
     private int screenHeight;
     private double sqrtRatio;
@@ -41,7 +41,6 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private Bitmap bitmap;
     private Bitmap bitmapf;
     private PicSaveUtil saveUtil;
-
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
