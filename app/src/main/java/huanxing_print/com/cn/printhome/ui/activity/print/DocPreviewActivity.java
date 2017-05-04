@@ -27,10 +27,12 @@ public class DocPreviewActivity extends BasePrintActivity {
         initData();
     }
 
+    public final static String KEY_URL = "url";
+    public final static String KEY_FILE = "file";
     private void initData() {
         Bundle bundle = getIntent().getExtras();
-        url = bundle.getString(FileListActivity.KEY_URL);
-        file = (File) bundle.getSerializable(FileListActivity.KEY_FILE);
+        url = bundle.getString(KEY_URL);
+        file = (File) bundle.getSerializable(KEY_FILE);
     }
 
     public void onAdd(View view) {
@@ -52,7 +54,7 @@ public class DocPreviewActivity extends BasePrintActivity {
             public void onFailed(String exception) {
                 ShowUtil.showToast(getString(R.string.net_error));
             }
-        },true);
+        }, true);
     }
 
     public static final String PRINT_SETTING = "print_setting";

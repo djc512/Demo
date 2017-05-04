@@ -23,6 +23,9 @@ import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
+import static huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity.KEY_FILE;
+import static huanxing_print.com.cn.printhome.ui.activity.print.DocPreviewActivity.KEY_URL;
+
 public class FileListActivity extends BasePrintActivity {
     private static final String TAG = "FileActivity";
 
@@ -89,9 +92,6 @@ public class FileListActivity extends BasePrintActivity {
         }, false);
     }
 
-    public final static String KEY_URL = "url";
-    public final static String KEY_FILE = "file";
-
     private void turnPreView(String url, File file) {
         Intent intent = new Intent(context, DocPreviewActivity.class);
         Bundle bundle = new Bundle();
@@ -112,7 +112,7 @@ public class FileListActivity extends BasePrintActivity {
 
     private void initData() {
         Bundle bundle = getIntent().getExtras();
-        fileList = (List<File>) bundle.getSerializable(AddFileActivity.KEY_FILE);
+        fileList = (List<File>) bundle.getSerializable(KEY_FILE);
         source = bundle.getInt(AddFileActivity.KEY_SOURCE);
         for (int i = 0; i < fileList.size(); i++) {
             Log.i(TAG, fileList.get(i).getName());

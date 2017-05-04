@@ -33,8 +33,28 @@
     <uses-permission android:name="android.permission.READ_LOGS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
-    <!--相机-->
+    <!-- 相机 -->
     <uses-permission android:name="android.permission.CAMERA"/>
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"/>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.camera.front.autofocus"
+        android:required="false"/>
 
     <application
         android:name=".base.BaseApplication"
@@ -50,38 +70,48 @@
         <activity
             android:name=".ui.activity.welcome.SplashActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
 
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="text/plain"></data>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="application/pdf"></data>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="application/msword"></data>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"></data>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="application/vnd.ms-powerpoint"></data>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
-                <data android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation"></data>
-            </intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
 
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="application/pdf"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="application/msword"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="application/vnd.ms-powerpoint"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation"/>
+            </intent-filter>
         </activity>
         <!-- 引导页 -->
         <activity
@@ -92,12 +122,12 @@
             android:name=".ui.activity.login.LoginActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"/>
-        <!--忘记密码-->
+        <!-- 忘记密码 -->
         <activity
             android:name=".ui.activity.login.ForgetPasswodActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"/>
-        <!--修改密码-->
+        <!-- 修改密码 -->
         <activity
             android:name=".ui.activity.login.ModifyPassWordActivity"
             android:launchMode="singleInstance"
@@ -127,134 +157,133 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-
         <activity
             android:name=".ui.activity.print.AddFileActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.print.DocPreviewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.print.DocPrintActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.print.FileListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.print.ImgPreviewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.print.PrintStatusActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.print.RecentPrintersActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.print.ImgPrintSettingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.print.PickPrinterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
-        <!--充值界面-->
+        <!-- 充值界面 -->
         <activity
             android:name=".ui.activity.my.AccountActivity"
             android:screenOrientation="portrait"/>
-        <!--明细界面-->
+        <!-- 明细界面 -->
         <activity
             android:name=".ui.activity.my.MingXiActivity"
             android:screenOrientation="portrait"/>
-        <!--打印详情界面-->
+        <!-- 打印详情界面 -->
         <activity
             android:name=".ui.activity.my.DaYinActivity"
             android:screenOrientation="portrait"/>
-        <!--联系我们界面-->
+        <!-- 联系我们界面 -->
         <activity
             android:name=".ui.activity.my.ContactActivity"
             android:screenOrientation="portrait"/>
-        <!--设置界面-->
+        <!-- 设置界面 -->
         <activity
             android:name=".ui.activity.my.SettingActivity"
             android:screenOrientation="portrait"/>
-        <!--设置界面-->
+        <!-- 设置界面 -->
         <activity
             android:name=".ui.activity.my.SetDefaultPrinterActivity"
             android:screenOrientation="portrait"/>
-        <!--建议界面-->
+        <!-- 建议界面 -->
         <activity
             android:name=".ui.activity.my.SuggestActivity"
             android:screenOrientation="portrait"/>
-        <!--分享界面-->
+        <!-- 分享界面 -->
         <activity
             android:name=".ui.activity.my.ShareActivity"
             android:screenOrientation="portrait"/>
-        <!--通知界面-->
+        <!-- 通知界面 -->
         <activity
             android:name=".ui.activity.my.NoticeActivity"
             android:screenOrientation="portrait"/>
-        <!--通知列表界面-->
+        <!-- 通知列表界面 -->
         <activity
             android:name=".ui.activity.my.NoticeListActivity"
             android:screenOrientation="portrait"/>
-        <!--我的界面-->
+        <!-- 我的界面 -->
         <activity
             android:name=".ui.activity.my.MyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-        <!--裁剪界面-->
+        <!-- 裁剪界面 -->
         <activity
             android:name=".ui.activity.my.ClipeImageActivity"
             android:screenOrientation="portrait"/>
-        <!--修改昵称界面-->
+        <!-- 修改昵称界面 -->
         <activity
             android:name=".ui.activity.my.MyModifyNameActivty"
             android:screenOrientation="portrait"/>
-        <!--打印协议-->
+        <!-- 打印协议 -->
         <activity
             android:name=".ui.activity.my.XieYiActivity"
             android:screenOrientation="portrait"/>
-        <!--充值记录-->
+        <!-- 充值记录 -->
         <activity
             android:name=".ui.activity.my.AccountRecordActivity"
             android:screenOrientation="portrait"/>
-        <!--发票页面-->
+        <!-- 发票页面 -->
         <activity
             android:name=".ui.activity.my.BillDebitActivity"
             android:screenOrientation="portrait"/>
-        <!--发票详情页面-->
+        <!-- 发票详情页面 -->
         <activity
             android:name=".ui.activity.my.BillDetailActivity"
             android:screenOrientation="portrait"/>
-        <!--充值界面-->
+        <!-- 充值界面 -->
         <activity
             android:name=".ui.activity.my.PayActivity"
             android:screenOrientation="portrait"/>
-        <!--订单详情界面-->
+        <!-- 订单详情界面 -->
         <activity
             android:name=".ui.activity.my.OrderDetailActivity"
             android:screenOrientation="portrait"/>
-        <!--支付宝相关-->
+        <!-- 支付宝相关 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind"/>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
+            android:screenOrientation="behind"/>
 
-        <!--开发票列表界面-->
+        <!-- 开发票列表界面 -->
         <activity
             android:name=".ui.activity.my.DebitListActivity"
             android:screenOrientation="portrait"/>
@@ -263,61 +292,43 @@
             android:name=".util.webserver.WebServer"
             android:enabled="true"
             android:exported="true"/>
-        <!--复印的相关界面-->
+        <!-- 复印的相关界面 -->
         <activity
             android:name=".ui.activity.Copy.CopyActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
-        <!--文件矫正-->
+            android:screenOrientation="behind"/>
+        <!-- 文件矫正 -->
         <activity
             android:name=".ui.activity.Copy.PreviewActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"></activity>
-        <!--身份证矫正页面-->
-        <activity android:name=".ui.activity.Copy.IDPreviewActivity"></activity>
-        <!--身份证拼接界面-->
-        <activity android:name=".ui.activity.Copy.IDClipActivity"></activity>
-        <!--护照拼接界面-->
-        <activity android:name=".ui.activity.Copy.PassportClipActivity"></activity>
-        <!--复印设置界面-->
+            android:screenOrientation="behind"/>
+        <!-- 身份证矫正页面 -->
+        <activity android:name=".ui.activity.Copy.IDPreviewActivity"/>
+        <!-- 身份证拼接界面 -->
+        <activity android:name=".ui.activity.Copy.IDClipActivity"/>
+        <!-- 护照拼接界面 -->
+        <activity android:name=".ui.activity.Copy.PassportClipActivity"/>
+        <!-- 复印设置界面 -->
         <activity android:name=".ui.activity.Copy.CopySettingActivity"/>
 
-        <!--联系人模块-->
-        <!--添加联系人-->
+        <!-- 联系人模块 -->
+        <!-- 添加联系人 -->
         <activity
             android:name=".ui.activity.contact.AddContactActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <!--添加联系人-->
+            android:screenOrientation="portrait"/>
+        <!-- 添加联系人 -->
         <activity
             android:name=".ui.activity.contact.SearchYinJiaNumActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <!--手机通讯录-->
+            android:screenOrientation="portrait"/>
+        <!-- 手机通讯录 -->
         <activity
             android:name=".ui.activity.contact.AddressBookActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
     </application>
-    <supports-screens
-        android:anyDensity="true"
-        android:largeScreens="true"
-        android:normalScreens="true"
-        android:resizeable="true"
-        android:smallScreens="true"/>
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false"/>
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false"/>
-    <uses-feature
-        android:name="android.hardware.camera.front"
-        android:required="false"/>
-    <uses-feature
-        android:name="android.hardware.camera.front.autofocus"
-        android:required="false"/>
 </manifest>
