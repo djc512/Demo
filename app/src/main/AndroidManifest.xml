@@ -308,6 +308,8 @@
         <activity android:name=".ui.activity.Copy.IDPreviewActivity"/>
         <!-- 身份证拼接界面 -->
         <activity android:name=".ui.activity.Copy.IDClipActivity"/>
+        <!--户口拼接界面-->
+        <activity android:name=".ui.activity.Copy.HuKouClipActivity"></activity>
         <!-- 护照拼接界面 -->
         <activity android:name=".ui.activity.Copy.PassportClipActivity"/>
         <!-- 复印设置界面 -->
