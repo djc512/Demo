@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.simple.eventbus.EventBus;
@@ -18,14 +17,8 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
-import huanxing_print.com.cn.printhome.ui.activity.Copy.CommentActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ContactActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.DaYinActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.NoticeActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.ShareActivity;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -42,14 +35,13 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private String totleBalance;
     private String monthConsume;
     private String wechatId;
-    private ImageView iv_notice;
 
     @Override
     protected void init() {
         EventBus.getDefault().register(this);
 
         initViews();
-        initData();
+       // initData();
         setListener();
     }
 
@@ -128,62 +120,60 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     }
 
     private void initViews() {
-        tv_phone = (TextView) findViewById(R.id.tv_phone);
-        tv_name = (TextView) findViewById(R.id.tv_name);
-        tv_account_money = (TextView) findViewById(R.id.tv_account_money);
-        tv_month_money = (TextView) findViewById(R.id.tv_month_money);
-        iv_head = (CircleImageView) findViewById(R.id.iv_head);
-        iv_notice = (ImageView) findViewById(R.id.iv_notice);
+//        tv_phone = (TextView) findViewById(R.id.tv_phone);
+//        tv_name = (TextView) findViewById(R.id.tv_name);
+//        tv_account_money = (TextView) findViewById(R.id.tv_account_money);
+//        tv_month_money = (TextView) findViewById(R.id.tv_month_money);
+//        iv_head = (CircleImageView) findViewById(R.id.iv_head);
 
     }
 
     private void setListener() {
 
-        findViewById(R.id.ll_my_account).setOnClickListener(this);
+//        findViewById(R.id.ll_my_account).setOnClickListener(this);
         findViewById(R.id.ll_my_contact).setOnClickListener(this);
-        findViewById(R.id.ll_my_dy).setOnClickListener(this);
-        findViewById(R.id.ll_my_mx).setOnClickListener(this);
-        findViewById(R.id.ll_my_set).setOnClickListener(this);
-        findViewById(R.id.ll_my_share).setOnClickListener(this);
-        findViewById(R.id.rl_userMsg).setOnClickListener(this);
-
-        iv_notice.setOnClickListener(this);
+//        findViewById(R.id.ll_my_dy).setOnClickListener(this);
+//        findViewById(R.id.ll_my_mx).setOnClickListener(this);
+//        findViewById(R.id.ll_my_set).setOnClickListener(this);
+//        findViewById(R.id.ll_my_share).setOnClickListener(this);
+//        findViewById(R.id.rl_userMsg).setOnClickListener(this);
+        findViewById(R.id.iv_set).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.rl_userMsg:
-                Intent intent = new Intent(getActivity(), MyActivity.class);
-                intent.putExtra("nickName",nickName);
-                intent.putExtra("wechatId",wechatId);
-                startActivity(intent);
+//            case R.id.rl_userMsg:
+//                Intent intent = new Intent(getActivity(), MyActivity.class);
+//                intent.putExtra("nickName",nickName);
+//                intent.putExtra("wechatId",wechatId);
+//                startActivity(intent);
+//                break;
+            case R.id.iv_set:
+                startActivity(new Intent(getActivity(), MyActivity.class));
                 break;
-            case R.id.iv_notice:
-                startActivity(new Intent(getActivity(), NoticeActivity.class));
-                break;
-            case R.id.ll_my_account:
-                Intent accIntent = new Intent(getActivity(),AccountActivity.class);
-                accIntent.putExtra("totleBalance",totleBalance);
-                startActivity(accIntent);
-                break;
-            case R.id.ll_my_mx:
-                startActivity(new Intent(getActivity(), MingXiActivity.class));
-                break;
-            case R.id.ll_my_dy:
-                startActivity(new Intent(getActivity(), DaYinActivity.class));
-                break;
+//            case R.id.ll_my_account:
+//                Intent accIntent = new Intent(getActivity(),AccountActivity.class);
+//                accIntent.putExtra("totleBalance",totleBalance);
+//                startActivity(accIntent);
+//                break;
+//            case R.id.ll_my_mx:
+//                startActivity(new Intent(getActivity(), MingXiActivity.class));
+//                break;
+//            case R.id.ll_my_dy:
+//                startActivity(new Intent(getActivity(), DaYinActivity.class));
+//                break;
             case R.id.ll_my_contact:
                 startActivity(new Intent(getActivity(), ContactActivity.class));
                 break;
-            case R.id.ll_my_share:
-                startActivity(new Intent(getActivity(), ShareActivity.class));
-                break;
-            case R.id.ll_my_set:
-//                startActivity(new Intent(getActivity(), SettingActivity.class));
-//                startActivity(new Intent(getActivity(), ApprovalActivity.class));
-                startActivity(new Intent(getActivity(), CommentActivity.class));
-                break;
+//            case R.id.ll_my_share:
+//                startActivity(new Intent(getActivity(), ShareActivity.class));
+//                break;
+//            case R.id.ll_my_set:
+////                startActivity(new Intent(getActivity(), SettingActivity.class));
+////                startActivity(new Intent(getActivity(), ApprovalActivity.class));
+//                startActivity(new Intent(getActivity(), CommentActivity.class));
+//                break;
 
             default:
                 break;
