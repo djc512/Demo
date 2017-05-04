@@ -1,2 +1,2 @@
-include ':app', ':openCVLibrary2411', ':photoview'
+include ':app', ':openCVLibrary2411', ':photoview', ':lib-zxing'
 include ':pickerViewLib'
