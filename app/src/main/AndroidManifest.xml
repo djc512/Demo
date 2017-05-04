@@ -341,6 +341,16 @@
             android:name=".ui.activity.contact.AddVerificationActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <!--新的朋友界面-->
+        <activity
+            android:name=".ui.activity.contact.NewFriendActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!--新的朋友界面-->
+        <activity
+            android:name=".ui.activity.contact.AddByAddressBookActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

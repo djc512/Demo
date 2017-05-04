@@ -51,6 +51,7 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
                 startActivity(SearchYinJiaNumActivity.class);
                 break;
             case R.id.add_by_addressbook:
+                startActivity(AddByAddressBookActivity.class);
                 break;
             case R.id.add_by_qr:
                 break;

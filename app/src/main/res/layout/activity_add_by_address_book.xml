@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray1"
+              android:clipToPadding="true"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/titleBar"
+        style="@style/Re_title">
+
+        <include layout="@layout/ll_title_back"></include>
+
+        <TextView
+            style="@style/title"
+            android:text="从手机联系人添加"/>
+    </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contactsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titleBar"
+        android:layout_marginTop="10dp"
+        android:background="@color/gray1"/>
+
+    <huanxing_print.com.cn.printhome.view.IndexSideBar
+        android:id="@+id/contacts_sidebar"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/titleBar"
+        android:layout_marginTop="10dp"/>
+</RelativeLayout>
