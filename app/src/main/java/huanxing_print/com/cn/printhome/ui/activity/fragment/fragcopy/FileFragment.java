@@ -1,4 +1,4 @@
-package huanxing_print.com.cn.printhome.ui.activity.fragment;
+package huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy;
 
 import android.content.Context;
 import android.content.Intent;

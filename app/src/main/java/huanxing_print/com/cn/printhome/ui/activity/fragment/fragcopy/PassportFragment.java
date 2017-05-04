@@ -1,4 +1,4 @@
-package huanxing_print.com.cn.printhome.ui.activity.fragment;
+package huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,7 +24,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.ui.activity.Copy.IDClipActivity;
+import huanxing_print.com.cn.printhome.ui.activity.Copy.CopySettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.Copy.IDPreviewActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
@@ -35,11 +35,9 @@ import static android.app.Activity.RESULT_OK;
  * Created by Administrator on 2017/4/28 0028.
  */
 
-public class IDFragment extends Fragment implements View.OnClickListener {
+public class PassportFragment extends Fragment implements View.OnClickListener {
     private RadioButton btn_camera;
     private RadioButton btn_galley;
-    private RadioButton btn_cameraf;
-    private RadioButton btn_galleyf;
     private TextView btn_preview;
     private int PICK_IMAGE_REQUEST = 1;
     //调用照相机返回图片临时文件
@@ -47,22 +45,19 @@ public class IDFragment extends Fragment implements View.OnClickListener {
     //请求相机
     private static final int REQUEST_CAPTURE = 100;
     private PicSaveUtil saveUtil;
+    private Context ctx;
     private ImageView iv_preview;
-    private ImageView iv_previewf;
     private ReceiveBroadCast receiveBroadCast;
     private byte[] bytes;
-    private byte[] bytesf;
-    private Context ctx;
-    private String tag;//标识
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ctx = getActivity();
-        CommonUtils.initSystemBar(getActivity());
         saveUtil = new PicSaveUtil(ctx);
+        CommonUtils.initSystemBar(getActivity());
         tempFile = saveUtil.createCameraTempFile(savedInstanceState);
-        View view = inflater.inflate(R.layout.frag_id, null);
+        View view = inflater.inflate(R.layout.frag_passport, null);
         initView(view);
         initData();
         initListener();
@@ -70,13 +65,11 @@ public class IDFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View view) {
+
         btn_camera = (RadioButton) view.findViewById(R.id.btn_camera);
         btn_galley = (RadioButton) view.findViewById(R.id.btn_galley);
-        btn_cameraf = (RadioButton) view.findViewById(R.id.btn_cameraf);
-        btn_galleyf = (RadioButton) view.findViewById(R.id.btn_galleyf);
         btn_preview = (TextView) view.findViewById(R.id.btn_preview);
         iv_preview = (ImageView) view.findViewById(R.id.iv_preview);
-        iv_previewf = (ImageView) view.findViewById(R.id.iv_previewf);
     }
 
     private void initData() {
@@ -85,10 +78,10 @@ public class IDFragment extends Fragment implements View.OnClickListener {
     private void initListener() {
         btn_camera.setOnClickListener(this);
         btn_galley.setOnClickListener(this);
-        btn_cameraf.setOnClickListener(this);
-        btn_galleyf.setOnClickListener(this);
         btn_preview.setOnClickListener(this);
     }
+
+    private String tag;
 
     @Override
     public void onClick(View v) {
@@ -105,26 +98,15 @@ public class IDFragment extends Fragment implements View.OnClickListener {
                 tag = "1";
                 gotoGalley();
                 break;
-            case R.id.btn_cameraf:
-                btn_cameraf.setChecked(true);
-                btn_galleyf.setChecked(false);
-                tag = "2";
-                gotoCarema();
-                break;
-            case R.id.btn_galleyf:
-                btn_cameraf.setChecked(false);
-                btn_galleyf.setChecked(true);
-                tag = "2";
-                gotoGalley();
-                break;
             case R.id.btn_preview:
-                if (bytes == null && bytesf == null) {
+                if (bytes == null) {
                     Toast.makeText(ctx, "请先上传图片", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent intent = new Intent(ctx, IDClipActivity.class);
-                intent.putExtra("bytes", bytes);
-                intent.putExtra("bytesf", bytesf);
+//                Intent intent = new Intent(ctx, PassportClipActivity.class);
+//                intent.putExtra("bytes",bytes);
+//                startActivity(intent);
+                Intent intent = new Intent(ctx, CopySettingActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -188,6 +170,7 @@ public class IDFragment extends Fragment implements View.OnClickListener {
     }
 
     public class ReceiveBroadCast extends BroadcastReceiver {
+
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -197,15 +180,9 @@ public class IDFragment extends Fragment implements View.OnClickListener {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 iv_preview.setImageBitmap(bitmap);
                 initBtnPreview();
-            } else if (tag.equals("2")) {
-                bytesf = intent.getByteArrayExtra("bytes");
-                Bitmap bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
-                iv_previewf.setImageBitmap(bitmapf);
-                initBtnPreview();
             }
         }
     }
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private  void initBtnPreview(){
         btn_preview.setBackground(getResources().getDrawable(R.drawable.shape_preview_finish_bg));

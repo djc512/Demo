@@ -317,6 +317,8 @@
         <activity android:name=".ui.activity.approval.ApprovalActivity" />
         <!--发表评论界面-->
         <activity android:name=".ui.activity.Copy.CommentActivity" />
+        <!--评论列表界面-->
+        <activity android:name=".ui.activity.Copy.CommentListActivity" />
         <!-- 联系人模块 -->
         <!-- 添加联系人 -->
         <activity

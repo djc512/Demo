@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.FileFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.HuKouFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.IDFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.PassportFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.FileFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.HuKouFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.IDFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.PassportFragment;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
