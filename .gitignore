@@ -12,3 +12,4 @@
 /pickerViewLib/build
 /.idea/gradle.xml
 /.idea/modules.xml
+/lib-zxing/build/

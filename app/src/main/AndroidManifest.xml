@@ -331,6 +331,16 @@
             android:name=".ui.activity.contact.AddressBookActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <!--账号查询结果界面-->
+        <activity
+            android:name=".ui.activity.contact.SearchAddResultActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!--账号查询结果界面-->
+        <activity
+            android:name=".ui.activity.contact.AddVerificationActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
