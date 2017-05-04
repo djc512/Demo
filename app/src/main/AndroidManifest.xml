@@ -304,21 +304,45 @@
             android:exported="false"
             android:screenOrientation="behind" />
         <!-- 身份证矫正页面 -->
-        <activity android:name=".ui.activity.Copy.IDPreviewActivity" />
+        <activity
+            android:name=".ui.activity.Copy.IDPreviewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!-- 身份证拼接界面 -->
-        <activity android:name=".ui.activity.Copy.IDClipActivity" />
+        <activity
+            android:name=".ui.activity.Copy.IDClipActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!--户口拼接界面-->
-        <activity android:name=".ui.activity.Copy.HuKouClipActivity"></activity>
+        <activity
+            android:name=".ui.activity.Copy.HuKouClipActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
         <!-- 护照拼接界面 -->
-        <activity android:name=".ui.activity.Copy.PassportClipActivity" />
+        <activity
+            android:name=".ui.activity.Copy.PassportClipActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!-- 复印设置界面 -->
-        <activity android:name=".ui.activity.Copy.CopySettingActivity" />
+        <activity
+            android:name=".ui.activity.Copy.CopySettingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!--审批的界面-->
-        <activity android:name=".ui.activity.approval.ApprovalActivity" />
+        <activity
+            android:name=".ui.activity.approval.ApprovalActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!--发表评论界面-->
-        <activity android:name=".ui.activity.Copy.CommentActivity" />
+        <activity
+            android:name=".ui.activity.Copy.CommentActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!--评论列表界面-->
-        <activity android:name=".ui.activity.Copy.CommentListActivity" />
+        <activity
+            android:name=".ui.activity.Copy.CommentListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!-- 联系人模块 -->
         <!-- 添加联系人 -->
         <activity
