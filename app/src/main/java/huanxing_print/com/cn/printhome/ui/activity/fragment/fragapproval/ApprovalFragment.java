@@ -23,12 +23,14 @@ public class ApprovalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_approval, null);
         initView(view);
+
         return view;
     }
 
     private void initView(View view) {
         lv = (ListView) view.findViewById(R.id.lv_frag_approval);
     }
+
 
     @Override
     public void onResume() {

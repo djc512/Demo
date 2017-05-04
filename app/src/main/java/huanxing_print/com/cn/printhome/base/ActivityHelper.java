@@ -6,7 +6,7 @@ import android.app.Activity;
 import java.util.LinkedList;
 
 public class ActivityHelper {
-    
+
     private LinkedList<Activity> mActivityList = new LinkedList<Activity>();
 
     private static ActivityHelper mActivityHelper;
