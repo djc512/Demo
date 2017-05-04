@@ -19,20 +19,21 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.contact.PhoneContactInfo;
 import huanxing_print.com.cn.printhome.util.PinYinUtil;
+import huanxing_print.com.cn.printhome.util.StringFormatUtil;
 import huanxing_print.com.cn.printhome.util.contact.ContactComparator;
 
 /**
  * Created by wanghao on 2017/5/4.
  */
 
-public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AddressBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private LayoutInflater layoutInflater;
     private List<String> characterList; // 字母List
     private List<String> mContactList; // 联系人名称List（转换成拼音）
     private ArrayList<PhoneContactInfo> contactInfos = new ArrayList<PhoneContactInfo>();
 
-    public AddAddressBookAdapter(Context context, ArrayList<PhoneContactInfo> contacts) {
+    public AddressBookAdapter(Context context, ArrayList<PhoneContactInfo> contacts) {
         this.mContext = context;
         layoutInflater = LayoutInflater.from(mContext);
         updateData(contacts);
@@ -153,6 +154,24 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             tv_yjNum = (TextView) itemView.findViewById(R.id.tv_yjNum);
             btn_add = (Button) itemView.findViewById(R.id.btn_add);
             tv_friend_state = (TextView) itemView.findViewById(R.id.friend_state);
+            tv_friend_state.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(null != optionListener) {
+                        PhoneContactInfo info = contactInfos.get(mPosition);
+                        optionListener.invitation(info);
+                    }
+                }
+            });
+            btn_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(null != optionListener) {
+                        PhoneContactInfo info = contactInfos.get(mPosition);
+                        optionListener.addFriend(info);
+                    }
+                }
+            });
         }
 
         public void bind(int position) {
@@ -160,14 +179,20 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             PhoneContactInfo info = contactInfos.get(position);
             if (null != info) {
                 tv_phoneName.setText(info.getPhoneName());
-                tv_yjNum.setText(String.format("印家号:%s",info.getYjNum()));
+                tv_yjNum.setText(info.getPhoneNum());
                 if(info.getFriendState() == PhoneContactInfo.STATE.FRIEND.ordinal()) {
                     btn_add.setVisibility(View.GONE);
-                    tv_friend_state.setVisibility(View.VISIBLE);
-                    tv_friend_state.setText("已添加");
+                    tv_friend_state.setVisibility(View.GONE);
                 }else if(info.getFriendState() == PhoneContactInfo.STATE.NOTFRIEND.ordinal()){
                     btn_add.setVisibility(View.VISIBLE);
                     tv_friend_state.setVisibility(View.GONE);
+                }else if(info.getFriendState() == PhoneContactInfo.STATE.UNREGISTED.ordinal()) {
+                    btn_add.setVisibility(View.GONE);
+                    tv_friend_state.setVisibility(View.VISIBLE);
+                    String wholeStr = "还不是印家用户,立即邀请";
+                    StringFormatUtil spanStr = new StringFormatUtil(mContext, wholeStr,
+                            "立即邀请", R.color.stepline_red).fillColor();
+                    tv_friend_state.setText(spanStr.getResult());
                 }
             }
         }
@@ -184,4 +209,15 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         return -1; // -1不会滑动
     }
+
+    private OnOptionListener optionListener;
+    public interface OnOptionListener{
+        void invitation(PhoneContactInfo info);
+        void addFriend(PhoneContactInfo info);
+    }
+
+    public void setOnOptionListener(OnOptionListener listener) {
+        this.optionListener = listener;
+    }
+
 }

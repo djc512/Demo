@@ -39,6 +39,7 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.input_yinJia_number_space).setOnClickListener(this);
         findViewById(R.id.add_by_addressbook).setOnClickListener(this);
         findViewById(R.id.add_by_qr).setOnClickListener(this);
+        findViewById(R.id.my_qr).setOnClickListener(this);
     }
 
     @Override
@@ -54,6 +55,9 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
                 startActivity(AddByAddressBookActivity.class);
                 break;
             case R.id.add_by_qr:
+                break;
+            case R.id.my_qr:
+                startActivity(MyQRCodeActivity.class);
                 break;
         }
     }

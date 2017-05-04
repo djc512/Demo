@@ -101,7 +101,10 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onTouchingLetterListener(String letter) {
-
+        if(null != adapter) {
+            int position = adapter.getScrollPosition(letter);
+            layoutManager.scrollToPositionWithOffset(position, 0);
+        }
     }
 
     @Override
