@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.ApprovalFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.fragapproval.ApprovalFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ApprovalNoFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
