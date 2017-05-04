@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xlhRatingBar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray5"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout style="@style/Re_title">
+
+        <include layout="@layout/ll_title_back"></include>
+
+        <TextView
+            style="@style/title"
+            android:text="发表评论" />
+    </RelativeLayout>
+
+    <include layout="@layout/viewline" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="普田科技园" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="编号：012345"
+                    android:textColor="@color/gray8" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@drawable/shape_feedback_bg"
+                android:padding="15sp">
+
+                <EditText
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="感觉打印的怎么样?打印速度、打印质量、操作便捷性、价格合理性都还满意吗?说几句吧~"
+                    android:textColor="@color/gray8"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:text="0/200"
+                    android:textColor="#999999"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <include layout="@layout/viewline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="最多可上传9张"
+                    android:textColor="@color/gray8"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <include layout="@layout/viewline" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="总体评价" />
+
+                <com.example.xlhratingbar_lib.XLHRatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    xlhRatingBar:canEdit="true"
+                    xlhRatingBar:countSelected="2"
+                    xlhRatingBar:differentSize="false"
+                    xlhRatingBar:dividerWidth="5dp"
+                    xlhRatingBar:starCount="5"
+                    xlhRatingBar:stateResId="@drawable/comment_ratingbar_selector"
+                    xlhRatingBar:widthAndHeight="20dp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="服务评分" />
+
+                <include layout="@layout/viewline" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="打印速度" />
+
+                    <com.example.xlhratingbar_lib.XLHRatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        xlhRatingBar:canEdit="true"
+                        xlhRatingBar:countSelected="2"
+                        xlhRatingBar:differentSize="false"
+                        xlhRatingBar:dividerWidth="5dp"
+                        xlhRatingBar:starCount="5"
+                        xlhRatingBar:stateResId="@drawable/comment_ratingbar_selector"
+                        xlhRatingBar:widthAndHeight="20dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="图片质量" />
+
+                    <com.example.xlhratingbar_lib.XLHRatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        xlhRatingBar:canEdit="true"
+                        xlhRatingBar:countSelected="2"
+                        xlhRatingBar:differentSize="false"
+                        xlhRatingBar:dividerWidth="5dp"
+                        xlhRatingBar:starCount="5"
+                        xlhRatingBar:stateResId="@drawable/comment_ratingbar_selector"
+                        xlhRatingBar:widthAndHeight="20dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="操作便捷性" />
+
+                    <com.example.xlhratingbar_lib.XLHRatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        xlhRatingBar:canEdit="true"
+                        xlhRatingBar:countSelected="2"
+                        xlhRatingBar:differentSize="false"
+                        xlhRatingBar:dividerWidth="5dp"
+                        xlhRatingBar:starCount="5"
+                        xlhRatingBar:stateResId="@drawable/comment_ratingbar_selector"
+                        xlhRatingBar:widthAndHeight="20dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="价格合理性" />
+
+                    <com.example.xlhratingbar_lib.XLHRatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        xlhRatingBar:canEdit="true"
+                        xlhRatingBar:countSelected="2"
+                        xlhRatingBar:differentSize="false"
+                        xlhRatingBar:dividerWidth="5dp"
+                        xlhRatingBar:starCount="5"
+                        xlhRatingBar:stateResId="@drawable/comment_ratingbar_selector"
+                        xlhRatingBar:widthAndHeight="20dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/iv_comment"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/check_2x" />
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/iv_comment"
+                    android:background="@null"
+                    android:padding="10dp"
+                    android:hint="匿名评价" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@color/yellow"
+                    android:padding="10dp"
+                    android:text="发表评价" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
