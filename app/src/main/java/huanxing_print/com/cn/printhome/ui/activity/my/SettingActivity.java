@@ -99,7 +99,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(new Intent(getSelfActivity(), XieYiActivity.class));
                 break;
             case R.id.rl_set_version://版本更新
-                //startActivity(new Intent(getSelfActivity(), XieYiActivity.class));
+                //startActivity(new Intent(getSelfActivity(), OperatingInstructionsActivity.class));
                if (baseApplication.isNewApp()){
                    toast("当前版本为最新版本");
                }else{

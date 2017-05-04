@@ -354,5 +354,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
     </application>
-
+    <!--操作说明-->
+    <activity
+        android:name=".ui.activity.print.OperatingInstructionsActivity"
+        android:screenOrientation="portrait" />
 </manifest>

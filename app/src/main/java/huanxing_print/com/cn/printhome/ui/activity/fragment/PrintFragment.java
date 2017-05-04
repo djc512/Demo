@@ -19,6 +19,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.ui.activity.Copy.CopyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.OperatingInstructionsActivity;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 
@@ -123,7 +124,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener{
 			startActivity(new Intent(getActivity(), AddFileActivity.class));
 			 break;
 		case R.id.tv_instructions:
-			//startActivity(new Intent(getActivity(), PersonInfoActivity.class));
+			startActivity(new Intent(getActivity(), OperatingInstructionsActivity.class));
 			 break;
 		default:
 			break;
