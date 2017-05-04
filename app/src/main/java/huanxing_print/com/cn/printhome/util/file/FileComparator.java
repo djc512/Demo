@@ -3,6 +3,8 @@ package huanxing_print.com.cn.printhome.util.file;
 import java.io.File;
 import java.util.Comparator;
 
+import huanxing_print.com.cn.printhome.util.FileType;
+
 /**
  * Created by LGH on 2017/5/2.
  */
@@ -49,8 +51,25 @@ public class FileComparator implements Comparator<File> {
                     }
                 }
             case MODE_TYPE:
-                ;
-
+                if (pFile1.isDirectory() && pFile2.isDirectory()) {
+                    return pFile1.getName().compareToIgnoreCase(pFile2.getName());
+                } else {
+                    if (pFile1.isDirectory() && pFile2.isFile()) {
+                        return -1;
+                    } else if (pFile1.isFile() && pFile2.isDirectory()) {
+                        return 1;
+                    } else {
+                        if (!FileType.isPrintType(pFile1.getPath()) && !FileType.isPrintType(pFile2.getPath())) {
+                            return pFile1.getName().compareToIgnoreCase(pFile2.getName());
+                        } else if (FileType.isPrintType(pFile1.getPath()) && !FileType.isPrintType(pFile2.getPath())) {
+                            return -1;
+                        } else if (!FileType.isPrintType(pFile1.getPath()) && FileType.isPrintType(pFile2.getPath())) {
+                            return 1;
+                        }
+                        return FileType.getType(pFile1.getPath()).compareToIgnoreCase(FileType.getType(pFile2.getPath
+                                ()));
+                    }
+                }
         }
         return -1;
     }

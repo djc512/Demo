@@ -6,8 +6,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -17,11 +19,10 @@ import huanxing_print.com.cn.printhome.util.StatusBarUtil;
  * Created by LGH on 2017/3/21.
  */
 
-public abstract class BasePrintActivity extends AppCompatActivity {
+public abstract class BasePrintActivity extends AppCompatActivity implements View.OnClickListener{
 
     public Context context;
     public Activity activity;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,6 @@ public abstract class BasePrintActivity extends AppCompatActivity {
         context = this;
         activity = this;
         initStatusBar();
-//        setStatusBarColor();
         CommonUtils.initSystemBar(this);
     }
 
@@ -46,5 +46,21 @@ public abstract class BasePrintActivity extends AppCompatActivity {
 
     protected void setStatusBarColor() {
         StatusBarUtil.setColor(activity, ContextCompat.getColor(context, R.color.green));
+    }
+
+    protected void initTitleBar(String title) {
+        TextView titleTv = (TextView) findViewById(R.id.titleTv);
+        titleTv.setText(title);
+        findViewById(R.id.backImg).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.backImg:
+                finish();
+                break;
+        }
     }
 }

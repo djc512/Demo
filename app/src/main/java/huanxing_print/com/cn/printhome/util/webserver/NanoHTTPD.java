@@ -192,7 +192,8 @@ public abstract class NanoHTTPD extends IntentService {
             try {
                 outputStream = this.acceptSocket.getOutputStream();
                 TempFileManager tempFileManager = NanoHTTPD.this.tempFileManagerFactory.create();
-                HTTPSession session = new HTTPSession(tempFileManager, this.inputStream, outputStream, this.acceptSocket.getInetAddress());
+                HTTPSession session = new HTTPSession(tempFileManager, this.inputStream, outputStream, this
+                        .acceptSocket.getInetAddress());
                 while (!this.acceptSocket.isClosed()) {
                     session.execute();
                 }
@@ -204,8 +205,10 @@ public abstract class NanoHTTPD extends IntentService {
                 // than the expected SocketException OR a
                 // SocketTimeoutException, print the
                 // stacktrace
-                if (!(e instanceof SocketException && "NanoHttpd Shutdown".equals(e.getMessage())) && !(e instanceof SocketTimeoutException)) {
-                    NanoHTTPD.LOG.log(Level.SEVERE, "Communication with the client broken, or an bug in the handler code", e);
+                if (!(e instanceof SocketException && "NanoHttpd Shutdown".equals(e.getMessage())) && !(e instanceof
+                        SocketTimeoutException)) {
+                    NanoHTTPD.LOG.log(Level.SEVERE, "Communication with the client broken, or an bug in the handler " +
+                            "code", e);
                 }
             } finally {
                 safeClose(outputStream);
@@ -280,8 +283,7 @@ public abstract class NanoHTTPD extends IntentService {
          * Set a cookie with an expiration date from a month ago, effectively
          * deleting it on the client side.
          *
-         * @param name
-         *            The cookie name.
+         * @param name The cookie name.
          */
         public void delete(String name) {
             set(name, "-delete-", -30);
@@ -295,8 +297,7 @@ public abstract class NanoHTTPD extends IntentService {
         /**
          * Read a cookie from the HTTP Headers.
          *
-         * @param name
-         *            The cookie's name.
+         * @param name The cookie's name.
          * @return The cookie's value if it exists, null otherwise.
          */
         public String read(String name) {
@@ -310,12 +311,9 @@ public abstract class NanoHTTPD extends IntentService {
         /**
          * Sets a cookie.
          *
-         * @param name
-         *            The cookie's name.
-         * @param value
-         *            The cookie's value.
-         * @param expires
-         *            How many days until the cookie expires.
+         * @param name    The cookie's name.
+         * @param value   The cookie's value.
+         * @param expires How many days until the cookie expires.
          */
         public void set(String name, String value, int expires) {
             this.queue.add(new Cookie(name, value, Cookie.getHTTPTime(expires)));
@@ -325,9 +323,8 @@ public abstract class NanoHTTPD extends IntentService {
          * Internally used by the webserver to add all queued cookies into the
          * Response's HTTP Headers.
          *
-         * @param response
-         *            The Response object to which headers the queued cookies
-         *            will be added.
+         * @param response The Response object to which headers the queued cookies
+         *                 will be added.
          */
         public void unloadQueue(Response response) {
             for (Cookie cookie : this.queue) {
@@ -349,7 +346,8 @@ public abstract class NanoHTTPD extends IntentService {
 
         private long requestCount;
 
-        private final List<ClientHandler> running = Collections.synchronizedList(new ArrayList<NanoHTTPD.ClientHandler>());
+        private final List<ClientHandler> running = Collections.synchronizedList(new ArrayList<NanoHTTPD
+                .ClientHandler>());
 
         /**
          * @return a list with currently running clients.
@@ -532,15 +530,18 @@ public abstract class NanoHTTPD extends IntentService {
 
     private static final String CONTENT_DISPOSITION_REGEX = "([ |\t]*Content-Disposition[ |\t]*:)(.*)";
 
-    private static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile(CONTENT_DISPOSITION_REGEX, Pattern.CASE_INSENSITIVE);
+    private static final Pattern CONTENT_DISPOSITION_PATTERN = Pattern.compile(CONTENT_DISPOSITION_REGEX, Pattern
+            .CASE_INSENSITIVE);
 
     private static final String CONTENT_TYPE_REGEX = "([ |\t]*content-type[ |\t]*:)(.*)";
 
     private static final Pattern CONTENT_TYPE_PATTERN = Pattern.compile(CONTENT_TYPE_REGEX, Pattern.CASE_INSENSITIVE);
 
-    private static final String CONTENT_DISPOSITION_ATTRIBUTE_REGEX = "[ |\t]*([a-zA-Z]*)[ |\t]*=[ |\t]*['|\"]([^\"^']*)['|\"]";
+    private static final String CONTENT_DISPOSITION_ATTRIBUTE_REGEX = "[ |\t]*([a-zA-Z]*)[ |\t]*=[ |\t]*['|\"]" +
+            "([^\"^']*)['|\"]";
 
-    private static final Pattern CONTENT_DISPOSITION_ATTRIBUTE_PATTERN = Pattern.compile(CONTENT_DISPOSITION_ATTRIBUTE_REGEX);
+    private static final Pattern CONTENT_DISPOSITION_ATTRIBUTE_PATTERN = Pattern.compile
+            (CONTENT_DISPOSITION_ATTRIBUTE_REGEX);
 
     protected class HTTPSession implements IHTTPSession {
 
@@ -586,19 +587,23 @@ public abstract class NanoHTTPD extends IntentService {
             this.outputStream = outputStream;
         }
 
-        public HTTPSession(TempFileManager tempFileManager, InputStream inputStream, OutputStream outputStream, InetAddress inetAddress) {
+        public HTTPSession(TempFileManager tempFileManager, InputStream inputStream, OutputStream outputStream,
+                           InetAddress inetAddress) {
             this.tempFileManager = tempFileManager;
             this.inputStream = new BufferedInputStream(inputStream, HTTPSession.BUFSIZE);
             this.outputStream = outputStream;
-            this.remoteIp = inetAddress.isLoopbackAddress() || inetAddress.isAnyLocalAddress() ? "127.0.0.1" : inetAddress.getHostAddress().toString();
-            this.remoteHostname = inetAddress.isLoopbackAddress() || inetAddress.isAnyLocalAddress() ? "localhost" : inetAddress.getHostName().toString();
+            this.remoteIp = inetAddress.isLoopbackAddress() || inetAddress.isAnyLocalAddress() ? "127.0.0.1" :
+                    inetAddress.getHostAddress().toString();
+            this.remoteHostname = inetAddress.isLoopbackAddress() || inetAddress.isAnyLocalAddress() ? "localhost" :
+                    inetAddress.getHostName().toString();
             this.headers = new HashMap<String, String>();
         }
 
         /**
          * Decodes the sent headers and loads the data into Key/value pairs
          */
-        private void decodeHeader(BufferedReader in, Map<String, String> pre, Map<String, String> parms, Map<String, String> headers) throws ResponseException {
+        private void decodeHeader(BufferedReader in, Map<String, String> pre, Map<String, String> parms, Map<String,
+                String> headers) throws ResponseException {
             try {
                 // Read the request line
                 String inLine = in.readLine();
@@ -608,13 +613,15 @@ public abstract class NanoHTTPD extends IntentService {
 
                 StringTokenizer st = new StringTokenizer(inLine);
                 if (!st.hasMoreTokens()) {
-                    throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html");
+                    throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Syntax error. Usage: GET " +
+                            "/example/file.html");
                 }
 
                 pre.put("method", st.nextToken());
 
                 if (!st.hasMoreTokens()) {
-                    throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Missing URI. Usage: GET /example/file.html");
+                    throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Missing URI. Usage: GET " +
+                            "/example/file.html");
                 }
 
                 String uri = st.nextToken();
@@ -649,14 +656,16 @@ public abstract class NanoHTTPD extends IntentService {
 
                 pre.put("uri", uri);
             } catch (IOException ioe) {
-                throw new ResponseException(Response.Status.INTERNAL_ERROR, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage(), ioe);
+                throw new ResponseException(Response.Status.INTERNAL_ERROR, "SERVER INTERNAL ERROR: IOException: " +
+                        ioe.getMessage(), ioe);
             }
         }
 
         /**
          * Decodes the Multipart Body data and put it into Key/Value pairs.
          */
-        private void decodeMultipartFormData(String boundary, String encoding, ByteBuffer fbuf, Map<String, String> parms, Map<String, String> files) throws ResponseException {
+        private void decodeMultipartFormData(String boundary, String encoding, ByteBuffer fbuf, Map<String, String>
+                parms, Map<String, String> files) throws ResponseException {
             Log.d(TAG, "decodeMultipartFormData Executed");
             try {
                 int[] boundary_idxs = getBoundaryPositions(fbuf, boundary.getBytes());
@@ -665,7 +674,8 @@ public abstract class NanoHTTPD extends IntentService {
 //                    Log.d(TAG, "boundary_idxs:" + boundary_idxs[i]); // 2, 119, 226, 117902
 //                }
                 if (boundary_idxs.length < 2) {
-                    throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Content type is multipart/form-data but contains less than two boundary strings.");
+                    throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Content type is " +
+                            "multipart/form-data but contains less than two boundary strings.");
                 }
 
                 byte[] part_header_buff = new byte[MAX_HEADER_SIZE];
@@ -673,14 +683,16 @@ public abstract class NanoHTTPD extends IntentService {
                     fbuf.position(boundary_idxs[bi]);
                     int len = (fbuf.remaining() < MAX_HEADER_SIZE) ? fbuf.remaining() : MAX_HEADER_SIZE;
                     fbuf.get(part_header_buff, 0, len);
-                    BufferedReader in = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(part_header_buff, 0, len), Charset.forName(encoding)), len);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(new ByteArrayInputStream
+                            (part_header_buff, 0, len), Charset.forName(encoding)), len);
 
                     int headerLines = 0;
                     // First line is boundary string
                     String mpline = in.readLine();
                     headerLines++;
                     if (mpline == null || !mpline.contains(boundary)) {
-                        throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Content type is multipart/form-data but chunk does not start with boundary.");
+                        throw new ResponseException(Response.Status.BAD_REQUEST, "BAD REQUEST: Content type is " +
+                                "multipart/form-data but chunk does not start with boundary.");
                     }
 
                     String part_name = null, file_name = null, content_type = null;
@@ -714,7 +726,8 @@ public abstract class NanoHTTPD extends IntentService {
                     }
                     // Read the part data
                     if (part_header_len >= len - 4) {
-                        throw new ResponseException(Response.Status.INTERNAL_ERROR, "Multipart header size exceeds MAX_HEADER_SIZE.");
+                        throw new ResponseException(Response.Status.INTERNAL_ERROR, "Multipart header size exceeds " +
+                                "MAX_HEADER_SIZE.");
                     }
                     int part_data_start = boundary_idxs[bi] + part_header_len;
                     int part_data_end = boundary_idxs[bi + 1] - 4;
@@ -761,11 +774,11 @@ public abstract class NanoHTTPD extends IntentService {
          * simplicity of Map.
          */
         private void decodeParms(String parms, Map<String, String> p) {
+            Log.i("decodeParms", parms);
             if (parms == null) {
                 this.queryParameterString = "";
                 return;
             }
-
             this.queryParameterString = parms;
             StringTokenizer st = new StringTokenizer(parms, "&");
             while (st.hasMoreTokens()) {
@@ -831,7 +844,8 @@ public abstract class NanoHTTPD extends IntentService {
                 }
 
                 // Create a BufferedReader for parsing the header.
-                BufferedReader hin = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(buf, 0, this.rlen)));
+                BufferedReader hin = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(buf, 0, this
+                        .rlen)));
 
                 // Decode the header into parms and header java properties
                 Map<String, String> pre = new HashMap<String, String>();
@@ -852,7 +866,8 @@ public abstract class NanoHTTPD extends IntentService {
                 this.cookies = new CookieHandler(this.headers);
 
                 String connection = this.headers.get("connection");
-                boolean keepAlive = "HTTP/1.1".equals(protocolVersion) && (connection == null || !connection.matches("(?i).*close.*"));
+                boolean keepAlive = "HTTP/1.1".equals(protocolVersion) && (connection == null || !connection.matches
+                        ("(?i).*close.*"));
 
                 // Ok, now do the serve()
 
@@ -864,12 +879,14 @@ public abstract class NanoHTTPD extends IntentService {
                 // (this.inputStream.totalRead() - pos_before_serve))
 
                 if (r == null) {
-                    throw new ResponseException(Response.Status.INTERNAL_ERROR, "SERVER INTERNAL ERROR: Serve() returned a null response.");
+                    throw new ResponseException(Response.Status.INTERNAL_ERROR, "SERVER INTERNAL ERROR: Serve() " +
+                            "returned a null response.");
                 } else {
                     String acceptEncoding = this.headers.get("accept-encoding");
                     this.cookies.unloadQueue(r);
                     r.setRequestMethod(this.method);
-                    r.setGzipEncoding(useGzipWhenAccepted(r) && acceptEncoding != null && acceptEncoding.contains("gzip"));
+                    r.setGzipEncoding(useGzipWhenAccepted(r) && acceptEncoding != null && acceptEncoding.contains
+                            ("gzip"));
                     r.setKeepAlive(keepAlive);
                     r.send(this.outputStream);
                 }
@@ -885,11 +902,13 @@ public abstract class NanoHTTPD extends IntentService {
                 // exception up the call stack.
                 throw ste;
             } catch (SSLException ssle) {
-                Response resp = newFixedLengthResponse(Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, "SSL PROTOCOL FAILURE: " + ssle.getMessage());
+                Response resp = newFixedLengthResponse(Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, "SSL" +
+                        " PROTOCOL FAILURE: " + ssle.getMessage());
                 resp.send(this.outputStream);
                 safeClose(this.outputStream);
             } catch (IOException ioe) {
-                Response resp = newFixedLengthResponse(Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());
+                Response resp = newFixedLengthResponse(Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT,
+                        "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());
                 resp.send(this.outputStream);
                 safeClose(this.outputStream);
             } catch (ResponseException re) {
@@ -911,7 +930,8 @@ public abstract class NanoHTTPD extends IntentService {
             while (splitbyte + 1 < rlen) {
 
                 // RFC2616
-                if (buf[splitbyte] == '\r' && buf[splitbyte + 1] == '\n' && splitbyte + 3 < rlen && buf[splitbyte + 2] == '\r' && buf[splitbyte + 3] == '\n') {
+                if (buf[splitbyte] == '\r' && buf[splitbyte + 1] == '\n' && splitbyte + 3 < rlen && buf[splitbyte +
+                        2] == '\r' && buf[splitbyte + 3] == '\n') {
                     return splitbyte + 4;
                 }
 
@@ -960,7 +980,8 @@ public abstract class NanoHTTPD extends IntentService {
                 search_window_pos += new_bytes;
 
                 // Copy the end of the buffer to the start
-                System.arraycopy(search_window, search_window.length - boundary.length, search_window, 0, boundary.length);
+                System.arraycopy(search_window, search_window.length - boundary.length, search_window, 0, boundary
+                        .length);
 
                 // Refill search_window
                 new_bytes = search_window.length - boundary.length;
@@ -1059,7 +1080,8 @@ public abstract class NanoHTTPD extends IntentService {
                     fbuf = ByteBuffer.wrap(baos.toByteArray(), 0, baos.size());
                     Log.d(TAG, "fbuf1 -- baos != null");
                 } else {
-                    fbuf = randomAccessFile.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, randomAccessFile.length());
+                    fbuf = randomAccessFile.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, randomAccessFile
+                            .length());
                     randomAccessFile.seek(0);
                     Log.d(TAG, "fbuf2 -- baos == null"); // executed
                 }
@@ -1078,9 +1100,11 @@ public abstract class NanoHTTPD extends IntentService {
                         String boundary = getDetailFromContentHeader(contentTypeHeader, BOUNDARY_PATTERN, null, 2);
                         if (boundary == null) {
                             throw new ResponseException(Response.Status.BAD_REQUEST,
-                                    "BAD REQUEST: Content type is multipart/form-data but boundary missing. Usage: GET /example/file.html");
+                                    "BAD REQUEST: Content type is multipart/form-data but boundary missing. Usage: " +
+                                            "GET /example/file.html");
                         }
-                        Log.d(TAG, "boundary:" + boundary + " this.parms:" + this.parms + " files:" + files);  // boundary + {} + {}
+                        Log.d(TAG, "boundary:" + boundary + " this.parms:" + this.parms + " files:" + files);  //
+                        // boundary + {} + {}
                         decodeMultipartFormData(boundary, encoding, fbuf, this.parms, files);
                     } else {
                         byte[] postBytes = new byte[fbuf.remaining()];
@@ -1105,7 +1129,8 @@ public abstract class NanoHTTPD extends IntentService {
             }
         }
 
-        private String getDetailFromContentHeader(String contentTypeHeader, Pattern pattern, String defaultValue, int group) {
+        private String getDetailFromContentHeader(String contentTypeHeader, Pattern pattern, String defaultValue, int
+                group) {
             Matcher matcher = pattern.matcher(contentTypeHeader);
             return matcher.find() ? matcher.group(group) : defaultValue;
         }
@@ -1174,8 +1199,7 @@ public abstract class NanoHTTPD extends IntentService {
         /**
          * Adds the files in the request body to the files map.
          *
-         * @param files
-         *            map to modify
+         * @param files map to modify
          */
         void parseBody(Map<String, String> files) throws IOException, ResponseException;
 
@@ -1342,7 +1366,9 @@ public abstract class NanoHTTPD extends IntentService {
             public String put(String key, String value) {
                 lowerCaseHeader.put(key == null ? key : key.toLowerCase(), value);
                 return super.put(key, value);
-            };
+            }
+
+            ;
         };
 
         /**
@@ -1398,9 +1424,8 @@ public abstract class NanoHTTPD extends IntentService {
         /**
          * Indicate to close the connection after the Response has been sent.
          *
-         * @param close
-         *            {@code true} to hint connection closing, {@code false} to
-         *            let connection be closed by client.
+         * @param close {@code true} to hint connection closing, {@code false} to
+         *              let connection be closed by client.
          */
         public void closeConnection(boolean close) {
             if (close)
@@ -1411,7 +1436,7 @@ public abstract class NanoHTTPD extends IntentService {
 
         /**
          * @return {@code true} if connection is to be closed after this
-         *         Response has been sent.
+         * Response has been sent.
          */
         public boolean isCloseConnection() {
             return "close".equals(getHeader("connection"));
@@ -1456,7 +1481,8 @@ public abstract class NanoHTTPD extends IntentService {
                 if (this.status == null) {
                     throw new Error("sendResponse(): Status can't be null.");
                 }
-                PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8")), false);
+                PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8")),
+                        false);
                 pw.append("HTTP/1.1 ").append(this.status.getDescription()).append(" \r\n");
                 if (this.mimeType != null) {
                     printHeader(pw, "Content-Type", this.mimeType);
@@ -1511,7 +1537,8 @@ public abstract class NanoHTTPD extends IntentService {
             return size;
         }
 
-        private void sendBodyWithCorrectTransferAndEncoding(OutputStream outputStream, long pending) throws IOException {
+        private void sendBodyWithCorrectTransferAndEncoding(OutputStream outputStream, long pending) throws
+                IOException {
             if (this.requestMethod != Method.HEAD && this.chunkedTransfer) {
                 ChunkedOutputStream chunkedOutputStream = new ChunkedOutputStream(outputStream);
                 sendBodyWithCorrectEncoding(chunkedOutputStream, -1);
@@ -1536,13 +1563,10 @@ public abstract class NanoHTTPD extends IntentService {
          * limits the maximum amounts of bytes sent unless it is -1, in which
          * case everything is sent.
          *
-         * @param outputStream
-         *            the OutputStream to send data to
-         * @param pending
-         *            -1 to send everything, otherwise sets a max limit to the
-         *            number of bytes sent
-         * @throws IOException
-         *             if something goes wrong while sending the data.
+         * @param outputStream the OutputStream to send data to
+         * @param pending      -1 to send everything, otherwise sets a max limit to the
+         *                     number of bytes sent
+         * @throws IOException if something goes wrong while sending the data.
          */
         private void sendBody(OutputStream outputStream, long pending) throws IOException {
             long BUFFER_SIZE = 16 * 1024;
@@ -1621,7 +1645,8 @@ public abstract class NanoHTTPD extends IntentService {
         @Override
         public void run() {
             try {
-                myServerSocket.bind(hostname != null ? new InetSocketAddress(hostname, myPort) : new InetSocketAddress(myPort));
+                myServerSocket.bind(hostname != null ? new InetSocketAddress(hostname, myPort) : new
+                        InetSocketAddress(myPort));
                 hasBinded = true;
             } catch (IOException e) {
                 this.bindException = e;
@@ -1786,17 +1811,21 @@ public abstract class NanoHTTPD extends IntentService {
         } catch (IOException e) {
             LOG.log(Level.INFO, "no mime types available at " + resourceName);
         }
-    };
+    }
+
+    ;
 
     /**
      * Creates an SSLSocketFactory for HTTPS. Pass a loaded KeyStore and an
      * array of loaded KeyManagers. These objects must properly
      * loaded/initialized by the caller.
      */
-    public static SSLServerSocketFactory makeSSLSocketFactory(KeyStore loadedKeyStore, KeyManager[] keyManagers) throws IOException {
+    public static SSLServerSocketFactory makeSSLSocketFactory(KeyStore loadedKeyStore, KeyManager[] keyManagers)
+            throws IOException {
         SSLServerSocketFactory res = null;
         try {
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory
+                    .getDefaultAlgorithm());
             trustManagerFactory.init(loadedKeyStore);
             SSLContext ctx = SSLContext.getInstance("TLS");
             ctx.init(keyManagers, trustManagerFactory.getTrustManagers(), null);
@@ -1812,7 +1841,8 @@ public abstract class NanoHTTPD extends IntentService {
      * loaded KeyManagerFactory. These objects must properly loaded/initialized
      * by the caller.
      */
-    public static SSLServerSocketFactory makeSSLSocketFactory(KeyStore loadedKeyStore, KeyManagerFactory loadedKeyFactory) throws IOException {
+    public static SSLServerSocketFactory makeSSLSocketFactory(KeyStore loadedKeyStore, KeyManagerFactory
+            loadedKeyFactory) throws IOException {
         try {
             return makeSSLSocketFactory(loadedKeyStore, loadedKeyFactory.getKeyManagers());
         } catch (Exception e) {
@@ -1824,7 +1854,8 @@ public abstract class NanoHTTPD extends IntentService {
      * Creates an SSLSocketFactory for HTTPS. Pass a KeyStore resource with your
      * certificate and passphrase
      */
-    public static SSLServerSocketFactory makeSSLSocketFactory(String keyAndTrustStoreClasspathPath, char[] passphrase) throws IOException {
+    public static SSLServerSocketFactory makeSSLSocketFactory(String keyAndTrustStoreClasspathPath, char[]
+            passphrase) throws IOException {
         try {
             KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
             InputStream keystoreStream = NanoHTTPD.class.getResourceAsStream(keyAndTrustStoreClasspathPath);
@@ -1834,7 +1865,8 @@ public abstract class NanoHTTPD extends IntentService {
             }
 
             keystore.load(keystoreStream, passphrase);
-            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm
+                    ());
             keyManagerFactory.init(keystore, passphrase);
             return makeSSLSocketFactory(keystore, keyManagerFactory);
         } catch (Exception e) {
@@ -1845,8 +1877,7 @@ public abstract class NanoHTTPD extends IntentService {
     /**
      * Get MIME type from file name extension, if possible
      *
-     * @param uri
-     *            the string representing a file
+     * @param uri the string representing a file
      * @return the connected mime/type
      */
     public static String getMimeTypeForFile(String uri) {
@@ -1917,10 +1948,8 @@ public abstract class NanoHTTPD extends IntentService {
      * create a instance of the client handler, subclasses can return a subclass
      * of the ClientHandler.
      *
-     * @param finalAccept
-     *            the socket the cleint is connected to
-     * @param inputStream
-     *            the input stream
+     * @param finalAccept the socket the cleint is connected to
+     * @param inputStream the input stream
      * @return the client handler
      */
     protected ClientHandler createClientHandler(final Socket finalAccept, final InputStream inputStream) {
@@ -1931,8 +1960,7 @@ public abstract class NanoHTTPD extends IntentService {
      * Instantiate the server runnable, can be overwritten by subclasses to
      * provide a subclass of the ServerRunnable.
      *
-     * @param timeout
-     *            the socet timeout to use.
+     * @param timeout the socet timeout to use.
      * @return the server runnable.
      */
     protected ServerRunnable createServerRunnable(final int timeout) {
@@ -1944,11 +1972,10 @@ public abstract class NanoHTTPD extends IntentService {
      * name might have been supplied several times, by return lists of values.
      * In general these lists will contain a single element.
      *
-     * @param parms
-     *            original <b>NanoHTTPD</b> parameters values, as passed to the
-     *            <code>serve()</code> method.
+     * @param parms original <b>NanoHTTPD</b> parameters values, as passed to the
+     *              <code>serve()</code> method.
      * @return a map of <code>String</code> (parameter name) to
-     *         <code>List&lt;String&gt;</code> (a list of the values supplied).
+     * <code>List&lt;String&gt;</code> (a list of the values supplied).
      */
     protected static Map<String, List<String>> decodeParameters(Map<String, String> parms) {
         return decodeParameters(parms.get(NanoHTTPD.QUERY_STRING_PARAMETER));
@@ -1962,10 +1989,9 @@ public abstract class NanoHTTPD extends IntentService {
      * name might have been supplied several times, by return lists of values.
      * In general these lists will contain a single element.
      *
-     * @param queryString
-     *            a query string pulled from the URL.
+     * @param queryString a query string pulled from the URL.
      * @return a map of <code>String</code> (parameter name) to
-     *         <code>List&lt;String&gt;</code> (a list of the values supplied).
+     * <code>List&lt;String&gt;</code> (a list of the values supplied).
      */
     protected static Map<String, List<String>> decodeParameters(String queryString) {
         Map<String, List<String>> parms = new HashMap<String, List<String>>();
@@ -1990,10 +2016,9 @@ public abstract class NanoHTTPD extends IntentService {
     /**
      * Decode percent encoded <code>String</code> values.
      *
-     * @param str
-     *            the percent encoded <code>String</code>
+     * @param str the percent encoded <code>String</code>
      * @return expanded form of the input, for example "foo%20bar" becomes
-     *         "foo bar"
+     * "foo bar"
      */
     protected static String decodePercent(String str) {
         String decoded = null;
@@ -2007,8 +2032,8 @@ public abstract class NanoHTTPD extends IntentService {
 
     /**
      * @return true if the gzip compression should be used if the client
-     *         accespts it. Default this option is on for text content and off
-     *         for everything. Override this for custom semantics.
+     * accespts it. Default this option is on for text content and off
+     * for everything. Override this for custom semantics.
      */
     protected boolean useGzipWhenAccepted(Response r) {
         return r.getMimeType() != null && r.getMimeType().toLowerCase().contains("text/");
@@ -2086,8 +2111,7 @@ public abstract class NanoHTTPD extends IntentService {
      * <p/>
      * (By default, this returns a 404 "Not Found" plain text error response.)
      *
-     * @param session
-     *            The HTTP session
+     * @param session The HTTP session
      * @return HTTP response, see class Response for details
      */
     public Response serve(IHTTPSession session) {
@@ -2097,7 +2121,8 @@ public abstract class NanoHTTPD extends IntentService {
             try {
                 session.parseBody(files);
             } catch (IOException ioe) {
-                return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());
+                return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, NanoHTTPD.MIME_PLAINTEXT, "SERVER " +
+                        "INTERNAL ERROR: IOException: " + ioe.getMessage());
             } catch (ResponseException re) {
                 return newFixedLengthResponse(re.getStatus(), NanoHTTPD.MIME_PLAINTEXT, re.getMessage());
             }
@@ -2114,28 +2139,24 @@ public abstract class NanoHTTPD extends IntentService {
      * <p/>
      * (By default, this returns a 404 "Not Found" plain text error response.)
      *
-     * @param uri
-     *            Percent-decoded URI without parameters, for example
-     *            "/index.cgi"
-     * @param method
-     *            "GET", "POST" etc.
-     * @param parms
-     *            Parsed, percent decoded parameters from URI and, in case of
-     *            POST, data.
-     * @param headers
-     *            Header entries, percent decoded
+     * @param uri     Percent-decoded URI without parameters, for example
+     *                "/index.cgi"
+     * @param method  "GET", "POST" etc.
+     * @param parms   Parsed, percent decoded parameters from URI and, in case of
+     *                POST, data.
+     * @param headers Header entries, percent decoded
      * @return HTTP response, see class Response for details
      */
     @Deprecated
-    public Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> parms, Map<String, String> files) {
+    public Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> parms,
+                          Map<String, String> files) {
         return newFixedLengthResponse(Response.Status.NOT_FOUND, NanoHTTPD.MIME_PLAINTEXT, "Not Found");
     }
 
     /**
      * Pluggable strategy for asynchronously executing requests.
      *
-     * @param asyncRunner
-     *            new strategy for handling threads.
+     * @param asyncRunner new strategy for handling threads.
      */
     public void setAsyncRunner(AsyncRunner asyncRunner) {
         this.asyncRunner = asyncRunner;
@@ -2144,8 +2165,7 @@ public abstract class NanoHTTPD extends IntentService {
     /**
      * Pluggable strategy for creating and cleaning up temporary files.
      *
-     * @param tempFileManagerFactory
-     *            new strategy for handling temp files.
+     * @param tempFileManagerFactory new strategy for handling temp files.
      */
     public void setTempFileManagerFactory(TempFileManagerFactory tempFileManagerFactory) {
         this.tempFileManagerFactory = tempFileManagerFactory;
@@ -2154,8 +2174,7 @@ public abstract class NanoHTTPD extends IntentService {
     /**
      * Start the server.
      *
-     * @throws IOException
-     *             if the socket is in use.
+     * @throws IOException if the socket is in use.
      */
     public void start() throws IOException, InterruptedException {
         start(NanoHTTPD.SOCKET_READ_TIMEOUT);
@@ -2171,20 +2190,21 @@ public abstract class NanoHTTPD extends IntentService {
     /**
      * Start the server.
      *
-     * @param timeout
-     *            timeout to use for socket connections.
-     * @param daemon
-     *            start the thread daemon or not.
-     * @throws IOException
-     *             if the socket is in use.
+     * @param timeout timeout to use for socket connections.
+     * @param daemon  start the thread daemon or not.
+     * @throws IOException if the socket is in use.
      */
     public void start(final int timeout, boolean daemon) throws IOException, InterruptedException {
-        if (this.myServerSocket != null) { this.myServerSocket.close(); }
+        if (this.myServerSocket != null) {
+            this.myServerSocket.close();
+        }
         this.myServerSocket = this.getServerSocketFactory().create();
         this.myServerSocket.setReuseAddress(true);
 
         ServerRunnable serverRunnable = createServerRunnable(timeout);
-        if (this.myThread != null) { this.myThread.join(); }
+        if (this.myThread != null) {
+            this.myThread.join();
+        }
         this.myThread = new Thread(serverRunnable);
         this.myThread.setDaemon(daemon);
         this.myThread.setName("NanoHttpd Main Listener");

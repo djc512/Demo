@@ -52,7 +52,6 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private Button qqBtn;
     private Button wechatBtn;
     private Button pcBtn;
-    private StepLineView stepView;
     private ViewPager viewpager;
     private TabLayout tabs;
     private AllFileFragment allFileFragment;
@@ -72,8 +71,13 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     }
 
     private void initView1() {
-        titleTv = (TextView) findViewById(R.id.titleTv);
-        titleTv.setText("选取文件");
+        initTitleBar("选取文件");
+        findViewById(R.id.stepView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, PickPrinterActivity.class));
+            }
+        });
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         tabs = (TabLayout) findViewById(R.id.tabs);
         List<String> titles = new ArrayList<>();
@@ -158,6 +162,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()) {
             case R.id.imageBtn:
                 if (isPermissionsGranted()) {

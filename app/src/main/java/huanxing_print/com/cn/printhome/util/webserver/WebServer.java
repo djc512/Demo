@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 
 public class WebServer extends NanoHTTPD {
@@ -25,10 +26,11 @@ public class WebServer extends NanoHTTPD {
     public static String rootDir = Environment.getExternalStorageDirectory().getPath();
     private static Boolean serverState = false;
     private static String uploadFileHTML =
-            "<form method='post' enctype='multipart/form-data' action='/u'>" +
+            " <html>  <head> <meta http-equiv=\\\"content-type\\\" content=\\\"text/html; charset=UTF-8\\\"></head>\n" +
+                    "<form method='post' enctype='multipart/form-data' action='/u'>" +
                     "    Step 1. Choose a file: <input type='file' name='upload' /><br />" +
                     "    Step 2. Click Send to upload file: <input type='submit' value='Send' /><br />" +
-                    "</form>";
+                    "</form></html>";
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -49,15 +51,17 @@ public class WebServer extends NanoHTTPD {
             Map<String, String> files = new HashMap<String, String>();
             try {
                 session.parseBody(files);
+                Logger.i(session);
                 Map<String, String> parms = session.getParms();
                 Set<String> keys = files.keySet();
                 for (String str : keys) {
-                    Log.d("WebServer", "SetKey:" + str);
+                    Logger.i("SetKey:" + str);
                 }
                 for (String key : keys) {
                     String location = files.get(key);
                     File temp = new File(location);
-                    String afileName = new String(session.getParms().get("upload").getBytes("ISO-8859-1"), "UTF-8");
+//                    String afileName = new String(session.getParms().get("upload").getBytes("ISO-8859-1"), "UTF-8");
+                    String afileName = new String(session.getParms().get("upload").toString());
                     FileUtils.makeFile(FileUtils.getWifiUploadPath() + afileName);
                     File target = new File(FileUtils.getWifiUploadPath() + afileName);
                     msg += "upload success to " + target.getPath();

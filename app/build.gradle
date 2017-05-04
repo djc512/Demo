@@ -64,4 +64,5 @@ dependencies {
     compile project(':photoview')
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.afollestad.material-dialogs:core:0.9.4.3'
+    compile project(':lib-zxing')
 }
