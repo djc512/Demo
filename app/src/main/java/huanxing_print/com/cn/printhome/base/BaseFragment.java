@@ -1,8 +1,8 @@
 package huanxing_print.com.cn.printhome.base;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 
 @SuppressLint("NewApi")
+
 public abstract class BaseFragment extends Fragment {
 
 	private View v;
