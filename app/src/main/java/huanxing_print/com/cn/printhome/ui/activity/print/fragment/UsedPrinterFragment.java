@@ -9,11 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.simple.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.Printer;
+import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.UsedPrinterRcAdapter;
 import huanxing_print.com.cn.printhome.util.DisplayUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
@@ -29,6 +32,12 @@ public class UsedPrinterFragment extends BaseLazyFragment {
 
     private List<Printer> printerList = new ArrayList<>();
     private UsedPrinterRcAdapter usedPrinterRcAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +69,9 @@ public class UsedPrinterFragment extends BaseLazyFragment {
                         ShowUtil.showToast(position + " printerLyt");
                         break;
                     case R.id.detailTv:
-                        ShowUtil.showToast(position + " detailTv");
+                        Printer printer = new Printer();
+                        printer.setId(10);
+                        EventBus.getDefault().post(printer, PickPrinterActivity.TAG_EVENT_PRINTER);
                         break;
                 }
             }
@@ -77,10 +88,15 @@ public class UsedPrinterFragment extends BaseLazyFragment {
         if (!isPrepared || !isVisible) {
             return;
         }
-
         usedPrinterRcAdapter.setPrinterList(printerList);
         usedPrinterRcAdapter.notifyDataSetChanged();
         isLoaded = true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 }

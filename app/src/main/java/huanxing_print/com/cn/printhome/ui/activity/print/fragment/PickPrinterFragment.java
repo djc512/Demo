@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,15 +12,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import org.simple.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.print.Printer;
+import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.PrinterFragmentAdapter;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.view.viewpager.NoScrollViewPager;
 
 public class PickPrinterFragment extends BaseLazyFragment {
 
-    private ViewPager viewpager;
+    private NoScrollViewPager viewpager;
     private TabLayout tabs;
     private List<String> titles = new ArrayList<>();
     private int[] tabIconsUnselected = {
@@ -32,6 +42,12 @@ public class PickPrinterFragment extends BaseLazyFragment {
             R.drawable.ic_printer_search_selected,
             R.drawable.ic_printer_scan_selected
     };
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,7 +63,7 @@ public class PickPrinterFragment extends BaseLazyFragment {
     }
 
     private void initView(View view) {
-        viewpager = (ViewPager) view.findViewById(R.id.viewpager);
+        viewpager = (NoScrollViewPager) view.findViewById(R.id.viewpager);
         tabs = (TabLayout) view.findViewById(R.id.tabs);
         titles.add("已用打印机");
         titles.add("找打印机");
@@ -64,10 +80,13 @@ public class PickPrinterFragment extends BaseLazyFragment {
         viewpager.setAdapter(mFragmentAdapteradapter);
         tabs.setupWithViewPager(viewpager);
         setupTabIcons();
-        tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 changeTabSelect(tab);
+//                if (tab.getPosition() != 2) {
+//                    viewpager.setCurrentItem(tab.getPosition());
+//                }
             }
 
             @Override
@@ -81,6 +100,58 @@ public class PickPrinterFragment extends BaseLazyFragment {
         });
         setTabIndex(1);
         setTabIndex(0);
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 2) {
+                    turnScan();
+                    setTabIndex(0);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        TabLayout.Tab tab = tabs.getTabAt(2);
+        tab.getCustomView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                turnScan();
+            }
+        });
+    }
+
+    public static final int REQUEST_CODE = 1;
+
+    private void turnScan() {
+        Intent intent = new Intent(context, CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (null != data) {
+                Bundle bundle = data.getExtras();
+                if (bundle == null) {
+                    return;
+                }
+                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                    String result = bundle.getString(CodeUtils.RESULT_STRING);
+                    ShowUtil.showToast(result);
+                    EventBus.getDefault().post(new Printer(), PickPrinterActivity.TAG_EVENT_PRINTER);
+                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                    ShowUtil.showToast("解析二维码失败");
+                }
+            }
+        }
     }
 
     private void setTabIndex(int index) {
@@ -99,12 +170,17 @@ public class PickPrinterFragment extends BaseLazyFragment {
         ImageView icImg = (ImageView) view.findViewById(R.id.icImg);
         TextView titleTv = (TextView) view.findViewById(R.id.titleTv);
         titleTv.setTextColor(ContextCompat.getColor(context, R.color.text_black));
-        if (titleTv.getText().toString().equals("已用打印机")) {
-            icImg.setImageResource(R.drawable.ic_printer_used_selected);
-        } else if (titleTv.getText().toString().equals("找打印机")) {
-            icImg.setImageResource(R.drawable.ic_printer_search_selected);
-        } else {
-            icImg.setImageResource(R.drawable.ic_printer_scan_selected);
+        int position = tab.getPosition();
+        switch (position) {
+            case 0:
+                icImg.setImageResource(R.drawable.ic_printer_used_selected);
+                break;
+            case 1:
+                icImg.setImageResource(R.drawable.ic_printer_search_selected);
+                break;
+            case 2:
+                icImg.setImageResource(R.drawable.ic_printer_scan_selected);
+                break;
         }
     }
 
@@ -113,12 +189,17 @@ public class PickPrinterFragment extends BaseLazyFragment {
         ImageView icImg = (ImageView) view.findViewById(R.id.icImg);
         TextView titleTv = (TextView) view.findViewById(R.id.titleTv);
         titleTv.setTextColor(ContextCompat.getColor(context, R.color.text_gray));
-        if (titleTv.getText().toString().equals("已用打印机")) {
-            icImg.setImageResource(R.drawable.ic_printer_used_unselected);
-        } else if (titleTv.getText().toString().equals("找打印机")) {
-            icImg.setImageResource(R.drawable.ic_printer_search_unselected);
-        } else {
-            icImg.setImageResource(R.drawable.ic_printer_scan_unselected);
+        int position = tab.getPosition();
+        switch (position) {
+            case 0:
+                icImg.setImageResource(R.drawable.ic_printer_used_unselected);
+                break;
+            case 1:
+                icImg.setImageResource(R.drawable.ic_printer_search_unselected);
+                break;
+            case 2:
+                icImg.setImageResource(R.drawable.ic_printer_scan_unselected);
+                break;
         }
     }
 
@@ -138,5 +219,12 @@ public class PickPrinterFragment extends BaseLazyFragment {
         }
         isLoaded = true;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
 
 }

@@ -72,12 +72,6 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
 
     private void initView1() {
         initTitleBar("选取文件");
-        findViewById(R.id.stepView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context, PickPrinterActivity.class));
-            }
-        });
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         tabs = (TabLayout) findViewById(R.id.tabs);
         List<String> titles = new ArrayList<>();

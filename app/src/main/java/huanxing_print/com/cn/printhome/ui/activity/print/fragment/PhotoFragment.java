@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -71,12 +70,9 @@ public class PhotoFragment extends BaseLazyFragment {
         mAdapter.setOnItemClickListener(new PhotoRecylerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final View view, int position) {
-                Intent intent = new Intent(context, ImgPreviewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putCharSequence(KEY_IMG_URI, photoList.get(position));
-//                bundle.putParcelable(KEY_IMG_URI, photoList.get(position));
-                intent.putExtras(bundle);
-                startActivity(intent);
+                ImgPreviewActivity.start(context,bundle);
             }
         });
         isLoaded = true;

@@ -26,7 +26,10 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.ui.activity.print.DocPreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
+import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.file.FileComparator;
@@ -114,6 +117,15 @@ public class WechatFileFragment extends BaseLazyFragment {
                 new FileRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(final View view, int position) {
+                        Bundle bundle = new Bundle();
+                        File file =  mAdapter.getFileList().get(position);
+                        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
+                            bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, file.getPath());
+                            ImgPreviewActivity.start(context, bundle);
+                        } else {
+                            bundle.putSerializable(DocPreviewActivity.KEY_FILE, mAdapter.getFileList().get(position));
+                            DocPreviewActivity.start(context, bundle);
+                        }
                     }
                 });
         updateList(fileList);

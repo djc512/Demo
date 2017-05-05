@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,13 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+
+import org.simple.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.Printer;
+import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FindPrinterRcAdapter;
 import huanxing_print.com.cn.printhome.util.DisplayUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
@@ -25,7 +37,10 @@ import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
  * Created by LGH on 2017/5/3.
  */
 
-public class FindPrinterFragment extends BaseLazyFragment {
+public class FindPrinterFragment extends BaseLazyFragment implements AMapLocationListener {
+
+    private AMapLocationClient locationClient;
+    private AMapLocationClientOption locationOption;
 
     private RecyclerView printerRcList;
 
@@ -33,9 +48,18 @@ public class FindPrinterFragment extends BaseLazyFragment {
     private FindPrinterRcAdapter findPrinterRcAdapter;
 
     private Spinner spinner;
+    private TextView addressTv;
+    private ImageView refreshImg;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        location();
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_printer_find, container, false);
             initView(view);
@@ -48,6 +72,20 @@ public class FindPrinterFragment extends BaseLazyFragment {
     }
 
     private void initView(View view) {
+        addressTv = (TextView) view.findViewById(R.id.addressTv);
+        refreshImg = (ImageView) view.findViewById(R.id.refreshImg);
+        refreshImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addressTv.setText("正在定位...");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        location();
+                    }
+                }, 2000);
+            }
+        });
         spinner = (Spinner) view.findViewById(R.id.disSpinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -77,7 +115,9 @@ public class FindPrinterFragment extends BaseLazyFragment {
                         ShowUtil.showToast(position + " printerLyt");
                         break;
                     case R.id.detailTv:
-                        ShowUtil.showToast(position + " detailTv");
+                        Printer printer = new Printer();
+                        printer.setId(10);
+                        EventBus.getDefault().post(printer, PickPrinterActivity.TAG_EVENT_PRINTER);
                         break;
                     case R.id.navImg:
                         ShowUtil.showToast(position + " navImg");
@@ -106,6 +146,42 @@ public class FindPrinterFragment extends BaseLazyFragment {
         findPrinterRcAdapter.setPrinterList(printerList);
         findPrinterRcAdapter.notifyDataSetChanged();
         isLoaded = true;
+    }
+
+    public void location() {
+        try {
+            locationClient = new AMapLocationClient(context);
+            locationOption = new AMapLocationClientOption();
+            locationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
+            locationClient.setLocationListener(this);
+            locationOption.setOnceLocation(true);
+            locationClient.setLocationOption(locationOption);
+            locationClient.startLocation();
+        } catch (Exception e) {
+            e.printStackTrace();
+            addressTv.setText("定位失败");
+        }
+    }
+
+    //province=江苏省#city=南京市#district=秦淮区#cityCode=025#adCode=320104#address=江苏省南京市秦淮区养虎仓靠近普天科技园#country=中国#road
+    // =养虎仓#poiName=普天科技园#street=养虎仓#streetNum=34号#aoiName=普天科技园#poiid=#floor=#errorCode=0#errorInfo=success
+    // #locationDetail=-5 #csid:94fcc35f079b4035af001dbc30ebd05f#locationType=5
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        if (null != aMapLocation) {
+            if (aMapLocation.getErrorCode() == 0) {
+                addressTv.setText(aMapLocation.getAddress());
+            } else {
+                Logger.i("errorcode" + aMapLocation.getErrorCode());
+                addressTv.setText("定位失败");
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 }

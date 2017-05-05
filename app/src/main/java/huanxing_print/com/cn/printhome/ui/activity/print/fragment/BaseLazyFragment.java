@@ -19,7 +19,7 @@ public abstract class BaseLazyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity().getApplicationContext();
+        context = getActivity();
         mActivity =  getActivity();
     }
 

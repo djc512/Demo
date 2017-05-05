@@ -26,6 +26,7 @@ public class AllFileListAdapter extends BaseAdapter {
     public static final String FILE_SIZE = "FILE_SIZE";
     public static final String FILE_UPDATE_TIME = "FILE_UPDATE_TIME";
     public static final String FILE_TYPE = "FILE_TYPE";
+    public static final String FILE_PATH = "FILE_PATH";
     public static final String FILE_TYPE_DIR = "dir";
     public static final String FILE_TYPE_FILE = "file";
     public static final String FILE_OBJ = "FILE_OBJ";
@@ -33,6 +34,7 @@ public class AllFileListAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater mInflater;
+
     private List<HashMap<String, Object>> mData;
     private boolean showHiddenFiles = false;
     private List<Integer> notHiddenFileIndexList; //非隐藏文件列表
@@ -133,6 +135,9 @@ public class AllFileListAdapter extends BaseAdapter {
         }
         if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
             return R.drawable.ic_pdf;
+        }
+        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
+            return R.drawable.ic_img;
         }
         return R.drawable.ic_defaut_file;
     }

@@ -1,14 +1,10 @@
 package huanxing_print.com.cn.printhome.ui.activity.print;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -30,51 +26,41 @@ import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
-public class ImgPreviewActivity extends AppCompatActivity implements View.OnClickListener {
+public class ImgPreviewActivity extends BasePrintActivity implements View.OnClickListener {
 
-    public static final String KEY_IMG_URI = "image";
+
     private ImageView imageView;
     private String imgPath;
     private File file;
 
-    private Context context;
-    private Activity activity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams
-                .FLAG_FULLSCREEN);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_img_priview);
         initData();
+        initTitleBar("图片预览");
         initView();
+        setRightTvVisible();
     }
 
     private void initData() {
-        context = this;
-        activity = this;
         imgPath = (String) getIntent().getExtras().get(KEY_IMG_URI);
     }
 
     private void initView() {
         imageView = (ImageView) findViewById(R.id.imageView);
-        Glide.with(ImgPreviewActivity.this)
+        Glide.with(context)
                 .load(imgPath)
                 .into(imageView);
-        findViewById(R.id.upImgView).setOnClickListener(this);
-        findViewById(R.id.closeImgView).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         int id = v.getId();
         switch (id) {
-            case R.id.upImgView:
-                uploadFile();
-                break;
-            case R.id.closeImgView:
-                finish();
+            case R.id.rightTv:
+                PickPrinterActivity.start(context, null);
                 break;
         }
     }
@@ -141,8 +127,6 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
         }, false);
     }
 
-;
-
     private void turnPrintSetting(PrintSetting printSetting) {
         Intent intent = new Intent(ImgPreviewActivity.this, ImgPrintSettingActivity.class);
         Bundle bundle = new Bundle();
@@ -150,5 +134,18 @@ public class ImgPreviewActivity extends AppCompatActivity implements View.OnClic
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
+    }
+
+    private void setRightTvVisible() {
+        findViewById(R.id.rightTv).setVisibility(View.VISIBLE);
+        findViewById(R.id.rightTv).setOnClickListener(this);
+    }
+
+    public static final String KEY_IMG_URI = "image_path";
+
+    public static void start(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, ImgPreviewActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }

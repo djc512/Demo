@@ -5,6 +5,7 @@ import android.app.Application;
 import com.dreamlive.cn.clog.CollectLog;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -239,6 +240,7 @@ public class BaseApplication extends Application {
 		api.registerApp(WX_APPID);
 		initJPush();
 		initHttpConnection();
+		ZXingLibrary.initDisplayOpinion(this);
 	}
 
 	private void initHttpConnection() {

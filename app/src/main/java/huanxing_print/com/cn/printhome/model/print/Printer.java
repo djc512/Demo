@@ -107,4 +107,21 @@ public class Printer {
     public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "Printer{" +
+                "addTime=" + addTime +
+                ", id=" + id +
+                ", memberId=" + memberId +
+                ", pageCount=" + pageCount +
+                ", printerAddress='" + printerAddress + '\'' +
+                ", printerDef=" + printerDef +
+                ", printerNo='" + printerNo + '\'' +
+                ", remark='" + remark + '\'' +
+                ", remarkCount='" + remarkCount + '\'' +
+                ", status=" + status +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }
