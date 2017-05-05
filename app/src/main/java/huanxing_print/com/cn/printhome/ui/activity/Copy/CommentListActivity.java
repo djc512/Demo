@@ -128,13 +128,6 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
                         setTextView(3);
                         break;
                 }
-//                if (position == 0) {
-//                    tv_approval.setTextColor(getResources().getColor(R.color.blue));
-//                    tv_approval_no.setTextColor(getResources().getColor(R.color.black2));
-//                } else {
-//                    tv_approval_no.setTextColor(getResources().getColor(R.color.blue));
-//                    tv_approval.setTextColor(getResources().getColor(R.color.black2));
-//                }
             }
 
             @Override
@@ -188,11 +181,11 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     /**
      * 设置textView的状态
      */
-    private void setTextView(int index){
+    private void setTextView(int index) {
         for (int i = 0; i < textViews.size(); i++) {
             if (index == i) {
                 textViews.get(index).setTextColor(getResources().getColor(R.color.black2));
-            }else {
+            } else {
                 textViews.get(i).setTextColor(getResources().getColor(R.color.gray8));
             }
         }
