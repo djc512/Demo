@@ -1,13 +1,11 @@
-package huanxing_print.com.cn.printhome.ui.activity.Copy;
+package huanxing_print.com.cn.printhome.ui.activity.copy;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +17,7 @@ import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.FileFragmen
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.HuKouFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.IDFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.PassportFragment;
+import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
@@ -43,6 +42,7 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
     private List<TextView> tvList = new ArrayList<>();
     private List<Fragment> fragments;
     private Context ctx;
+    private ViewPager vp_copy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,29 +56,21 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
         initListener();
     }
 
-    ViewTreeObserver.OnGlobalLayoutListener observer = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            llWidth = ll_file.getWidth();
-            tvWidth = tv_file.getWidth();
-            setViewWidth(tvWidth);
-        }
-    };
-
-    /**
-     * 动态设置指示线的宽度
-     */
-    private void setViewWidth(int width) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, CommonUtils.dip2px(ctx, 3));
-        params.topMargin = CommonUtils.dip2px(ctx, 10);
-        params.leftMargin = CommonUtils.dip2px(ctx, 25) + (llWidth - width) / 2;
-        view_line.setLayoutParams(params);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        tv_file.getViewTreeObserver().addOnGlobalLayoutListener(observer);
+
+        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        tv_file.measure(w, h);
+        tvWidth = tv_file.getMeasuredWidth();
+
+        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+        llWidth = screenWidth / 4;
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(tvWidth, CommonUtils.dip2px(ctx, 2));
+        lp.leftMargin = (llWidth - tvWidth) / 2;
+        view_line.setLayoutParams(lp);
     }
 
     private void initView() {
@@ -92,6 +84,7 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
         ll_hukou = (LinearLayout) findViewById(R.id.ll_hukou);
         tv_passport = (TextView) findViewById(R.id.tv_passport);
         ll_passport = (LinearLayout) findViewById(R.id.ll_passport);
+        vp_copy = (ViewPager) findViewById(R.id.vp_copy);
 
         tvList.add(tv_file);
         tvList.add(tv_id);
@@ -105,6 +98,9 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
         fragments.add(new IDFragment());
         fragments.add(new HuKouFragment());
         fragments.add(new PassportFragment());
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
+        vp_copy.setAdapter(adapter);
     }
 
     private void initListener() {
@@ -113,42 +109,70 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
         ll_id.setOnClickListener(this);
         ll_hukou.setOnClickListener(this);
         ll_passport.setOnClickListener(this);
-        ll_file.performClick();
+
+        vp_copy.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(tvWidth, CommonUtils.dip2px(ctx, 3));
+                if (lp != null && positionOffset != 0) {
+                    lp.leftMargin = (int) ((position + positionOffset) * llWidth) + (llWidth - tvWidth) / 2;
+                    view_line.setLayoutParams(lp);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                switch (position) {
+                    case 0:
+                        setTextState(0);
+                        break;
+                    case 1:
+                        setTextState(1);
+                        break;
+                    case 2:
+                        setTextState(2);
+                        break;
+                    case 3:
+                        setTextState(3);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
+
+    private int index;
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_file:
                 index = 0;
-                FragmentTransaction transactionfile = getSupportFragmentManager().beginTransaction();
-                transactionfile.replace(R.id.ll_container, fragments.get(index));
-                transactionfile.commit();
+                vp_copy.setCurrentItem(index);
                 break;
             case R.id.ll_id:
                 index = 1;
-                FragmentTransaction transactionid = getSupportFragmentManager().beginTransaction();
-                transactionid.replace(R.id.ll_container, fragments.get(index));
-                transactionid.commit();
+                vp_copy.setCurrentItem(index);
                 break;
             case R.id.ll_hukou:
                 index = 2;
-                FragmentTransaction transactionhukou = getSupportFragmentManager().beginTransaction();
-                transactionhukou.replace(R.id.ll_container, fragments.get(index));
-                transactionhukou.commit();
+                vp_copy.setCurrentItem(index);
                 break;
             case R.id.ll_passport:
                 index = 3;
-                FragmentTransaction transactionport = getSupportFragmentManager().beginTransaction();
-                transactionport.replace(R.id.ll_container, fragments.get(index));
-                transactionport.commit();
+                vp_copy.setCurrentItem(index);
                 break;
             case R.id.ll_back:
                 finish();
                 break;
         }
         setTextState(index);
-        startAnim(index);
     }
 
     /**
@@ -162,22 +186,5 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
                 tvList.get(i).setTextColor(getResources().getColor(R.color.gray6));
             }
         }
-    }
-
-    private int index;
-    private int start;
-
-    /**
-     * 指示线做动画
-     *
-     * @param index
-     */
-    private void startAnim(int index) {
-        int end = llWidth * index;
-        TranslateAnimation ta = new TranslateAnimation(start, llWidth * index, 0, 0);
-        ta.setDuration(500);
-        ta.setFillAfter(true);
-        view_line.startAnimation(ta);
-        start = end;
     }
 }

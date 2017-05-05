@@ -16,7 +16,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.picupload.Photo;
-import huanxing_print.com.cn.printhome.ui.activity.Copy.PhotoPickerActivity;
+import huanxing_print.com.cn.printhome.ui.activity.copy.PhotoPickerActivity;
 import huanxing_print.com.cn.printhome.util.picuplload.ImageLoader;
 import huanxing_print.com.cn.printhome.util.picuplload.OtherUtils;
 

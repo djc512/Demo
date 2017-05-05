@@ -38,7 +38,6 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         holder.tv_comment_name.setText("小强");
         holder.tv_comment_time.setText("2015-03-21");
 
-
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx,160));
         holder.rv_iv.setLayoutParams(lp);
         CommentPicAdapter adapter = new CommentPicAdapter(ctx);

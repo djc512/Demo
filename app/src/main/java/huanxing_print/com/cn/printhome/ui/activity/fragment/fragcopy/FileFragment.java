@@ -15,7 +15,7 @@ import android.widget.RadioButton;
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.ui.activity.Copy.PreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.copy.PreviewActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 

@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
-import huanxing_print.com.cn.printhome.ui.activity.Copy.CopyActivity;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CopyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.OperatingInstructionsActivity;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;

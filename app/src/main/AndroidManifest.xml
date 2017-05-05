@@ -312,39 +312,39 @@
             android:exported="true" />
         <!-- 复印的相关界面 -->
         <activity
-            android:name=".ui.activity.Copy.CopyActivity"
+            android:name=".ui.activity.copy.CopyActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind" />
         <!-- 文件矫正 -->
         <activity
-            android:name=".ui.activity.Copy.PreviewActivity"
+            android:name=".ui.activity.copy.PreviewActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind" />
         <!-- 身份证矫正页面 -->
         <activity
-            android:name=".ui.activity.Copy.IDPreviewActivity"
+            android:name=".ui.activity.copy.IDPreviewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 身份证拼接界面 -->
         <activity
-            android:name=".ui.activity.Copy.IDClipActivity"
+            android:name=".ui.activity.copy.IDClipActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--户口拼接界面-->
         <activity
-            android:name=".ui.activity.Copy.HuKouClipActivity"
+            android:name=".ui.activity.copy.HuKouClipActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
         <!-- 护照拼接界面 -->
         <activity
-            android:name=".ui.activity.Copy.PassportClipActivity"
+            android:name=".ui.activity.copy.PassportClipActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 复印设置界面 -->
         <activity
-            android:name=".ui.activity.Copy.CopySettingActivity"
+            android:name=".ui.activity.copy.CopySettingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--审批的界面-->
@@ -354,21 +354,21 @@
             android:screenOrientation="portrait" />
         <!--发表评论界面-->
         <activity
-            android:name=".ui.activity.Copy.CommentActivity"
+            android:name=".ui.activity.copy.CommentActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--评论列表界面-->
         <activity
-            android:name=".ui.activity.Copy.CommentListActivity"
+            android:name=".ui.activity.copy.CommentListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--上传图片-->
         <activity
-            android:name=".ui.activity.Copy.PhotoPickerActivity"
+            android:name=".ui.activity.copy.PhotoPickerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.Copy.PreviewPhotoActivity"
+            android:name=".ui.activity.copy.PreviewPhotoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 联系人模块 -->

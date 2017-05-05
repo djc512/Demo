@@ -1,4 +1,4 @@
-package huanxing_print.com.cn.printhome.ui.activity.Copy;
+package huanxing_print.com.cn.printhome.ui.activity.copy;
 
 import android.Manifest;
 import android.animation.AnimatorSet;

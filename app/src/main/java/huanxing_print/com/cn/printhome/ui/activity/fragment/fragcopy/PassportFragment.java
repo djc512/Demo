@@ -24,8 +24,8 @@ import android.widget.Toast;
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.ui.activity.Copy.CopySettingActivity;
-import huanxing_print.com.cn.printhome.ui.activity.Copy.IDPreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CopySettingActivity;
+import huanxing_print.com.cn.printhome.ui.activity.copy.IDPreviewActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 

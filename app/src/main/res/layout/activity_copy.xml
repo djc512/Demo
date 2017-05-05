@@ -32,11 +32,10 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:paddingBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
         android:paddingTop="15dp">
 
         <LinearLayout
@@ -108,16 +107,17 @@
     </LinearLayout>
 
     <View
+
         android:id="@+id/view_line"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:background="@color/yellow" />
 
-    <LinearLayout
-        android:id="@+id/ll_container"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_copy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray5"
-        android:orientation="vertical"></LinearLayout>
+        android:background="@color/gray5">
+
+    </android.support.v4.view.ViewPager>
 </LinearLayout>
