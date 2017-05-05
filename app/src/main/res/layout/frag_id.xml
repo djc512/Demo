@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:paddingBottom="10dp">
@@ -26,11 +26,11 @@
             android:layout_below="@+id/tv_id"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <ImageView
-                android:src="@drawable/c"
+                android:src="@drawable/idcard"
                 android:scaleType="fitXY"
                 android:id="@+id/iv_preview"
                 android:layout_width="match_parent"
@@ -83,10 +83,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:paddingBottom="15dp">
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/tv_idf"
@@ -101,11 +100,11 @@
             android:layout_below="@+id/tv_idf"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <ImageView
-                android:src="@drawable/c"
+                android:src="@drawable/idcardf"
                 android:scaleType="fitXY"
                 android:id="@+id/iv_previewf"
                 android:layout_width="match_parent"
