@@ -67,6 +67,12 @@
             android:name="huanxing_print.com.cn.printhome.constant.CachingGlideModule"
             android:value="GlideModule"/>
 
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="5e5e8550786ba228e56f171e6f33df36"/>
+
+        <service android:name="com.amap.api.location.APSService"/>
+
         <activity
             android:name=".ui.activity.welcome.SplashActivity"
             android:screenOrientation="portrait">
