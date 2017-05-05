@@ -1,6 +1,9 @@
 package huanxing_print.com.cn.printhome.ui.activity.contact;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +15,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.contact.PhoneContactInfo;
 import huanxing_print.com.cn.printhome.ui.adapter.AddAddressBookAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.contact.GetContactsUtils;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.IndexSideBar;
 
@@ -56,34 +60,19 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private void initData() {
-        PhoneContactInfo info01 = new PhoneContactInfo();
-        info01.setPhoneName("阿大");
-        info01.setYjNum("6726376");
-        info01.setFriendState(PhoneContactInfo.STATE.NOTFRIEND.ordinal());
+        HandlerThread queryThread = new HandlerThread("query_contact");
+        queryThread.start();
+        Handler handler = new Handler(queryThread.getLooper(), new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message message) {
+                GetContactsUtils contactsUtils = new GetContactsUtils(AddByAddressBookActivity.this);
+                contactInfos = (ArrayList<PhoneContactInfo>) contactsUtils.getSystemContactInfos();
 
-        PhoneContactInfo info02 = new PhoneContactInfo();
-        info02.setPhoneName("Aixy");
-        info02.setYjNum("565778");
-        info02.setFriendState(PhoneContactInfo.STATE.NOTFRIEND.ordinal());
-
-
-        PhoneContactInfo info03 = new PhoneContactInfo();
-        info03.setPhoneName("边宝玉");
-        info03.setYjNum("00067676");
-        info03.setFriendState(PhoneContactInfo.STATE.FRIEND.ordinal());
-
-
-        PhoneContactInfo info04 = new PhoneContactInfo();
-        info04.setPhoneName("宝龙");
-        info04.setYjNum("8787878");
-        info04.setFriendState(PhoneContactInfo.STATE.FRIEND.ordinal());
-
-        contactInfos.add(info01);
-        contactInfos.add(info02);
-        contactInfos.add(info03);
-        contactInfos.add(info04);
-
-        adapter.modifyData(contactInfos);
+                adapter.modifyData(contactInfos);
+                return false;
+            }
+        });
+        handler.sendEmptyMessage(0);
     }
 
     private void setListener() {
@@ -101,7 +90,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onTouchingLetterListener(String letter) {
-        if(null != adapter) {
+        if (null != adapter) {
             int position = adapter.getScrollPosition(letter);
             layoutManager.scrollToPositionWithOffset(position, 0);
         }

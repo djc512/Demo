@@ -382,11 +382,6 @@
             android:name=".ui.activity.contact.SearchYinJiaNumActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!-- 手机通讯录 -->
-        <activity
-            android:name=".ui.activity.contact.AddressBookActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
         <!--账号查询结果界面-->
         <activity
             android:name=".ui.activity.contact.SearchAddResultActivity"

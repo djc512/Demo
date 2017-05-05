@@ -160,15 +160,15 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             PhoneContactInfo info = contactInfos.get(position);
             if (null != info) {
                 tv_phoneName.setText(info.getPhoneName());
-                tv_yjNum.setText(String.format("印家号:%s",info.getYjNum()));
-                if(info.getFriendState() == PhoneContactInfo.STATE.FRIEND.ordinal()) {
-                    btn_add.setVisibility(View.GONE);
-                    tv_friend_state.setVisibility(View.VISIBLE);
-                    tv_friend_state.setText("已添加");
-                }else if(info.getFriendState() == PhoneContactInfo.STATE.NOTFRIEND.ordinal()){
-                    btn_add.setVisibility(View.VISIBLE);
-                    tv_friend_state.setVisibility(View.GONE);
-                }
+                tv_yjNum.setText(info.getPhoneNum());
+//                if(info.getFriendState() == PhoneContactInfo.STATE.FRIEND.ordinal()) {
+//                    btn_add.setVisibility(View.GONE);
+//                    tv_friend_state.setVisibility(View.VISIBLE);
+//                    tv_friend_state.setText("已添加");
+//                }else if(info.getFriendState() == PhoneContactInfo.STATE.NOTFRIEND.ordinal()){
+//                    btn_add.setVisibility(View.VISIBLE);
+//                    tv_friend_state.setVisibility(View.GONE);
+//                }
             }
         }
     }

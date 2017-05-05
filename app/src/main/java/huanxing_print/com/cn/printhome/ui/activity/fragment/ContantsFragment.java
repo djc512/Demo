@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
+import huanxing_print.com.cn.printhome.ui.activity.contact.AddByAddressBookActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddContactActivity;
-import huanxing_print.com.cn.printhome.ui.activity.contact.AddressBookActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.GroupActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.NewFriendActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ContactsItemAdapter;
@@ -149,7 +149,7 @@ public class ContantsFragment extends BaseFragment implements
     @Override
     public void addressBookListener() {
         ToastUtil.doToast(getActivity(),"addressBookListener");
-        startActivity(AddressBookActivity.class);
+        startActivity(AddByAddressBookActivity.class);
     }
 
     @Override
