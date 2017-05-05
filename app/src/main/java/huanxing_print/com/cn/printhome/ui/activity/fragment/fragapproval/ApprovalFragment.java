@@ -28,7 +28,7 @@ public class ApprovalFragment extends Fragment {
     }
 
     private void initView(View view) {
-        lv = (ListView) view.findViewById(R.id.lv_frag_approval);
+//        lv = (ListView) view.findViewById(R.id.lv_frag_approval);
     }
 
 
