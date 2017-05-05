@@ -13,7 +13,7 @@
 
         <TextView
             style="@style/title"
-            android:text="手机号修改" />
+            android:text="微信号修改" />
 
         <TextView
             android:id="@+id/iv_modifyName_finish"
@@ -36,11 +36,11 @@
         android:padding="15dp">
 
         <EditText
-            android:id="@+id/et_phone"
+            android:id="@+id/et_weixin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:inputType="phone"
+            android:inputType="text"
             android:layout_weight="1"
             android:background="@null"
             android:textColor="@color/text_content"

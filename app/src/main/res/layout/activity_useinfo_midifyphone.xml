@@ -13,7 +13,7 @@
 
         <TextView
             style="@style/title"
-            android:text="昵称修改" />
+            android:text="手机号修改" />
 
         <TextView
             android:id="@+id/iv_modifyName_finish"
@@ -36,14 +36,14 @@
         android:padding="15dp">
 
         <EditText
-            android:id="@+id/et_modify_nickName"
-            style="?android:attr/textViewStyle"
+            android:id="@+id/et_phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:inputType="phone"
             android:layout_weight="1"
             android:background="@null"
-            android:textColor="#999999"
+            android:textColor="@color/text_content"
             android:textSize="18sp" />
 
         <ImageView

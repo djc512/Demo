@@ -14,7 +14,6 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import org.simple.eventbus.EventBus;
@@ -26,13 +25,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.image.HeadImageBean;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.image.HeadImageUploadCallback;
 import huanxing_print.com.cn.printhome.net.request.image.HeadImageUploadRequest;
+import huanxing_print.com.cn.printhome.net.request.login.LoginRequset;
 import huanxing_print.com.cn.printhome.net.request.my.UpdatePersonInfoRequest;
+import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
+import huanxing_print.com.cn.printhome.util.AppUtils;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.FileUtils;
@@ -53,20 +56,18 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     //请求截图
     private  final int REQUEST_CROP_PHOTO = 102;
     private  final int NAME_CODE = 103;
+    private  final int PHONE_CODE = 104;
+    private  final int WEIXIN_CODE = 105;
     private String oriPath = ConFig.IMG_CACHE_PATH + File.separator + "headImg.jpg";
     private ImageView iv_user_head;
     private LinearLayout ll_back;
 
-    private File tempFile;
-    private PopupWindow popupWindow;
-    private LinearLayout ll_userInfo_name;
-    private LinearLayout ll_userInfo_wechat;
-    private String wechatId;
-    private TextView tv_userInfo_wechat,tv_userInfo_nickname;
+    private TextView tv_userInfo_nickname,tv_phone,tv_version,tv_weixin;
     private String cropImagePath;
-    private String nickName;
+    private String nickName,phone,weixin;
     private Bitmap bitMap;
-
+    private String version;
+    private String ApkUrl;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -90,17 +91,20 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     private void initData() {
         Intent intent = getIntent();
         nickName = intent.getStringExtra("nickName");
-        wechatId = intent.getStringExtra("wechatId");
+        phone = intent.getStringExtra("phone");
+        weixin = intent.getStringExtra("weixin");
         BitmapUtils.displayImage(getSelfActivity(), baseApplication.getHeadImg(),
                 R.drawable.iv_head, iv_user_head);
         if (!ObjectUtils.isNull(nickName)) {
             tv_userInfo_nickname.setText(nickName);
         }
-        if (ObjectUtils.isNull(wechatId)) {
-            tv_userInfo_wechat.setText("未绑定");
-        } else {
-            tv_userInfo_wechat.setText("已绑定");
+        if (!ObjectUtils.isNull(phone)) {
+            tv_phone.setText(phone);
         }
+        if (!ObjectUtils.isNull(weixin)) {
+            tv_weixin.setText(weixin);
+        }
+        tv_version.setText("当前V"+version+"版本");
     }
 
 
@@ -119,21 +123,24 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
-
+        version = AppUtils.getVersionName(getSelfActivity());
+        ApkUrl = baseApplication.getApkUrl();
         iv_user_head = (ImageView) findViewById(R.id.iv_user_head);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        ll_userInfo_name = (LinearLayout) findViewById(R.id.ll_userInfo_name);
-        ll_userInfo_wechat = (LinearLayout) findViewById(R.id.ll_userInfo_wechat);
         tv_userInfo_nickname = (TextView) findViewById(R.id.tv_userInfo_nickname);
-        tv_userInfo_wechat = (TextView) findViewById(R.id.tv_userInfo_wechat);
+        tv_phone = (TextView) findViewById(R.id.tv_phone);
+        tv_version= (TextView) findViewById(R.id.tv_version);
+        tv_weixin= (TextView) findViewById(R.id.tv_weixin);
     }
 
     private void setListener() {
         iv_user_head.setOnClickListener(this);
         ll_back.setOnClickListener(this);
-
-        ll_userInfo_name.setOnClickListener(this);
-        ll_userInfo_wechat.setOnClickListener(this);
+        findViewById(R.id.ll_userInfo_name).setOnClickListener(this);
+        findViewById(R.id.ll_userInfo_phone).setOnClickListener(this);
+        findViewById(R.id.ll_userInfo_weixin).setOnClickListener(this);
+        findViewById(R.id.ll_loginout).setOnClickListener(this);
+        findViewById(R.id.rl_set_version).setOnClickListener(this);
     }
 
     @Override
@@ -167,8 +174,45 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 nameIntent.putExtra("nickName", nickName);
                 startActivityForResult(nameIntent, NAME_CODE);
                 break;
-            case R.id.ll_userInfo_wechat:
+            case R.id.ll_userInfo_phone:
+                Intent phoneIntent = new Intent(getSelfActivity(), MyModifyPhoneActivty.class);
+                phoneIntent.putExtra("phone", phone);
+                startActivityForResult(phoneIntent, PHONE_CODE);
+                break;
+            case R.id.ll_userInfo_weixin:
+                Intent weixinIntent = new Intent(getSelfActivity(), MyModifyWeixinActivty.class);
+                weixinIntent.putExtra("weixin", weixin);
+                startActivityForResult(weixinIntent, PHONE_CODE);
+                break;
+            case R.id.rl_set_version://版本更新
+                //startActivity(new Intent(getSelfActivity(), OperatingInstructionsActivity.class));
+                if (baseApplication.isNewApp()){
+                    toast("当前版本为最新版本");
+                }else{
+                    DialogUtils.showTipsDialog(getSelfActivity(), getResources().getString(R.string.dlg_content_update_version),
+                            new DialogUtils.TipsDialogCallBack() {
+                                @Override
+                                public void ok() {
+                                    if (!ObjectUtils.isNull(ApkUrl)) {
+                                        Uri uri = Uri.parse(ApkUrl);
+                                        Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                                        startActivity(it);
+                                    }
 
+                                }
+                            }).show();
+                }
+                break;
+            case R.id.ll_loginout:// 退出当前账号
+                DialogUtils.showTipsDialog(getSelfActivity(), getResources().getString(R.string.dlg_content_loginout),
+                        new DialogUtils.TipsDialogCallBack() {
+                            @Override
+                            public void ok() {
+                                DialogUtils.showProgressDialog(getSelfActivity(), "正在退出登录").show();
+                                LoginRequset.loginOut(getSelfActivity(), baseApplication.getLoginToken(), loginoutcallback);
+
+                            }
+                        }).show();
                 break;
             default:
                 break;
@@ -213,6 +257,15 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                     nickName = intent.getStringExtra("nickName");
                     if (!ObjectUtils.isNull(nickName)) {
                         tv_userInfo_nickname.setText(nickName);
+                    }
+
+                }
+                break;
+            case PHONE_CODE:
+                if (null != intent) {
+                    phone = intent.getStringExtra("phone");
+                    if (!ObjectUtils.isNull(phone)) {
+                        tv_phone.setText(phone);
                     }
 
                 }
@@ -318,6 +371,29 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     };
 
 
+    private NullCallback loginoutcallback = new NullCallback() {
+
+        @Override
+        public void fail(String msg) {
+            toast(msg);
+            DialogUtils.closeProgressDialog();
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
+        }
+
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            clearUserData();// 清空数据
+            ActivityHelper.getInstance().finishAllActivity();
+            activityExitAnim();
+            jumpActivityNoAnim(LoginActivity.class, false);
+        }
+    };
 
     /**
      * 根据Uri返回文件绝对路径

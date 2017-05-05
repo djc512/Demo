@@ -404,4 +404,12 @@
     <activity
         android:name=".ui.activity.print.OperatingInstructionsActivity"
         android:screenOrientation="portrait" />
+    <!--我的设置里的微信号修改-->
+    <activity
+        android:name=".ui.activity.my.MyModifyWeixinActivty"
+        android:screenOrientation="portrait" />
+    <!--我的设置里的手机号修改-->
+    <activity
+        android:name=".ui.activity.my.MyModifyPhoneActivty"
+        android:screenOrientation="portrait" />
 </manifest>

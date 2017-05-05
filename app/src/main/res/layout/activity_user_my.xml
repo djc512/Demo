@@ -40,7 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="头像"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/text_color"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_user_head"
@@ -70,14 +71,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="印家号"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/text_color"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="NJ2017x1250"
-            android:textColor="#999999"
+            android:textColor="@color/text_content"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -100,7 +102,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="昵称"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/text_color"/>
 
         <TextView
             android:id="@+id/tv_userInfo_nickname"
@@ -108,7 +111,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="昵称"
-            android:textColor="#999999"
+            android:textColor="@color/text_content"
             android:textSize="18sp" />
 
         <ImageView
@@ -135,14 +138,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="我的二维码"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/text_color"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="二维码"
-            android:textColor="#999999"
+            android:textColor="@color/text_content"
             android:textSize="18sp" />
 
         <ImageView
@@ -155,6 +159,7 @@
         android:background="#e5e5e5" />
 
     <LinearLayout
+        android:id="@+id/ll_userInfo_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -167,14 +172,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="绑定手机号"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/text_color"/>
 
         <TextView
+            android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="15850793218"
-            android:textColor="#999999"
+            android:textColor="@color/text_content"
             android:textSize="18sp" />
 
         <ImageView
@@ -187,6 +194,7 @@
         android:background="#e5e5e5" />
 
     <LinearLayout
+        android:id="@+id/ll_userInfo_weixin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -199,14 +207,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="绑定微信号"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/text_color"/>
 
         <TextView
+            android:id="@+id/tv_weixin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="ling123456"
-            android:textColor="#999999"
+            android:textColor="@color/text_content"
             android:textSize="18sp" />
 
         <ImageView
@@ -223,7 +232,7 @@
         android:background="#e5e5e5" />
 
     <LinearLayout
-        android:id="@+id/ll_userInfo_wechat"
+        android:id="@+id/rl_set_version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -236,15 +245,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="检查更新"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/text_color"/>
 
         <TextView
-            android:id="@+id/tv_userInfo_wechat"
+            android:id="@+id/tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="当前V1.0版本"
-            android:textColor="#999999"
+            android:textColor="@color/text_content"
             android:textSize="18sp" />
 
         <ImageView
@@ -269,14 +278,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="缓存清理"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/text_color"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:text="5.8M"
-            android:textColor="#999999"
+            android:textColor="@color/text_content"
             android:textSize="18sp" />
 
         <ImageView
@@ -301,7 +311,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="给“印家打印”打分"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textColor="@color/text_color"/>
 
         <ImageView
             style="@style/arrow_go"

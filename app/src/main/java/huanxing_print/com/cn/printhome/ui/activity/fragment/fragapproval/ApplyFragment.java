@@ -13,7 +13,11 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected void init() {
+
 		mContext = getActivity();
+		initViews();
+		// initData();
+		setListener();
 	}
 
 	@Override
@@ -24,15 +28,25 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected int getContextView() {
-		return R.layout.frag_center;
+		return R.layout.frag_apply;
 	}
 
+
+	private void initViews() {
+
+
+	}
+
+	private void setListener() {
+
+		findViewById(R.id.ll_approve).setOnClickListener(this);
+	}
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-/*		case R.id.rl_invite:
-			//startActivity(new Intent(getActivity(), SetActivity.class));		
-			break;*/
+    	case R.id.ll_approve:
+			//startActivity(new Intent(getActivity(), SetActivity.class));
+			break;
 		default:
 			break;
 		}

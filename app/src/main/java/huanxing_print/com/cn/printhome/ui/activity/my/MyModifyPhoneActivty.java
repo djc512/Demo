@@ -29,9 +29,9 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickListener{
     private LinearLayout ll_back;
     private TextView iv_modifyName_finish;
-    private EditText et_modify_nickName;
+    private EditText et_modify_nickPhone;
     private ImageView iv_modify_delete;
-    private String nickName;
+    private String phone;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -42,7 +42,7 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
-        setContentView(R.layout.activity_useinfo_midifyname);
+        setContentView(R.layout.activity_useinfo_midifyphone);
         EventBus.getDefault().register(this);
         initView();
         initData();
@@ -50,16 +50,16 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
     }
 
     private void initData() {
-        String infoName = getIntent().getStringExtra("nickName");
-        if (!ObjectUtils.isNull(infoName)) {
-            et_modify_nickName.setText(infoName);
+        phone = getIntent().getStringExtra("phone");
+        if (!ObjectUtils.isNull(phone)) {
+            et_modify_nickPhone.setText(phone);
         }
     }
 
     private void initView() {
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         iv_modifyName_finish = (TextView) findViewById(R.id.iv_modifyName_finish);
-        et_modify_nickName = (EditText) findViewById(R.id.et_modify_nickName);
+        et_modify_nickPhone = (EditText) findViewById(R.id.et_phone);
         iv_modify_delete = (ImageView) findViewById(R.id.iv_modify_delete);
     }
 
@@ -76,20 +76,20 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
                 finishCurrentActivity();
                 break;
             case R.id.iv_modifyName_finish:
-                nickName = et_modify_nickName.getText().toString().trim();
-                if(ObjectUtils.isNull(nickName)){
-                    ToastUtil.doToast(getSelfActivity(),"请输入用户名");
+                phone = et_modify_nickPhone.getText().toString().trim();
+                if(ObjectUtils.isNull(phone)){
+                    ToastUtil.doToast(getSelfActivity(),"请输入手机号");
                     return;
                 }
 
                 Map<String, Object> params = new HashMap<String, Object>();
-                params.put("nickName", nickName);
+                params.put("phone", phone);
                 DialogUtils.showProgressDialog(getSelfActivity(), "正在保存").show();
                 UpdatePersonInfoRequest.update(getSelfActivity(),  baseApplication.getLoginToken(),params, callback);
 
                 break;
             case R.id.iv_modify_delete:
-                et_modify_nickName.setText("");
+                et_modify_nickPhone.setText("");
                 break;
             default:
                 break;
@@ -118,12 +118,12 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
-            baseApplication.setNickName(nickName);
+            baseApplication.setPhone(phone);
             Intent carlist = new Intent(getSelfActivity() , MyActivity.class);
-            carlist.putExtra("nickName", nickName);
-            setResult(103, carlist);
+            carlist.putExtra("phone", phone);
+            setResult(104, carlist);
             finishCurrentActivity();
-            EventBus.getDefault().post(nickName, "name");
+            EventBus.getDefault().post(phone, "phone");
             //EventBus.getDefault().post(new UpdateEvent());
         }
     };

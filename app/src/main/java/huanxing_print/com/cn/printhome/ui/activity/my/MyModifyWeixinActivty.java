@@ -29,9 +29,9 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 public class MyModifyWeixinActivty extends BaseActivity implements View.OnClickListener{
     private LinearLayout ll_back;
     private TextView iv_modifyName_finish;
-    private EditText et_modify_nickName;
+    private EditText et_weixin;
     private ImageView iv_modify_delete;
-    private String nickName;
+    private String weixin;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -42,7 +42,7 @@ public class MyModifyWeixinActivty extends BaseActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
-        setContentView(R.layout.activity_useinfo_midifyname);
+        setContentView(R.layout.activity_useinfo_midifyweixin);
         EventBus.getDefault().register(this);
         initView();
         initData();
@@ -50,16 +50,16 @@ public class MyModifyWeixinActivty extends BaseActivity implements View.OnClickL
     }
 
     private void initData() {
-        String infoName = getIntent().getStringExtra("nickName");
-        if (!ObjectUtils.isNull(infoName)) {
-            et_modify_nickName.setText(infoName);
+        weixin = getIntent().getStringExtra("weixin");
+        if (!ObjectUtils.isNull(weixin)) {
+            et_weixin.setText(weixin);
         }
     }
 
     private void initView() {
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         iv_modifyName_finish = (TextView) findViewById(R.id.iv_modifyName_finish);
-        et_modify_nickName = (EditText) findViewById(R.id.et_modify_nickName);
+        et_weixin = (EditText) findViewById(R.id.et_weixin);
         iv_modify_delete = (ImageView) findViewById(R.id.iv_modify_delete);
     }
 
@@ -76,20 +76,20 @@ public class MyModifyWeixinActivty extends BaseActivity implements View.OnClickL
                 finishCurrentActivity();
                 break;
             case R.id.iv_modifyName_finish:
-                nickName = et_modify_nickName.getText().toString().trim();
-                if(ObjectUtils.isNull(nickName)){
+                weixin = et_weixin.getText().toString().trim();
+                if(ObjectUtils.isNull(weixin)){
                     ToastUtil.doToast(getSelfActivity(),"请输入用户名");
                     return;
                 }
 
                 Map<String, Object> params = new HashMap<String, Object>();
-                params.put("nickName", nickName);
+                params.put("weixin", weixin);
                 DialogUtils.showProgressDialog(getSelfActivity(), "正在保存").show();
                 UpdatePersonInfoRequest.update(getSelfActivity(),  baseApplication.getLoginToken(),params, callback);
 
                 break;
             case R.id.iv_modify_delete:
-                et_modify_nickName.setText("");
+                et_weixin.setText("");
                 break;
             default:
                 break;
@@ -118,12 +118,12 @@ public class MyModifyWeixinActivty extends BaseActivity implements View.OnClickL
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
-            baseApplication.setNickName(nickName);
+            baseApplication.setNickName(weixin);
             Intent carlist = new Intent(getSelfActivity() , MyActivity.class);
-            carlist.putExtra("nickName", nickName);
-            setResult(103, carlist);
+            carlist.putExtra("weixin", weixin);
+            setResult(105, carlist);
             finishCurrentActivity();
-            EventBus.getDefault().post(nickName, "name");
+            EventBus.getDefault().post(weixin, "weixin");
             //EventBus.getDefault().post(new UpdateEvent());
         }
     };

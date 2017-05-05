@@ -56,7 +56,7 @@
         android:background="@color/gray5" />
 
     <LinearLayout
-        android:id="@+id/ll_my_mx"
+        android:id="@+id/ll_approve"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

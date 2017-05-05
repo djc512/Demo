@@ -24,7 +24,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected int getContextView() {
-		return R.layout.frag_center;
+		return R.layout.frag_chat;
 	}
 
 	@Override
