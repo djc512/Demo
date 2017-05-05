@@ -47,7 +47,7 @@ public class SearchAddResultActivity extends BaseActivity implements View.OnClic
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         resultRecylerView.setHasFixedSize(true);
         resultRecylerView.setLayoutManager(layoutManager);
-        resultRecylerView.addItemDecoration(new MyDecoration(this,MyDecoration.VERTICAL_LIST));
+        resultRecylerView.addItemDecoration(new MyDecoration(this,MyDecoration.HORIZONTAL_LIST));
 
         addContactAdapter = new AddContactAdapter(this,mResults);
         addContactAdapter.setOnItemSendListener(this);

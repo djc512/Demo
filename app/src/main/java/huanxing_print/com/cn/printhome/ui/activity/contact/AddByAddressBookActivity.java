@@ -49,7 +49,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
         layoutManager = new LinearLayoutManager(this);
         contactsView.setHasFixedSize(true);
         contactsView.setLayoutManager(layoutManager);
-        contactsView.addItemDecoration(new MyDecoration(this, MyDecoration.VERTICAL_LIST));
+        contactsView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
 
         adapter = new AddAddressBookAdapter(this, contactInfos);
         contactsView.setAdapter(adapter);

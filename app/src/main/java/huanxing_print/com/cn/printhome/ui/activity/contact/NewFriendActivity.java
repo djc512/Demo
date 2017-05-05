@@ -46,7 +46,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         friendRecycler.setHasFixedSize(true);
         friendRecycler.setLayoutManager(layoutManager);
-        friendRecycler.addItemDecoration(new MyDecoration(this,MyDecoration.VERTICAL_LIST));
+        friendRecycler.addItemDecoration(new MyDecoration(this,MyDecoration.HORIZONTAL_LIST));
 
         adapter = new NewFriendRecycelAdapter(this,friendInfos);
         adapter.setAddByAddressListener(this);

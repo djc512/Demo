@@ -94,7 +94,7 @@ public class AddressBookActivity extends BaseActivity implements View.OnClickLis
         layoutManager = new LinearLayoutManager(this);
         contactsView.setHasFixedSize(true);
         contactsView.setLayoutManager(layoutManager);
-        contactsView.addItemDecoration(new MyDecoration(this, MyDecoration.VERTICAL_LIST));
+        contactsView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
 
         adapter = new AddressBookAdapter(this, contactInfos);
         adapter.setOnOptionListener(this);

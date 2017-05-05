@@ -53,7 +53,7 @@ public class ContantsFragment extends BaseFragment implements
         layoutManager = new LinearLayoutManager(getActivity());
         contactsView.setHasFixedSize(true);
         contactsView.setLayoutManager(layoutManager);
-        contactsView.addItemDecoration(new MyDecoration(getActivity(),MyDecoration.VERTICAL_LIST));
+        contactsView.addItemDecoration(new MyDecoration(getActivity(),MyDecoration.HORIZONTAL_LIST));
 
         adapter = new ContactsItemAdapter(getActivity(), contactInfos);
         adapter.setTypeItemClickerListener(this);
