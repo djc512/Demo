@@ -25,6 +25,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile files('libs/AMap_Location_V3.3.0_20170118.jar')
     compile files('libs/baidumapapi_base_v3_6_1.jar')
     compile files('libs/baidumapapi_map_v3_6_1.jar')
     compile files('libs/baidumapapi_search_v3_6_1.jar')
