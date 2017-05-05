@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="true"
-    android:background="@color/gray5"
+    android:clipToPic_launchering="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+
     <RelativeLayout style="@style/Re_title">
 
         <include layout="@layout/ll_title_back"></include>
@@ -14,180 +14,175 @@
             style="@style/title"
             android:text="审批" />
     </RelativeLayout>
+
+    <include layout="@layout/view1" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <LinearLayout
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
+            android:id="@+id/ll_approval"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="@color/encode_view"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
 
-                android:src="@drawable/add"
-                />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_approval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_approval"
+                    android:background="@drawable/shape_circle"
+                    android:gravity="center"
+                    android:text="8"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
             <TextView
-
-                android:padding="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="待我审批"/>
+                android:layout_marginTop="10dp"
+                android:text="待我审批" />
 
         </LinearLayout>
+
         <LinearLayout
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
+            android:id="@+id/ll_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="@color/encode_view" android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-
-                android:src="@drawable/add"
-                />
-            <TextView
-
-                android:padding="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我发起的"/>
-
-        </LinearLayout>
-        <LinearLayout
             android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="@color/encode_view"
             android:gravity="center"
             android:orientation="vertical">
+
             <ImageView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:src="@drawable/ic_launcher" />
 
-                android:src="@drawable/add"
-                />
             <TextView
-                android:padding="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="抄送我的"/>
+                android:layout_marginTop="10dp"
+                android:text="我发起的" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="抄送我的" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/view1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="常用(2)"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/encode_view"
-        android:layout_marginTop="5dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="50dp"
-            android:textSize="14px"
-            android:paddingTop="20dp"
-            android:text="常用"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/ll_purchase"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@color/encode_view"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
+                android:src="@drawable/ic_launcher" />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-
-                    android:src="@drawable/add"
-                    />
-                <TextView
-                    android:padding="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="抄送我的"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@color/encode_view"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-
-                    android:src="@drawable/add"
-                    />
-                <TextView
-                    android:padding="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="抄送我的"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@color/encode_view"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="invisible">
-                <ImageView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-
-                    android:src="@drawable/add"
-                    />
-                <TextView
-                    android:padding="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="抄送我的"/>
-
-            </LinearLayout>
-
-
+                android:layout_marginTop="10dp"
+                android:text="采购审批" />
 
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"></LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_reimburse"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="报销" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
