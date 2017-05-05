@@ -412,6 +412,17 @@
             android:name=".ui.activity.contact.MyQRCodeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
+        <!--我的群组-->
+        <activity
+            android:name=".ui.activity.contact.GroupActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!--创建群组-->
+        <activity
+            android:name=".ui.activity.contact.CreateGroup"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

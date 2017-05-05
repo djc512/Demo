@@ -14,6 +14,7 @@ import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddressBookActivity;
+import huanxing_print.com.cn.printhome.ui.activity.contact.GroupActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.NewFriendActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ContactsItemAdapter;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -153,6 +154,7 @@ public class ContantsFragment extends BaseFragment implements
 
     @Override
     public void groupListener() {
+        startActivity(GroupActivity.class);
         ToastUtil.doToast(getActivity(),"groupListener");
     }
 
