@@ -9,14 +9,21 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.xlhratingbar_lib.XLHRatingBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +31,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.picupload.ImageItem;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
 import huanxing_print.com.cn.printhome.util.picuplload.BitmapLoadUtils;
 
@@ -31,13 +39,25 @@ import huanxing_print.com.cn.printhome.util.picuplload.BitmapLoadUtils;
  * Created by Administrator on 2017/5/4 0004.
  */
 
-public class CommentActivity extends BaseActivity {
+public class CommentActivity extends BaseActivity implements View.OnClickListener {
     public static Bitmap bimap;
     private static final int PICK_PHOTO = 1;
     private List<Bitmap> mResults = new ArrayList<>();
     private GridView noScrollgridview;
     private GridAdapter adapter;
     private Context ctx;
+    private ImageView iv_back;
+    private LinearLayout ll_back;
+    private EditText et_comment_content;
+    private TextView tv_num;
+    private TextView tv_pic_num;
+    private XLHRatingBar rb_comment;
+    private XLHRatingBar rb_speed;
+    private XLHRatingBar rb_qulity;
+    private XLHRatingBar rb_handle;
+    private XLHRatingBar rb_price;
+    private EditText et_commnet;
+    private TextView tv_submit;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -47,18 +67,35 @@ public class CommentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.initSystemBar(this);
+        setContentView(R.layout.activity_comment);
         ctx = this;
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
-        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
-
         mResults.add(bimap);
         initView();
+        initData();
+        initListener();
     }
-    private void initView() {
-        setContentView(R.layout.activity_comment);
 
+    private void initView() {
         noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
+
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        ll_back = (LinearLayout) findViewById(R.id.ll_back);
+        et_comment_content = (EditText) findViewById(R.id.et_comment_content);
+        tv_num = (TextView) findViewById(R.id.tv_num);
+        tv_pic_num = (TextView) findViewById(R.id.tv_pic_num);
+        rb_comment = (XLHRatingBar) findViewById(R.id.rb_comment);
+        rb_speed = (XLHRatingBar) findViewById(R.id.rb_speed);
+        rb_qulity = (XLHRatingBar) findViewById(R.id.rb_qulity);
+        rb_handle = (XLHRatingBar) findViewById(R.id.rb_handle);
+        rb_price = (XLHRatingBar) findViewById(R.id.rb_price);
+        et_commnet = (EditText) findViewById(R.id.et_commnet);
+        tv_submit = (TextView) findViewById(R.id.tv_submit);
+    }
+
+    private void initData() {
         adapter = new GridAdapter(this);
         adapter.update();
         noScrollgridview.setAdapter(adapter);
@@ -84,6 +121,72 @@ public class CommentActivity extends BaseActivity {
             }
         });
     }
+
+    private int commentStar;
+    private int speedStar;
+    private int qulityStar;
+    private int handleStar;
+    private int priceStar;
+
+    private void initListener() {
+        iv_back.setOnClickListener(this);
+        tv_submit.setOnClickListener(this);
+
+        rb_comment.setOnRatingChangeListener(new XLHRatingBar.OnRatingChangeListener() {
+            @Override
+            public void onChange(int countSelected) {
+                commentStar = countSelected;
+            }
+        });
+        rb_speed.setOnRatingChangeListener(new XLHRatingBar.OnRatingChangeListener() {
+            @Override
+            public void onChange(int countSelected) {
+                speedStar = countSelected;
+            }
+        });
+        rb_qulity.setOnRatingChangeListener(new XLHRatingBar.OnRatingChangeListener() {
+            @Override
+            public void onChange(int countSelected) {
+                qulityStar = countSelected;
+            }
+        });
+        rb_handle.setOnRatingChangeListener(new XLHRatingBar.OnRatingChangeListener() {
+            @Override
+            public void onChange(int countSelected) {
+                handleStar = countSelected;
+            }
+        });
+        rb_price.setOnRatingChangeListener(new XLHRatingBar.OnRatingChangeListener() {
+            @Override
+            public void onChange(int countSelected) {
+                priceStar = countSelected;
+            }
+        });
+
+        et_comment_content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int length = s.length();
+                if (length > 200) {
+                    Toast.makeText(ctx, "最多输入200字", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                tv_num.setText(length+"/"+200);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -115,22 +218,44 @@ public class CommentActivity extends BaseActivity {
         }
         mResults.add(BitmapFactory.decodeResource(getResources(), R.drawable.add));
         int gvHeight = 0;
-        if(mResults.size() < 5){
-            gvHeight =dip2px(ctx,60);
-        }else if(mResults.size() < 9){
-            gvHeight =dip2px(ctx,125);
-        }else {
-            gvHeight = dip2px(ctx,190);
+        if (mResults.size() < 5) {
+            gvHeight = dip2px(ctx, 60);
+        } else if (mResults.size() < 9) {
+            gvHeight = dip2px(ctx, 125);
+        } else {
+            gvHeight = dip2px(ctx, 190);
         }
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,gvHeight);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gvHeight);
         noScrollgridview.setLayoutParams(lp);
         adapter.notifyDataSetChanged();
     }
+
     public int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_back:
+                finishCurrentActivity();
+                break;
+            case R.id.tv_submit:
+                String content = et_comment_content.getText().toString().trim();//打印感受
+                String commentStr = et_commnet.getText().toString().trim();//评论
+//                ArrayList<ImageItem> items = Bimp.tempSelectBitmap;//图片
+//                UpLoadBitmap upLoadBitmap = new UpLoadBitmap(ctx);
+//                for (int i = 0; i < items.size(); i++) {
+//                    Bitmap bitmap = items.get(i).getBitmap();
+//                    upLoadBitmap.setPicToView(bitmap);
+//                }
+                Toast.makeText(ctx, "发表成功", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
     /**
      * 适配器
      */
