@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.contact;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -7,8 +8,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
@@ -56,6 +60,20 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
                 finishCurrentActivity();
                 break;
             case R.id.show_search_content:
+                ArrayList<ContactInfo> infos = new ArrayList<ContactInfo>();
+                ContactInfo info = new ContactInfo();
+                info.setName("陆成宋");
+                info.setYjNum("1867989");
+                info.setAddRequest(false);
+                ContactInfo info01 = new ContactInfo();
+                info01.setName("陆成宋01");
+                info01.setYjNum("1867767");
+                info01.setAddRequest(true);
+                infos.add(info);
+                infos.add(info01);
+                Intent intent = new Intent(SearchYinJiaNumActivity.this,SearchAddResultActivity.class);
+                intent.putParcelableArrayListExtra("search result",infos);
+                startActivity(intent);
                 break;
             case R.id.del_content:
                 searchEt.setText(null);

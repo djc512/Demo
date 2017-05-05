@@ -26,6 +26,7 @@ import huanxing_print.com.cn.printhome.util.contact.ContactComparator;
 public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater mLayoutInflater;
     private Context mContext;
+    private ArrayList<ContactInfo> mInitInfos = new ArrayList<ContactInfo>();
     private ArrayList<ContactInfo> mInfos = new ArrayList<ContactInfo>();
     private List<String> characterList; // 字母List
     private List<String> mContactList; // 联系人名称List（转换成拼音）
@@ -33,6 +34,7 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public ContactsItemAdapter(Context context, ArrayList<ContactInfo> infos) {
         this.mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
+        initData();
         updateData(infos);
     }
 
@@ -44,9 +46,7 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ITEM_TYPE_CHARACTER
     }
 
-    public void updateData(ArrayList<ContactInfo> infos) {
-        mInfos.clear();
-
+    private void initData() {
         ContactInfo newFriend = new ContactInfo();
         newFriend.setType(ITEM_TYPE.ITEM_TYPE_NEWFRIEND.ordinal());
 
@@ -56,10 +56,14 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ContactInfo group = new ContactInfo();
         group.setType(ITEM_TYPE.ITEM_TYPE_GROUP.ordinal());
 
-        mInfos.add(newFriend);
-        mInfos.add(addressBook);
-        mInfos.add(group);
+        mInitInfos.add(newFriend);
+        mInitInfos.add(addressBook);
+        mInitInfos.add(group);
+    }
 
+    public void updateData(ArrayList<ContactInfo> infos) {
+        mInfos.clear();
+        mInfos.addAll(mInitInfos);
         addFriend(infos);
     }
 

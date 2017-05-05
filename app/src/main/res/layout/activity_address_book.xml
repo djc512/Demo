@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/all_bg_color"
+              android:background="@color/gray1"
               android:clipToPadding="true"
               android:fitsSystemWindows="true">
 
@@ -13,12 +13,11 @@
 
         <TextView
             style="@style/title"
-            android:text="个人资料"/>
+            android:text="手机联系人"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/addressBookView"
-        android:background="#868686"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/titleBar"/>

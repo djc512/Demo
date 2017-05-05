@@ -24,7 +24,7 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
     private TextView tv_contact_phone;
     private ImageView iv_suggest;
     private LinearLayout ll_back;
-    private RelativeLayout rl;
+    private RelativeLayout rl_service;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -45,14 +45,14 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
         tv_contact_phone = (TextView) findViewById(R.id.tv_contact_phone);
         iv_suggest = (ImageView) findViewById(R.id.iv_suggest);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        rl = (RelativeLayout) findViewById(R.id.rl);
+        rl_service = (RelativeLayout) findViewById(R.id.rl_service);
 
     }
 
     private void setListener() {
         tv_contact_phone.setOnClickListener(this);
         ll_back.setOnClickListener(this);
-        rl.setOnClickListener(this);
+        rl_service.setOnClickListener(this);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
                 }
                 startActivity(intent);
                 break;
-            case R.id.rl:
+            case R.id.rl_service:
                 startActivity(new Intent(ContactActivity.this, SuggestActivity.class));
                 break;
             case R.id.ll_back:

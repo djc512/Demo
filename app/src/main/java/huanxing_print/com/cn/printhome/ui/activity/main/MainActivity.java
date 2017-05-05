@@ -15,7 +15,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.ApplyFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.fragapproval.ApplyFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ChatFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ContantsFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.MyFragment;

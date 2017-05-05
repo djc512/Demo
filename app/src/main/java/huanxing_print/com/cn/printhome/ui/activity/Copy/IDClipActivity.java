@@ -35,8 +35,6 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private double idHeight = 54;
     private int screenWidth;
     private int screenHeight;
-    private double ratioWidith;
-    private double ratioHeight;
     private double sqrtRatio;
     private double ivSqrt;
     private Bitmap mergeBitmap;
