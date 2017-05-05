@@ -13,7 +13,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:layout_toLeftOf="@+id/filterBtn"
-        android:background="@drawable/shape_rectangle_gray"
+        android:background="@drawable/shape_rectangle_rounded_gray"
         android:drawableLeft="@drawable/ic_search"
         android:drawablePadding="8dp"
         android:hint="搜索文件"

@@ -31,7 +31,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:background="@drawable/shape_rectangle_yellow"
-            android:entries="@array/distance"            />
+            android:entries="@array/distance"/>
 
         <ImageView
             android:id="@+id/imageView5"
@@ -52,26 +52,26 @@
             app:srcCompat="@drawable/ic_location"/>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/addressTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="普天路一号"
-            android:textColor="@color/text_black"
-            android:textSize="16sp"
-            android:maxEms="15"
+            android:layout_toEndOf="@+id/imageView6"
             android:layout_toLeftOf="@+id/refreshImg"
             android:layout_toRightOf="@+id/imageView6"
-            android:layout_toEndOf="@+id/imageView6"/>
+            android:ellipsize="end"
+            android:maxEms="10"
+            android:maxLines="1"
+            android:text="正在定位..."
+            android:textColor="@color/text_black"
+            android:textSize="16sp"/>
 
         <ImageView
             android:id="@+id/refreshImg"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             app:srcCompat="@drawable/ic_location_refresh"/>
     </RelativeLayout>
 
