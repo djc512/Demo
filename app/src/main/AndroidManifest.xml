@@ -423,6 +423,11 @@
             android:name=".ui.activity.contact.CreateGroup"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <!-- 采购审批界面-->
+        <activity
+            android:name=".ui.activity.approval.ApprovalBuyActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

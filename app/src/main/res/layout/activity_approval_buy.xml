@@ -43,7 +43,8 @@
                 android:textSize="34px"
                 android:text="请款部门"/>
             <EditText
-                android:layout_marginLeft="110dp"
+                android:background="@color/white"
+                android:layout_marginLeft="90dp"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +52,8 @@
                 android:paddingBottom="20dp"
                 android:paddingLeft="30dp"
                 android:textSize="34px"
-                android:text="软件研发部"/>
+                android:textColor="@color/bc_gray"
+                android:text="你所属部门(必填)"/>
 
         </RelativeLayout>
             <RelativeLayout
@@ -70,7 +72,9 @@
                     android:textSize="34px"
                     android:text="用途说明"/>
                 <EditText
-                    android:layout_marginLeft="110dp"
+                    android:textColor="@color/bc_gray"
+                    android:background="@color/white"
+                    android:layout_marginLeft="90dp"
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -78,7 +82,7 @@
                     android:paddingBottom="20dp"
                     android:paddingLeft="30dp"
                     android:textSize="34px"
-                    android:text="设计使用"/>
+                    android:text="说说你的采购事由(必填)"/>
 
             </RelativeLayout>
             <RelativeLayout
@@ -97,7 +101,9 @@
                 android:textSize="34px"
                 android:text="采购清单"/>
             <EditText
-                android:layout_marginLeft="110dp"
+                android:textColor="@color/bc_gray"
+                android:background="@color/white"
+                android:layout_marginLeft="90dp"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,7 +111,7 @@
                 android:paddingBottom="20dp"
                 android:paddingLeft="30dp"
                 android:textSize="34px"
-                android:text="27寸IMAC2台27寸IMAC2台27寸IMAC2台27寸IMAC2台"/>
+                android:text="请填写你的采购清单(必填)"/>
 
         </RelativeLayout>
             <RelativeLayout
@@ -126,8 +132,9 @@
                     android:text="图片  "/>
 
                     <TextView
+
                         android:id="@+id/tv_numb"
-                        android:layout_marginLeft="110dp"
+                        android:layout_marginLeft="90dp"
                         android:gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -152,7 +159,7 @@
                 android:orientation="horizontal">
                 <ImageView
                     android:src="@drawable/add"
-                    android:layout_marginLeft="110dp"
+                    android:layout_marginLeft="90dp"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="30dp"
@@ -176,7 +183,9 @@
                     android:textSize="34px"
                     android:text="备注"/>
                 <EditText
-                    android:layout_marginLeft="110dp"
+                    android:textColor="@color/bc_gray"
+                    android:background="@color/white"
+                    android:layout_marginLeft="90dp"
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -184,7 +193,7 @@
                     android:paddingBottom="20dp"
                     android:paddingLeft="30dp"
                     android:textSize="34px"
-                    android:text="请尽快采购,部门急用!!"/>
+                    android:text="填写备注内容"/>
 
             </RelativeLayout>
 
@@ -206,7 +215,9 @@
                     android:text="请款金额  "/>
 
                 <EditText
-                    android:layout_marginLeft="110dp"
+
+                    android:background="@color/white"
+                    android:layout_marginLeft="90dp"
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -214,41 +225,54 @@
                     android:paddingBottom="20dp"
                     android:paddingLeft="30dp"
                     android:textSize="34px"
-                    android:textColor="@color/text_yellow"
-                    android:text="27000"/>
+                    android:textColor="@color/bc_gray"
+                    android:text="填写请款金额"/>
                 <ImageView
+                    android:id="@+id/iv_off"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/camera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
-            <RelativeLayout
-                android:layout_marginTop="1dp"
-                android:background="@color/white"
+
+
+            <LinearLayout
+                android:id="@+id/ll_id"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="15dp"
-                    android:textSize="34px"
-                    android:text="收款方全称"/>
-                <EditText
-                    android:layout_marginLeft="110dp"
-                    android:gravity="center_vertical"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="30dp"
-                    android:textSize="34px"
-                    android:text="南京田中机电"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="15dp"
+                        android:textSize="34px"
+                        android:text="收款方全称"/>
+                    <EditText
+                        android:textColor="@color/bc_gray"
+                        android:background="@color/white"
+                        android:layout_marginLeft="90dp"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="30dp"
+                        android:textSize="34px"
+                        android:text="南京田中机电"/>
 
-            </RelativeLayout>
+                </RelativeLayout>
+
+
             <RelativeLayout
                 android:layout_marginTop="1dp"
                 android:background="@color/white"
@@ -265,7 +289,9 @@
                     android:textSize="34px"
                     android:text="收款方开户行"/>
                 <EditText
-                    android:layout_marginLeft="110dp"
+                    android:textColor="@color/bc_gray"
+                    android:background="@color/white"
+                    android:layout_marginLeft="90dp"
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -292,7 +318,9 @@
                     android:textSize="34px"
                     android:text="收款方账号"/>
                 <EditText
-                    android:layout_marginLeft="110dp"
+                    android:textColor="@color/bc_gray"
+                    android:background="@color/white"
+                    android:layout_marginLeft="90dp"
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -303,6 +331,9 @@
                     android:text="1223244656464"/>
 
             </RelativeLayout>
+            </LinearLayout>
+
+
             <RelativeLayout
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
@@ -319,7 +350,9 @@
                     android:textSize="34px"
                     android:text="完成日期"/>
                 <EditText
-                    android:layout_marginLeft="110dp"
+                    android:textColor="@color/bc_gray"
+                    android:background="@color/white"
+                    android:layout_marginLeft="90dp"
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -327,7 +360,13 @@
                     android:paddingBottom="20dp"
                     android:paddingLeft="30dp"
                     android:textSize="34px"
-                    android:text="2017年5月"/>
+                    android:text="期望的采购完成日期"/>
+                <ImageView
+                    android:id="@+id/iv_time"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </RelativeLayout>
             <RelativeLayout
@@ -413,15 +452,21 @@
 
             </RelativeLayout>
             <LinearLayout
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:background="@color/white">
                 <Button
+
+                    android:id="@+id/bt_commit"
                     android:background="@color/blue"
                     android:text="提交"
                     android:textSize="34px"
-                    android:padding="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
