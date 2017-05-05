@@ -17,8 +17,8 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
-import huanxing_print.com.cn.printhome.ui.activity.Copy.CommentActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ContactActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -150,8 +150,8 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 //                startActivity(intent);
 //                break;
             case R.id.iv_set:
-//                startActivity(new Intent(getActivity(), MyActivity.class));
-                startActivity(new Intent(getActivity(), CommentActivity.class));
+                startActivity(new Intent(getActivity(), MyActivity.class));
+                //startActivity(new Intent(getActivity(), CommentActivity.class));
                 break;
 //            case R.id.ll_my_account:
 //                Intent accIntent = new Intent(getActivity(),AccountActivity.class);
