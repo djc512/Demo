@@ -43,7 +43,6 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_useinfo_midifyphone);
-        EventBus.getDefault().register(this);
         initView();
         initData();
         setListener();

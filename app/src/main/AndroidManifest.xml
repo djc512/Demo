@@ -211,6 +211,10 @@
         <activity
             android:name=".ui.activity.my.DaYinActivity"
             android:screenOrientation="portrait" />
+        <!--操作说明-->
+        <activity
+            android:name=".ui.activity.print.OperatingInstructionsActivity"
+            android:screenOrientation="portrait" />
         <!-- 联系我们界面 -->
         <activity
             android:name=".ui.activity.my.ContactActivity"
@@ -251,6 +255,15 @@
         <!-- 修改昵称界面 -->
         <activity
             android:name=".ui.activity.my.MyModifyNameActivty"
+            android:screenOrientation="portrait" />
+
+        <!--我的设置里的微信号修改-->
+        <activity
+            android:name=".ui.activity.my.MyModifyPhoneActivty"
+            android:screenOrientation="portrait" />
+        <!--我的设置里的手机号修改-->
+        <activity
+            android:name=".ui.activity.my.MyModifyWeixinActivty"
             android:screenOrientation="portrait" />
         <!-- 打印协议 -->
         <activity
@@ -400,16 +413,5 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
     </application>
-    <!--操作说明-->
-    <activity
-        android:name=".ui.activity.print.OperatingInstructionsActivity"
-        android:screenOrientation="portrait" />
-    <!--我的设置里的微信号修改-->
-    <activity
-        android:name=".ui.activity.my.MyModifyWeixinActivty"
-        android:screenOrientation="portrait" />
-    <!--我的设置里的手机号修改-->
-    <activity
-        android:name=".ui.activity.my.MyModifyPhoneActivty"
-        android:screenOrientation="portrait" />
+
 </manifest>
