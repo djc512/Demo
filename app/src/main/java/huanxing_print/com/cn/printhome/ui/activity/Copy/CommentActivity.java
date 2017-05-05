@@ -176,7 +176,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                     Toast.makeText(ctx, "最多输入200字", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                tv_num.setText(length+"/"+200);
+                tv_num.setText(length + "/" + 200);
             }
 
             @Override
@@ -217,17 +217,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             Bimp.tempSelectBitmap.add(takePhoto);
         }
         mResults.add(BitmapFactory.decodeResource(getResources(), R.drawable.add));
-        int gvHeight = 0;
-        if (mResults.size() < 5) {
-            gvHeight = dip2px(ctx, 60);
-        } else if (mResults.size() < 9) {
-            gvHeight = dip2px(ctx, 125);
-        } else {
-            gvHeight = dip2px(ctx, 190);
-        }
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gvHeight);
-        noScrollgridview.setLayoutParams(lp);
         adapter.notifyDataSetChanged();
     }
 
@@ -349,5 +338,21 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     protected void onRestart() {
         adapter.update();
         super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int gvHeight = 0;
+        if (adapter.getCount() < 5) {
+            gvHeight = dip2px(ctx, 60);
+        } else if (adapter.getCount() < 9) {
+            gvHeight = dip2px(ctx, 125);
+        } else {
+            gvHeight = dip2px(ctx, 190);
+        }
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gvHeight);
+        noScrollgridview.setLayoutParams(lp);
     }
 }
