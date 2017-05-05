@@ -5,15 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * Created by wanghao on 2017/5/3.
  */
 
 public class AddContactActivity extends BaseActivity implements View.OnClickListener {
+    private static final int SCANQR = 1000;
     private LinearLayout ll_back;
 
     @Override
@@ -55,6 +60,7 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
                 startActivity(AddByAddressBookActivity.class);
                 break;
             case R.id.add_by_qr:
+                startActivityForResult(new Intent(this, CaptureActivity.class), SCANQR);
                 break;
             case R.id.my_qr:
                 startActivity(MyQRCodeActivity.class);
@@ -65,5 +71,20 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
     private void startActivity(Class cls) {
         Intent intent = new Intent(this, cls);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case SCANQR:
+                if(resultCode == RESULT_OK) {
+                    String resultString = data.getStringExtra(CodeUtils.RESULT_STRING);
+                    ToastUtil.doToast(this, resultString);
+                    Intent intent = new Intent(this, AddVerificationActivity.class);
+                    startActivity(intent);
+                }
+                break;
+        }
     }
 }
