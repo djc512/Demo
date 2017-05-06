@@ -69,18 +69,18 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_approval://待我审批
                 startActivity(new Intent(this, ApprovalActivity.class));
                 break;
-//            case R.id.ll_submit://提交审批
-//                startActivity(new Intent(this, MySponsorListActivity.class));
-//                break;
-//            case R.id.ll_send://抄送
-//                startActivity(new Intent(this, CopyToMeActivity.class));
-//                break;
-//            case R.id.ll_purchase://采购
-//                startActivity(new Intent(this, AddPurchaseActivity.class));
-//                break;
-//            case R.id.ll_reimburse://报销
-//                startActivity(new Intent(this, AddExpenseApprovalActivity.class));
-//                break;
+            case R.id.ll_submit://提交审批
+                startActivity(new Intent(this, MySponsorListActivity.class));
+                break;
+            case R.id.ll_send://抄送
+                startActivity(new Intent(this, CopyToMeActivity.class));
+                break;
+            case R.id.ll_purchase://采购
+                startActivity(new Intent(this, AddPurchaseActivity.class));
+                break;
+            case R.id.ll_reimburse://报销
+                startActivity(new Intent(this, AddExpenseApprovalActivity.class));
+                break;
             default:
                 break;
         }

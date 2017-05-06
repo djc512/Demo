@@ -428,6 +428,25 @@
             android:name=".ui.activity.approval.ApprovalHomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
+        <!-- 创建群组 -->
+        <activity
+            android:name=".ui.activity.approval.ApprovalBuyAddOrRemoveActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!-- 新建采购审批 -->
+        <activity
+            android:name=".ui.activity.approval.AddPurchaseActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!-- 新建报销审批 -->
+        <activity
+            android:name=".ui.activity.approval.AddExpenseApprovalActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.approval.MySponsorListActivity" />
+        <activity android:name=".ui.activity.approval.CopyToMeActivity"></activity>
     </application>
 
 </manifest>
