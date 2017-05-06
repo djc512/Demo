@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
+
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -17,7 +19,7 @@ import huanxing_print.com.cn.printhome.model.print.Printer;
  * Created by LGH on 2017/5/3.
  */
 
-public class FindPrinterRcAdapter extends RecyclerView.Adapter<FindPrinterRcAdapter.ViewHolder> {
+public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapter.ViewHolder> {
 
     private List<Printer> printerList;
 
@@ -31,9 +33,15 @@ public class FindPrinterRcAdapter extends RecyclerView.Adapter<FindPrinterRcAdap
 
     public OnItemClickListener itemClickListener;
 
-
+    public void clear() {
+        printerList.clear();
+    }
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    public void insert(Printer printer, int position) {
+        insert(printerList, printer, position);
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
@@ -50,21 +58,23 @@ public class FindPrinterRcAdapter extends RecyclerView.Adapter<FindPrinterRcAdap
         private TextView commentTv;
         private TextView printCountTv;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, boolean isItem) {
             super(itemView);
-            printerLyt = (LinearLayout) itemView.findViewById(R.id.printerLyt);
-            typeImg = (ImageView) itemView.findViewById(R.id.typeImg);
-            navImg = (ImageView) itemView.findViewById(R.id.navImg);
-            nameTv = (TextView) itemView.findViewById(R.id.nameTv);
-            detailTv = (TextView) itemView.findViewById(R.id.detailTv);
-            printCountTv = (TextView) itemView.findViewById(R.id.printCountTv);
-            commentTv = (TextView) itemView.findViewById(R.id.commentTv);
-            printerLyt.setOnClickListener(this);
-            nameTv.setOnClickListener(this);
-            detailTv.setOnClickListener(this);
-            printCountTv.setOnClickListener(this);
-            commentTv.setOnClickListener(this);
-            navImg.setOnClickListener(this);
+            if (isItem) {
+                printerLyt = (LinearLayout) itemView.findViewById(R.id.printerLyt);
+                typeImg = (ImageView) itemView.findViewById(R.id.typeImg);
+                navImg = (ImageView) itemView.findViewById(R.id.navImg);
+                nameTv = (TextView) itemView.findViewById(R.id.nameTv);
+                detailTv = (TextView) itemView.findViewById(R.id.detailTv);
+                printCountTv = (TextView) itemView.findViewById(R.id.printCountTv);
+                commentTv = (TextView) itemView.findViewById(R.id.commentTv);
+                printerLyt.setOnClickListener(this);
+                nameTv.setOnClickListener(this);
+                detailTv.setOnClickListener(this);
+                printCountTv.setOnClickListener(this);
+                commentTv.setOnClickListener(this);
+                navImg.setOnClickListener(this);
+            }
         }
 
         @Override
@@ -75,19 +85,41 @@ public class FindPrinterRcAdapter extends RecyclerView.Adapter<FindPrinterRcAdap
         }
     }
 
+//    @Override
+//    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+//        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_printer_find_list, viewGroup,
+// false);
+//        return new ViewHolder(v);
+//    }
+
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_printer_find_list, viewGroup, false);
-        return new ViewHolder(v);
+    public ViewHolder getViewHolder(View view) {
+        return new ViewHolder(view,false);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_printer_find_list, parent, false);
+        return new ViewHolder(v,isItem);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position, boolean isItem) {
 //        viewHolder.nameTv.setText("aaaaa");
     }
 
+//    @Override
+//    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+////        viewHolder.nameTv.setText("aaaaa");
+//    }
+//
+//    @Override
+//    public int getItemCount() {
+//        return printerList.size();
+//    }
+
     @Override
-    public int getItemCount() {
+    public int getAdapterItemCount() {
         return printerList.size();
     }
 }

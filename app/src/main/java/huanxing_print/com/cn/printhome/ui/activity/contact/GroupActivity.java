@@ -21,7 +21,7 @@ import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
  * Created by wanghao on 2017/5/5.
  */
 
-public class GroupActivity extends BaseActivity implements View.OnClickListener {
+public class GroupActivity extends BaseActivity implements View.OnClickListener,GroupAdatper.OnItemGroupClickListener {
     private static final int CREATE_GROUP = 1000;
     private RecyclerView recyclerView;
     private ArrayList<GroupInfo> groups = new ArrayList<GroupInfo>();
@@ -50,12 +50,14 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener 
         recyclerView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
 
         adatper = new GroupAdatper(this, groups);
+        adatper.setOnItemGroupClickListener(this);
         recyclerView.setAdapter(adatper);
     }
 
     private void initData() {
         GroupInfo group01 = new GroupInfo();
         group01.setGroupName("印家群");
+        group01.setGroupIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
         ArrayList<ContactInfo> members01 = new ArrayList<ContactInfo>();
         ContactInfo contact01 = new ContactInfo();
         contact01.setName("汪浩");
@@ -67,6 +69,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener 
 
         GroupInfo group02 = new GroupInfo();
         group02.setGroupName("途牛旅游");
+        group02.setGroupIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434200&di=7c53b18639aa82a8a58a296b9502d4ee&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D7048a12f9e16fdfad839ceea81bfa062%2F6a63f6246b600c3350e384cc194c510fd9f9a118.jpg");
         ArrayList<ContactInfo> members02 = new ArrayList<ContactInfo>();
         ContactInfo contact11 = new ContactInfo();
         contact11.setName("汪浩");
@@ -115,6 +118,8 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener 
                     GroupInfo info = new GroupInfo();
                     //假数据
                     info.setGroupName("途牛旅游01");
+                    info.setGroupIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+
                     ArrayList<ContactInfo> members = new ArrayList<ContactInfo>();
                     ContactInfo contact11 = new ContactInfo();
                     contact11.setName("汪浩");
@@ -131,6 +136,13 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener 
                     adatper.modifyData(groups);
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void clickGroup(GroupInfo info) {
+        if(null != info) {
+            ToastUtil.doToast(this, info.getGroupName());
         }
     }
 }

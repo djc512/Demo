@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -127,6 +132,7 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
             if (info != null) {
                 nameTv.setText(info.getName());
                 verificationTv.setText(info.getVerification());
+                loadPic(info);
                 if(NewFriendInfo.STATE.NORMAL.ordinal() == info.getFriendState()) {
                     agreeBtn.setVisibility(View.VISIBLE);
                     stateTv.setVisibility(View.GONE);
@@ -142,6 +148,14 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         }
 
+        private void loadPic(NewFriendInfo info) {
+            Glide.with(mContext).load(info.getIconPath()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    icon.setImageDrawable(resource);
+                }
+            });
+        }
     }
 
     class DividerHolder extends RecyclerView.ViewHolder {

@@ -22,7 +22,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
 
     private Context ctx;
     private int clickTemp = -1;
-    private List<ChongZhiBean> data ;
+    private List<ChongZhiBean> data;
 
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
@@ -56,8 +56,8 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         ChongZhiBean chongZhiBean = data.get(position);
-        holder.tv_chong.setText("冲"+chongZhiBean.getRechargeAmout()+"元");
-        holder.tv_song.setText("送"+chongZhiBean.getSendAmount()+"元");
+        holder.tv_chong.setText("冲" + chongZhiBean.getRechargeAmout() + "元");
+        holder.tv_song.setText("送" + chongZhiBean.getSendAmount() + "元");
 
         if (clickTemp == position) {
             holder.ll_cz.setBackgroundResource(R.drawable.shape_cz_money_green);
@@ -89,12 +89,14 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
         TextView tv_chong;
         TextView tv_song;
         LinearLayout ll_cz;
+        TextView tv_discount;
 
         public MyViewHolder(View view) {
             super(view);
             ll_cz = (LinearLayout) view.findViewById(R.id.ll_account_cz);
             tv_chong = (TextView) view.findViewById(R.id.tv_account_chong);
             tv_song = (TextView) view.findViewById(R.id.tv_account_song);
+            tv_discount = (TextView) view.findViewById(R.id.tv_discount);
         }
     }
 }

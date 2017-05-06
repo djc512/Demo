@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -75,12 +80,22 @@ public class AddContactAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHo
             if(null != info) {
                 yjNumTv.setText(info.getYjNum());
                 yjNameTv.setText(info.getName());
+                loadPic(info);
                 if(info.isAddRequest() || info.isFriend()) {
                     addBtn.setEnabled(false);
                 }else{
                     addBtn.setEnabled(true);
                 }
             }
+        }
+
+        private void loadPic(ContactInfo info) {
+            Glide.with(mContext).load(info.getIconPath()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    iconImg.setImageDrawable(resource);
+                }
+            });
         }
 
         @Override

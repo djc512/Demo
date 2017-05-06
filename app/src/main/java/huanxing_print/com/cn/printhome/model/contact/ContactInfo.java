@@ -10,6 +10,7 @@ import android.os.Parcelable;
 public class ContactInfo implements Parcelable{
     private String name;
     private String yjNum;
+    private String iconPath;
     private boolean isFriend;
     private boolean isAddRequest;
     private int type;//用于联系人页面item类型
@@ -21,6 +22,7 @@ public class ContactInfo implements Parcelable{
     protected ContactInfo(Parcel in) {
         name = in.readString();
         yjNum = in.readString();
+        iconPath = in.readString();
         isFriend = in.readByte() != 0;
         isAddRequest = in.readByte() != 0;
         type = in.readInt();
@@ -30,6 +32,7 @@ public class ContactInfo implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(yjNum);
+        dest.writeString(iconPath);
         dest.writeByte((byte) (isFriend ? 1 : 0));
         dest.writeByte((byte) (isAddRequest ? 1 : 0));
         dest.writeInt(type);
@@ -90,5 +93,13 @@ public class ContactInfo implements Parcelable{
 
     public void setAddRequest(boolean addRequest) {
         isAddRequest = addRequest;
+    }
+
+    public String getIconPath() {
+        return iconPath;
+    }
+
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
     }
 }

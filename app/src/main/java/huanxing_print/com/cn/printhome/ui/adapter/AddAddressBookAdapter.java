@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -161,15 +166,17 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             if (null != info) {
                 tv_phoneName.setText(info.getPhoneName());
                 tv_yjNum.setText(info.getPhoneNum());
-//                if(info.getFriendState() == PhoneContactInfo.STATE.FRIEND.ordinal()) {
-//                    btn_add.setVisibility(View.GONE);
-//                    tv_friend_state.setVisibility(View.VISIBLE);
-//                    tv_friend_state.setText("已添加");
-//                }else if(info.getFriendState() == PhoneContactInfo.STATE.NOTFRIEND.ordinal()){
-//                    btn_add.setVisibility(View.VISIBLE);
-//                    tv_friend_state.setVisibility(View.GONE);
-//                }
+                loadPic(info);
             }
+        }
+
+        private void loadPic(PhoneContactInfo info) {
+            Glide.with(mContext).load(info.getIcon()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    icon.setImageDrawable(resource);
+                }
+            });
         }
     }
     public int getScrollPosition(String character) {

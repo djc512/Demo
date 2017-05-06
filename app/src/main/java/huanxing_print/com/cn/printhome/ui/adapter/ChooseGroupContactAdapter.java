@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,7 +43,7 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
     public ChooseGroupContactAdapter(Context context, ArrayList<ContactInfo> contactInfos, int maxChoose) {
         this.mContext = context;
         mInflater = LayoutInflater.from(mContext);
-        initData();
+//        initData();
         setMaxChooseNum(maxChoose);
         modifyData(contactInfos);
     }
@@ -211,8 +216,18 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
             contactInfo = mInfos.get(position);
             if (null != contactInfo) {
                 tv_contactName.setText(contactInfo.getName());
+                loadPic();
             }
 
+        }
+
+        private void loadPic() {
+            Glide.with(mContext).load(contactInfo.getIconPath()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    im_contactIcon.setImageDrawable(resource);
+                }
+            });
         }
     }
 
