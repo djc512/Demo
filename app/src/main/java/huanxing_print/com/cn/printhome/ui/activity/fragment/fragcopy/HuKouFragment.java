@@ -193,12 +193,12 @@ public class HuKouFragment extends Fragment implements View.OnClickListener{
         @Override
         public void onReceive(Context context, Intent intent) {
             //得到广播中得到的数据，并显示出来
-            if (tag.equals("1")) {
+            if ("1".equals(tag)) {
                 bytes = intent.getByteArrayExtra("bytes");
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 iv_preview.setImageBitmap(bitmap);
                 initBtnPreview();
-            }else if (tag.equals("2")){
+            }else if ("2".equals(tag)){
                 bytesf = intent.getByteArrayExtra("bytes");
                 Bitmap bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
                 iv_previewf.setImageBitmap(bitmapf);

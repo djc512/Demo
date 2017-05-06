@@ -175,7 +175,7 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             //得到广播中得到的数据，并显示出来
-            if (tag.equals("1")) {
+            if ("1".equals(tag)) {
                 bytes = intent.getByteArrayExtra("bytes");
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 iv_preview.setImageBitmap(bitmap);
