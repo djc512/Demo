@@ -12,27 +12,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <RelativeLayout
-        android:id="@+id/rl_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dip"
-        android:background="@color/white"
-        >
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:textSize="@dimen/text_size_twenty"
-                android:textColor="@color/green"
-                android:text="关闭" />
-
-
-    </RelativeLayout>
         <ImageView
             android:id="@+id/iv_head"
             android:layout_width="wrap_content"
@@ -56,12 +35,14 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal" >
 
-                    <ImageView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/iv_phone" />
+                        android:text="手机号"
+                        android:textColor="@color/text_color"
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/register_phonenum"
@@ -82,72 +63,23 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
-                    android:layout_gravity="right"
                     android:layout_marginLeft="10dp"
                     android:background="@color/gray1" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:gravity="center_vertical"
                     android:layout_marginTop="20dip"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal" >
 
-                    <ImageView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/iv_pwd" />
-
-                    <EditText
-                        android:id="@+id/register_pass"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:drawablePadding="10dp"
-                        android:gravity="center_vertical"
-                        android:hint="@string/hint_set_psd"
-                        android:inputType="textPassword"
-                        android:maxLength="20"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/gray3"
+                        android:text="验证码"
+                        android:textColor="@color/text_color"
                         android:textSize="16sp" />
-
-                    <ImageView
-                        android:id="@+id/pass_show"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/btn_password_show"
-                        android:visibility="gone" />
-
-                    <ImageView
-                        android:id="@+id/pass_normal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/btn_password_normal"
-                        />
-                </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0.1dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@color/gray1" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="20dip"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:gravity="center_vertical"
-                        android:src="@drawable/iv_pwd" />
 
                     <EditText
                         android:id="@+id/register_code"
@@ -168,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:text="@string/eagerly_fetch"
-                        android:textColor="@color/green"
+                        android:textColor="@color/yellow"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -187,8 +119,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="30dp"
-            android:padding="10dip"
-            android:background="@drawable/btn_login"
+            android:padding="15dip"
+            android:background="@drawable/broder_yellow_full"
             android:gravity="center"
             android:text="@string/register"
             android:textColor="@color/white"

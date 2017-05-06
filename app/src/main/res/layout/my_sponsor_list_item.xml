@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/bc_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_name_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="刘家辉-采购审批"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/text_size_sixteen" />
+
+            <TextView
+                android:id="@+id/txt_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_name_type"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="2017-05-06"
+                android:textColor="@color/gray1"
+                android:textSize="@dimen/text_size_fourteen" />
+
+            <TextView
+                android:id="@+id/txt_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="20dp"
+                android:text="已审批"
+                android:textColor="@color/green"
+                android:textSize="@dimen/text_size_sixteen" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/devide_gray" />
+
+        <TextView
+            android:id="@+id/txt_use_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="用途说明:设计专用"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_size_fourteen" />
+
+
+        <TextView
+            android:id="@+id/txt_buy_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="采购清单:2台mac"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_size_fourteen" />
+
+    </LinearLayout>
+</LinearLayout>

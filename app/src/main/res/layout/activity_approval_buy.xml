@@ -14,7 +14,7 @@
     </RelativeLayout>
 
     <ScrollView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,58 +34,52 @@
 
 
             <TextView
+                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
-                android:textSize="34px"
+                android:textSize="17sp"
                 android:text="请款部门"/>
             <EditText
-                android:background="@color/white"
-                android:layout_marginLeft="90dp"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:paddingLeft="30dp"
-                android:textSize="34px"
-                android:textColor="@color/bc_gray"
-                android:text="你所属部门(必填)"/>
+                android:id="@+id/et_approval_section"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="2"
+                android:hint="你所属部门(必填)"
+                android:background="@drawable/editborder"
+                />
 
-        </RelativeLayout>
-            <RelativeLayout
+        </LinearLayout>
+            <LinearLayout
                 android:layout_marginTop="1dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="15dp"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:text="用途说明"/>
                 <EditText
-                    android:textColor="@color/bc_gray"
-                    android:background="@color/white"
-                    android:layout_marginLeft="90dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="30dp"
-                    android:textSize="34px"
-                    android:text="说说你的采购事由(必填)"/>
+                    android:id="@+id/et_use"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="2"
+                    android:hint="说说你的采购事由(必填)"
+                    android:background="@drawable/editborder"
+                    />
 
-            </RelativeLayout>
-            <RelativeLayout
+            </LinearLayout>
+            <LinearLayout
             android:layout_marginTop="1dp"
             android:background="@color/white"
             android:layout_width="match_parent"
@@ -93,29 +87,25 @@
             android:orientation="horizontal">
             <TextView
                 android:gravity="center_vertical"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
-                android:textSize="34px"
+                android:textSize="17sp"
                 android:text="采购清单"/>
             <EditText
-                android:textColor="@color/bc_gray"
-                android:background="@color/white"
-                android:layout_marginLeft="90dp"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:paddingLeft="30dp"
-                android:textSize="34px"
-                android:text="请填写你的采购清单(必填)"/>
+                android:id="@+id/et_detail"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="2"
+                android:hint="请填写你的采购清单(必填)"
+                android:background="@drawable/editborder"
+                />
 
-        </RelativeLayout>
-            <RelativeLayout
-
+        </LinearLayout>
+            <LinearLayout
                 android:layout_marginTop="1dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
@@ -123,51 +113,60 @@
                 android:orientation="horizontal">
                 <TextView
                     android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="15dp"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:text="图片  "/>
 
-                    <TextView
+            </LinearLayout>
 
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent">
+                    <TextView
                         android:id="@+id/tv_numb"
-                        android:layout_marginLeft="90dp"
-                        android:gravity="center_vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
-                        android:paddingLeft="30dp"
-                        android:textSize="34px"
+                        android:paddingLeft="15dp"
+                        android:textSize="17sp"
                         android:textColor="#989898"
                         android:text="最多上传五张(必填)"/>
                     <ImageView
                         android:id="@+id/iv_camera"
-                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
                         android:src="@drawable/camera"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-            </RelativeLayout>
+                </LinearLayout>
 
-            <RelativeLayout
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
                 <ImageView
+                    android:layout_weight="2"
                     android:src="@drawable/add"
-                    android:layout_marginLeft="90dp"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
-                    android:paddingLeft="30dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content" />
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_marginTop="1dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
@@ -175,30 +174,30 @@
                 android:orientation="horizontal">
                 <TextView
                     android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="15dp"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:text="备注"/>
                 <EditText
-                    android:textColor="@color/bc_gray"
-                    android:background="@color/white"
-                    android:layout_marginLeft="90dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="30dp"
-                    android:textSize="34px"
-                    android:text="填写备注内容"/>
+                    android:id="@+id/et_remark"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="2"
+                    android:hint="填写备注内容"
+                    android:background="@drawable/editborder"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+
+            <LinearLayout
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
@@ -206,35 +205,32 @@
                 android:orientation="horizontal">
                 <TextView
                     android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="15dp"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:text="请款金额  "/>
 
                 <EditText
 
-                    android:background="@color/white"
-                    android:layout_marginLeft="90dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="30dp"
-                    android:textSize="34px"
-                    android:textColor="@color/bc_gray"
-                    android:text="填写请款金额"/>
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:hint="填写请款金额"
+                    android:background="@drawable/editborder"
+                    />
+            </LinearLayout>
                 <ImageView
+                    android:layout_marginLeft="330dp"
+                    android:layout_marginTop="28dp"
                     android:id="@+id/iv_off"
-                    android:layout_alignParentRight="true"
                     android:src="@drawable/camera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-            </RelativeLayout>
-
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/ll_id"
@@ -242,7 +238,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_marginTop="1dp"
                     android:background="@color/white"
                     android:layout_width="match_parent"
@@ -250,30 +246,26 @@
                     android:orientation="horizontal">
                     <TextView
                         android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
                         android:paddingLeft="15dp"
-                        android:textSize="34px"
+                        android:textSize="17sp"
                         android:text="收款方全称"/>
                     <EditText
-                        android:textColor="@color/bc_gray"
-                        android:background="@color/white"
-                        android:layout_marginLeft="90dp"
-                        android:gravity="center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="20dp"
-                        android:paddingBottom="20dp"
-                        android:paddingLeft="30dp"
-                        android:textSize="34px"
-                        android:text="南京田中机电"/>
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:hint="南京田中机电"
+                        android:background="@drawable/editborder"
+                        />
 
-                </RelativeLayout>
+                </LinearLayout>
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_marginTop="1dp"
                 android:background="@color/white"
                 android:layout_width="match_parent"
@@ -281,27 +273,23 @@
                 android:orientation="horizontal">
                 <TextView
                     android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="15dp"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:text="收款方开户行"/>
                 <EditText
-                    android:textColor="@color/bc_gray"
-                    android:background="@color/white"
-                    android:layout_marginLeft="90dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="30dp"
-                    android:textSize="34px"
-                    android:text="南京市桥北"/>
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:hint="南京市桥北"
+                    android:background="@drawable/editborder"
+                    />
 
-            </RelativeLayout>
+            </LinearLayout>
             <RelativeLayout
                 android:layout_marginTop="1dp"
                 android:background="@color/white"
@@ -315,7 +303,7 @@
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="15dp"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:text="收款方账号"/>
                 <EditText
                     android:textColor="@color/bc_gray"
@@ -334,41 +322,45 @@
             </LinearLayout>
 
 
-            <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:background="@color/white"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="15dp"
-                    android:textSize="34px"
-                    android:text="完成日期"/>
-                <EditText
-                    android:textColor="@color/bc_gray"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
                     android:background="@color/white"
-                    android:layout_marginLeft="90dp"
-                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="30dp"
-                    android:textSize="34px"
-                    android:text="期望的采购完成日期"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="15dp"
+                        android:textSize="17sp"
+                        android:text="完成日期  "/>
+
+                    <EditText
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:hint="期望的采购完成日期"
+                        android:background="@drawable/editborder"
+                        />
+                </LinearLayout>
                 <ImageView
+                    android:layout_marginLeft="330dp"
+                    android:layout_marginTop="28dp"
                     android:id="@+id/iv_time"
-                    android:layout_alignParentRight="true"
                     android:src="@drawable/camera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-
-            </RelativeLayout>
+            </FrameLayout>
             <RelativeLayout
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
@@ -382,7 +374,7 @@
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="15dp"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:text="审批人"/>
                 <TextView
                     android:layout_marginLeft="90dp"
@@ -423,7 +415,7 @@
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="15dp"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:text="抄送人"/>
                 <TextView
                     android:layout_marginLeft="90dp"
@@ -433,7 +425,7 @@
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:paddingLeft="30dp"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:textColor="#989898"
                     android:text="(点击头像可删除)"/>
 
@@ -462,7 +454,7 @@
                     android:id="@+id/bt_commit"
                     android:background="@color/blue"
                     android:text="提交"
-                    android:textSize="34px"
+                    android:textSize="17sp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"

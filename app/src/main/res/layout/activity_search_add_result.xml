@@ -6,13 +6,14 @@
               android:clipToPadding="true"
               android:fitsSystemWindows="true"
               android:orientation="vertical">
-    <RelativeLayout style="@style/Re_title">
+    <RelativeLayout android:id="@+id/titleBar"
+                    style="@style/Re_contact_title">
 
-        <include layout="@layout/ll_title_back"></include>
+        <include layout="@layout/layout_contact_back"/>
 
         <TextView
-            style="@style/title"
-            android:text="详细资料"/>
+            style="@style/contact_title"
+            android:text="@string/text_detail"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -20,6 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/titleBar"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="@dimen/recycler_margin_top"/>
 
 </LinearLayout>

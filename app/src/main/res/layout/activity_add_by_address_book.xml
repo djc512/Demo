@@ -9,27 +9,29 @@
 
     <RelativeLayout
         android:id="@+id/titleBar"
-        style="@style/Re_title">
+        style="@style/Re_contact_title">
 
-        <include layout="@layout/ll_title_back"></include>
+        <include layout="@layout/layout_contact_back"/>
 
         <TextView
             style="@style/title"
-            android:text="从手机联系人添加"/>
+            android:text="@string/title_add_by_phone"/>
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/contactsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/titleBar"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/recycler_margin_top"
+        android:layout_marginBottom="@dimen/recycler_margin_bottom"
         android:background="@color/gray1"/>
 
     <huanxing_print.com.cn.printhome.view.IndexSideBar
         android:id="@+id/contacts_sidebar"
-        android:layout_width="30dp"
+        android:layout_width="@dimen/sidebar_width"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/titleBar"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="@dimen/sidebar_margin_top"
+        android:layout_marginBottom="@dimen/sidebar_margin_bottom"/>
 </RelativeLayout>

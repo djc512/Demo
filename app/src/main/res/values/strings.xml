@@ -12,7 +12,7 @@
     <!-- LoginActivity -->
     <string name="login">登录</string>
     <string name="login_weixin">微信登录</string>
-    <string name="hint_phone">请输入您的手机号码</string>
+    <string name="hint_phone">请输入手机号码</string>
     <string name="hint_psd">请输入您的密码</string>
     <string name="forget_pass">忘记密码</string>
     <string name="new_user">注册新用户</string>
@@ -61,4 +61,45 @@
 
     <!-- MyActivity -->
     <string name="dlg_content_update_version">是否确定更新新版本&#063;</string>
+    <string name="dlg_content_clear_cache">是否确定删除缓存&#063;</string>
+
+    <!--选择图片-->
+    <string-array name="chooseType">
+        <item>相册</item>
+        <item>拍照</item>
+    </string-array>
+
+    <!--联系人-->
+    <string name="title_contact">联系人</string>
+    <string name="title_add_contact">添加联系人</string>
+    <string name="text_search_yj_num">输入印家号／手机号搜索</string>
+    <string name="text_add_by_phone">添加手机联系人</string>
+    <string name="text_scan_friend">扫一扫加好友</string>
+    <string name="text_my_qr_card">我的二维码名片</string>
+    <string name="text_search_cancel">取消</string>
+    <string name="text_search_hint">输入手机号／印家号搜索</string>
+    <string name="text_search_result_hint">查找手机号／印家号:</string>
+    <string name="text_detail">详细资料</string>
+    <string name="text_verification_friend">朋友验证</string>
+    <string name="text_verification_send">发送</string>
+    <string name="text_verification_hint">您需要发送验证申请,等待对方通过~</string>
+    <string name="text_verification_et_hint">我是</string>
+    <string name="title_add_by_phone">从手机联系人添加</string>
+    <string name="title_qr">二维码名片</string>
+    <string name="title_top_hint">印家打印二维码名片</string>
+    <string name="value_my_qr_yjnum">印家号:%s</string>
+    <string name="title_bottom_hint">在印家打印上扫一扫加我</string>
+    <string name="title_new_friend">新的朋友</string>
+    <string name="btn_add_friend">添加朋友</string>
+    <string name="title_my_group">我的群组</string>
+    <string name="btn_create_group">发起群组</string>
+    <string name="btn_cancel">取消</string>
+    <string name="title_add_member">联系人</string>
+    <string name="hint_choose_members">已选择:%d人</string>
+    <string name="btn_hint_members">确定(%1$d/%2$d)</string>
+    <string name="title_phone">手机通讯录</string>
+    <string name="title_group">群组</string>
+    <string name="btn_contact_him">联系Ta</string>
+    <string name="btn_contact_add">添加</string>
+    <string name="btn_contact_accept">接受</string>
 </resources>

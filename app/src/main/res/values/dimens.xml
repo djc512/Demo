@@ -24,5 +24,135 @@
 
     <dimen name="titlebar_height">50dp</dimen>
 
+    <!--联系人页面-->
+    <dimen name="back_w_h">20dp</dimen>
+    <dimen name="add_w_h">50dp</dimen>
+    <dimen name="add_img_w">22dp</dimen>
+    <dimen name="add_img_h">16dp</dimen>
+    <dimen name="contact_title_tv_size">20dp</dimen>
+    <dimen name="recycler_margin_top">15dp</dimen>
+    <dimen name="recycler_margin_bottom">15dp</dimen>
+    <dimen name="sidebar_margin_top">15dp</dimen>
+    <dimen name="sidebar_margin_bottom">15dp</dimen>
+    <dimen name="sidebar_width">30dp</dimen>
+    <dimen name="recycler_new_friend_h">50dp</dimen>
+    <dimen name="recycler_icon_w_h">40dp</dimen>
+    <dimen name="recycler_icon_margin_l">15dp</dimen>
+    <dimen name="recycler_icon_margin_r">15dp</dimen>
+    <dimen name="recycler_new_friend_tv_size">15dp</dimen>
+    <dimen name="recycler_address_book_h">50dp</dimen>
+    <dimen name="recycler_address_book_tv_size">15dp</dimen>
+    <dimen name="recycler_group_h">50dp</dimen>
+    <dimen name="recycler_group_tv_size">15dp</dimen>
+    <dimen name="recycler_character_h">25dp</dimen>
+    <dimen name="recycler_character_margin_l">15dp</dimen>
+    <dimen name="recycler_friend_h">50dp</dimen>
+    <dimen name="recycler_friend_tv_size">15dp</dimen>
 
+    <!--添加联系人-->
+    <dimen name="add_contact_margin_top">15dp</dimen>
+    <dimen name="add_line_h">1dp</dimen>
+    <dimen name="add_my_qr_tv_size">15dp</dimen>
+    <dimen name="add_qr_icon_w_h">20dp</dimen>
+    <dimen name="add_my_qr_margin">5dp</dimen>
+
+    <!--印家号搜索页面-->
+    <dimen name="yj_search_bar_h">50dp</dimen>
+    <dimen name="yj_et_search_margin_top">5dp</dimen>
+    <dimen name="yj_et_search_margin_bottom">5dp</dimen>
+    <dimen name="yj_et_search_margin_l">10dp</dimen>
+    <dimen name="yj_et_search_icon_w_h">20dp</dimen>
+    <dimen name="yj_et_search_icon_margin">10dp</dimen>
+    <dimen name="yj_search_et_h">40dp</dimen>
+    <dimen name="yj_cancel_search_margin_l">10dp</dimen>
+    <dimen name="yj_cancel_search_margin_r">10dp</dimen>
+    <dimen name="yj_result_margin_top">15dp</dimen>
+    <dimen name="yj_result_h">50dp</dimen>
+
+    <!--添加搜索联系人验证-->
+    <dimen name="verification_send_tv_size">15dp</dimen>
+    <dimen name="verification_et_margin_top">5dp</dimen>
+    <dimen name="verification_et_h">40dp</dimen>
+
+    <!--手机联系人页面-->
+    <dimen name="item_phone_layout_h">50dp</dimen>
+    <dimen name="item_phone_icon_w_h">40dp</dimen>
+    <dimen name="item_phone_icon_margin_l">15dp</dimen>
+    <dimen name="item_phone_icon_margin_r">15dp</dimen>
+    <dimen name="item_phone_name_tv_size">15dp</dimen>
+    <dimen name="item_phone_num_tv_size">10dp</dimen>
+    <dimen name="item_phone_btn_margin_r">30dp</dimen>
+    <dimen name="item_phone_btn_margin_top">5dp</dimen>
+    <dimen name="item_phone_btn_margin_bottom">5dp</dimen>
+    <dimen name="item_phone_btn_padding_l">20dp</dimen>
+    <dimen name="item_phone_btn_padding_r">20dp</dimen>
+    
+    <!--群组-->
+    <dimen name="group_create_padding">5dp</dimen>
+    <dimen name="item_group_layout_h">50dp</dimen>
+    <dimen name="item_group_icon_w_h">40dp</dimen>
+    <dimen name="item_group_icon_margin">15dp</dimen>
+    <dimen name="item_group_members_margin_l">10dp</dimen>
+    <dimen name="item_group_members_margin_r">30dp</dimen>
+    <dimen name="layout_group_choose_bottom_h">40dp</dimen>
+    <dimen name="tv_group_choose_hint_margin">15dp</dimen>
+    <dimen name="btn_group_ok_margin_r">15dp</dimen>
+    <dimen name="btn_group_ok_padding">5dp</dimen>
+
+    <!--我的二维码-->
+    <dimen name="my_qr_card_margin_t">60dp</dimen>
+    <dimen name="my_qr_card_margin_b">60dp</dimen>
+    <dimen name="my_qr_card_margin_l">30dp</dimen>
+    <dimen name="my_qr_card_margin_r">30dp</dimen>
+    <dimen name="my_qr_card_title_h">45dp</dimen>
+    <dimen name="my_qr_card_title_icon_w_h">30dp</dimen>
+    <dimen name="my_qr_card_title_icon_margin">10dp</dimen>
+    <dimen name="my_qr_card_title_tv_margin">5dp</dimen>
+    <dimen name="my_qr_my_icon_w_h">60dp</dimen>
+    <dimen name="my_qr_my_name_tv_size">20dp</dimen>
+    <dimen name="my_qr_my_name_tv_margin_t">10dp</dimen>
+    <dimen name="my_qr_my_num_tv_margin_t">5dp</dimen>
+    <dimen name="my_qr_w_h">160dp</dimen>
+    <dimen name="my_qr_hint_t">20dp</dimen>
+    <dimen name="my_qr_hint_b">10dp</dimen>
+
+    <!--新的朋友-->
+    <dimen name="new_friend_add_padding">5dp</dimen>
+    <dimen name="new_friend_add_tv_size">15dp</dimen>
+    <dimen name="new_friend_divider_h">20dp</dimen>
+    <dimen name="new_friend_phone_h">50dp</dimen>
+    <dimen name="new_friend_icon_w_h">40dp</dimen>
+    <dimen name="new_friend_icon_margin">15dp</dimen>
+    <dimen name="new_contact_layout_h">50dp</dimen>
+    <dimen name="new_contact_layout_icon_w_h">40dp</dimen>
+    <dimen name="new_contact_layout_icon_margin">15dp</dimen>
+    <dimen name="new_contact_name_size">15dp</dimen>
+    <dimen name="new_contact_hint_size">10dp</dimen>
+    <dimen name="new_contact_btn_space_w">100dp</dimen>
+    <dimen name="new_contact_btn_padding_l">15dp</dimen>
+    <dimen name="new_contact_btn_padding_r">15dp</dimen>
+    <dimen name="new_contact_btn_padding_t">5dp</dimen>
+    <dimen name="new_contact_btn_padding_b">5dp</dimen>
+
+    <!--印家搜索好友结果页-->
+    <dimen name="item_result_layout_h">50dp</dimen>
+    <dimen name="item_result_icon_w_h">40dp</dimen>
+    <dimen name="item_result_icon_margin">15dp</dimen>
+    <dimen name="item_result_yj_name_size">15dp</dimen>
+    <dimen name="item_result_yj_num_size">10dp</dimen>
+    <dimen name="item_result_btn_margin">15dp</dimen>
+    <dimen name="item_result_btn_padding_t">5dp</dimen>
+    <dimen name="item_result_btn_padding_b">5dp</dimen>
+    <dimen name="item_result_btn_padding_l">15dp</dimen>
+    <dimen name="item_result_btn_padding_r">15dp</dimen>
+
+    <!--创建群组-->
+    <dimen name="group_create_phone_layout_h">50dp</dimen>
+    <dimen name="group_create_phone_icon_w_h">40dp</dimen>
+    <dimen name="group_create_phone_icon_margin">15dp</dimen>
+    <dimen name="group_create_member_layout_h">50dp</dimen>
+    <dimen name="group_create_member_cb_margin">15dp</dimen>
+    <dimen name="group_create_member_cb_w_h">20dp</dimen>
+    <dimen name="group_create_icon_w_h">40dp</dimen>
+    <dimen name="group_create_icon_margin">15dp</dimen>
 </resources>

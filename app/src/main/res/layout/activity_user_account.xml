@@ -13,7 +13,7 @@
 
         <TextView
             style="@style/title"
-            android:text="账户余额" />
+            android:text="充值" />
 
         <TextView
             android:id="@+id/tv_account_record"
@@ -21,8 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="充值记录"
-            android:textColor="#ffffff"
-            android:textSize="15sp" />
+            android:textColor="@color/yellow1"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <ScrollView
@@ -37,36 +37,38 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/green"
+                android:background="@color/white"
                 android:orientation="vertical">
-
+                <ImageView
+                    android:padding="15dp"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/account"/>
                 <TextView
                     android:id="@+id/tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="50dp"
-                    android:text="100.00"
-                    android:textColor="@color/white"
-                    android:textSize="70sp" />
+                    android:text="账户余额(元)"
+                    android:textColor="@color/black2"
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp"
-                    android:text="账户余额(元)"
-                    android:textColor="@color/white"
-                    android:textSize="13sp" />
+                    android:paddingBottom="10dp"
+                    android:paddingTop="5dp"
+                    android:text="￥100.00"
+                    android:textStyle="bold"
+                    android:textColor="@color/black2"
+                    android:textSize="20sp" />
             </LinearLayout>
-
-            <include layout="@layout/view1" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/gray5"
                 android:padding="15dp"
                 android:text="充值金额"
                 android:textColor="@color/gray3"
@@ -94,8 +96,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="《借款额度合同及相关授权》"
-                    android:textColor="@color/green"
+                    android:text="《充值协议》"
+                    android:textColor="@color/yellow1"
                     android:textSize="13sp" />
             </LinearLayout>
 

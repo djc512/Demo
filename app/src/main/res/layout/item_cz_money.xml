@@ -3,22 +3,39 @@
     android:id="@+id/ll_account_cz"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:padding="20dp"
-    android:fitsSystemWindows="true"
     android:background="@drawable/shape_cz_money_bg"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="20dp">
+    <ImageView
+        android:id="@+id/iv_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/check_2x"/>
     <TextView
+        android:layout_marginLeft="10dp"
         android:id="@+id/tv_account_chong"
-        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="充1000元"/>
+        android:text="充1000元"
+        android:textSize="18sp" />
+
     <TextView
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/tv_account_song"
-        android:textSize="13sp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="送100元"
+        android:textColor="@color/yellow2"
+        android:textSize="18sp" />
+    <TextView
+        android:id="@+id/tv_discount"
+        android:padding="5dp"
+        android:background="@color/yellow2"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="送100元"/>
+        android:text="5折"/>
 </LinearLayout>

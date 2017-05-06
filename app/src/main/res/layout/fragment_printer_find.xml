@@ -75,13 +75,17 @@
             app:srcCompat="@drawable/ic_location_refresh"/>
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mRecView"
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/xRefreshView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="15dp">
 
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRecView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"/>
+    </com.andview.refreshview.XRefreshView>
 </LinearLayout>

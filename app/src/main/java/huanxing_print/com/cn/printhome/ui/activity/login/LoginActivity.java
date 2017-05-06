@@ -6,15 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,19 +45,11 @@ import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
     private TextView tv_login;
-    private EditText login_phone, login_pass;
-    private TextView forget_pass, login_register;
-    private ImageView iv_head, passShowIv, passNormalIv;
-    private String phone, headImg;
-    private boolean isLoginOutDialogShow;// 是否显示登出的Dialog
+    private EditText login_phone;
+    private TextView  tv_register;
+    private String phone;
 
-    public static boolean isForeground = false;
-    public static final String KEY_TITLE = "title";
-    public static final String KEY_MESSAGE = "message";
-    public static final String KEY_EXTRAS = "extras";
-    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
     private long exitTime = 0;
-    private String password;
     private String openid;
     private boolean weiXinFlag;
     //微信登录
@@ -97,7 +86,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     private void initData() {
         phone = baseApplication.getPhone();
-        headImg = baseApplication.getHeadImg();
         if (!ObjectUtils.isNull(phone)) {
             login_phone.setText(phone);
         }
@@ -106,18 +94,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     private void initViews() {
         login_phone = (EditText) findViewById(R.id.login_user);
-        login_pass = (EditText) findViewById(R.id.login_pass);
-        forget_pass = (TextView) findViewById(R.id.forget_pass);
-        login_register = (TextView) findViewById(R.id.login_register);
+        tv_register = (TextView) findViewById(R.id.tv_register);
         tv_login = (TextView) findViewById(R.id.tv_login);
-        iv_head = (ImageView) findViewById(R.id.iv_head);
-        passShowIv = (ImageView) findViewById(R.id.pass_show);
-        passNormalIv = (ImageView) findViewById(R.id.pass_normal);
-        passShowIv.setOnClickListener(this);
-        passNormalIv.setOnClickListener(this);
         tv_login.setOnClickListener(this);
-        forget_pass.setOnClickListener(this);
-        login_register.setOnClickListener(this);
+        tv_register.setOnClickListener(this);
         findViewById(R.id.ll_weixin).setOnClickListener(this);
     }
 
@@ -126,30 +106,16 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         switch (v.getId()) {
             case R.id.tv_login:
                 String name = login_phone.getText().toString().trim();
-                password = login_pass.getText().toString().trim();
-                if (isUserNameAndPwdVali(name, password)) {
+                if (isUserNameAndPwdVali(name)) {
                     DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
-                    LoginRequset.login(getSelfActivity(), name, password, loginCallback);
+                    LoginRequset.login(getSelfActivity(), name, "", loginCallback);
                 }
                 //jumpActivity(MainActivity.class);
                 break;
-            case R.id.login_register://跳转注册界面
+            case R.id.tv_register://跳转注册界面
                 jumpActivity(RegisterActivity.class);
                 break;
 
-            case R.id.forget_pass://跳转修改密码界面
-                jumpActivity(ForgetPasswodActivity.class);
-                break;
-            case R.id.pass_normal:
-                passShowIv.setVisibility(View.VISIBLE);
-                passNormalIv.setVisibility(View.GONE);
-                login_pass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                break;
-            case R.id.pass_show:
-                passShowIv.setVisibility(View.GONE);
-                passNormalIv.setVisibility(View.VISIBLE);
-                login_pass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                break;
             case R.id.ll_weixin:
                 if (CommonUtils.isWeixinAvilible(getSelfActivity())) {
                     weChatAuth();
@@ -180,7 +146,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     baseApplication.setSex(userInfo.getSex());
                     baseApplication.setNickName(userInfo.getNickName());
                     baseApplication.setHeadImg(userInfo.getFaceUrl());
-                    baseApplication.setPassWord(password);
                     jumpActivity(MainActivity.class);
                     finishCurrentActivity();
                 }
@@ -206,18 +171,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     /*
      * 判断用户名和密码是否有效
      */
-    private boolean isUserNameAndPwdVali(String name, String psd) {
+    private boolean isUserNameAndPwdVali(String name) {
         if (ObjectUtils.isNull(name)) {
             toast(getStringFromResource(R.string.phone_no_null));
             return false;
         } else if (!CommonUtils.isPhone(name)) {
             toast(getStringFromResource(R.string.phone_format_error));
-            return false;
-        } else if (ObjectUtils.isNull(psd)) {
-            toast(getStringFromResource(R.string.psd_no_null));
-            return false;
-        } else if (psd.length() < 6) {
-            toast(getStringFromResource(R.string.phone_set_null));
             return false;
         }
         return true;
@@ -340,7 +299,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                         baseApplication.setSex(userInfo.getSex());
                         baseApplication.setNickName(userInfo.getNickName());
                         baseApplication.setHeadImg(userInfo.getFaceUrl());
-                        baseApplication.setPassWord(password);
                         //baseApplication.setWechatId(userInfo.getWechatId());
                         jumpActivity(MainActivity.class);
                         finishCurrentActivity();

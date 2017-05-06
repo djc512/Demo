@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@drawable/bg_recycler_click_selector">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/white"
+        android:layout_height="@dimen/item_phone_layout_h"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_head"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_width="@dimen/item_phone_icon_w_h"
+            android:layout_height="@dimen/item_phone_icon_w_h"
+            android:layout_marginLeft="@dimen/item_phone_icon_margin_l"
+            android:layout_marginRight="@dimen/item_phone_icon_margin_r"
             android:src="@drawable/iv_head"/>
 
         <LinearLayout
@@ -29,20 +29,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ABC"
-                android:textSize="20dp"
+                android:textSize="@dimen/item_phone_name_tv_size"
                 android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tv_yjNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="好友验证内容"
-                android:textSize="15dp"/>
+                android:text="123456789"
+                android:textSize="@dimen/item_phone_num_tv_size"/>
 
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="@dimen/item_phone_btn_margin_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -59,11 +59,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@drawable/btn_contact_add_selector"
-                android:paddingBottom="5dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="5dp"
-                android:text="联系TA"/>
+                android:paddingBottom="@dimen/item_phone_btn_margin_bottom"
+                android:paddingLeft="@dimen/item_phone_btn_padding_l"
+                android:paddingRight="@dimen/item_phone_btn_padding_r"
+                android:paddingTop="@dimen/item_phone_btn_margin_top"
+                android:text="@string/btn_contact_him"/>
         </RelativeLayout>
 
 

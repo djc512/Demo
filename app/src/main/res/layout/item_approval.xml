@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/bg_recycler_click_selector"
+                >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@id/tv_name"
+            android:padding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="张三_采购审批"/>
+        <TextView
+            android:id="@+id/tv_time"
+            android:padding="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2017-5"/>
+        <TextView
+            android:id="@+id/tv_use"
+            android:layout_below="@+id/tv_name"
+            android:paddingLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:text="用途说明"/>
+        <TextView
+            android:id="@+id/tv_detail"
+            android:layout_below="@+id/tv_use"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:text="采购清单"/>
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_below="@+id/tv_time"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:text="审批完成"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

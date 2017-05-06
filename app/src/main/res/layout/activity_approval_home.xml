@@ -8,7 +8,9 @@
 
     <RelativeLayout style="@style/Re_title">
 
-        <include layout="@layout/ll_title_back"></include>
+        <include
+            android:id="@+id/ll_back"
+            layout="@layout/ll_title_back"></include>
 
         <TextView
             style="@style/title"
@@ -20,6 +22,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -40,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_launcher" />
+                    android:src="@drawable/iv_wait_approval" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -68,10 +71,26 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/iv_my_initiate" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_submit"
+                    android:background="@drawable/shape_circle"
+                    android:gravity="center"
+                    android:text="8"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,10 +108,26 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/iv_copy_my" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_send"
+                    android:background="@drawable/shape_circle"
+                    android:gravity="center"
+                    android:text="8"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,6 +143,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:paddingTop="10dp">
 
@@ -132,7 +168,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -147,7 +184,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/iv_procure_approva" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -158,19 +195,33 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"></LinearLayout>
-
-        <LinearLayout
             android:id="@+id/ll_reimburse"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/iv_reimburse" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="报销" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
 
             <ImageView
                 android:layout_width="wrap_content"

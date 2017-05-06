@@ -9,45 +9,46 @@
 
     <RelativeLayout
         android:id="@+id/titleBar"
-        style="@style/Re_title">
+        style="@style/Re_contact_title">
 
-        <include layout="@layout/ll_title_back"></include>
+        <include layout="@layout/layout_contact_back"></include>
 
         <TextView
             style="@style/title"
-            android:text="二维码名片"/>
+            android:text="@string/title_qr"/>
 
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginBottom="@dimen/my_qr_card_margin_b"
+        android:layout_marginLeft="@dimen/my_qr_card_margin_l"
+        android:layout_marginRight="@dimen/my_qr_card_margin_r"
+        android:layout_marginTop="@dimen/my_qr_card_margin_t"
         android:background="@drawable/qr_detail_content"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="@dimen/my_qr_card_title_h"
             android:background="@drawable/qr_detail_top"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/appicon_print"/>
+                android:layout_width="@dimen/my_qr_card_title_icon_w_h"
+                android:layout_height="@dimen/my_qr_card_title_icon_w_h"
+                android:layout_marginLeft="@dimen/my_qr_card_title_icon_margin"
+                android:background="@drawable/ic_my_qr_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="印家打印二维码名片"/>
+                android:layout_marginLeft="@dimen/my_qr_card_title_tv_margin"
+                android:layout_marginRight="@dimen/my_qr_card_title_tv_margin"
+                android:text="@string/title_top_hint"/>
         </LinearLayout>
 
         <LinearLayout
@@ -58,16 +59,14 @@
             android:orientation="vertical">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_my_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_width="@dimen/my_qr_my_icon_w_h"
+                android:layout_height="@dimen/my_qr_my_icon_w_h"
                 android:src="@drawable/iv_head"/>
             <TextView
                 android:text="汪浩"
                 android:id="@+id/tv_my_name"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp"
+                android:layout_marginTop="@dimen/my_qr_my_name_tv_margin_t"
+                android:textSize="@dimen/my_qr_my_name_tv_size"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -75,20 +74,20 @@
             <TextView
                 android:id="@+id/tv_yjNum"
                 android:text="印家号:201818"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/my_qr_my_num_tv_margin_t"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <ImageView
             android:id="@+id/iv_my_qr"
-            android:layout_width="160dp"
-            android:layout_height="160dp"/>
+            android:layout_width="@dimen/my_qr_w_h"
+            android:layout_height="@dimen/my_qr_w_h"/>
 
         <TextView
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"
-            android:text="在印家打印上扫一扫加我"
+            android:layout_marginTop="@dimen/my_qr_hint_t"
+            android:layout_marginBottom="@dimen/my_qr_hint_b"
+            android:text="@string/title_bottom_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>

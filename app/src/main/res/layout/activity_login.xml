@@ -68,12 +68,14 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal" >
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/iv_phone" />
+                        android:text="手机号"
+                        android:textColor="@color/text_color"
+                        android:textSize="16sp" />
 
                     <EditText
                         android:id="@+id/login_user"
@@ -99,46 +101,40 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginTop="@dimen/distance_twenty"
+                    android:layout_marginTop="20dip"
                     android:gravity="center_vertical"
                     android:orientation="horizontal" >
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/iv_pwd" />
+                        android:text="验证码"
+                        android:textColor="@color/text_color"
+                        android:textSize="16sp" />
 
                     <EditText
-                        android:id="@+id/login_pass"
+                        android:id="@+id/register_code"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="center_vertical"
-                        android:hint="@string/hint_psd"
-                        android:inputType="textPassword"
-                        android:maxLength="16"
-                        android:textColor="@color/black"
+                        android:hint="@string/hint_code"
+                        android:inputType="number"
+                        android:maxLength="6"
                         android:textColorHint="@color/gray3"
-                        android:textSize="16sp" >
-                    </EditText>
-                    <ImageView
-                        android:id="@+id/pass_show"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/btn_password_show"
-                        android:visibility="gone" />
+                        android:textSize="16sp" />
 
-                    <ImageView
-                        android:id="@+id/pass_normal"
+                    <TextView
+                        android:id="@+id/code_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/btn_password_normal"
-                        />
+                        android:layout_marginRight="10dp"
+                        android:text="@string/eagerly_fetch"
+                        android:textColor="@color/yellow"
+                        android:textSize="16sp" />
                 </LinearLayout>
                 <View
                 android:layout_width="match_parent"
@@ -146,16 +142,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@color/gray1" />
 
-                <TextView
-                    android:id="@+id/forget_pass"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="right"
-                    android:text="@string/forget_pass"
-                    android:textColor="@color/gray2"
-                    android:textSize="16sp" />
+
             </LinearLayout>
 
         <TextView
@@ -166,49 +153,45 @@
             android:layout_marginLeft="20dip"
             android:layout_marginRight="20dip"
             android:layout_marginTop="20dip"
-            android:background="@drawable/btn_login"
+            android:background="@drawable/broder_yellow_full"
             android:gravity="center"
             android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="left"
+            android:text="新用户注册"
+            android:textColor="@color/text_color"
+            android:textSize="16sp" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_weixin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_content"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:layout_marginTop="@dimen/distance_fifty"
+        android:layout_marginBottom="@dimen/distance_twenty"
         android:orientation="vertical"
          >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/logo_weixin" />
+            android:background="@drawable/iv_logo_wechat" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="@string/login_weixin"
-            android:textColor="@color/gray2"
+            android:textColor="@color/gray3"
             android:textSize="16sp" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:layout_marginBottom="@dimen/distance_twenty"
-        >
 
-        <TextView
-            android:id="@+id/login_register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/new_user"
-            android:textColor="@color/green"
-            android:textSize="20sp" />
-    </LinearLayout>
 
 </RelativeLayout>

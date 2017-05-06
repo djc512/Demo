@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:background="@color/all_bg_color"
+    android:background="@color/yellow"
     android:orientation="vertical" >
 
     <FrameLayout
@@ -17,9 +18,8 @@
         android:id="@+id/rgp_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
         android:paddingBottom="5dp"
-        android:background="@color/white"
+        android:background="@drawable/bg_main_bottom"
         android:orientation="horizontal" >
         <RadioButton
             android:id="@+id/rgb_chat"
@@ -27,6 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
+            android:paddingTop="30dp"
             android:drawableTop="@drawable/main_tab_chat_selector"
             android:text="印信"
             />
@@ -36,6 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
+            android:paddingTop="30dp"
             android:drawableTop="@drawable/main_tab_apply_selector"
             android:text="应用"
             />
@@ -46,6 +48,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.0"
             android:checked="true"
+            android:paddingTop="20dp"
             android:drawableTop="@drawable/main_tab_print_selector"
             android:text="共享打印"
             />
@@ -55,6 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
+            android:paddingTop="30dp"
             android:drawableTop="@drawable/main_tab_contacts_selector"
             android:text="联系人"
             />
@@ -64,6 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
+            android:paddingTop="30dp"
             android:drawableTop="@drawable/main_tab_my_selector"
             android:text="我的"
              />

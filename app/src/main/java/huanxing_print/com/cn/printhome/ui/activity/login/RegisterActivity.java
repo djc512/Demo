@@ -1,12 +1,9 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,14 +21,14 @@ import huanxing_print.com.cn.printhome.util.time.ScheduledHandler;
 import huanxing_print.com.cn.printhome.util.time.ScheduledTimer;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
+import static android.R.attr.password;
+
 public class RegisterActivity extends BaseActivity implements OnClickListener {
 	private RelativeLayout rl_title;
 	private TextView  getCodeTv, registeTv;
-	private EditText registerPhoneEt, registerCodeEt, registerPassEt;
+	private EditText registerPhoneEt, registerCodeEt ;
 
-	private String  password, phone, verCode;
-
-	private ImageView passShowIv, passNormalIv;
+	private String  phone, verCode;
 
 	@Override
 	protected BaseActivity getSelfActivity() {
@@ -63,24 +60,15 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 		registerPhoneEt = (EditText) findViewById(R.id.register_phonenum);
 		registerCodeEt = (EditText) findViewById(R.id.register_code);
-		registerPassEt = (EditText) findViewById(R.id.register_pass);
-		findViewById(R.id.rl_title).setOnClickListener(this);
 		getCodeTv.setOnClickListener(this);
 		registeTv.setOnClickListener(this);
 
-		passShowIv = (ImageView) findViewById(R.id.pass_show);
-		passNormalIv = (ImageView) findViewById(R.id.pass_normal);
-		passShowIv.setOnClickListener(this);
-		passNormalIv.setOnClickListener(this);
 
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.rl_title:
-			finishCurrentActivity();
-			break;
 		case R.id.code_btn:// 获取验证码
 			getVerCode();
 			break;
@@ -91,16 +79,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 //		case R.id.reg_login:// 已经账号去登录
 //			jumpActivity(LoginActivity.class);
 //			break;
-		case R.id.pass_normal:
-			passShowIv.setVisibility(View.VISIBLE);
-			passNormalIv.setVisibility(View.GONE);
-			registerPassEt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-			break;
-		case R.id.pass_show:
-			passShowIv.setVisibility(View.GONE);
-			passNormalIv.setVisibility(View.VISIBLE);
-			registerPassEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
-			break;
 		default:
 			break;
 		}
@@ -112,12 +90,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	 */
 	public void register() {
 		phone = registerPhoneEt.getText().toString();
-		password = registerPassEt.getText().toString();
 		verCode = registerCodeEt.getText().toString();
 
 		if (verify()) {
 			DialogUtils.showProgressDialog(getSelfActivity(), "正在注册").show();
-			RegisterRequst.register(getSelfActivity(),  password, phone, verCode,baseApplication.getWechatId(), registerCallback);
+			RegisterRequst.register(getSelfActivity(),  "", phone, verCode,baseApplication.getWechatId(), registerCallback);
 		}
 	}
 
@@ -137,12 +114,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			return false;
 		} else if (ObjectUtils.isNull(password)) {
 			ToastUtil.doToast(this, R.string.psd_no_null);
-			return false;
-		} else if (password.length()<6) {
-			ToastUtil.doToast(this, R.string.psd_set);
-			return false;
-		} else if (CommonUtils.checkStrChese(password)) {
-			ToastUtil.doToast(this, R.string.psd_set_no_chinese);
 			return false;
 		}
 		return true;

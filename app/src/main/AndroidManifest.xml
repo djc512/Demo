@@ -423,6 +423,11 @@
             android:name=".ui.activity.approval.ApprovalBuyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <!--审批界面-->
+        <activity
+            android:name=".ui.activity.approval.ApprovalHomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

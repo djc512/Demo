@@ -1,21 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/white"
+    android:clipToPadding="true"
     android:fitsSystemWindows="true"
-    android:clipToPadding="true">
+    android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/stausTv"
+    <include
+        layout="@layout/tiltebar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="..."
-        android:textSize="20sp"/>
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/devide_gray"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <RelativeLayout
+            android:id="@+id/successRyt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/shareTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_share"
+                        android:drawablePadding="5dp"
+                        android:text="分享赢取免费打印"
+                        android:textColor="@color/text_gray"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/commentTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_comment"
+                        android:drawablePadding="5dp"
+                        android:text="评价本次打印"
+                        android:textColor="@color/text_gray"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/printTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_preview_finish_bg"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="继续打印"
+                android:textColor="@color/text_black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/exitTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/printTv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_rectangle_rounded_h_gray"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="退出"
+                android:textColor="@color/text_black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/printingTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/printTv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:text="打印中，请在出纸口取件！"
+                android:textColor="@color/text_black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_above="@+id/printingTv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                app:srcCompat="@drawable/appicon_print"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/stateRyt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/stateTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="发送文件排队中..."
+                android:textColor="@color/text_black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/stateDetailTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/stateTv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="前面有3个打印任务，请耐心等待"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp"/>
+
+            <ImageView
+                android:id="@+id/stateImg"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_above="@+id/stateTv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                app:srcCompat="@drawable/img_printer_state"/>
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/queueDraweeView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:layout_alignBottom="@+id/stateImg"
+                android:layout_alignEnd="@+id/stateImg"
+                android:layout_alignRight="@+id/stateImg"/>
+
+            <ImageView
+                android:id="@+id/exceptionImg"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/stateImg"
+                android:layout_alignEnd="@+id/stateImg"
+                android:layout_alignRight="@+id/stateImg"
+                app:srcCompat="@drawable/ic_exception"/>
+
+            <LinearLayout
+                android:id="@+id/exceptionLyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/shape_preview_finish_bg"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="？？？？？"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/errorExitTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/shape_rectangle_rounded_h_gray"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="退出"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </FrameLayout>
+
 
 </LinearLayout>

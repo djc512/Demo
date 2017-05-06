@@ -106,7 +106,7 @@ public class PrintStatusActivity extends BasePrintActivity {
         super.onDestroy();
     }
 
-    private void initView() {
-        stausTv = (TextView) findViewById(R.id.stausTv);
+ private void initView() {
+       // stausTv = (TextView) findViewById(R.id.stausTv);
     }
 }

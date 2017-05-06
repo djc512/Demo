@@ -2,31 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/gray1">
+                android:background="@color/all_bg_color">
 
     <RelativeLayout
         android:id="@+id/titleBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp">
+        style="@style/Re_contact_title">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="联系人"
-            android:textColor="@color/text_color"
-            android:textSize="20sp"/>
+            style="@style/contact_title"
+            android:text="@string/title_contact"
+            />
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/iv_add_contact"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:background="@drawable/bg_recycler_click_selector"
+            android:layout_width="@dimen/add_w_h"
+            android:layout_height="@dimen/add_w_h"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:padding="5dp"
-            android:src="@drawable/btn_scan"/>
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/add_img_w"
+                android:layout_height="@dimen/add_img_h"
+                android:background="@drawable/ic_contact_add"/>
+        </LinearLayout>
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -34,16 +33,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/titleBar"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/recycler_margin_top"
+        android:layout_marginBottom="@dimen/recycler_margin_bottom"
         android:background="@color/gray1"/>
 
     <huanxing_print.com.cn.printhome.view.IndexSideBar
         android:id="@+id/contacts_sidebar"
-        android:layout_width="30dp"
+        android:layout_width="@dimen/sidebar_width"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/titleBar"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginBottom="@dimen/sidebar_margin_bottom"
+        android:layout_marginTop="@dimen/sidebar_margin_top"/>
 
 
 </RelativeLayout>

@@ -7,41 +7,42 @@
               android:fitsSystemWindows="true"
               android:orientation="vertical">
 
-    <RelativeLayout style="@style/Re_title">
+    <RelativeLayout android:id="@+id/titleBar"
+                    style="@style/Re_contact_title">
 
-        <include layout="@layout/ll_title_back"></include>
+        <include layout="@layout/layout_contact_back"/>
 
         <TextView
-            style="@style/title"
-            android:text="添加联系人"/>
+            style="@style/contact_title"
+            android:text="@string/title_add_contact"/>
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/distance_fifteen"
-        android:background="#e5e5e5"
-        />
+        android:layout_height="@dimen/add_line_h"
+        android:layout_marginTop="@dimen/add_contact_margin_top"
+        android:background="#e5e5e5"/>
 
     <LinearLayout
         android:id="@+id/input_yinJia_number_space"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
+        android:layout_height="@dimen/recycler_address_book_h"
+        android:background="@drawable/bg_recycler_click_selector"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/iv_head"/>
+            android:layout_width="@dimen/recycler_icon_w_h"
+            android:layout_height="@dimen/recycler_icon_w_h"
+            android:layout_marginLeft="@dimen/recycler_icon_margin_l"
+            android:layout_marginRight="@dimen/recycler_icon_margin_r"
+            android:background="@drawable/ic_add_search"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="输入印家号／手机号搜索"/>
+            android:textSize="@dimen/recycler_address_book_tv_size"
+            android:text="@string/text_search_yj_num"/>
     </LinearLayout>
 
     <LinearLayout
@@ -51,9 +52,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="@dimen/add_line_h"
+            android:layout_marginLeft="@dimen/recycler_icon_margin_l"
+            android:layout_marginRight="@dimen/recycler_icon_margin_r"
             android:background="#e5e5e5"
             />
     </LinearLayout>
@@ -61,22 +62,23 @@
     <LinearLayout
         android:id="@+id/add_by_addressbook"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
+        android:layout_height="@dimen/recycler_address_book_h"
+        android:background="@drawable/bg_recycler_click_selector"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/iv_head"/>
+            android:layout_width="@dimen/recycler_icon_w_h"
+            android:layout_height="@dimen/recycler_icon_w_h"
+            android:layout_marginLeft="@dimen/recycler_icon_margin_l"
+            android:layout_marginRight="@dimen/recycler_icon_margin_r"
+            android:background="@drawable/ic_contact_phone"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="添加手机联系人"/>
+            android:textSize="@dimen/recycler_address_book_tv_size"
+            android:text="@string/text_add_by_phone"/>
     </LinearLayout>
 
     <LinearLayout
@@ -86,9 +88,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="@dimen/add_line_h"
+            android:layout_marginLeft="@dimen/recycler_icon_margin_l"
+            android:layout_marginRight="@dimen/recycler_icon_margin_r"
             android:background="#e5e5e5"
             />
     </LinearLayout>
@@ -96,27 +98,28 @@
     <LinearLayout
         android:id="@+id/add_by_qr"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
+        android:layout_height="@dimen/recycler_address_book_h"
+        android:background="@drawable/bg_recycler_click_selector"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/iv_head"/>
+            android:layout_width="@dimen/recycler_icon_w_h"
+            android:layout_height="@dimen/recycler_icon_w_h"
+            android:layout_marginLeft="@dimen/recycler_icon_margin_l"
+            android:layout_marginRight="@dimen/recycler_icon_margin_r"
+            android:background="@drawable/ic_add_scan"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="扫一扫加好友"/>
+            android:textSize="@dimen/recycler_address_book_tv_size"
+            android:text="@string/text_scan_friend"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/add_line_h"
         android:background="#e5e5e5"
         />
 
@@ -124,18 +127,20 @@
         android:id="@+id/my_qr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/add_contact_margin_top"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的二维码名片"/>
+            android:textSize="@dimen/add_my_qr_tv_size"
+            android:text="@string/text_my_qr_card"/>
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/appicon_print"/>
+            android:layout_marginLeft="@dimen/add_my_qr_margin"
+            android:layout_width="@dimen/add_qr_icon_w_h"
+            android:layout_height="@dimen/add_qr_icon_w_h"
+            android:background="@drawable/ic_add_my_qr"/>
     </LinearLayout>
 </LinearLayout>

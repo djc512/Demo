@@ -86,16 +86,8 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <GridView
-                    android:id="@+id/noScrollgridview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:horizontalSpacing="3dp"
-                    android:numColumns="4"
-                    android:scrollbars="none"
-                    android:verticalSpacing="5dp" >
-                </GridView>
+                <include
+                    layout="@layout/item_gradview"/>
 
                 <TextView
                     android:visibility="gone"

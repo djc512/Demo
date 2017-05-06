@@ -2,7 +2,8 @@
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="all_bg_color">#f4f6f8</color>
+    <color name="transparent_full">#00000000</color>
+    <color name="all_bg_color">#efeff4</color>
     <color name="line_color">#dbdbdb</color>
     <color name="title_color">#5a5859</color>
     <color name="title_bg_color">#2a313c</color>
@@ -26,10 +27,12 @@
     <color name="theme_yellow">#ffd902</color>
     <!--复印界面-->
     <color name="gray5">#efeff4</color>
-    <color name="gray6">#b5b5b5</color>
+    <color name="gray6">#e5e5e5</color>
     <color name="gray7">#cacaca</color>
     <color name="black1">#333333</color>
     <color name="yellow">#ffd900</color>
+    <color name="yellow1">#f7af31</color>
+    <color name="yellow2">#fc814a</color>
     <color name="black2">#282828</color>
     <color name="gray8">#989898</color>
     <!--审批-->

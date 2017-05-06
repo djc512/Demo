@@ -7,40 +7,46 @@
               android:fitsSystemWindows="true"
               android:orientation="vertical">
 
-    <RelativeLayout style="@style/Re_title">
-
-        <include layout="@layout/ll_title_back"></include>
+    <RelativeLayout android:id="@+id/titleBar"
+                    style="@style/Re_contact_title">
+        <include layout="@layout/layout_contact_back"/>
 
         <TextView
-            style="@style/title"
-            android:text="朋友验证"/>
-        <TextView
+            style="@style/contact_title"
+            android:text="@string/text_verification_friend"/>
+        <LinearLayout
             android:id="@+id/verification_send"
-            android:text="发送"
-            android:textSize="20sp"
-            android:textColor="@color/text_yellow"
-            android:padding="5dp"
+            android:background="@drawable/bg_recycler_click_selector"
+            android:layout_width="@dimen/add_w_h"
+            android:layout_height="@dimen/add_w_h"
             android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:gravity="center">
+            <TextView
+                android:text="@string/text_verification_send"
+                android:textSize="@dimen/verification_send_tv_size"
+                android:textColor="@color/text_yellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
     </RelativeLayout>
 
     <TextView
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="@dimen/recycler_icon_margin_l"
+        android:paddingRight="@dimen/recycler_icon_margin_r"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="您需要发送验证申请,等待对方通过~"/>
+        android:layout_marginTop="@dimen/recycler_margin_top"
+        android:text="@string/text_verification_hint"/>
 
     <EditText
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingLeft="@dimen/recycler_icon_margin_l"
+        android:paddingRight="@dimen/recycler_icon_margin_r"
         android:id="@+id/et_hint_content"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="@dimen/verification_et_h"
+        android:layout_marginTop="@dimen/verification_et_margin_top"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:text="我是"/>
+        android:text="@string/text_verification_et_hint"/>
 </LinearLayout>

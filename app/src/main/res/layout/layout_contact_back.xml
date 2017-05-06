@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/ll_back"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="@dimen/add_w_h"
+              android:layout_height="@dimen/add_w_h"
+              android:background="@drawable/bg_recycler_click_selector"
+              android:gravity="center">
+
+    <ImageView
+        android:layout_width="@dimen/back_w_h"
+        android:layout_height="@dimen/back_w_h"
+        android:src="@drawable/ic_back"/>
+</LinearLayout>

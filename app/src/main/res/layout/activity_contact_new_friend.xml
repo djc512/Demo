@@ -9,23 +9,24 @@
 
     <RelativeLayout
         android:id="@+id/titleBar"
-        style="@style/Re_title">
+        style="@style/Re_contact_title">
 
-        <include layout="@layout/ll_title_back"></include>
+        <include layout="@layout/layout_contact_back"></include>
 
         <TextView
             style="@style/title"
-            android:text="新的朋友"/>
+            android:text="@string/title_new_friend"/>
 
         <TextView
             android:id="@+id/add_friend"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="5dp"
-            android:text="添加朋友"
+            android:gravity="center"
+            android:padding="@dimen/new_friend_add_padding"
+            android:text="@string/btn_add_friend"
             android:textColor="@color/text_yellow"
-            android:textSize="18sp"/>
+            android:textSize="@dimen/new_friend_add_tv_size"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

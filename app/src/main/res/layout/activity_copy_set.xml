@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="true"
-    android:background="@color/gray5">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray5"
+                android:clipToPadding="true"
+                android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -18,7 +17,7 @@
 
             <TextView
                 style="@style/title"
-                android:text="设置输出" />
+                android:text="设置输出"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -33,7 +32,7 @@
                 layout="@layout/copy_step_lineview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -48,7 +47,7 @@
                 android:layout_centerInParent="true"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:src="@drawable/orientation" />
+                android:src="@drawable/orientation"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -74,13 +73,13 @@
                     android:layout_weight="1"
                     android:text="打印数量"
                     android:textColor="@color/black2"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:id="@+id/iv_minus"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/minus" />
+                    android:src="@drawable/minus"/>
 
                 <TextView
                     android:id="@+id/tv_mount"
@@ -88,16 +87,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:text="1" />
+                    android:text="1"/>
 
                 <ImageView
                     android:id="@+id/iv_plus"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/plus" />
+                    android:src="@drawable/plus"/>
             </LinearLayout>
 
-            <include layout="@layout/viewline1" />
+            <include layout="@layout/viewline1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -115,7 +114,7 @@
                     android:layout_weight="1"
                     android:text="排版方向"
                     android:textColor="@color/black2"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/tv_vertical"
@@ -123,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:text="竖版"
                     android:textColor="@color/gray8"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:id="@+id/iv_orientation"
@@ -131,7 +130,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/on" />
+                    android:src="@drawable/on"/>
 
                 <TextView
                     android:id="@+id/tv_orientation"
@@ -139,10 +138,10 @@
                     android:layout_height="wrap_content"
                     android:text="横版"
                     android:textColor="@color/black2"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <include layout="@layout/viewline1" />
+            <include layout="@layout/viewline1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,7 +159,7 @@
                     android:layout_weight="1"
                     android:text="色彩选择"
                     android:textColor="@color/black2"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/tv_black"
@@ -168,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:text="黑白"
                     android:textColor="@color/gray8"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:id="@+id/iv_color"
@@ -176,7 +175,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/on" />
+                    android:src="@drawable/on"/>
 
                 <TextView
                     android:id="@+id/tv_color"
@@ -184,10 +183,10 @@
                     android:layout_height="wrap_content"
                     android:text="彩色"
                     android:textColor="@color/black2"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <include layout="@layout/viewline1" />
+            <include layout="@layout/viewline1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -205,16 +204,16 @@
                     android:layout_weight="1"
                     android:text="纸张大小"
                     android:textColor="@color/black2"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
+                    android:id="@+id/tv_a4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A4"
                     android:layout_marginRight="10dp"
+                    android:text="A4"
                     android:textColor="@color/gray8"
-                    android:textSize="16sp"
-                    android:id="@+id/tv_a4" />
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:id="@+id/iv_a43"
@@ -222,20 +221,20 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/on" />
+                    android:src="@drawable/on"/>
 
                 <TextView
                     android:id="@+id/tv_a3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A3"
-                    android:layout_marginRight="5dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginRight="5dp"
+                    android:text="A3"
                     android:textColor="@color/black2"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <include layout="@layout/viewline1" />
+            <include layout="@layout/viewline1"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -253,7 +252,7 @@
                     android:layout_weight="1"
                     android:text="打印方式"
                     android:textColor="@color/black2"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/tv_single"
@@ -261,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:text="单面"
                     android:textColor="@color/gray8"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
                 <ImageView
                     android:id="@+id/iv_print_type"
@@ -269,7 +268,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:src="@drawable/on" />
+                    android:src="@drawable/on"/>
 
                 <TextView
                     android:id="@+id/tv_double"
@@ -277,7 +276,7 @@
                     android:layout_height="wrap_content"
                     android:text="双面"
                     android:textColor="@color/black2"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -299,7 +298,7 @@
                 android:layout_weight="1"
                 android:text="支付方式"
                 android:textColor="@color/black2"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/tv_persion"
@@ -307,7 +306,7 @@
                 android:layout_height="wrap_content"
                 android:text="个人"
                 android:textColor="@color/gray8"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <ImageView
                 android:id="@+id/iv_copy_cz"
@@ -315,7 +314,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/on" />
+                android:src="@drawable/on"/>
 
             <TextView
                 android:id="@+id/tv_qun"
@@ -323,11 +322,10 @@
                 android:layout_height="wrap_content"
                 android:text="共印群"
                 android:textColor="@color/black2"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_cz_persion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -337,7 +335,8 @@
             android:paddingBottom="10dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
@@ -345,20 +344,21 @@
                 android:layout_weight="1"
                 android:text="充值"
                 android:textColor="@color/black2"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="充值最高5折优惠" />
+                android:text="充值最高5折优惠"/>
 
             <ImageView
                 android:id="@+id/iv_cz_persion"
-                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/arrow_go" />
+                android:paddingLeft="10dp"
+                android:src="@drawable/arrow_go"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ll_cz_qun"
             android:layout_width="match_parent"
@@ -377,14 +377,14 @@
                 android:layout_weight="1"
                 android:text="图牛研发打印群"
                 android:textColor="@color/black2"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <ImageView
                 android:id="@+id/iv_cz_qun"
-                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/arrow_go" />
+                android:paddingLeft="10dp"
+                android:src="@drawable/arrow_go"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -397,8 +397,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:textSize="18sp"
-            android:shadowColor="@color/black2"
             android:id="@+id/btn_preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -407,7 +405,9 @@
             android:background="@drawable/shape_preview_finish_bg"
             android:gravity="center_horizontal"
             android:padding="10dp"
+            android:shadowColor="@color/black2"
             android:text="完成"
+            android:textSize="18sp"
             />
     </LinearLayout>
 </RelativeLayout>

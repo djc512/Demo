@@ -1,11 +1,13 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment.fragapproval;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
+import huanxing_print.com.cn.printhome.ui.activity.approval.ApprovalHomeActivity;
 
 public class ApplyFragment extends BaseFragment implements OnClickListener {
 	private Context mContext;
@@ -41,17 +43,17 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 
 		findViewById(R.id.ll_approve).setOnClickListener(this);
 	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-    	case R.id.ll_approve:
-			//startActivity(new Intent(getActivity(), SetActivity.class));
-			break;
-		default:
-			break;
+			case R.id.ll_approve:
+				startActivity(new Intent(getActivity(), ApprovalHomeActivity.class));
+				break;
+			default:
+				break;
 		}
 	}
-
 
 
 	@Override

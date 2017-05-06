@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@drawable/bg_recycler_click_selector">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/white"
+        android:layout_height="@dimen/item_group_layout_h"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_head"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_width="@dimen/item_group_icon_w_h"
+            android:layout_height="@dimen/item_group_icon_w_h"
+            android:layout_marginLeft="@dimen/item_group_icon_margin"
+            android:layout_marginRight="@dimen/item_group_icon_margin"
             android:src="@drawable/iv_head"/>
 
         <TextView
@@ -31,8 +31,8 @@
             android:id="@+id/groupMembers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="@dimen/item_group_members_margin_l"
+            android:layout_marginRight="@dimen/item_group_members_margin_r"
             android:layout_weight="1"
             android:text="(5人)"/>
     </LinearLayout>
