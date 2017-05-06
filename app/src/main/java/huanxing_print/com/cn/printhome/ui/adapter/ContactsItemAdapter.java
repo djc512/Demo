@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
 import huanxing_print.com.cn.printhome.util.PinYinUtil;
@@ -145,7 +151,7 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if(holder instanceof CharacterHolder){
             ((CharacterHolder) holder).mTitle.setText(mInfos.get(position).getName());
         }else{
-            ((FriendHolder) holder).mTitle.setText(mInfos.get(position).getName());
+            ((FriendHolder) holder).bind(mInfos.get(position));
         }
     }
 
@@ -212,10 +218,38 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     class FriendHolder extends RecyclerView.ViewHolder {
         TextView mTitle;
+        CircleImageView iv_head;
+        private ContactInfo friendInfo;
 
         public FriendHolder(View itemView) {
             super(itemView);
             mTitle = (TextView) itemView.findViewById(R.id.nameTv);
+            iv_head = (CircleImageView) itemView.findViewById(R.id.iv_head);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(null != typeItemClickerListener && null != friendInfo) {
+                        typeItemClickerListener.contactClick(friendInfo);
+                    }
+                }
+            });
+        }
+
+        public void bind(ContactInfo info) {
+            this.friendInfo = info;
+            if(null != friendInfo) {
+                mTitle.setText(friendInfo.getName());
+                loadPic();
+            }
+        }
+
+        private void loadPic() {
+            Glide.with(mContext).load(friendInfo.getIconPath()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    iv_head.setImageDrawable(resource);
+                }
+            });
         }
     }
 
@@ -246,9 +280,11 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         void newFriendLister();
         void addressBookListener();
         void groupListener();
+        void contactClick(ContactInfo info);
     }
 
     public void setTypeItemClickerListener(OnTypeItemClickerListener listener) {
         this.typeItemClickerListener = listener;
     }
+
 }

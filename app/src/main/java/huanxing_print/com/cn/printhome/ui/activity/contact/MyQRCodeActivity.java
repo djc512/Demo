@@ -6,6 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
@@ -46,7 +51,18 @@ public class MyQRCodeActivity extends BaseActivity implements View.OnClickListen
             im_qr.setImageBitmap(bitmap);
         }
         tv_my_name.setText("汪浩");
-        tv_my_yjNum.setText(String.format("印家号:%s","123456"));
+        tv_my_yjNum.setText(String.format(getString(R.string.value_my_qr_yjnum),"123456"));
+        String icon = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg";
+        loadPic(icon);
+    }
+
+    private void loadPic(String path) {
+        Glide.with(this).load(path).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                my_icon.setImageDrawable(resource);
+            }
+        });
     }
 
     private void setListener() {

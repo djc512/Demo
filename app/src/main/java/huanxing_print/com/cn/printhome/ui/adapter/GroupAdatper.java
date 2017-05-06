@@ -7,6 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,18 +60,46 @@ public class GroupAdatper extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         private CircleImageView icon;
         private TextView tv_groupName;
         private TextView tv_groupMember;
+        private GroupInfo groupInfo;
         public GroupHolder(View itemView) {
             super(itemView);
             icon = (CircleImageView) itemView.findViewById(R.id.iv_head);
             tv_groupName = (TextView) itemView.findViewById(R.id.groupName);
             tv_groupMember = (TextView) itemView.findViewById(R.id.groupMembers);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(null != itemGroupClickListener) {
+                        itemGroupClickListener.clickGroup(groupInfo);
+                    }
+                }
+            });
         }
 
         public void bind(GroupInfo info) {
+            this.groupInfo = info;
             if(null != info) {
                 tv_groupName.setText(info.getGroupName());
                 tv_groupMember.setText(String.format("(%d人)", info.getMembers().size()));
+                loadPic();
             }
         }
+
+        private void loadPic() {
+            Glide.with(mContext).load(groupInfo.getGroupIcon()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    icon.setImageDrawable(resource);
+                }
+            });
+        }
+    }
+
+    private OnItemGroupClickListener itemGroupClickListener;
+    public interface OnItemGroupClickListener{
+        void clickGroup(GroupInfo info);
+    }
+    public void setOnItemGroupClickListener(OnItemGroupClickListener listener) {
+        this.itemGroupClickListener = listener;
     }
 }
