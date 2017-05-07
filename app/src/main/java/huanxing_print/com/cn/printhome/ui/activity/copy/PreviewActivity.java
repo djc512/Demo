@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import org.opencv.android.LoaderCallbackInterface;
@@ -86,6 +87,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         uri = bundle.getParcelable("uri");
+        bitmpaUtil = new BitmpaUtil();
         ctx = this;
         ClipPicUtil.ctx = ctx;
         saveUtil = new huanxing_print.com.cn.printhome.util.copy.PicSaveUtil(ctx);
@@ -125,16 +127,12 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (mBitmap != null) {
-            selectionView.setImageBitmap(mBitmap);
-        }
-
+        Glide.with(getSelfActivity()).load(uri).into(selectionView);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        bitmpaUtil = new BitmpaUtil();
         pd = new ProgressDialog(ctx);
         pd.setProgress(ProgressDialog.STYLE_SPINNER);
         pd.setCanceledOnTouchOutside(false);
@@ -200,6 +198,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
+                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -229,6 +228,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
+                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -257,6 +257,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
+                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -285,6 +286,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
+                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
