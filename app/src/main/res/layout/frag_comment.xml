@@ -5,16 +5,10 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.andview.refreshview.XRefreshView
-        android:id="@+id/xfv_comment"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_comment_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_comment_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.v7.widget.RecyclerView>
-    </com.andview.refreshview.XRefreshView>
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

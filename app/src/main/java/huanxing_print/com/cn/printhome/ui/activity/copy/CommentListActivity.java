@@ -43,6 +43,8 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     private int llWidth;
     private TextView tv_medium;
     private List<TextView> textViews;
+    private LinearLayout.LayoutParams lp;
+    private int marginLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,16 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
 
 
     private void initData() {
+        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        tv_all.measure(w, h);
+        tvWidth = tv_all.getMeasuredWidth();
+
+        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+        llWidth = screenWidth / 4;
+        lp = new LinearLayout.LayoutParams(tvWidth, CommonUtils.dip2px(ctx, 2));
+        marginLeft = (llWidth - tvWidth) / 2;
+
         fragments = new ArrayList<>();
         CommentAllFragment allFragment = new CommentAllFragment();
         CommentGoodFragment goodFragment = new CommentGoodFragment();
@@ -106,7 +118,8 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
 
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(tvWidth, CommonUtils.dip2px(ctx, 3));
                 if (lp != null && positionOffset != 0) {
-                    lp.leftMargin = (int) ((position + positionOffset) * llWidth) + (llWidth - tvWidth) / 2;
+                    marginLeft = (int) ((position + positionOffset) * llWidth) + (llWidth - tvWidth) / 2;
+                    lp.leftMargin = marginLeft;
                     view_line.setLayoutParams(lp);
                 }
             }
@@ -140,16 +153,8 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        tv_all.measure(w, h);
-        tvWidth = tv_all.getMeasuredWidth();
 
-        int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-        llWidth = screenWidth / 4;
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(tvWidth, CommonUtils.dip2px(ctx, 2));
-        lp.leftMargin = (llWidth - tvWidth) / 2;
+        lp.leftMargin = marginLeft;
         view_line.setLayoutParams(lp);
     }
 
