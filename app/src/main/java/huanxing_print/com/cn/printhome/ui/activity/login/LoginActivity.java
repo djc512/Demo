@@ -153,9 +153,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 LoginBeanItem userInfo = loginBean.getMemberInfo();
                 if (!ObjectUtils.isNull(userInfo)) {
                     baseApplication.setPhone(userInfo.getMobileNumber());
-                    baseApplication.setSex(userInfo.getSex());
                     baseApplication.setNickName(userInfo.getNickName());
                     baseApplication.setHeadImg(userInfo.getFaceUrl());
+                    baseApplication.setEasemobId(userInfo.getEasemobId());
+                    baseApplication.setUniqueId(userInfo.getUniqueId());
+                    if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+                        baseApplication.setWechatId(userInfo.getWechatId());
+                    }
                     jumpActivity(MainActivity.class);
                     finishCurrentActivity();
                 }
@@ -213,7 +217,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         if (!ObjectUtils.isNull(phone)) {
             getCodeTv.setClickable(false);
             DialogUtils.showProgressDialog(getSelfActivity(), "正在获取验证码").show();
-            RegisterRequst.getVerCode(getSelfActivity(), "1", phone, 1, getVerCodeCallback);
+            RegisterRequst.getVerCode(getSelfActivity(), "1", phone, 0, getVerCodeCallback);
         }
     }
 
@@ -358,10 +362,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     LoginBeanItem userInfo = weiXinBean.getLoginResult().getMemberInfo();
                     if (!ObjectUtils.isNull(userInfo)) {
                         baseApplication.setPhone(userInfo.getMobileNumber());
-                        baseApplication.setSex(userInfo.getSex());
                         baseApplication.setNickName(userInfo.getNickName());
                         baseApplication.setHeadImg(userInfo.getFaceUrl());
-                        //baseApplication.setWechatId(userInfo.getWechatId());
+                        baseApplication.setEasemobId(userInfo.getEasemobId());
+                        baseApplication.setUniqueId(userInfo.getUniqueId());
+                        if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+                            baseApplication.setWechatId(userInfo.getWechatId());
+                        }
                         jumpActivity(MainActivity.class);
                         finishCurrentActivity();
                     }
