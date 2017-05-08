@@ -19,7 +19,9 @@ import okhttp3.OkHttpClient;
 public class BaseApplication extends Application {
 	private String loginToken;//登录校验token，需要登录的接口需要校验该token
 	private String phone, passWord;
-	private String userId;
+	private String easemobId;//环信聊天用户id
+	private String  uniqueId;//印家号
+	private String memberId;//会员id
 	private String nickName;
 	private String comId;
 	private String sex;
@@ -126,16 +128,40 @@ public class BaseApplication extends Application {
 		this.passWord = passWord;
 	}
 
-	public String getUserId() {
-		if (ObjectUtils.isNull(userId)) {
-			userId = SharedPreferencesUtils.getShareString(this, "userId");
+	public String getEasemobId() {
+		if (ObjectUtils.isNull(easemobId)) {
+			easemobId = SharedPreferencesUtils.getShareString(this, "easemobId");
 		}
-		return userId;
+		return easemobId;
 	}
 
-	public void setUserId(String userId) {
-		SharedPreferencesUtils.putShareValue(this, "userId", userId);
-		this.userId = userId;
+	public void setEasemobId(String easemobId) {
+		SharedPreferencesUtils.putShareValue(this, "easemobId", easemobId);
+		this.easemobId = easemobId;
+	}
+
+	public String getUniqueId() {
+		if (ObjectUtils.isNull(uniqueId)) {
+			uniqueId = SharedPreferencesUtils.getShareString(this, "uniqueId");
+		}
+		return uniqueId;
+	}
+
+	public void setUniqueId(String uniqueId) {
+		SharedPreferencesUtils.putShareValue(this, "uniqueId", uniqueId);
+		this.uniqueId = uniqueId;
+	}
+
+	public String getMemberId() {
+		if (ObjectUtils.isNull(memberId)) {
+			memberId = SharedPreferencesUtils.getShareString(this, "memberId");
+		}
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		SharedPreferencesUtils.putShareValue(this, "memberId", memberId);
+		this.memberId = memberId;
 	}
 
 	public String getNickName() {

@@ -16,8 +16,6 @@ import huanxing_print.com.cn.printhome.net.resolve.login.LoginResolve;
 import huanxing_print.com.cn.printhome.net.resolve.login.WeiXinResolve;
 import huanxing_print.com.cn.printhome.util.HttpUtils;
 
-import static android.R.attr.password;
-
 public class LoginRequset extends BaseRequst {
 
 	public static void login(Context context, String phone, String validCode,

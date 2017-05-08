@@ -153,9 +153,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 LoginBeanItem userInfo = loginBean.getMemberInfo();
                 if (!ObjectUtils.isNull(userInfo)) {
                     baseApplication.setPhone(userInfo.getMobileNumber());
-                    baseApplication.setSex(userInfo.getSex());
                     baseApplication.setNickName(userInfo.getNickName());
                     baseApplication.setHeadImg(userInfo.getFaceUrl());
+                    baseApplication.setEasemobId(userInfo.getEasemobId());
+                    baseApplication.setUniqueId(userInfo.getUniqueId());
+                    if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+                        baseApplication.setWechatId(userInfo.getWechatId());
+                    }
                     jumpActivity(MainActivity.class);
                     finishCurrentActivity();
                 }
@@ -358,10 +362,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     LoginBeanItem userInfo = weiXinBean.getLoginResult().getMemberInfo();
                     if (!ObjectUtils.isNull(userInfo)) {
                         baseApplication.setPhone(userInfo.getMobileNumber());
-                        baseApplication.setSex(userInfo.getSex());
                         baseApplication.setNickName(userInfo.getNickName());
                         baseApplication.setHeadImg(userInfo.getFaceUrl());
-                        //baseApplication.setWechatId(userInfo.getWechatId());
+                        baseApplication.setEasemobId(userInfo.getEasemobId());
+                        baseApplication.setUniqueId(userInfo.getUniqueId());
+                        if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+                            baseApplication.setWechatId(userInfo.getWechatId());
+                        }
                         jumpActivity(MainActivity.class);
                         finishCurrentActivity();
                     }
