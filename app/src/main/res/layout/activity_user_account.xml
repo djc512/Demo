@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/all_bg_color"
     android:clipToPadding="true"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -30,6 +30,7 @@
         android:layout_height="match_parent"
         android:scrollbars="none">
         <LinearLayout
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -56,10 +57,11 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:paddingBottom="10dp"
+                    android:paddingBottom="20dp"
                     android:text="￥100.00"
                     android:textStyle="bold"
                     android:textColor="@color/black2"
@@ -69,12 +71,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/gray5"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:text="充值金额"
                 android:textColor="@color/gray3"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
 
             <android.support.v7.widget.RecyclerView
+                android:background="@color/white"
                 android:id="@+id/rv_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -112,14 +115,14 @@
             <Button
                 android:id="@+id/btn_chongzhi"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_marginBottom="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/btn_login"
-                android:text="充值"
-                android:textColor="@color/white"
+                android:background="@drawable/shape_preview_finish_bg"
+                android:text="微信支付"
+                android:textColor="@color/black2"
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>

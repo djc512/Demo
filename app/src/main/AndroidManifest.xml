@@ -207,6 +207,9 @@
         <activity
             android:name=".ui.activity.my.AccountActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.my.AccountActivity1"
+            android:screenOrientation="portrait" />
         <!-- 明细界面 -->
         <activity
             android:name=".ui.activity.my.MingXiActivity"
@@ -277,6 +280,9 @@
         <activity
             android:name=".ui.activity.my.AccountRecordActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.my.AccountRecordActivity1"
+            android:screenOrientation="portrait" />
         <!-- 发票页面 -->
         <activity
             android:name=".ui.activity.my.BillDebitActivity"
@@ -284,6 +290,9 @@
         <!-- 发票详情页面 -->
         <activity
             android:name=".ui.activity.my.BillDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.my.ReceiptActivity"
             android:screenOrientation="portrait" />
         <!-- 充值界面 -->
         <activity
