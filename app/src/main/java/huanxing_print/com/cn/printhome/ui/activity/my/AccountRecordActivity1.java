@@ -1,9 +1,9 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.andview.refreshview.XRefreshView;
 
@@ -14,7 +14,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongZhiRecordCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.ChongZhiRecordRequest;
-import huanxing_print.com.cn.printhome.ui.adapter.AccountRecordAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.AccountRecordAdapter1;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -27,9 +27,9 @@ import huanxing_print.com.cn.printhome.view.refresh.CustomerFooter;
 public class AccountRecordActivity1 extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout ll_back;
-    private ListView lv_account_record;
+    private RecyclerView lv_account_record;
     private int pageNum = 1;
-    private AccountRecordAdapter adapter;
+    private AccountRecordAdapter1 adapter;
     private XRefreshView xrf_czrecord;
     private boolean isLoadMore = false;
     private List<ChongZhiRecordBean.ListBean> datalist;
@@ -57,7 +57,7 @@ public class AccountRecordActivity1 extends BaseActivity implements View.OnClick
     private void initView() {
         xrf_czrecord = (XRefreshView) findViewById(R.id.xrf_czrecord);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        lv_account_record = (ListView) findViewById(R.id.lv_account_record);
+        lv_account_record = (RecyclerView) findViewById(R.id.lv_account_record);
     }
 
     private void setListener() {
@@ -116,7 +116,7 @@ public class AccountRecordActivity1 extends BaseActivity implements View.OnClick
                 }
             } else {
                 datalist = bean.getList();
-                adapter = new AccountRecordAdapter(getSelfActivity(), datalist);
+                adapter = new AccountRecordAdapter1(getSelfActivity());
                 lv_account_record.setAdapter(adapter);
             }
             xrf_czrecord.setPullLoadEnable(true);
