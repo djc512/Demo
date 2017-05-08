@@ -9,15 +9,22 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
+import huanxing_print.com.cn.printhome.net.callback.contact.CreateGroupCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.ChooseGroupContactAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by wanghao on 2017/5/5.
@@ -25,12 +32,12 @@ import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 
 public class CreateGroup extends BaseActivity implements View.OnClickListener, ChooseGroupContactAdapter.OnClickGroupInListener, ChooseGroupContactAdapter.OnChooseMemberListener {
     private static final int MAXCHOOSE = 4;
-    private ArrayList<ContactInfo> contactInfos = new ArrayList<ContactInfo>();
     private Button btn_create;
     private RecyclerView recyclerView;
     private TextView tv_hint_member;
     private ChooseGroupContactAdapter adapter;
-
+    private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
+    private ArrayList<FriendInfo> chooseMembers;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -56,72 +63,14 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
 
-        adapter = new ChooseGroupContactAdapter(this, contactInfos, MAXCHOOSE);
+        adapter = new ChooseGroupContactAdapter(this, friends, MAXCHOOSE);
         recyclerView.setAdapter(adapter);
     }
 
     private void initData() {
-        ContactInfo data01 = new ContactInfo();
-        data01.setName("汪浩");
-        data01.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
-
-        ContactInfo data02 = new ContactInfo();
-        data02.setName("陆成宋");
-        data02.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434200&di=7c53b18639aa82a8a58a296b9502d4ee&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D7048a12f9e16fdfad839ceea81bfa062%2F6a63f6246b600c3350e384cc194c510fd9f9a118.jpg");
-
-        ContactInfo data03 = new ContactInfo();
-        data03.setName("123");
-        data03.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
-
-        ContactInfo data04 = new ContactInfo();
-        data04.setName("汪浩01");
-        data04.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434199&di=85b82a89a5b9cb3403033e90dc2dc2a1&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3Dddf0103f252dd42a5f0901a3333a5b2f%2Fa4a8805494eef01f30f35d93e0fe9925bd317da3.jpg");
-
-        ContactInfo data05 = new ContactInfo();
-        data05.setName("陆成宋01");
-        data05.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434198&di=83e45ffe0f07e6336bbbd1cdc284e9a5&imgtype=0&src=http%3A%2F%2Fwenwen.soso.com%2Fp%2F20140404%2F20140404111309-1793362574.jpg");
-
-        ContactInfo data06 = new ContactInfo();
-        data06.setName("陆成宋02");
-        data06.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065730069&di=12540a26599230b583e0bf4f477cc8d7&imgtype=0&src=http%3A%2F%2Fwww.qxjlm.com%2Ftupians%2Fbd16072941.jpg");
-
-        ContactInfo data07 = new ContactInfo();
-        data07.setName("陆成宋03");
-        data07.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434198&di=2271e06f1c39be89ce18f3ab9746c7d1&imgtype=0&src=http%3A%2F%2Fwww.lsswgs.com%2Fqqwebhimgs%2Fuploads%2Fbd24449651.jpg");
-
-        ContactInfo data08 = new ContactInfo();
-        data08.setName("陆成宋04");
-        data08.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065662993&di=1d4fabe377e894277d005e17818ea64b&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D575752541%2C1102211525%26fm%3D214%26gp%3D0.jpg");
-
-        ContactInfo data09 = new ContactInfo();
-        data09.setName("陆成宋05");
-        data09.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434197&di=9043dfda20c52ecfa1676e3999658669&imgtype=0&src=http%3A%2F%2Fwenwen.soso.com%2Fp%2F20111030%2F20111030173922-1579981974.jpg");
-
-        ContactInfo data10 = new ContactInfo();
-        data10.setName("陆成宋06");
-        data10.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434197&di=af5f1a36863ac751b71b1e167e57a8e7&imgtype=0&src=http%3A%2F%2Fwenwen.soso.com%2Fp%2F20131201%2F20131201114242-1190841548.jpg");
-
-        ContactInfo data11 = new ContactInfo();
-        data11.setName("陆成宋07");
-        data11.setIconPath("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3609186921,1453144627&fm=23&gp=0.jpg");
-
-        ContactInfo data12 = new ContactInfo();
-        data12.setName("陆成宋08");
-        data12.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065730070&di=b4ae9186fcb1795ee5bec334ec893997&imgtype=0&src=http%3A%2F%2Fwww.qxjlm.com%2Ftupians%2Fbd13706313.jpg");
-        contactInfos.add(data01);
-        contactInfos.add(data02);
-        contactInfos.add(data03);
-        contactInfos.add(data04);
-        contactInfos.add(data05);
-        contactInfos.add(data06);
-        contactInfos.add(data07);
-        contactInfos.add(data08);
-        contactInfos.add(data09);
-        contactInfos.add(data10);
-        contactInfos.add(data11);
-        contactInfos.add(data12);
-
-        adapter.modifyData(contactInfos);
+        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
+        friends = friendInfos;
+        adapter.modifyData(friends);
     }
 
     private void setListener() {
@@ -138,13 +87,36 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
                 finishCurrentActivity();
                 break;
             case R.id.btn_create:
-                Intent intent = new Intent();
-                GroupInfo info = new GroupInfo();
-                intent.putExtra("created", info);
-                setResult(RESULT_OK, intent);
-                finish();
+                createGroup();
                 break;
         }
+    }
+
+    private void createGroup(){
+        if(null != chooseMembers && chooseMembers.size() > 0) {
+            String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+                    "loginToken");
+            DialogUtils.showProgressDialog(this, "创建中");
+
+            ArrayList<String> arrayList = new ArrayList<String>();
+            for(FriendInfo info : chooseMembers) {
+                arrayList.add(info.getMemberId());
+            }
+            String[] memberIdArray = arrayList.toArray(new String[arrayList.size()]);
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("groupMembers", memberIdArray);
+
+            GroupManagerRequest.createGroupReq(this, token, params, createGroupCallback);
+        }else{
+            ToastUtil.doToast(this,"请选择群成员");
+        }
+    }
+
+    private void createSuccess(GroupInfo info) {
+        Intent intent = new Intent();
+        intent.putExtra("created", info);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override
@@ -153,7 +125,8 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     }
 
     @Override
-    public void choose(ArrayList<ContactInfo> infos) {
+    public void choose(ArrayList<FriendInfo> infos) {
+        chooseMembers = infos;
         if (null != infos) {
             tv_hint_member.setText(String.format(getString(R.string.hint_choose_members), infos.size()));
             btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), MAXCHOOSE));
@@ -164,4 +137,44 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
             }
         }
     }
+
+    CreateGroupCallback createGroupCallback = new CreateGroupCallback() {
+        @Override
+        public void success(String msg, GroupInfo groupInfo) {
+            DialogUtils.closeProgressDialog();
+            if(null != groupInfo) {
+                //假数据
+                groupInfo.setGroupName("途牛旅游01");
+                groupInfo.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+                groupInfo.setUserCount("5");
+
+                createSuccess(groupInfo);
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(CreateGroup.this, msg + " -- 假数据");
+            GroupInfo groupInfo = new GroupInfo();
+            //假数据
+            groupInfo.setGroupName("途牛旅游01");
+            groupInfo.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+            groupInfo.setUserCount("5");
+            createSuccess(groupInfo);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
+
+            GroupInfo groupInfo = new GroupInfo();
+            //假数据
+            groupInfo.setGroupName("途牛旅游01");
+            groupInfo.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+            groupInfo.setUserCount("5");
+            createSuccess(groupInfo);
+        }
+    };
 }

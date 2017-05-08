@@ -123,12 +123,18 @@ public class ContantsFragment extends BaseFragment implements
 
     @Override
     public void groupListener() {
-        startActivity(GroupActivity.class);
+        startGroupActivity();
         ToastUtil.doToast(getActivity(),"groupListener");
     }
 
     private void startActivity(Class cls) {
         Intent intent = new Intent(getActivity(), cls);
+        startActivity(intent);
+    }
+
+    private void startGroupActivity() {
+        Intent intent = new Intent(getActivity(), GroupActivity.class);
+        intent.putExtra("friends", friends);
         startActivity(intent);
     }
 
@@ -142,8 +148,10 @@ public class ContantsFragment extends BaseFragment implements
         public void success(String msg, ArrayList<FriendInfo> friendInfos) {
             DialogUtils.closeProgressDialog();
             if(null !=  friendInfos && friendInfos.size() > 0) {
+//                friends = friendInfos;
+//                adapter.modify(friendInfos);
                 //假数据
-                friendInfos.addAll(data());
+                friends.addAll(data());
                 adapter.modify(friendInfos);
             }
         }
@@ -152,16 +160,18 @@ public class ContantsFragment extends BaseFragment implements
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
             ToastUtil.doToast(getActivity(),msg + " -- 假数据");
-            ArrayList<FriendInfo> friendInfos = data();
-            adapter.modify(friendInfos);
+            //假数据
+            friends = data();
+            adapter.modify(friends);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
             ToastUtil.doToast(getActivity(),"网络连接超时");
-            ArrayList<FriendInfo> friendInfos = data();
-            adapter.modify(friendInfos);
+            //假数据
+            friends = data();
+            adapter.modify(friends);
         }
     };
 

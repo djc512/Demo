@@ -143,6 +143,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
             DialogUtils.closeProgressDialog();
             clickOperationInfo.setType("1");
             adapter.updateData(friendInfos);
+            clickOperationInfo = null;
         }
 
         @Override
@@ -152,6 +153,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
             //假的
             clickOperationInfo.setType("1");
             adapter.updateData(friendInfos);
+            clickOperationInfo = null;
         }
 
         @Override
@@ -161,6 +163,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
             //假的
             clickOperationInfo.setType("1");
             adapter.updateData(friendInfos);
+            clickOperationInfo = null;
         }
     };
 

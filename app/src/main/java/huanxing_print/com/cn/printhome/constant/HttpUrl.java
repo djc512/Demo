@@ -12,6 +12,7 @@ public class HttpUrl {
     public static final String loginWeiXin = "member/loginByWechat";// 微信登录
     public static final String LoginOut = "member/signOut";// 退出登录
     public static final String register = "member/sign";// 注册
+    public static final String community = "http://print.inkin.cc/#/bbs";// 印家社区
     public static final String getVeryCode = "common/getValidCode"; // 获取短信验证码
     public static final String resetPasswd = "member/resetPasswd"; // 重置密码
     public static final String fileUpload = "common/fileUpload"; // 文件上传
@@ -39,7 +40,10 @@ public class HttpUrl {
     public static final String friendSearchAdd = "friend/add";//添加联系人
     public static final String newFriend = "friend/newFriList";//新的朋友
     public static final String operationNewFriend = "friend/adult";//处理加好友请求
+    public static final String groupList = "group/list";//群列表
+    public static final String createGroup = "group/add";//添加群
     public static final String addApproval = "approve/add";//新增审批
+    public static final String queryApprovalList = "approve/list";//查询审批列表
     private static String postUrl;
 
     private static HttpUrl httpUrl;

@@ -23,6 +23,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
+import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.util.PinYinUtil;
 import huanxing_print.com.cn.printhome.util.contact.ContactComparator;
 
@@ -31,16 +32,16 @@ import huanxing_print.com.cn.printhome.util.contact.ContactComparator;
  */
 
 public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<ContactInfo> mInfos = new ArrayList<ContactInfo>();
-    private ArrayList<ContactInfo> initInfos = new ArrayList<ContactInfo>();
+    private ArrayList<FriendInfo> mInfos = new ArrayList<FriendInfo>();
+    private ArrayList<FriendInfo> initInfos = new ArrayList<FriendInfo>();
     private Context mContext;
     private LayoutInflater mInflater;
     private List<String> characterList; // 字母List
     private List<String> mContactList; // 联系人名称List（转换成拼音）
     private int maxChooseNum;
-    private ArrayList<ContactInfo> chooseInfos = new ArrayList<ContactInfo>();
+    private ArrayList<FriendInfo> chooseInfos = new ArrayList<FriendInfo>();
 
-    public ChooseGroupContactAdapter(Context context, ArrayList<ContactInfo> contactInfos, int maxChoose) {
+    public ChooseGroupContactAdapter(Context context, ArrayList<FriendInfo> contactInfos, int maxChoose) {
         this.mContext = context;
         mInflater = LayoutInflater.from(mContext);
 //        initData();
@@ -59,46 +60,46 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     private void initData() {
-        ContactInfo contactInfo = new ContactInfo();
+        FriendInfo contactInfo = new FriendInfo();
         contactInfo.setType(ITEM_TYPE.ITEM_GROUP_IN.ordinal());
         initInfos.add(contactInfo);
     }
 
-    public void modifyData(ArrayList<ContactInfo> contactInfos) {
+    public void modifyData(ArrayList<FriendInfo> contactInfos) {
         mInfos.clear();
         mInfos.addAll(initInfos);
         addFriend(contactInfos);
     }
 
-    private void addFriend(ArrayList<ContactInfo> infos) {
-        Map<String, ContactInfo> map = new HashMap<>();
-        ArrayList<ContactInfo> newInfos = new ArrayList<ContactInfo>();
+    private void addFriend(ArrayList<FriendInfo> infos) {
+        Map<String, FriendInfo> map = new HashMap<>();
+        ArrayList<FriendInfo> newInfos = new ArrayList<FriendInfo>();
         mContactList = new ArrayList<String>();
         characterList = new ArrayList<String>();
         for (int i = 0; i < infos.size(); i++) {
-            String pinyin = PinYinUtil.getPingYin(infos.get(i).getName());
+            String pinyin = PinYinUtil.getPingYin(infos.get(i).getMemberName());
             map.put(pinyin, infos.get(i));
             mContactList.add(pinyin);
         }
         Collections.sort(mContactList, new ContactComparator());
 
         for (String pinyin : mContactList) {
-            ContactInfo info = map.get(pinyin);
+            FriendInfo info = map.get(pinyin);
             if (null != info) {
                 String character = (pinyin.charAt(0) + "").toUpperCase(Locale.ENGLISH);
                 if (!characterList.contains(character)) {
                     if (character.hashCode() >= "A".hashCode() && character.hashCode() <= "Z".hashCode()) { // 是字母
                         characterList.add(character);
-                        ContactInfo characterInfo = new ContactInfo();
+                        FriendInfo characterInfo = new FriendInfo();
                         characterInfo.setType(ITEM_TYPE.ITEM_CHARACTER.ordinal());
-                        characterInfo.setName(character);
+                        characterInfo.setMemberName(character);
                         newInfos.add(characterInfo);
                     } else {
                         if (!characterList.contains("#")) {
                             characterList.add("#");
-                            ContactInfo characterInfo = new ContactInfo();
+                            FriendInfo characterInfo = new FriendInfo();
                             characterInfo.setType(ITEM_TYPE.ITEM_CHARACTER.ordinal());
-                            characterInfo.setName("#");
+                            characterInfo.setMemberName("#");
                             newInfos.add(characterInfo);
                         }
                     }
@@ -158,8 +159,8 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         public void bind(int position) {
-            ContactInfo info = mInfos.get(position);
-            mTitle.setText(info.getName());
+            FriendInfo info = mInfos.get(position);
+            mTitle.setText(info.getMemberName());
         }
     }
 
@@ -182,7 +183,7 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
         private TextView tv_contactName;
         private CircleImageView im_contactIcon;
         private CheckBox cb_choose;
-        private ContactInfo contactInfo;
+        private FriendInfo contactInfo;
 
         public MemberHolder(View itemView) {
             super(itemView);
@@ -215,14 +216,14 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
         public void bind(int position) {
             contactInfo = mInfos.get(position);
             if (null != contactInfo) {
-                tv_contactName.setText(contactInfo.getName());
+                tv_contactName.setText(contactInfo.getMemberName());
                 loadPic();
             }
 
         }
 
         private void loadPic() {
-            Glide.with(mContext).load(contactInfo.getIconPath()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+            Glide.with(mContext).load(contactInfo.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     im_contactIcon.setImageDrawable(resource);
@@ -248,7 +249,7 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public interface OnChooseMemberListener {
-        void choose(ArrayList<ContactInfo> infos);
+        void choose(ArrayList<FriendInfo> infos);
     }
 
     private OnChooseMemberListener chooseMemberListener;
