@@ -10,12 +10,17 @@ import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
+import huanxing_print.com.cn.printhome.net.callback.contact.GroupListCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupAdatper;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by wanghao on 2017/5/5.
@@ -26,6 +31,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     private RecyclerView recyclerView;
     private ArrayList<GroupInfo> groups = new ArrayList<GroupInfo>();
     private GroupAdatper adatper;
+    private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -55,37 +61,13 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void initData() {
-        GroupInfo group01 = new GroupInfo();
-        group01.setGroupName("印家群");
-        group01.setGroupIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
-        ArrayList<ContactInfo> members01 = new ArrayList<ContactInfo>();
-        ContactInfo contact01 = new ContactInfo();
-        contact01.setName("汪浩");
-        ContactInfo contact02 = new ContactInfo();
-        contact02.setName("陆成宋");
-        members01.add(contact01);
-        members01.add(contact02);
-        group01.setMembers(members01);
+        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
+        friends = friendInfos;
 
-        GroupInfo group02 = new GroupInfo();
-        group02.setGroupName("途牛旅游");
-        group02.setGroupIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434200&di=7c53b18639aa82a8a58a296b9502d4ee&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D7048a12f9e16fdfad839ceea81bfa062%2F6a63f6246b600c3350e384cc194c510fd9f9a118.jpg");
-        ArrayList<ContactInfo> members02 = new ArrayList<ContactInfo>();
-        ContactInfo contact11 = new ContactInfo();
-        contact11.setName("汪浩");
-        ContactInfo contact12 = new ContactInfo();
-        contact12.setName("陆成宋");
-        ContactInfo contact13 = new ContactInfo();
-        contact13.setName("杨健");
-        members02.add(contact11);
-        members02.add(contact12);
-        members02.add(contact13);
-        group02.setMembers(members02);
-
-        groups.add(group01);
-        groups.add(group02);
-
-        adatper.modifyData(groups);
+        String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+                "loginToken");
+        DialogUtils.showProgressDialog(this,"加载中");
+        GroupManagerRequest.queryGroupList(this, token, groupListCallback);
     }
 
     private void setListener() {
@@ -102,6 +84,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
             case R.id.create_group:
                 ToastUtil.doToast(this, "发起群组");
                 Intent intent = new Intent(this, CreateGroup.class);
+                intent.putParcelableArrayListExtra("friends", friends);
                 startActivityForResult(intent, CREATE_GROUP);
                 break;
         }
@@ -114,23 +97,12 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
         switch (requestCode) {
             case CREATE_GROUP:
                 if(resultCode == RESULT_OK) {
-//                    GroupInfo info = data.getParcelableExtra("created");
-                    GroupInfo info = new GroupInfo();
-                    //假数据
-                    info.setGroupName("途牛旅游01");
-                    info.setGroupIcon("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
-
-                    ArrayList<ContactInfo> members = new ArrayList<ContactInfo>();
-                    ContactInfo contact11 = new ContactInfo();
-                    contact11.setName("汪浩");
-                    ContactInfo contact12 = new ContactInfo();
-                    contact12.setName("陆成宋");
-                    ContactInfo contact13 = new ContactInfo();
-                    contact13.setName("杨健");
-                    members.add(contact11);
-                    members.add(contact12);
-                    members.add(contact13);
-                    info.setMembers(members);
+                    GroupInfo info = data.getParcelableExtra("created");
+//                    GroupInfo info = new GroupInfo();
+//                    //假数据
+//                    info.setGroupName("途牛旅游01");
+//                    info.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+//                    info.setUserCount("5");
 
                     groups.add(info);
                     adatper.modifyData(groups);
@@ -144,5 +116,53 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
         if(null != info) {
             ToastUtil.doToast(this, info.getGroupName());
         }
+    }
+
+    GroupListCallback groupListCallback = new GroupListCallback() {
+        @Override
+        public void success(String msg, ArrayList<GroupInfo> groupInfos) {
+            DialogUtils.closeProgressDialog();
+            if(null != groups) {
+//                adatper.modifyData(groups);
+                //假数据
+                groups.addAll(data());
+                adatper.modifyData(groups);
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(GroupActivity.this, msg + " -- 假数据");
+            //假数据
+            groups.addAll(data());
+            adatper.modifyData(groups);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
+            //假数据
+            groups.addAll(data());
+            adatper.modifyData(groups);
+        }
+    };
+
+    private ArrayList<GroupInfo> data() {
+        ArrayList<GroupInfo> groupInfos = new ArrayList<GroupInfo>();
+        GroupInfo group01 = new GroupInfo();
+        group01.setGroupName("印家群");
+        group01.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
+        group01.setUserCount("3");
+
+        GroupInfo group02 = new GroupInfo();
+        group02.setGroupName("途牛旅游");
+        group02.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434200&di=7c53b18639aa82a8a58a296b9502d4ee&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D7048a12f9e16fdfad839ceea81bfa062%2F6a63f6246b600c3350e384cc194c510fd9f9a118.jpg");
+        group02.setUserCount("4");
+
+        groupInfos.add(group01);
+        groupInfos.add(group02);
+        return groupInfos;
     }
 }

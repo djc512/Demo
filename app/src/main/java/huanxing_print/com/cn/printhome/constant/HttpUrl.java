@@ -40,6 +40,8 @@ public class HttpUrl {
     public static final String friendSearchAdd = "friend/add";//添加联系人
     public static final String newFriend = "friend/newFriList";//新的朋友
     public static final String operationNewFriend = "friend/adult";//处理加好友请求
+    public static final String groupList = "group/list";//群列表
+    public static final String createGroup = "group/add";//添加群
     public static final String addApproval = "approve/add";//新增审批
     public static final String queryApprovalList = "approve/list";//查询审批列表
     private static String postUrl;

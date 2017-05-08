@@ -80,13 +80,13 @@ public class GroupAdatper extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             this.groupInfo = info;
             if(null != info) {
                 tv_groupName.setText(info.getGroupName());
-                tv_groupMember.setText(String.format("(%d人)", info.getMembers().size()));
+                tv_groupMember.setText(String.format("(%s人)", info.getUserCount()));
                 loadPic();
             }
         }
 
         private void loadPic() {
-            Glide.with(mContext).load(groupInfo.getGroupIcon()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+            Glide.with(mContext).load(groupInfo.getGroupUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     icon.setImageDrawable(resource);
