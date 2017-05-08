@@ -43,7 +43,7 @@ public class AddAprovalRequest extends BaseRequst {
                                    String bankName, String bankPerson, ArrayList<Object> copyerList,
                                    String department, String finishTime, String purchaseList,
                                    String remark, ArrayList<Object> subFormList, String title,
-                                   String type, final AddApprovalCallBack addApprovalCallBack) {
+                                   long type, final AddApprovalCallBack addApprovalCallBack) {
         String url = HTTP_URL + HttpUrl.addApproval;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("amountMonney", amountMonney);
