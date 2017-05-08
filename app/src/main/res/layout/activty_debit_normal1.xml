@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:background="null"
+                android:background="@null"
                 android:hint="填写公司名称或个人"
                 android:textColor="@color/gray7"
                 android:textSize="15sp" />

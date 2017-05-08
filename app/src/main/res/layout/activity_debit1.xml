@@ -35,7 +35,7 @@
             android:padding="15dp"
             android:id="@+id/tv_bill_value"
             android:textSize="15dp"
-            android:textColor="#999999"
+            android:textColor="@color/gray8"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -47,7 +47,7 @@
         android:id="@+id/view_bill"
         android:layout_width="wrap_content"
         android:layout_height="2dp"
-        android:background="@color/green"
+        android:background="@color/yellow"
         />
     <huanxing_print.com.cn.printhome.view.viewpager.MyViewPager
         android:id="@+id/vp"
