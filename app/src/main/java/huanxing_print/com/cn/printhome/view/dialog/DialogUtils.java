@@ -19,9 +19,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.LinePathView;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 
@@ -32,6 +35,7 @@ public class DialogUtils {
 	public static Dialog mTipsDialog;
 	public static Dialog mAuditStatusDialog;
 	public static Dialog mLocationDialog;
+	public static Dialog mSignatureDialog;
 	public static Dialog mVersionDialog;
 	public static Dialog mPicChooseDialog;
 	public static Dialog mActivityDialog;
@@ -369,6 +373,61 @@ public class DialogUtils {
 			}
 		}
 	};
+
+
+	//签名dailog
+
+	public interface SignatureDialogCallBack {
+		public void ok();
+		public void cancel();
+	}
+
+	public static Dialog showSignatureDialog(Context context,  final SignatureDialogCallBack signatureDialogCallBack) {
+
+		LayoutInflater inflater = LayoutInflater.from(context);
+		View view = inflater.inflate(R.layout.dialog_signature, null);
+		mSignatureDialog = new Dialog(context, R.style.loading_dialog);
+		mSignatureDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		Window window = mSignatureDialog.getWindow();
+		window.setGravity(Gravity.CENTER);
+
+		WindowManager windowManager = ((Activity) context).getWindowManager();
+		Display display = windowManager.getDefaultDisplay();
+		WindowManager.LayoutParams lp = mSignatureDialog.getWindow().getAttributes();
+		lp.width = display.getWidth() - 100;
+		mSignatureDialog.getWindow().setAttributes(lp);
+		mSignatureDialog.setCanceledOnTouchOutside(true);
+
+		Button okCancel = (Button) view.findViewById(R.id.btn_canncel);
+		Button okBtn = (Button) view.findViewById(R.id.btn_ok);
+		final LinePathView mPathView = (LinePathView) view.findViewById(R.id.view);
+		okBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mSignatureDialog.dismiss();
+				try {
+					mPathView.save("/sdcard/signature.png", true, 10);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				signatureDialogCallBack.ok();
+			}
+		});
+		okCancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				//mSignatureDialog.dismiss();
+				mPathView.clear();
+				signatureDialogCallBack.cancel();
+
+			}
+		});
+
+		return mSignatureDialog;
+	}
 
 	public static void closeProgressDialog() {
 		if (null != mProgressDialog) {

@@ -1,9 +1,9 @@
 package huanxing_print.com.cn.printhome.ui.activity.approval;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,28 +21,28 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
-
-
 /**
- * Created by Administrator on 2017/5/5 0005.
+ * Created by htj on 2017/5/7.
  */
-public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View.OnClickListener{
 
+public class ApprovalApplyDetailsActivity extends BaseActivity implements View.OnClickListener {
     public Context mContext;
 
 
     ImageView iv_user_name;
     ImageView iv_back;
+    ImageView iv_camera;
     Button btn_agree;
     Button btn_bohui;
-    Button btn_certificate;
+    Button btn_commit;
     TextView iv_name;
     TextView tv_use;
     TextView tv_number;
     TextView tv_section;
-    TextView tv_detail;
+    TextView tv_total;
+    TextView tv_kind;
     TextView iv_isapproval;
-    TextView tv_money;
+    TextView tv_apply_money;
     TextView tv_overtime;
     TextView tv_use_name;
 
@@ -54,9 +54,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     ListView ll_person;
 
     boolean isRequestMoney =false;
+    ArrayList lists = new ArrayList();
 
     ApprovalPersonAdapter personAdapter;
-    ArrayList lists = new ArrayList();
 
 
     @Override
@@ -67,9 +67,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_approval_buy_add_or_move);
+        setContentView(R.layout.activity_approval_apply_detail);
         CommonUtils.initSystemBar(this);
-        mContext = ApprovalBuyAddOrRemoveActivity.this;
+        mContext = ApprovalApplyDetailsActivity.this;
         initView();
         initData();
         initListener();
@@ -77,11 +77,17 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     private void initListener() {
 
-        btn_certificate.setOnClickListener(this);
+        btn_commit.setOnClickListener(this);
         btn_bohui.setOnClickListener(this);
         btn_agree.setOnClickListener(this);
         iv_back.setOnClickListener(this);
-        //rl_sertificate.setOnClickListener(this);
+
+        ll_person.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
     }
 
     private void initData() {
@@ -97,8 +103,8 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
                 case "2":
                     ll_commit.setVisibility(View.VISIBLE);
                     bt_reject_agree.setVisibility(View.GONE);
-                    btn_certificate.setText("生成凭证");
-                    //rl_sertificate.setVisibility(View.VISIBLE);
+                    btn_commit.setText("生成凭证");
+                    rl_sertificate.setVisibility(View.VISIBLE);
                     break;
                 //撤回
                 case "3":
@@ -108,11 +114,11 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
                     break;
                 default:
                     break;
-
             }
         }
+
         personAdapter = new ApprovalPersonAdapter(this,lists);
-        ll_person.setAdapter(personAdapter);;
+        ll_person.setAdapter(personAdapter);
 
 
     }
@@ -123,16 +129,22 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         tv_use = (TextView) findViewById(R.id.tv_use);
         tv_section = (TextView) findViewById(R.id.tv_section);
         tv_number = (TextView) findViewById(R.id.tv_number);
-        tv_detail = (TextView) findViewById(R.id.tv_detail);
-        tv_money = (TextView) findViewById(R.id.tv_money);
-        tv_overtime = (TextView) findViewById(R.id.tv_overtime);
+        tv_section = (TextView) findViewById(R.id.tv_section);
+        tv_apply_money = (TextView) findViewById(R.id.tv_apply_money);
+        tv_kind = (TextView) findViewById(R.id.tv_kind);
+        tv_total = (TextView) findViewById(R.id.tv_total);
+        //抄送人的名字
         tv_use_name = (TextView) findViewById(R.id.tv_use_name);
 
+        //展示审批的经过人
         ll_person = (ListView) findViewById(R.id.ll_person);
+        //抄送人的头像
         iv_user_name = (ImageView) findViewById(R.id.iv_user_name);
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        //多张图
+        iv_camera = (ImageView) findViewById(R.id.iv_camera);
 
-        btn_certificate = (Button) findViewById(R.id.btn_certificate);
+        btn_commit = (Button) findViewById(R.id.btn_commit);
         btn_bohui = (Button) findViewById(R.id.btn_bohui);
         btn_agree = (Button) findViewById(R.id.btn_agree);
 
@@ -149,9 +161,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             case R.id.iv_back:
                 finishCurrentActivity();
                 break;
-            case R.id.btn_certificate:
-                //点击生成凭证
-                rl_sertificate.setVisibility(View.VISIBLE);
+            case R.id.bt_commit:
 
                 break;
             case R.id.btn_bohui:
@@ -196,5 +206,4 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         }
 
     }
-
 }

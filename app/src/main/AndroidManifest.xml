@@ -455,6 +455,11 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.approval.MySponsorListActivity" />
         <activity android:name=".ui.activity.approval.CopyToMeActivity"></activity>
+        <!-- 新建采购审批 -->
+        <activity
+            android:name=".ui.activity.approval.ApprovalApplyDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

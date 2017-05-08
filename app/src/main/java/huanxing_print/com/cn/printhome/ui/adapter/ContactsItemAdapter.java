@@ -21,7 +21,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
+import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.util.PinYinUtil;
 import huanxing_print.com.cn.printhome.util.contact.ContactComparator;
 
@@ -32,12 +32,12 @@ import huanxing_print.com.cn.printhome.util.contact.ContactComparator;
 public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater mLayoutInflater;
     private Context mContext;
-    private ArrayList<ContactInfo> mInitInfos = new ArrayList<ContactInfo>();
-    private ArrayList<ContactInfo> mInfos = new ArrayList<ContactInfo>();
+    private ArrayList<FriendInfo> mInitInfos = new ArrayList<FriendInfo>();
+    private ArrayList<FriendInfo> mInfos = new ArrayList<FriendInfo>();
     private List<String> characterList; // 字母List
-    private List<String> mContactList; // 联系人名称List（转换成拼音）
+    private List<String> mFriends; // 联系人名称List（转换成拼音）
     private OnTypeItemClickerListener typeItemClickerListener;
-    public ContactsItemAdapter(Context context, ArrayList<ContactInfo> infos) {
+    public ContactsItemAdapter(Context context, ArrayList<FriendInfo> infos) {
         this.mContext = context;
         mLayoutInflater = LayoutInflater.from(mContext);
         initData();
@@ -53,13 +53,13 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void initData() {
-        ContactInfo newFriend = new ContactInfo();
+        FriendInfo newFriend = new FriendInfo();
         newFriend.setType(ITEM_TYPE.ITEM_TYPE_NEWFRIEND.ordinal());
 
-        ContactInfo addressBook = new ContactInfo();
+        FriendInfo addressBook = new FriendInfo();
         addressBook.setType(ITEM_TYPE.ITEM_TYPE_ADDRESSBOOK.ordinal());
 
-        ContactInfo group = new ContactInfo();
+        FriendInfo group = new FriendInfo();
         group.setType(ITEM_TYPE.ITEM_TYPE_GROUP.ordinal());
 
         mInitInfos.add(newFriend);
@@ -67,41 +67,46 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mInitInfos.add(group);
     }
 
-    public void updateData(ArrayList<ContactInfo> infos) {
+    public void updateData(ArrayList<FriendInfo> infos) {
         mInfos.clear();
         mInfos.addAll(mInitInfos);
         addFriend(infos);
     }
 
-    private void addFriend(ArrayList<ContactInfo> infos) {
-        Map<String, ContactInfo> map = new HashMap<>();
-        ArrayList<ContactInfo> newInfos = new ArrayList<ContactInfo>();
-        mContactList = new ArrayList<String>();
+    public void modify(ArrayList<FriendInfo> infos) {
+        updateData(infos);
+        notifyDataSetChanged();
+    }
+
+    private void addFriend(ArrayList<FriendInfo> infos) {
+        Map<String, FriendInfo> map = new HashMap<String, FriendInfo>();
+        ArrayList<FriendInfo> newInfos = new ArrayList<FriendInfo>();
+        mFriends = new ArrayList<String>();
         characterList = new ArrayList<String>();
         for (int i = 0; i < infos.size(); i++) {
-            String pinyin = PinYinUtil.getPingYin(infos.get(i).getName());
+            String pinyin = PinYinUtil.getPingYin(infos.get(i).getMemberName());
             map.put(pinyin, infos.get(i));
-            mContactList.add(pinyin);
+            mFriends.add(pinyin);
         }
-        Collections.sort(mContactList, new ContactComparator());
+        Collections.sort(mFriends, new ContactComparator());
 
-        for (String pinyin : mContactList) {
-            ContactInfo info = map.get(pinyin);
+        for (String pinyin : mFriends) {
+            FriendInfo info = map.get(pinyin);
             if (null != info) {
                 String character = (pinyin.charAt(0) + "").toUpperCase(Locale.ENGLISH);
                 if (!characterList.contains(character)) {
                     if (character.hashCode() >= "A".hashCode() && character.hashCode() <= "Z".hashCode()) { // 是字母
                         characterList.add(character);
-                        ContactInfo characterInfo = new ContactInfo();
+                        FriendInfo characterInfo = new FriendInfo();
                         characterInfo.setType(ITEM_TYPE.ITEM_TYPE_CHARACTER.ordinal());
-                        characterInfo.setName(character);
+                        characterInfo.setMemberName(character);
                         newInfos.add(characterInfo);
                     } else {
                         if (!characterList.contains("#")) {
                             characterList.add("#");
-                            ContactInfo characterInfo = new ContactInfo();
+                            FriendInfo characterInfo = new FriendInfo();
                             characterInfo.setType(ITEM_TYPE.ITEM_TYPE_CHARACTER.ordinal());
-                            characterInfo.setName("#");
+                            characterInfo.setMemberName("#");
                             newInfos.add(characterInfo);
                         }
                     }
@@ -149,7 +154,7 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (holder instanceof GroupHolder) {
 //            ((GroupHolder) holder).mTitle.setText(mInfos.get(position).getName());
         } else if(holder instanceof CharacterHolder){
-            ((CharacterHolder) holder).mTitle.setText(mInfos.get(position).getName());
+            ((CharacterHolder) holder).mTitle.setText(mInfos.get(position).getMemberName());
         }else{
             ((FriendHolder) holder).bind(mInfos.get(position));
         }
@@ -219,7 +224,7 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     class FriendHolder extends RecyclerView.ViewHolder {
         TextView mTitle;
         CircleImageView iv_head;
-        private ContactInfo friendInfo;
+        private FriendInfo friendInfo;
 
         public FriendHolder(View itemView) {
             super(itemView);
@@ -235,16 +240,16 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
         }
 
-        public void bind(ContactInfo info) {
+        public void bind(FriendInfo info) {
             this.friendInfo = info;
             if(null != friendInfo) {
-                mTitle.setText(friendInfo.getName());
+                mTitle.setText(friendInfo.getMemberName());
                 loadPic();
             }
         }
 
         private void loadPic() {
-            Glide.with(mContext).load(friendInfo.getIconPath()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+            Glide.with(mContext).load(friendInfo.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     iv_head.setImageDrawable(resource);
@@ -265,7 +270,7 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getScrollPosition(String character) {
         if (characterList.contains(character)) {
             for (int i = 0; i < mInfos.size(); i++) {
-                String name = mInfos.get(i).getName();
+                String name = mInfos.get(i).getMemberName();
                 if(name !=null && name.equals(character)){
                     return i;
                 }
@@ -280,7 +285,7 @@ public class ContactsItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         void newFriendLister();
         void addressBookListener();
         void groupListener();
-        void contactClick(ContactInfo info);
+        void contactClick(FriendInfo info);
     }
 
     public void setTypeItemClickerListener(OnTypeItemClickerListener listener) {

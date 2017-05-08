@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/bg_recycler_click_selector"
+                >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_user_name"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/iv_right"
+        android:src="@drawable/iv_head" />
+
+    <RelativeLayout
+        android:background="@drawable/back_process_2x"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        >
+        <TextView
+            android:id="@+id/tv_name"
+            android:paddingLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:text="姓名"/>
+        <TextView
+            android:id="@+id/tv_detail"
+            android:layout_below="@+id/tv_name"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:text="发起申请"/>
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray"
+            android:text="审批时间"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
