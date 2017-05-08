@@ -159,7 +159,7 @@ public class ContantsFragment extends BaseFragment implements
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getActivity(),"connectFail" + " -- 假数据");
+            ToastUtil.doToast(getActivity(),"网络连接超时");
             ArrayList<FriendInfo> friendInfos = data();
             adapter.modify(friendInfos);
         }

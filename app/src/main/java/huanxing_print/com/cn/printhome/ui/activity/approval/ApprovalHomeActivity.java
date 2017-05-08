@@ -76,7 +76,7 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
                 startActivity(new Intent(this, CopyToMeActivity.class));
                 break;
             case R.id.ll_purchase://采购
-                startActivity(new Intent(this, AddPurchaseActivity.class));
+                startActivity(new Intent(this, AddPurchaseApprovalActivity.class));
                 break;
             case R.id.ll_reimburse://报销
                 startActivity(new Intent(this, AddExpenseApprovalActivity.class));

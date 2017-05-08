@@ -95,6 +95,11 @@
             android:name=".ui.activity.welcome.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -166,11 +171,6 @@
             android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <!-- 第三方类 -->
@@ -225,6 +225,9 @@
         <activity
             android:name=".ui.activity.my.AccountActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.my.AccountActivity1"
+            android:screenOrientation="portrait" />
         <!-- 明细界面 -->
         <activity
             android:name=".ui.activity.my.MingXiActivity"
@@ -278,7 +281,10 @@
         <activity
             android:name=".ui.activity.my.MyModifyNameActivty"
             android:screenOrientation="portrait" />
-
+        <!-- 印家社区 -->
+        <activity
+            android:name=".ui.activity.my.WebViewCommunityActivity"
+            android:screenOrientation="portrait" />
         <!--我的设置里的微信号修改-->
         <activity
             android:name=".ui.activity.my.MyModifyPhoneActivty"
@@ -295,6 +301,9 @@
         <activity
             android:name=".ui.activity.my.AccountRecordActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.my.AccountRecordActivity1"
+            android:screenOrientation="portrait" />
         <!-- 发票页面 -->
         <activity
             android:name=".ui.activity.my.BillDebitActivity"
@@ -302,6 +311,9 @@
         <!-- 发票详情页面 -->
         <activity
             android:name=".ui.activity.my.BillDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.my.ReceiptActivity"
             android:screenOrientation="portrait" />
         <!-- 充值界面 -->
         <activity
@@ -463,7 +475,7 @@
 
         <!-- 新建采购审批 -->
         <activity
-            android:name=".ui.activity.approval.AddPurchaseActivity"
+            android:name=".ui.activity.approval.AddPurchaseApprovalActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 新建报销审批 -->

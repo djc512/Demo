@@ -71,4 +71,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.xingliuhua:xlhratingbar_lib:1.0.1'
     compile files('libs/Amap_2DMap_V4.2.0_20170120.jar')
+    compile project(':pickerview')
 }

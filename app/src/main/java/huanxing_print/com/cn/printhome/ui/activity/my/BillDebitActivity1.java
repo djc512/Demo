@@ -76,7 +76,7 @@ public class BillDebitActivity1 extends FragmentActivity implements View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, dip2px(this, 2));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(width, CommonUtils.dip2px(this, 2));
         view_bill.setLayoutParams(lp);
     }
 
@@ -150,31 +150,5 @@ public class BillDebitActivity1 extends FragmentActivity implements View.OnClick
                 finish();
                 break;
         }
-    }
-
-//    private void viewAnimation(int i) {
-//        int end = width * i;
-//        TranslateAnimation ta = new TranslateAnimation(start, width * i, 0, 0);
-//        ta.setDuration(500);
-//        ta.setFillAfter(true);
-//        view_bill.startAnimation(ta);
-//
-//        start = end;
-//    }
-
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     */
-    public int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
-    }
-
-    /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-     */
-    public int px2dip(Context context, float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
     }
 }

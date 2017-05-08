@@ -16,16 +16,18 @@ import huanxing_print.com.cn.printhome.net.resolve.login.LoginResolve;
 import huanxing_print.com.cn.printhome.net.resolve.login.WeiXinResolve;
 import huanxing_print.com.cn.printhome.util.HttpUtils;
 
+import static android.R.attr.password;
+
 public class LoginRequset extends BaseRequst {
 
-	public static void login(Context context, String phone, String password,
+	public static void login(Context context, String phone, String validCode,
 							 final LoginCallback callback) {
 
 		String url = HTTP_URL + HttpUrl.login;
 		// password = MD5Util.MD5(password);
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("account", phone);
-		params.put("password", password);
+		params.put("mobileNumber", phone);
+		params.put("validCode", validCode);
 
 		HttpUtils.post(context, url, "", params, new HttpCallBack() {
 
