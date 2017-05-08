@@ -39,8 +39,6 @@ import android.view.WindowManager;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
 
 import java.security.MessageDigest;
 import java.text.DateFormat;
@@ -180,18 +178,6 @@ public class CommonUtils {
 		}
 
 		return day;
-	}
-
-	public static double getDistance(LatLng strLatLng, LatLng endLatLng) {
-		double distance = 0;
-
-		try {
-			distance = DistanceUtil.getDistance(strLatLng, endLatLng);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return distance;
 	}
 
 	/** 
