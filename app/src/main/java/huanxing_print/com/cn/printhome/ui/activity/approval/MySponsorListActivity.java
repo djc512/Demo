@@ -11,7 +11,6 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.MySponsorListAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.OnItemClickListener;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * description: 我发起的列表
@@ -57,7 +56,7 @@ public class MySponsorListActivity extends BaseActivity {
                 //查看我的列表详情
                // ToastUtil.doToast(MySponsorListActivity.this, "查看列表详情" + position);
                 Intent intent = new Intent(MySponsorListActivity.this,ApprovalBuyAddOrRemoveActivity.class);
-//                intent.putExtra("what",2);
+                intent.putExtra("what","3");
                 startActivity(intent);
 
             }

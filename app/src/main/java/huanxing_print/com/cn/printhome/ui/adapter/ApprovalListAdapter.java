@@ -1,7 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.util.approval.Info;
+import huanxing_print.com.cn.printhome.util.Info;
 
 /**
  * Created by Administrator on 2017/3/23 0023.

@@ -11,7 +11,7 @@
 
         <TextView
             style="@style/title"
-            android:text="采购审批" />
+            android:text="报销审批" />
     </RelativeLayout>
 
     <FrameLayout
@@ -38,11 +38,13 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:paddingLeft="20dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_toLeftOf="@+id/iv_right"
                         android:src="@drawable/iv_head" />
 
                     <LinearLayout
                         android:padding="20dp"
+                        android:layout_gravity="center_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -118,6 +120,16 @@
                         android:textSize="12sp"
                         android:text="研发部"/>
             </RelativeLayout>
+                <TextView
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="12sp"
+                    android:text="报销明细1"/>
                 <RelativeLayout
                     android:background="@color/white"
                     android:layout_width="match_parent"
@@ -131,9 +143,9 @@
                         android:paddingBottom="5dp"
                         android:paddingLeft="20dp"
                         android:textSize="12sp"
-                        android:text="用途说明"/>
+                        android:text="报销金额"/>
                     <TextView
-                        android:id="@+id/tv_use"
+                        android:id="@+id/tv_apply_money"
                         android:background="@color/white"
                         android:layout_marginLeft="70dp"
                         android:gravity="center_vertical"
@@ -143,8 +155,45 @@
                         android:paddingBottom="5dp"
                         android:paddingLeft="30dp"
                         android:textSize="12sp"
-                        android:text="研发部"/>
+                        android:text="500元"/>
                 </RelativeLayout>
+                <RelativeLayout
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="20dp"
+                        android:textSize="12sp"
+                        android:text="报销类别"/>
+                    <TextView
+                        android:id="@+id/tv_kind"
+                        android:background="@color/white"
+                        android:layout_marginLeft="70dp"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="30dp"
+                        android:textSize="12sp"
+                        android:text="差旅费"/>
+                </RelativeLayout>
+                <TextView
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dp"
+                    android:textSize="12sp"
+                    android:text="报销明细2"/>
                 <RelativeLayout
                 android:background="@color/white"
                 android:layout_width="match_parent"
@@ -158,7 +207,7 @@
                     android:paddingBottom="5dp"
                     android:paddingLeft="20dp"
                     android:textSize="12sp"
-                    android:text="采购清单"/>
+                    android:text="报销金额"/>
                 <TextView
                     android:id="@+id/tv_detail"
                     android:background="@color/white"
@@ -170,8 +219,61 @@
                     android:paddingBottom="5dp"
                     android:paddingLeft="30dp"
                     android:textSize="12sp"
-                    android:text="27寸IMAC2台"/>
+                    android:text="500元"/>
             </RelativeLayout>
+                <RelativeLayout
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="20dp"
+                        android:textSize="12sp"
+                        android:text="报销类别"/>
+                    <TextView
+                        android:id="@+id/tv_kind2"
+                        android:background="@color/white"
+                        android:layout_marginLeft="70dp"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="30dp"
+                        android:textSize="12sp"
+                        android:text="差旅费"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="20dp"
+                        android:textSize="12sp"
+                        android:text="报销金额总计"/>
+                    <TextView
+                        android:id="@+id/tv_total"
+                        android:background="@color/white"
+                        android:layout_marginLeft="100dp"
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:textSize="12sp"
+                        android:text="1000元"/>
+                </RelativeLayout>
 
                 <RelativeLayout
 
@@ -204,60 +306,6 @@
                         android:layout_toRightOf="@+id/textView2"
                         android:layout_toEndOf="@+id/textView2"
                         android:layout_marginStart="25dp" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:background="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="20dp"
-                        android:textSize="12sp"
-                        android:text="请款金额"/>
-                    <TextView
-                        android:id="@+id/tv_money"
-                        android:background="@color/white"
-                        android:layout_marginLeft="70dp"
-                        android:gravity="center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="30dp"
-                        android:textSize="12sp"
-                        android:text="5000元"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:background="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="20dp"
-                        android:textSize="12sp"
-                        android:text="完成日期"/>
-                    <TextView
-                        android:id="@+id/tv_overtime"
-                        android:background="@color/white"
-                        android:layout_marginLeft="70dp"
-                        android:gravity="center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="30dp"
-                        android:textSize="12sp"
-                        android:text="2017-04-25"/>
                 </RelativeLayout>
 
                 <ListView
