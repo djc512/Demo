@@ -9,10 +9,12 @@ import huanxing_print.com.cn.printhome.net.HttpCallBack;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
+import huanxing_print.com.cn.printhome.net.callback.contact.NewFriendCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 import huanxing_print.com.cn.printhome.net.resolve.NullResolve;
 import huanxing_print.com.cn.printhome.net.resolve.contact.FriendSearchResolve;
 import huanxing_print.com.cn.printhome.net.resolve.contact.MyFriendListResolve;
+import huanxing_print.com.cn.printhome.net.resolve.contact.NewFriendResolve;
 import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 /**
@@ -82,7 +84,53 @@ public class FriendManagerRequest extends BaseRequst{
             public void success(String content) {
                 NullResolve resolve = new NullResolve(content);
                 resolve.resolve(callback);
+            }
 
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
+            }
+        });
+    }
+
+    /**
+     * 新的朋友列表
+     * @param ctx
+     * @param logintoken
+     * @param callback
+     */
+    public static void queryNewFriendList(Context ctx, String logintoken, final NewFriendCallback callback) {
+        String newFriendUrl = HTTP_URL + HttpUrl.newFriend;
+
+        HttpUtils.get(ctx, newFriendUrl, logintoken, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                NewFriendResolve resolve = new NewFriendResolve(content);
+                resolve.resolve(callback);
+            }
+
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
+            }
+        });
+    }
+
+    /**
+     * 处理加好友请求
+     * @param ctx
+     * @param logintoken
+     * @param params
+     * @param callback
+     */
+    public static void operationNewFriend(Context ctx, String logintoken, Map<String, Object> params, final NullCallback callback) {
+        String operationUrl = HTTP_URL + HttpUrl.operationNewFriend;
+
+        HttpUtils.post(ctx, operationUrl, logintoken, params, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                NullResolve resolve = new NullResolve(content);
+                resolve.resolve(callback);
             }
 
             @Override

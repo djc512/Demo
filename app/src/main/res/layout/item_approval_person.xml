@@ -23,9 +23,20 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         >
+        <ImageView
+            android:id="@+id/iv_isapproval"
+            android:paddingLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/approval_finish"/>
+        <RelativeLayout
+            android:layout_toRightOf="@+id/iv_isapproval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/tv_name"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_gray"
@@ -33,7 +44,7 @@
         <TextView
             android:id="@+id/tv_detail"
             android:layout_below="@+id/tv_name"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,6 +58,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/text_gray"
             android:text="审批时间"/>
+        </RelativeLayout>
 
     </RelativeLayout>
 

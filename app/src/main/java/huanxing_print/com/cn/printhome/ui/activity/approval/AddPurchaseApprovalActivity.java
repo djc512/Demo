@@ -12,11 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import com.bigkoo.pickerview.TimePickerView;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -25,32 +33,44 @@ import huanxing_print.com.cn.printhome.ui.activity.copy.PhotoPickerActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PreviewPhotoActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.UpLoadPicAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
 import huanxing_print.com.cn.printhome.util.picuplload.UpLoadPicUtil;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.view.imageview.RoundImageView;
 
-/**
- * description: 新建报销审批
- * author LSW
- * date 2017/5/6 10:40
- * update 2017/5/6
- */
-public class AddExpenseApprovalActivity extends BaseActivity implements View.OnClickListener {
 
+/**
+ * 新增采购审批
+ */
+public class AddPurchaseApprovalActivity extends BaseActivity implements View.OnClickListener {
+
+    private EditText edt_borrow_department;//请款部门
+    private EditText edt_buy_reason;//采购事由
+    private EditText edt_purchasing_list;//采购清单
+    private EditText edt_request_num;//请款金额
+    private LinearLayout lin_payee;//收款方
+    private LinearLayout lin_opening_bank;//开户行
+    private LinearLayout lin_account;//帐号
+    private EditText edt_finish_time;//结束时间
+    private EditText edt_payee;//收款方
+    private EditText edt_opening_bank;//开户行
+    private EditText edt_account_number;//帐号
+    private ToggleButton button;
     private List<Bitmap> mResults = new ArrayList<>();
     private List<Bitmap> approvals = new ArrayList<>();
     private List<Bitmap> copys = new ArrayList<>();
     private GridView noScrollgridview;
+    private ScrollGridView grid_scroll_approval;//审批人
+    private ScrollGridView grid_scroll_copy;//抄送
+    private GridViewApprovalAdapter approvalAdapter;
+    private GridViewCopyAdapter copyAdapter;
     private UpLoadPicAdapter adapter;
     public static Bitmap bimap;
     public static Bitmap bimapAdd;
     private Context ctx;
     private static final int PICK_PHOTO = 1;
-    private ScrollGridView grid_scroll_approval;//审批人
-    private ScrollGridView grid_scroll_copy;//抄送
-    private GridViewApprovalAdapter approvalAdapter;
-    private GridViewCopyAdapter copyAdapter;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -62,14 +82,35 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         super.onCreate(savedInstanceState);
         // 改变状态栏的颜色使其与APP风格一体化
         CommonUtils.initSystemBar(this);
-        setContentView(R.layout.activity_add_expense_approval);
-
+        setContentView(R.layout.activity_add_purchase);
         ctx = this;
+
         initData();
         functionModule();
     }
 
     private void functionModule() {
+
+        button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //开关打开了
+                    edt_request_num.setFocusableInTouchMode(true);
+                    edt_request_num.setFocusable(true);
+                    lin_payee.setVisibility(View.VISIBLE);
+                    lin_opening_bank.setVisibility(View.VISIBLE);
+                    lin_account.setVisibility(View.VISIBLE);
+                } else {
+                    //隐藏掉
+                    edt_request_num.setFocusableInTouchMode(false);
+                    edt_request_num.setFocusable(false);
+                    lin_payee.setVisibility(View.GONE);
+                    lin_opening_bank.setVisibility(View.GONE);
+                    lin_account.setVisibility(View.GONE);
+                }
+            }
+        });
 
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -131,16 +172,25 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         });
     }
 
-
     private void initData() {
-        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
-        bimapAdd = BitmapFactory.decodeResource(getResources(), R.drawable.add_people);
-        mResults.add(bimap);
-        approvals.add(bimapAdd);
-        copys.add(bimapAdd);
 
         grid_scroll_approval = (ScrollGridView) findViewById(R.id.grid_scroll_approval);
         grid_scroll_copy = (ScrollGridView) findViewById(R.id.grid_scroll_copy);
+        edt_request_num = (EditText) findViewById(R.id.edt_request_num);
+        lin_payee = (LinearLayout) findViewById(R.id.lin_payee);
+        lin_opening_bank = (LinearLayout) findViewById(R.id.lin_opening_bank);
+        lin_account = (LinearLayout) findViewById(R.id.lin_account);
+        edt_finish_time = (EditText) findViewById(R.id.edt_finish_time);
+        edt_borrow_department = (EditText) findViewById(R.id.edt_borrow_department);
+        edt_buy_reason = (EditText) findViewById(R.id.edt_buy_reason);
+        edt_purchasing_list = (EditText) findViewById(R.id.edt_purchasing_list);
+        edt_payee = (EditText) findViewById(R.id.edt_payee);
+        edt_opening_bank = (EditText) findViewById(R.id.edt_opening_bank);
+        edt_account_number = (EditText) findViewById(R.id.edt_account_number);
+
+        findViewById(R.id.rel_choose_image).setOnClickListener(this);
+        findViewById(R.id.rel_choose_time).setOnClickListener(this);
+        findViewById(R.id.btn_submit_purchase_approval).setOnClickListener(this);
         //返回
         View view = findViewById(R.id.back);
         view.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
@@ -149,16 +199,119 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                 finish();
             }
         });
+
+        button = (ToggleButton) findViewById(R.id.toggleButton);
+
         noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
-        copyAdapter = new GridViewCopyAdapter();
-        approvalAdapter = new GridViewApprovalAdapter();
         adapter = new UpLoadPicAdapter(getSelfActivity(), mResults);
         adapter.update();
 
-        findViewById(R.id.btn_submit_expense_approval).setOnClickListener(this);
+        approvalAdapter = new GridViewApprovalAdapter();
+        copyAdapter = new GridViewCopyAdapter();
+
+        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
+        bimapAdd = BitmapFactory.decodeResource(getResources(), R.drawable.add_people);
+        mResults.add(bimap);
+        approvals.add(bimapAdd);
+        copys.add(bimapAdd);
+
     }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rel_choose_image:
+                break;
+            case R.id.rel_choose_time:
+                //时间选择器
+                TimePickerView pvTime = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
+                //控制时间范围
+                Calendar calendar = Calendar.getInstance();
+                pvTime.setRange(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR));//要在setTime 之前才有效果哦
+                pvTime.setTime(new Date());
+                pvTime.setCyclic(false);
+                pvTime.setCancelable(true);
+                //时间选择后回调
+                pvTime.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
+
+                    @Override
+                    public void onTimeSelect(Date date) {
+                        edt_finish_time.setText(getTime(date));
+                    }
+                });
+                pvTime.show();
+                break;
+            case R.id.btn_submit_purchase_approval:
+                //新建采购审批
+                createPurchaseApproval();
+                break;
+        }
+    }
+
+    /**
+     * 提交采购审批
+     */
+    private void createPurchaseApproval() {
+
+        if (ObjectUtils.isNull(edt_borrow_department.getText().toString())) {
+            toast("请款部门不能为空!");
+            return;
+        }
+        if (ObjectUtils.isNull(edt_buy_reason.getText().toString())) {
+            toast("采购事项不能为空!");
+            return;
+        }
+        if (ObjectUtils.isNull(edt_purchasing_list.getText().toString())) {
+            toast("采购清单不能为空!");
+            return;
+        }
+        if (ObjectUtils.isNull(edt_finish_time.getText().toString())) {
+            toast("完成日期不能为空!");
+            return;
+        }
+        //判断请款金额开关是否打开
+        if (button.isChecked()) {
+            //打开的
+            if (ObjectUtils.isNull(edt_request_num.getText().toString())) {
+                toast("请款金额不能为空!");
+                return;
+            }
+            if (ObjectUtils.isNull(edt_payee.getText().toString())) {
+                toast("收款方不能为空!");
+                return;
+            }
+            if (ObjectUtils.isNull(edt_opening_bank.getText().toString())) {
+                toast("开户行不能为空!");
+                return;
+            }
+            if (ObjectUtils.isNull(edt_account_number.getText().toString())) {
+                toast("帐号不能为空!");
+                return;
+            }
+            DialogUtils.showProgressDialog(getSelfActivity(), "提交中").show();
+            //AddAprovalRequest.addApproval();
+        }
+
+        if (!button.isChecked()) {
+            DialogUtils.showProgressDialog(getSelfActivity(), "提交中").show();
+            //AddAprovalRequest.addApproval();
+        }
+    }
+
+    /**
+     * 格式化时间
+     *
+     * @param date
+     * @return
+     */
+    private String getTime(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -194,16 +347,6 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         noScrollgridview.setLayoutParams(lp);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_submit_expense_approval:
-                //提交报销审批
-
-                break;
-        }
-    }
-
     /**
      * description: 审批人
      * author LSW
@@ -229,16 +372,16 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
+            GridViewApprovalAdapter.ViewHolder holder = null;
             if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = LayoutInflater.from(AddExpenseApprovalActivity.this).inflate(
+                holder = new GridViewApprovalAdapter.ViewHolder();
+                convertView = LayoutInflater.from(AddPurchaseApprovalActivity.this).inflate(
                         R.layout.item_grid_approval, null);
                 holder.round_head_image = (RoundImageView) convertView.findViewById(R.id.round_head_image);
                 holder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
                 convertView.setTag(holder);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (GridViewApprovalAdapter.ViewHolder) convertView.getTag();
             }
             if (position == (approvals.size() - 1)) {
                 //添加图标
@@ -281,16 +424,16 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
+            GridViewCopyAdapter.ViewHolder holder = null;
             if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = LayoutInflater.from(AddExpenseApprovalActivity.this).inflate(
+                holder = new GridViewCopyAdapter.ViewHolder();
+                convertView = LayoutInflater.from(AddPurchaseApprovalActivity.this).inflate(
                         R.layout.item_grid_approval, null);
                 holder.round_head_image = (RoundImageView) convertView.findViewById(R.id.round_head_image);
                 holder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
                 convertView.setTag(holder);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (GridViewCopyAdapter.ViewHolder) convertView.getTag();
             }
             if (position == (copys.size() - 1)) {
                 //添加图标
@@ -307,4 +450,5 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
             TextView txt_name;
         }
     }
+
 }

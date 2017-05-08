@@ -2,9 +2,14 @@ package huanxing_print.com.cn.printhome.ui.activity.approval;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -13,14 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.PicApprovalAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.UpLoadPicAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
-
 
 
 /**
@@ -30,6 +37,8 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     public Context mContext;
 
+    private List<Bitmap> mResults = new ArrayList<>();
+    public static Bitmap bimap;
 
     ImageView iv_user_name;
     ImageView iv_back;
@@ -53,9 +62,12 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     ListView ll_person;
 
+    private GridView noScrollgridview;
+
     boolean isRequestMoney =false;
 
     ApprovalPersonAdapter personAdapter;
+    private PicApprovalAdapter adapter;
     ArrayList lists = new ArrayList();
 
 
@@ -108,11 +120,20 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
                     break;
                 default:
                     break;
-
             }
         }
         personAdapter = new ApprovalPersonAdapter(this,lists);
         ll_person.setAdapter(personAdapter);;
+        //横向图片展示
+        //假数据
+        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add_people);
+        mResults.add(bimap);
+        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_go);
+
+        mResults.add(bimap);
+        adapter = new PicApprovalAdapter(getSelfActivity(), mResults);
+        //adapter.update();
+        noScrollgridview.setAdapter(adapter);
 
 
     }
@@ -139,6 +160,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         ll_commit = (LinearLayout) findViewById(R.id.ll_remove);
         bt_reject_agree = (LinearLayout) findViewById(R.id.bt_reject_agree);
         rl_sertificate = (RelativeLayout) findViewById(R.id.rl_sertificate);
+
+        noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
+        noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
     }
 

@@ -47,11 +47,11 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private void initInfos() {
         NewFriendInfo info01 = new NewFriendInfo();
-        info01.setType(ITEM_TYPE.ITEM_HIGH_DIVIDER.ordinal());
+        info01.setShowType(ITEM_TYPE.ITEM_HIGH_DIVIDER.ordinal());
         NewFriendInfo info02 = new NewFriendInfo();
-        info02.setType(ITEM_TYPE.ITEM_ADDRESS_BOOK.ordinal());
+        info02.setShowType(ITEM_TYPE.ITEM_ADDRESS_BOOK.ordinal());
         NewFriendInfo info03 = new NewFriendInfo();
-        info03.setType(ITEM_TYPE.ITEM_HIGH_DIVIDER.ordinal());
+        info03.setShowType(ITEM_TYPE.ITEM_HIGH_DIVIDER.ordinal());
         initInfos.add(info01);
         initInfos.add(info02);
         initInfos.add(info03);
@@ -62,7 +62,7 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
         friendInfos.addAll(initInfos);
 
         for (NewFriendInfo info : infos) {
-            info.setType(ITEM_TYPE.ITEM_NEW_FIREND.ordinal());
+            info.setShowType(ITEM_TYPE.ITEM_NEW_FIREND.ordinal());
             friendInfos.add(info);
         }
     }
@@ -103,7 +103,7 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        return friendInfos.get(position).getType();
+        return friendInfos.get(position).getShowType();
     }
 
     @Override
@@ -111,13 +111,13 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
         return friendInfos.size();
     }
 
-    class NewFriendHolder extends RecyclerView.ViewHolder {
+    class NewFriendHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         CircleImageView icon;
         TextView nameTv;
         TextView verificationTv;
         Button agreeBtn;
         TextView stateTv;
-
+        NewFriendInfo info;
         public NewFriendHolder(View itemView) {
             super(itemView);
             icon = (CircleImageView) itemView.findViewById(R.id.iv_head);
@@ -125,22 +125,23 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
             verificationTv = (TextView) itemView.findViewById(R.id.tv_verification);
             agreeBtn = (Button) itemView.findViewById(R.id.btn_agree);
             stateTv = (TextView) itemView.findViewById(R.id.friend_state);
+            agreeBtn.setOnClickListener(this);
         }
 
         public void bind(int position) {
-            NewFriendInfo info = friendInfos.get(position);
+            info = friendInfos.get(position);
             if (info != null) {
-                nameTv.setText(info.getName());
-                verificationTv.setText(info.getVerification());
+                nameTv.setText(info.getMemberName());
+                verificationTv.setText(info.getNote());
                 loadPic(info);
-                if(NewFriendInfo.STATE.NORMAL.ordinal() == info.getFriendState()) {
+                if("0".equals(info.getType())) {
                     agreeBtn.setVisibility(View.VISIBLE);
                     stateTv.setVisibility(View.GONE);
-                }else if(NewFriendInfo.STATE.AGREE.ordinal() == info.getFriendState()) {
+                }else if("1".equals(info.getType())) {
                     agreeBtn.setVisibility(View.GONE);
                     stateTv.setVisibility(View.VISIBLE);
                     stateTv.setText("已添加");
-                }else if(NewFriendInfo.STATE.WAIT.ordinal() == info.getFriendState()) {
+                }else if("2".equals(info.getType())) {
                     agreeBtn.setVisibility(View.GONE);
                     stateTv.setVisibility(View.VISIBLE);
                     stateTv.setText("等待验证");
@@ -149,12 +150,23 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         private void loadPic(NewFriendInfo info) {
-            Glide.with(mContext).load(info.getIconPath()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+            Glide.with(mContext).load(info.getMemebrUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     icon.setImageDrawable(resource);
                 }
             });
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.btn_agree:
+                    if(null != onAddItemClickListener) {
+                        onAddItemClickListener.onItemNewFriendPassClick(info);
+                    }
+                    break;
+            }
         }
     }
 
@@ -174,18 +186,19 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         @Override
         public void onClick(View view) {
-            if(null != byAddressListener) {
-                byAddressListener.onClick();
+            if(null != onAddItemClickListener) {
+                onAddItemClickListener.onAddressBookClick();
             }
         }
     }
 
-    public interface AddByAddressListener{
-        void onClick();
+    public interface OnAddItemClickListener{
+        void onAddressBookClick();
+        void onItemNewFriendPassClick(NewFriendInfo newFriendInfo);
     }
 
-    private AddByAddressListener byAddressListener;
-    public void setAddByAddressListener(AddByAddressListener listener){
-        this.byAddressListener = listener;
+    private OnAddItemClickListener onAddItemClickListener;
+    public void setOnAddItemClickListener(OnAddItemClickListener listener){
+        this.onAddItemClickListener = listener;
     }
 }
