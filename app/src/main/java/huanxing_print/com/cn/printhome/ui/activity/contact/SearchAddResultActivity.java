@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
+import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.ui.adapter.AddContactAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
@@ -21,8 +21,7 @@ import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
  */
 
 public class SearchAddResultActivity extends BaseActivity implements View.OnClickListener,AddContactAdapter.OnItemSendListener {
-    public static final int SEND = 1000;
-    private ArrayList<ContactInfo> mResults = new ArrayList<ContactInfo>();
+    private ArrayList<FriendSearchInfo> mResults = new ArrayList<FriendSearchInfo>();
     private RecyclerView resultRecylerView;
     private AddContactAdapter addContactAdapter;
     private int sendPostion = -1;
@@ -55,7 +54,7 @@ public class SearchAddResultActivity extends BaseActivity implements View.OnClic
     }
 
     private void initData() {
-        ArrayList<ContactInfo> results = getIntent().getParcelableArrayListExtra("search result");
+        ArrayList<FriendSearchInfo> results = getIntent().getParcelableArrayListExtra("search result");
         mResults.addAll(results);
         addContactAdapter.updateContacts(mResults);
     }
@@ -74,23 +73,11 @@ public class SearchAddResultActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SEND && resultCode == RESULT_OK) {
-            modifyData();
-        }
-    }
-
-    @Override
-    public void send(int poisition) {
-        sendPostion = poisition;
+    public void send(int position) {
+        sendPostion = position;
+        FriendSearchInfo info = mResults.get(sendPostion);
         Intent intent = new Intent(this, AddVerificationActivity.class);
-        startActivityForResult(intent, SEND);
-    }
-
-    private void modifyData() {
-        ContactInfo contactInfo = mResults.get(sendPostion);
-        contactInfo.setAddRequest(true);
-        addContactAdapter.updateContacts(mResults);
+        intent.putExtra("verification", info);
+        startActivity(intent);
     }
 }
