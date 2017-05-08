@@ -19,8 +19,9 @@ import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentListActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity1;
+import huanxing_print.com.cn.printhome.ui.activity.my.CommunityListActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.MyContactActivity;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -141,6 +142,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 //        findViewById(R.id.rl_userMsg).setOnClickListener(this);
         findViewById(R.id.ll_station).setOnClickListener(this);
         findViewById(R.id.ll_join).setOnClickListener(this);
+        findViewById(R.id.ll_my_community).setOnClickListener(this);
         findViewById(R.id.iv_set).setOnClickListener(this);
     }
 
@@ -169,11 +171,11 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(getActivity(), CommentActivity.class));
                 break;
             case R.id.ll_my_contact:
-                startActivity(new Intent(getActivity(), ContactActivity.class));
+                startActivity(new Intent(getActivity(),MyContactActivity.class));
                 break;
-//            case R.id.ll_my_share:
-//                startActivity(new Intent(getActivity(), ShareActivity.class));
-//                break;
+            case R.id.ll_my_community:
+                startActivity(new Intent(getActivity(), CommunityListActivity.class));
+                break;
 //            case R.id.ll_my_set:
 ////                startActivity(new Intent(getActivity(), SettingActivity.class));
 ////                startActivity(new Intent(getActivity(), ApprovalActivity.class));

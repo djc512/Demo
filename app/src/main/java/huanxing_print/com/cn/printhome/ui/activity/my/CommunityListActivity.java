@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentAllFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentBadFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentGoodFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentMediumFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcommunity.CommunityCollecteFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcommunity.CommunityNewestFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
@@ -26,22 +23,17 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
  */
 
 public class CommunityListActivity extends FragmentActivity implements View.OnClickListener {
-    private ImageView iv_back;
-    private LinearLayout ll_back;
-    private TextView tv_all;
-    private LinearLayout ll_all;
-    private TextView tv_good;
-    private LinearLayout ll_good;
-    private LinearLayout ll_medium;
-    private TextView tv_bad;
-    private LinearLayout ll_bad;
+    private TextView tv_newest;
+    private LinearLayout ll_newest;
+    private TextView tv_collection;
+    private LinearLayout ll_collection;
+
     private View view_line;
     private Context ctx;
     private ViewPager vp_comment;
     private List<Fragment> fragments;
     private int tvWidth;
     private int llWidth;
-    private TextView tv_medium;
     private List<TextView> textViews;
     private LinearLayout.LayoutParams lp;
     private int marginLeft;
@@ -50,7 +42,7 @@ public class CommunityListActivity extends FragmentActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
-        setContentView(R.layout.activity_comment_list);
+        setContentView(R.layout.activity_community);
         ctx = this;
         initView();
         initData();
@@ -58,16 +50,11 @@ public class CommunityListActivity extends FragmentActivity implements View.OnCl
     }
 
     private void initView() {
-        iv_back = (ImageView) findViewById(R.id.iv_back);
-        ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        tv_all = (TextView) findViewById(R.id.tv_all);
-        ll_all = (LinearLayout) findViewById(R.id.ll_all);
-        tv_good = (TextView) findViewById(R.id.tv_good);
-        ll_good = (LinearLayout) findViewById(R.id.ll_good);
-        ll_medium = (LinearLayout) findViewById(R.id.ll_medium);
-        tv_medium = (TextView) findViewById(R.id.tv_medium);
-        tv_bad = (TextView) findViewById(R.id.tv_bad);
-        ll_bad = (LinearLayout) findViewById(R.id.ll_bad);
+        tv_newest = (TextView) findViewById(R.id.tv_newest);
+        ll_newest = (LinearLayout) findViewById(R.id.ll_newest);
+        tv_collection = (TextView) findViewById(R.id.tv_collection);
+        ll_collection = (LinearLayout) findViewById(R.id.ll_collection);
+
         view_line = findViewById(R.id.view_line);
         vp_comment = (ViewPager) findViewById(R.id.vp_comment);
     }
@@ -76,41 +63,33 @@ public class CommunityListActivity extends FragmentActivity implements View.OnCl
     private void initData() {
         int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        tv_all.measure(w, h);
-        tvWidth = tv_all.getMeasuredWidth();
+        tv_newest .measure(w, h);
+        tvWidth = tv_newest.getMeasuredWidth();
 
         int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-        llWidth = screenWidth / 4;
+        llWidth = screenWidth / 2;
         lp = new LinearLayout.LayoutParams(tvWidth, CommonUtils.dip2px(ctx, 2));
         marginLeft = (llWidth - tvWidth) / 2;
 
         fragments = new ArrayList<>();
-        CommentAllFragment allFragment = new CommentAllFragment();
-        CommentGoodFragment goodFragment = new CommentGoodFragment();
-        CommentMediumFragment mediumFragment = new CommentMediumFragment();
-        CommentBadFragment badFragment = new CommentBadFragment();
+        CommunityNewestFragment newestFragment = new CommunityNewestFragment();
+        CommunityCollecteFragment collecteFragment = new CommunityCollecteFragment();
 
-        fragments.add(allFragment);
-        fragments.add(goodFragment);
-        fragments.add(mediumFragment);
-        fragments.add(badFragment);
+        fragments.add(newestFragment);
+        fragments.add(collecteFragment);
 
         textViews = new ArrayList<>();
-        textViews.add(tv_all);
-        textViews.add(tv_good);
-        textViews.add(tv_medium);
-        textViews.add(tv_bad);
+        textViews.add(tv_newest);
+        textViews.add(tv_collection);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         vp_comment.setAdapter(adapter);
     }
 
     private void initListener() {
-        iv_back.setOnClickListener(this);
-        ll_all.setOnClickListener(this);
-        ll_good.setOnClickListener(this);
-        ll_medium.setOnClickListener(this);
-        ll_bad.setOnClickListener(this);
+        findViewById(R.id.iv_back).setOnClickListener(this);
+        ll_newest.setOnClickListener(this);
+        ll_collection.setOnClickListener(this);
 
         vp_comment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -134,11 +113,7 @@ public class CommunityListActivity extends FragmentActivity implements View.OnCl
                     case 1:
                         setTextView(1);
                         break;
-                    case 2:
-                        setTextView(2);
-                        break;
-                    case 3:
-                        setTextView(3);
+                    default:
                         break;
                 }
             }
@@ -164,21 +139,15 @@ public class CommunityListActivity extends FragmentActivity implements View.OnCl
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.ll_all:
+            case R.id.ll_newest:
                 setTextView(0);
                 vp_comment.setCurrentItem(0);
                 break;
-            case R.id.ll_good:
+            case R.id.ll_collection:
                 setTextView(1);
                 vp_comment.setCurrentItem(1);
                 break;
-            case R.id.ll_medium:
-                setTextView(2);
-                vp_comment.setCurrentItem(2);
-                break;
-            case R.id.ll_bad:
-                setTextView(3);
-                vp_comment.setCurrentItem(3);
+            default:
                 break;
         }
     }

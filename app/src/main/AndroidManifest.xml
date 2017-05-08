@@ -221,7 +221,7 @@
             android:screenOrientation="portrait" />
         <!-- 联系我们界面 -->
         <activity
-            android:name=".ui.activity.my.ContactActivity"
+            android:name=".ui.activity.my.MyContactActivity"
             android:screenOrientation="portrait" />
         <!-- 设置界面 -->
         <activity
@@ -292,6 +292,10 @@
         <!-- 订单详情界面 -->
         <activity
             android:name=".ui.activity.my.OrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <!-- 我的社区 -->
+        <activity
+            android:name=".ui.activity.my.CommunityListActivity"
             android:screenOrientation="portrait" />
         <!-- 支付宝相关 -->
         <activity

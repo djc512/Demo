@@ -13,7 +13,15 @@
 
         <TextView
             style="@style/title"
-            android:text="评价列表" />
+            android:text="印家社区" />
+        <ImageView
+            android:id="@+id/iv_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/iv_add" />
     </RelativeLayout>
 
     <include layout="@layout/viewline" />
@@ -27,90 +35,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="普田科技园" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="编号：012345"
-                android:textColor="@color/gray8" />
-        </LinearLayout>
-
-        <include layout="@layout/viewline" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
             android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
             <LinearLayout
-                android:id="@+id/ll_all"
+                android:id="@+id/ll_newest"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal">
 
                 <TextView
-                    android:id="@+id/tv_all"
+                    android:id="@+id/tv_newest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="全部"
-                    android:textColor="@color/black2" />
+                    android:text="最新"
+                    android:textColor="@color/black2"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_good"
+                android:id="@+id/ll_collection"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal">
 
                 <TextView
-                    android:id="@+id/tv_good"
+                    android:id="@+id/tv_collection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="好评"
-                    android:textColor="@color/gray8" />
+                    android:text="收藏"
+                    android:textColor="@color/gray8"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_medium"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
-
-                <TextView
-                    android:id="@+id/tv_medium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="中评"
-                    android:textColor="@color/gray8" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_bad"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
-
-                <TextView
-                    android:id="@+id/tv_bad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="差评"
-                    android:textColor="@color/gray8" />
-            </LinearLayout>
         </LinearLayout>
 
         <View
