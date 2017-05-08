@@ -36,7 +36,9 @@ public class HttpUrl {
     public static final String queryOrderDetail = "pay/recharge/queryOrderDetail"; // 充值订单详情查询
     public static final String queryFriendList = "friend/list";//好友列表
     public static final String friendSearch = "friend/search";//搜索联系人
-    public static final String friendSearchAdd = "friend/add";//搜索联系人
+    public static final String friendSearchAdd = "friend/add";//添加联系人
+    public static final String newFriend = "friend/newFriList";//新的朋友
+    public static final String operationNewFriend = "friend/adult";//处理加好友请求
     public static final String addApproval = "approve/add";//新增审批
     private static String postUrl;
 

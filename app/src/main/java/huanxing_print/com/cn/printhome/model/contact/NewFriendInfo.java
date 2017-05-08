@@ -8,35 +8,34 @@ import android.os.Parcelable;
  */
 
 public class NewFriendInfo implements Parcelable {
-    private int type;//用于界面显示item
-    private String name;
-    private String verification;
-    private String iconPath;
-    private int friendState;
-
-    public enum STATE{
-        NORMAL,AGREE,WAIT
-    }
+    private int showType;//用于界面显示item
+    private String memberId;//会员id
+    private String memberName;//名称
+    private String memebrUrl;//头像
+    private String note;//备注
+    private String type;//0显示接受按钮,1已添加,2等待验证
 
     public NewFriendInfo() {
 
     }
 
     protected NewFriendInfo(Parcel in) {
-        type = in.readInt();
-        name = in.readString();
-        verification = in.readString();
-        iconPath = in.readString();
-        friendState = in.readInt();
+        showType = in.readInt();
+        memberId = in.readString();
+        memberName = in.readString();
+        memebrUrl = in.readString();
+        note = in.readString();
+        type = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(type);
-        dest.writeString(name);
-        dest.writeString(verification);
-        dest.writeString(iconPath);
-        dest.writeInt(friendState);
+        dest.writeInt(showType);
+        dest.writeString(memberId);
+        dest.writeString(memberName);
+        dest.writeString(memebrUrl);
+        dest.writeString(note);
+        dest.writeString(type);
     }
 
     @Override
@@ -56,43 +55,51 @@ public class NewFriendInfo implements Parcelable {
         }
     };
 
-    public int getType() {
+    public int getShowType() {
+        return showType;
+    }
+
+    public void setShowType(int showType) {
+        this.showType = showType;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getMemebrUrl() {
+        return memebrUrl;
+    }
+
+    public void setMemebrUrl(String memebrUrl) {
+        this.memebrUrl = memebrUrl;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getVerification() {
-        return verification;
-    }
-
-    public void setVerification(String verification) {
-        this.verification = verification;
-    }
-
-    public String getIconPath() {
-        return iconPath;
-    }
-
-    public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
-    }
-
-    public int getFriendState() {
-        return friendState;
-    }
-
-    public void setFriendState(int friendState) {
-        this.friendState = friendState;
     }
 }
