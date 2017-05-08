@@ -17,7 +17,10 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CommentListActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.ContactActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -136,6 +139,8 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 //        findViewById(R.id.ll_my_set).setOnClickListener(this);
 //        findViewById(R.id.ll_my_share).setOnClickListener(this);
 //        findViewById(R.id.rl_userMsg).setOnClickListener(this);
+        findViewById(R.id.ll_station).setOnClickListener(this);
+        findViewById(R.id.ll_join).setOnClickListener(this);
         findViewById(R.id.iv_set).setOnClickListener(this);
     }
 
@@ -149,19 +154,20 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 //                startActivity(intent);
 //                break;
             case R.id.iv_set:
-//                startActivity(new Intent(getActivity(), MyActivity.class));
+               startActivity(new Intent(getActivity(), MyActivity.class));
                 break;
 //            case R.id.ll_my_account:
 //                Intent accIntent = new Intent(getActivity(),AccountActivity.class);
 //                accIntent.putExtra("totleBalance",totleBalance);
 //                startActivity(accIntent);
 //                break;
-//            case R.id.ll_my_mx:
-//                startActivity(new Intent(getActivity(), MingXiActivity.class));
-//                break;
-//            case R.id.ll_my_dy:
-//                startActivity(new Intent(getActivity(), DaYinActivity.class));
-//                break;
+            case R.id.ll_station://布点建议
+                //startActivity(new Intent(getActivity(), HandWriteActivity.class));
+                startActivity(new Intent(getActivity(), CommentListActivity.class));
+                break;
+            case R.id.ll_join://打印点加盟
+                startActivity(new Intent(getActivity(), CommentActivity.class));
+                break;
             case R.id.ll_my_contact:
                 startActivity(new Intent(getActivity(), ContactActivity.class));
                 break;
