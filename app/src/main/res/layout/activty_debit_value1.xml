@@ -37,6 +37,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/et_companyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,6 +71,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/et_ratepayerId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,6 +105,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/et_companyAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,6 +139,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/et_companyPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,6 +173,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/et_bankName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -202,6 +207,7 @@
                 android:textSize="15sp" />
 
             <EditText
+                android:singleLine="true"
                 android:id="@+id/et_bankAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

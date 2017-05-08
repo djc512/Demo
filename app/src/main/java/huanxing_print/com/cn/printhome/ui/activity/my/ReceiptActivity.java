@@ -18,7 +18,6 @@ import huanxing_print.com.cn.printhome.ui.activity.fragment.ReceiptNormalFragmen
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ReceiptValueFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.view.viewpager.MyViewPager;
 
 /**
  * Created by Administrator on 2017/5/8 0008.
@@ -26,13 +25,6 @@ import huanxing_print.com.cn.printhome.view.viewpager.MyViewPager;
 
 public class ReceiptActivity extends FragmentActivity implements View.OnClickListener {
 
-    private LinearLayout ll_back;
-    private TextView tv_bill_normal;
-    private TextView tv_bill_value;
-    private View view_bill;
-    private MyViewPager vp;
-
-    private List<Fragment> fragmentList = new ArrayList<>();
     private Context ctx;
     private ImageView iv_back;
     private LinearLayout ll_all;
@@ -66,6 +58,7 @@ public class ReceiptActivity extends FragmentActivity implements View.OnClickLis
         lp.leftMargin = marginLeft;
         view_line.setLayoutParams(lp);
     }
+
     private void initView() {
         iv_back = (ImageView) findViewById(R.id.iv_back);
         tv_all = (TextView) findViewById(R.id.tv_all);

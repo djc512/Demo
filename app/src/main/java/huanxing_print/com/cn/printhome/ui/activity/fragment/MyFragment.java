@@ -19,6 +19,7 @@ import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentListActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity1;
 import huanxing_print.com.cn.printhome.ui.activity.my.CommunityListActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyContactActivity;
@@ -44,7 +45,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         EventBus.getDefault().register(this);
 
         initViews();
-       // initData();
+        // initData();
         setListener();
     }
 
@@ -83,7 +84,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private void initData() {
         token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(getActivity(),"加载中");
+        DialogUtils.showProgressDialog(getActivity(), "加载中");
         //网络请求，获取用户信息
         MyInfoRequest.getMyInfo(getActivity(), token, new MyMyInfoCallBack());
     }
@@ -133,7 +134,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
     private void setListener() {
 
-//        findViewById(R.id.ll_my_account).setOnClickListener(this);
+        findViewById(R.id.ll_my_account).setOnClickListener(this);
         findViewById(R.id.ll_my_contact).setOnClickListener(this);
 //        findViewById(R.id.ll_my_dy).setOnClickListener(this);
 //        findViewById(R.id.ll_my_mx).setOnClickListener(this);
@@ -156,13 +157,13 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 //                startActivity(intent);
 //                break;
             case R.id.iv_set:
-               startActivity(new Intent(getActivity(), MyActivity.class));
+                startActivity(new Intent(getActivity(), MyActivity.class));
                 break;
-//            case R.id.ll_my_account:
-//                Intent accIntent = new Intent(getActivity(),AccountActivity.class);
+            case R.id.ll_my_account:
+                Intent accIntent = new Intent(getActivity(), AccountActivity1.class);
 //                accIntent.putExtra("totleBalance",totleBalance);
-//                startActivity(accIntent);
-//                break;
+                startActivity(accIntent);
+                break;
             case R.id.ll_station://布点建议
                 //startActivity(new Intent(getActivity(), HandWriteActivity.class));
                 startActivity(new Intent(getActivity(), CommentListActivity.class));
@@ -171,7 +172,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(getActivity(), CommentActivity.class));
                 break;
             case R.id.ll_my_contact:
-                startActivity(new Intent(getActivity(),MyContactActivity.class));
+                startActivity(new Intent(getActivity(), MyContactActivity.class));
                 break;
             case R.id.ll_my_community:
                 startActivity(new Intent(getActivity(), CommunityListActivity.class));

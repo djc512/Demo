@@ -37,7 +37,8 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/et_name"
+                android:singleLine="true"
+                android:id="@+id/et_companyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

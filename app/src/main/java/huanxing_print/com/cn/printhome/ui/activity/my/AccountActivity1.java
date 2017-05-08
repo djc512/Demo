@@ -83,6 +83,7 @@ public class AccountActivity1 extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btn_chongzhi:
                 Toast.makeText(getSelfActivity(), "先选择充值金额", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getSelfActivity(), PayActivity1.class));
                 break;
             case R.id.tv_account_record://充值记录
                 startActivity(new Intent(getSelfActivity(), AccountRecordActivity1.class));

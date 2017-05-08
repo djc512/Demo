@@ -19,7 +19,7 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
  */
 
 public class ReceiptNormalFragment extends Fragment implements View.OnClickListener {
-    private EditText et_name;
+    private EditText et_companyName;
     private TextView tv_comfirm;
     private Context ctx;
 
@@ -35,7 +35,7 @@ public class ReceiptNormalFragment extends Fragment implements View.OnClickListe
     }
 
     private void initView(View view) {
-        et_name = (EditText) view.findViewById(R.id.et_name);
+        et_companyName = (EditText) view.findViewById(R.id.et_companyName);
         tv_comfirm = (TextView) view.findViewById(R.id.tv_comfirm);
     }
 
@@ -50,12 +50,16 @@ public class ReceiptNormalFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_comfirm:
-                String name = et_name.getText().toString().trim();
-                if (ObjectUtils.isNull(name)) {
-                    Toast.makeText(ctx, "请输入公司抬头或个人", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                getData();
                 break;
+        }
+    }
+
+    public void getData() {
+        String name = et_companyName.getText().toString().trim();
+        if (ObjectUtils.isNull(name)) {
+            Toast.makeText(ctx, "请输入公司抬头或个人", Toast.LENGTH_SHORT).show();
+            return;
         }
     }
 }
