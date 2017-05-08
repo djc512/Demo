@@ -445,7 +445,7 @@
 
         <!-- 新建采购审批 -->
         <activity
-            android:name=".ui.activity.approval.AddPurchaseActivity"
+            android:name=".ui.activity.approval.AddPurchaseApprovalActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 新建报销审批 -->
