@@ -16,8 +16,12 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
+import com.bigkoo.pickerview.TimePickerView;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -145,12 +149,35 @@ public class AddPurchaseActivity extends BaseActivity implements View.OnClickLis
             case R.id.rel_choose_image:
                 break;
             case R.id.rel_choose_time:
-                //选择时间
-                Calendar startDate = Calendar.getInstance();
-                Calendar endDate = Calendar.getInstance();
-                endDate.set(2020, 1, 1);
-                break;
+                //时间选择器
+                TimePickerView pvTime = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
+                //控制时间范围
+                Calendar calendar = Calendar.getInstance();
+                pvTime.setRange(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR));//要在setTime 之前才有效果哦
+                pvTime.setTime(new Date());
+                pvTime.setCyclic(false);
+                pvTime.setCancelable(true);
+                //时间选择后回调
+                pvTime.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
+
+                    @Override
+                    public void onTimeSelect(Date date) {
+                        edt_finish_time.setText(getTime(date));
+                    }
+                });
+                pvTime.show();
         }
+    }
+
+    /**
+     * 格式化时间
+     *
+     * @param date
+     * @return
+     */
+    private String getTime(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
     }
 
 

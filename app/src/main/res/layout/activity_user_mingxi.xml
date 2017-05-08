@@ -17,10 +17,13 @@
 
         <TextView
             android:id="@+id/tv_bill_debit"
-            style="@style/title"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow2"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="开发票" />
+            android:text="开具发票" />
     </RelativeLayout>
     <com.andview.refreshview.XRefreshView
         android:id="@+id/xrf_zdmx"

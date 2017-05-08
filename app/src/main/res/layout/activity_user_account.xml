@@ -40,7 +40,8 @@
                 android:background="@color/white"
                 android:orientation="vertical">
                 <ImageView
-                    android:padding="15dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -50,20 +51,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="账户余额(元)"
+                    android:text="账户余额"
                     android:textColor="@color/black2"
-                    android:textSize="13sp" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:paddingBottom="10dp"
-                    android:paddingTop="5dp"
                     android:text="￥100.00"
                     android:textStyle="bold"
                     android:textColor="@color/black2"
-                    android:textSize="20sp" />
+                    android:textSize="40sp" />
             </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:text="《充值协议》"
                     android:textColor="@color/yellow1"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <TextView
@@ -107,7 +107,7 @@
                 android:gravity="center_horizontal"
                 android:text="印加不会要求您以任何形式输入银行账户和密码"
                 android:textColor="@color/gray2"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/btn_chongzhi"
@@ -116,7 +116,7 @@
                 android:layout_marginBottom="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/btn_login"
                 android:text="充值"
                 android:textColor="@color/white"

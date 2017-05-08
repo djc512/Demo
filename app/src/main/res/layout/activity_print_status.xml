@@ -162,7 +162,7 @@
                 android:layout_marginBottom="15dp"
                 app:srcCompat="@drawable/img_printer_state"/>
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <ImageView
                 android:id="@+id/queueDraweeView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

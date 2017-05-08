@@ -199,6 +199,10 @@
             android:name=".ui.activity.print.PickPrinterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".ui.activity.print.PrinterLocationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <!-- 充值界面 -->
         <activity
             android:name=".ui.activity.my.AccountActivity"

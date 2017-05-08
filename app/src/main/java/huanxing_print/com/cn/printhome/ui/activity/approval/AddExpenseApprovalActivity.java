@@ -7,11 +7,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.mob.tools.gui.ScrollableGridView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +29,7 @@ import huanxing_print.com.cn.printhome.ui.adapter.UpLoadPicAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
 import huanxing_print.com.cn.printhome.util.picuplload.UpLoadPicUtil;
+import huanxing_print.com.cn.printhome.view.imageview.RoundImageView;
 
 /**
  * description: 新建报销审批
@@ -34,11 +40,16 @@ import huanxing_print.com.cn.printhome.util.picuplload.UpLoadPicUtil;
 public class AddExpenseApprovalActivity extends BaseActivity {
 
     private List<Bitmap> mResults = new ArrayList<>();
+    private List<Bitmap> approvals = new ArrayList<>();
+    private List<Bitmap> copys = new ArrayList<>();
     private GridView noScrollgridview;
     private UpLoadPicAdapter adapter;
     public static Bitmap bimap;
+    public static Bitmap bimapAdd;
     private Context ctx;
     private static final int PICK_PHOTO = 1;
+    private ScrollableGridView grid_scroll_approval;//审批人
+    private ScrollableGridView grid_scroll_copy;//抄送
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -54,12 +65,17 @@ public class AddExpenseApprovalActivity extends BaseActivity {
 
         ctx = this;
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
+        bimapAdd = BitmapFactory.decodeResource(getResources(), R.drawable.add_people);
         mResults.add(bimap);
+        approvals.add(bimapAdd);
+        copys.add(bimapAdd);
         initData();
     }
 
 
     private void initData() {
+        grid_scroll_approval = (ScrollableGridView) findViewById(R.id.grid_scroll_approval);
+        grid_scroll_copy = (ScrollableGridView) findViewById(R.id.grid_scroll_copy);
         //返回
         View view = findViewById(R.id.back);
         view.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
@@ -129,5 +145,44 @@ public class AddExpenseApprovalActivity extends BaseActivity {
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gvHeight);
         noScrollgridview.setLayoutParams(lp);
+    }
+
+    private class GridViewApprovalAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return approvals.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return approvals.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                holder = new ViewHolder();
+                convertView = LayoutInflater.from(AddExpenseApprovalActivity.this).inflate(
+                        R.layout.item_grid_approval, null);
+                holder.round_head_image = (RoundImageView) convertView.findViewById(R.id.round_head_image);
+                holder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            return convertView;
+        }
+
+        class ViewHolder {
+            RoundImageView round_head_image;
+            TextView txt_name;
+        }
     }
 }

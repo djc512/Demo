@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import org.opencv.android.LoaderCallbackInterface;
@@ -87,6 +88,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         uri = bundle.getParcelable("uri");
+        bitmpaUtil = new BitmpaUtil();
         ctx = this;
         ClipPicUtil.ctx = ctx;
         saveUtil = new huanxing_print.com.cn.printhome.util.copy.PicSaveUtil(ctx);
@@ -126,16 +128,12 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (mBitmap != null) {
-            selectionView.setImageBitmap(mBitmap);
-        }
-
+        Glide.with(getSelfActivity()).load(uri).into(selectionView);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        bitmpaUtil = new BitmpaUtil();
         pd = new ProgressDialog(ctx);
         pd.setProgress(ProgressDialog.STYLE_SPINNER);
         pd.setCanceledOnTouchOutside(false);
@@ -201,6 +199,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
+                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -230,6 +229,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
+                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -258,6 +258,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
+                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -286,6 +287,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
+                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -316,20 +318,19 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btn_save:
                 if (compBitmap != null) {
-                    //发广播
-                    Intent intentsave = new Intent();  //Itent就是我们要发送的内容
+                    Intent intentsave = new Intent();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    compBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+                    compBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                     int options = 100;
-                    while (baos.toByteArray().length / 1024 > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
-                        baos.reset();//重置baos即清空baos
-                        compBitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
-                        options -= 10;//每次都减少10
+                    while (baos.toByteArray().length / 1024 > 100) {
+                        baos.reset();
+                        compBitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
+                        options -= 10;
                     }
                     byte[] bytes = baos.toByteArray();
                     intentsave.putExtra("bytes",bytes);
-                    intentsave.setAction("bitmap");   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
-                    sendBroadcast(intentsave);   //发送广播
+                    intentsave.setAction("bitmap");
+                    sendBroadcast(intentsave);
                     saveName = System.currentTimeMillis()+".jpg";
                     saveUtil.saveClipPic(compBitmap,saveName);
                     Toast.makeText(ctx, "保存成功", Toast.LENGTH_SHORT).show();

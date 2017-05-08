@@ -16,10 +16,10 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.Printer;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CopySettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.UsedPrinterRcAdapter;
 import huanxing_print.com.cn.printhome.util.DisplayUtil;
-import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 
 /**
@@ -66,7 +66,7 @@ public class UsedPrinterFragment extends BaseLazyFragment {
             public void onItemClick(View view, int position) {
                 switch (view.getId()) {
                     case R.id.printerLyt:
-                        ShowUtil.showToast(position + " printerLyt");
+                        CopySettingActivity.start(context, null);
                         break;
                     case R.id.detailTv:
                         Printer printer = new Printer();

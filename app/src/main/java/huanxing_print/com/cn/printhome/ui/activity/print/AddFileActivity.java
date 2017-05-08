@@ -72,6 +72,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
 
     private void initView1() {
         initTitleBar("选取文件");
+        findViewById(R.id.titleTv).setOnClickListener(this);
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         tabs = (TabLayout) findViewById(R.id.tabs);
         List<String> titles = new ArrayList<>();
@@ -172,6 +173,8 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
                 if (isPermissionsGranted()) {
                     getFileList(PATH_WECHAT_FILE, SOURCE_WECHAT);
                 }
+                break;
+            case R.id.titleTv:
                 break;
             case R.id.pcBtn:
                 break;

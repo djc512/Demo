@@ -135,7 +135,7 @@ public class PrintSetting implements Parcelable {
         this.sizeType = in.readInt();
     }
 
-    public static final Parcelable.Creator<PrintSetting> CREATOR = new Parcelable.Creator<PrintSetting>() {
+    public static final Creator<PrintSetting> CREATOR = new Creator<PrintSetting>() {
         @Override
         public PrintSetting createFromParcel(Parcel source) {
             return new PrintSetting(source);

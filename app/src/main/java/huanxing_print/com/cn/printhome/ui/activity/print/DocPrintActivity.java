@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.print;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -139,10 +138,10 @@ public class DocPrintActivity extends BasePrintActivity {
             return;
         }
 
-        Intent intent = new Intent(context, PrintStatusActivity.class);
-        intent.putExtra(ORDER_ID, id);
-        startActivity(intent);
-        finish();
+//        Intent intent = new Intent(context, PrintStatusActivity.class);
+//        intent.putExtra(ORDER_ID, id);
+//        startActivity(intent);
+//        finish();
     }
 
     public void onRePrint(View view) {

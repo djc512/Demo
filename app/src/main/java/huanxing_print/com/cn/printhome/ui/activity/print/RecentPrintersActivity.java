@@ -10,7 +10,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.Printer;
-import huanxing_print.com.cn.printhome.model.print.PrinterListBean;
+import huanxing_print.com.cn.printhome.model.print.UsedPrinterListBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.UsedPrinterRcAdapter;
@@ -59,12 +59,12 @@ public class RecentPrintersActivity extends BasePrintActivity {
         PrintRequest.queryRecentPrinters(activity, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                PrinterListBean printerListBean = GsonUtil.GsonToBean(content, PrinterListBean.class);
-                if (printerListBean == null) {
+                UsedPrinterListBean usedPrinterListBean = GsonUtil.GsonToBean(content, UsedPrinterListBean.class);
+                if (usedPrinterListBean == null) {
                     return;
                 }
-                if (printerListBean.isSuccess()) {
-                    printerList = printerListBean.getData();
+                if (usedPrinterListBean.isSuccess()) {
+                    printerList = usedPrinterListBean.getData();
                     initView();
                 }
             }
