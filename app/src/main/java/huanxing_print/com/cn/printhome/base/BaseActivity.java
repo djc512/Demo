@@ -144,7 +144,7 @@ public abstract class BaseActivity extends Activity {
 	 * @return
 	 */
 	protected boolean isLogin() {
-		if (!ObjectUtils.isNull(baseApplication.getUserId())) {
+		if (!ObjectUtils.isNull(baseApplication.getMemberId())) {
 			return true;
 		}
 		return false;
@@ -212,8 +212,8 @@ public abstract class BaseActivity extends Activity {
 	 */
 	public void jumpActivity(Intent intent, Class cls, boolean isBack) {
 
-		Logger.d("userId:" + baseApplication.getUserId());
-		if (!ObjectUtils.isNull(baseApplication.getUserId())) {
+		Logger.d("userId:" + baseApplication.getMemberId());
+		if (!ObjectUtils.isNull(baseApplication.getMemberId())) {
 			jumpActivity(intent, cls);
 			return;
 
@@ -242,8 +242,8 @@ public abstract class BaseActivity extends Activity {
 
 	public void jumpActivityNoAnim(Intent intent, Class cls, boolean isBack) {
 
-		Logger.d("userId:" + baseApplication.getUserId());
-		if (!ObjectUtils.isNull(baseApplication.getUserId())) {
+		Logger.d("userId:" + baseApplication.getMemberId());
+		if (!ObjectUtils.isNull(baseApplication.getMemberId())) {
 			jumpActivity(intent, cls);
 			return;
 
@@ -484,7 +484,7 @@ public abstract class BaseActivity extends Activity {
 
 				break;
 			case MSG_SET_TAGS:
-				initJPush(baseApplication.getUserId());
+				initJPush(baseApplication.getMemberId());
 				break;
 
 			default:

@@ -217,7 +217,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         if (!ObjectUtils.isNull(phone)) {
             getCodeTv.setClickable(false);
             DialogUtils.showProgressDialog(getSelfActivity(), "正在获取验证码").show();
-            RegisterRequst.getVerCode(getSelfActivity(), "1", phone, 1, getVerCodeCallback);
+            RegisterRequst.getVerCode(getSelfActivity(), "1", phone, 0, getVerCodeCallback);
         }
     }
 
