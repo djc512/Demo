@@ -352,15 +352,13 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/add_people" />
-
-                <GridView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
             </LinearLayout>
+
+            <com.mob.tools.gui.ScrollableGridView
+                android:id="@+id/grid_scroll_approval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="auto_fit" />
 
             <View
                 android:layout_width="match_parent"
@@ -398,16 +396,13 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/add_people" />
-
-
-                <GridView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></GridView>
             </LinearLayout>
+
+            <com.mob.tools.gui.ScrollableGridView
+                android:id="@+id/grid_scroll_copy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="auto_fit" />
 
             <View
                 android:layout_width="match_parent"

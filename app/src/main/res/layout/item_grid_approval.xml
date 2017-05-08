@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <RelativeLayout
+            android:id="@+id/rel_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true">
+
+            <huanxing_print.com.cn.printhome.view.imageview.RoundImageView
+                android:id="@+id/round_head_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/iv_head" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rel_top"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="刘鑫"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_size_fourteen" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
