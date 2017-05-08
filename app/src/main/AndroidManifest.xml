@@ -77,6 +77,11 @@
             android:name=".ui.activity.welcome.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -148,11 +153,6 @@
             android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <!-- 第三方类 -->
@@ -260,7 +260,10 @@
         <activity
             android:name=".ui.activity.my.MyModifyNameActivty"
             android:screenOrientation="portrait" />
-
+        <!-- 印家社区 -->
+        <activity
+            android:name=".ui.activity.my.WebViewCommunityActivity"
+            android:screenOrientation="portrait" />
         <!--我的设置里的微信号修改-->
         <activity
             android:name=".ui.activity.my.MyModifyPhoneActivty"

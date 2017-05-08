@@ -39,23 +39,26 @@ public class SplashActivity extends BaseActivity {
 		setContentView(R.layout.activity_splash);
 		version = AppUtils.getVersionName(getSelfActivity());
 
-		 if (isFirstEnter()) {
-		 new Handler().postDelayed(new Runnable() {
-		 @Override
-		 public void run() {
-		 jumpActivity(GuideActivity.class);// 引导页
-		 finishCurrentActivity();
-		 }
-		 }, delayMillis);
-		 } else {
-			 new Handler().postDelayed(new Runnable() {
-				 @Override
-				 public void run() {
-					 autoLogin();
-				 }
-			 }, delayMillis);
+//		 if (isFirstEnter()) {
+//		 new Handler().postDelayed(new Runnable() {
+//		 @Override
+//		 public void run() {
+//		 jumpActivity(GuideActivity.class);// 引导页
+//		 finishCurrentActivity();
+//		 }
+//		 }, delayMillis);
+//		 } else {
+//			 new Handler().postDelayed(new Runnable() {
+//				 @Override
+//				 public void run() {
+//
+//					 autoLogin();
+//				 }
+//			 }, delayMillis);
+//
+//		 }
 
-		 }
+		autoLogin();
 		// 判断是否有网络
 		if (CommonUtils.isNetWorkConnected(this)) {
 			new Handler().postDelayed(new Runnable() {
@@ -83,10 +86,10 @@ public class SplashActivity extends BaseActivity {
 	private void autoLogin() {
 		String phone = baseApplication.getPhone();
 		String password = baseApplication.getPassWord();
-		if (ObjectUtils.isAllNotNull(phone, password)) {
-			jumpActivity(MainActivity.class);
-		} else {
+		if (ObjectUtils.isNull(phone)) {
 			jumpActivityNoAnim(LoginActivity.class);
+		} else {
+			jumpActivity(MainActivity.class);
 //			 new Handler().postDelayed(new Runnable() {
 //			 @Override
 //			 public void run() {

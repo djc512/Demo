@@ -12,6 +12,7 @@ public class HttpUrl {
     public static final String loginWeiXin = "member/loginByWechat";// 微信登录
     public static final String LoginOut = "member/signOut";// 退出登录
     public static final String register = "member/sign";// 注册
+    public static final String community = "http://print.inkin.cc/#/bbs";// 印家社区
     public static final String getVeryCode = "common/getValidCode"; // 获取短信验证码
     public static final String resetPasswd = "member/resetPasswd"; // 重置密码
     public static final String fileUpload = "common/fileUpload"; // 文件上传
