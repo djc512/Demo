@@ -25,7 +25,7 @@ public class AccountCZAdapter1 extends RecyclerView.Adapter<AccountCZAdapter1.My
     private List<ChongZhiBean> data;
 
     public interface OnItemClickLitener {
-        void onItemClick(View view, int position);
+        void onItemClick(ImageView view, int position);
     }
 
     private OnItemClickLitener mOnItemClickLitener;
@@ -55,9 +55,8 @@ public class AccountCZAdapter1 extends RecyclerView.Adapter<AccountCZAdapter1.My
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        ChongZhiBean chongZhiBean = data.get(position);
-        holder.tv_chong.setText("冲" + chongZhiBean.getRechargeAmout() + "元");
-        holder.tv_song.setText("送" + chongZhiBean.getSendAmount() + "元");
+        holder.tv_chong.setText("冲" + 2000 + "元");
+        holder.tv_song.setText("送" + 2000 + "元");
 
         if (clickTemp == position) {
             holder.iv_check.setBackgroundResource(R.drawable.select);
@@ -69,7 +68,7 @@ public class AccountCZAdapter1 extends RecyclerView.Adapter<AccountCZAdapter1.My
             holder.ll_cz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickLitener.onItemClick(holder.ll_cz, position);
+                    mOnItemClickLitener.onItemClick(holder.iv_check, position);
                 }
             });
         }
@@ -77,7 +76,7 @@ public class AccountCZAdapter1 extends RecyclerView.Adapter<AccountCZAdapter1.My
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return 4;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
