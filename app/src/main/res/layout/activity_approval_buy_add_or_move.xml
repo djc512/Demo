@@ -102,7 +102,7 @@
                 </RelativeLayout>
                     </LinearLayout>
             <RelativeLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/rl_sertificate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -339,7 +339,7 @@
                         android:background="@color/white">
 
                         <Button
-                            android:id="@+id/btn_sertificate"
+                            android:id="@+id/btn_certificate"
                             android:background="@drawable/broder_blue_full"
                             android:text="撤回"
                             android:textSize="18dp"

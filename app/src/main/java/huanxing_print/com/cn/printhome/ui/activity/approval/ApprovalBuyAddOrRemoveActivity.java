@@ -22,6 +22,7 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 
+
 /**
  * Created by Administrator on 2017/5/5 0005.
  */
@@ -34,7 +35,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     ImageView iv_back;
     Button btn_agree;
     Button btn_bohui;
-    Button btn_sertificate;
+    Button btn_certificate;
     TextView iv_name;
     TextView tv_use;
     TextView tv_number;
@@ -76,11 +77,11 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     private void initListener() {
 
-        btn_sertificate.setOnClickListener(this);
+        btn_certificate.setOnClickListener(this);
         btn_bohui.setOnClickListener(this);
         btn_agree.setOnClickListener(this);
         iv_back.setOnClickListener(this);
-        rl_sertificate.setOnClickListener(this);
+        //rl_sertificate.setOnClickListener(this);
     }
 
     private void initData() {
@@ -96,8 +97,8 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
                 case "2":
                     ll_commit.setVisibility(View.VISIBLE);
                     bt_reject_agree.setVisibility(View.GONE);
-                    btn_sertificate.setText("生成凭证");
-                    rl_sertificate.setVisibility(View.VISIBLE);
+                    btn_certificate.setText("生成凭证");
+                    //rl_sertificate.setVisibility(View.VISIBLE);
                     break;
                 //撤回
                 case "3":
@@ -131,7 +132,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         iv_user_name = (ImageView) findViewById(R.id.iv_user_name);
         iv_back = (ImageView) findViewById(R.id.iv_back);
 
-        btn_sertificate = (Button) findViewById(R.id.btn_sertificate);
+        btn_certificate = (Button) findViewById(R.id.btn_certificate);
         btn_bohui = (Button) findViewById(R.id.btn_bohui);
         btn_agree = (Button) findViewById(R.id.btn_agree);
 
@@ -148,8 +149,10 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             case R.id.iv_back:
                 finishCurrentActivity();
                 break;
-            case R.id.btn_sertificate:
-                
+            case R.id.btn_certificate:
+                //点击生成凭证
+                rl_sertificate.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.btn_bohui:
                 finishCurrentActivity();
