@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -20,28 +19,21 @@ import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
  * Created by Administrator on 2017/5/5 0005.
  */
 
-public class UpLoadPicAdapter extends BaseAdapter {
+public class PicApprovalAdapter extends BaseAdapter {
 
 
     private LayoutInflater inflater;
     private List<Bitmap> mResults;
     private Context ctx;
 
-    public UpLoadPicAdapter(Context context, List<Bitmap> mResults) {
+    public PicApprovalAdapter(Context context, List<Bitmap> mResults) {
         ctx = context;
         this.mResults = mResults;
         inflater = LayoutInflater.from(context);
     }
 
-    public void update() {
-        loading();
-    }
-
     public int getCount() {
-        if (Bimp.tempSelectBitmap.size() == 9) {
-            return 9;
-        }
-        return (Bimp.tempSelectBitmap.size() + 1);
+        return mResults.size();
     }
 
     public Object getItem(int arg0) {
@@ -64,15 +56,15 @@ public class UpLoadPicAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (position == Bimp.tempSelectBitmap.size()) {
+        /*if (position == Bimp.tempSelectBitmap.size()) {
             holder.image.setImageBitmap(BitmapFactory.decodeResource(
                     ctx.getResources(), R.drawable.add));
             if (position == 9) {
                 holder.image.setVisibility(View.GONE);
             }
-        } else {
-            holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
-        }
+        } else {*/
+            holder.image.setImageBitmap(mResults.get(position));
+       // }
         return convertView;
     }
 
