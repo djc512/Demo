@@ -20,7 +20,7 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
  * Created by Administrator on 2017/3/17 0017.
  */
 
-public class ContactActivity extends BaseActivity implements View.OnClickListener {
+public class MyContactActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_contact_phone;
     private ImageView iv_suggest;
     private LinearLayout ll_back;
@@ -68,7 +68,7 @@ public class ContactActivity extends BaseActivity implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.rl_service:
-                startActivity(new Intent(ContactActivity.this, SuggestActivity.class));
+                startActivity(new Intent(MyContactActivity.this, SuggestActivity.class));
                 break;
             case R.id.ll_back:
                 finishCurrentActivity();
