@@ -73,6 +73,7 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
                     holder.iv_down.setBackgroundResource(R.drawable.select);
                     holder.ll_detail.setVisibility(View.GONE);
                 }
+                isShow = !isShow;
             }
         });
 
