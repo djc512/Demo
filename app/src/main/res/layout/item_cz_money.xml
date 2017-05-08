@@ -12,7 +12,7 @@
         android:id="@+id/iv_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/check_2x"/>
+        android:src="@drawable/select_no"/>
     <TextView
         android:layout_marginLeft="10dp"
         android:id="@+id/tv_account_chong"
@@ -33,7 +33,7 @@
     <TextView
         android:id="@+id/tv_discount"
         android:padding="5dp"
-        android:background="@color/yellow2"
+        android:background="@drawable/discount"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
