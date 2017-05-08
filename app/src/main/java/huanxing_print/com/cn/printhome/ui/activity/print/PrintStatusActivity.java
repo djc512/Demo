@@ -1,9 +1,13 @@
 package huanxing_print.com.cn.printhome.ui.activity.print;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
@@ -11,18 +15,21 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.OrderStatusBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 
-public class PrintStatusActivity extends BasePrintActivity {
-
+public class PrintStatusActivity extends BasePrintActivity implements View.OnClickListener {
 
     private TextView stausTv;
+    private RelativeLayout successRyt;
+    private RelativeLayout stateRyt;
+    private ImageView exceptionImg;
+
     private long orderId;
 
     @Override
@@ -31,6 +38,7 @@ public class PrintStatusActivity extends BasePrintActivity {
         setContentView(R.layout.activity_print_status);
         initData();
         initView();
+        setQueueView();
         timer.schedule(task, 1000 * 3, 1000 * 2);
     }
 
@@ -38,8 +46,30 @@ public class PrintStatusActivity extends BasePrintActivity {
         orderId = getIntent().getLongExtra(DocPrintActivity.ORDER_ID, -1);
     }
 
-    static class MyHandler extends Handler {
+    private void initView() {
+        initTitleBar("打印");
+        successRyt = (RelativeLayout) findViewById(R.id.successRyt);
+        stateRyt = (RelativeLayout) findViewById(R.id.stateRyt);
+        exceptionImg = (ImageView) findViewById(R.id.exceptionImg);
+        findViewById(R.id.exitTv).setOnClickListener(this);
+        findViewById(R.id.errorExitTv).setOnClickListener(this);
+    }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        int id = v.getId();
+        switch (id) {
+            case R.id.errorExitTv:
+                finish();
+                break;
+            case R.id.exitTv:
+                finish();
+                break;
+        }
+    }
+
+    static class MyHandler extends Handler {
         WeakReference mActivity;
 
         MyHandler(PrintStatusActivity activity) {
@@ -60,9 +90,7 @@ public class PrintStatusActivity extends BasePrintActivity {
     }
 
     public void update() {
-        if (stausTv != null) {
-            stausTv.setText(SystemClock.currentThreadTimeMillis() + "");
-        }
+        Logger.i("querystate");
     }
 
     MyHandler handler = new MyHandler(this);
@@ -72,6 +100,9 @@ public class PrintStatusActivity extends BasePrintActivity {
             PrintRequest.queryOrderStatus(activity, orderId, new HttpListener() {
                 @Override
                 public void onSucceed(String content) {
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
                     OrderStatusBean orderStatusBean = GsonUtil.GsonToBean(content, OrderStatusBean.class);
                     if (orderStatusBean == null) {
                         return;
@@ -79,8 +110,8 @@ public class PrintStatusActivity extends BasePrintActivity {
                     if (orderStatusBean.isSuccess()) {
 
                     } else {
-                        ToastUtil.doToast(context, orderStatusBean.getErrorMsg());
-                        stopTimerTask();
+//                        ToastUtil.doToast(context, orderStatusBean.getErrorMsg());
+//                        stopTimerTask();
                     }
                 }
 
@@ -100,13 +131,33 @@ public class PrintStatusActivity extends BasePrintActivity {
         }
     }
 
+    private void setSuccessView() {
+        successRyt.setVisibility(View.VISIBLE);
+        stateRyt.setVisibility(View.GONE);
+    }
+
+    private void setExceptionView() {
+        successRyt.setVisibility(View.GONE);
+        stateRyt.setVisibility(View.VISIBLE);
+//        queueDraweeView.setVisibility(View.GONE);
+        exceptionImg.setVisibility(View.VISIBLE);
+    }
+
+    private void setQueueView() {
+        successRyt.setVisibility(View.GONE);
+        stateRyt.setVisibility(View.VISIBLE);
+//        queueDraweeView.setVisibility(View.VISIBLE);
+        exceptionImg.setVisibility(View.GONE);
+    }
+
+    public static void start(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, PrintStatusActivity.class);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onDestroy() {
         stopTimerTask();
         super.onDestroy();
-    }
-
- private void initView() {
-       // stausTv = (TextView) findViewById(R.id.stausTv);
     }
 }

@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.activity.copy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
@@ -130,6 +132,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         ll_finish.setOnClickListener(this);
         ll_cz_persion.setOnClickListener(this);
         ll_cz_qun.setOnClickListener(this);
+        btn_preview.setOnClickListener(this);
     }
 
     private boolean isVertical;
@@ -251,6 +254,14 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.ll_finish://完成
                 break;
+            case R.id.btn_preview://完成
+                PrintStatusActivity.start(CopySettingActivity.this, null);
+                break;
         }
+    }
+
+    public static void start(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, CopySettingActivity.class);
+        context.startActivity(intent);
     }
 }

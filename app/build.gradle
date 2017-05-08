@@ -45,7 +45,9 @@ dependencies {
     //圆形头像
     compile files('libs/wechat-sdk-android-with-mta-1.0.2.jar')
     //eventbus
+
     //刷新功能的容器可以填充RecycleView
+
     //将日志写入到内存中
     compile files('libs/alipaySdk-20170309.jar')
     compile project(':pickerViewLib')
@@ -67,4 +69,5 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.4.3'
     testCompile 'junit:junit:4.12'
     compile 'com.xingliuhua:xlhratingbar_lib:1.0.1'
+    compile files('libs/Amap_2DMap_V4.2.0_20170120.jar')
 }

@@ -18,6 +18,9 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.andview.refreshview.XRefreshView;
+import com.andview.refreshview.XRefreshView.SimpleXRefreshListener;
+import com.andview.refreshview.XRefreshViewFooter;
 
 import org.simple.eventbus.EventBus;
 
@@ -27,7 +30,9 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.Printer;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CopySettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.PrinterLocationActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FindPrinterRcAdapter;
 import huanxing_print.com.cn.printhome.util.DisplayUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
@@ -50,6 +55,8 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
     private Spinner spinner;
     private TextView addressTv;
     private ImageView refreshImg;
+    private XRefreshView xRefreshView;
+    private int pageCount = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +79,7 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
     }
 
     private void initView(View view) {
+        xRefreshView = (XRefreshView) view.findViewById(R.id.xRefreshView);
         addressTv = (TextView) view.findViewById(R.id.addressTv);
         refreshImg = (ImageView) view.findViewById(R.id.refreshImg);
         refreshImg.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +99,6 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 String[] dis = getResources().getStringArray(R.array.distance);
-                ShowUtil.showToast(dis[pos]);
             }
 
             @Override
@@ -112,7 +119,7 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
             public void onItemClick(View view, int position) {
                 switch (view.getId()) {
                     case R.id.printerLyt:
-                        ShowUtil.showToast(position + " printerLyt");
+                        CopySettingActivity.start(context, null);
                         break;
                     case R.id.detailTv:
                         Printer printer = new Printer();
@@ -120,7 +127,7 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
                         EventBus.getDefault().post(printer, PickPrinterActivity.TAG_EVENT_PRINTER);
                         break;
                     case R.id.navImg:
-                        ShowUtil.showToast(position + " navImg");
+                        PrinterLocationActivity.start(context, null);
                         break;
                     case R.id.commentTv:
                         ShowUtil.showToast(position + " commentTv");
@@ -136,6 +143,55 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
         printerList.add(new Printer());
         printerList.add(new Printer());
         printerList.add(new Printer());
+
+        xRefreshView.setPinnedTime(1000);
+        xRefreshView.setMoveForHorizontal(true);
+        xRefreshView.setPullLoadEnable(true);
+        xRefreshView.setAutoLoadMore(false);
+        findPrinterRcAdapter.setCustomLoadMoreView(new XRefreshViewFooter(context));
+        xRefreshView.enableReleaseToLoadMore(true);
+        xRefreshView.enableRecyclerViewPullUp(true);
+        xRefreshView.enablePullUpWhenLoadCompleted(true);
+
+        xRefreshView.setXRefreshViewListener(new SimpleXRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pageCount = 1;
+                        findPrinterRcAdapter.clear();
+                        for (int i = 0; i < 6; i++) {
+                            findPrinterRcAdapter.insert(new Printer(), findPrinterRcAdapter.getAdapterItemCount());
+                        }
+                        findPrinterRcAdapter.notifyDataSetChanged();
+                        xRefreshView.stopRefresh();
+                    }
+                }, 500);
+            }
+
+            @Override
+            public void onLoadMore(boolean isSilence) {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        for (int i = 0; i < 6; i++) {
+                            findPrinterRcAdapter.insert(new Printer(), findPrinterRcAdapter.getAdapterItemCount());
+                        }
+                        pageCount++;
+                        if (pageCount >= 3) {//模拟没有更多数据的情况
+                            xRefreshView.setLoadComplete(true);
+                        } else {
+                            // 刷新完成必须调用此方法停止加载
+                            xRefreshView.stopLoadMore(false);
+                            //当数据加载失败 不需要隐藏footerview时，可以调用以下方法，传入false，不传默认为true
+                            // 同时在Footerview的onStateFinish(boolean hideFooter)，可以在hideFooter为false时，显示数据加载失败的ui
+//                            xRefreshView1.stopLoadMore(false);
+                        }
+                    }
+                }, 500);
+            }
+        });
     }
 
     @Override

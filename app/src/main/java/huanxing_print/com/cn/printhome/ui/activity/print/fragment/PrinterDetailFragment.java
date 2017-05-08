@@ -9,6 +9,7 @@ import android.widget.TextView;
 import org.simple.eventbus.EventBus;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CopySettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 
 /**
@@ -52,7 +53,7 @@ public class PrinterDetailFragment extends BaseLazyFragment {
         nextTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                CopySettingActivity.start(context, null);
             }
         });
     }
