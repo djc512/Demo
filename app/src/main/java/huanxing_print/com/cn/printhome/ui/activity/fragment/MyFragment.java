@@ -177,7 +177,6 @@ public class MyFragment extends BaseFragment implements OnClickListener {
             case R.id.ll_my_community:
                 //startActivity(new Intent(getActivity(), CommunityListActivity.class));
                 Intent communityIntent=new Intent(getActivity(), WebViewCommunityActivity.class);
-                communityIntent.putExtra("titleName", "印家社区");
                 communityIntent.putExtra("webUrl", HttpUrl.community);
                 startActivity(communityIntent);
                 break;
