@@ -143,6 +143,7 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
     private FriendSearchInfo data() {
         FriendSearchInfo info = new FriendSearchInfo();
         info.setNickName("陆成宋");
+        info.setMemberName("陆成宋");
         info.setUniqueId("1867989");
         info.setMemberId("123456");
         info.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");

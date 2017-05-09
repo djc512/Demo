@@ -19,7 +19,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/iv_head"/>
+                android:src="@drawable/ic_contact_weixin"/>
             <TextView
                 android:text="微信邀请"
                 android:layout_marginTop="10dp"
@@ -37,7 +37,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/iv_head"/>
+                android:src="@drawable/ic_contact_message"/>
 
             <TextView
                 android:text="短信邀请"

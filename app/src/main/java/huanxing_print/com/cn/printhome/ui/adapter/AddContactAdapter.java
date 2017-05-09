@@ -78,7 +78,7 @@ public class AddContactAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHo
             if(null != info) {
 
                 yjNumTv.setText(info.getUniqueId());
-                yjNameTv.setText(info.getNickName());
+                yjNameTv.setText(info.getMemberName());
                 loadPic(info);
             }
         }
