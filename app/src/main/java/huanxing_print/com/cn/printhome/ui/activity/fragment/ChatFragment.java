@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ChatRecylerAdapter;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 
@@ -42,6 +44,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
 		usedPrinterRcAdapter.setOnItemClickListener(new ChatRecylerAdapter.OnItemClickListener() {
 			@Override
 			public void onItemClick(View view, int position) {
+				startActivity(new Intent(getActivity(), ChatActivity.class));
 			}
 		});
 		chatRecView.setAdapter(usedPrinterRcAdapter);

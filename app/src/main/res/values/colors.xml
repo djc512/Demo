@@ -39,4 +39,7 @@
     <color name="blue">#4090ff</color>
 
     <color name="bg_floder_press">#bdbdbd</color>
+
+    <color name="btn_normal">#00ACFF</color>
+    <color name="btn_pressed">#00A1DB</color>
 </resources>
