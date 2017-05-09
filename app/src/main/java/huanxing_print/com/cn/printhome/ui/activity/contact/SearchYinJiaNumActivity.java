@@ -68,7 +68,7 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
             case R.id.show_search_content:
                 String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                         "loginToken");
-                DialogUtils.showProgressDialog(this, "加载中");
+                DialogUtils.showProgressDialog(this, "加载中").show();
                 FriendManagerRequest.friendSearch(this, token, searchEt.getText().toString(), friendSearchCallback);
                 break;
             case R.id.del_content:
@@ -104,8 +104,7 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
             DialogUtils.closeProgressDialog();
             if(null != friendSearchInfo) {
                 ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
-//                infos.add(friendSearchInfo);
-                infos.add(data());
+                infos.add(friendSearchInfo);
                 startActivity(infos);
             }
         }
@@ -114,20 +113,12 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
             ToastUtil.doToast(SearchYinJiaNumActivity.this, msg + " -- 假数据");
-            //真实测试完，需要删除
-            ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
-            infos.add(data());
-            startActivity(infos);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
             ToastUtil.doToast(SearchYinJiaNumActivity.this, "connectFail -- 假数据");
-            //真实测试完，需要删除
-            ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
-            infos.add(data());
-            startActivity(infos);
         }
     };
 
@@ -135,18 +126,5 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
         Intent intent = new Intent(SearchYinJiaNumActivity.this, SearchAddResultActivity.class);
         intent.putParcelableArrayListExtra("search result", infos);
         startActivity(intent);
-    }
-
-    /**
-     * 假数据
-     */
-    private FriendSearchInfo data() {
-        FriendSearchInfo info = new FriendSearchInfo();
-        info.setNickName("陆成宋");
-        info.setMemberName("陆成宋");
-        info.setUniqueId("1867989");
-        info.setMemberId("123456");
-        info.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
-        return info;
     }
 }

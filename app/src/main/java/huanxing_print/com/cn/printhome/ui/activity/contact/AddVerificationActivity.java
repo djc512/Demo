@@ -64,7 +64,7 @@ public class AddVerificationActivity extends BaseActivity implements View.OnClic
 
     private void request() {
         if(null != friendSearchInfo && !et_hint_content.getText().toString().isEmpty()) {
-            DialogUtils.showProgressDialog(this, "添加好友验证中");
+            DialogUtils.showProgressDialog(this, "添加好友验证中").show();
             String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                     "loginToken");
 
@@ -80,6 +80,7 @@ public class AddVerificationActivity extends BaseActivity implements View.OnClic
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             ToastUtil.doToast(AddVerificationActivity.this, "添加成功");
+            finishCurrentActivity();
         }
 
         @Override
