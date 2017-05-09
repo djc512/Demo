@@ -444,8 +444,27 @@ public class CommonUtils {
 
 		tintManager.setStatusBarTintResource(R.color.white);
 
-	}
-	public static void initSystemBarBlack(Activity activity) {
+    }
+
+    public static void initSystemBar(Activity activity, int color) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            setTranslucentStatus(activity, true);
+
+        }
+
+        SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+
+        tintManager.setStatusBarTintEnabled(true);
+
+        // 使用颜色资源
+
+        tintManager.setStatusBarTintResource(color);
+
+    }
+
+    public static void initSystemBarBlack(Activity activity) {
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
