@@ -1,4 +1,4 @@
-package com.itheima.qq15.utils;
+package huanxing_print.com.cn.printhome.util;
 
 import android.os.Handler;
 import android.os.Looper;

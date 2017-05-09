@@ -1,7 +1,6 @@
-package com.itheima.qq15.adapter;
+package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMMessageBody;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.util.DateUtils;
-import com.itheima.qq15.R;
 
 import java.util.Date;
 import java.util.List;
+
+import huanxing_print.com.cn.printhome.R;
 
 /**
  * 作者： itheima

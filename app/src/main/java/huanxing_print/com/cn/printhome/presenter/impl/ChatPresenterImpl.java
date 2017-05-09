@@ -1,16 +1,16 @@
-package com.itheima.qq15.presenter.impl;
+package huanxing_print.com.cn.printhome.presenter.impl;
 
-import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
-import com.itheima.qq15.listener.CallBackListener;
-import com.itheima.qq15.presenter.ChatPresenter;
-import com.itheima.qq15.view.ChatView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import huanxing_print.com.cn.printhome.listener.EmsCallBackListener;
+import huanxing_print.com.cn.printhome.presenter.ChatPresenter;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatView;
 
 /**
  * 作者： itheima
@@ -50,7 +50,7 @@ public class ChatPresenterImpl implements ChatPresenter {
         emMessage.setStatus(EMMessage.Status.INPROGRESS);
         mEMMessageList.add(emMessage);
         mChatView.onUpdate(mEMMessageList.size());
-        emMessage.setMessageStatusCallback(new CallBackListener() {
+        emMessage.setMessageStatusCallback(new EmsCallBackListener() {
             @Override
             public void onMainSuccess() {
                 mChatView.onUpdate(mEMMessageList.size());

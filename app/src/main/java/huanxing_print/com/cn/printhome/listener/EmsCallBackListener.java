@@ -1,7 +1,8 @@
-package com.itheima.qq15.listener;
+package huanxing_print.com.cn.printhome.listener;
 
 import com.hyphenate.EMCallBack;
-import com.itheima.qq15.utils.ThreadUtils;
+
+import huanxing_print.com.cn.printhome.util.ThreadUtils;
 
 /**
  * 作者： itheima
@@ -9,7 +10,7 @@ import com.itheima.qq15.utils.ThreadUtils;
  * 网址：http://www.itheima.com
  */
 
-public abstract class CallBackListener implements EMCallBack {
+public abstract class EmsCallBackListener implements EMCallBack {
 
     public  abstract void onMainSuccess();
 

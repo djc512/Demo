@@ -22,9 +22,9 @@
         android:id="@+id/iv_avatar"
         android:layout_alignParentRight="true"
         android:layout_margin="3dp"
-        android:src="@mipmap/avatar3"
-        android:layout_width="@dimen/avater_size"
-        android:layout_height="@dimen/avater_size"/>
+        android:src="@drawable/appicon_print"
+        android:layout_width="60dp"
+        android:layout_height="60dp"/>
     
     <TextView
         android:layout_centerVertical="true"
@@ -36,7 +36,6 @@
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
     <ImageView
         android:layout_centerVertical="true"
         android:src="@drawable/msg_state_animation"
@@ -44,7 +43,6 @@
         android:id="@+id/iv_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
 
 </RelativeLayout>
 

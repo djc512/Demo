@@ -21,9 +21,9 @@
     <ImageView
         android:layout_margin="3dp"
         android:layout_gravity="center_vertical"
-        android:src="@mipmap/avatar6"
-        android:layout_width="@dimen/avater_size"
-        android:layout_height="@dimen/avater_size"/>
+        android:src="@drawable/a"
+        android:layout_width="60dp"
+        android:layout_height="60dp"/>
     
     <TextView
         android:gravity="center"
