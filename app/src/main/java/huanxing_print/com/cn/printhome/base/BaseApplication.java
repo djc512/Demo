@@ -273,7 +273,7 @@ public class BaseApplication extends Application {
 		initJPush();
 		initHttpConnection();
 		ZXingLibrary.initDisplayOpinion(this);
-		initHuanxin();
+		//initHuanxin();
 	}
 
 	private void initHuanxin() {

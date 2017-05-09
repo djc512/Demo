@@ -10,11 +10,13 @@ import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.NewFriendCallback;
+import huanxing_print.com.cn.printhome.net.callback.contact.PhoneContactCallback;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 import huanxing_print.com.cn.printhome.net.resolve.NullResolve;
 import huanxing_print.com.cn.printhome.net.resolve.contact.FriendSearchResolve;
 import huanxing_print.com.cn.printhome.net.resolve.contact.MyFriendListResolve;
 import huanxing_print.com.cn.printhome.net.resolve.contact.NewFriendResolve;
+import huanxing_print.com.cn.printhome.net.resolve.contact.PhoneContactResolve;
 import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 /**
@@ -130,6 +132,30 @@ public class FriendManagerRequest extends BaseRequst{
             @Override
             public void success(String content) {
                 NullResolve resolve = new NullResolve(content);
+                resolve.resolve(callback);
+            }
+
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
+            }
+        });
+    }
+
+    /**
+     * 查询手机号是否是印家账户
+     * @param ctx
+     * @param logintoken
+     * @param params
+     * @param callback
+     */
+    public static void checkTelNo(Context ctx, String logintoken, Map<String, Object> params, final PhoneContactCallback callback) {
+        String checkTelUrl = HTTP_URL + HttpUrl.checkTel;
+
+        HttpUtils.post(ctx, checkTelUrl, logintoken, params, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                PhoneContactResolve resolve = new PhoneContactResolve(content);
                 resolve.resolve(callback);
             }
 

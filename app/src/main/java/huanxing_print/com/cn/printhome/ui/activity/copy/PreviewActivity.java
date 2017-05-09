@@ -197,7 +197,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                     public void run() {
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
-                        if (mBitmap != null) {
+                        if (null != mBitmap) {
                             mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);

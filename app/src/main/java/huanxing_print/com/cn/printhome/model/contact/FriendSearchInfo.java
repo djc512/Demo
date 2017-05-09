@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * 印家号搜索结果对象
+ * 印家号搜索结果对象／通讯录手机号查询
  * Created by wanghao on 2017/5/8.
  */
 
@@ -17,6 +17,10 @@ public class FriendSearchInfo implements Parcelable{
     private String name;//
     private String nickName;//名称
     private String uniqueId;//印家号
+    private boolean isFriend;//是否是好友 1是 0 否
+    private boolean isMember;//是否是印家会员 1是 0否
+    private String telName;//手机号码联系人名称
+    private String telNo;//手机号码
 
     public FriendSearchInfo() {
 
@@ -31,6 +35,10 @@ public class FriendSearchInfo implements Parcelable{
         name = in.readString();
         nickName = in.readString();
         uniqueId = in.readString();
+        isFriend = in.readByte() != 0;
+        isMember = in.readByte() != 0;
+        telName = in.readString();
+        telNo = in.readString();
     }
 
     @Override
@@ -43,6 +51,10 @@ public class FriendSearchInfo implements Parcelable{
         dest.writeString(name);
         dest.writeString(nickName);
         dest.writeString(uniqueId);
+        dest.writeByte((byte) (isFriend ? 1 : 0));
+        dest.writeByte((byte) (isMember ? 1 : 0));
+        dest.writeString(telName);
+        dest.writeString(telNo);
     }
 
     @Override
@@ -124,5 +136,37 @@ public class FriendSearchInfo implements Parcelable{
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
+    }
+
+    public boolean isFriend() {
+        return isFriend;
+    }
+
+    public void setFriend(boolean friend) {
+        isFriend = friend;
+    }
+
+    public boolean isMember() {
+        return isMember;
+    }
+
+    public void setMember(boolean member) {
+        isMember = member;
+    }
+
+    public String getTelName() {
+        return telName;
+    }
+
+    public void setTelName(String telName) {
+        this.telName = telName;
+    }
+
+    public String getTelNo() {
+        return telNo;
+    }
+
+    public void setTelNo(String telNo) {
+        this.telNo = telNo;
     }
 }
