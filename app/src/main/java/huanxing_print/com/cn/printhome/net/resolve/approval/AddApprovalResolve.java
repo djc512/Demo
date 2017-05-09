@@ -15,7 +15,7 @@ public class AddApprovalResolve extends BaseResolve<String> {
     public void resolve(AddApprovalCallBack callback) {
         switch (code) {
             case SUCCESS_CODE:
-                callback.success(bean);
+                callback.success(successMsg, data);
                 break;
             case FAIL_CODE:
                 callback.fail(errorMsg);

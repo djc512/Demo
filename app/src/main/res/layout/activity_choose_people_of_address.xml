@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray1"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/titleBar"
+        style="@style/Re_contact_title">
+
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="@dimen/add_w_h"
+            android:layout_height="@dimen/add_w_h"
+            android:background="@drawable/bg_recycler_click_selector"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/btn_cancel"
+                android:textColor="@color/text_yellow" />
+        </LinearLayout>
+
+
+        <TextView
+            style="@style/title"
+            android:text="@string/title_add_member" />
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/groupMemberView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/click_bottom"
+        android:layout_below="@+id/titleBar"
+        android:layout_marginBottom="@dimen/recycler_margin_top"
+        android:layout_marginTop="@dimen/recycler_margin_bottom" />
+
+    <LinearLayout
+        android:id="@+id/click_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_group_choose_bottom_h"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/hint_member"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tv_group_choose_hint_margin"
+            android:layout_marginRight="@dimen/tv_group_choose_hint_margin"
+            android:layout_weight="1"
+            android:text="已选择:0人"
+            android:textColor="@color/text_yellow" />
+
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/btn_group_ok_margin_r"
+            android:background="@drawable/btn_contact_add_selector"
+            android:enabled="false"
+            android:padding="@dimen/btn_group_ok_padding"
+            android:text="确定(0/4)" />
+    </LinearLayout>
+</RelativeLayout>

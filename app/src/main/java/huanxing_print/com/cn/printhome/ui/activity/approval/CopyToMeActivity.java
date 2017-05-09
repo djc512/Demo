@@ -13,12 +13,10 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalObject;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalListCallBack;
-import huanxing_print.com.cn.printhome.net.request.approval.QueryApprovalListRequest;
+import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.CopyToMeAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
-import huanxing_print.com.cn.printhome.view.refresh.CustomerFooter;
 
 /**
  * description: 抄送给我的
@@ -55,7 +53,6 @@ public class CopyToMeActivity extends BaseActivity {
     private void init() {
         lv_my_list = (ListView) findViewById(R.id.lv_my_list);
         xrf_czrecord = (XRefreshView) findViewById(R.id.xrf_czrecord);
-
     }
 
     private void functionModule() {
@@ -69,6 +66,9 @@ public class CopyToMeActivity extends BaseActivity {
             }
         });
 
+        ApprovalRequest.getQueryApprovalList(getSelfActivity(),
+                pageNum, pageSize, 4, baseApplication.getLoginToken(), callBack);
+
 //        xrf_czrecord.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
 //
 //            @Override
@@ -78,7 +78,7 @@ public class CopyToMeActivity extends BaseActivity {
 //                datalist.clear();
 //                pageNum = 1;
 //                //获取我发起的列表
-//                QueryApprovalListRequest.getQueryApprovalList(getSelfActivity(), baseApplication.getLoginToken(),
+//                ApprovalRequest.getQueryApprovalList(getSelfActivity(), baseApplication.getLoginToken(),
 //                        pageNum, pageSize, 3, new CopyToMeActivity.MyQueryApprovalCallBack());
 //                xrf_czrecord.stopRefresh();
 //            }
@@ -89,7 +89,7 @@ public class CopyToMeActivity extends BaseActivity {
 //                isLoadMore = true;
 //                pageNum++;
 //                //获取我发起的列表
-//                QueryApprovalListRequest.getQueryApprovalList(getSelfActivity(), baseApplication.getLoginToken(),
+//                ApprovalRequest.getQueryApprovalList(getSelfActivity(), baseApplication.getLoginToken(),
 //                        pageNum, pageSize, 4, new CopyToMeActivity.MyQueryApprovalCallBack());
 //            }
 //        });
@@ -105,46 +105,46 @@ public class CopyToMeActivity extends BaseActivity {
         });
     }
 
-    private class MyQueryApprovalCallBack implements QueryApprovalListCallBack {
+    QueryApprovalListCallBack callBack = new QueryApprovalListCallBack() {
+        @Override
+        public void success(String msg, ArrayList<ApprovalObject> approvalObjects) {
+            ToastUtil.doToast(getSelfActivity(), "查询抄送给我的列表成功");
+//            if (isLoadMore) {//如果是加载更多
+//                if (!ObjectUtils.isNull(approvalObjects)) {
+//                    xrf_czrecord.stopLoadMore();
+//                    if (!ObjectUtils.isNull(approvalObjects.size())) {
+//                        datalist.addAll(approvalObjects);
+//                        listAdapter.notifyDataSetChanged();
+//                    } else {
+//                        ToastUtil.doToast(getSelfActivity(), "没有更多数据");
+//                        return;
+//                    }
+//                } else {
+//                    ToastUtil.doToast(getSelfActivity(), "没有更多数据");
+//                    xrf_czrecord.stopLoadMore();
+//                    return;
+//                }
+//            } else {
+//                datalist = approvalObjects;
+//                listAdapter = new CopyToMeAdapter(getSelfActivity(), datalist);
+//                lv_my_list.setAdapter(listAdapter);
+//            }
+//            xrf_czrecord.setPullLoadEnable(true);
+//            xrf_czrecord.setAutoLoadMore(false);
+//            //设置在上拉加载被禁用的情况下，是否允许界面被上拉
+//            xrf_czrecord.setPinnedTime(1000);
+//            xrf_czrecord.setMoveForHorizontal(true);
+//            xrf_czrecord.setCustomFooterView(new CustomerFooter(getSelfActivity()));
+        }
 
         @Override
         public void fail(String msg) {
-
+            ToastUtil.doToast(getSelfActivity(), msg);
         }
 
         @Override
         public void connectFail() {
-
+            ToastUtil.doToast(getSelfActivity(), "连接失败!");
         }
-
-        @Override
-        public void success(ArrayList<ApprovalObject> approvalObjects) {
-            if (isLoadMore) {//如果是加载更多
-                if (!ObjectUtils.isNull(approvalObjects)) {
-                    xrf_czrecord.stopLoadMore();
-                    if (!ObjectUtils.isNull(approvalObjects.size())) {
-                        datalist.addAll(approvalObjects);
-                        listAdapter.notifyDataSetChanged();
-                    } else {
-                        ToastUtil.doToast(getSelfActivity(), "没有更多数据");
-                        return;
-                    }
-                } else {
-                    ToastUtil.doToast(getSelfActivity(), "没有更多数据");
-                    xrf_czrecord.stopLoadMore();
-                    return;
-                }
-            } else {
-                datalist = approvalObjects;
-                listAdapter = new CopyToMeAdapter(getSelfActivity(), datalist);
-                lv_my_list.setAdapter(listAdapter);
-            }
-            xrf_czrecord.setPullLoadEnable(true);
-            xrf_czrecord.setAutoLoadMore(false);
-            //设置在上拉加载被禁用的情况下，是否允许界面被上拉
-            xrf_czrecord.setPinnedTime(1000);
-            xrf_czrecord.setMoveForHorizontal(true);
-            xrf_czrecord.setCustomFooterView(new CustomerFooter(getSelfActivity()));
-        }
-    }
+    };
 }

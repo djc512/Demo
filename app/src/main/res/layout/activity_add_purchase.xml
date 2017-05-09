@@ -426,7 +426,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="25dp"
                     android:text="完成日期"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
