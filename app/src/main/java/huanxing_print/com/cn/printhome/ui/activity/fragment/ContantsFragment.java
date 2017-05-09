@@ -160,7 +160,7 @@ public class ContantsFragment extends BaseFragment implements
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getActivity(),msg + " -- 假数据");
+            ToastUtil.doToast(getActivity(),msg);
         }
 
         @Override

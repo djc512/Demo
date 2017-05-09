@@ -122,7 +122,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(GroupActivity.this, msg + " -- 假数据");
+            ToastUtil.doToast(GroupActivity.this, msg);
         }
 
         @Override

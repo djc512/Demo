@@ -160,7 +160,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(AddByAddressBookActivity.this, msg + " -- 假数据");
+            ToastUtil.doToast(AddByAddressBookActivity.this, msg);
         }
 
         @Override

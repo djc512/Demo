@@ -136,13 +136,13 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(SearchYinJiaNumActivity.this, msg + " -- 假数据");
+            ToastUtil.doToast(SearchYinJiaNumActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(SearchYinJiaNumActivity.this, "connectFail -- 假数据");
+            toastConnectFail();
         }
     };
 

@@ -124,7 +124,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(NewFriendActivity.this,msg + " -- 假数据");
+            ToastUtil.doToast(NewFriendActivity.this,msg);
         }
 
         @Override
@@ -146,7 +146,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(NewFriendActivity.this, msg + " -- 假数据");
+            ToastUtil.doToast(NewFriendActivity.this, msg);
         }
 
         @Override

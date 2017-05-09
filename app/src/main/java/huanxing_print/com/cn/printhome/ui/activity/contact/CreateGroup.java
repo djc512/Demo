@@ -153,7 +153,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(CreateGroup.this, msg + " -- 假数据");
+            ToastUtil.doToast(CreateGroup.this, msg);
         }
 
         @Override

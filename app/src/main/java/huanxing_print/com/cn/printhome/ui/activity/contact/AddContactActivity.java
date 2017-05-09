@@ -115,13 +115,13 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(AddContactActivity.this, msg + " -- 假数据");
+            ToastUtil.doToast(AddContactActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(AddContactActivity.this, "connectFail -- 假数据");
+            toastConnectFail();
         }
     };
 
