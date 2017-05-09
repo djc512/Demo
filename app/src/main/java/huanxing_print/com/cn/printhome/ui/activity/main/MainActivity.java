@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                 fragTemp = fragPrint;
                 break;
             case R.id.rgb_contacts:
-                ll_bg.setBackgroundResource(R.color.transparent_full);
+                ll_bg.setBackgroundResource(R.color.gray5);
                 fragTemp = fragContants;
                 break;
             case R.id.rgb_my:
