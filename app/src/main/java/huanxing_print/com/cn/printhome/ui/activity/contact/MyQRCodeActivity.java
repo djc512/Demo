@@ -37,6 +37,7 @@ public class MyQRCodeActivity extends BaseActivity implements View.OnClickListen
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_my_qrcode);
         initView();
+        initData();
         setListener();
     }
 
@@ -46,13 +47,16 @@ public class MyQRCodeActivity extends BaseActivity implements View.OnClickListen
         tv_my_yjNum = (TextView) findViewById(R.id.tv_yjNum);
         im_qr = (ImageView) findViewById(R.id.iv_my_qr);
 
-        Bitmap bitmap = QRUtil.createQRImage(this, im_qr, "这只是一个测试");
+    }
+
+    private void initData() {
+        Bitmap bitmap = QRUtil.createQRImage(this, im_qr, baseApplication.getUniqueId());
         if (bitmap != null && !bitmap.isRecycled()) {
             im_qr.setImageBitmap(bitmap);
         }
-        tv_my_name.setText("汪浩");
-        tv_my_yjNum.setText(String.format(getString(R.string.value_my_qr_yjnum),"123456"));
-        String icon = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg";
+        tv_my_name.setText(baseApplication.getNickName());
+        tv_my_yjNum.setText(String.format(getString(R.string.value_my_qr_yjnum),baseApplication.getUniqueId()));
+        String icon = baseApplication.getHeadImg();
         loadPic(icon);
     }
 
