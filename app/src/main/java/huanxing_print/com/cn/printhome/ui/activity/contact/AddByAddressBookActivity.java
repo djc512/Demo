@@ -80,20 +80,29 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private void initData() {
-        HandlerThread queryThread = new HandlerThread("query_contact");
-        queryThread.start();
-        Handler handler = new Handler(queryThread.getLooper(), new Handler.Callback() {
+        new Thread(new Runnable() {
             @Override
-            public boolean handleMessage(Message message) {
+            public void run() {
                 GetContactsUtils contactsUtils = new GetContactsUtils(AddByAddressBookActivity.this);
                 contactInfos = (ArrayList<PhoneContactInfo>) contactsUtils.getSystemContactInfos();
-
-                adapter.modifyData(contactInfos);
-                return false;
+                handler.post(updateThread);
             }
-        });
-        handler.sendEmptyMessage(0);
+        }).start();
     }
+
+    private Handler handler = new Handler();
+    Runnable updateThread = new Runnable()
+    {
+
+        @Override
+        public void run()
+        {
+            //更新UI
+            adapter.modifyData(contactInfos);
+        }
+
+    };
+
 
     private void setListener() {
         findViewById(R.id.ll_back).setOnClickListener(this);

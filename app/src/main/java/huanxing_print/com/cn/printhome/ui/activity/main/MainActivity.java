@@ -164,7 +164,8 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
-            Manifest.permission.ACCESS_COARSE_LOCATION};
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.READ_CONTACTS};
 
     private boolean isPermissionsGranted() {
         boolean isPermission;
