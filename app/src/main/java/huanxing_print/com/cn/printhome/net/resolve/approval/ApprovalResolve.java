@@ -1,24 +1,21 @@
 package huanxing_print.com.cn.printhome.net.resolve.approval;
 
-import java.util.ArrayList;
-
-import huanxing_print.com.cn.printhome.model.approval.ApprovalObject;
-import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalListCallBack;
+import huanxing_print.com.cn.printhome.net.callback.approval.ApprovalCallBack;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
 
 /**
  * Created by dd on 2017/5/8.
  */
 
-public class QueryApprovalListResolve extends BaseResolve<ArrayList<ApprovalObject>> {
-    public QueryApprovalListResolve(String result) {
+public class ApprovalResolve extends BaseResolve<String> {
+    public ApprovalResolve(String result) {
         super(result);
     }
 
-    public void resolve(QueryApprovalListCallBack callback) {
+    public void resolve(ApprovalCallBack callback) {
         switch (code) {
             case SUCCESS_CODE:
-                callback.success(successMsg,bean);
+                callback.success(successMsg);
                 break;
             case FAIL_CODE:
                 callback.fail(errorMsg);

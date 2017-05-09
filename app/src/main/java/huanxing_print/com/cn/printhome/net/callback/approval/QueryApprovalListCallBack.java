@@ -10,5 +10,5 @@ import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
  */
 
 public interface QueryApprovalListCallBack extends BaseCallback {
-    void success(ArrayList<ApprovalObject> approvalObjects);
+    void success(String msg, ArrayList<ApprovalObject> approvalObjects);
 }

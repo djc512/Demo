@@ -1,7 +1,7 @@
 package huanxing_print.com.cn.printhome.model.approval;
 
 /**
- * 审批对象
+ * 审批列表item对象
  * Created by dd on 2017/5/8.
  */
 

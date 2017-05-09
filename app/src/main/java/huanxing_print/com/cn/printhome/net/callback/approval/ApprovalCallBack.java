@@ -3,9 +3,9 @@ package huanxing_print.com.cn.printhome.net.callback.approval;
 import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
 
 /**
- * Created by dd on 2017/5/8.
+ * Created by dd on 2017/5/9.
  */
 
-public interface AddApprovalCallBack extends BaseCallback {
-    void success(String msg, String data);
+public interface ApprovalCallBack extends BaseCallback {
+    void success(String msg);
 }

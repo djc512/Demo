@@ -45,6 +45,10 @@ public class HttpUrl {
     public static final String createGroup = "group/add";//添加群
     public static final String addApproval = "approve/add";//新增审批
     public static final String queryApprovalList = "approve/list";//查询审批列表
+    public static final String queryLast = "approve/queryLast";//查询上次的审批人和抄送人
+    public static final String approval = "approve/adult";//审批
+    public static final String prooft = "approve/prooft";//查看凭证
+    public static final String queryCount = "approve/queryCount";//查看未读消息
     private static String postUrl;
 
     private static HttpUrl httpUrl;
