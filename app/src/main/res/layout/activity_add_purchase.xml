@@ -204,7 +204,9 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
 
-                <include layout="@layout/item_gradview" />
+                <include
+                    android:id="@+id/item_grid"
+                    layout="@layout/item_gradview" />
 
             </LinearLayout>
 

@@ -56,7 +56,7 @@
         android:name="android.hardware.camera.front.autofocus"
         android:required="false" />
 
-    <!--环信相关的权限-->
+    <!-- 环信相关的权限 -->
     <!-- Required -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -64,7 +64,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -84,7 +84,6 @@
         <meta-data
             android:name="huanxing_print.com.cn.printhome.constant.CachingGlideModule"
             android:value="GlideModule" />
-
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="5e5e8550786ba228e56f171e6f33df36" />
@@ -170,8 +169,7 @@
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait" />
 
         <!-- 第三方类 -->
         <!-- 微信分享 -->
@@ -216,11 +214,11 @@
         <activity
             android:name=".ui.activity.print.PickPrinterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.activity.print.PrinterLocationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 充值界面 -->
         <activity
             android:name=".ui.activity.my.AccountActivity"
@@ -236,7 +234,7 @@
         <activity
             android:name=".ui.activity.my.DaYinActivity"
             android:screenOrientation="portrait" />
-        <!--操作说明-->
+        <!-- 操作说明 -->
         <activity
             android:name=".ui.activity.print.OperatingInstructionsActivity"
             android:screenOrientation="portrait" />
@@ -285,11 +283,11 @@
         <activity
             android:name=".ui.activity.my.WebViewCommunityActivity"
             android:screenOrientation="portrait" />
-        <!--我的设置里的微信号修改-->
+        <!-- 我的设置里的微信号修改 -->
         <activity
             android:name=".ui.activity.my.MyModifyPhoneActivty"
             android:screenOrientation="portrait" />
-        <!--我的设置里的手机号修改-->
+        <!-- 我的设置里的手机号修改 -->
         <activity
             android:name=".ui.activity.my.MyModifyWeixinActivty"
             android:screenOrientation="portrait" />
@@ -317,8 +315,8 @@
             android:screenOrientation="portrait" />
         <!-- 充值界面 -->
         <activity
-        android:name=".ui.activity.my.PayActivity"
-        android:screenOrientation="portrait" />
+            android:name=".ui.activity.my.PayActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.my.PayActivity1"
             android:screenOrientation="portrait" />
@@ -373,11 +371,11 @@
             android:name=".ui.activity.copy.IDClipActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--户口拼接界面-->
+        <!-- 户口拼接界面 -->
         <activity
             android:name=".ui.activity.copy.HuKouClipActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <!-- 护照拼接界面 -->
         <activity
             android:name=".ui.activity.copy.PassportClipActivity"
@@ -388,22 +386,22 @@
             android:name=".ui.activity.copy.CopySettingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--审批的界面-->
+        <!-- 审批的界面 -->
         <activity
             android:name=".ui.activity.approval.ApprovalActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--发表评论界面-->
+        <!-- 发表评论界面 -->
         <activity
             android:name=".ui.activity.copy.CommentActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--评论列表界面-->
+        <!-- 评论列表界面 -->
         <activity
             android:name=".ui.activity.copy.CommentListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--上传图片-->
+        <!-- 上传图片 -->
         <activity
             android:name=".ui.activity.copy.PhotoPickerActivity"
             android:launchMode="singleTask"
@@ -423,48 +421,48 @@
             android:name=".ui.activity.contact.SearchYinJiaNumActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--账号查询结果界面-->
+        <!-- 账号查询结果界面 -->
         <activity
             android:name=".ui.activity.contact.SearchAddResultActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--账号查询结果界面-->
+        <!-- 账号查询结果界面 -->
         <activity
             android:name=".ui.activity.contact.AddVerificationActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--新的朋友界面-->
+        <!-- 新的朋友界面 -->
         <activity
             android:name=".ui.activity.contact.NewFriendActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--新的朋友界面-->
+        <!-- 新的朋友界面 -->
         <activity
             android:name=".ui.activity.contact.AddByAddressBookActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--我的二维码名片-->
+        <!-- 我的二维码名片 -->
         <activity
             android:name=".ui.activity.contact.MyQRCodeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-        <!--我的群组-->
+        <!-- 我的群组 -->
         <activity
             android:name=".ui.activity.contact.GroupActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--创建群组-->
+        <!-- 创建群组 -->
         <activity
             android:name=".ui.activity.contact.CreateGroup"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!-- 采购审批界面-->
+        <!-- 采购审批界面 -->
         <activity
             android:name=".ui.activity.approval.ApprovalBuyActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--审批界面-->
+        <!-- 审批界面 -->
         <activity
             android:name=".ui.activity.approval.ApprovalHomeActivity"
             android:launchMode="singleTask"
@@ -487,7 +485,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.approval.MySponsorListActivity" />
-        <activity android:name=".ui.activity.approval.CopyToMeActivity"></activity>
+        <activity android:name=".ui.activity.approval.CopyToMeActivity" />
         <!-- 新建采购审批 -->
         <activity
             android:name=".ui.activity.approval.ApprovalApplyDetailsActivity"
@@ -497,22 +495,22 @@
         <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="1113170503115340#print"/>
+            android:value="1113170503115340#print" />
         <!-- 声明SDK所需的service SDK核心功能 -->
         <service
             android:name="com.hyphenate.chat.EMChatService"
-            android:exported="true"/>
+            android:exported="true" />
         <!-- 声明SDK所需的receiver -->
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
-                <data android:scheme="package"/>
+                <data android:scheme="package" />
             </intent-filter>
             <!-- 可选filter -->
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
 
@@ -521,6 +519,12 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!-- 选择审批人、抄送人 -->
+        <activity
+            android:name=".ui.activity.approval.ChoosePeopleOfAddressActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.chat.SendRedEnvelopesSingleChatActivity"></activity>
     </application>
 
 </manifest>

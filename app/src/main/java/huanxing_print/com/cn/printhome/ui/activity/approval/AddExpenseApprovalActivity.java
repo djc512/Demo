@@ -30,7 +30,7 @@ import huanxing_print.com.cn.printhome.ui.activity.copy.PreviewPhotoActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.UpLoadPicAdapter;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
 import huanxing_print.com.cn.printhome.util.picuplload.UpLoadPicUtil;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
@@ -89,7 +89,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                     Intent intent = new Intent(ctx, PhotoPickerActivity.class);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5 - mResults.size() + 1);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5);
                     // 总共选择的图片数量
                     intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
                     startActivityForResult(intent, PICK_PHOTO);
@@ -113,11 +113,6 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                     Intent intent = new Intent(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
                     intent.putParcelableArrayListExtra("friends", friends);
                     startActivityForResult(intent, CODE_APPROVAL_REQUEST);
-//                    //点击了添加按钮
-//                    approvals.set(position,
-//                            BitmapFactory.decodeResource(getResources(), R.drawable.iv_head));
-//                    approvals.add(bimapAdd);
-//                    approvalAdapter.notifyDataSetChanged();
                 } else {
                     approvalFriends.remove(position);
                     approvalAdapter.notifyDataSetChanged();
@@ -135,11 +130,6 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                     Intent intent = new Intent(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
                     intent.putParcelableArrayListExtra("friends", friends);
                     startActivityForResult(intent, CODE_COPY_REQUEST);
-//                    //点击了添加按钮
-//                    copys.set(position,
-//                            BitmapFactory.decodeResource(getResources(), R.drawable.iv_head));
-//                    copys.add(bimapAdd);
-//                    copyAdapter.notifyDataSetChanged();
                 } else {
                     copyFriends.remove(position);
                     copyAdapter.notifyDataSetChanged();
@@ -172,6 +162,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         adapter.update();
 
         findViewById(R.id.btn_submit_expense_approval).setOnClickListener(this);
+        findViewById(R.id.rel_choose_image).setOnClickListener(this);
     }
 
     @Override
@@ -191,14 +182,24 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                 //审批人选择
                 ArrayList<FriendInfo> infos = data.getParcelableArrayListExtra("FriendInfo");
                 //剔除重复的审批人数据
-                if (!ObjectUtils.isNull(approvalFriends)) {
-                    for (FriendInfo friendInfo : infos) {
-                        if (!approvalFriends.contains(friendInfo)) {
-                            approvalFriends.add(friendInfo);
+                if (0 == approvalFriends.size()) {
+                    approvalFriends.addAll(infos);
+                } else {
+                    for (int i = 0; i < infos.size(); i++) {
+                        int num = 0;
+                        for (FriendInfo friendInfo : approvalFriends) {
+                            if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                                //重复次数计算
+                                num++;
+                            }
+                        }
+                        //判断
+                        if (0 == num) {
+                            //不重复
+                            approvalFriends.add(infos.get(i));
                         }
                     }
                 }
-
                 //刷新数据
                 approvalAdapter.notifyDataSetChanged();
             }
@@ -208,21 +209,42 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
             Log.i("CMCC", "抄送人返回");
             //抄送人选择
             ArrayList<FriendInfo> infos = data.getParcelableArrayListExtra("FriendInfo");
-//            //判断审批人中是否包含抄送人
-//            if (!ObjectUtils.isNull(approvalFriends)) {
-//                for (FriendInfo friendInfo : infos) {
-//                    if (approvalFriends.contains(friendInfo)) {
-//                        ToastUtil.doToast(getSelfActivity(), "抄送人不能和审批人相同!!");
-//                        return;
-//                    }
-//                }
-//            }
+            //判断一下审批人中是否包含抄送人
+            if (0 != approvalFriends.size()) {
+                //审批人不为空,判断审批人和传过来的抄送人是否重复
+                for (int i = 0; i < infos.size(); i++) {
+                    int num = 0;//重复次数
+                    for (FriendInfo friendInfo : approvalFriends) {
+                        if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                            //重复次数计算
+                            num++;
+                        }
+                    }
+                    if (num > 0) {
+                        ToastUtil.doToast(getSelfActivity(), "审批人和抄送人不能相同!");
+                        return;
+                    }
+                }
+            }
 
-
-            //剔除重复的审批人数据
-            for (FriendInfo friendInfo : infos) {
-                if (!copyFriends.contains(friendInfo)) {
-                    copyFriends.add(friendInfo);
+            //剔除重复的抄送人数据
+            if (0 == copyFriends.size()) {
+                //抄送人为空直接添加
+                copyFriends.addAll(infos);
+            } else {
+                for (int i = 0; i < infos.size(); i++) {
+                    int num = 0;//重复次数
+                    for (FriendInfo friendInfo : copyFriends) {
+                        if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                            //重复次数计算
+                            num++;
+                        }
+                    }
+                    //判断
+                    if (0 == num) {
+                        //不重复
+                        copyFriends.add(infos.get(i));
+                    }
                 }
             }
             //刷新数据
@@ -259,6 +281,16 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
             case R.id.btn_submit_expense_approval:
                 //提交报销审批
 
+                break;
+            case R.id.rel_choose_image:
+                //选择图片
+                Intent intent = new Intent(ctx, PhotoPickerActivity.class);
+                intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
+                intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
+                intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5);
+                // 总共选择的图片数量
+                intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
+                startActivityForResult(intent, PICK_PHOTO);
                 break;
         }
     }

@@ -102,4 +102,15 @@
     <string name="btn_contact_him">联系Ta</string>
     <string name="btn_contact_add">添加</string>
     <string name="btn_contact_accept">接受</string>
+
+    <!--红包-->
+    <string name="red_package_type_description_luck">当前为拼手气红包,改为</string>
+    <string name="red_package_type_description_group">当前为群红包,改为</string>
+    <string name="red_package_other_name_group">群红包</string>
+    <string name="red_package_other_name_luck">拼手气红包</string>
+    <string name="group_left">本群共</string>
+    <string name="red_group_num_unit">人</string>
+    <string name="red_group_bottom_hint">未领取的红包,将于24小时候退至各人账户</string>
+    <string name="red_group_bottom_hint_no">未使用的红包,将于群解散后退至各人账户</string>
+    <string name="red_group_bottom_hint_no_get">群红包不可领取,群成员打印时可选择群红包支付</string>
 </resources>
