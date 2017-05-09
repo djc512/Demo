@@ -129,6 +129,9 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
                     case R.id.navImg:
                         PrinterLocationActivity.start(context, null);
                         break;
+                    case R.id.addressTv:
+                        PrinterLocationActivity.start(context, null);
+                        break;
                     case R.id.commentTv:
                         ShowUtil.showToast(position + " commentTv");
                         break;

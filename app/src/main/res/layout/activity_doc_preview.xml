@@ -7,10 +7,20 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-
     <include
         layout="@layout/tiltebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/devide_gray"/>
+
+    <huanxing_print.com.cn.printhome.view.viewpager.PhotoViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"/>
 
 </LinearLayout>

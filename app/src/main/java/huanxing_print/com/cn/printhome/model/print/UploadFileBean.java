@@ -6,7 +6,7 @@ import huanxing_print.com.cn.printhome.model.CommonResp;
  * Created by LGH on 2017/3/21.
  */
 
-public class UploadImgBean extends CommonResp {
+public class UploadFileBean extends CommonResp {
     private Url data;
 
     public Url getData() {

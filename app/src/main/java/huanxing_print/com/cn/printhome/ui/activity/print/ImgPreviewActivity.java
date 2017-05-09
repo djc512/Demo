@@ -5,9 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.File;
 
@@ -16,20 +15,21 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
-import huanxing_print.com.cn.printhome.model.print.UploadImgBean;
+import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.AlertUtil;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 public class ImgPreviewActivity extends BasePrintActivity implements View.OnClickListener {
 
+    private PhotoView photoView;
 
-    private ImageView imageView;
     private String imgPath;
     private File file;
 
@@ -48,10 +48,8 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void initView() {
-        imageView = (ImageView) findViewById(R.id.imageView);
-        Glide.with(context)
-                .load(imgPath)
-                .into(imageView);
+        photoView = (PhotoView) findViewById(R.id.photoView);
+        ImageUtil.showImageView(context, imgPath, photoView);
     }
 
     @Override
@@ -61,6 +59,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         switch (id) {
             case R.id.rightTv:
                 PickPrinterActivity.start(context, null);
+                finish();
                 break;
         }
     }
@@ -84,12 +83,12 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                 .getName(), "1", new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                UploadImgBean uploadImgBean = GsonUtil.GsonToBean(content, UploadImgBean.class);
-                if (uploadImgBean == null) {
+                UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
+                if (uploadFileBean == null) {
                     return;
                 }
-                if (uploadImgBean.isSuccess()) {
-                    String url = uploadImgBean.getData().getImgUrl();
+                if (uploadFileBean.isSuccess()) {
+                    String url = uploadFileBean.getData().getImgUrl();
                     addFile(url);
                 } else {
                     ShowUtil.showToast(getString(R.string.upload_failure));

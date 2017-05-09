@@ -14,7 +14,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.model.print.UploadImgBean;
+import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
@@ -73,12 +73,12 @@ public class FileListActivity extends BasePrintActivity {
                 .getName(), "1", new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                UploadImgBean uploadImgBean = GsonUtil.GsonToBean(content, UploadImgBean.class);
-                if (uploadImgBean == null) {
+                UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
+                if (uploadFileBean == null) {
                     return;
                 }
-                if (uploadImgBean.isSuccess()) {
-                    String url = uploadImgBean.getData().getImgUrl();
+                if (uploadFileBean.isSuccess()) {
+                    String url = uploadFileBean.getData().getImgUrl();
                     turnPreView(url, file);
                 } else {
                     ShowUtil.showToast(getString(R.string.upload_failure));

@@ -3,6 +3,7 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import java.io.File;
@@ -10,28 +11,40 @@ import java.io.File;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
-import huanxing_print.com.cn.printhome.model.print.UploadImgBean;
+import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.adapter.DocPreViewpageAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 
-public class DocPreviewActivity extends BasePrintActivity implements View.OnClickListener{
+public class DocPreviewActivity extends BasePrintActivity implements View.OnClickListener {
+
+    private ViewPager viewpager;
 
     private String url;
     private File file;
+    private DocPreViewpageAdapter docPreViewpageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_preview);
         initData();
+        initView();
+
+//        upload(file);
+    }
+
+    private void initView() {
         initTitleBar("文件预览");
         setRightTvVisible();
-//        upload(file);
+        viewpager = (ViewPager) findViewById(R.id.viewpager);
+        docPreViewpageAdapter = new DocPreViewpageAdapter(context);
+        viewpager.setAdapter(docPreViewpageAdapter);
     }
 
 
@@ -40,18 +53,17 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         file = (File) bundle.getSerializable(KEY_FILE);
     }
 
-
     private void upload(final File file) {
         PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), FileUtils.getBase64(file), file
                 .getName(), "1", new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                UploadImgBean uploadImgBean = GsonUtil.GsonToBean(content, UploadImgBean.class);
-                if (uploadImgBean == null) {
+                UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
+                if (uploadFileBean == null) {
                     return;
                 }
-                if (uploadImgBean.isSuccess()) {
-                    String url = uploadImgBean.getData().getImgUrl();
+                if (uploadFileBean.isSuccess()) {
+                    String url = uploadFileBean.getData().getImgUrl();
 //                    turnPreView(url, file);
                 } else {
                     ShowUtil.showToast(getString(R.string.upload_failure));
@@ -65,7 +77,27 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         }, false);
     }
 
-    private void add( ) {
+    private void preview(String fileUrl) {
+        PrintRequest.docPreview(activity, fileUrl, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
+                if (uploadFileBean == null) {
+                    return;
+                }
+                if (uploadFileBean.isSuccess()) {
+
+                }
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
+    }
+
+    private void add() {
         PrintRequest.addFile(activity, "1", file.getName(), url, new HttpListener() {
             @Override
             public void onSucceed(String content) {
@@ -106,6 +138,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         switch (id) {
             case R.id.rightTv:
                 PickPrinterActivity.start(context, null);
+                finish();
 //                add();
                 break;
         }

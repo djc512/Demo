@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,6 +30,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private RelativeLayout successRyt;
     private RelativeLayout stateRyt;
     private ImageView exceptionImg;
+    private ImageView queueImg;
+
 
     private long orderId;
 
@@ -51,6 +54,10 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         successRyt = (RelativeLayout) findViewById(R.id.successRyt);
         stateRyt = (RelativeLayout) findViewById(R.id.stateRyt);
         exceptionImg = (ImageView) findViewById(R.id.exceptionImg);
+        queueImg = (ImageView) findViewById(R.id.queueImg);
+        queueImg.setImageResource(R.drawable.anim_queue);
+        AnimationDrawable animationDrawable = (AnimationDrawable) queueImg.getDrawable();
+        animationDrawable.start();
         findViewById(R.id.exitTv).setOnClickListener(this);
         findViewById(R.id.errorExitTv).setOnClickListener(this);
     }
@@ -139,14 +146,14 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private void setExceptionView() {
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
-//        queueDraweeView.setVisibility(View.GONE);
+        queueImg.setVisibility(View.GONE);
         exceptionImg.setVisibility(View.VISIBLE);
     }
 
     private void setQueueView() {
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
-//        queueDraweeView.setVisibility(View.VISIBLE);
+        queueImg.setVisibility(View.VISIBLE);
         exceptionImg.setVisibility(View.GONE);
     }
 

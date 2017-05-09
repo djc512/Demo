@@ -54,6 +54,7 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
         private ImageView navImg;
         private ImageView typeImg;
         private TextView nameTv;
+        private TextView addressTv;
         private TextView detailTv;
         private TextView commentTv;
         private TextView printCountTv;
@@ -66,6 +67,7 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
                 navImg = (ImageView) itemView.findViewById(R.id.navImg);
                 nameTv = (TextView) itemView.findViewById(R.id.nameTv);
                 detailTv = (TextView) itemView.findViewById(R.id.detailTv);
+                addressTv =  (TextView) itemView.findViewById(R.id.addressTv);
                 printCountTv = (TextView) itemView.findViewById(R.id.printCountTv);
                 commentTv = (TextView) itemView.findViewById(R.id.commentTv);
                 printerLyt.setOnClickListener(this);
@@ -74,6 +76,7 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
                 printCountTv.setOnClickListener(this);
                 commentTv.setOnClickListener(this);
                 navImg.setOnClickListener(this);
+                addressTv.setOnClickListener(this);
             }
         }
 

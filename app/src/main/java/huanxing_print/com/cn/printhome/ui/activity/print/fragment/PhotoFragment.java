@@ -1,8 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.PhotoRecylerAdapter;
+import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 import static huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity.KEY_IMG_URI;
 
@@ -48,17 +46,10 @@ public class PhotoFragment extends BaseLazyFragment {
         if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
-      final List<String> photoList = new ArrayList<>();
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null,
-                null, null);
-        cursor.moveToLast();
-        while (cursor.moveToPrevious()) {
-            String name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
-            String desc = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DESCRIPTION));
-            byte[] data = cursor.getBlob(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            String photoPath = new String(data, 0, data.length - 1);
-            photoList.add(photoPath);
-            Logger.i(name + photoPath);
+        final List<String> photoList = FileUtils.getImgList(context);
+        if (photoList == null || photoList.size() == 0) {
+            ShowUtil.showToast("没有相关文件");
+            return;
         }
         mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
@@ -72,7 +63,7 @@ public class PhotoFragment extends BaseLazyFragment {
             public void onItemClick(final View view, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putCharSequence(KEY_IMG_URI, photoList.get(position));
-                ImgPreviewActivity.start(context,bundle);
+                ImgPreviewActivity.start(context, bundle);
             }
         });
         isLoaded = true;

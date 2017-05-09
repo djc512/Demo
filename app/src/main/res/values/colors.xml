@@ -19,10 +19,13 @@
     <color name="text_color">#333333</color>
     <color name="text_black">#343434</color>
     <color name="text_gray">#818181</color>
+    <color name="time_gray">#cecece</color>
     <color name="search_bc_gray">#f4f4f4</color>
     <color name="devide_gray">#E2E2E2</color>
     <color name="stepline_red">#f87161</color>
+    <color name="red_package_red">#e23b11</color>
     <color name="text_yellow">#ff9102</color>
+    <color name="red_package_title_yellow">#ffd902</color>
     <color name="bc_gray">#efeff4</color>
     <color name="theme_yellow">#ffd902</color>
     <!--复印界面-->

@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -50,9 +51,11 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     protected AllFileListAdapter mAdapter;
     private LinkedList<String> mHistory;
     private ListView fileListView;
-    private int mode;
+    private int  mode = FileComparator.MODE_NAME;
     private ClearEditText searchEditText;
     private ImageView filterBtn;
+    private RelativeLayout searchRyt;
+
     private File showFile;
     private boolean isSearch = false;
 
@@ -81,7 +84,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     }
 
     private void initView(View view) {
-        mode = FileComparator.MODE_NAME;
+        searchRyt = (RelativeLayout)view.findViewById(R.id.searchRyt);
         fileListView = (ListView) view.findViewById(R.id.fileListView);
         filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
         filterBtn.setOnClickListener(new View.OnClickListener() {

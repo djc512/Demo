@@ -21,7 +21,6 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
-import huanxing_print.com.cn.printhome.model.print.PrinterPriceBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.AllFileFragment;
@@ -212,23 +211,6 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     }
 
     public void onGetPrinterPrice(View view) {
-        PrintRequest.queryPrinterPrice(activity, "48TZ-13102-1251581193", new HttpListener() {
-            @Override
-            public void onSucceed(String content) {
-                PrinterPriceBean printerPriceBean = GsonUtil.GsonToBean(content, PrinterPriceBean.class);
-                if (printerPriceBean == null) {
-                    return;
-                }
-                if (printerPriceBean.isSuccess()) {
-
-                }
-            }
-
-            @Override
-            public void onFailed(String exception) {
-                ShowUtil.showToast(getString(R.string.net_error));
-            }
-        });
     }
 
     public void onShow(View view) {

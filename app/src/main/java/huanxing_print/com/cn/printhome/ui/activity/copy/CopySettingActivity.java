@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
@@ -55,10 +56,23 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private TextView btn_preview;
     private LinearLayout ll_finish;
     private TextView tv_mount;
-    private int copy_mount;
     private LinearLayout ll_cz_persion;
     private ImageView iv_cz_qun;
     private LinearLayout ll_cz_qun;
+
+    //    colourFlag	彩色打印0-彩色 1-黑白	number
+//    directionFlag	方向标识0-横版 1-竖版	number
+//    doubleFlag	双面打印0-是 1-否	number
+//    id	文件id	number
+//    printCount	打印份数	number
+//    scaleRatio	缩放比例 1-100	number
+//    sizeType	大小类型0-A4 1-A3
+    private int colourFlag = 1;
+    private int directionFlag = 1;
+    private int doubleFlag = 1;
+    private int id;
+    private int printCount = 1;
+    private int sizeType = 0;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -73,8 +87,8 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         CommonUtils.initSystemBar(this);
         StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PAY);
         initView();
-        initData();
         initListener();
+        log();
     }
 
     private void initView() {
@@ -114,10 +128,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         ll_finish = (LinearLayout) findViewById(R.id.ll_finish);
     }
 
-    private void initData() {
-        copy_mount = Integer.parseInt(tv_mount.getText().toString().trim());
-    }
-
     private void initListener() {
         iv_back.setOnClickListener(this);
         iv_minus.setOnClickListener(this);
@@ -135,11 +145,11 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         btn_preview.setOnClickListener(this);
     }
 
-    private boolean isVertical;
-    private boolean isColor;
-    private boolean isA4;
-    private boolean isSingle;
-    private boolean isPersion;
+    //    private boolean isVertical;
+//    private boolean isColor;
+//    private boolean isA4;
+//    private boolean isSingle;
+    private boolean isPersion = true;
 
     @Override
     public void onClick(View v) {
@@ -148,82 +158,90 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 finishCurrentActivity();
                 break;
             case R.id.iv_minus://减
-                copy_mount--;
-                if (copy_mount < 0) {
-                    Toast.makeText(ctx, "页数不能小于0", Toast.LENGTH_SHORT).show();
+                if (printCount == 1) {
+                    Toast.makeText(ctx, "页数不能小于1", Toast.LENGTH_SHORT).show();
                     return;
+                } else {
+                    printCount--;
                 }
-                tv_mount.setText(copy_mount + "");
+                tv_mount.setText(printCount + "");
                 break;
             case R.id.iv_plus://加
-                copy_mount++;
-                tv_mount.setText(copy_mount + "");
+                printCount++;
+                tv_mount.setText(printCount + "");
                 break;
             case R.id.iv_orientation://方向
-                if (isVertical) {//竖向
+                if (directionFlag == 1) {
                     iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.orientation));
                     tv_orientation.setTextColor(getResources().getColor(R.color.black2));
                     tv_vertical.setTextColor(getResources().getColor(R.color.gray8));
-                } else {//横向
+                    directionFlag = 0;
+
+                } else {
                     iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.vertical));
                     tv_orientation.setTextColor(getResources().getColor(R.color.gray8));
                     tv_vertical.setTextColor(getResources().getColor(R.color.black2));
                     iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                    directionFlag = 1;
                 }
-                isVertical = !isVertical;
                 break;
             case R.id.iv_color://色彩
-                if (isColor) {//彩色
+                if (colourFlag == 1) {
                     tv_black.setTextColor(getResources().getColor(R.color.gray8));
                     tv_color.setTextColor(getResources().getColor(R.color.black2));
                     iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    colourFlag = 0;
+
                 } else {//黑白
                     tv_black.setTextColor(getResources().getColor(R.color.black2));
                     tv_color.setTextColor(getResources().getColor(R.color.gray8));
                     iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                    colourFlag = 1;
                 }
-                isColor = !isColor;
                 break;
             case R.id.iv_a43://纸张
-                if (isA4) {
-                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                if (sizeType == 1) {
+                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                     tv_a3.setTextColor(getResources().getColor(R.color.black2));
                     tv_a4.setTextColor(getResources().getColor(R.color.gray8));
+                    sizeType = 0;
                 } else {
                     tv_a4.setTextColor(getResources().getColor(R.color.black2));
                     tv_a3.setTextColor(getResources().getColor(R.color.gray8));
-                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    sizeType = 1;
                 }
-                isA4 = !isA4;
                 break;
             case R.id.iv_print_type://单双面
-                if (isSingle) {
+                if (doubleFlag == 1) {
                     iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     tv_double.setTextColor(getResources().getColor(R.color.black2));
                     tv_single.setTextColor(getResources().getColor(R.color.gray8));
+                    doubleFlag = 0;
                 } else {
                     iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                     tv_single.setTextColor(getResources().getColor(R.color.black2));
                     tv_double.setTextColor(getResources().getColor(R.color.gray8));
+                    doubleFlag = 1;
                 }
-                isSingle = !isSingle;
                 break;
             case R.id.iv_copy_cz://支付方式
-                if (isPersion) {//个人
+                if (isPersion) {
                     iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     tv_qun.setTextColor(getResources().getColor(R.color.black2));
                     tv_persion.setTextColor(getResources().getColor(R.color.gray8));
                     ll_cz_persion.setVisibility(View.GONE);
                     ll_cz_qun.setVisibility(View.VISIBLE);
-                } else {//群
+                    isPersion = false;
+                } else {
                     iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                     tv_qun.setTextColor(getResources().getColor(R.color.gray8));
                     tv_persion.setTextColor(getResources().getColor(R.color.black2));
                     ll_cz_persion.setVisibility(View.VISIBLE);
                     ll_cz_qun.setVisibility(View.GONE);
+                    isPersion = true;
                 }
-                isPersion = !isPersion;
                 break;
             case R.id.ll_cz_persion://第三方支付
                 DialogUtils.showPayChooseDialog(ctx, new DialogUtils.PayChooseDialogCallBack() {
@@ -258,10 +276,36 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 PrintStatusActivity.start(CopySettingActivity.this, null);
                 break;
         }
+        log();
     }
+
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, CopySettingActivity.class);
         context.startActivity(intent);
+    }
+
+    private void log() {
+        if (colourFlag == 0) {
+            Logger.i("彩色");
+        } else {
+            Logger.i("黑白");
+        }
+        if (directionFlag == 0) {
+            Logger.i("横版");
+        } else {
+            Logger.i("竖版");
+        }
+        if (doubleFlag == 0) {
+            Logger.i("双面");
+        } else {
+            Logger.i("单面");
+        }
+        Logger.i(printCount + "张");
+        if (sizeType == 0) {
+            Logger.i("A4");
+        } else {
+            Logger.i("A3");
+        }
     }
 }

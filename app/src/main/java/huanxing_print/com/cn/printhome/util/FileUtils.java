@@ -2,11 +2,13 @@ package huanxing_print.com.cn.printhome.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
+import android.provider.MediaStore;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.log.Logger;
 
 public class FileUtils {
 
@@ -292,6 +295,30 @@ public class FileUtils {
             ex.printStackTrace();
         }
         return fileList;
+    }
+
+    /**
+     * 获取所有图片列表
+     *
+     * @param context
+     * @return
+     */
+    public static final List<String> getImgList(Context context) {
+        List<String> imgList = new ArrayList<>();
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, null,
+                null, null);
+        if (!cursor.moveToLast()) {
+            return null;
+        }
+        do {
+            String name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
+            String desc = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DESCRIPTION));
+            byte[] data = cursor.getBlob(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            String photoPath = new String(data, 0, data.length - 1);
+            imgList.add(photoPath);
+            Logger.i(name + photoPath);
+        } while (cursor.moveToPrevious());
+        return imgList;
     }
 
     public static final String getBase64(File file) {

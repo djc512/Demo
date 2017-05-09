@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -48,6 +49,7 @@ public class WechatFileFragment extends BaseLazyFragment {
     private FileRecyclerAdapter mAdapter;
     private ImageView filterBtn;
     private ClearEditText searchEditText;
+    private RelativeLayout searchRyt;
     private boolean isSearch = false;
 
     private int mode = FileComparator.MODE_NAME;
@@ -68,6 +70,7 @@ public class WechatFileFragment extends BaseLazyFragment {
     }
 
     private void initView(View view) {
+        searchRyt = (RelativeLayout)view.findViewById(R.id.searchRyt);
         mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
         filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
         filterBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +108,12 @@ public class WechatFileFragment extends BaseLazyFragment {
             return;
         }
         fileList = FileUtils.getFileList(PATH_WECHAT_FILE);
+        if (fileList == null || fileList.size() == 0) {
+            ShowUtil.showToast("没有相关文件");
+            searchRyt.setVisibility(View.GONE);
+            return;
+        }
+        searchRyt.setVisibility(View.VISIBLE);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         mRcList.setLayoutManager(mLayoutManager);
         mRcList.setHasFixedSize(true);

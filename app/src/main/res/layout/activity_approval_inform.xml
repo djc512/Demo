@@ -20,14 +20,13 @@
         android:layout_height="1px"
         android:background="@color/devide_gray"/>
 
-    <RelativeLayout
+    <android.support.v7.widget.RecyclerView
+        android:paddingTop="10dp"
+        android:id="@+id/infoRecView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/bc_gray"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"/>
 
-        <com.github.chrisbanes.photoview.PhotoView
-            android:id="@+id/photoView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </RelativeLayout>
 </LinearLayout>
