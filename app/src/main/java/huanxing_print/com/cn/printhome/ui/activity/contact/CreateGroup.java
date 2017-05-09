@@ -70,9 +70,6 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     }
 
     private void initData() {
-//        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
-//        friends = friendInfos;
-//        adapter.modifyData(friends);
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
         DialogUtils.showProgressDialog(this,"加载中").show();
@@ -149,11 +146,6 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         public void success(String msg, GroupInfo groupInfo) {
             DialogUtils.closeProgressDialog();
             if(null != groupInfo) {
-                //假数据
-                groupInfo.setGroupName("途牛旅游01");
-                groupInfo.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
-                groupInfo.setUserCount("5");
-
                 createSuccess(groupInfo);
             }
         }
@@ -162,25 +154,12 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
             ToastUtil.doToast(CreateGroup.this, msg + " -- 假数据");
-            GroupInfo groupInfo = new GroupInfo();
-            //假数据
-            groupInfo.setGroupName("途牛旅游01");
-            groupInfo.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
-            groupInfo.setUserCount("5");
-            createSuccess(groupInfo);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
             toastConnectFail();
-
-            GroupInfo groupInfo = new GroupInfo();
-            //假数据
-            groupInfo.setGroupName("途牛旅游01");
-            groupInfo.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
-            groupInfo.setUserCount("5");
-            createSuccess(groupInfo);
         }
     };
 
