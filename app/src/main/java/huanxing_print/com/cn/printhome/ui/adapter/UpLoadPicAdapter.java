@@ -33,6 +33,8 @@ public class UpLoadPicAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
+
+
     public void update() {
         loading();
     }

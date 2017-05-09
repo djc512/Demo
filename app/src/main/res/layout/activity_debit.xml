@@ -24,7 +24,7 @@
             android:padding="15dp"
             android:id="@+id/tv_bill_normal"
             android:textSize="15dp"
-            android:textColor="@color/green"
+            android:textColor="@color/black2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

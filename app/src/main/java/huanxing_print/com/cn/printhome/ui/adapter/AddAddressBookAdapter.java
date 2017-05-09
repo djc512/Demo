@@ -55,7 +55,7 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         mContactList = new ArrayList<String>();
         characterList = new ArrayList<String>();
         for (int i = 0; i < contacts.size(); i++) {
-            String pinyin = PinYinUtil.getPingYin(contacts.get(i).getPhoneName());
+            String pinyin = PinYinUtil.getPingYin(contacts.get(i).getTelName());
             map.put(pinyin, contacts.get(i));
             mContactList.add(pinyin);
         }
@@ -70,14 +70,14 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         characterList.add(character);
                         PhoneContactInfo characterInfo = new PhoneContactInfo();
                         characterInfo.setType(ITEM_TYPE.ITEM_TYPE_CHARACTER.ordinal());
-                        characterInfo.setPhoneName(character);
+                        characterInfo.setTelName(character);
                         newInfos.add(characterInfo);
                     } else {
                         if (!characterList.contains("#")) {
                             characterList.add("#");
                             PhoneContactInfo characterInfo = new PhoneContactInfo();
                             characterInfo.setType(ITEM_TYPE.ITEM_TYPE_CHARACTER.ordinal());
-                            characterInfo.setPhoneName("#");
+                            characterInfo.setTelName("#");
                             newInfos.add(characterInfo);
                         }
                     }
@@ -138,19 +138,18 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public void bind(int position){
             PhoneContactInfo info = contactInfos.get(position);
             if(null != info) {
-                mTitle.setText(info.getPhoneName());
+                mTitle.setText(info.getTelName());
             }
         }
     }
 
-    class PhoneContactHolder extends RecyclerView.ViewHolder {
+    class PhoneContactHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         CircleImageView icon;
         TextView tv_phoneName;
         TextView tv_yjNum;
         Button btn_add;
         TextView tv_friend_state;
-        private int mPosition;
-
+        PhoneContactInfo info;
         public PhoneContactHolder(View itemView) {
             super(itemView);
             icon = (CircleImageView) itemView.findViewById(R.id.iv_head);
@@ -158,14 +157,14 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             tv_yjNum = (TextView) itemView.findViewById(R.id.tv_yjNum);
             btn_add = (Button) itemView.findViewById(R.id.btn_add);
             tv_friend_state = (TextView) itemView.findViewById(R.id.friend_state);
+            btn_add.setOnClickListener(this);
         }
 
         public void bind(int position) {
-            this.mPosition = position;
-            PhoneContactInfo info = contactInfos.get(position);
+            info = contactInfos.get(position);
             if (null != info) {
-                tv_phoneName.setText(info.getPhoneName());
-                tv_yjNum.setText(info.getPhoneNum());
+                tv_phoneName.setText(info.getTelName());
+                tv_yjNum.setText(info.getTelNo());
                 loadPic(info);
             }
         }
@@ -178,11 +177,33 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 }
             });
         }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.btn_add:
+                    if (null != itemBtnListener) {
+                        itemBtnListener.itemBtn(info);
+                    }
+                    break;
+            }
+        }
     }
+
+    private OnItemBtnListener itemBtnListener;
+    public interface OnItemBtnListener{
+        void itemBtn(PhoneContactInfo contactInfo);
+    }
+
+    public void setOnItemBtnListener(OnItemBtnListener listener) {
+        this.itemBtnListener = listener;
+    }
+
+
     public int getScrollPosition(String character) {
         if (characterList.contains(character)) {
             for (int i = 0; i < contactInfos.size(); i++) {
-                String name = contactInfos.get(i).getPhoneName();
+                String name = contactInfos.get(i).getTelName();
                 if(name !=null && name.equals(character)){
                     return i;
                 }

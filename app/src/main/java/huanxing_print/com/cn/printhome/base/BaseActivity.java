@@ -16,21 +16,13 @@ import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.baidu.mapapi.search.geocode.GeoCodeResult;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
-import com.umeng.analytics.MobclickAgent;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-//import de.greenrobot.event.EventBus;
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.event.location.LocationEvent;
 import huanxing_print.com.cn.printhome.event.login.HasLoginEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.logic.map.LocationCallBack;
@@ -38,6 +30,8 @@ import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+
+//import de.greenrobot.event.EventBus;
 
 public abstract class BaseActivity extends Activity {
 
@@ -82,7 +76,6 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		MobclickAgent.onResume(this);
 	}
 
 	@Override
@@ -94,7 +87,6 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		MobclickAgent.onPause(this);
 	}
 
 	@Override
@@ -144,7 +136,7 @@ public abstract class BaseActivity extends Activity {
 	 * @return
 	 */
 	protected boolean isLogin() {
-		if (!ObjectUtils.isNull(baseApplication.getUserId())) {
+		if (!ObjectUtils.isNull(baseApplication.getMemberId())) {
 			return true;
 		}
 		return false;
@@ -212,8 +204,8 @@ public abstract class BaseActivity extends Activity {
 	 */
 	public void jumpActivity(Intent intent, Class cls, boolean isBack) {
 
-		Logger.d("userId:" + baseApplication.getUserId());
-		if (!ObjectUtils.isNull(baseApplication.getUserId())) {
+		Logger.d("userId:" + baseApplication.getMemberId());
+		if (!ObjectUtils.isNull(baseApplication.getMemberId())) {
 			jumpActivity(intent, cls);
 			return;
 
@@ -242,8 +234,8 @@ public abstract class BaseActivity extends Activity {
 
 	public void jumpActivityNoAnim(Intent intent, Class cls, boolean isBack) {
 
-		Logger.d("userId:" + baseApplication.getUserId());
-		if (!ObjectUtils.isNull(baseApplication.getUserId())) {
+		Logger.d("userId:" + baseApplication.getMemberId());
+		if (!ObjectUtils.isNull(baseApplication.getMemberId())) {
 			jumpActivity(intent, cls);
 			return;
 
@@ -396,32 +388,6 @@ public abstract class BaseActivity extends Activity {
 		}
 	};
 
-	/**
-	 * 地理编码,根据地址获取经纬度
-	 * 
-	 * @param city
-	 */
-	protected void setGeoCoder(String city) {
-		GeoCoder geoCoder = GeoCoder.newInstance();
-		geoCoder.geocode(new GeoCodeOption().city(city).address(city));
-		geoCoder.setOnGetGeoCodeResultListener(onGetGeoCoderResultListener);
-	}
-
-	private OnGetGeoCoderResultListener onGetGeoCoderResultListener = new OnGetGeoCoderResultListener() {
-
-		@Override
-		public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
-
-		}
-
-		@Override
-		public void onGetGeoCodeResult(GeoCodeResult result) {
-			LocationEvent locationEvent = new LocationEvent();
-			locationEvent.setLat(result.getLocation().latitude);
-			locationEvent.setLon(result.getLocation().longitude);
-			//EventBus.getDefault().post(locationEvent);
-		}
-	};
 
 	/**
 	 * 退出事件
@@ -484,7 +450,7 @@ public abstract class BaseActivity extends Activity {
 
 				break;
 			case MSG_SET_TAGS:
-				initJPush(baseApplication.getUserId());
+				initJPush(baseApplication.getMemberId());
 				break;
 
 			default:

@@ -4,10 +4,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by wanghao on 2017/5/3.
@@ -16,6 +25,7 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 public class AddVerificationActivity extends BaseActivity implements View.OnClickListener{
     private EditText et_hint_content;
+    private FriendSearchInfo friendSearchInfo;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -26,6 +36,7 @@ public class AddVerificationActivity extends BaseActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_add_verification);
+        friendSearchInfo = getIntent().getParcelableExtra("verification");
         initView();
         setListener();
     }
@@ -46,10 +57,42 @@ public class AddVerificationActivity extends BaseActivity implements View.OnClic
                 finishCurrentActivity();
                 break;
             case R.id.verification_send:
-                ToastUtil.doToast(this,"添加好友验证请求发送中...");
-                setResult(RESULT_OK);
-                finish();
+                request();
                 break;
         }
     }
+
+    private void request() {
+        if(null != friendSearchInfo && !et_hint_content.getText().toString().isEmpty()) {
+            DialogUtils.showProgressDialog(this, "添加好友验证中").show();
+            String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+                    "loginToken");
+
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("memberId", friendSearchInfo.getMemberId());
+            params.put("note", et_hint_content.getText().toString());
+            FriendManagerRequest.searchAddFriend(this, token, params, nullCallback);
+        }
+    }
+
+    NullCallback nullCallback = new NullCallback() {
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(AddVerificationActivity.this, "添加成功");
+            finishCurrentActivity();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(AddVerificationActivity.this, msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
+        }
+    };
 }

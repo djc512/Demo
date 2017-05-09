@@ -50,9 +50,11 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
                     android:text="请款部门"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
 
                 <EditText
+                    android:id="@+id/edt_borrow_department"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -60,6 +62,7 @@
                     android:gravity="left|center_vertical"
                     android:hint="你所属部门(必填)"
                     android:maxLength="20"
+                    android:paddingLeft="2dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_size_sixteen" />
 
@@ -85,9 +88,11 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
                     android:text="采购事由"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
 
                 <EditText
+                    android:id="@+id/edt_buy_reason"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
@@ -95,6 +100,7 @@
                     android:gravity="left|center_vertical"
                     android:hint="说说你的采购事由(必填)"
                     android:maxLength="20"
+                    android:paddingLeft="2dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_size_sixteen" />
             </LinearLayout>
@@ -125,16 +131,18 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:text="采购清单"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_size_sixteen" />
 
                     <EditText
+                        android:id="@+id/edt_purchasing_list"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:background="@null"
-                        android:enabled="false"
                         android:hint="填写你的采购清单(必填)"
+                        android:paddingLeft="2dp"
                         android:textSize="@dimen/text_size_sixteen" />
 
                 </LinearLayout>
@@ -162,6 +170,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="40dp"
                     android:text="图片:"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
 
                 <TextView
@@ -226,6 +235,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="40dp"
                         android:text="备注:"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_size_sixteen" />
 
                     <EditText
@@ -247,6 +257,7 @@
                     android:maxLength="200"
                     android:maxLines="10"
                     android:minLines="2"
+                    android:paddingLeft="2dp"
                     android:textSize="@dimen/text_size_sixteen" />
 
 
@@ -272,6 +283,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="25dp"
                     android:text="请款金额"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
 
                 <EditText
@@ -283,6 +295,7 @@
                     android:focusableInTouchMode="false"
                     android:hint="填写请款金额"
                     android:inputType="number"
+                    android:paddingLeft="2dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_size_sixteen" />
 
@@ -314,15 +327,18 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="40dp"
                     android:text="收款方"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
 
                 <EditText
+                    android:id="@+id/edt_payee"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:ellipsize="end"
                     android:hint="填写单位名称或姓名"
                     android:maxLength="20"
+                    android:paddingLeft="2dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_size_sixteen" />
 
@@ -344,15 +360,18 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="40dp"
                     android:text="开户行"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
 
                 <EditText
+                    android:id="@+id/edt_opening_bank"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:ellipsize="end"
                     android:hint="填写开户行"
                     android:maxLength="20"
+                    android:paddingLeft="2dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_size_sixteen" />
 
@@ -374,14 +393,17 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="58dp"
                     android:text="帐号"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
 
                 <EditText
+                    android:id="@+id/edt_account_number"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:ellipsize="end"
                     android:hint="填写帐号"
+                    android:paddingLeft="2dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_size_sixteen" />
 
@@ -404,8 +426,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="25dp"
                     android:text="完成日期"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
 
                 <EditText
@@ -416,6 +439,8 @@
                     android:background="@null"
                     android:enabled="false"
                     android:hint="期望的采购完成日期"
+                    android:paddingLeft="2dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_sixteen" />
 
                 <RelativeLayout
@@ -459,6 +484,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="审批人"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_size_sixteen" />
 
                     <TextView
@@ -472,15 +498,22 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/add_people" />
-
-                <GridView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
             </LinearLayout>
+
+            <huanxing_print.com.cn.printhome.view.ScrollGridView
+                android:id="@+id/grid_scroll_approval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:divider="@null"
+                android:horizontalSpacing="0.0dip"
+                android:listSelector="@null"
+                android:numColumns="4"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="5dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -505,6 +538,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="抄送"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_size_sixteen" />
 
                     <TextView
@@ -518,16 +552,22 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/add_people" />
-
-
-                <GridView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></GridView>
             </LinearLayout>
+
+            <huanxing_print.com.cn.printhome.view.ScrollGridView
+                android:id="@+id/grid_scroll_copy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:divider="@null"
+                android:horizontalSpacing="0.0dip"
+                android:listSelector="@null"
+                android:numColumns="4"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="0.0dip" />
 
             <View
                 android:layout_width="match_parent"
@@ -540,6 +580,7 @@
                 android:background="@color/white">
 
                 <Button
+                    android:id="@+id/btn_submit_purchase_approval"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"

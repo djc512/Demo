@@ -32,20 +32,24 @@ import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
 import huanxing_print.com.cn.printhome.model.login.WeiXinBean;
 import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
 import huanxing_print.com.cn.printhome.net.callback.login.WeiXinCallback;
+import huanxing_print.com.cn.printhome.net.callback.register.GetVerCodeCallback;
 import huanxing_print.com.cn.printhome.net.request.login.LoginRequset;
+import huanxing_print.com.cn.printhome.net.request.register.RegisterRequst;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.HttpCallBackListener;
 import huanxing_print.com.cn.printhome.util.HttpUtil;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.util.time.ScheduledHandler;
+import huanxing_print.com.cn.printhome.util.time.ScheduledTimer;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
-    private TextView tv_login;
-    private EditText login_phone;
+    private TextView tv_login,getCodeTv;
+    private EditText login_phone,et_code;
     private TextView  tv_register;
     private String phone;
 
@@ -94,8 +98,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     private void initViews() {
         login_phone = (EditText) findViewById(R.id.login_user);
+        et_code= (EditText) findViewById(R.id.et_code);
         tv_register = (TextView) findViewById(R.id.tv_register);
+        getCodeTv = (TextView) findViewById(R.id.code_btn);
         tv_login = (TextView) findViewById(R.id.tv_login);
+        getCodeTv.setOnClickListener(this);
         tv_login.setOnClickListener(this);
         tv_register.setOnClickListener(this);
         findViewById(R.id.ll_weixin).setOnClickListener(this);
@@ -106,16 +113,19 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         switch (v.getId()) {
             case R.id.tv_login:
                 String name = login_phone.getText().toString().trim();
-                if (isUserNameAndPwdVali(name)) {
+                String validCode = et_code.getText().toString().trim();
+                if (isUserNameAndPwdVali(name,validCode)) {
                     DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
-                    LoginRequset.login(getSelfActivity(), name, "", loginCallback);
+                    LoginRequset.login(getSelfActivity(), name, validCode, loginCallback);
                 }
                 //jumpActivity(MainActivity.class);
                 break;
             case R.id.tv_register://跳转注册界面
                 jumpActivity(RegisterActivity.class);
                 break;
-
+            case R.id.code_btn:// 获取验证码
+                getVerCode();
+                break;
             case R.id.ll_weixin:
                 if (CommonUtils.isWeixinAvilible(getSelfActivity())) {
                     weChatAuth();
@@ -143,9 +153,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 LoginBeanItem userInfo = loginBean.getMemberInfo();
                 if (!ObjectUtils.isNull(userInfo)) {
                     baseApplication.setPhone(userInfo.getMobileNumber());
-                    baseApplication.setSex(userInfo.getSex());
                     baseApplication.setNickName(userInfo.getNickName());
                     baseApplication.setHeadImg(userInfo.getFaceUrl());
+                    baseApplication.setEasemobId(userInfo.getEasemobId());
+                    baseApplication.setUniqueId(userInfo.getUniqueId());
+                    if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+                        baseApplication.setWechatId(userInfo.getWechatId());
+                    }
                     jumpActivity(MainActivity.class);
                     finishCurrentActivity();
                 }
@@ -171,16 +185,68 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     /*
      * 判断用户名和密码是否有效
      */
-    private boolean isUserNameAndPwdVali(String name) {
+    private boolean isUserNameAndPwdVali(String name,String code) {
         if (ObjectUtils.isNull(name)) {
             toast(getStringFromResource(R.string.phone_no_null));
             return false;
         } else if (!CommonUtils.isPhone(name)) {
             toast(getStringFromResource(R.string.phone_format_error));
             return false;
+        }else if (ObjectUtils.isNull(code)) {
+            toast(getStringFromResource(R.string.code_no_null));
+            return false;
         }
         return true;
     }
+
+
+    /**
+     * 获取验证码
+     */
+    private void getVerCode() {
+        phone = login_phone.getText().toString();
+        if (ObjectUtils.isNull(phone)) {
+            toast("手机号不能为空");
+            return;
+        }
+        if (!CommonUtils.isPhone(phone) || phone.length() < 11) {
+            toast("手机号码格式有误");
+            return;
+        }
+        login_phone.setEnabled(false);
+        if (!ObjectUtils.isNull(phone)) {
+            getCodeTv.setClickable(false);
+            DialogUtils.showProgressDialog(getSelfActivity(), "正在获取验证码").show();
+            RegisterRequst.getVerCode(getSelfActivity(), "1", phone, 0, getVerCodeCallback);
+        }
+    }
+
+
+    private GetVerCodeCallback getVerCodeCallback = new GetVerCodeCallback() {
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            toast(msg);
+            getCodeTv.setClickable(true);
+            login_phone.setEnabled(true);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
+            getCodeTv.setClickable(true);
+            login_phone.setEnabled(true);
+        }
+
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            toast("获取验证码成功");
+            codeCountdown();
+        }
+    };
 
     private void weChatAuth() {
         if (api == null) {
@@ -296,10 +362,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     LoginBeanItem userInfo = weiXinBean.getLoginResult().getMemberInfo();
                     if (!ObjectUtils.isNull(userInfo)) {
                         baseApplication.setPhone(userInfo.getMobileNumber());
-                        baseApplication.setSex(userInfo.getSex());
                         baseApplication.setNickName(userInfo.getNickName());
                         baseApplication.setHeadImg(userInfo.getFaceUrl());
-                        //baseApplication.setWechatId(userInfo.getWechatId());
+                        baseApplication.setEasemobId(userInfo.getEasemobId());
+                        baseApplication.setUniqueId(userInfo.getUniqueId());
+                        if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+                            baseApplication.setWechatId(userInfo.getWechatId());
+                        }
                         jumpActivity(MainActivity.class);
                         finishCurrentActivity();
                     }
@@ -334,6 +403,27 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 //            Intent intent1 = new Intent(getSelfActivity(), MainActivity.class);
 //            startActivity(intent1);
         }
+    }
+
+
+    /**
+     * 获取验证码成功倒计时
+     */
+    private void codeCountdown() {
+        ScheduledTimer scheduledTimer = new ScheduledTimer(new ScheduledHandler() {
+            @Override
+            public void post(int times) {
+                getCodeTv.setText((60 - times) + "秒");
+            }
+
+            @Override
+            public void end() {
+                getCodeTv.setText("重新获取");
+                getCodeTv.setClickable(true);
+                login_phone.setEnabled(true);
+            }
+        }, 0, 1000, 60);
+        scheduledTimer.start();
     }
 
     @Override

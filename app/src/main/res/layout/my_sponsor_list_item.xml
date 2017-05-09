@@ -60,24 +60,54 @@
             android:layout_height="0.5dp"
             android:background="@color/devide_gray" />
 
-        <TextView
-            android:id="@+id/txt_use_type"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:text="用途说明:设计专用"
-            android:textColor="@color/text_gray"
-            android:textSize="@dimen/text_size_fourteen" />
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="10dp">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用途说明:"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/text_size_fourteen" />
 
-        <TextView
-            android:id="@+id/txt_buy_form"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/txt_use_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="设计专用"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/text_size_fourteen" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="采购清单:2台mac"
-            android:textColor="@color/text_gray"
-            android:textSize="@dimen/text_size_fourteen" />
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="采购清单:"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/text_size_fourteen" />
+
+            <TextView
+                android:id="@+id/txt_buy_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="2台mac"
+                android:textColor="@color/text_gray"
+                android:textSize="@dimen/text_size_fourteen" />
+        </LinearLayout>
+
 
     </LinearLayout>
 </LinearLayout>

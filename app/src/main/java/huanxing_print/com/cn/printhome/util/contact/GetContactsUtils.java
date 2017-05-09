@@ -41,8 +41,8 @@ public class GetContactsUtils {
                 PhoneContactInfo info = new PhoneContactInfo();
                 String contactName = cursor.getString(0);
                 String phoneNumber = cursor.getString(1);
-                info.setPhoneName(contactName);
-                info.setPhoneNum(phoneNumber.replace(" ",""));
+                info.setTelName(contactName);
+                info.setTelNo(phoneNumber.replace(" ",""));
                 infos.add(info);
                 info = null;
             }
@@ -73,8 +73,8 @@ public class GetContactsUtils {
                 PhoneContactInfo info = new PhoneContactInfo();
                 String contactName = cursor.getString(0);
                 String phoneNumber = cursor.getString(1);
-                info.setPhoneName(contactName);
-                info.setPhoneNum(phoneNumber);
+                info.setTelName(contactName);
+                info.setTelNo(phoneNumber);
                 infos.add(info);
                 info = null;
             }

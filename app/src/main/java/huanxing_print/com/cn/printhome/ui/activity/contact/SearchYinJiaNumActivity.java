@@ -12,8 +12,14 @@ import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
+import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by wanghao on 2017/5/3.
@@ -60,22 +66,10 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
                 finishCurrentActivity();
                 break;
             case R.id.show_search_content:
-                ArrayList<ContactInfo> infos = new ArrayList<ContactInfo>();
-                ContactInfo info = new ContactInfo();
-                info.setName("陆成宋");
-                info.setYjNum("1867989");
-                info.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
-                info.setAddRequest(false);
-                ContactInfo info01 = new ContactInfo();
-                info01.setName("陆成宋01");
-                info01.setYjNum("1867767");
-                info01.setIconPath("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434200&di=7c53b18639aa82a8a58a296b9502d4ee&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D7048a12f9e16fdfad839ceea81bfa062%2F6a63f6246b600c3350e384cc194c510fd9f9a118.jpg");
-                info01.setAddRequest(true);
-                infos.add(info);
-                infos.add(info01);
-                Intent intent = new Intent(SearchYinJiaNumActivity.this,SearchAddResultActivity.class);
-                intent.putParcelableArrayListExtra("search result",infos);
-                startActivity(intent);
+                String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+                        "loginToken");
+                DialogUtils.showProgressDialog(this, "加载中").show();
+                FriendManagerRequest.friendSearch(this, token, searchEt.getText().toString(), friendSearchCallback);
                 break;
             case R.id.del_content:
                 searchEt.setText(null);
@@ -102,5 +96,35 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void afterTextChanged(Editable editable) {
+    }
+
+    FriendSearchCallback friendSearchCallback = new FriendSearchCallback() {
+        @Override
+        public void success(String msg, FriendSearchInfo friendSearchInfo) {
+            DialogUtils.closeProgressDialog();
+            if(null != friendSearchInfo) {
+                ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
+                infos.add(friendSearchInfo);
+                startActivity(infos);
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(SearchYinJiaNumActivity.this, msg + " -- 假数据");
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(SearchYinJiaNumActivity.this, "connectFail -- 假数据");
+        }
+    };
+
+    private void startActivity(ArrayList<FriendSearchInfo> infos) {
+        Intent intent = new Intent(SearchYinJiaNumActivity.this, SearchAddResultActivity.class);
+        intent.putParcelableArrayListExtra("search result", infos);
+        startActivity(intent);
     }
 }

@@ -1,8 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
+import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 
 /**
  * Created by wanghao on 2017/5/3.
@@ -27,15 +25,15 @@ import huanxing_print.com.cn.printhome.model.contact.ContactInfo;
 
 public class AddContactAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
-    private ArrayList<ContactInfo> addContacts;
+    private ArrayList<FriendSearchInfo> addContacts;
     private LayoutInflater mLayoutInflater;
-    public AddContactAdapter(Context context, ArrayList<ContactInfo> infos) {
+    public AddContactAdapter(Context context, ArrayList<FriendSearchInfo> infos) {
         this.mContext = context;
         this.addContacts = infos;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
-    public void updateContacts(ArrayList<ContactInfo> infos) {
+    public void updateContacts(ArrayList<FriendSearchInfo> infos) {
         this.addContacts = infos;
         notifyDataSetChanged();
     }
@@ -76,21 +74,17 @@ public class AddContactAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public void bind(int position) {
             this.mPosition = position;
-            ContactInfo info = addContacts.get(position);
+            FriendSearchInfo info = addContacts.get(position);
             if(null != info) {
-                yjNumTv.setText(info.getYjNum());
-                yjNameTv.setText(info.getName());
+
+                yjNumTv.setText(info.getUniqueId());
+                yjNameTv.setText(info.getMemberName());
                 loadPic(info);
-                if(info.isAddRequest() || info.isFriend()) {
-                    addBtn.setEnabled(false);
-                }else{
-                    addBtn.setEnabled(true);
-                }
             }
         }
 
-        private void loadPic(ContactInfo info) {
-            Glide.with(mContext).load(info.getIconPath()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+        private void loadPic(FriendSearchInfo info) {
+            Glide.with(mContext).load(info.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     iconImg.setImageDrawable(resource);
@@ -111,7 +105,7 @@ public class AddContactAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public interface OnItemSendListener{
-        void send(int poisition);
+        void send(int position);
     }
 
     private OnItemSendListener itemSendListener;

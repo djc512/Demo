@@ -3,32 +3,39 @@ package huanxing_print.com.cn.printhome.model.contact;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 
 /**
  * Created by wanghao on 2017/5/5.
  */
 
 public class GroupInfo implements Parcelable{
-    private String groupIcon;
-    private String groupName;
-    private ArrayList<ContactInfo> members;
-
+    private String balance;//群余额
+    private String easemobGroupId;//环信群id
+    private String groupId;//印家群id
+    private String groupName;//群名称
+    private String groupUrl;//群头像
+    private String userCount;//群成员个数
     public GroupInfo() {
 
     }
 
     protected GroupInfo(Parcel in) {
-        groupIcon = in.readString();
+        balance = in.readString();
+        easemobGroupId = in.readString();
+        groupId = in.readString();
         groupName = in.readString();
-        members = in.createTypedArrayList(ContactInfo.CREATOR);
+        groupUrl = in.readString();
+        userCount = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(groupIcon);
+        dest.writeString(balance);
+        dest.writeString(easemobGroupId);
+        dest.writeString(groupId);
         dest.writeString(groupName);
-        dest.writeTypedList(members);
+        dest.writeString(groupUrl);
+        dest.writeString(userCount);
     }
 
     @Override
@@ -48,12 +55,28 @@ public class GroupInfo implements Parcelable{
         }
     };
 
-    public String getGroupIcon() {
-        return groupIcon;
+    public String getBalance() {
+        return balance;
     }
 
-    public void setGroupIcon(String groupIcon) {
-        this.groupIcon = groupIcon;
+    public void setBalance(String balance) {
+        this.balance = balance;
+    }
+
+    public String getEasemobGroupId() {
+        return easemobGroupId;
+    }
+
+    public void setEasemobGroupId(String easemobGroupId) {
+        this.easemobGroupId = easemobGroupId;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getGroupName() {
@@ -64,11 +87,19 @@ public class GroupInfo implements Parcelable{
         this.groupName = groupName;
     }
 
-    public ArrayList<ContactInfo> getMembers() {
-        return members;
+    public String getGroupUrl() {
+        return groupUrl;
     }
 
-    public void setMembers(ArrayList<ContactInfo> members) {
-        this.members = members;
+    public void setGroupUrl(String groupUrl) {
+        this.groupUrl = groupUrl;
+    }
+
+    public String getUserCount() {
+        return userCount;
+    }
+
+    public void setUserCount(String userCount) {
+        this.userCount = userCount;
     }
 }

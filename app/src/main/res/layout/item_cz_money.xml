@@ -3,39 +3,50 @@
     android:id="@+id/ll_account_cz"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_cz_money_bg"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="20dp">
-    <ImageView
-        android:id="@+id/iv_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/check_2x"/>
-    <TextView
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tv_account_chong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="充1000元"
-        android:textSize="18sp" />
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_marginLeft="10dp"
-        android:id="@+id/tv_account_song"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="送100元"
-        android:textColor="@color/yellow2"
-        android:textSize="18sp" />
-    <TextView
-        android:id="@+id/tv_discount"
-        android:padding="5dp"
-        android:background="@color/yellow2"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5折"/>
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/iv_check"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/select_no" />
+
+        <TextView
+            android:id="@+id/tv_account_chong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="充1000元"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_account_song"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="送100元"
+            android:textColor="@color/yellow2"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/discount"
+            android:padding="5dp"
+            android:text="5折"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <include layout="@layout/viewline2" />
 </LinearLayout>

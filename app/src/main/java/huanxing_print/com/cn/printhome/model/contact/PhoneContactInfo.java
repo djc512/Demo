@@ -9,16 +9,16 @@ import android.os.Parcelable;
 
 public class PhoneContactInfo implements Parcelable {
     private int type;//recycler item类型
-    private String phoneName;
+    private String telName;
     private String yjName;
     private String yjNum;
-    private String phoneNum;
+    private String telNo;
     private String verification;
     private String icon;
     private int friendState;
 
-    public enum STATE{
-        UNREGISTED,NOTFRIEND,FRIEND
+    public enum STATE {
+        UNREGISTED, NOTFRIEND, FRIEND
     }
 
     public PhoneContactInfo() {
@@ -27,10 +27,10 @@ public class PhoneContactInfo implements Parcelable {
 
     protected PhoneContactInfo(Parcel in) {
         type = in.readInt();
-        phoneName = in.readString();
+        telName = in.readString();
         yjName = in.readString();
         yjNum = in.readString();
-        phoneNum = in.readString();
+        telNo = in.readString();
         verification = in.readString();
         icon = in.readString();
         friendState = in.readInt();
@@ -39,10 +39,10 @@ public class PhoneContactInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(type);
-        dest.writeString(phoneName);
+        dest.writeString(telName);
         dest.writeString(yjName);
         dest.writeString(yjNum);
-        dest.writeString(phoneNum);
+        dest.writeString(telNo);
         dest.writeString(verification);
         dest.writeString(icon);
         dest.writeInt(friendState);
@@ -73,14 +73,6 @@ public class PhoneContactInfo implements Parcelable {
         this.type = type;
     }
 
-    public String getPhoneName() {
-        return phoneName;
-    }
-
-    public void setPhoneName(String phoneName) {
-        this.phoneName = phoneName;
-    }
-
     public String getYjName() {
         return yjName;
     }
@@ -95,14 +87,6 @@ public class PhoneContactInfo implements Parcelable {
 
     public void setYjNum(String yjNum) {
         this.yjNum = yjNum;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
     }
 
     public String getIcon() {
@@ -127,5 +111,21 @@ public class PhoneContactInfo implements Parcelable {
 
     public void setVerification(String verification) {
         this.verification = verification;
+    }
+
+    public String getTelName() {
+        return telName;
+    }
+
+    public void setTelName(String telName) {
+        this.telName = telName;
+    }
+
+    public String getTelNo() {
+        return telNo;
+    }
+
+    public void setTelNo(String telNo) {
+        this.telNo = telNo;
     }
 }

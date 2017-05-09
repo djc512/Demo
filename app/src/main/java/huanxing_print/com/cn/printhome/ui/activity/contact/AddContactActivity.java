@@ -8,10 +8,18 @@ import android.widget.LinearLayout;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
+import java.util.ArrayList;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
+import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by wanghao on 2017/5/3.
@@ -80,11 +88,46 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
             case SCANQR:
                 if(resultCode == RESULT_OK) {
                     String resultString = data.getStringExtra(CodeUtils.RESULT_STRING);
-                    ToastUtil.doToast(this, resultString);
-                    Intent intent = new Intent(this, AddVerificationActivity.class);
-                    startActivity(intent);
+                    search(resultString);
                 }
                 break;
         }
+    }
+
+    private void search(String searchContent) {
+        String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+                "loginToken");
+        DialogUtils.showProgressDialog(this, "加载中").show();
+        FriendManagerRequest.friendSearch(this, token, searchContent, friendSearchCallback);
+    }
+
+    FriendSearchCallback friendSearchCallback = new FriendSearchCallback() {
+        @Override
+        public void success(String msg, FriendSearchInfo friendSearchInfo) {
+            DialogUtils.closeProgressDialog();
+            if(null != friendSearchInfo) {
+                ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
+                infos.add(friendSearchInfo);
+                startActivity(infos);
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(AddContactActivity.this, msg + " -- 假数据");
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(AddContactActivity.this, "connectFail -- 假数据");
+        }
+    };
+
+    private void startActivity(ArrayList<FriendSearchInfo> infos) {
+        Intent intent = new Intent(AddContactActivity.this, SearchAddResultActivity.class);
+        intent.putParcelableArrayListExtra("search result", infos);
+        startActivity(intent);
     }
 }

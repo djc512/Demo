@@ -17,13 +17,11 @@ import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 public class RegisterRequst extends BaseRequst {
 
-	public static void register(Context context, String password, String phone,String wechatId, String verCode,final RegisterCallback callback) {
+	public static void register(Context context, String phone,String verCode,final RegisterCallback callback) {
 		String url = HTTP_URL + HttpUrl.register;
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("mobileNumber", phone);
-		params.put("loginPwd", password);
 		params.put("validCode", verCode);
-		params.put("wechatId", wechatId);
 
 		HttpUtils.post(context, url,"", params, new HttpCallBack() {
 
