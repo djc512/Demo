@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
@@ -66,19 +68,37 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
                 finishCurrentActivity();
                 break;
             case R.id.show_search_content:
-                if(searchEt.getText().length() >= 6 && searchEt.getText().length() <= 14) {
+
+                String searchStr = searchEt.getText().toString();
+                if(searchStr.length() >= 6 && searchStr.length() <= 14 && (isStartLetter(searchStr) || isStartNum(searchStr))) {
                     String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                             "loginToken");
                     DialogUtils.showProgressDialog(this, "加载中").show();
-                    FriendManagerRequest.friendSearch(this, token, searchEt.getText().toString(), friendSearchCallback);
+                    FriendManagerRequest.friendSearch(this, token, searchStr, friendSearchCallback);
                 }else {
-                    ToastUtil.doToast(this, "内容不能小于6");
+                    ToastUtil.doToast(this, "内容不能小于6,以数字字母开头");
                 }
                 break;
             case R.id.del_content:
                 searchEt.setText(null);
                 break;
         }
+    }
+
+    private boolean isStartNum(String str) {
+        Pattern pattern = Pattern.compile("^[0-9]*");
+        Matcher isNum = pattern.matcher(str.charAt(0)+"");
+        if(isNum.matches())
+            return true;
+        return false;
+    }
+
+    private boolean isStartLetter(String str) {
+        Pattern pattern = Pattern.compile("^[A-Za-z]*");
+        Matcher isNum = pattern.matcher(str.charAt(0)+"");
+        if(isNum.matches())
+            return true;
+        return false;
     }
 
     @Override
