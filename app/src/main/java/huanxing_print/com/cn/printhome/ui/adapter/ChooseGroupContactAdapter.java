@@ -65,10 +65,15 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
         initInfos.add(contactInfo);
     }
 
-    public void modifyData(ArrayList<FriendInfo> contactInfos) {
+    private void modifyData(ArrayList<FriendInfo> contactInfos) {
         mInfos.clear();
         mInfos.addAll(initInfos);
         addFriend(contactInfos);
+    }
+
+    public void modify(ArrayList<FriendInfo> contactInfos) {
+        modifyData(contactInfos);
+        notifyDataSetChanged();
     }
 
     private void addFriend(ArrayList<FriendInfo> infos) {

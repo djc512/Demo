@@ -31,7 +31,6 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     private RecyclerView recyclerView;
     private ArrayList<GroupInfo> groups = new ArrayList<GroupInfo>();
     private GroupAdatper adatper;
-    private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -61,8 +60,6 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void initData() {
-        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
-        friends = friendInfos;
 
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
@@ -84,7 +81,6 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
             case R.id.create_group:
                 ToastUtil.doToast(this, "发起群组");
                 Intent intent = new Intent(this, CreateGroup.class);
-                intent.putParcelableArrayListExtra("friends", friends);
                 startActivityForResult(intent, CREATE_GROUP);
                 break;
         }

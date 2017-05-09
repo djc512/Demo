@@ -75,7 +75,7 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
     private void initData() {
         ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
         friends = friendInfos;
-        adapter.modifyData(friends);
+        adapter.modify(friends);
 
         //请求联系人数据
         String token = SharedPreferencesUtils.getShareString(getSelfActivity(), ConFig.SHAREDPREFERENCES_NAME,

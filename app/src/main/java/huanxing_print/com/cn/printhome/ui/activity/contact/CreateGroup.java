@@ -18,6 +18,8 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.CreateGroupCallback;
+import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.ChooseGroupContactAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -68,9 +70,13 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     }
 
     private void initData() {
-        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
-        friends = friendInfos;
-        adapter.modifyData(friends);
+//        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
+//        friends = friendInfos;
+//        adapter.modifyData(friends);
+        String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+                "loginToken");
+        DialogUtils.showProgressDialog(this,"加载中").show();
+        FriendManagerRequest.queryFriendList(this,token,myFriendListCallback);
     }
 
     private void setListener() {
@@ -175,6 +181,34 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
             groupInfo.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
             groupInfo.setUserCount("5");
             createSuccess(groupInfo);
+        }
+    };
+
+    MyFriendListCallback myFriendListCallback = new MyFriendListCallback() {
+        @Override
+        public void success(String msg, ArrayList<FriendInfo> friendInfos) {
+            DialogUtils.closeProgressDialog();
+            if(null !=  friendInfos) {
+                for(FriendInfo info : friendInfos) {
+                    if(null == info.getMemberName()) {
+                        info.setMemberName("Null");
+                    }
+                }
+                friends = friendInfos;
+                adapter.modify(friendInfos);
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(CreateGroup.this, msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
         }
     };
 }

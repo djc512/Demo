@@ -134,7 +134,6 @@ public class ContantsFragment extends BaseFragment implements
 
     private void startGroupActivity() {
         Intent intent = new Intent(getActivity(), GroupActivity.class);
-        intent.putExtra("friends", friends);
         startActivity(intent);
     }
 
