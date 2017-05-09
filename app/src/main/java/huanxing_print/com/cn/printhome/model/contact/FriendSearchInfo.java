@@ -17,8 +17,8 @@ public class FriendSearchInfo implements Parcelable{
     private String name;//
     private String nickName;//名称
     private String uniqueId;//印家号
-    private boolean isFriend;//是否是好友 1是 0 否
-    private boolean isMember;//是否是印家会员 1是 0否
+    private int isFriend;//是否是好友 1是 0 否
+    private int isMember;//是否是印家会员 1是 0否
     private String telName;//手机号码联系人名称
     private String telNo;//手机号码
 
@@ -35,8 +35,8 @@ public class FriendSearchInfo implements Parcelable{
         name = in.readString();
         nickName = in.readString();
         uniqueId = in.readString();
-        isFriend = in.readByte() != 0;
-        isMember = in.readByte() != 0;
+        isFriend = in.readInt();
+        isMember = in.readInt();
         telName = in.readString();
         telNo = in.readString();
     }
@@ -51,8 +51,8 @@ public class FriendSearchInfo implements Parcelable{
         dest.writeString(name);
         dest.writeString(nickName);
         dest.writeString(uniqueId);
-        dest.writeByte((byte) (isFriend ? 1 : 0));
-        dest.writeByte((byte) (isMember ? 1 : 0));
+        dest.writeInt(isFriend);
+        dest.writeInt(isMember);
         dest.writeString(telName);
         dest.writeString(telNo);
     }
@@ -138,22 +138,6 @@ public class FriendSearchInfo implements Parcelable{
         this.uniqueId = uniqueId;
     }
 
-    public boolean isFriend() {
-        return isFriend;
-    }
-
-    public void setFriend(boolean friend) {
-        isFriend = friend;
-    }
-
-    public boolean isMember() {
-        return isMember;
-    }
-
-    public void setMember(boolean member) {
-        isMember = member;
-    }
-
     public String getTelName() {
         return telName;
     }
@@ -168,5 +152,21 @@ public class FriendSearchInfo implements Parcelable{
 
     public void setTelNo(String telNo) {
         this.telNo = telNo;
+    }
+
+    public int getIsFriend() {
+        return isFriend;
+    }
+
+    public void setIsFriend(int isFriend) {
+        this.isFriend = isFriend;
+    }
+
+    public int getIsMember() {
+        return isMember;
+    }
+
+    public void setIsMember(int isMember) {
+        this.isMember = isMember;
     }
 }
