@@ -10,6 +10,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.welcome.GetVersionBean;
 import huanxing_print.com.cn.printhome.net.callback.welcome.VersionCallback;
 import huanxing_print.com.cn.printhome.net.request.welcome.VersionRequset;
+import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.AppUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -85,9 +86,9 @@ public class SplashActivity extends BaseActivity {
 	private void autoLogin() {
 		String phone = baseApplication.getPhone();
 		String password = baseApplication.getPassWord();
-//		if (ObjectUtils.isNull(phone)) {
-//			jumpActivityNoAnim(LoginActivity.class);
-//		} else {
+		if (ObjectUtils.isNull(phone)) {
+			jumpActivityNoAnim(LoginActivity.class);
+		} else {
 			jumpActivity(MainActivity.class);
 //			 new Handler().postDelayed(new Runnable() {
 //			 @Override
@@ -95,7 +96,7 @@ public class SplashActivity extends BaseActivity {
 //			 jumpActivity(LoginActivity.class);
 //			 }
 //			 }, delayMillis);
-//		}
+		}
 		finishCurrentActivity();
 	}
 

@@ -11,9 +11,11 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.login.LoginBean;
+import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
 import huanxing_print.com.cn.printhome.net.callback.register.GetVerCodeCallback;
 import huanxing_print.com.cn.printhome.net.callback.register.RegisterCallback;
 import huanxing_print.com.cn.printhome.net.request.register.RegisterRequst;
+import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -94,7 +96,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 		if (verify()) {
 			DialogUtils.showProgressDialog(getSelfActivity(), "正在注册").show();
-			RegisterRequst.register(getSelfActivity(),  "", phone, verCode,baseApplication.getWechatId(), registerCallback);
+			RegisterRequst.register(getSelfActivity(), phone, verCode, registerCallback);
 		}
 	}
 
@@ -183,21 +185,26 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 		public void success(LoginBean registerBean) {
 			DialogUtils.closeProgressDialog();
-			if (!ObjectUtils.isNull(registerBean)) {
-			toast("注册成功");
-			if (!ObjectUtils.isNull(registerBean)) {
-				//String loginToken =registerBean.getLoginToken();
-				//baseApplication.setLoginToken(loginToken);
-				//LoginBeanItem userInfo = registerBean.getMemberInfo();
-//				if (!ObjectUtils.isNull(userInfo)) {
-//					baseApplication.setPhone(userInfo.getMobileNumber());
-//					//jumpActivity(CompanyVerifyActivity.class);
-//					//jumpActivity(MainActivity.class);
-//			    	finishCurrentActivity();
-//				}
+			    toast("注册成功");
+				if (!ObjectUtils.isNull(registerBean)) {
+					String loginToken = registerBean.getLoginToken();
+					baseApplication.setLoginToken(loginToken);
+					LoginBeanItem userInfo = registerBean.getMemberInfo();
+					if (!ObjectUtils.isNull(userInfo)) {
+						baseApplication.setPhone(userInfo.getMobileNumber());
+						baseApplication.setNickName(userInfo.getNickName());
+						baseApplication.setHeadImg(userInfo.getFaceUrl());
+						baseApplication.setEasemobId(userInfo.getEasemobId());
+						baseApplication.setUniqueId(userInfo.getUniqueId());
+						if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+							baseApplication.setWechatId(userInfo.getWechatId());
+						}
+						jumpActivity(MainActivity.class);
+						finishCurrentActivity();
+					}
 				}
-		}
-	  }
+
+	    }
 	};
 	
 
