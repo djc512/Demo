@@ -66,10 +66,14 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
                 finishCurrentActivity();
                 break;
             case R.id.show_search_content:
-                String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
-                        "loginToken");
-                DialogUtils.showProgressDialog(this, "加载中").show();
-                FriendManagerRequest.friendSearch(this, token, searchEt.getText().toString(), friendSearchCallback);
+                if(searchEt.getText().length() >= 6 && searchEt.getText().length() <= 14) {
+                    String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+                            "loginToken");
+                    DialogUtils.showProgressDialog(this, "加载中").show();
+                    FriendManagerRequest.friendSearch(this, token, searchEt.getText().toString(), friendSearchCallback);
+                }else {
+                    ToastUtil.doToast(this, "内容不能小于6");
+                }
                 break;
             case R.id.del_content:
                 searchEt.setText(null);
