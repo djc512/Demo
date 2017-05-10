@@ -397,7 +397,7 @@ public class DialogUtils {
      * @param callbak
      * @return
      */
-    public static Dialog showQunDissolutionDialog(final Context context, final QunOwnerDissolutionDialogCallBack callbak) {
+    public static Dialog showQunDissolutionDialog(final Context context,String content, final QunOwnerDissolutionDialogCallBack callbak) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_qun_dissolution, null);
@@ -415,6 +415,8 @@ public class DialogUtils {
         mProgressDialog.setCancelable(false);
         TextView tv_cancle = (TextView) v.findViewById(R.id.tv_cancle);
         final TextView tv_confirm = (TextView) v.findViewById(R.id.tv_confirm);
+        TextView tv_content = (TextView) v.findViewById(R.id.tv_content);
+        tv_content.setText(content);
         tv_cancle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.contact;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +33,6 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
     private RecyclerView recyclerView;
     private ArrayList<FriendInfo> friends;
     private ContactsItemAdapter adapter;
-
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -101,7 +101,10 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
         DialogUtils.showQunTransferDialog(getSelfActivity(), memberName, new DialogUtils.QunOwnerTransferDialogCallBack() {
             @Override
             public void transfer() {
-                EventBus.getDefault().post("qunowner",memberName);//群主页面接受
+                Intent intent = new Intent();
+                //TODO 发送后台修改的群主
+                intent.putExtra("qunowner",memberName);
+                setResult(RESULT_OK,intent);
                 finishCurrentActivity();
             }
         }).show();

@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="30dp"
-        android:text="确定要解散改群"
         android:textSize="18sp" />
 
     <include layout="@layout/viewline" />

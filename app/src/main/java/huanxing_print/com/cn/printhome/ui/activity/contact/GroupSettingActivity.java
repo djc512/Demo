@@ -7,6 +7,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+
 import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
@@ -31,7 +34,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_groupName;
     private TextView tv_balance;
     private ArrayList<GroupMember> groupMembers = new ArrayList<GroupMember>();
-
+    private static final int transferRequsetCoder = 1;//修改群主的请求码
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -53,6 +56,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         ll_transfer.setOnClickListener(this);
         findViewById(R.id.ll_dissolution).setOnClickListener(this);
         findViewById(R.id.ll_contactfile).setOnClickListener(this);
+        findViewById(R.id.ll_clear).setOnClickListener(this);
     }
 
     private void initView() {
@@ -164,10 +168,11 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 finishCurrentActivity();
                 break;
             case R.id.ll_transfer:
-                startActivity(new Intent(getSelfActivity(),GroupOwnerTransferActivity.class));
+                Intent transferIntent = new Intent(getSelfActivity(),GroupOwnerTransferActivity.class);
+                startActivityForResult(transferIntent,transferRequsetCoder);
                 break;
             case R.id.ll_dissolution:
-                DialogUtils.showQunDissolutionDialog(getSelfActivity(), new DialogUtils.QunOwnerDissolutionDialogCallBack() {
+                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "即将解散该群",new DialogUtils.QunOwnerDissolutionDialogCallBack() {
                     @Override
                     public void dissolution() {
                         Toast.makeText(getSelfActivity(), "解散成功", Toast.LENGTH_SHORT).show();
@@ -177,7 +182,28 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
             case R.id.ll_contactfile:
                 startActivity(new Intent(getSelfActivity(),ContactFileActivity.class));
                 break;
+            case R.id.ll_clear:
+                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确定清空群记录", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
+                    @Override
+                    public void dissolution() {
+                        clearChatHistory("11");
+                    }
+                }).show();
+                break;
         }
+    }
+
+    /**
+     * 清空群聊天记录
+     * @param groupId 群id
+    */
+    private void clearChatHistory(String groupId) {
+
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(groupId, EMConversation.EMConversationType.GroupChat);
+        if (conversation != null) {
+            conversation.clearAllMessages();
+        }
+        Toast.makeText(this, "清空成功", Toast.LENGTH_SHORT).show();
     }
 
     @Override
