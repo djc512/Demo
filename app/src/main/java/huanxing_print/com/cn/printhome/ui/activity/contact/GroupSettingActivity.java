@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private GroupMessageInfo groupMessageInfo;
     private LinearLayout ll_transfer;
     private LinearLayout ll_back;
+    private TextView tv_groupName;
+    private TextView tv_balance;
+    private ArrayList<GroupMember> groupMembers = new ArrayList<GroupMember>();
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -38,9 +42,10 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_group_setting);
-        initData();
         initView();
+        initData();
         setListener();
+        setData();
     }
 
     private void setListener() {
@@ -54,51 +59,70 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         ll_transfer = (LinearLayout) findViewById(R.id.ll_transfer);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         memberGridView = (ScrollGridView) findViewById(R.id.gv_group_members);
-        adapter = new GroupMembersAdapter(this, groupMessageInfo.getGroupMembers());
+        adapter = new GroupMembersAdapter(this, groupMembers);
         adapter.setOnGroupMemberClickListener(this);
         memberGridView.setAdapter(adapter);
+
+        tv_groupName = (TextView) findViewById(R.id.tv_group_name);
+        tv_balance = (TextView) findViewById(R.id.tv_balance);
     }
 
     private void initData() {
         groupMessageInfo = new GroupMessageInfo();
         ArrayList<GroupMember> groupMembers = new ArrayList<GroupMember>();
         GroupMember member01 = new GroupMember();
+        member01.setType("1");
         member01.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
         GroupMember member02 = new GroupMember();
+        member02.setType("0");
         member02.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
         GroupMember member03 = new GroupMember();
+        member03.setType("0");
         member03.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
         GroupMember member04 = new GroupMember();
+        member04.setType("0");
         member04.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 
         GroupMember member05 = new GroupMember();
+        member05.setType("0");
         member05.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
         GroupMember member06 = new GroupMember();
+        member06.setType("0");
         member06.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 
         GroupMember member07 = new GroupMember();
+        member07.setType("0");
         member07.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
         GroupMember member08 = new GroupMember();
+        member08.setType("0");
         member08.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 
         GroupMember member09 = new GroupMember();
+        member09.setType("0");
         member09.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
         GroupMember member10 = new GroupMember();
+        member10.setType("0");
         member10.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 
         GroupMember member11 = new GroupMember();
+        member11.setType("0");
         member11.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
         GroupMember member12 = new GroupMember();
+        member12.setType("0");
         member12.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 
         GroupMember member13 = new GroupMember();
+        member13.setType("0");
         member13.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
         GroupMember member14 = new GroupMember();
+        member14.setType("0");
         member14.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 
         GroupMember member15 = new GroupMember();
+        member15.setType("0");
         member15.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
         GroupMember member16 = new GroupMember();
+        member16.setType("0");
         member16.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 
         groupMembers.add(member01);
@@ -122,6 +146,15 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         groupMessageInfo.setGroupName("哈哈");
         groupMessageInfo.setBalance("200.0");
         groupMessageInfo.setIsManage("1");
+
+        adapter.modify(groupMessageInfo.getGroupMembers());
+    }
+
+    public void setData() {
+        if(groupMessageInfo != null) {
+            tv_groupName.setText(groupMessageInfo.getGroupName());
+            tv_balance.setText(String.format("%s元", groupMessageInfo.getBalance()));
+        }
     }
 
     @Override

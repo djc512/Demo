@@ -86,9 +86,13 @@ public class GroupMembersAdapter extends BaseAdapter{
                 }
             });
         }else{
-            holder.delIcon.setVisibility(View.VISIBLE);
-            final GroupMember member = groupMembers.get(position);
 
+            final GroupMember member = groupMembers.get(position);
+            if ("1".equals(member.getType())) {
+                holder.delIcon.setVisibility(View.GONE);
+            } else {
+                holder.delIcon.setVisibility(View.VISIBLE);
+            }
             Glide.with(ctx).load(R.drawable.ic_group_member_del).into(holder.delIcon);
             Glide.with(ctx).load(member.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
                 @Override
