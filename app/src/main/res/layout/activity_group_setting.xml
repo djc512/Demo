@@ -37,6 +37,7 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_modifyname"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
@@ -48,7 +49,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
-                    android:text="群名称"/>
+                    android:text="群名称"
+                    android:id="@+id/textView4" />
 
                 <TextView
                     android:id="@+id/tv_group_name"

@@ -42,6 +42,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private String currentGroupId;
     private String token;
     private static final int transferRequsetCoder = 1;//修改群主的请求码
+    private static final int modifynameRequsetCoder = 2;//修改群昵称的请求码
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -64,6 +65,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.ll_dissolution).setOnClickListener(this);
         findViewById(R.id.ll_contactfile).setOnClickListener(this);
         findViewById(R.id.ll_clear).setOnClickListener(this);
+        findViewById(R.id.ll_modifyname).setOnClickListener(this);
     }
 
     private void initView() {
@@ -207,6 +209,10 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                         clearChatHistory("11");
                     }
                 }).show();
+                break;
+            case R.id.ll_modifyname:
+                Intent modifyIntent = new Intent();
+                startActivityForResult(modifyIntent,modifynameRequsetCoder);
                 break;
         }
     }
