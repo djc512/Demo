@@ -1,7 +1,10 @@
 package huanxing_print.com.cn.printhome.ui.activity.contact;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -12,6 +15,7 @@ import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupMembersAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by wanghao on 2017/5/10.
@@ -21,6 +25,9 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private GroupMembersAdapter adapter;
     private ScrollGridView memberGridView;
     private GroupMessageInfo groupMessageInfo;
+    private LinearLayout ll_transfer;
+    private LinearLayout ll_back;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -33,9 +40,19 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_group_setting);
         initData();
         initView();
+        setListener();
+    }
+
+    private void setListener() {
+        ll_back.setOnClickListener(this);
+        ll_transfer.setOnClickListener(this);
+        findViewById(R.id.ll_dissolution).setOnClickListener(this);
+        findViewById(R.id.ll_contactfile).setOnClickListener(this);
     }
 
     private void initView() {
+        ll_transfer = (LinearLayout) findViewById(R.id.ll_transfer);
+        ll_back = (LinearLayout) findViewById(R.id.ll_back);
         memberGridView = (ScrollGridView) findViewById(R.id.gv_group_members);
         adapter = new GroupMembersAdapter(this, groupMessageInfo.getGroupMembers());
         adapter.setOnGroupMemberClickListener(this);
@@ -112,6 +129,20 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.ll_back:
                 finishCurrentActivity();
+                break;
+            case R.id.ll_transfer:
+                startActivity(new Intent(getSelfActivity(),GroupOwnerTransferActivity.class));
+                break;
+            case R.id.ll_dissolution:
+                DialogUtils.showQunDissolutionDialog(getSelfActivity(), new DialogUtils.QunOwnerDissolutionDialogCallBack() {
+                    @Override
+                    public void dissolution() {
+                        Toast.makeText(getSelfActivity(), "解散成功", Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
+                break;
+            case R.id.ll_contactfile:
+                startActivity(new Intent(getSelfActivity(),ContactFileActivity.class));
                 break;
         }
     }

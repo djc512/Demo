@@ -27,6 +27,8 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.LinePathView;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
+import static huanxing_print.com.cn.printhome.R.id.tv_content;
+
 
 public class DialogUtils {
 
@@ -89,6 +91,9 @@ public class DialogUtils {
     public interface QunOwnerTransferDialogCallBack {
         void transfer();
     }
+    public interface QunOwnerDissolutionDialogCallBack {
+        void dissolution();
+    }
 
     public static Dialog showProgressDialog(Context context, String content) {
 
@@ -129,7 +134,7 @@ public class DialogUtils {
 
         Button okCancel = (Button) view.findViewById(R.id.btn_canncel);
         Button okBtn = (Button) view.findViewById(R.id.btn_ok);
-        TextView contentTv = (TextView) view.findViewById(R.id.tv_content);
+        TextView contentTv = (TextView) view.findViewById(tv_content);
         contentTv.setText(content);
         okBtn.setOnClickListener(new OnClickListener() {
 
@@ -385,6 +390,48 @@ public class DialogUtils {
         });
         return mProgressDialog;
     }
+
+    /**
+     * 解散群
+     * @param context
+     * @param callbak
+     * @return
+     */
+    public static Dialog showQunDissolutionDialog(final Context context, final QunOwnerDissolutionDialogCallBack callbak) {
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_qun_dissolution, null);
+        if (null == mProgressDialog) {
+            mProgressDialog = new Dialog(context, R.style.loading_dialog);
+        }
+        mProgressDialog.setContentView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mProgressDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mProgressDialog.getWindow().setAttributes(lp);
+        mProgressDialog.setCancelable(false);
+        TextView tv_cancle = (TextView) v.findViewById(R.id.tv_cancle);
+        final TextView tv_confirm = (TextView) v.findViewById(R.id.tv_confirm);
+        tv_cancle.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgressDialog.dismiss();
+            }
+        });
+        tv_confirm.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_confirm.setTextColor(context.getResources().getColor(R.color.yellow2));
+                mProgressDialog.dismiss();
+                callbak.dissolution();
+            }
+        });
+        return mProgressDialog;
+    }
+
 
     //版本更新
     public static Dialog showVersionDialog(Context context, final VersionDialogCallBack callBack) {
