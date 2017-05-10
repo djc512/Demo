@@ -15,11 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.print.Printer;
-import huanxing_print.com.cn.printhome.ui.activity.copy.CopySettingActivity;
+import huanxing_print.com.cn.printhome.model.print.UsedPrinterResp;
+import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
+import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.UsedPrinterRcAdapter;
 import huanxing_print.com.cn.printhome.util.DisplayUtil;
+import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 
 /**
@@ -30,7 +33,7 @@ public class UsedPrinterFragment extends BaseLazyFragment {
 
     private RecyclerView printerRcList;
 
-    private List<Printer> printerList = new ArrayList<>();
+    private List<UsedPrinterResp.Printer> printerList = new ArrayList<>();
     private UsedPrinterRcAdapter usedPrinterRcAdapter;
 
     @Override
@@ -66,21 +69,19 @@ public class UsedPrinterFragment extends BaseLazyFragment {
             public void onItemClick(View view, int position) {
                 switch (view.getId()) {
                     case R.id.printerLyt:
-                        CopySettingActivity.start(context, null);
+                        ((PickPrinterActivity) getActivity()).turnSetting("zwf001");
                         break;
                     case R.id.detailTv:
-                        Printer printer = new Printer();
-                        printer.setId(10);
-                        EventBus.getDefault().post(printer, PickPrinterActivity.TAG_EVENT_PRINTER);
+                        turnDetail("zwf001");
                         break;
                 }
             }
         });
         printerRcList.setAdapter(usedPrinterRcAdapter);
-        printerList.add(new Printer());
-        printerList.add(new Printer());
-        printerList.add(new Printer());
-        printerList.add(new Printer());
+        printerList.add(new UsedPrinterResp.Printer());
+        printerList.add(new UsedPrinterResp.Printer());
+        printerList.add(new UsedPrinterResp.Printer());
+        printerList.add(new UsedPrinterResp.Printer());
     }
 
     @Override
@@ -88,9 +89,34 @@ public class UsedPrinterFragment extends BaseLazyFragment {
         if (!isPrepared || !isVisible) {
             return;
         }
-        usedPrinterRcAdapter.setPrinterList(printerList);
-        usedPrinterRcAdapter.notifyDataSetChanged();
+        PrintRequest.queryRecentPrinters(mActivity, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                UsedPrinterResp usedPrinterResp = GsonUtil.GsonToBean(content, UsedPrinterResp.class);
+                if (usedPrinterResp == null) {
+                    return;
+                }
+                if (usedPrinterResp.isSuccess()) {
+                    printerList = usedPrinterResp.getData();
+                    if (printerList == null || printerList.isEmpty()) {
+                        ShowUtil.showToast("没有已用打印机");
+                        return;
+                    }
+                    usedPrinterRcAdapter.setPrinterList(printerList);
+                    usedPrinterRcAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
         isLoaded = true;
+    }
+
+    private void turnDetail(String printerNo) {
+        ((PickPrinterActivity) getActivity()).requeryDetail(printerNo);
     }
 
     @Override

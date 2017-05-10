@@ -9,8 +9,7 @@ import android.view.View;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.print.Printer;
-import huanxing_print.com.cn.printhome.model.print.UsedPrinterListBean;
+import huanxing_print.com.cn.printhome.model.print.UsedPrinterResp;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.UsedPrinterRcAdapter;
@@ -20,7 +19,7 @@ import huanxing_print.com.cn.printhome.util.ShowUtil;
 public class RecentPrintersActivity extends BasePrintActivity {
 
     private RecyclerView printerRcList;
-    private List<Printer> printerList;
+    private List<UsedPrinterResp.Printer> printerList;
     private UsedPrinterRcAdapter usedPrinterRcAdapter;
 
     @Override
@@ -59,12 +58,12 @@ public class RecentPrintersActivity extends BasePrintActivity {
         PrintRequest.queryRecentPrinters(activity, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                UsedPrinterListBean usedPrinterListBean = GsonUtil.GsonToBean(content, UsedPrinterListBean.class);
-                if (usedPrinterListBean == null) {
+                UsedPrinterResp usedPrinterResp = GsonUtil.GsonToBean(content, UsedPrinterResp.class);
+                if (usedPrinterResp == null) {
                     return;
                 }
-                if (usedPrinterListBean.isSuccess()) {
-                    printerList = usedPrinterListBean.getData();
+                if (usedPrinterResp.isSuccess()) {
+                    printerList = usedPrinterResp.getData();
                     initView();
                 }
             }

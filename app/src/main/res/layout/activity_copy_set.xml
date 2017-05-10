@@ -47,7 +47,7 @@
                 android:layout_centerInParent="true"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:src="@drawable/orientation"/>
+                android:src="@drawable/vertical"/>
         </RelativeLayout>
 
         <LinearLayout

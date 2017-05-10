@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -22,15 +21,15 @@ public class DocPreViewpageAdapter extends PagerAdapter {
     private List<String> urlList;
     private Context context;
 
-    public DocPreViewpageAdapter(Context context) {
+    public DocPreViewpageAdapter(Context context, List<String> urlList) {
         this.context = context;
-        urlList = new ArrayList<>();
-        urlList.add("http://i.imgur.com/DvpvklR.png");
+        this.urlList = urlList;
+        this.urlList.add("http://i.imgur.com/DvpvklR.png");
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return urlList.size();
     }
 
     @Override
@@ -47,7 +46,7 @@ public class DocPreViewpageAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = View.inflate(context, R.layout.item_doc_viewpager, null);
         PhotoView photoView = (PhotoView) view.findViewById(R.id.photoView);
-        ImageUtil.showImageView(context, urlList.get(0), photoView);
+        ImageUtil.showImageView(context, urlList.get(position), photoView);
         container.addView(view);
         return view;
     }

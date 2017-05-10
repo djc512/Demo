@@ -13,7 +13,10 @@ import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.print.Printer;
+import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.model.print.AroundPrinterResp;
+import huanxing_print.com.cn.printhome.util.PrinterUtil;
+import huanxing_print.com.cn.printhome.util.StringUtil;
 
 /**
  * Created by LGH on 2017/5/3.
@@ -21,27 +24,38 @@ import huanxing_print.com.cn.printhome.model.print.Printer;
 
 public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapter.ViewHolder> {
 
-    private List<Printer> printerList;
+    private List<AroundPrinterResp.Printer> mPrinterList;
 
-    public FindPrinterRcAdapter(List<Printer> printerList) {
-        this.printerList = printerList;
+    public FindPrinterRcAdapter(List<AroundPrinterResp.Printer> printerList) {
+        this.mPrinterList = printerList;
     }
 
-    public void setPrinterList(List<Printer> printerList) {
-        this.printerList = printerList;
+    public void setPrinterList(List<AroundPrinterResp.Printer> printerList) {
+        this.mPrinterList = printerList;
+    }
+
+    public List<AroundPrinterResp.Printer> getPrinterList() {
+        return mPrinterList;
     }
 
     public OnItemClickListener itemClickListener;
 
     public void clear() {
-        printerList.clear();
+        mPrinterList.clear();
     }
+
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
 
-    public void insert(Printer printer, int position) {
-        insert(printerList, printer, position);
+    public void insert(AroundPrinterResp.Printer printer, int position) {
+        insert(mPrinterList, printer, position);
+    }
+
+    public void insert(List<AroundPrinterResp.Printer> printerList) {
+        for (AroundPrinterResp.Printer printer : printerList) {
+            insert(mPrinterList, printer, getAdapterItemCount());
+        }
     }
 
     public void setOnItemClickListener(OnItemClickListener itemClickListener) {
@@ -50,33 +64,34 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private LinearLayout printerLyt;
-        private ImageView navImg;
-        private ImageView typeImg;
-        private TextView nameTv;
-        private TextView addressTv;
-        private TextView detailTv;
-        private TextView commentTv;
-        private TextView printCountTv;
+        public LinearLayout printerLyt;
+        public LinearLayout navLty;
+        public ImageView typeImg;
+        public TextView nameTv;
+        public TextView addressTv;
+        public TextView disTv;
+        public TextView detailTv;
+        public TextView commentTv;
+        public TextView printCountTv;
 
         public ViewHolder(View itemView, boolean isItem) {
             super(itemView);
             if (isItem) {
                 printerLyt = (LinearLayout) itemView.findViewById(R.id.printerLyt);
+                navLty = (LinearLayout) itemView.findViewById(R.id.navLty);
                 typeImg = (ImageView) itemView.findViewById(R.id.typeImg);
-                navImg = (ImageView) itemView.findViewById(R.id.navImg);
                 nameTv = (TextView) itemView.findViewById(R.id.nameTv);
                 detailTv = (TextView) itemView.findViewById(R.id.detailTv);
-                addressTv =  (TextView) itemView.findViewById(R.id.addressTv);
+                addressTv = (TextView) itemView.findViewById(R.id.addressTv);
+                disTv = (TextView) itemView.findViewById(R.id.disTv);
                 printCountTv = (TextView) itemView.findViewById(R.id.printCountTv);
                 commentTv = (TextView) itemView.findViewById(R.id.commentTv);
                 printerLyt.setOnClickListener(this);
+                navLty.setOnClickListener(this);
                 nameTv.setOnClickListener(this);
                 detailTv.setOnClickListener(this);
                 printCountTv.setOnClickListener(this);
                 commentTv.setOnClickListener(this);
-                navImg.setOnClickListener(this);
-                addressTv.setOnClickListener(this);
             }
         }
 
@@ -97,33 +112,35 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
 
     @Override
     public ViewHolder getViewHolder(View view) {
-        return new ViewHolder(view,false);
+        return new ViewHolder(view, false);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType, boolean isItem) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_printer_find_list, parent, false);
-        return new ViewHolder(v,isItem);
+        return new ViewHolder(v, isItem);
     }
 
+    //{"address":"江苏省无锡市黄家庵区东瓜匙路与明匙路交叉口西南10米","distance":"140","isOnline":"true","location":"118.79076,32.000463",
+    // "name":"测试-医疗机09号","pageCount":"388","printerNo":"zwf002","printerType":"0","remarkCount":"14"}
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position, boolean isItem) {
-//        viewHolder.nameTv.setText("aaaaa");
+        AroundPrinterResp.Printer printer = mPrinterList.get(position);
+        viewHolder.nameTv.setText(printer.getName());
+        viewHolder.addressTv.setText(printer.getAddress());
+        viewHolder.disTv.setText(StringUtil.getDistance(printer.getDistance()) );
+        Logger.i(StringUtil.getDistance(printer.getDistance()) );
+        viewHolder.commentTv.setText("评论" + printer.getRemarkCount());
+        if (PrinterUtil.TYPE_COLOR.equals(printer.getPrinterType())) {
+            viewHolder.typeImg.setImageResource(R.drawable.ic_colorized);
+        } else {
+            viewHolder.typeImg.setImageResource(R.drawable.ic_black);
+        }
     }
-
-//    @Override
-//    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-////        viewHolder.nameTv.setText("aaaaa");
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return printerList.size();
-//    }
 
     @Override
     public int getAdapterItemCount() {
-        return printerList.size();
+        return mPrinterList.size();
     }
 }
 

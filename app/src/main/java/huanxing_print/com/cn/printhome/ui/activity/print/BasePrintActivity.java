@@ -14,15 +14,18 @@ import android.widget.TextView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.StatusBarUtil;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
  * Created by LGH on 2017/3/21.
  */
 
-public abstract class BasePrintActivity extends AppCompatActivity implements View.OnClickListener{
+public abstract class BasePrintActivity extends AppCompatActivity implements View.OnClickListener {
 
     public Context context;
     public Activity activity;
+
+    protected LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,5 +65,31 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
                 finish();
                 break;
         }
+    }
+
+    protected void showLoading() {
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(context);
+        }
+        if (!loadingDialog.isShowing()) {
+            loadingDialog.show();
+        }
+    }
+
+    protected void dismissLoading() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+    }
+
+    protected boolean isLoading() {
+        if (loadingDialog == null || !loadingDialog.isShowing()) {
+            return false;
+        }
+        return true;
+    }
+
+    public LoadingDialog getLoadingDialog() {
+        return loadingDialog;
     }
 }

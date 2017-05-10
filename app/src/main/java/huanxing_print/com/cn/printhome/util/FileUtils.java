@@ -208,6 +208,13 @@ public class FileUtils {
         return total;
     }
 
+    public static boolean isOutOfSize(File file) {
+        if (getFileSize(file) > ConFig.FILE_UPLOAD_MAX) {
+            return true;
+        }
+        return false;
+    }
+
     public static void renameFile(String srcPath, String dstpath) {
         File srcFile = new File(srcPath);
         File dstFile = new File(dstpath);

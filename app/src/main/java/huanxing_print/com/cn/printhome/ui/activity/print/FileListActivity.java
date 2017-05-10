@@ -24,7 +24,7 @@ import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 import static huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity.KEY_FILE;
-import static huanxing_print.com.cn.printhome.ui.activity.print.DocPreviewActivity.KEY_URL;
+import static huanxing_print.com.cn.printhome.ui.activity.print.DocPreviewActivity.KEY_URL_LIST;
 
 public class FileListActivity extends BasePrintActivity {
     private static final String TAG = "FileActivity";
@@ -96,7 +96,7 @@ public class FileListActivity extends BasePrintActivity {
         Intent intent = new Intent(context, DocPreviewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_FILE, file);
-        bundle.putString(KEY_URL, url);
+        bundle.putString(KEY_URL_LIST, url);
         intent.putExtras(bundle);
         startActivity(intent);
     }

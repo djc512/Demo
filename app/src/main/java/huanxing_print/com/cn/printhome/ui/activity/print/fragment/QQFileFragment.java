@@ -27,7 +27,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.ui.activity.print.DocPreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
@@ -131,8 +131,7 @@ public class QQFileFragment extends BaseLazyFragment {
                             bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, file.getPath());
                             ImgPreviewActivity.start(context, bundle);
                         } else {
-                            bundle.putSerializable(DocPreviewActivity.KEY_FILE, mAdapter.getFileList().get(position));
-                            DocPreviewActivity.start(context, bundle);
+                            ((AddFileActivity)getActivity()).turnFile(file);
                         }
                     }
                 });
