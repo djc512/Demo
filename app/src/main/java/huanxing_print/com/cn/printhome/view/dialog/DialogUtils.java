@@ -30,423 +30,478 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 public class DialogUtils {
 
-	public static Dialog mProgressDialog;
-	public static Dialog mShareDialog;
-	public static Dialog mTipsDialog;
-	public static Dialog mAuditStatusDialog;
-	public static Dialog mLocationDialog;
-	public static Dialog mSignatureDialog;
-	public static Dialog mVersionDialog;
-	public static Dialog mPicChooseDialog;
-	public static Dialog mActivityDialog;
+    public static Dialog mProgressDialog;
+    public static Dialog mShareDialog;
+    public static Dialog mTipsDialog;
+    public static Dialog mAuditStatusDialog;
+    public static Dialog mLocationDialog;
+    public static Dialog mSignatureDialog;
+    public static Dialog mVersionDialog;
+    public static Dialog mPicChooseDialog;
+    public static Dialog mActivityDialog;
 
-	public interface ShareDialogCallBack {
+    public interface ShareDialogCallBack {
 
-		public void wechat();
+        public void wechat();
 
-		public void wechatMoment();
+        public void wechatMoment();
 
-		public void cancel();
+        public void cancel();
 
-	}
+    }
 
-	public interface TipsDialogCallBack {
-		public void ok();
+    public interface TipsDialogCallBack {
+        public void ok();
 
-	}
+    }
 
-	public interface AuditStatusDialogCallBack {
-		public void ok();
+    public interface AuditStatusDialogCallBack {
+        public void ok();
 
-	}
-	public interface VersionDialogCallBack {
-		public void update();
+    }
 
-	}
-	public interface PicChooseDialogCallBack {
-		public void camera();
+    public interface VersionDialogCallBack {
+        public void update();
 
-		public void photo();
+    }
 
-	}
-	public interface PayChooseDialogCallBack {
-		public void wechat();
+    public interface PicChooseDialogCallBack {
+        public void camera();
 
-		public void alipay();
+        public void photo();
 
-	}
-	public interface PayQunChooseDialogCallBack {
-		public void tuniu();
+    }
 
-		public void yinjia();
+    public interface PayChooseDialogCallBack {
+        public void wechat();
 
-	}
+        public void alipay();
 
-	public static Dialog showProgressDialog(Context context, String content) {
+    }
 
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View v = inflater.inflate(R.layout.dialog_progress, null);
-		if (null == mProgressDialog) {
-			mProgressDialog = new Dialog(context, R.style.transparent_dialog);
-		}
-		mProgressDialog.setContentView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		Window window = mProgressDialog.getWindow();
-		window.setGravity(Gravity.CENTER);
-		WindowManager windowManager = ((Activity) context).getWindowManager();
-		Display display = windowManager.getDefaultDisplay();
-		WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
-		lp.width = display.getWidth() - 100;
-		mProgressDialog.getWindow().setAttributes(lp);
-		mProgressDialog.setCancelable(false);
-		TextView textView = (TextView) mProgressDialog.findViewById(R.id.tv_info);
-		textView.setText(content);
-		return mProgressDialog;
-	}
-	
-	public static Dialog showTipsDialog(Context context, String content, final TipsDialogCallBack tipsDialogCallBack) {
+    public interface PayQunChooseDialogCallBack {
+        public void tuniu();
 
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View view = inflater.inflate(R.layout.dialog_tips, null);
-		mTipsDialog = new Dialog(context, R.style.loading_dialog);
-		mTipsDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		Window window = mTipsDialog.getWindow();
-		window.setGravity(Gravity.CENTER);
+        public void yinjia();
 
-		WindowManager windowManager = ((Activity) context).getWindowManager();
-		Display display = windowManager.getDefaultDisplay();
-		WindowManager.LayoutParams lp = mTipsDialog.getWindow().getAttributes();
-		lp.width = display.getWidth() - 100;
-		mTipsDialog.getWindow().setAttributes(lp);
-		mTipsDialog.setCanceledOnTouchOutside(true);
+    }
 
-		Button okCancel = (Button) view.findViewById(R.id.btn_canncel);
-		Button okBtn = (Button) view.findViewById(R.id.btn_ok);
-		TextView contentTv = (TextView) view.findViewById(R.id.tv_content);
-		contentTv.setText(content);
-		okBtn.setOnClickListener(new OnClickListener() {
+    public interface QunOwnerTransferDialogCallBack {
+        void transfer();
+    }
 
-			@Override
-			public void onClick(View v) {
-				mTipsDialog.dismiss();
-				tipsDialogCallBack.ok();
-			}
-		});
-		okCancel.setOnClickListener(new OnClickListener() {
+    public static Dialog showProgressDialog(Context context, String content) {
 
-			@Override
-			public void onClick(View v) {
-				mTipsDialog.dismiss();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_progress, null);
+        if (null == mProgressDialog) {
+            mProgressDialog = new Dialog(context, R.style.transparent_dialog);
+        }
+        mProgressDialog.setContentView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mProgressDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mProgressDialog.getWindow().setAttributes(lp);
+        mProgressDialog.setCancelable(false);
+        TextView textView = (TextView) mProgressDialog.findViewById(R.id.tv_info);
+        textView.setText(content);
+        return mProgressDialog;
+    }
 
-			}
-		});
+    public static Dialog showTipsDialog(Context context, String content, final TipsDialogCallBack tipsDialogCallBack) {
 
-		return mTipsDialog;
-	}
-	public static Dialog showShareDialog(final Context context, final ShareDialogCallBack shareDialogCallBack) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.dialog_tips, null);
+        mTipsDialog = new Dialog(context, R.style.loading_dialog);
+        mTipsDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mTipsDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
 
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View view = inflater.inflate(R.layout.dialog_share, null);
-		mShareDialog = new Dialog(context, R.style.transparentFrameWindowStyle);
-		mShareDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		Window window = mShareDialog.getWindow();
-		window.setWindowAnimations(R.style.main_menu_animstyle);
-		WindowManager.LayoutParams wl = window.getAttributes();
-		wl.x = 0;
-		wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
-		wl.width = LayoutParams.MATCH_PARENT;
-		wl.height = LayoutParams.WRAP_CONTENT;
-		mShareDialog.onWindowAttributesChanged(wl);
-		mShareDialog.setCanceledOnTouchOutside(true);
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mTipsDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mTipsDialog.getWindow().setAttributes(lp);
+        mTipsDialog.setCanceledOnTouchOutside(true);
 
-		Button wechatMomentBtn = (Button) view.findViewById(R.id.invitation_pup__wechat);
-		Button wechatBtn = (Button) view.findViewById(R.id.invitation_wechat);
-		Button cancelBtn = (Button) view.findViewById(R.id.cancel_wechat);
-		wechatMomentBtn.setOnClickListener(new OnClickListener() {
+        Button okCancel = (Button) view.findViewById(R.id.btn_canncel);
+        Button okBtn = (Button) view.findViewById(R.id.btn_ok);
+        TextView contentTv = (TextView) view.findViewById(R.id.tv_content);
+        contentTv.setText(content);
+        okBtn.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				if (CommonUtils.isWeixinAvilible(context)) {
-				shareDialogCallBack.wechatMoment();
-				} else {
-					ToastUtil.doToast(context, "您还没有安装微信，请先安装微信客户端");
-				}
-				mShareDialog.dismiss();
-			}
-		});
-		wechatBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTipsDialog.dismiss();
+                tipsDialogCallBack.ok();
+            }
+        });
+        okCancel.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				if (CommonUtils.isWeixinAvilible(context)) {				
-				shareDialogCallBack.wechat();
-				} else {
-					ToastUtil.doToast(context, "您还没有安装微信，请先安装微信客户端");
-				}
-				mShareDialog.dismiss();
-			}
-		});
-		cancelBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTipsDialog.dismiss();
 
-			@Override
-			public void onClick(View v) {
-				mShareDialog.dismiss();
-				shareDialogCallBack.cancel();
-			}
-		});
+            }
+        });
 
-		return mShareDialog;
-	}
-	
-	public static Dialog showPicChooseDialog(Context context, final PicChooseDialogCallBack callBack) {
-		View view = LayoutInflater.from(context).inflate(R.layout.dialog_pic_choose, null);
-		mPicChooseDialog = new Dialog(context, R.style.transparentFrameWindowStyle);
-		mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		Window window = mPicChooseDialog.getWindow();
-		window.setWindowAnimations(R.style.main_menu_animstyle);
-		WindowManager.LayoutParams wl = window.getAttributes();
-		wl.x = 0;
-		wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
-		wl.width = LayoutParams.MATCH_PARENT;
-		wl.height = LayoutParams.WRAP_CONTENT;
+        return mTipsDialog;
+    }
 
-		mPicChooseDialog.onWindowAttributesChanged(wl);
-		mPicChooseDialog.setCanceledOnTouchOutside(true);
-		mPicChooseDialog.show();
-		Button photoBtn = (Button) view.findViewById(R.id.gallery_pup);
-		Button cameraBtn = (Button) view.findViewById(R.id.photograph_pup);
-		Button cancelBtn = (Button) view.findViewById(R.id.cancel_pup);
-		cancelBtn.setOnClickListener(new OnClickListener() {
+    public static Dialog showShareDialog(final Context context, final ShareDialogCallBack shareDialogCallBack) {
 
-			@Override
-			public void onClick(View arg0) {
-				mPicChooseDialog.dismiss();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.dialog_share, null);
+        mShareDialog = new Dialog(context, R.style.transparentFrameWindowStyle);
+        mShareDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        Window window = mShareDialog.getWindow();
+        window.setWindowAnimations(R.style.main_menu_animstyle);
+        WindowManager.LayoutParams wl = window.getAttributes();
+        wl.x = 0;
+        wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
+        wl.width = LayoutParams.MATCH_PARENT;
+        wl.height = LayoutParams.WRAP_CONTENT;
+        mShareDialog.onWindowAttributesChanged(wl);
+        mShareDialog.setCanceledOnTouchOutside(true);
 
-			}
-		});
-		cameraBtn.setOnClickListener(new OnClickListener() {//拍照
-			@Override
-			public void onClick(View arg0) {
-				mPicChooseDialog.dismiss();
-				callBack.camera();
-			}
-		});
+        Button wechatMomentBtn = (Button) view.findViewById(R.id.invitation_pup__wechat);
+        Button wechatBtn = (Button) view.findViewById(R.id.invitation_wechat);
+        Button cancelBtn = (Button) view.findViewById(R.id.cancel_wechat);
+        wechatMomentBtn.setOnClickListener(new OnClickListener() {
 
-		photoBtn.setOnClickListener(new OnClickListener() {//从相传选择
-			@Override
-			public void onClick(View arg0) {
-				mPicChooseDialog.dismiss();
-				callBack.photo();
-			}
-		});
-		return mPicChooseDialog;
-	}
+            @Override
+            public void onClick(View v) {
+                if (CommonUtils.isWeixinAvilible(context)) {
+                    shareDialogCallBack.wechatMoment();
+                } else {
+                    ToastUtil.doToast(context, "您还没有安装微信，请先安装微信客户端");
+                }
+                mShareDialog.dismiss();
+            }
+        });
+        wechatBtn.setOnClickListener(new OnClickListener() {
 
-	/**
-	 * 支付选择对话框
-	 * @param context
-	 * @param callBack
+            @Override
+            public void onClick(View v) {
+                if (CommonUtils.isWeixinAvilible(context)) {
+                    shareDialogCallBack.wechat();
+                } else {
+                    ToastUtil.doToast(context, "您还没有安装微信，请先安装微信客户端");
+                }
+                mShareDialog.dismiss();
+            }
+        });
+        cancelBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mShareDialog.dismiss();
+                shareDialogCallBack.cancel();
+            }
+        });
+
+        return mShareDialog;
+    }
+
+    public static Dialog showPicChooseDialog(Context context, final PicChooseDialogCallBack callBack) {
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_pic_choose, null);
+        mPicChooseDialog = new Dialog(context, R.style.transparentFrameWindowStyle);
+        mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        Window window = mPicChooseDialog.getWindow();
+        window.setWindowAnimations(R.style.main_menu_animstyle);
+        WindowManager.LayoutParams wl = window.getAttributes();
+        wl.x = 0;
+        wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
+        wl.width = LayoutParams.MATCH_PARENT;
+        wl.height = LayoutParams.WRAP_CONTENT;
+
+        mPicChooseDialog.onWindowAttributesChanged(wl);
+        mPicChooseDialog.setCanceledOnTouchOutside(true);
+        mPicChooseDialog.show();
+        Button photoBtn = (Button) view.findViewById(R.id.gallery_pup);
+        Button cameraBtn = (Button) view.findViewById(R.id.photograph_pup);
+        Button cancelBtn = (Button) view.findViewById(R.id.cancel_pup);
+        cancelBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+
+            }
+        });
+        cameraBtn.setOnClickListener(new OnClickListener() {//拍照
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+                callBack.camera();
+            }
+        });
+
+        photoBtn.setOnClickListener(new OnClickListener() {//从相传选择
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+                callBack.photo();
+            }
+        });
+        return mPicChooseDialog;
+    }
+
+    /**
+     * 支付选择对话框
+     *
+     * @param context
+     * @param callBack
      * @return
      */
-	public static Dialog showPayChooseDialog(Context context, final PayChooseDialogCallBack callBack) {
-		View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay, null);
-		mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
-		mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		Window window = mPicChooseDialog.getWindow();
-		window.setWindowAnimations(R.style.main_menu_animstyle);
-		WindowManager.LayoutParams wl = window.getAttributes();
-		wl.x = 0;
-		wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
-		wl.width = LayoutParams.MATCH_PARENT;
-		wl.height = LayoutParams.WRAP_CONTENT;
+    public static Dialog showPayChooseDialog(Context context, final PayChooseDialogCallBack callBack) {
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay, null);
+        mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
+        mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        Window window = mPicChooseDialog.getWindow();
+        window.setWindowAnimations(R.style.main_menu_animstyle);
+        WindowManager.LayoutParams wl = window.getAttributes();
+        wl.x = 0;
+        wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
+        wl.width = LayoutParams.MATCH_PARENT;
+        wl.height = LayoutParams.WRAP_CONTENT;
 
-		mPicChooseDialog.onWindowAttributesChanged(wl);
-		mPicChooseDialog.setCanceledOnTouchOutside(true);
-		mPicChooseDialog.show();
-		LinearLayout ll_wechat = (LinearLayout) view.findViewById(R.id.ll_wechat);
-		LinearLayout ll_alipay = (LinearLayout) view.findViewById(R.id.ll_alipay);
-		TextView tv_cancle = (TextView) view.findViewById(R.id.tv_cancle);
-		tv_cancle.setOnClickListener(new OnClickListener() {
+        mPicChooseDialog.onWindowAttributesChanged(wl);
+        mPicChooseDialog.setCanceledOnTouchOutside(true);
+        mPicChooseDialog.show();
+        LinearLayout ll_wechat = (LinearLayout) view.findViewById(R.id.ll_wechat);
+        LinearLayout ll_alipay = (LinearLayout) view.findViewById(R.id.ll_alipay);
+        TextView tv_cancle = (TextView) view.findViewById(R.id.tv_cancle);
+        tv_cancle.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				mPicChooseDialog.dismiss();
-			}
-		});
-		ll_wechat.setOnClickListener(new OnClickListener() {//微信支付
-			@Override
-			public void onClick(View arg0) {
-				mPicChooseDialog.dismiss();
-				callBack.wechat();
-			}
-		});
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+            }
+        });
+        ll_wechat.setOnClickListener(new OnClickListener() {//微信支付
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+                callBack.wechat();
+            }
+        });
 
-		ll_alipay.setOnClickListener(new OnClickListener() {//支付宝支付
-			@Override
-			public void onClick(View arg0) {
-				mPicChooseDialog.dismiss();
-				callBack.alipay();
-			}
-		});
-		return mPicChooseDialog;
-	}
+        ll_alipay.setOnClickListener(new OnClickListener() {//支付宝支付
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+                callBack.alipay();
+            }
+        });
+        return mPicChooseDialog;
+    }
 
-	public static Dialog showQunChooseDialog(Context context, final PayQunChooseDialogCallBack callBack) {
-		View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay_qun, null);
-		mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
-		mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		Window window = mPicChooseDialog.getWindow();
-		window.setWindowAnimations(R.style.main_menu_animstyle);
-		WindowManager.LayoutParams wl = window.getAttributes();
-		wl.x = 0;
-		wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
-		wl.width = LayoutParams.MATCH_PARENT;
-		wl.height = LayoutParams.WRAP_CONTENT;
+    public static Dialog showQunChooseDialog(Context context, final PayQunChooseDialogCallBack callBack) {
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay_qun, null);
+        mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
+        mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        Window window = mPicChooseDialog.getWindow();
+        window.setWindowAnimations(R.style.main_menu_animstyle);
+        WindowManager.LayoutParams wl = window.getAttributes();
+        wl.x = 0;
+        wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
+        wl.width = LayoutParams.MATCH_PARENT;
+        wl.height = LayoutParams.WRAP_CONTENT;
 
-		mPicChooseDialog.onWindowAttributesChanged(wl);
-		mPicChooseDialog.setCanceledOnTouchOutside(true);
-		mPicChooseDialog.show();
-		RelativeLayout ll_yinjia = (RelativeLayout) view.findViewById(R.id.ll_yinjia);
-		RelativeLayout ll_tuniu = (RelativeLayout) view.findViewById(R.id.ll_tuniu);
-		TextView tv_cancle = (TextView) view.findViewById(R.id.tv_cancle);
-		tv_cancle.setOnClickListener(new OnClickListener() {
+        mPicChooseDialog.onWindowAttributesChanged(wl);
+        mPicChooseDialog.setCanceledOnTouchOutside(true);
+        mPicChooseDialog.show();
+        RelativeLayout ll_yinjia = (RelativeLayout) view.findViewById(R.id.ll_yinjia);
+        RelativeLayout ll_tuniu = (RelativeLayout) view.findViewById(R.id.ll_tuniu);
+        TextView tv_cancle = (TextView) view.findViewById(R.id.tv_cancle);
+        tv_cancle.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				mPicChooseDialog.dismiss();
-			}
-		});
-		ll_yinjia.setOnClickListener(new OnClickListener() {//微信支付
-			@Override
-			public void onClick(View arg0) {
-				mPicChooseDialog.dismiss();
-				callBack.yinjia();
-			}
-		});
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+            }
+        });
+        ll_yinjia.setOnClickListener(new OnClickListener() {//微信支付
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+                callBack.yinjia();
+            }
+        });
 
-		ll_tuniu.setOnClickListener(new OnClickListener() {//支付宝支付
-			@Override
-			public void onClick(View arg0) {
-				mPicChooseDialog.dismiss();
-				callBack.tuniu();
-			}
-		});
-		return mPicChooseDialog;
-	}
-	
-	//版本更新
-	public static Dialog showVersionDialog(Context context, final VersionDialogCallBack callBack) {
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View view = inflater.inflate(R.layout.dialog_version, null);
-		mVersionDialog = new Dialog(context, R.style.loading_dialog);
-		mVersionDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		Window window = mVersionDialog.getWindow();
-		window.setGravity(Gravity.CENTER);
+        ll_tuniu.setOnClickListener(new OnClickListener() {//支付宝支付
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+                callBack.tuniu();
+            }
+        });
+        return mPicChooseDialog;
+    }
 
-		WindowManager windowManager = ((Activity) context).getWindowManager();
-		Display display = windowManager.getDefaultDisplay();
-		WindowManager.LayoutParams lp = mVersionDialog.getWindow().getAttributes();
-		lp.width = display.getWidth() - 100;
-		mVersionDialog.getWindow().setAttributes(lp);
-		mVersionDialog.setCanceledOnTouchOutside(false);
+    /**
+     * 转换群主提示
+     *
+     * @param context
+     * @return
+     */
+    public static Dialog showQunTransferDialog(final Context context, final String content, final QunOwnerTransferDialogCallBack callbak) {
 
-		Button okBtn = (Button) view.findViewById(R.id.btn_ok);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_qun_transfer, null);
+        if (null == mProgressDialog) {
+            mProgressDialog = new Dialog(context, R.style.loading_dialog);
+        }
+        mProgressDialog.setContentView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mProgressDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mProgressDialog.getWindow().setAttributes(lp);
+        mProgressDialog.setCancelable(false);
+        TextView tv_cancle = (TextView) v.findViewById(R.id.tv_cancle);
+        final TextView tv_confirm = (TextView) v.findViewById(R.id.tv_confirm);
+        TextView tv_content = (TextView) v.findViewById(R.id.tv_content);
+        tv_content.setText(content);
+        tv_cancle.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgressDialog.dismiss();
+            }
+        });
+        tv_confirm.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_confirm.setTextColor(context.getResources().getColor(R.color.yellow2));
+                mProgressDialog.dismiss();
+                callbak.transfer();
+            }
+        });
+        return mProgressDialog;
+    }
+
+    //版本更新
+    public static Dialog showVersionDialog(Context context, final VersionDialogCallBack callBack) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.dialog_version, null);
+        mVersionDialog = new Dialog(context, R.style.loading_dialog);
+        mVersionDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mVersionDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mVersionDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mVersionDialog.getWindow().setAttributes(lp);
+        mVersionDialog.setCanceledOnTouchOutside(false);
+
+        Button okBtn = (Button) view.findViewById(R.id.btn_ok);
 //		TextView contentTv = (TextView) view.findViewById(R.id.tv_content);
 //		contentTv.setText(content);
-		okBtn.setOnClickListener(new OnClickListener() {
+        okBtn.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				mVersionDialog.dismiss();
-				callBack.update();
-			}
-		});
+            @Override
+            public void onClick(View v) {
+                mVersionDialog.dismiss();
+                callBack.update();
+            }
+        });
 
-		return mVersionDialog;
-	}
-	static OnKeyListener keylistener = new OnKeyListener() {
-		public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-			if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-				ActivityHelper.getInstance().finishAllActivity();
-				return true;
-			} else {
-				return false;
-			}
-		}
-	};
+        return mVersionDialog;
+    }
+
+    static OnKeyListener keylistener = new OnKeyListener() {
+        public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                ActivityHelper.getInstance().finishAllActivity();
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
 
 
-	//签名dailog
+    //签名dailog
 
-	public interface SignatureDialogCallBack {
-		public void ok();
-		public void cancel();
-	}
+    public interface SignatureDialogCallBack {
+        public void ok();
 
-	public static Dialog showSignatureDialog(Context context,  final SignatureDialogCallBack signatureDialogCallBack) {
+        public void cancel();
+    }
 
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View view = inflater.inflate(R.layout.dialog_signature, null);
-		mSignatureDialog = new Dialog(context, R.style.loading_dialog);
-		mSignatureDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		Window window = mSignatureDialog.getWindow();
-		window.setGravity(Gravity.CENTER);
+    public static Dialog showSignatureDialog(Context context, final SignatureDialogCallBack signatureDialogCallBack) {
 
-		WindowManager windowManager = ((Activity) context).getWindowManager();
-		Display display = windowManager.getDefaultDisplay();
-		WindowManager.LayoutParams lp = mSignatureDialog.getWindow().getAttributes();
-		lp.width = display.getWidth() - 100;
-		mSignatureDialog.getWindow().setAttributes(lp);
-		mSignatureDialog.setCanceledOnTouchOutside(true);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.dialog_signature, null);
+        mSignatureDialog = new Dialog(context, R.style.loading_dialog);
+        mSignatureDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mSignatureDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
 
-		Button okCancel = (Button) view.findViewById(R.id.btn_canncel);
-		Button okBtn = (Button) view.findViewById(R.id.btn_ok);
-		final LinePathView mPathView = (LinePathView) view.findViewById(R.id.view);
-		okBtn.setOnClickListener(new OnClickListener() {
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mSignatureDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mSignatureDialog.getWindow().setAttributes(lp);
+        mSignatureDialog.setCanceledOnTouchOutside(true);
 
-			@Override
-			public void onClick(View v) {
-				mSignatureDialog.dismiss();
-				try {
-					mPathView.save("/sdcard/signature.png", true, 10);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				signatureDialogCallBack.ok();
-			}
-		});
-		okCancel.setOnClickListener(new OnClickListener() {
+        Button okCancel = (Button) view.findViewById(R.id.btn_canncel);
+        Button okBtn = (Button) view.findViewById(R.id.btn_ok);
+        final LinePathView mPathView = (LinePathView) view.findViewById(R.id.view);
+        okBtn.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
+                mSignatureDialog.dismiss();
+                try {
+                    mPathView.save("/sdcard/signature.png", true, 10);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                signatureDialogCallBack.ok();
+            }
+        });
+        okCancel.setOnClickListener(new OnClickListener() {
 
-				//mSignatureDialog.dismiss();
-				mPathView.clear();
-				signatureDialogCallBack.cancel();
+            @Override
+            public void onClick(View v) {
 
-			}
-		});
+                //mSignatureDialog.dismiss();
+                mPathView.clear();
+                signatureDialogCallBack.cancel();
 
-		return mSignatureDialog;
-	}
+            }
+        });
 
-	public static void closeProgressDialog() {
-		if (null != mProgressDialog) {
-			mProgressDialog.dismiss();
-			mProgressDialog = null;
-		}
-	}
+        return mSignatureDialog;
+    }
 
-	public static void closeActivityDialog() {
-		if (null != mActivityDialog) {
-			mActivityDialog.dismiss();
-			mActivityDialog = null;
-		}
-	}
+    public static void closeProgressDialog() {
+        if (null != mProgressDialog) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
 
-	public static void closeAuditStatusDialog() {
-		if (null != mAuditStatusDialog) {
-			mAuditStatusDialog.dismiss();
-			mAuditStatusDialog = null;
-		}
-	}
+    public static void closeActivityDialog() {
+        if (null != mActivityDialog) {
+            mActivityDialog.dismiss();
+            mActivityDialog = null;
+        }
+    }
+
+    public static void closeAuditStatusDialog() {
+        if (null != mAuditStatusDialog) {
+            mAuditStatusDialog.dismiss();
+            mAuditStatusDialog = null;
+        }
+    }
 }

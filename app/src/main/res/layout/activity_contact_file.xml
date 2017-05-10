@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout style="@style/Re_title">
+
+        <include layout="@layout/ll_title_back"></include>
+
+        <TextView
+            style="@style/title"
+            android:text="聊天文件" />
+    </RelativeLayout>
+   <include layout="@layout/viewline"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_file"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

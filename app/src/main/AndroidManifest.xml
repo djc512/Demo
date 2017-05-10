@@ -452,6 +452,16 @@
             android:name=".ui.activity.contact.GroupActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <!-- 转让群主 -->
+        <activity
+            android:name="huanxing_print.com.cn.printhome.ui.activity.contact.GroupOwnerTransferActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!-- 群聊天文件 -->
+        <activity
+            android:name="huanxing_print.com.cn.printhome.ui.activity.contact.ContactFileActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!-- 创建群组 -->
         <activity
             android:name=".ui.activity.contact.CreateGroup"

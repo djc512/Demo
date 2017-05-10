@@ -95,6 +95,7 @@
     <string name="btn_create_group">发起群组</string>
     <string name="btn_cancel">取消</string>
     <string name="title_add_member">联系人</string>
+    <string name="title_selcet_newowner">选择新群主</string>
     <string name="hint_choose_members">已选择:%d人</string>
     <string name="btn_hint_members">确定(%1$d/%2$d)</string>
     <string name="title_phone">手机通讯录</string>
