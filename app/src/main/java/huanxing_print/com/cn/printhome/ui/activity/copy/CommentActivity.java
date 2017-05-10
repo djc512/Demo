@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,15 @@ import android.widget.Toast;
 import com.example.xlhratingbar_lib.XLHRatingBar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.picupload.ImageItem;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
+import huanxing_print.com.cn.printhome.net.request.commet.CommentRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
 import huanxing_print.com.cn.printhome.util.picuplload.BitmapLoadUtils;
@@ -56,8 +61,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private XLHRatingBar rb_qulity;
     private XLHRatingBar rb_handle;
     private XLHRatingBar rb_price;
-    private EditText et_commnet;
     private TextView tv_submit;
+    private ImageView iv_comment;
+    private String content;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -91,8 +97,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         rb_qulity = (XLHRatingBar) findViewById(R.id.rb_qulity);
         rb_handle = (XLHRatingBar) findViewById(R.id.rb_handle);
         rb_price = (XLHRatingBar) findViewById(R.id.rb_price);
-        et_commnet = (EditText) findViewById(R.id.et_commnet);
         tv_submit = (TextView) findViewById(R.id.tv_submit);
+        iv_comment = (ImageView) findViewById(R.id.iv_comment);
     }
 
     private void initData() {
@@ -131,6 +137,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private void initListener() {
         iv_back.setOnClickListener(this);
         tv_submit.setOnClickListener(this);
+        iv_comment.setOnClickListener(this);
 
         rb_comment.setOnRatingChangeListener(new XLHRatingBar.OnRatingChangeListener() {
             @Override
@@ -225,6 +232,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         return (int) (dpValue * scale + 0.5f);
     }
 
+    private boolean isHideName = true;
+    private int anonymous = -1;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -232,17 +242,61 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 finishCurrentActivity();
                 break;
             case R.id.tv_submit:
-                String content = et_comment_content.getText().toString().trim();//打印感受
-                String commentStr = et_commnet.getText().toString().trim();//评论
-//                ArrayList<ImageItem> items = Bimp.tempSelectBitmap;//图片
-//                UpLoadBitmap upLoadBitmap = new UpLoadBitmap(ctx);
-//                for (int i = 0; i < items.size(); i++) {
-//                    Bitmap bitmap = items.get(i).getBitmap();
-//                    upLoadBitmap.setPicToView(bitmap);
-//                }
+                //打印感受
+                content = et_comment_content.getText().toString().trim();
+                if (TextUtils.isEmpty(content)) {
+                    Toast.makeText(ctx, "请先填写评论", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (anonymous == -1) {
+                    Toast.makeText(ctx, "请先选择是否匿名评论", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                submitComment();
                 Toast.makeText(ctx, "发表成功", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.iv_comment:
+                if (isHideName) {
+                    iv_comment.setImageResource(R.drawable.select);
+                    anonymous = 0;
+                } else {
+                    iv_comment.setImageResource(R.drawable.select_no);
+                    anonymous = 1;
+                }
+                break;
         }
+    }
+
+    /**
+     * 添加评论
+     */
+    private void submitComment() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("anonymous", anonymous);
+        params.put("convenienceScore", handleStar);
+        params.put("orderId", "");
+        params.put("imgList", "");
+        params.put("priceScore", priceStar);
+        params.put("remark", content);
+        params.put("speedScore", speedStar);
+        params.put("totalScore", commentStar);
+
+        CommentRequest.submit(getSelfActivity(), baseApplication.getLoginToken(), params, new NullCallback() {
+            @Override
+            public void success(String msg) {
+
+            }
+
+            @Override
+            public void fail(String msg) {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+        });
     }
 
     /**
