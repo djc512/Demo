@@ -7,12 +7,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,16 +28,19 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.approval.SubFormItem;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PhotoPickerActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PreviewPhotoActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.UpLoadPicAdapter;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
 import huanxing_print.com.cn.printhome.util.picuplload.UpLoadPicUtil;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
+import huanxing_print.com.cn.printhome.view.ScrollListView;
 import huanxing_print.com.cn.printhome.view.imageview.RoundImageView;
 
 /**
@@ -52,11 +59,14 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
     private static final int PICK_PHOTO = 1;
     private ScrollGridView grid_scroll_approval;//审批人
     private ScrollGridView grid_scroll_copy;//抄送
+    private ScrollListView scroll_lv;//报销条目
     private GridViewApprovalAdapter approvalAdapter;
     private GridViewCopyAdapter copyAdapter;
+    private ListViewExpenseAdapter edtAdapter;
     private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();//生成的假数据
     private ArrayList<FriendInfo> approvalFriends = new ArrayList<FriendInfo>();//审批人
     private ArrayList<FriendInfo> copyFriends = new ArrayList<FriendInfo>();//抄送人
+    private ArrayList<SubFormItem> subFormItems = new ArrayList<>();//报销条目集合(这里未包含第一条记录)
     private int CODE_APPROVAL_REQUEST = 0X11;//审批人请求码
     private int CODE_COPY_REQUEST = 0X12;//抄送人人请求码
 
@@ -145,6 +155,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
 
         grid_scroll_approval = (ScrollGridView) findViewById(R.id.grid_scroll_approval);
         grid_scroll_copy = (ScrollGridView) findViewById(R.id.grid_scroll_copy);
+        scroll_lv = (ScrollListView) findViewById(R.id.scroll_lv);
         //返回
         View view = findViewById(R.id.back);
         view.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
@@ -158,11 +169,16 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
 
         copyAdapter = new GridViewCopyAdapter();
         approvalAdapter = new GridViewApprovalAdapter();
+        //模拟第一次数据
+        subFormItems.add(new SubFormItem());
+        edtAdapter = new ListViewExpenseAdapter();
+        scroll_lv.setAdapter(edtAdapter);
         adapter = new UpLoadPicAdapter(getSelfActivity(), mResults);
         adapter.update();
 
         findViewById(R.id.btn_submit_expense_approval).setOnClickListener(this);
         findViewById(R.id.rel_choose_image).setOnClickListener(this);
+        findViewById(R.id.rel_add_expense).setOnClickListener(this);
     }
 
     @Override
@@ -291,6 +307,18 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                 // 总共选择的图片数量
                 intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
                 startActivityForResult(intent, PICK_PHOTO);
+                break;
+            case R.id.rel_add_expense:
+                //添加报销条目(检查上次添加的item是否为空)
+                //不是第一次添加
+                SubFormItem last = subFormItems.get(subFormItems.size() - 1);
+                if (ObjectUtils.isNull(last.getAmount()) ||
+                        ObjectUtils.isNull(last.getType())) {
+                    ToastUtil.doToast(getSelfActivity(), "请填写完毕上面的报销条目!");
+                } else {
+                    subFormItems.add(new SubFormItem());
+                    edtAdapter.notifyDataSetChanged();
+                }
                 break;
         }
     }
@@ -426,6 +454,102 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         class ViewHolder {
             RoundImageView round_head_image;
             TextView txt_name;
+        }
+    }
+
+    /**
+     * description: 维持edittext输入值的Adapter
+     * author LSW
+     * date 2017/5/10 15:21
+     * update 2017/5/10
+     */
+    private class ListViewExpenseAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return subFormItems.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return subFormItems.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                holder = new ViewHolder();
+                convertView = LayoutInflater.from(getSelfActivity()).inflate(R.layout.item_expense, null);
+                holder.edt_expense_type = (EditText) convertView.findViewById(R.id.edt_expense_type);
+                holder.edt_expense_num = (EditText) convertView.findViewById(R.id.edt_expense_num);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            final SubFormItem item = (SubFormItem) getItem(position);
+            //This is important. An EditText just one TextWatcher.
+            if (holder.edt_expense_type.getTag() instanceof TextWatcher) {
+                holder.edt_expense_type.removeTextChangedListener((TextWatcher) holder.edt_expense_type.getTag());
+            }
+            holder.edt_expense_type.setText(item.getType());
+            TextWatcher watcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (TextUtils.isEmpty(s)) {
+                        item.setType("");
+                    } else {
+                        item.setType(s.toString());
+                    }
+                }
+            };
+            holder.edt_expense_type.addTextChangedListener(watcher);
+            holder.edt_expense_type.setTag(watcher);
+
+            //This is important. An EditText just one TextWatcher.
+            if (holder.edt_expense_num.getTag() instanceof TextWatcher) {
+                holder.edt_expense_num.removeTextChangedListener((TextWatcher) holder.edt_expense_num.getTag());
+            }
+            holder.edt_expense_num.setText(item.getAmount());
+            TextWatcher watcher1 = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (TextUtils.isEmpty(s)) {
+                        item.setAmount("");
+                    } else {
+                        item.setAmount(s.toString());
+                    }
+                }
+            };
+            holder.edt_expense_num.addTextChangedListener(watcher1);
+            holder.edt_expense_num.setTag(watcher1);
+            return convertView;
+        }
+
+        class ViewHolder {
+            EditText edt_expense_type;
+            EditText edt_expense_num;
         }
     }
 

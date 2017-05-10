@@ -121,4 +121,5 @@
     <string name="red_package_detail_gone">手慢了,红包已抢完</string>
     <string name="red_package_group_bottom_1">群红包不可领取,</string>
     <string name="red_package_group_bottom_2">群成员打印可选择群红包支付</string>
+    <string name="edt_digits">0123456780.</string>
 </resources>
