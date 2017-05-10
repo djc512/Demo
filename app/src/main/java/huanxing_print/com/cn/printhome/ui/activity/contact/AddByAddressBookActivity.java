@@ -80,20 +80,29 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private void initData() {
-        HandlerThread queryThread = new HandlerThread("query_contact");
-        queryThread.start();
-        Handler handler = new Handler(queryThread.getLooper(), new Handler.Callback() {
+        new Thread(new Runnable() {
             @Override
-            public boolean handleMessage(Message message) {
+            public void run() {
                 GetContactsUtils contactsUtils = new GetContactsUtils(AddByAddressBookActivity.this);
                 contactInfos = (ArrayList<PhoneContactInfo>) contactsUtils.getSystemContactInfos();
-
-                adapter.modifyData(contactInfos);
-                return false;
+                handler.post(updateThread);
             }
-        });
-        handler.sendEmptyMessage(0);
+        }).start();
     }
+
+    private Handler handler = new Handler();
+    Runnable updateThread = new Runnable()
+    {
+
+        @Override
+        public void run()
+        {
+            //更新UI
+            adapter.modifyData(contactInfos);
+        }
+
+    };
+
 
     private void setListener() {
         findViewById(R.id.ll_back).setOnClickListener(this);
@@ -130,7 +139,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private void checkPhone() {
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(this, "验证中");
+        DialogUtils.showProgressDialog(this, "验证中").show();
         ArrayList<PhoneContactInfo> infos = new ArrayList<PhoneContactInfo>();
         infos.add(currentClickPhoneContact);
         Map<String, Object> params = new HashMap<String, Object>();
@@ -143,9 +152,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
         public void success(String msg, ArrayList<FriendSearchInfo> searchInfos) {
             DialogUtils.closeProgressDialog();
             if(null != searchInfos) {
-//                FriendSearchInfo friendSearchInfo = getClickPhoneFriend(searchInfos);
-                //下列是假数据
-                FriendSearchInfo friendSearchInfo = getClickPhoneFriend(data());
+                FriendSearchInfo friendSearchInfo = getClickPhoneFriend(searchInfos);
                 checkNextStep(friendSearchInfo);
             }
         }
@@ -153,29 +160,23 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(AddByAddressBookActivity.this, msg + " -- 假数据");
-            //下列是假数据
-            FriendSearchInfo friendSearchInfo = getClickPhoneFriend(data());
-            checkNextStep(friendSearchInfo);
+            ToastUtil.doToast(AddByAddressBookActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
             toastConnectFail();
-            //下列是假数据
-            FriendSearchInfo friendSearchInfo = getClickPhoneFriend(data());
-            checkNextStep(friendSearchInfo);
         }
     };
 
     private void checkNextStep(FriendSearchInfo info) {
         if(null != info) {
-            if (!info.isMember()) {
+            if (0 == info.getIsMember()) {
                 ToastUtil.doToast(this, "不是印家用户");
                 showInvitation(info);
             } else {
-                if (info.isFriend()) {
+                if (1 == info.getIsFriend()) {
                     ToastUtil.doToast(this, "是好友");
                 } else {
                     ToastUtil.doToast(this, "不是好友");
@@ -256,24 +257,6 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
     private void invitationWeiXin(FriendSearchInfo info,String message) {
         ToastUtil.doToast(this,"微信分享，问陆成宋");
-    }
-
-    /**
-     * 假数据
-     * @return
-     */
-    private ArrayList<FriendSearchInfo> data() {
-        ArrayList<FriendSearchInfo> searchInfos = new ArrayList<FriendSearchInfo>();
-        FriendSearchInfo info = new FriendSearchInfo();
-        info.setMember(true);
-        info.setFriend(false);
-        info.setTelNo("15850793218");
-        info.setMemberName("陆成宋");
-        info.setUniqueId("1867989");
-        info.setMemberId("123456");
-        info.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
-        searchInfos.add(info);
-        return searchInfos;
     }
 
     private void startActivity(ArrayList<FriendSearchInfo> infos) {

@@ -204,7 +204,9 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
 
-                <include layout="@layout/item_gradview" />
+                <include
+                    android:id="@+id/item_grid"
+                    layout="@layout/item_gradview" />
 
             </LinearLayout>
 
@@ -292,9 +294,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:digits="@string/edt_digits"
                     android:focusableInTouchMode="false"
                     android:hint="填写请款金额"
-                    android:inputType="number"
                     android:paddingLeft="2dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_size_sixteen" />

@@ -31,7 +31,6 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     private RecyclerView recyclerView;
     private ArrayList<GroupInfo> groups = new ArrayList<GroupInfo>();
     private GroupAdatper adatper;
-    private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -61,8 +60,6 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void initData() {
-        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
-        friends = friendInfos;
 
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
@@ -84,7 +81,6 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
             case R.id.create_group:
                 ToastUtil.doToast(this, "发起群组");
                 Intent intent = new Intent(this, CreateGroup.class);
-                intent.putParcelableArrayListExtra("friends", friends);
                 startActivityForResult(intent, CREATE_GROUP);
                 break;
         }
@@ -98,11 +94,6 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
             case CREATE_GROUP:
                 if(resultCode == RESULT_OK) {
                     GroupInfo info = data.getParcelableExtra("created");
-//                    GroupInfo info = new GroupInfo();
-//                    //假数据
-//                    info.setGroupName("途牛旅游01");
-//                    info.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
-//                    info.setUserCount("5");
 
                     groups.add(info);
                     adatper.modifyData(groups);
@@ -115,6 +106,11 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     public void clickGroup(GroupInfo info) {
         if(null != info) {
             ToastUtil.doToast(this, info.getGroupName());
+            //假设跳入到群设置详情，后续删除
+            Intent intent = new Intent(GroupActivity.this, GroupSettingActivity.class);
+            intent.putExtra("groupId", info.getGroupId());
+            startActivity(intent);
+
         }
     }
 
@@ -122,10 +118,8 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public void success(String msg, ArrayList<GroupInfo> groupInfos) {
             DialogUtils.closeProgressDialog();
-            if(null != groups) {
-//                adatper.modifyData(groups);
-                //假数据
-                groups.addAll(data());
+            if(null != groupInfos) {
+                groups = groupInfos;
                 adatper.modifyData(groups);
             }
         }
@@ -133,36 +127,14 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(GroupActivity.this, msg + " -- 假数据");
-            //假数据
-            groups.addAll(data());
-            adatper.modifyData(groups);
+            ToastUtil.doToast(GroupActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
             toastConnectFail();
-            //假数据
-            groups.addAll(data());
-            adatper.modifyData(groups);
         }
     };
 
-    private ArrayList<GroupInfo> data() {
-        ArrayList<GroupInfo> groupInfos = new ArrayList<GroupInfo>();
-        GroupInfo group01 = new GroupInfo();
-        group01.setGroupName("印家群");
-        group01.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
-        group01.setUserCount("3");
-
-        GroupInfo group02 = new GroupInfo();
-        group02.setGroupName("途牛旅游");
-        group02.setGroupUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434200&di=7c53b18639aa82a8a58a296b9502d4ee&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D7048a12f9e16fdfad839ceea81bfa062%2F6a63f6246b600c3350e384cc194c510fd9f9a118.jpg");
-        group02.setUserCount("4");
-
-        groupInfos.add(group01);
-        groupInfos.add(group02);
-        return groupInfos;
-    }
 }

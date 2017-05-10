@@ -71,14 +71,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="20dp"
-                android:background="@color/gray1" />
+                android:background="@color/gray1"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:paddingRight="20dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,14 +109,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="20dp"
-                android:background="@color/gray1" />
+                android:background="@color/gray1"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp">
+                android:paddingRight="20dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/lin_top"
@@ -138,15 +142,27 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:background="@null"
+                        android:ellipsize="end"
                         android:hint="填写你的报销金额(必填)"
+                        android:inputType="number"
                         android:paddingLeft="2dp"
+                        android:singleLine="true"
                         android:textSize="@dimen/text_size_sixteen" />
 
                 </LinearLayout>
 
             </RelativeLayout>
 
+            <huanxing_print.com.cn.printhome.view.ScrollListView
+                android:id="@+id/scroll_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:divider="@null"
+                android:scrollbars="none" />
+
             <RelativeLayout
+                android:id="@+id/rel_add_expense"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white">
@@ -317,8 +333,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:digits="@string/edt_digits"
                     android:hint="填写报销金额"
-                    android:inputType="number"
                     android:paddingLeft="2dp"
                     android:singleLine="true"
                     android:textSize="@dimen/text_size_sixteen" />

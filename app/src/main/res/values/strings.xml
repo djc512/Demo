@@ -95,6 +95,7 @@
     <string name="btn_create_group">发起群组</string>
     <string name="btn_cancel">取消</string>
     <string name="title_add_member">联系人</string>
+    <string name="title_selcet_newowner">选择新群主</string>
     <string name="hint_choose_members">已选择:%d人</string>
     <string name="btn_hint_members">确定(%1$d/%2$d)</string>
     <string name="title_phone">手机通讯录</string>
@@ -102,4 +103,23 @@
     <string name="btn_contact_him">联系Ta</string>
     <string name="btn_contact_add">添加</string>
     <string name="btn_contact_accept">接受</string>
+
+    <!--红包-->
+    <string name="red_package_type_description_luck">当前为拼手气红包,改为</string>
+    <string name="red_package_type_description_group">当前为群红包,改为</string>
+    <string name="red_package_other_name_group">群红包</string>
+    <string name="red_package_other_name_luck">拼手气红包</string>
+    <string name="group_left">本群共</string>
+    <string name="red_group_num_unit">人</string>
+    <string name="red_group_bottom_hint">未领取的红包,将于24小时候退至各人账户</string>
+    <string name="red_group_bottom_hint_no">未使用的红包,将于群解散后退至各人账户</string>
+    <string name="red_group_bottom_hint_no_get">群红包不可领取,群成员打印时可选择群红包支付</string>
+    <string name="red_package_default_msg">给你发了一个红包</string>
+    <string name="red_package_check_detail">查看领取详情</string>
+    <string name="red_package_check_detail_out">看看大家的手气</string>
+    <string name="red_package_detail_failure">该红包已失效</string>
+    <string name="red_package_detail_gone">手慢了,红包已抢完</string>
+    <string name="red_package_group_bottom_1">群红包不可领取,</string>
+    <string name="red_package_group_bottom_2">群成员打印可选择群红包支付</string>
+    <string name="edt_digits">0123456780.</string>
 </resources>

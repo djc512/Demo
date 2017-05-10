@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bc_gray"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/titleBar"
+        style="@style/Re_title"
+        android:background="@color/bc_gray">
+
+        <include
+            android:id="@+id/back"
+            layout="@layout/ll_title_back"></include>
+
+        <TextView
+            style="@style/title"
+            android:text="发红包" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="拼手气红包金额"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_sixteen" />
+
+        <TextView
+            android:id="@+id/txt_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="元"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_sixteen" />
+
+        <EditText
+            android:id="@+id/edt_single_money"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/txt_right"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="0.00"
+            android:inputType="number"
+            android:textSize="@dimen/text_size_sixteen" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/txt_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/red_package_type_description_luck"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_twelve" />
+
+        <TextView
+            android:id="@+id/txt_action_change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txt_left"
+            android:text="@string/red_package_other_name_group"
+            android:textColor="@color/stepline_red"
+            android:textSize="@dimen/text_size_twelve" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_red_package_num"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="红包个数"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_sixteen" />
+
+        <TextView
+            android:id="@+id/txt_align_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="个"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_sixteen" />
+
+        <EditText
+            android:id="@+id/edt_red_package_num"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@id/txt_align_right"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="填写个数"
+            android:textSize="@dimen/text_size_sixteen" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_group_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/txt_left_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/group_left"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_twelve" />
+
+        <TextView
+            android:id="@+id/txt_group_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txt_left_group"
+            android:text="5"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_twelve" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/txt_group_num"
+            android:text="@string/red_group_num_unit"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_twelve" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="留言"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_sixteen" />
+
+
+        <EditText
+            android:id="@+id/edt_leave_word"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="恭喜发财,大吉大利"
+            android:textSize="@dimen/text_size_sixteen" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp">
+
+        <TextView
+            android:id="@+id/txt_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="0.00"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_twenty_five" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/txt_num"
+            android:layout_toRightOf="@id/txt_num"
+            android:text="元"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_sixteen" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_plug_money"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/broder_red_package_null"
+        android:text="塞钱进红包"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_sixteen" />
+
+    <TextView
+        android:id="@+id/txt_group_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/red_group_bottom_hint_no_get"
+        android:textColor="@color/gray2"
+        android:textSize="@dimen/text_size_twelve" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|bottom"
+        android:text="@string/red_group_bottom_hint"
+        android:textColor="@color/gray2"
+        android:textSize="@dimen/text_size_fourteen" />
+
+</LinearLayout>

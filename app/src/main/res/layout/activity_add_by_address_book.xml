@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/gray1"
+              android:background="@color/gray5"
               android:clipToPadding="true"
               android:fitsSystemWindows="true"
               android:orientation="vertical">
@@ -23,8 +23,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/titleBar"
         android:layout_marginTop="@dimen/recycler_margin_top"
-        android:layout_marginBottom="@dimen/recycler_margin_bottom"
-        android:background="@color/gray1"/>
+        android:layout_marginBottom="@dimen/recycler_margin_bottom"/>
 
     <huanxing_print.com.cn.printhome.view.IndexSideBar
         android:id="@+id/contacts_sidebar"

@@ -11,8 +11,9 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.view.Display;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
@@ -27,8 +28,7 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
 
 public class IDClipActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_preview;
-    private Button btn_reset;
-    private Button btn_confirm;
+    private TextView btn_preview;
     private double a4Width = 210;
     private double a4Height = 297;
     private double idWidth = 85.5;
@@ -41,6 +41,8 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private Bitmap bitmap;
     private Bitmap bitmapf;
     private PicSaveUtil saveUtil;
+    private Bitmap mBitmap;
+    private TextView btn_reset;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -60,8 +62,8 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
 
     private void initView() {
         iv_preview = (ImageView) findViewById(R.id.iv_preview);
-        btn_reset = (Button) findViewById(R.id.btn_reset);
-        btn_confirm = (Button) findViewById(R.id.btn_confirm);
+        btn_preview = (TextView) findViewById(R.id.btn_preview);
+        btn_reset = (TextView) findViewById(R.id.btn_reset);
     }
 
     private void initData() {
@@ -71,25 +73,48 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         screenHeight = display.getHeight();
 
         Intent intent = getIntent();
-
         byte[] bytes = intent.getByteArrayExtra("bytes");
         byte[] bytesf = intent.getByteArrayExtra("bytesf");
-
-        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
-
+        if (null != bytes) {
+            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            mBitmap = bitmap;
+        }
+        if (null != bytesf) {
+            bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
+            mBitmap = bitmapf;
+        }
     }
 
     private void initListener() {
+        btn_preview.setOnClickListener(this);
         btn_reset.setOnClickListener(this);
-        btn_confirm.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onResume() {
         super.onResume();
-        initMergePic();
+        if (null != bitmap && null != bitmapf) {
+            initMergePic();
+        } else {
+            scaleID(mBitmap);
+        }
+    }
+
+    /**
+     * 按比例缩放
+     * @param mBitmap
+     */
+    private void scaleID(Bitmap mBitmap) {
+        sqrtRatio = (a4Width * a4Height) / (idWidth * idHeight);//a4纸与身份证面积比
+        //计算图片在屏幕中应占的比例面积
+        ivSqrt = (screenHeight * screenWidth) / sqrtRatio;
+        double idRatio = idWidth / idHeight;//获取身份证的宽高比
+        double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
+        double ivWidth = ivHeight * idRatio;//获取图片的高
+
+        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) ivWidth, (int) ivHeight);
+        iv_preview.setImageBitmap(mBitmap);
     }
 
     private String picName;
@@ -118,11 +143,16 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_reset:
-                finish();
+                finishCurrentActivity();
                 break;
-            case R.id.btn_confirm:
+            case R.id.btn_preview:
                 picName = System.currentTimeMillis() + ".jpg";
-                saveUtil.saveClipPic(mergeBitmap, picName);
+                if (null != bitmap && null != bitmapf) {
+                    saveUtil.saveClipPic(mergeBitmap, picName);
+                } else {
+                    saveUtil.saveClipPic(mBitmap, picName);
+                }
+                Toast.makeText(getSelfActivity(), "跳转到选择打印机", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -144,5 +174,19 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
 
         canvas.drawBitmap(second, 0, first.getHeight() + 50, null);
         return result;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null !=mBitmap) {
+            mBitmap.recycle();
+            mBitmap = null;
+        }
+        if (null != mergeBitmap) {
+            mergeBitmap.recycle();
+            mergeBitmap =null;
+        }
+        System.gc();
     }
 }

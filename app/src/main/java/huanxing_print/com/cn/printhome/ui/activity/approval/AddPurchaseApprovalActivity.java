@@ -38,6 +38,7 @@ import huanxing_print.com.cn.printhome.ui.adapter.UpLoadPicAdapter;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
 import huanxing_print.com.cn.printhome.util.picuplload.UpLoadPicUtil;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
@@ -126,10 +127,15 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == mResults.size() - 1 || i == Bimp.tempSelectBitmap.size()) {
+//                    //判断一下现在的集合数量
+//                    if (6 <= mResults.size()) {
+//                        ToastUtil.doToast(getSelfActivity(), "最多可传5张图片!");
+//                        return;
+//                    }
                     Intent intent = new Intent(ctx, PhotoPickerActivity.class);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5 - mResults.size() + 1);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5);
                     // 总共选择的图片数量
                     intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
                     startActivityForResult(intent, PICK_PHOTO);
@@ -218,7 +224,8 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
 
         button = (ToggleButton) findViewById(R.id.toggleButton);
 
-        noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
+        View include = findViewById(R.id.item_grid);
+        noScrollgridview = (GridView) include.findViewById(R.id.noScrollgridview);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
         adapter = new UpLoadPicAdapter(getSelfActivity(), mResults);
@@ -237,6 +244,19 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_choose_image:
+//                //判断一下现在的集合数量
+//                if (6 <= mResults.size()) {
+//                    ToastUtil.doToast(getSelfActivity(), "最多可传5张图片!");
+//                    return;
+//                }
+                //选择图片
+                Intent intent = new Intent(ctx, PhotoPickerActivity.class);
+                intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
+                intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
+                intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5);
+                // 总共选择的图片数量
+                intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
+                startActivityForResult(intent, PICK_PHOTO);
                 break;
             case R.id.rel_choose_time:
                 //时间选择器
@@ -343,13 +363,24 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 //审批人选择
                 ArrayList<FriendInfo> infos = data.getParcelableArrayListExtra("FriendInfo");
                 //剔除重复的审批人数据
-                for (FriendInfo friendInfo : infos) {
-                    if (-1 == approvalFriends.indexOf(friendInfo)) {
-                        approvalFriends.add(friendInfo);
-                        Log.i("CMCC", "从元素的索引是:" + approvalFriends.indexOf(friendInfo));
+                if (0 == approvalFriends.size()) {
+                    approvalFriends.addAll(infos);
+                } else {
+                    for (int i = 0; i < infos.size(); i++) {
+                        int num = 0;
+                        for (FriendInfo friendInfo : approvalFriends) {
+                            if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                                //重复次数计算
+                                num++;
+                            }
+                        }
+                        //判断
+                        if (0 == num) {
+                            //不重复
+                            approvalFriends.add(infos.get(i));
+                        }
                     }
                 }
-
                 //刷新数据
                 approvalAdapter.notifyDataSetChanged();
             }
@@ -359,21 +390,42 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             Log.i("CMCC", "抄送人返回");
             //抄送人选择
             ArrayList<FriendInfo> infos = data.getParcelableArrayListExtra("FriendInfo");
-//            //判断审批人中是否包含抄送人
-//            if (!ObjectUtils.isNull(approvalFriends)) {
-//                for (FriendInfo friendInfo : infos) {
-//                    if (approvalFriends.contains(friendInfo)) {
-//                        ToastUtil.doToast(getSelfActivity(), "抄送人不能和审批人相同!!");
-//                        return;
-//                    }
-//                }
-//            }
+            //判断一下审批人中是否包含抄送人
+            if (0 != approvalFriends.size()) {
+                //审批人不为空,判断审批人和传过来的抄送人是否重复
+                for (int i = 0; i < infos.size(); i++) {
+                    int num = 0;//重复次数
+                    for (FriendInfo friendInfo : approvalFriends) {
+                        if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                            //重复次数计算
+                            num++;
+                        }
+                    }
+                    if (num > 0) {
+                        ToastUtil.doToast(getSelfActivity(), "审批人和抄送人不能相同!");
+                        return;
+                    }
+                }
+            }
 
-
-            //剔除重复的审批人数据
-            for (FriendInfo friendInfo : infos) {
-                if (!copyFriends.contains(friendInfo)) {
-                    copyFriends.add(friendInfo);
+            //剔除重复的抄送人数据
+            if (0 == copyFriends.size()) {
+                //抄送人为空直接添加
+                copyFriends.addAll(infos);
+            } else {
+                for (int i = 0; i < infos.size(); i++) {
+                    int num = 0;//重复次数
+                    for (FriendInfo friendInfo : copyFriends) {
+                        if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                            //重复次数计算
+                            num++;
+                        }
+                    }
+                    //判断
+                    if (0 == num) {
+                        //不重复
+                        copyFriends.add(infos.get(i));
+                    }
                 }
             }
             //刷新数据

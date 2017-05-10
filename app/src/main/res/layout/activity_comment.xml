@@ -267,7 +267,7 @@
                     android:layout_height="20dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/check_2x" />
+                    android:src="@drawable/select" />
 
                 <EditText
                     android:id="@+id/et_commnet"

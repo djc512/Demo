@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by wanghao on 2017/5/8.
  */
 
-public class FriendInfo implements Parcelable{
+public class FriendInfo implements Parcelable {
     private String easemobId;//环信id
     private String memberId;//会员id
     private String memberName;//名称
@@ -15,7 +15,8 @@ public class FriendInfo implements Parcelable{
     private String phone;//电话
     private String uniqueId;//印家号
     private int type;//用于联系人页面item类型
-    public FriendInfo(){
+
+    public FriendInfo() {
 
     }
 

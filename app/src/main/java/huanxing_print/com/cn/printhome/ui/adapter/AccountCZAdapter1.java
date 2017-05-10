@@ -24,6 +24,10 @@ public class AccountCZAdapter1 extends RecyclerView.Adapter<AccountCZAdapter1.My
     private int clickTemp = -1;
     private List<ChongZhiBean> data;
 
+    public void updateData(List<ChongZhiBean> list) {
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClickLitener {
         void onItemClick(ImageView view, int position);
     }

@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/recycler_character_h"
         android:gravity="center_vertical"
-        android:background="@color/gray1">
+        android:background="@color/gray5">
 
         <TextView
             android:id="@+id/nameTv"

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gray5"
+                android:clipToPadding="true"
+                android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/titleBar"
+        style="@style/Re_contact_title">
+
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="@dimen/add_w_h"
+            android:layout_height="@dimen/add_w_h"
+            android:background="@drawable/bg_recycler_click_selector"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_back"/>
+        </LinearLayout>
+
+
+        <TextView
+            style="@style/title"
+            android:text="@string/title_selcet_newowner"/>
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/groupMemberView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/click_bottom"
+        android:layout_below="@+id/titleBar"
+        android:layout_marginBottom="@dimen/recycler_margin_top"
+        android:layout_marginTop="@dimen/recycler_margin_bottom"/>
+</RelativeLayout>

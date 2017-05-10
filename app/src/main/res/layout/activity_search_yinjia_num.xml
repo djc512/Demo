@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/gray1"
+              android:background="@color/gray5"
               android:clipToPadding="true"
               android:fitsSystemWindows="true"
               android:orientation="vertical">
@@ -37,6 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/yj_search_et_h"
                 android:layout_weight="1"
+                android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
+                android:maxLength="14"
                 android:background="@null"
                 android:hint="@string/text_search_hint"
                 android:maxLines="1"/>
