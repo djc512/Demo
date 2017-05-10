@@ -27,14 +27,17 @@ public class GroupMembersAdapter extends BaseAdapter{
     private ArrayList<GroupMember> groupMembers;
     private LayoutInflater layoutInflater;
     private HashMap<Integer, View> viewMap = new HashMap<Integer, View>();
-    public GroupMembersAdapter(Context context, ArrayList<GroupMember> members) {
+    private boolean isManager = false;
+    public GroupMembersAdapter(Context context, ArrayList<GroupMember> members,boolean manager) {
         this.ctx = context;
         this.groupMembers = members;
+        this.isManager = manager;
         layoutInflater = LayoutInflater.from(ctx);
     }
 
-    public void modify(ArrayList<GroupMember> members) {
+    public void modify(ArrayList<GroupMember> members,boolean manager) {
         viewMap.clear();
+        isManager = manager;
         this.groupMembers = members;
         notifyDataSetChanged();
     }
@@ -88,7 +91,7 @@ public class GroupMembersAdapter extends BaseAdapter{
         }else{
 
             final GroupMember member = groupMembers.get(position);
-            if ("1".equals(member.getType())) {
+            if ("1".equals(member.getType()) || (!isManager)) {
                 holder.delIcon.setVisibility(View.GONE);
             } else {
                 holder.delIcon.setVisibility(View.VISIBLE);
