@@ -7,12 +7,13 @@ import android.os.Parcelable;
  * Created by wanghao on 2017/5/10.
  */
 
-public class GroupMember implements Parcelable{
+public class GroupMember implements Parcelable {
     private String easemobId;//环信id
     private String memberId;//用户id
     private String memberName;//用户名称
     private String memberUrl;//用户头像
     private String type;//群用户身份 0 普通 1群主
+
     public GroupMember() {
 
     }
@@ -23,6 +24,22 @@ public class GroupMember implements Parcelable{
         memberName = in.readString();
         memberUrl = in.readString();
         type = in.readString();
+        showtype = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(easemobId);
+        dest.writeString(memberId);
+        dest.writeString(memberName);
+        dest.writeString(memberUrl);
+        dest.writeString(type);
+        dest.writeInt(showtype);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<GroupMember> CREATOR = new Creator<GroupMember>() {
@@ -36,6 +53,16 @@ public class GroupMember implements Parcelable{
             return new GroupMember[size];
         }
     };
+
+    public int getShowtype() {
+        return showtype;
+    }
+
+    public void setShowtype(int showtype) {
+        this.showtype = showtype;
+    }
+
+    private int showtype;//用于联系人页面item类型
 
     public String getEasemobId() {
         return easemobId;
@@ -77,17 +104,4 @@ public class GroupMember implements Parcelable{
         this.type = type;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(easemobId);
-        parcel.writeString(memberId);
-        parcel.writeString(memberName);
-        parcel.writeString(memberUrl);
-        parcel.writeString(type);
-    }
 }

@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.contact;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,7 +33,7 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  * Created by wanghao on 2017/5/10.
  */
 
-public class GroupSettingActivity extends BaseActivity implements View.OnClickListener,GroupMembersAdapter.OnGroupMemberClickListener{
+public class GroupSettingActivity extends BaseActivity implements View.OnClickListener, GroupMembersAdapter.OnGroupMemberClickListener {
     private static final int ADD_MEMBER = 10000;
     private GroupMembersAdapter adapter;
     private ScrollGridView memberGridView;
@@ -49,6 +48,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private static final int transferRequsetCoder = 1;//修改群主的请求码
     private GroupMember delGroupMember;
     private static final int modifynameRequsetCoder = 2;//修改群昵称的请求码
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -175,16 +175,16 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void setData() {
-        if(groupMessageInfo != null) {
+        if (groupMessageInfo != null) {
             tv_groupName.setText(groupMessageInfo.getGroupName());
             tv_balance.setText(String.format("%s元", groupMessageInfo.getBalance() == null ? "0" : groupMessageInfo.getBalance()));
-            if("1".equals(groupMessageInfo.getIsManage())){
+            if ("1".equals(groupMessageInfo.getIsManage())) {
                 findViewById(R.id.part_show_manager).setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 findViewById(R.id.part_show_manager).setVisibility(View.GONE);
             }
 
-            adapter.modify(groupMessageInfo.getGroupMembers(),"1".equals(groupMessageInfo.getIsManage()) ? true : false);
+            adapter.modify(groupMessageInfo.getGroupMembers(), "1".equals(groupMessageInfo.getIsManage()) ? true : false);
         }
     }
 
@@ -195,19 +195,23 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 finishCurrentActivity();
                 break;
             case R.id.ll_transfer:
-                Intent transferIntent = new Intent(getSelfActivity(),GroupOwnerTransferActivity.class);
-                startActivityForResult(transferIntent,transferRequsetCoder);
+                Intent transferIntent = new Intent(getSelfActivity(), GroupOwnerTransferActivity.class);
+                transferIntent.putExtra("qunlist", groupMessageInfo);
+                startActivityForResult(transferIntent, transferRequsetCoder);
                 break;
             case R.id.ll_dissolution:
-                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "即将解散该群",new DialogUtils.QunOwnerDissolutionDialogCallBack() {
+                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "即将解散该群", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
                     @Override
                     public void dissolution() {
-                        Toast.makeText(getSelfActivity(), "解散成功", Toast.LENGTH_SHORT).show();
+                        DialogUtils.showProgressDialog(getSelfActivity(),"努力解散...");
+                        Map<String, Object> params = new HashMap<String, Object>();
+                        params.put("groupId", currentGroupId);
+                        GroupManagerRequest.dissolution(getSelfActivity(), baseApplication.getLoginToken(), params, dissolutinQunCallBack);
                     }
                 }).show();
                 break;
             case R.id.ll_contactfile:
-                startActivity(new Intent(getSelfActivity(),ContactFileActivity.class));
+                startActivity(new Intent(getSelfActivity(), ContactFileActivity.class));
                 break;
             case R.id.ll_clear:
                 DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确定清空群记录", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
@@ -219,7 +223,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.ll_modifyname:
                 Intent modifyIntent = new Intent();
-                startActivityForResult(modifyIntent,modifynameRequsetCoder);
+                startActivityForResult(modifyIntent, modifynameRequsetCoder);
                 break;
             case R.id.btn_exit:
                 DialogUtils.showexitGroupDialog(getSelfActivity(), "您确定要退群吗?", new DialogUtils.ExitGroupDialogCallback() {
@@ -234,7 +238,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void exitGroupReq() {
-        DialogUtils.showProgressDialog(this,"退群中").show();
+        DialogUtils.showProgressDialog(this, "退群中").show();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("groupId", currentGroupId);
         GroupManagerRequest.exitGroup(this, token, params, exitGroupCallback);
@@ -242,8 +246,9 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 清空群聊天记录
+     *
      * @param groupId 群id
-    */
+     */
     private void clearChatHistory(String groupId) {
 
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(groupId, EMConversation.EMConversationType.GroupChat);
@@ -284,15 +289,19 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case ADD_MEMBER:
-                if(resultCode == RESULT_OK)
+                if (resultCode == RESULT_OK)
+                    queryGroupMsg();
+                break;
+            case transferRequsetCoder:
+                if (resultCode == RESULT_OK)
                     queryGroupMsg();
                 break;
         }
     }
 
-    private void delGroupMember(GroupMember member){
+    private void delGroupMember(GroupMember member) {
         delGroupMember = member;
-        DialogUtils.showProgressDialog(this,"删除中").show();
+        DialogUtils.showProgressDialog(this, "删除中").show();
 
         Map<String, Object> params = new HashMap<String, Object>();
         ArrayList<String> arrayList = new ArrayList<String>();
@@ -303,14 +312,14 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void delMemberSuccess() {
-        if(null != delGroupMember) {
+        if (null != delGroupMember) {
             groupMessageInfo.getGroupMembers().remove(delGroupMember);
-            adapter.modify(groupMessageInfo.getGroupMembers(),"1".equals(groupMessageInfo.getIsManage()) ? true : false);
+            adapter.modify(groupMessageInfo.getGroupMembers(), "1".equals(groupMessageInfo.getIsManage()) ? true : false);
         }
     }
 
     private void queryGroupMsg() {
-        DialogUtils.showProgressDialog(this,"加载中").show();
+        DialogUtils.showProgressDialog(this, "加载中").show();
         GroupManagerRequest.queryGroupMessage(this, token, currentGroupId, groupMessageCallback);
     }
 
@@ -371,6 +380,24 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         public void connectFail() {
             DialogUtils.closeProgressDialog();
             toastConnectFail();
+        }
+    };
+
+    NullCallback dissolutinQunCallBack = new NullCallback() {
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            Toast.makeText(getSelfActivity(), "解散成功", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
         }
     };
 }

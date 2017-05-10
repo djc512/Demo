@@ -169,4 +169,54 @@ public class GroupManagerRequest extends BaseRequst{
             }
         });
     }
+
+    /**
+     * 群转让
+     * @param ctx
+     * @param logintoken
+     * @param params
+     * @param callback
+     */
+    public static void transfer(Context ctx, String logintoken, Map<String, Object> params, final NullCallback callback) {
+        String exitGroupUrl = HTTP_URL + HttpUrl.transferGroup;
+
+        HttpUtils.post(ctx, exitGroupUrl, logintoken, params, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                Log.e("wanghao", "exitGroup" + content);
+                NullResolve resolve = new NullResolve(content);
+                resolve.resolve(callback);
+            }
+
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
+            }
+        });
+    }
+
+    /**
+     * 解散群
+     * @param ctx
+     * @param logintoken
+     * @param params
+     * @param callback
+     */
+    public static void dissolution(Context ctx, String logintoken, Map<String, Object> params, final NullCallback callback) {
+        String exitGroupUrl = HTTP_URL + HttpUrl.dissolutionGroup;
+
+        HttpUtils.post(ctx, exitGroupUrl, logintoken, params, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                Log.e("wanghao", "dissolutionGroup" + content);
+                NullResolve resolve = new NullResolve(content);
+                resolve.resolve(callback);
+            }
+
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
+            }
+        });
+    }
 }
