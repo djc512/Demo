@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.contact;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,17 +12,21 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.contact.GroupMember;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupMessageCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupMembersAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
@@ -42,6 +47,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private String currentGroupId;
     private String token;
     private static final int transferRequsetCoder = 1;//修改群主的请求码
+    private GroupMember delGroupMember;
     private static final int modifynameRequsetCoder = 2;//修改群昵称的请求码
     @Override
     protected BaseActivity getSelfActivity() {
@@ -232,13 +238,11 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void delMember(GroupMember member) {
-        groupMessageInfo.getGroupMembers().remove(member);
-        adapter.modify(groupMessageInfo.getGroupMembers(),"1".equals(groupMessageInfo.getIsManage()) ? true : false);
+        showHintMemberDel(member);
     }
 
     @Override
     public void clickMember(GroupMember member) {
-
     }
 
     @Override
@@ -246,6 +250,16 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         Intent intent = new Intent(GroupSettingActivity.this, GroupMemberAddActivity.class);
         intent.putExtra("groupId", currentGroupId);
         startActivityForResult(intent, ADD_MEMBER);
+    }
+
+    private void showHintMemberDel(final GroupMember member) {
+        String message = String.format("您要删除群成员 %s?", member.getMemberName());
+        DialogUtils.showGroupMemDelDialog(this, message, new DialogUtils.GroupDelMemDialogCallback() {
+            @Override
+            public void del() {
+                delGroupMember(member);
+            }
+        }).show();
     }
 
     @Override
@@ -256,6 +270,25 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 if(resultCode == RESULT_OK)
                     queryGroupMsg();
                 break;
+        }
+    }
+
+    private void delGroupMember(GroupMember member){
+        delGroupMember = member;
+        DialogUtils.showProgressDialog(this,"删除中").show();
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        ArrayList<String> arrayList = new ArrayList<String>();
+        arrayList.add(member.getMemberId());
+        params.put("groupId", currentGroupId);
+        params.put("memberIds", arrayList);
+        GroupManagerRequest.delMemberFromGroup(this, token, params, delMemberCallback);
+    }
+
+    private void delMemberSuccess() {
+        if(null != delGroupMember) {
+            groupMessageInfo.getGroupMembers().remove(delGroupMember);
+            adapter.modify(groupMessageInfo.getGroupMembers(),"1".equals(groupMessageInfo.getIsManage()) ? true : false);
         }
     }
 
@@ -280,6 +313,26 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
+        }
+    };
+
+    NullCallback delMemberCallback = new NullCallback() {
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            delMemberSuccess();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(GroupSettingActivity.this, msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
         }
     };
 }

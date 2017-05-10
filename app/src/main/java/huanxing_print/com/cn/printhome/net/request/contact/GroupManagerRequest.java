@@ -119,4 +119,29 @@ public class GroupManagerRequest extends BaseRequst{
             }
         });
     }
+
+    /**
+     * 删除群成员
+     * @param ctx
+     * @param logintoken
+     * @param params
+     * @param callback
+     */
+    public static void delMemberFromGroup(Context ctx, String logintoken, Map<String, Object> params, final NullCallback callback) {
+        String addMemberUrl = HTTP_URL + HttpUrl.delMemberFromGroup;
+
+        HttpUtils.post(ctx, addMemberUrl, logintoken, params, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                Log.e("wanghao", "delMemberFromGroup" + content);
+                NullResolve resolve = new NullResolve(content);
+                resolve.resolve(callback);
+            }
+
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
+            }
+        });
+    }
 }
