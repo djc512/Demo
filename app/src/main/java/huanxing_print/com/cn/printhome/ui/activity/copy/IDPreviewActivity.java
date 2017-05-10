@@ -423,15 +423,18 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (null != mResult && null != mBitmap && null != compBitmap) {
+        if (null != mResult ) {
             mResult.recycle();
-            mBitmap.recycle();
-            compBitmap.recycle();
-
             mResult = null;
+        }
+        if (null != mBitmap ) {
+            mBitmap.recycle();
             mBitmap = null;
+        }
+        if (null != compBitmap ) {
+            compBitmap.recycle();
             compBitmap = null;
         }
+        System.gc();
     }
 }

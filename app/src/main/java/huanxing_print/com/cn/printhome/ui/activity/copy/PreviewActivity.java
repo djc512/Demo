@@ -119,7 +119,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private void initData() {
         Drawable dpower = getResources().getDrawable(R.drawable.power);
         Drawable dgray = getResources().getDrawable(R.drawable.gray);
-        dpower.setBounds(0, 0, 50, 50);
+        dpower.setBounds(0, 0, 40, 40);
         dgray.setBounds(0, 0, 50, 50);
         btn_gray.setCompoundDrawables(dgray, null, null, null);
         btn_black.setCompoundDrawables(dpower, null, null, null);
@@ -409,15 +409,18 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (null != mResult && null != mBitmap && null != compBitmap) {
+        if (null != mResult ) {
             mResult.recycle();
-            mBitmap.recycle();
-            compBitmap.recycle();
-
             mResult = null;
+        }
+        if (null != mBitmap ) {
+            mBitmap.recycle();
             mBitmap = null;
+        }
+        if (null != compBitmap ) {
+            compBitmap.recycle();
             compBitmap = null;
         }
+        System.gc();
     }
 }

@@ -118,13 +118,13 @@ public class IDFragment extends Fragment implements View.OnClickListener {
                 gotoGalley();
                 break;
             case R.id.btn_preview:
-                if (bytes == null && bytesf == null) {
-                    Toast.makeText(ctx, "请先上传图片", Toast.LENGTH_SHORT).show();
-                }else {
+                if (bytes != null || bytesf != null) {
                     Intent intent = new Intent(ctx, IDClipActivity.class);
                     intent.putExtra("bytes", bytes);
                     intent.putExtra("bytesf", bytesf);
                     startActivity(intent);
+                } else {
+                    Toast.makeText(ctx, "请先上传图片", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -207,10 +207,11 @@ public class IDFragment extends Fragment implements View.OnClickListener {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private  void initBtnPreview(){
+    private void initBtnPreview() {
         btn_preview.setBackground(getResources().getDrawable(R.drawable.shape_preview_finish_bg));
         btn_preview.setTextColor(getResources().getColor(R.color.black));
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
