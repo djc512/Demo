@@ -63,7 +63,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         ll_transfer = (LinearLayout) findViewById(R.id.ll_transfer);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         memberGridView = (ScrollGridView) findViewById(R.id.gv_group_members);
-        adapter = new GroupMembersAdapter(this, groupMembers);
+        adapter = new GroupMembersAdapter(this, groupMembers, false);
         adapter.setOnGroupMemberClickListener(this);
         memberGridView.setAdapter(adapter);
 
@@ -151,13 +151,18 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         groupMessageInfo.setBalance("200.0");
         groupMessageInfo.setIsManage("1");
 
-        adapter.modify(groupMessageInfo.getGroupMembers());
+        adapter.modify(groupMessageInfo.getGroupMembers(),"1".equals(groupMessageInfo.getIsManage()) ? true : false);
     }
 
     public void setData() {
         if(groupMessageInfo != null) {
             tv_groupName.setText(groupMessageInfo.getGroupName());
             tv_balance.setText(String.format("%s元", groupMessageInfo.getBalance()));
+            if("1".equals(groupMessageInfo.getIsManage())){
+                findViewById(R.id.part_show_manager).setVisibility(View.VISIBLE);
+            }else{
+                findViewById(R.id.part_show_manager).setVisibility(View.GONE);
+            }
         }
     }
 
@@ -209,7 +214,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void delMember(GroupMember member) {
         groupMessageInfo.getGroupMembers().remove(member);
-        adapter.modify(groupMessageInfo.getGroupMembers());
+        adapter.modify(groupMessageInfo.getGroupMembers(),"1".equals(groupMessageInfo.getIsManage()) ? true : false);
     }
 
     @Override
@@ -228,6 +233,6 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         groupMembers.add(member02);
 
         groupMessageInfo.getGroupMembers().addAll(groupMembers);
-        adapter.modify(groupMessageInfo.getGroupMembers());
+        adapter.modify(groupMessageInfo.getGroupMembers(),"1".equals(groupMessageInfo.getIsManage()) ? true : false);
     }
 }
