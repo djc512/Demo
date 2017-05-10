@@ -457,6 +457,11 @@
             android:name="huanxing_print.com.cn.printhome.ui.activity.contact.GroupOwnerTransferActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <!--修改群昵称-->
+        <activity
+            android:name="huanxing_print.com.cn.printhome.ui.activity.contact.ModifyQunNameActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <!-- 群聊天文件 -->
         <activity
             android:name="huanxing_print.com.cn.printhome.ui.activity.contact.ContactFileActivity"
