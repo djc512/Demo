@@ -144,4 +144,29 @@ public class GroupManagerRequest extends BaseRequst{
             }
         });
     }
+
+    /**
+     * 退出群
+     * @param ctx
+     * @param logintoken
+     * @param params
+     * @param callback
+     */
+    public static void exitGroup(Context ctx, String logintoken, Map<String, Object> params, final NullCallback callback) {
+        String exitGroupUrl = HTTP_URL + HttpUrl.exitGroup;
+
+        HttpUtils.post(ctx, exitGroupUrl, logintoken, params, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                Log.e("wanghao", "exitGroup" + content);
+                NullResolve resolve = new NullResolve(content);
+                resolve.resolve(callback);
+            }
+
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
+            }
+        });
+    }
 }

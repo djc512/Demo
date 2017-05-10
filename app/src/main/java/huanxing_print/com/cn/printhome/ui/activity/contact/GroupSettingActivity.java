@@ -72,6 +72,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.ll_contactfile).setOnClickListener(this);
         findViewById(R.id.ll_clear).setOnClickListener(this);
         findViewById(R.id.ll_modifyname).setOnClickListener(this);
+        findViewById(R.id.btn_exit).setOnClickListener(this);
     }
 
     private void initView() {
@@ -220,7 +221,23 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 Intent modifyIntent = new Intent();
                 startActivityForResult(modifyIntent,modifynameRequsetCoder);
                 break;
+            case R.id.btn_exit:
+                DialogUtils.showexitGroupDialog(getSelfActivity(), "您确定要退群吗?", new DialogUtils.ExitGroupDialogCallback() {
+                    @Override
+                    public void exit() {
+                        exitGroupReq();
+                    }
+                }).show();
+
+                break;
         }
+    }
+
+    private void exitGroupReq() {
+        DialogUtils.showProgressDialog(this,"退群中").show();
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("groupId", currentGroupId);
+        GroupManagerRequest.exitGroup(this, token, params, exitGroupCallback);
     }
 
     /**
@@ -321,6 +338,27 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             delMemberSuccess();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(GroupSettingActivity.this, msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
+        }
+    };
+
+    NullCallback exitGroupCallback = new NullCallback() {
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(GroupSettingActivity.this, "退群成功");
+            finish();
         }
 
         @Override

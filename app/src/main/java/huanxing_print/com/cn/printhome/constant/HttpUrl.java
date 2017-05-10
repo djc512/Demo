@@ -46,6 +46,7 @@ public class HttpUrl {
     public static final String queryGroupMsg = "group/queryInfo";//群信息查询
     public static final String addMemberToGroup = "group/addMember";//群信息查询
     public static final String delMemberFromGroup = "group/delMember";//群信息查询
+    public static final String exitGroup = "group/getOut";//退群
     public static final String addApproval = "approve/add";//新增审批
     public static final String queryApprovalList = "approve/list";//查询审批列表
     public static final String queryLast = "approve/queryLast";//查询上次的审批人和抄送人
