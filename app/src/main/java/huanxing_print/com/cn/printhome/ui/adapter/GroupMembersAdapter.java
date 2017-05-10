@@ -12,6 +12,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
@@ -25,6 +26,7 @@ public class GroupMembersAdapter extends BaseAdapter{
     private Context ctx;
     private ArrayList<GroupMember> groupMembers;
     private LayoutInflater layoutInflater;
+    private HashMap<Integer, View> viewMap = new HashMap<Integer, View>();
     public GroupMembersAdapter(Context context, ArrayList<GroupMember> members) {
         this.ctx = context;
         this.groupMembers = members;
@@ -32,6 +34,7 @@ public class GroupMembersAdapter extends BaseAdapter{
     }
 
     public void modify(ArrayList<GroupMember> members) {
+        viewMap.clear();
         this.groupMembers = members;
         notifyDataSetChanged();
     }
@@ -59,13 +62,15 @@ public class GroupMembersAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         final ItemHolder holder;
-        if(null == view) {
+        if(!viewMap.containsKey(position) || viewMap.get(position) == null) {
             view = layoutInflater.inflate(R.layout.item_group_member,null);
             holder = new ItemHolder();
             holder.delIcon = (CircleImageView) view.findViewById(R.id.iv_member_del);
             holder.memberIcon = (CircleImageView) view.findViewById(R.id.iv_member_icon);
             view.setTag(holder);
+            viewMap.put(position,view);
         }else{
+            view = viewMap.get(position);
             holder = (ItemHolder) view.getTag();
         }
         if(position == groupMembers.size()) {
@@ -83,8 +88,6 @@ public class GroupMembersAdapter extends BaseAdapter{
         }else{
             holder.delIcon.setVisibility(View.VISIBLE);
             final GroupMember member = groupMembers.get(position);
-            //先将每个图片还原默认
-            Glide.with(ctx).load(R.drawable.iv_head).into(holder.memberIcon);
 
             Glide.with(ctx).load(R.drawable.ic_group_member_del).into(holder.delIcon);
             Glide.with(ctx).load(member.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
