@@ -41,6 +41,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     private Bitmap bitmap;
     private Bitmap bitmapf;
     private PicSaveUtil saveUtil;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -73,10 +74,12 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
 
         byte[] bytes = intent.getByteArrayExtra("bytes");
         byte[] bytesf = intent.getByteArrayExtra("bytesf");
-
-        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
-
+        if (null != bytes) {
+            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
+        if (null != bytesf) {
+            bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
+        }
     }
 
     private void initListener() {

@@ -120,12 +120,12 @@ public class IDFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_preview:
                 if (bytes == null && bytesf == null) {
                     Toast.makeText(ctx, "请先上传图片", Toast.LENGTH_SHORT).show();
-                    return;
+                }else {
+                    Intent intent = new Intent(ctx, IDClipActivity.class);
+                    intent.putExtra("bytes", bytes);
+                    intent.putExtra("bytesf", bytesf);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(ctx, IDClipActivity.class);
-                intent.putExtra("bytes", bytes);
-                intent.putExtra("bytesf", bytesf);
-                startActivity(intent);
                 break;
         }
     }

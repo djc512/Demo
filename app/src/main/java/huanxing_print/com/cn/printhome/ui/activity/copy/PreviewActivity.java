@@ -117,10 +117,12 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initData() {
-        Drawable d = getResources().getDrawable(R.drawable.ic_launcher);
-        d.setBounds(0,0,50,50);
-        btn_gray.setCompoundDrawables(d,null,null,null);
-        btn_black.setCompoundDrawables(d,null,null,null);
+        Drawable dpower = getResources().getDrawable(R.drawable.power);
+        Drawable dgray = getResources().getDrawable(R.drawable.gray);
+        dpower.setBounds(0, 0, 20, 20);
+        dgray.setBounds(0, 0, 20, 20);
+        btn_gray.setCompoundDrawables(dgray, null, null, null);
+        btn_black.setCompoundDrawables(dpower, null, null, null);
 
         try {
             mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);

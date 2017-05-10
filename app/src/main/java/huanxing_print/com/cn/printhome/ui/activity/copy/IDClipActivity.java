@@ -74,9 +74,13 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
 
         byte[] bytes = intent.getByteArrayExtra("bytes");
         byte[] bytesf = intent.getByteArrayExtra("bytesf");
+        if (null != bytes) {
+            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
+        if (null != bytesf) {
 
-        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
+            bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
+        }
 
     }
 
