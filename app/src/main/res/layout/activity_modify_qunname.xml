@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="群聊名称"
         android:textColor="@color/gray8"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
     <LinearLayout
         android:gravity="center_vertical"
         android:padding="15dp"

@@ -222,7 +222,9 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 }).show();
                 break;
             case R.id.ll_modifyname:
-                Intent modifyIntent = new Intent();
+                Intent modifyIntent = new Intent(getSelfActivity(),ModifyQunNameActivity.class);
+                modifyIntent.putExtra("groupid",currentGroupId);
+                modifyIntent.putExtra("groupurl", groupMessageInfo.getGroupUrl());
                 startActivityForResult(modifyIntent, modifynameRequsetCoder);
                 break;
             case R.id.btn_exit:

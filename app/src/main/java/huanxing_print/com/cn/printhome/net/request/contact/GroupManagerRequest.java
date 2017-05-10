@@ -219,4 +219,28 @@ public class GroupManagerRequest extends BaseRequst{
             }
         });
     }
+    /**
+     * 修改群
+     * @param ctx
+     * @param logintoken
+     * @param params
+     * @param callback
+     */
+    public static void modify(Context ctx, String logintoken, Map<String, Object> params, final NullCallback callback) {
+        String exitGroupUrl = HTTP_URL + HttpUrl.modifyGroup;
+
+        HttpUtils.post(ctx, exitGroupUrl, logintoken, params, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                Log.e("wanghao", "modifyGroup" + content);
+                NullResolve resolve = new NullResolve(content);
+                resolve.resolve(callback);
+            }
+
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
+            }
+        });
+    }
 }
