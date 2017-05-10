@@ -15,6 +15,8 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
+import huanxing_print.com.cn.printhome.net.callback.my.ChongZhiRecordCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.ChongZhiRecordRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountRecordAdapter1;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
@@ -52,6 +54,9 @@ public class AccountRecordActivity1 extends BaseActivity implements View.OnClick
         AccountRecordAdapter1 adapter = new AccountRecordAdapter1(getSelfActivity());
         lv_account_record.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
         lv_account_record.setAdapter(adapter);
+
+        //获取充值记录
+        ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
     }
 
     private void initView() {
@@ -74,6 +79,23 @@ public class AccountRecordActivity1 extends BaseActivity implements View.OnClick
             case R.id.tv_receipt://开票
                 startActivity(new Intent(getSelfActivity(), ReceiptActivity.class));
                 break;
+        }
+    }
+    private class MyChongzhiRecordCallBack extends ChongZhiRecordCallBack {
+
+        @Override
+        public void success(String msg, ChongZhiRecordBean bean) {
+
+        }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
         }
     }
 }

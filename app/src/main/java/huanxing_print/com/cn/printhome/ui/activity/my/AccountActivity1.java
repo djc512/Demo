@@ -11,8 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
+import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter1;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
@@ -62,6 +67,9 @@ public class AccountActivity1 extends BaseActivity implements View.OnClickListen
         adapter = new AccountCZAdapter1(getSelfActivity(), null);
         rv_account.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
         rv_account.setAdapter(adapter);
+
+        //充值接口
+        ChongzhiRequest.getChongZhi(getSelfActivity(), new MyChongzhiCallBack());
     }
 
     private void setListener() {
@@ -91,6 +99,23 @@ public class AccountActivity1 extends BaseActivity implements View.OnClickListen
             case R.id.ll_back://返回
                 finishCurrentActivity();
                 break;
+        }
+    }
+    public class MyChongzhiCallBack extends ChongzhiCallBack {
+
+        @Override
+        public void success(String msg, List<ChongZhiBean> list) {
+            adapter.updateData(list);
+        }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
         }
     }
 }

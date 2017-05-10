@@ -118,10 +118,12 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initData() {
-        Drawable d = getResources().getDrawable(R.drawable.ic_launcher);
-        d.setBounds(0,0,50,50);
-        btn_gray.setCompoundDrawables(d,null,null,null);
-        btn_black.setCompoundDrawables(d,null,null,null);
+        Drawable dpower = getResources().getDrawable(R.drawable.power);
+        Drawable dgray = getResources().getDrawable(R.drawable.gray);
+        dpower.setBounds(0, 0, 40, 40);
+        dgray.setBounds(0, 0, 50, 50);
+        btn_gray.setCompoundDrawables(dgray, null, null, null);
+        btn_black.setCompoundDrawables(dpower, null, null, null);
 
         try {
             mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
@@ -328,11 +330,11 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                         options -= 10;
                     }
                     byte[] bytes = baos.toByteArray();
-                    intentsave.putExtra("bytes",bytes);
+                    intentsave.putExtra("bytes", bytes);
                     intentsave.setAction("bitmap");
                     sendBroadcast(intentsave);
-                    saveName = System.currentTimeMillis()+".jpg";
-                    saveUtil.saveClipPic(compBitmap,saveName);
+                    saveName = System.currentTimeMillis() + ".jpg";
+                    saveUtil.saveClipPic(compBitmap, saveName);
                     Toast.makeText(ctx, "保存成功", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -417,8 +419,19 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
         startActivityForResult(intent, REQUEST_CAPTURE);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (null != mResult && null != mBitmap && null != compBitmap) {
+            mResult.recycle();
+            mBitmap.recycle();
+            compBitmap.recycle();
+
+            mResult = null;
+            mBitmap = null;
+            compBitmap = null;
+        }
     }
 }

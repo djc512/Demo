@@ -119,8 +119,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private void initData() {
         Drawable dpower = getResources().getDrawable(R.drawable.power);
         Drawable dgray = getResources().getDrawable(R.drawable.gray);
-        dpower.setBounds(0, 0, 20, 20);
-        dgray.setBounds(0, 0, 20, 20);
+        dpower.setBounds(0, 0, 50, 50);
+        dgray.setBounds(0, 0, 50, 50);
         btn_gray.setCompoundDrawables(dgray, null, null, null);
         btn_black.setCompoundDrawables(dpower, null, null, null);
 
@@ -404,5 +404,20 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
         startActivityForResult(intent, REQUEST_CAPTURE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (null != mResult && null != mBitmap && null != compBitmap) {
+            mResult.recycle();
+            mBitmap.recycle();
+            compBitmap.recycle();
+
+            mResult = null;
+            mBitmap = null;
+            compBitmap = null;
+        }
     }
 }
