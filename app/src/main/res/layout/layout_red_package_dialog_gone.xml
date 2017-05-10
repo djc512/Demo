@@ -45,7 +45,7 @@
                 android:layout_marginTop="10dp"
                 android:text="波比"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_sixteen" />
+                android:textSize="@dimen/text_size_eighteen" />
 
             <TextView
                 android:id="@+id/txt_default_msg"
@@ -54,23 +54,25 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/red_package_default_msg"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_fourteen" />
+                android:textSize="@dimen/text_size_fourteen"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/txt_leave_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="恭喜发财,大吉大利"
+                android:text="@string/red_package_detail_gone"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_twenty_five" />
+                android:textSize="@dimen/text_size_twenty_two" />
 
             <ImageView
                 android:id="@+id/img_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:src="@drawable/open_red_package" />
+                android:src="@drawable/open_red_package"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -85,8 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
-            android:text="@string/red_package_check_detail"
-            android:textColor="@color/gray"
+            android:text="@string/red_package_check_detail_out"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_fifteen" />
 
     </LinearLayout>

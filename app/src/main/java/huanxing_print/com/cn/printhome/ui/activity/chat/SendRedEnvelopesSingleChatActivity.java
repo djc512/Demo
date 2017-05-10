@@ -1,19 +1,19 @@
 package huanxing_print.com.cn.printhome.ui.activity.chat;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.view.dialog.SingleRedEnvelopesDialog;
 
 /**
  * description: 单对单的发红包
@@ -90,10 +90,8 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
             case R.id.btn_plug_money:
                 //发红包
                 //展示假的红包
-                LinearLayout inflate = (LinearLayout) getLayoutInflater().inflate(R.layout.layout_red_package_dialog, null);
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setView(inflate)
-                        .create();
+                Dialog dialog = new SingleRedEnvelopesDialog(getSelfActivity(),
+                        R.style.MyDialog);
                 dialog.show();
                 break;
         }
