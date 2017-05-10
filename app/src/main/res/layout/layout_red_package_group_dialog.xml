@@ -65,12 +65,31 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_twenty_five" />
 
-            <ImageView
-                android:id="@+id/img_open"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:src="@drawable/open_red_package" />
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:id="@+id/txt_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="188.88"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_twenty_five" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/txt_num"
+                    android:layout_marginBottom="5dp"
+                    android:layout_toRightOf="@id/txt_num"
+                    android:text="元"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_twelve" />
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -80,12 +99,19 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/txt_look_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/red_package_group_bottom_1"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_fifteen" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
-            android:text="@string/red_package_check_detail"
+            android:text="@string/red_package_group_bottom_2"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_fifteen" />
 
