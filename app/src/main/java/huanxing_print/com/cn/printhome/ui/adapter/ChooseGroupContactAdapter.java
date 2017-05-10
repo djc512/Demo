@@ -38,19 +38,13 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
     private LayoutInflater mInflater;
     private List<String> characterList; // 字母List
     private List<String> mContactList; // 联系人名称List（转换成拼音）
-    private int maxChooseNum;
     private ArrayList<FriendInfo> chooseInfos = new ArrayList<FriendInfo>();
 
-    public ChooseGroupContactAdapter(Context context, ArrayList<FriendInfo> contactInfos, int maxChoose) {
+    public ChooseGroupContactAdapter(Context context, ArrayList<FriendInfo> contactInfos) {
         this.mContext = context;
         mInflater = LayoutInflater.from(mContext);
 //        initData();
-        setMaxChooseNum(maxChoose);
         modifyData(contactInfos);
-    }
-
-    public void setMaxChooseNum(int num) {
-        maxChooseNum = num;
     }
 
     public enum ITEM_TYPE {
@@ -199,13 +193,13 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (contactInfo != null && chooseInfos.size() <= 4) {
+                    if (contactInfo != null && chooseInfos.size() <= mInfos.size()) {
                         if (cb_choose.isChecked()) {
                             cb_choose.setChecked(false);
                             chooseInfos.remove(contactInfo);
                             callbackChoose();
                         } else {
-                            if(chooseInfos.size() != 4) {
+                            if(chooseInfos.size() != mInfos.size()) {
                                 cb_choose.setChecked(true);
                                 chooseInfos.add(contactInfo);
                                 callbackChoose();

@@ -106,6 +106,11 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     public void clickGroup(GroupInfo info) {
         if(null != info) {
             ToastUtil.doToast(this, info.getGroupName());
+            //假设跳入到群设置详情，后续删除
+            Intent intent = new Intent(GroupActivity.this, GroupSettingActivity.class);
+            intent.putExtra("groupId", info.getGroupId());
+            startActivity(intent);
+
         }
     }
 

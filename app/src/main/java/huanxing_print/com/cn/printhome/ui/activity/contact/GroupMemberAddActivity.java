@@ -1,9 +1,9 @@
 package huanxing_print.com.cn.printhome.ui.activity.contact;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,8 +16,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
-import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
-import huanxing_print.com.cn.printhome.net.callback.contact.CreateGroupCallback;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
@@ -29,16 +28,17 @@ import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
- * Created by wanghao on 2017/5/5.
+ * Created by wanghao on 2017/5/10.
  */
 
-public class CreateGroup extends BaseActivity implements View.OnClickListener, ChooseGroupContactAdapter.OnClickGroupInListener, ChooseGroupContactAdapter.OnChooseMemberListener {
+public class GroupMemberAddActivity extends BaseActivity implements View.OnClickListener, ChooseGroupContactAdapter.OnClickGroupInListener, ChooseGroupContactAdapter.OnChooseMemberListener{
     private Button btn_create;
     private RecyclerView recyclerView;
     private TextView tv_hint_member;
     private ChooseGroupContactAdapter adapter;
     private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
     private ArrayList<FriendInfo> chooseMembers;
+    private String currentGroupId;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -69,6 +69,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     }
 
     private void initData() {
+        currentGroupId = getIntent().getStringExtra("groupId");
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
         DialogUtils.showProgressDialog(this,"加载中").show();
@@ -89,35 +90,34 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
                 finishCurrentActivity();
                 break;
             case R.id.btn_create:
-                createGroup();
+                addMemberToGroup();
                 break;
         }
     }
 
-    private void createGroup(){
+    private void addMemberToGroup() {
         if(null != chooseMembers && chooseMembers.size() > 0) {
             String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                     "loginToken");
-            DialogUtils.showProgressDialog(this, "创建中");
+            DialogUtils.showProgressDialog(this, "添加中").show();
 
             ArrayList<String> arrayList = new ArrayList<String>();
-            for(FriendInfo info : chooseMembers) {
+            for (FriendInfo info : chooseMembers) {
                 arrayList.add(info.getMemberId());
             }
-//            String[] memberIdArray = arrayList.toArray(new String[arrayList.size()]);
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("groupMembers", arrayList);
 
-            GroupManagerRequest.createGroupReq(this, token, params, createGroupCallback);
+            Map<String, Object> params = new HashMap<String, Object>();
+            Log.e("wanghao",currentGroupId);
+            params.put("groupId", currentGroupId);
+            params.put("memberIds", arrayList);
+            GroupManagerRequest.addMemberToGroup(this, token, params, addMemberCallback);
         }else{
             ToastUtil.doToast(this,"请选择群成员");
         }
     }
 
-    private void createSuccess(GroupInfo info) {
-        Intent intent = new Intent();
-        intent.putExtra("created", info);
-        setResult(RESULT_OK, intent);
+    private void addMemberSuccess() {
+        setResult(RESULT_OK);
         finish();
     }
 
@@ -131,7 +131,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         chooseMembers = infos;
         if (null != infos) {
             tv_hint_member.setText(String.format(getString(R.string.hint_choose_members), infos.size()));
-            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), friends.size()));
+            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(),friends.size()));
             if (infos.size() > 0) {
                 btn_create.setEnabled(true);
             } else {
@@ -140,19 +140,17 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         }
     }
 
-    CreateGroupCallback createGroupCallback = new CreateGroupCallback() {
+    NullCallback addMemberCallback = new NullCallback() {
         @Override
-        public void success(String msg, GroupInfo groupInfo) {
+        public void success(String msg) {
             DialogUtils.closeProgressDialog();
-            if(null != groupInfo) {
-                createSuccess(groupInfo);
-            }
+            addMemberSuccess();
         }
 
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(CreateGroup.this, msg);
+            ToastUtil.doToast(GroupMemberAddActivity.this, msg);
         }
 
         @Override
@@ -182,7 +180,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(CreateGroup.this, msg);
+            ToastUtil.doToast(GroupMemberAddActivity.this, msg);
         }
 
         @Override

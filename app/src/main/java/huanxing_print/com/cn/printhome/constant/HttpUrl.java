@@ -43,6 +43,8 @@ public class HttpUrl {
     public static final String checkTel = "friend/checkTelNo";//查询手机号是否是印家号
     public static final String groupList = "group/list";//群列表
     public static final String createGroup = "group/add";//添加群
+    public static final String queryGroupMsg = "group/queryInfo";//群信息查询
+    public static final String addMemberToGroup = "group/addMember";//群信息查询
     public static final String addApproval = "approve/add";//新增审批
     public static final String queryApprovalList = "approve/list";//查询审批列表
     public static final String queryLast = "approve/queryLast";//查询上次的审批人和抄送人
