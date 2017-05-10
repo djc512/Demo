@@ -18,6 +18,7 @@ import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddByAddressBookActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.GroupActivity;
+import huanxing_print.com.cn.printhome.ui.activity.contact.GroupSettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.NewFriendActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ContactsItemAdapter;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -133,7 +134,8 @@ public class ContantsFragment extends BaseFragment implements
     }
 
     private void startGroupActivity() {
-        Intent intent = new Intent(getActivity(), GroupActivity.class);
+//        Intent intent = new Intent(getActivity(), GroupActivity.class);
+        Intent intent = new Intent(getActivity(), GroupSettingActivity.class);
         startActivity(intent);
     }
 
