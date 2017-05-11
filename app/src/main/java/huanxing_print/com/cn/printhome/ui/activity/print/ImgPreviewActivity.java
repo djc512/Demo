@@ -14,6 +14,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
@@ -26,7 +27,6 @@ import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 public class ImgPreviewActivity extends BasePrintActivity implements View.OnClickListener {
 
@@ -86,6 +86,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     private MyHandler mHandler = new MyHandler(this);
 
     private void uploadFile(String base) {
+        Logger.i(BaseApplication.getInstance().getLoginToken());
         PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(), "1", new
                 HttpListener() {
                     @Override
@@ -151,8 +152,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                 if (addFileSettingBean.isSuccess()) {
                     turnPrintSetting(addFileSettingBean.getData());
                 } else {
-                    Logger.i("net error");
-                    ToastUtil.doToast(context, getString(R.string.upload_failure));
+                    ShowUtil.showToast(addFileSettingBean.getErrorMsg());
                 }
             }
 
