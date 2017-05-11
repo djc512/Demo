@@ -1,9 +1,12 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,9 +32,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	private RelativeLayout rl_title;
 	private TextView  getCodeTv, registeTv;
 	private EditText registerPhoneEt, registerCodeEt ;
-
 	private String  phone, verCode;
-
+	private ImageView iv_phone_detele,iv_code_detele;
 	@Override
 	protected BaseActivity getSelfActivity() {
 		return this;
@@ -59,13 +61,56 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	private void initViews() {
 		getCodeTv = (TextView) findViewById(R.id.code_btn);
 		registeTv = (TextView) findViewById(R.id.register_btn);
-
+		iv_phone_detele = (ImageView) findViewById(R.id.iv_phone_detele);
+		iv_code_detele = (ImageView) findViewById(R.id.iv_code_detele);
 		registerPhoneEt = (EditText) findViewById(R.id.register_phonenum);
 		registerCodeEt = (EditText) findViewById(R.id.register_code);
 		getCodeTv.setOnClickListener(this);
+		iv_phone_detele.setOnClickListener(this);
+		iv_code_detele.setOnClickListener(this);
 		registeTv.setOnClickListener(this);
+		findViewById(R.id.tv_login).setOnClickListener(this);
 
+		registerPhoneEt.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (start>0){
+					iv_phone_detele.setVisibility(View.VISIBLE);
+				}else{
+					iv_phone_detele.setVisibility(View.GONE);
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
+		registerCodeEt.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if (start>0){
+					iv_code_detele.setVisibility(View.VISIBLE);
+				}else{
+					iv_code_detele.setVisibility(View.GONE);
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
 	}
 
 	@Override
@@ -78,6 +123,16 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			Logger.d("注册");
 			register();
 			break;
+		case R.id.tv_login:// 登录
+			jumpActivity(LoginActivity.class);
+			break;
+		case R.id.iv_phone_detele://
+			registerPhoneEt.setText("");
+			break;
+		case R.id.iv_code_detele://
+			registerCodeEt.setText("");
+			break;
+
 //		case R.id.reg_login:// 已经账号去登录
 //			jumpActivity(LoginActivity.class);
 //			break;

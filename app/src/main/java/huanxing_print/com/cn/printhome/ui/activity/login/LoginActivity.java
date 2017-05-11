@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +58,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     private TextView tv_login,getCodeTv;
     private EditText login_phone,et_code;
+    private ImageView iv_phone_detele,iv_code_detele;
     private TextView  tv_register;
     private String phone;
     String name;
@@ -84,7 +88,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_login);
         initViews();
-        //initData();
+        initData();
     }
     @Override
     public void onResume() {
@@ -96,11 +100,50 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     }
 
     private void initData() {
-        phone = baseApplication.getPhone();
-        if (!ObjectUtils.isNull(phone)) {
-            login_phone.setText(phone);
-        }
+//        phone = baseApplication.getPhone();
+//        if (!ObjectUtils.isNull(phone)) {
+//            login_phone.setText(phone);
+//        }
+        login_phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (start>0){
+                    iv_phone_detele.setVisibility(View.VISIBLE);
+                }else{
+                    iv_phone_detele.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        et_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (start>0){
+                    iv_code_detele.setVisibility(View.VISIBLE);
+                }else{
+                    iv_code_detele.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void initViews() {
@@ -108,8 +151,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         et_code= (EditText) findViewById(R.id.et_code);
         tv_register = (TextView) findViewById(R.id.tv_register);
         getCodeTv = (TextView) findViewById(R.id.code_btn);
+        iv_phone_detele = (ImageView) findViewById(R.id.iv_phone_detele);
+        iv_code_detele = (ImageView) findViewById(R.id.iv_code_detele);
         tv_login = (TextView) findViewById(R.id.tv_login);
         getCodeTv.setOnClickListener(this);
+        iv_phone_detele.setOnClickListener(this);
+        iv_code_detele.setOnClickListener(this);
         tv_login.setOnClickListener(this);
         tv_register.setOnClickListener(this);
         findViewById(R.id.ll_weixin).setOnClickListener(this);
