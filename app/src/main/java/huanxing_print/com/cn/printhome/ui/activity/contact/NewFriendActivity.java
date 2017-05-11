@@ -92,7 +92,6 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onAddressBookClick() {
-        ToastUtil.doToast(this,"从手机联系人添加");
         startActivity(AddByAddressBookActivity.class);
     }
 
@@ -117,7 +116,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
                         info.setMemberName("Null");
                     }
                 }
-                adapter.updateData(newFriendInfos);
+                adapter.updateData(friendInfos);
             }
         }
 

@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:orientation="vertical"
-              android:background="@color/gray1"
+              android:background="@color/gray5"
               android:layout_height="match_parent">
     <LinearLayout
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="@dimen/invitation_l_platform_h"
         android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/btn_weiXin"
@@ -17,12 +17,12 @@
             android:orientation="vertical"
             android:layout_weight="1">
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/invitation_platform_icon_w_h"
+                android:layout_height="@dimen/invitation_platform_icon_w_h"
                 android:src="@drawable/ic_contact_weixin"/>
             <TextView
                 android:text="微信邀请"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/invitation_platform_name_margin_t"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -35,13 +35,13 @@
             android:orientation="vertical"
             android:layout_weight="1">
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/invitation_platform_icon_w_h"
+                android:layout_height="@dimen/invitation_platform_icon_w_h"
                 android:src="@drawable/ic_contact_message"/>
 
             <TextView
                 android:text="短信邀请"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/invitation_platform_name_margin_t"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -49,10 +49,10 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/btn_cancel"
-        android:background="@color/white"
-        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_recycler_click_selector"
+        android:layout_marginTop="@dimen/invitation_btn_margin_t"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/invitation_btn_cancel_h"
         android:gravity="center"
         android:orientation="horizontal">
         <TextView

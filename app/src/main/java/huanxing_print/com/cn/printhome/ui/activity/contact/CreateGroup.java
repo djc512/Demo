@@ -39,6 +39,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     private ChooseGroupContactAdapter adapter;
     private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
     private ArrayList<FriendInfo> chooseMembers;
+    private String token;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -69,7 +70,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     }
 
     private void initData() {
-        String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+        token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
         DialogUtils.showProgressDialog(this,"加载中").show();
         FriendManagerRequest.queryFriendList(this,token,myFriendListCallback);
@@ -96,15 +97,12 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
 
     private void createGroup(){
         if(null != chooseMembers && chooseMembers.size() > 0) {
-            String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
-                    "loginToken");
-            DialogUtils.showProgressDialog(this, "创建中");
+            DialogUtils.showProgressDialog(this, "创建中").show();
 
             ArrayList<String> arrayList = new ArrayList<String>();
             for(FriendInfo info : chooseMembers) {
                 arrayList.add(info.getMemberId());
             }
-//            String[] memberIdArray = arrayList.toArray(new String[arrayList.size()]);
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("groupMembers", arrayList);
 
@@ -175,7 +173,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
                 friends = friendInfos;
                 btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, friends.size()));
 
-                adapter.modify(friendInfos);
+                adapter.modify(friends);
             }
         }
 

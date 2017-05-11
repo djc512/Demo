@@ -60,10 +60,9 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void initData() {
-
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(this,"加载中");
+        DialogUtils.showProgressDialog(this,"加载中").show();
         GroupManagerRequest.queryGroupList(this, token, groupListCallback);
     }
 

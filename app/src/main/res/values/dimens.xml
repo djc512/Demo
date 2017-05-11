@@ -155,4 +155,11 @@
     <dimen name="group_create_member_cb_w_h">20dp</dimen>
     <dimen name="group_create_icon_w_h">40dp</dimen>
     <dimen name="group_create_icon_margin">15dp</dimen>
+
+    <!--联系人邀请-->
+    <dimen name="invitation_l_platform_h">120dp</dimen>
+    <dimen name="invitation_platform_icon_w_h">60dp</dimen>
+    <dimen name="invitation_platform_name_margin_t">10dp</dimen>
+    <dimen name="invitation_btn_cancel_h">40dp</dimen>
+    <dimen name="invitation_btn_margin_t">10dp</dimen>
 </resources>
