@@ -74,7 +74,7 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'org.simple:androideventbus:1.0.5.1'
     compile 'com.huxq17.xrefreshview:xrefreshview:3.5.5'
-    //compile 'com.dreamlive.cn.clog:ClogLibrary:0.0.1'
+    compile 'com.dreamlive.cn.clog:ClogLibrary:0.0.1'
     compile 'com.android.support:design:25.1.1'
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.afollestad.material-dialogs:core:0.9.4.3'

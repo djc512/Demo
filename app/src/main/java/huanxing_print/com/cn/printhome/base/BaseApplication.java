@@ -10,10 +10,11 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-//import com.dreamlive.cn.clog.CollectLog;
+import com.dreamlive.cn.clog.CollectLog;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
@@ -25,9 +26,9 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.zhy.http.okhttp.OkHttpUtils;
 
-
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +46,8 @@ import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ThreadUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtils;
 import okhttp3.OkHttpClient;
+
+//import com.dreamlive.cn.clog.CollectLog;
 
 public class BaseApplication extends Application {
 	private String loginToken;//登录校验token，需要登录的接口需要校验该token
@@ -294,8 +297,8 @@ public class BaseApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
-//		CollectLog clog = CollectLog.getInstance();
-//		clog.init(this);
+		CollectLog clog = CollectLog.getInstance();
+		clog.init(this, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "dreamlivemeng");
 		api = WXAPIFactory.createWXAPI(this, WX_APPID, true);
 		api.registerApp(WX_APPID);
 		initJPush();
