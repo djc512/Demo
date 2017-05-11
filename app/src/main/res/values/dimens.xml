@@ -162,4 +162,6 @@
     <dimen name="invitation_platform_name_margin_t">10dp</dimen>
     <dimen name="invitation_btn_cancel_h">40dp</dimen>
     <dimen name="invitation_btn_margin_t">10dp</dimen>
+
+    <dimen name="pickfile_tab_height">60dp</dimen>
 </resources>
