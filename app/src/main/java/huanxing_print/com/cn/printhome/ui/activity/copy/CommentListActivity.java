@@ -56,6 +56,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     private CommentMediumFragment mediumFragment;
     private CommentBadFragment badFragment;
     private int printno;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,10 +98,26 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
         marginLeft = (llWidth - tvWidth) / 2;
 
         fragments = new ArrayList<>();
+
         allFragment = new CommentAllFragment();
+        Bundle allbundle = new Bundle();
+        allbundle.putInt("printno", printno);
+        allFragment.setArguments(allbundle);
+
         goodFragment = new CommentGoodFragment();
+        Bundle goodbundle = new Bundle();
+        goodbundle.putInt("printno", printno);
+        goodFragment.setArguments(goodbundle);
+
         mediumFragment = new CommentMediumFragment();
+        Bundle mediumbundle = new Bundle();
+        mediumbundle.putInt("printno", printno);
+        mediumFragment.setArguments(mediumbundle);
+
         badFragment = new CommentBadFragment();
+        Bundle badbundle = new Bundle();
+        badbundle.putInt("printno", printno);
+        badFragment.setArguments(badbundle);
 
         fragments.add(allFragment);
         fragments.add(goodFragment);
@@ -123,7 +140,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
      * 获取数据
      */
     private void getData() {
-        DialogUtils.showProgressDialog(ctx,"正在加载中...");
+        DialogUtils.showProgressDialog(ctx, "正在加载中...");
         CommentListRequest.request(ctx, 1, printno, 0, new CommentListCallback() {
             @Override
             public void success(CommentListBean bean) {
@@ -171,19 +188,19 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
                 switch (position) {
                     case 0:
                         setTextView(0);
-                        allFragment.getData(0);
+                        allFragment.getData(0, printno);
                         break;
                     case 1:
                         setTextView(1);
-                        goodFragment.getData(1);
+                        goodFragment.getData(1, printno);
                         break;
                     case 2:
                         setTextView(2);
-                        mediumFragment.getData(2);
+                        mediumFragment.getData(2, printno);
                         break;
                     case 3:
                         setTextView(3);
-                        badFragment.getData(3);
+                        badFragment.getData(3, printno);
                         break;
                 }
             }

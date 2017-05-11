@@ -27,11 +27,13 @@ public class CommentAllFragment extends Fragment {
 
     private RecyclerView rv_comment_list;
     private Context ctx;
+    private int printno;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ctx = getActivity();
+        printno = getArguments().getInt("printno");
         View view = inflater.inflate(R.layout.frag_comment, null);
         initView(view);
         return view;
@@ -40,16 +42,16 @@ public class CommentAllFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getData(0);
+        getData(0,printno);
     }
 
     private void initView(View view) {
         rv_comment_list = (RecyclerView) view.findViewById(R.id.rv_comment_list);
     }
 
-    public void getData(int index) {
+    public void getData(int type,int printno) {
         DialogUtils.showProgressDialog(ctx, "正在加载中...");
-        CommentListRequest.request(ctx, 1, "zwf001", index, new CommentListCallback() {
+        CommentListRequest.request(ctx, 1, printno, type, new CommentListCallback() {
             @Override
             public void success(CommentListBean bean) {
                 DialogUtils.closeProgressDialog();
