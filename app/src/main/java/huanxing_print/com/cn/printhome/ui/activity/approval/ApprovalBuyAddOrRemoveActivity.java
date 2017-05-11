@@ -24,7 +24,6 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.PicApprovalAdapter;
-import huanxing_print.com.cn.printhome.ui.adapter.UpLoadPicAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -135,7 +134,13 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         //adapter.update();
         noScrollgridview.setAdapter(adapter);
 
+        showData();
 
+
+    }
+
+    private void showData() {
+        //展示 数据
     }
 
     private void initView() {
@@ -202,12 +207,14 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
                         new DialogUtils.SignatureDialogCallBack() {
                             @Override
                             public void ok() {
-                                Toast.makeText(getSelfActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+                               Toast.makeText(getSelfActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+
 
                             }
 
                             @Override
                             public void cancel() {
+                                Toast.makeText(getSelfActivity(), "请签名", Toast.LENGTH_SHORT).show();
 
                             }
                         }).show();

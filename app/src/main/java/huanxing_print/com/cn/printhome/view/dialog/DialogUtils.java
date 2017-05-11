@@ -603,13 +603,24 @@ public class DialogUtils {
 
             @Override
             public void onClick(View v) {
-                mSignatureDialog.dismiss();
-                try {
+
+                if(mPathView.getTouched()){
+                    try {
+                        mPathView.save("/sdcard/signature.png", true, 10);
+                        mSignatureDialog.dismiss();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    signatureDialogCallBack.ok();
+                }else {
+                    signatureDialogCallBack.cancel();
+                }
+                /*try {
                     mPathView.save("/sdcard/signature.png", true, 10);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                signatureDialogCallBack.ok();
+                signatureDialogCallBack.ok();*/
             }
         });
         okCancel.setOnClickListener(new OnClickListener() {
