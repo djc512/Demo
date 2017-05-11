@@ -5,6 +5,11 @@ package huanxing_print.com.cn.printhome.model.print;
  */
 
 public class FileBean {
+
+    public FileBean(int id) {
+        this.id = id;
+    }
+
     private int id;
 
     public int getId() {

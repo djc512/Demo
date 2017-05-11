@@ -128,10 +128,10 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
         AroundPrinterResp.Printer printer = mPrinterList.get(position);
         viewHolder.nameTv.setText(printer.getName());
         viewHolder.addressTv.setText(printer.getAddress());
-        viewHolder.disTv.setText(StringUtil.getDistance(printer.getDistance()) );
-        Logger.i(StringUtil.getDistance(printer.getDistance()) );
+        viewHolder.disTv.setText(StringUtil.getDistance(printer.getDistance()));
+        Logger.i(StringUtil.getDistance(printer.getDistance()));
         viewHolder.commentTv.setText("评论" + printer.getRemarkCount());
-        if (PrintUtil.TYPE_COLOR.equals(printer.getPrinterType())) {
+        if (PrintUtil.PRINTER_TYPE_COLOR.equals(printer.getPrinterType())) {
             viewHolder.typeImg.setImageResource(R.drawable.ic_colorized);
         } else {
             viewHolder.typeImg.setImageResource(R.drawable.ic_black);

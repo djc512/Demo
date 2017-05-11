@@ -385,7 +385,8 @@
         <activity
             android:name=".ui.activity.copy.CopySettingActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 审批的界面 -->
         <activity
             android:name=".ui.activity.approval.ApprovalActivity"

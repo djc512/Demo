@@ -72,7 +72,7 @@ public class DocPrintActivity extends BasePrintActivity {
 
     public void onAddOrder(View view) {
         List<FileBean> fileList = new ArrayList();
-        FileBean file = new FileBean();
+        FileBean file = new FileBean(printSetting.getId());
         file.setId(printSetting.getId());
         fileList.add(file);
         PrintRequest.addOrder(activity, "48TZ-13102-1251581193", fileList, new
