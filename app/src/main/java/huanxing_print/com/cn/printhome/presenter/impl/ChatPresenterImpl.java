@@ -45,12 +45,29 @@ public class ChatPresenterImpl implements ChatPresenter {
     }
 
     @Override
-    public void sendMessage(String username, String msg) {
-        EMMessage emMessage = EMMessage.createTxtSendMessage(msg,username);
+    public void sendGroupMessage(String username, EMMessage msg) {
+        mEMMessageList.add(msg);
+        mChatView.onUpdate(mEMMessageList.size());
+        msg.setMessageStatusCallback(new EmsCallBackListener() {
+            @Override
+            public void onMainSuccess() {
+                mChatView.onUpdate(mEMMessageList.size());
+            }
 
-        //如果是群聊，设置chattype，默认是单聊
-        //if (chatType == CHATTYPE_GROUP);
-        //emMessage.setChatType(EMMessage.ChatType.GroupChat);
+            @Override
+            public void onMainError(int i, String s) {
+                mChatView.onUpdate(mEMMessageList.size());
+            }
+        });
+
+        EMClient.getInstance().chatManager().sendMessage(msg);
+
+    }
+
+    @Override
+    public void sendMessage(String username, String msg) {
+        EMMessage emMessage = EMMessage.createTxtSendMessage(msg, username);
+
 
         emMessage.setStatus(EMMessage.Status.INPROGRESS);
         mEMMessageList.add(emMessage);
@@ -60,6 +77,7 @@ public class ChatPresenterImpl implements ChatPresenter {
             public void onMainSuccess() {
                 mChatView.onUpdate(mEMMessageList.size());
             }
+
             @Override
             public void onMainError(int i, String s) {
                 mChatView.onUpdate(mEMMessageList.size());
@@ -83,7 +101,7 @@ public class ChatPresenterImpl implements ChatPresenter {
             EMMessage lastMessage = conversation.getLastMessage();
             //获取最后一条消息之前的19条（最多）
             int count = 19;
-            if (mEMMessageList.size()>=19){
+            if (mEMMessageList.size() >= 19) {
                 count = mEMMessageList.size();
             }
             List<EMMessage> messageList = conversation.loadMoreMsgFromDB(lastMessage.getMsgId(), count);

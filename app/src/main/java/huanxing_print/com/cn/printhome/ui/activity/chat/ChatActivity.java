@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.activity.chat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +41,7 @@ import static huanxing_print.com.cn.printhome.util.ShowUtil.showToast;
  * Created by htj on 2017/5/8.
  */
 
-public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, View.OnClickListener{
+public class ChatActivity extends BaseActivity implements TextWatcher, ChatView, View.OnClickListener {
 
     private ChatPresenter mChatPresenter;
     private String mUsername;
@@ -59,6 +60,8 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
     Button mBtnSend;
     ImageView mAdd;
     LinearLayout mAddFile;
+    //区分群聊和单聊
+    int type;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -79,25 +82,26 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
         initVIew();
         initListener();
 
-        /*Intent intent = getIntent();
-        //聊天对象
-        mUsername = intent.getStringExtra("username");*/
-        //测试，
-        mUsername = "11111111111" +
-                "";
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", -1);
 
-        if (TextUtils.isEmpty(mUsername)){
+        //聊天对象
+        // mUsername = intent.getStringExtra("username");
+        //测试，
+        mUsername = "15830317334532";
+
+        if (TextUtils.isEmpty(mUsername)) {
             showToast("跟鬼聊呀，请携带username参数！");
             finish();
             return;
         }
-        mTvTitle.setText("与"+ mUsername +"聊天中");
+        mTvTitle.setText("与" + mUsername + "聊天中");
 
         mEtMsg.addTextChangedListener(this);
         String msg = mEtMsg.getText().toString();
-        if (TextUtils.isEmpty(msg)){
+        if (TextUtils.isEmpty(msg)) {
             mBtnSend.setEnabled(false);
-        }else {
+        } else {
             mBtnSend.setEnabled(true);
         }
         mChatPresenter = new ChatPresenterImpl(this);
@@ -110,7 +114,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
     }
 
 
-    protected void initVIew(){
+    protected void initVIew() {
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mEtMsg = (EditText) findViewById(R.id.et_msg);
@@ -126,19 +130,17 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
     }
 
 
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void on(EMMessage message){
+    public void on(EMMessage message) {
         //当收到信消息的时候
         /*
          *  判断当前这个消息是不是正在聊天的用户给我发的
          *  如果是，让ChatPresenter 更新数据
          *
          */
-        Log.i("CMCC","事件接收到");
+        Log.i("CMCC", "事件接收到");
         String from = message.getFrom();
-        if (from.equals(mUsername)){
+        if (from.equals(mUsername)) {
             mChatPresenter.updateData(mUsername);
         }
 
@@ -149,7 +151,6 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         //EMClient.getInstance().chatManager().removeMessageListener(msgListener);
-
 
 
     }
@@ -166,18 +167,18 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
 
 
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.et_msg:
                 String msg = mEtMsg.getText().toString();
-                mChatPresenter.sendMessage(mUsername,msg);
+                mChatPresenter.sendMessage(mUsername, msg);
                 mEtMsg.getText().clear();
                 break;
             case R.id.iv_add:
                 //点击添加的操作
-                if(isOpen){
+                if (isOpen) {
                     mAddFile.setVisibility(View.GONE);
                     isOpen = false;
-                }else{
+                } else {
                     mAddFile.setVisibility(View.VISIBLE);
                     isOpen = true;
                 }
@@ -187,7 +188,18 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
             case R.id.btn_send:
                 //发送消息
                 String msgg = mEtMsg.getText().toString();
-                mChatPresenter.sendMessage(mUsername,msgg);
+                if (type == 1) {
+                    EMMessage emMessage = EMMessage.createTxtSendMessage(msgg, mUsername);
+                    //如果是群聊，设置chattype，默认是单聊
+
+                    emMessage.setChatType(EMMessage.ChatType.GroupChat);
+                    emMessage.setStatus(EMMessage.Status.INPROGRESS);
+                    mChatPresenter.sendGroupMessage(mUsername, emMessage);
+                } else {
+                    mChatPresenter.sendMessage(mUsername, msgg);
+                }
+
+
                 mEtMsg.getText().clear();
 
                 break;
@@ -207,12 +219,12 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
 
     @Override
     public void afterTextChanged(Editable s) {
-        if (s.toString().length()==0){
+        if (s.toString().length() == 0) {
             mBtnSend.setEnabled(false);
             mBtnSend.setVisibility(View.GONE);
             mAdd.setVisibility(View.VISIBLE);
 
-        }else{
+        } else {
             mBtnSend.setEnabled(true);
             mBtnSend.setVisibility(View.VISIBLE);
             mAdd.setVisibility(View.GONE);
@@ -228,21 +240,21 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mChatAdapter = new ChatAdapter(emMessageList);
         mRecyclerView.setAdapter(mChatAdapter);
-        if (emMessageList.size()!=0){
-            mRecyclerView.smoothScrollToPosition(emMessageList.size()-1);
+        if (emMessageList.size() != 0) {
+            mRecyclerView.smoothScrollToPosition(emMessageList.size() - 1);
         }
     }
 
     @Override
     public void onUpdate(int size) {
         mChatAdapter.notifyDataSetChanged();
-        if (size!=0){
-            mRecyclerView.smoothScrollToPosition(size-1);
+        if (size != 0) {
+            mRecyclerView.smoothScrollToPosition(size - 1);
         }
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        if(null != this.getCurrentFocus()){
+        if (null != this.getCurrentFocus()) {
             /**
              * 点击空白位置 隐藏软键盘
              */
@@ -251,7 +263,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
             //隐藏文件部分
             //mAddFile.setVisibility(View.VISIBLE);
         }
-        return super .onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 
 }

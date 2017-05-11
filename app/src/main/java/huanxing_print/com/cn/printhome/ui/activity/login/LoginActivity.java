@@ -1,14 +1,11 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -125,13 +122,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 name = login_phone.getText().toString().trim();
                 validCode = et_code.getText().toString().trim();
                 if (isUserNameAndPwdVali(name,validCode)) {
-                    /**
-                     * 1. 动态申请权限
-                     */
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PermissionChecker.PERMISSION_GRANTED){
-                        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_SDCARD);
-                        return;
-                    }
 
                     DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
 
@@ -163,8 +153,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         @Override
         public void success(final LoginBean loginBean) {
+            toast(""+loginBean.getMemberInfo().getEasemobId());
             //判断环信是否登录成功
-            EMClient.getInstance().login(name, validCode, new EmsCallBackListener() {
+            EMClient.getInstance().login(loginBean.getMemberInfo().getEasemobId(),loginBean.getMemberInfo().getEasemobId() , new EmsCallBackListener() {
                 @Override
                 public void onMainSuccess() {
                     baseApplication.setHasLoginEvent(true);
