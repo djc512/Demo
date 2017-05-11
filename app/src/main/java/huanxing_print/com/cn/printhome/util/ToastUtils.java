@@ -1,9 +1,7 @@
-package com.itheima.qq15.utils;
+package huanxing_print.com.cn.printhome.util;
 
 import android.content.Context;
 import android.widget.Toast;
-
-import static com.hyphenate.chat.a.a.a.i;
 
 /**
  * 作者： itheima

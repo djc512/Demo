@@ -1,4 +1,4 @@
-package com.itheima.qq15.adapter;
+package huanxing_print.com.cn.printhome.ui.adapter;
 
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMMessage;
