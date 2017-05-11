@@ -7,9 +7,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
-
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.log.Logger;
@@ -21,7 +18,6 @@ import huanxing_print.com.cn.printhome.net.request.register.RegisterRequst;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
-import huanxing_print.com.cn.printhome.util.ThreadUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.time.ScheduledHandler;
 import huanxing_print.com.cn.printhome.util.time.ScheduledTimer;
@@ -188,56 +184,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		}
 
 		public void success(final LoginBean registerBean) {
-			//成功了再去注册环信平台
-			ThreadUtils.runOnSubThread(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						EMClient.getInstance().createAccount(phone, verCode);
-						//环信注册成功
-						ThreadUtils.runOnMainThread(new Runnable() {
-							@Override
-							public void run() {
-								DialogUtils.closeProgressDialog();
-								toast("注册成功");
-								if (!ObjectUtils.isNull(registerBean)) {
-									String loginToken = registerBean.getLoginToken();
-									baseApplication.setLoginToken(loginToken);
-									LoginBeanItem userInfo = registerBean.getMemberInfo();
-									if (!ObjectUtils.isNull(userInfo)) {
-										baseApplication.setPhone(userInfo.getMobileNumber());
-										baseApplication.setNickName(userInfo.getNickName());
-										baseApplication.setHeadImg(userInfo.getFaceUrl());
-										baseApplication.setEasemobId(userInfo.getEasemobId());
-										baseApplication.setUniqueId(userInfo.getUniqueId());
-										if (!ObjectUtils.isNull(userInfo.getWechatId())) {
-											baseApplication.setWechatId(userInfo.getWechatId());
-										}
-										jumpActivity(MainActivity.class);
-										finishCurrentActivity();
-									}
-								}
-							}
-						});
-					} catch (final HyphenateException e1) {
-						e1.printStackTrace();
-						//将Bmob上注册的user给删除掉
-						//user.delete();
-						//环信注册失败了
-						ThreadUtils.runOnMainThread(new Runnable() {
-							@Override
-							public void run() {
-//								mRegistView.onRegist(username,pwd,false,e1.toString());
-								DialogUtils.closeProgressDialog();
-								toast("环信登录失败");
-							}
-						});
-					}
-				}
-			});
-
-
-			/*DialogUtils.closeProgressDialog();
+			DialogUtils.closeProgressDialog();
 			    toast("注册成功");
 				if (!ObjectUtils.isNull(registerBean)) {
 					String loginToken = registerBean.getLoginToken();
@@ -255,7 +202,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 						jumpActivity(MainActivity.class);
 						finishCurrentActivity();
 					}
-				}*/
+				}
 
 	    }
 	};
