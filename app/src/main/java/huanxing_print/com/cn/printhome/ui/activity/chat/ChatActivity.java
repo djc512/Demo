@@ -83,7 +83,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher,ChatView, 
         //聊天对象
         mUsername = intent.getStringExtra("username");*/
         //测试，
-        mUsername = "12222222222";
+        mUsername = "12222222222 ";
 
         if (TextUtils.isEmpty(mUsername)){
             showToast("跟鬼聊呀，请携带username参数！");

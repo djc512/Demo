@@ -1,11 +1,14 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -50,6 +53,9 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
+
+    private static final int REQUEST_SDCARD = 1;
+
     private TextView tv_login,getCodeTv;
     private EditText login_phone,et_code;
     private TextView  tv_register;
@@ -119,6 +125,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 name = login_phone.getText().toString().trim();
                 validCode = et_code.getText().toString().trim();
                 if (isUserNameAndPwdVali(name,validCode)) {
+                    /**
+                     * 1. 动态申请权限
+                     */
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PermissionChecker.PERMISSION_GRANTED){
+                        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_SDCARD);
+                        return;
+                    }
+
                     DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
 
                     LoginRequset.login(getSelfActivity(), name, validCode, loginCallback);
@@ -219,6 +233,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         }
 
     };
+
+
 
     /*
      * 判断用户名和密码是否有效

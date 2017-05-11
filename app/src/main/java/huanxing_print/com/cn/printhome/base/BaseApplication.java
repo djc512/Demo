@@ -301,9 +301,7 @@ public class BaseApplication extends Application {
 		ZXingLibrary.initDisplayOpinion(this);
 		initHuanxin();
 		//添加消息的监听
-		initMessageListener();
-		//监听连接状态的改变
-		initConnectionListener();
+
 
 	}
 
@@ -329,6 +327,10 @@ public class BaseApplication extends Application {
 			EMClient.getInstance().init(this, options);
 	//在做打包混淆时，关闭debug模式，避免消耗不必要的资源
 			EMClient.getInstance().setDebugMode(true);
+
+		initMessageListener();
+		//监听连接状态的改变
+		initConnectionListener();
 
 	}
 
@@ -367,7 +369,7 @@ public class BaseApplication extends Application {
 					 */
 					Log.i("CMCC","收到消息了");
 
-					if (isRuninBackground()) {
+					/*if (isRuninBackground()) {
 						sendNotification(list.get(0));
 						//发出长声音
 						//参数2/3：左右喇叭声音的大小
@@ -375,7 +377,7 @@ public class BaseApplication extends Application {
 					} else {
 						//发出短声音
 						mSoundPool.play(mDuanSound,1,1,0,0,1);
-					}
+					}*/
 					EventBus.getDefault().post(list.get(0));
 				}
 			}
