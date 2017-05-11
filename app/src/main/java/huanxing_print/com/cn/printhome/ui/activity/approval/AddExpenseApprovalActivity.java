@@ -197,6 +197,23 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
             if (data != null) {
                 //审批人选择
                 ArrayList<FriendInfo> infos = data.getParcelableArrayListExtra("FriendInfo");
+                //判断一下抄送人中是否包含审批人
+                if (0 != copyFriends.size()) {
+                    //审批人不为空,判断审批人和传过来的抄送人是否重复
+                    for (int i = 0; i < infos.size(); i++) {
+                        int num = 0;//重复次数
+                        for (FriendInfo friendInfo : copyFriends) {
+                            if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                                //重复次数计算
+                                num++;
+                            }
+                        }
+                        if (num > 0) {
+                            ToastUtil.doToast(getSelfActivity(), "审批人和抄送人不能相同!");
+                            return;
+                        }
+                    }
+                }
                 //剔除重复的审批人数据
                 if (0 == approvalFriends.size()) {
                     approvalFriends.addAll(infos);
