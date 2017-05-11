@@ -14,12 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.comment.CommentListBean;
+import huanxing_print.com.cn.printhome.net.callback.comment.CommentListCallback;
+import huanxing_print.com.cn.printhome.net.request.commet.CommentListRequest;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentAllFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentBadFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentGoodFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentMediumFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by Administrator on 2017/5/4 0004.
@@ -45,6 +49,12 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     private List<TextView> textViews;
     private LinearLayout.LayoutParams lp;
     private int marginLeft;
+    private TextView tv_address;
+    private TextView tv_printno;
+    private CommentAllFragment allFragment;
+    private CommentGoodFragment goodFragment;
+    private CommentMediumFragment mediumFragment;
+    private CommentBadFragment badFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +68,8 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     }
 
     private void initView() {
+        tv_address = (TextView) findViewById(R.id.tv_address);
+        tv_printno = (TextView) findViewById(R.id.tv_printno);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         tv_all = (TextView) findViewById(R.id.tv_all);
@@ -72,7 +84,6 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
         vp_comment = (ViewPager) findViewById(R.id.vp_comment);
     }
 
-
     private void initData() {
         int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -85,10 +96,10 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
         marginLeft = (llWidth - tvWidth) / 2;
 
         fragments = new ArrayList<>();
-        CommentAllFragment allFragment = new CommentAllFragment();
-        CommentGoodFragment goodFragment = new CommentGoodFragment();
-        CommentMediumFragment mediumFragment = new CommentMediumFragment();
-        CommentBadFragment badFragment = new CommentBadFragment();
+        allFragment = new CommentAllFragment();
+        goodFragment = new CommentGoodFragment();
+        mediumFragment = new CommentMediumFragment();
+        badFragment = new CommentBadFragment();
 
         fragments.add(allFragment);
         fragments.add(goodFragment);
@@ -103,6 +114,35 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         vp_comment.setAdapter(adapter);
+
+        getData();
+    }
+
+    /**
+     * 获取数据
+     */
+    private void getData() {
+        DialogUtils.showProgressDialog(ctx,"正在加载中...");
+        CommentListRequest.request(ctx, 1, "zwf001", 0, new CommentListCallback() {
+            @Override
+            public void success(CommentListBean bean) {
+                DialogUtils.closeProgressDialog();
+                List<CommentListBean.DetailBean> detail = bean.getDetail();
+                CommentListBean.DetailBean detailBean = detail.get(0);
+                tv_address.setText("");
+                tv_printno.setText("编号:");
+            }
+
+            @Override
+            public void fail(String msg) {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+        });
     }
 
     private void initListener() {
@@ -130,15 +170,19 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
                 switch (position) {
                     case 0:
                         setTextView(0);
+                        allFragment.getData(0);
                         break;
                     case 1:
                         setTextView(1);
+                        goodFragment.getData(1);
                         break;
                     case 2:
                         setTextView(2);
+                        mediumFragment.getData(2);
                         break;
                     case 3:
                         setTextView(3);
+                        badFragment.getData(3);
                         break;
                 }
             }
@@ -153,7 +197,6 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-
         lp.leftMargin = marginLeft;
         view_line.setLayoutParams(lp);
     }
