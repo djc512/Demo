@@ -25,6 +25,7 @@ import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
@@ -32,6 +33,7 @@ import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
  * Created by Administrator on 2017/5/3 0003.
@@ -73,6 +75,8 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout ll_cz_persion;
     private ImageView iv_cz_qun;
     private LinearLayout ll_cz_qun;
+    protected LoadingDialog loadingDialog;
+
 
     private String printerNo;
     private PrintSetting printSetting;
@@ -122,10 +126,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         directionFlag = newSetting.getDirectionFlag();
         doubleFlag = newSetting.getDoubleFlag();
         printCount = newSetting.getPrintCount();
-        sizeType = newSetting.getPrintCount();
+        sizeType = newSetting.getSizeType();
 
         Logger.i(printerNo);
-        Logger.i(printSetting);
+        Logger.i(printSetting.toString());
         requeryPrice(printerNo);
     }
 
@@ -136,9 +140,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         newSetting.setSizeType(sizeType);
         newSetting.setPrintCount(printCount);
         if (newSetting.toString().equals(printSetting.toString())) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void requeryPrice(String printerNo) {
@@ -163,54 +167,93 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void complete() {
-        Logger.i(PrintRequest.TOKEN);
-        List<FileBean> fileList = new ArrayList();
-        FileBean file = new FileBean();
-        file.setId(printSetting.getId());
-        fileList.add(file);
+        showLoading();
+        if (!isSettingChange()) {
+            addOrder();
+        } else {
+            modifySetting();
+        }
+    }
 
-//        PrintStatusActivity.start(CopySettingActivity.this, null);
+    private void addOrder() {
+        List<FileBean> fileList = new ArrayList();
+        fileList.add(new FileBean(printSetting.getId()));
         PrintRequest.addOrder(this, printerNo, fileList, new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 AddOrderRespBean addOrderRespBean = new Gson().fromJson(content, AddOrderRespBean.class);
-                if (addOrderRespBean != null && addOrderRespBean.isSuccess()) {
+                if (addOrderRespBean != null && addOrderRespBean.isSuccess() && isLoading()) {
                     AddOrderRespBean.Order order = addOrderRespBean.getData();
                     ShowUtil.showToast(getString(R.string.add_order_success));
                     orderId = StringUtil.stringToLong(addOrderRespBean.getData().getOrderId());
-                    if (StringUtil.stringToFloat(order.getTotalAmount()) <= StringUtil.stringToFloat(order
-                            .getTotleBalance())) {
-                        balancePay();
+                    if (isPersion) {
+                        if (StringUtil.stringToFloat(order.getTotalAmount()) <= StringUtil.stringToFloat(order
+                                .getTotleBalance())) {
+                            balancePay();
+                        } else {
+                            dismissLoading();
+                            ShowUtil.showToast("余额不足");
+                        }
                     } else {
-                        ShowUtil.showToast("余额不足");
+                        dismissLoading();
+                        ShowUtil.showToast("请使用群支付");
                     }
                 } else {
+                    dismissLoading();
                     ShowUtil.showToast(addOrderRespBean.getErrorMsg());
                 }
             }
 
             @Override
             public void onFailed(String exception) {
+                dismissLoading();
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         });
+    }
+
+    private void modifySetting() {
+        PrintRequest.modifySetting(this, newSetting.getColourFlag(), newSetting.getDirectionFlag(), newSetting
+                        .getDoubleFlag(), newSetting.getId(), newSetting.getPrintCount(), newSetting.getSizeType(),
+                new HttpListener() {
+                    @Override
+                    public void onSucceed(String content) {
+                        Logger.i("modifySetting onSucceed");
+                        CommonResp resp = new Gson().fromJson(content, CommonResp.class);
+                        if (resp.isSuccess() && isLoading()) {
+                            addOrder();
+                        } else {
+                            dismissLoading();
+                            ShowUtil.showToast("设置修改成功");
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(String exception) {
+                        dismissLoading();
+                        ShowUtil.showToast(getString(R.string.net_error));
+                    }
+                });
     }
 
     private void balancePay() {
         PrintRequest.balancePay(this, orderId, new HttpListener() {
             @Override
             public void onSucceed(String content) {
+                Logger.i("balancePay onSucceed");
                 CommonResp resp = new Gson().fromJson(content, CommonResp.class);
-                if (resp.isSuccess()) {
-                    ShowUtil.showToast("余额支付成功");
+                if (resp.isSuccess() && isLoading()) {
+                    Logger.i("modifySetting onSucceed");
                     print();
                 } else {
-                    ShowUtil.showToast("余额支付失败");
+                    dismissLoading();
+                    ShowUtil.showToast(resp.getErrorMsg());
                 }
             }
 
             @Override
             public void onFailed(String exception) {
+                dismissLoading();
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         });
@@ -220,19 +263,29 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         PrintRequest.print(this, orderId, new HttpListener() {
             @Override
             public void onSucceed(String content) {
+                Logger.i("print onSucceed");
                 CommonResp resp = new Gson().fromJson(content, CommonResp.class);
                 if (resp.isSuccess()) {
-                    ShowUtil.showToast("打印成功");
+                    turnPrintState();
                 } else {
-                    ShowUtil.showToast("打印失败");
+                    ShowUtil.showToast(resp.getErrorMsg());
                 }
+                dismissLoading();
             }
 
             @Override
             public void onFailed(String exception) {
+                dismissLoading();
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         });
+    }
+
+    private void turnPrintState() {
+        Bundle bundle = new Bundle();
+        bundle.putLong(PrintStatusActivity.ORDER_ID, orderId);
+        PrintStatusActivity.start(this, bundle);
+        finish();
     }
 
     private void setPrice(PrintInfoResp.PrinterPrice printerPrice) {
@@ -274,6 +327,8 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         ll_cz_qun = (LinearLayout) findViewById(R.id.ll_cz_qun);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
         ll_finish = (LinearLayout) findViewById(R.id.ll_finish);
+        ll_cz_persion.setVisibility(View.VISIBLE);
+        ll_cz_qun.setVisibility(View.GONE);
         //    colourFlag	彩色打印0-彩色 1-黑白	number
         //    directionFlag	方向标识0-横版  1-竖版	number
         //    doubleFlag	双面打印0-是  1-否	number
@@ -303,11 +358,11 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         }
         if (sizeType == 0) {
             iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-            tv_a3.setTextColor(getResources().getColor(R.color.black2));
-            tv_a4.setTextColor(getResources().getColor(R.color.gray8));
-        } else {
-            tv_a4.setTextColor(getResources().getColor(R.color.black2));
             tv_a3.setTextColor(getResources().getColor(R.color.gray8));
+            tv_a4.setTextColor(getResources().getColor(R.color.black2));
+        } else {
+            tv_a4.setTextColor(getResources().getColor(R.color.gray8));
+            tv_a3.setTextColor(getResources().getColor(R.color.black2));
             iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
         }
         if (doubleFlag == 0) {
@@ -475,15 +530,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         context.startActivity(intent);
     }
 
-//    public static final String PRINTER_ID = "printer_id";
-//
-//    public static void start1(Context context, Bundle bundle) {
-//        Intent intent = new Intent(context, CommentActivity.class);
-//        intent.putExtras(bundle);
-//        context.startActivity(intent);
-//    }
-
-
+    //:{"colourFlag":0,"directionFlag":1,"doubleFlag":1,"fileName":"XP0F78FIBWS9YITGFXOEKDC.png","filePage":1,
+    // "fileType":"0"
+    //fileUrl":"http://139.196.224.235:12003/file/df_/g1/M00/00/66/Ci-4nVkUBfaAQNrmAAADstAedTk532.png","id":4284,
+    // "memberId":"100000309","printCount":1,"sizeType":0,"source":"1","status":0
     private void log() {
         if (colourFlag == 0) {
             Logger.i("彩色");
@@ -507,4 +557,27 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             Logger.i("A3");
         }
     }
+
+    protected void showLoading() {
+        if (loadingDialog == null) {
+            loadingDialog = new LoadingDialog(this);
+        }
+        if (!loadingDialog.isShowing()) {
+            loadingDialog.show();
+        }
+    }
+
+    protected void dismissLoading() {
+        if (loadingDialog != null && loadingDialog.isShowing()) {
+            loadingDialog.dismiss();
+        }
+    }
+
+    protected boolean isLoading() {
+        if (loadingDialog == null || !loadingDialog.isShowing()) {
+            return false;
+        }
+        return true;
+    }
+
 }

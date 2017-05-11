@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -35,7 +34,6 @@ import huanxing_print.com.cn.printhome.model.print.AroundPrinterResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
-import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrinterLocationActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FindPrinterRcAdapter;
@@ -151,12 +149,12 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
                         }
                         break;
                     case R.id.commentTv:
-                        Bundle bundle = new Bundle();
-                        bundle.putString("printer_id", findPrinterRcAdapter.getPrinterList().get(position)
-                                .getPrinterNo());
-                        Intent intent = new Intent(context, CommentActivity.class);
-                        intent.putExtras(intent);
-                        startActivity(intent);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("printer_id", findPrinterRcAdapter.getPrinterList().get(position)
+//                                .getPrinterNo());
+//                        Intent intent = new Intent(context, CommentActivity.class);
+//                        intent.putExtras(intent);
+//                        startActivity(intent);
                         break;
                     case R.id.printCountTv:
                         ShowUtil.showToast(position + " printCountTv");

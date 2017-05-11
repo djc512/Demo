@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,7 +18,7 @@ import java.util.TimerTask;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.model.print.OrderStatusBean;
+import huanxing_print.com.cn.printhome.model.print.OrderStatusResp;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
@@ -26,13 +27,14 @@ import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 public class PrintStatusActivity extends BasePrintActivity implements View.OnClickListener {
 
-    private TextView stausTv;
+    private TextView stateTv;
+    private TextView stateDetailTv;
     private RelativeLayout successRyt;
     private RelativeLayout stateRyt;
-    private ImageView exceptionImg;
-    private ImageView queueImg;
+    private LinearLayout exceptionLyt;
+    private ImageView animImg;
 
-
+    private OrderStatusResp orderStatusResp;
     private long orderId;
 
     @Override
@@ -41,25 +43,28 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         setContentView(R.layout.activity_print_status);
         initData();
         initView();
-        setQueueView();
+        setUpload();
         timer.schedule(task, 1000 * 3, 1000 * 2);
     }
 
     private void initData() {
-        orderId = getIntent().getLongExtra(DocPrintActivity.ORDER_ID, -1);
+        orderId = getIntent().getExtras().getLong(ORDER_ID);
     }
 
     private void initView() {
         initTitleBar("打印");
         successRyt = (RelativeLayout) findViewById(R.id.successRyt);
         stateRyt = (RelativeLayout) findViewById(R.id.stateRyt);
-        exceptionImg = (ImageView) findViewById(R.id.exceptionImg);
-        queueImg = (ImageView) findViewById(R.id.queueImg);
-        queueImg.setImageResource(R.drawable.anim_queue);
-        AnimationDrawable animationDrawable = (AnimationDrawable) queueImg.getDrawable();
-        animationDrawable.start();
+        exceptionLyt = (LinearLayout) findViewById(R.id.exceptionLyt);
+
+        animImg = (ImageView) findViewById(R.id.animImg);
+        stateTv = (TextView) findViewById(R.id.stateTv);
+        stateDetailTv = (TextView) findViewById(R.id.stateDetailTv);
         findViewById(R.id.exitTv).setOnClickListener(this);
         findViewById(R.id.errorExitTv).setOnClickListener(this);
+        findViewById(R.id.printTv).setOnClickListener(this);
+        findViewById(R.id.shareTv).setOnClickListener(this);
+        findViewById(R.id.commentTv).setOnClickListener(this);
     }
 
     @Override
@@ -72,6 +77,15 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 break;
             case R.id.exitTv:
                 finish();
+                break;
+            case R.id.printTv:
+                finish();
+                break;
+            case R.id.shareTv:
+                ShowUtil.showToast("shareTv");
+                break;
+            case R.id.commentTv:
+                ShowUtil.showToast("commentTv");
                 break;
         }
     }
@@ -97,7 +111,29 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     }
 
     public void update() {
-        Logger.i("querystate");
+        OrderStatusResp.OrderStatus orderStatus = orderStatusResp.getData();
+        if (orderStatus.isNeedAwake()) {
+            setAwake();
+        } else if (orderStatus.getWaitingCount() > 0) {
+            setQueueView(orderStatus.getWaitingCount());
+        } else {
+            switch (orderStatus.getStatus()) {
+                //正在打印
+                case 0:
+                    setExceptionView();
+                    break;
+                //打印成功
+                case 1:
+                    stopTimerTask();
+                    setSuccessView();
+                    break;
+                //打印失败
+                case 2:
+                    setExceptionView();
+                    break;
+            }
+
+        }
     }
 
     MyHandler handler = new MyHandler(this);
@@ -110,15 +146,11 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                     Message msg = new Message();
                     msg.what = 1;
                     handler.sendMessage(msg);
-                    OrderStatusBean orderStatusBean = GsonUtil.GsonToBean(content, OrderStatusBean.class);
-                    if (orderStatusBean == null) {
-                        return;
-                    }
-                    if (orderStatusBean.isSuccess()) {
+                    orderStatusResp = GsonUtil.GsonToBean(content, OrderStatusResp.class);
+                    if (orderStatusResp != null && orderStatusResp.isSuccess()) {
 
                     } else {
-//                        ToastUtil.doToast(context, orderStatusBean.getErrorMsg());
-//                        stopTimerTask();
+                        Logger.i(orderStatusResp.getErrorMsg());
                     }
                 }
 
@@ -141,24 +173,57 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private void setSuccessView() {
         successRyt.setVisibility(View.VISIBLE);
         stateRyt.setVisibility(View.GONE);
+        exceptionLyt.setVisibility(View.GONE);
     }
 
     private void setExceptionView() {
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
-        queueImg.setVisibility(View.GONE);
-        exceptionImg.setVisibility(View.VISIBLE);
+        exceptionLyt.setVisibility(View.VISIBLE);
+
+        animImg.setImageResource(R.drawable.ic_exception);
+        stateTv.setText("打印异常");
+        stateDetailTv.setText("很抱歉打印机发生了故障，暂停服务");
     }
 
-    private void setQueueView() {
+    private void setAwake() {
+        animImg.setImageResource(R.drawable.anim_awake);
+        AnimationDrawable queueAnum = (AnimationDrawable) animImg.getDrawable();
+        queueAnum.start();
+        stateTv.setText("文件发送成功，打印机预热中...");
+        stateDetailTv.setText("");
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
-        queueImg.setVisibility(View.VISIBLE);
-        exceptionImg.setVisibility(View.GONE);
+        exceptionLyt.setVisibility(View.GONE);
     }
+
+    private void setUpload() {
+        animImg.setImageResource(R.drawable.anim_upload);
+        AnimationDrawable queueAnum = (AnimationDrawable) animImg.getDrawable();
+        queueAnum.start();
+        stateTv.setText("文件上传中");
+        stateDetailTv.setText("");
+        successRyt.setVisibility(View.GONE);
+        stateRyt.setVisibility(View.VISIBLE);
+        exceptionLyt.setVisibility(View.GONE);
+    }
+
+    private void setQueueView(int count) {
+        animImg.setImageResource(R.drawable.anim_queue);
+        AnimationDrawable queueAnum = (AnimationDrawable) animImg.getDrawable();
+        queueAnum.start();
+        stateTv.setText("发送文件排队中");
+        stateDetailTv.setText("前面有" + count + "个打印任务,请耐心等待");
+        successRyt.setVisibility(View.GONE);
+        stateRyt.setVisibility(View.VISIBLE);
+        exceptionLyt.setVisibility(View.GONE);
+    }
+
+    public static final String ORDER_ID = "order_id";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, PrintStatusActivity.class);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
 

@@ -159,7 +159,7 @@ public class PrintRequest extends BaseRequst {
         params.put(ID, id);
         params.put(PRINT_COUNT, printCount);
         params.put(SIZE_TYPE, sizeType);
-        Http.postString(activity, url, params, headerTokenMap, callback, true);
+        Http.postString(activity, url, params, headerTokenMap, callback, false);
     }
 
     /**
@@ -238,7 +238,7 @@ public class PrintRequest extends BaseRequst {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(PRINTER_NO, printNo);
         params.put(FILE_LIST, fileList);
-        Http.postString(activity, url, params, headerTokenMap, callback, true);
+        Http.postString(activity, url, params, headerTokenMap, callback, false);
     }
 
     /**
@@ -252,7 +252,7 @@ public class PrintRequest extends BaseRequst {
         String url = BASE_URL + PRINT;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(ORDER_ID, orderId);
-        Http.postString(activity, url, params, headerTokenMap, callback, true);
+        Http.postString(activity, url, params, headerTokenMap, callback, false);
     }
 
     /**
@@ -266,7 +266,7 @@ public class PrintRequest extends BaseRequst {
         String url = BASE_URL + BLANCE_PAY;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(ORDER_ID, orderId);
-        Http.postString(activity, url, params, headerTokenMap, callback, true);
+        Http.postString(activity, url, params, headerTokenMap, callback, false);
     }
 
     public static final void rePrint(Activity activity, long orderId, final HttpListener callback) {
