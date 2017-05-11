@@ -10,11 +10,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
+import huanxing_print.com.cn.printhome.model.print.AddOrderRespBean;
+import huanxing_print.com.cn.printhome.model.print.FileBean;
+import huanxing_print.com.cn.printhome.model.print.PrintSetting;
+import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
+import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -60,6 +70,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private ImageView iv_cz_qun;
     private LinearLayout ll_cz_qun;
 
+    private String printerNo;
+    private PrintSetting printSetting;
+
     //    colourFlag	彩色打印0-彩色 1-黑白	number
 //    directionFlag	方向标识0-横版 1-竖版	number
 //    doubleFlag	双面打印0-是 1-否	number
@@ -86,9 +99,18 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         ctx = this;
         CommonUtils.initSystemBar(this);
         StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PAY);
+        initData();
         initView();
         initListener();
         log();
+    }
+
+    private void initData() {
+        Bundle bundle = getIntent().getExtras();
+        printerNo = bundle.getString(PRINTER_NO, "");
+        printSetting = bundle.getParcelable(PRINT_SETTING);
+        Logger.i(printerNo);
+        Logger.i(printSetting);
     }
 
     private void initView() {
@@ -145,10 +167,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         btn_preview.setOnClickListener(this);
     }
 
-    //    private boolean isVertical;
-//    private boolean isColor;
-//    private boolean isA4;
-//    private boolean isSingle;
     private boolean isPersion = true;
 
     @Override
@@ -273,15 +291,44 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_finish://完成
                 break;
             case R.id.btn_preview://完成
-                PrintStatusActivity.start(CopySettingActivity.this, null);
+                complete();
                 break;
         }
         log();
     }
 
+    private void complete() {
+        List<FileBean> fileList = new ArrayList();
+        FileBean file = new FileBean();
+        file.setId(printSetting.getId());
+        fileList.add(file);
+
+//        PrintStatusActivity.start(CopySettingActivity.this, null);
+        PrintRequest.addOrder(this, printerNo, fileList, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                AddOrderRespBean addOrderRespBean = new Gson().fromJson(content, AddOrderRespBean.class);
+                if (addOrderRespBean.isSuccess()) {
+                    ShowUtil.showToast(getString(R.string.add_order_success));
+                    String orderId = addOrderRespBean.getData().getOrderId();
+                } else {
+                    ShowUtil.showToast(addOrderRespBean.getErrorMsg());
+                }
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
+    }
+
+    public static final String PRINT_SETTING = "setting";
+    public static final String PRINTER_NO = "pinter_no";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, CopySettingActivity.class);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
 

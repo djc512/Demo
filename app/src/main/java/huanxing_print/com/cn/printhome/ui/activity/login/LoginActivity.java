@@ -123,7 +123,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
                     LoginRequset.login(getSelfActivity(), name, validCode, loginCallback);
                 }
-                //jumpActivity(MainActivity.class);
+//                jumpActivity(MainActivity.class);
                 break;
             case R.id.tv_register://跳转注册界面
                 jumpActivity(RegisterActivity.class);

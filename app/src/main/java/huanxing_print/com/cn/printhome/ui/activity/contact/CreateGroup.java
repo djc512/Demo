@@ -33,7 +33,6 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  */
 
 public class CreateGroup extends BaseActivity implements View.OnClickListener, ChooseGroupContactAdapter.OnClickGroupInListener, ChooseGroupContactAdapter.OnChooseMemberListener {
-    private static final int MAXCHOOSE = 4;
     private Button btn_create;
     private RecyclerView recyclerView;
     private TextView tv_hint_member;
@@ -65,7 +64,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
 
-        adapter = new ChooseGroupContactAdapter(this, friends, MAXCHOOSE);
+        adapter = new ChooseGroupContactAdapter(this, friends);
         recyclerView.setAdapter(adapter);
     }
 
@@ -105,9 +104,9 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
             for(FriendInfo info : chooseMembers) {
                 arrayList.add(info.getMemberId());
             }
-            String[] memberIdArray = arrayList.toArray(new String[arrayList.size()]);
+//            String[] memberIdArray = arrayList.toArray(new String[arrayList.size()]);
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("groupMembers", memberIdArray);
+            params.put("groupMembers", arrayList);
 
             GroupManagerRequest.createGroupReq(this, token, params, createGroupCallback);
         }else{
@@ -132,7 +131,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         chooseMembers = infos;
         if (null != infos) {
             tv_hint_member.setText(String.format(getString(R.string.hint_choose_members), infos.size()));
-            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), MAXCHOOSE));
+            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), friends.size()));
             if (infos.size() > 0) {
                 btn_create.setEnabled(true);
             } else {
@@ -174,6 +173,8 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
                     }
                 }
                 friends = friendInfos;
+                btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, friends.size()));
+
                 adapter.modify(friendInfos);
             }
         }

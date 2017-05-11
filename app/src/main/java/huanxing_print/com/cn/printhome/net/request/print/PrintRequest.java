@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 
 /**
@@ -50,7 +51,7 @@ public class PrintRequest extends BaseRequst {
     public static final String RE_PRINT = "print/rePrint";
     public static final String QUERY_ORDER_STATUS = "order/queryStatus";
 
-    public static final String TOKEN = "33b2abe48a76468682880e86b6fa0c2f";
+    public static final String TOKEN = BaseApplication.getInstance().getLoginToken();
 
     public static final Map<String, String> headerMap = new HashMap<String, String>() {
         {
@@ -85,7 +86,7 @@ public class PrintRequest extends BaseRequst {
         params.put(FILE_CONTENT, fileContent);
         params.put(FILE_NAME, fileName);
         params.put(NEED_WATER, needWater);
-        Http.postString(activity, url, params, headerTokenMap, callback, showDialog);
+        Http.postFile(activity, url, params, headerTokenMap, callback, showDialog);
     }
 
     /**
@@ -132,7 +133,7 @@ public class PrintRequest extends BaseRequst {
         String url = BASE_URL + DOC_PREVIEW;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(FILE_URL, fileUrl);
-        Http.get(activity, url, params, headerTokenMap, callback, true);
+        Http.get(activity, url, params, headerTokenMap, callback, false);
     }
 
 
@@ -190,13 +191,13 @@ public class PrintRequest extends BaseRequst {
      */
     public static final void queryAroundPrinter(Activity activity, int pageNum, int pageSize, int radius, String
             center, final HttpListener callback) {
-        String url = BASE_URL + QUERY_PRINT_LIST;
+        String url = BASE_URL + QUERY_PRINT_AROUND;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(PAGE_NUM, pageNum);
         params.put(PAGE_SIZE, pageSize);
         params.put(RADIUS, radius);
         params.put(CENTER, center);
-        Http.get(activity, url, params, headerTokenMap, callback, true);
+        Http.get(activity, url, params, headerTokenMap, callback, false);
     }
 
     /**
@@ -207,7 +208,7 @@ public class PrintRequest extends BaseRequst {
      */
     public static final void queryRecentPrinters(Activity activity, final HttpListener callback) {
         String url = BASE_URL + QUERY_PRINTERS;
-        Http.get(activity, url, null, headerTokenMap, callback, true);
+        Http.get(activity, url, null, headerTokenMap, callback, false);
     }
 
     /**
@@ -221,7 +222,7 @@ public class PrintRequest extends BaseRequst {
         String url = BASE_URL + QUERY_PRINTER_PRICE;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(PRINT_NO, printerNo);
-        Http.get(activity, url, params, headerTokenMap, callback, true);
+        Http.get(activity, url, params, headerTokenMap, callback, false);
     }
 
     /**

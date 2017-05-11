@@ -1,5 +1,11 @@
 package huanxing_print.com.cn.printhome.util;
 
+import com.amap.api.maps2d.model.LatLng;
+
+import java.text.DecimalFormat;
+
+import huanxing_print.com.cn.printhome.log.Logger;
+
 /**
  * Created by LGH on 2017/3/24.
  */
@@ -13,7 +19,7 @@ public class StringUtil {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        return -1;
+        return i;
     }
 
     public static final long stringToLong(String str) {
@@ -24,5 +30,40 @@ public class StringUtil {
             e.printStackTrace();
         }
         return l;
+    }
+
+    public static final double stringToDouble(String str) {
+        double d = -1;
+        try {
+            d = Double.valueOf(str).doubleValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return d;
+    }
+
+    public static final String getDistance(String dis) {
+        Logger.i(dis);
+        if (stringToInt(dis) < 0) {
+            return "";
+        }
+        DecimalFormat df = new DecimalFormat("0.00");
+        String disStr = df.format((float) stringToInt(dis) / 1000) + "km";
+        return disStr;
+    }
+
+    public static final LatLng getLatLng(String location) {
+        Logger.i(location);
+        String str[] = location.split(",");
+        double var1 = stringToDouble(str[0]);
+        double var2 = stringToDouble(str[1]);
+        Logger.i("var1:" + var1);
+        Logger.i("var2" + var2);
+        if (var1 < 0 || var2 < 0) {
+            return null;
+        }
+        LatLng latLng = new LatLng(var2, var1);
+        Logger.i(latLng.toString());
+        return latLng;
     }
 }

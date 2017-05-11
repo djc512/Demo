@@ -9,13 +9,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Display;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
+
+import static huanxing_print.com.cn.printhome.R.id.btn_confirm;
 
 /**
  * Created by Administrator on 2017/4/27 0027.
@@ -23,8 +25,8 @@ import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
 public class PassportClipActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_preview;
-    private Button btn_reset;
-    private Button btn_confirm;
+    private TextView btn_reset;
+    private TextView btn_preview;
     private double a4Width = 210;
     private double a4Height = 297;
     private double passportWidth = 125;
@@ -37,6 +39,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
     private String picName;
     private PicSaveUtil saveUtil;
     private Context ctx;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -56,8 +59,8 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         iv_preview = (ImageView) findViewById(R.id.iv_preview);
-        btn_reset = (Button) findViewById(R.id.btn_reset);
-        btn_confirm = (Button) findViewById(R.id.btn_confirm);
+        btn_reset = (TextView) findViewById(R.id.btn_reset);
+        btn_preview = (TextView) findViewById(R.id.btn_preview);
     }
 
     private void initData() {
@@ -84,19 +87,29 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
 
     private void initListener() {
         btn_reset.setOnClickListener(this);
-        btn_confirm.setOnClickListener(this);
+        btn_preview.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_reset:
-                finish();
+                finishCurrentActivity();
                 break;
-            case R.id.btn_confirm:
+            case btn_confirm:
                 picName = System.currentTimeMillis() + ".jpg";
                 saveUtil.saveClipPic(thumbnail, picName);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != thumbnail) {
+            thumbnail.recycle();
+            thumbnail = null;
+        }
+        System.gc();
     }
 }

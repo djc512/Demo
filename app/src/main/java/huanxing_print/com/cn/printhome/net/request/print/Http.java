@@ -80,6 +80,75 @@ public class Http {
         });
     }
 
+    public static void postFile(final Activity activity, final String url, final Map<String, Object> params, final
+    Map<String, String> headerMap, final HttpListener callback, final boolean showDialog) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                final String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Logger.d("http-request:" + url + "----" + paramsStr);
+                        TimeUtils.beginTime();
+                        final RequestCall requestCall = OkHttpUtils.postString()
+                                .url(url)
+                                .headers(headerMap)
+                                .content(paramsStr)
+                                .tag(activity)
+                                .build();
+                        requestCall.execute(new StringCallback() {
+                            @Override
+                            public void onAfter(int id) {
+                                super.onAfter(id);
+                                Logger.i(url);
+                                if (showDialog) {
+                                    WaitDialog.dismissDialog();
+                                }
+                            }
+
+                            @Override
+                            public void onBefore(Request request, int id) {
+                                super.onBefore(request, id);
+                                Logger.i(url);
+                                if (showDialog) {
+                                    WaitDialog.showDialog(activity, requestCall, new DialogInterface.OnCancelListener
+                                            () {
+                                        @Override
+                                        public void onCancel(DialogInterface dialog) {
+                                            requestCall.cancel();
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onResponse(String result, int arg1) {
+                                TimeUtils.endTime();
+                                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                                callback.onSucceed(result);
+                            }
+
+                            @Override
+                            public void onError(Call call, Exception exception, int arg2) {
+                                TimeUtils.endTime();
+                                Logger.i(url);
+                                Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime()
+                                        + " ms");
+                                String message = exception.getMessage();
+                                if ("Socket closed".equalsIgnoreCase(message)) {
+                                } else {
+                                    callback.onFailed(exception.getMessage());
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }.start();
+    }
+
     public static final void get(final Activity activity, final String url, Map<String, Object> params, Map<String,
             String> headerMap, final HttpListener callback, final boolean showDilog) {
         TimeUtils.beginTime();

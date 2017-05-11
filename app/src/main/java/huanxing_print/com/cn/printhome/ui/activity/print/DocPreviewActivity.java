@@ -7,25 +7,26 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import java.io.File;
+import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
-import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.DocPreViewpageAdapter;
-import huanxing_print.com.cn.printhome.util.FileType;
-import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 
 public class DocPreviewActivity extends BasePrintActivity implements View.OnClickListener {
 
     private ViewPager viewpager;
 
-    private String url;
+    private List<String> fileUrlList;
+    private String fileUrl;
     private File file;
     private DocPreViewpageAdapter docPreViewpageAdapter;
 
@@ -35,99 +36,59 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         setContentView(R.layout.activity_doc_preview);
         initData();
         initView();
-
 //        upload(file);
     }
 
     private void initView() {
-        initTitleBar("文件预览");
+        initTitleBar(file.getName());
         setRightTvVisible();
         viewpager = (ViewPager) findViewById(R.id.viewpager);
-        docPreViewpageAdapter = new DocPreViewpageAdapter(context);
+        if (fileUrlList != null) {
+            docPreViewpageAdapter = new DocPreViewpageAdapter(context, fileUrlList);
+        }
         viewpager.setAdapter(docPreViewpageAdapter);
     }
 
 
     private void initData() {
         Bundle bundle = getIntent().getExtras();
+        fileUrl = (String) bundle.getCharSequence(KEY_URL);
+        fileUrlList = bundle.getStringArrayList(KEY_URL_LIST);
         file = (File) bundle.getSerializable(KEY_FILE);
+        Logger.i(fileUrl);
+        Logger.i(fileUrlList);
     }
 
-    private void upload(final File file) {
-        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), FileUtils.getBase64(file), file
-                .getName(), "1", new HttpListener() {
+    private void addFile(String fileUrl) {
+        showLoading();
+        PrintRequest.addFile(activity, "1", file.getName(), fileUrl, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
-                if (uploadFileBean == null) {
-                    return;
-                }
-                if (uploadFileBean.isSuccess()) {
-                    String url = uploadFileBean.getData().getImgUrl();
-//                    turnPreView(url, file);
-                } else {
-                    ShowUtil.showToast(getString(R.string.upload_failure));
-                }
-            }
-
-            @Override
-            public void onFailed(String exception) {
-                ShowUtil.showToast(getString(R.string.net_error));
-            }
-        }, false);
-    }
-
-    private void preview(String fileUrl) {
-        PrintRequest.docPreview(activity, fileUrl, new HttpListener() {
-            @Override
-            public void onSucceed(String content) {
-                UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
-                if (uploadFileBean == null) {
-                    return;
-                }
-                if (uploadFileBean.isSuccess()) {
-
-                }
-            }
-
-            @Override
-            public void onFailed(String exception) {
-                ShowUtil.showToast(getString(R.string.net_error));
-            }
-        });
-    }
-
-    private void add() {
-        PrintRequest.addFile(activity, "1", file.getName(), url, new HttpListener() {
-            @Override
-            public void onSucceed(String content) {
+                dismissLoading();
                 AddFileSettingBean addFileSettingBean = GsonUtil.GsonToBean(content, AddFileSettingBean.class);
                 if (addFileSettingBean == null) {
                     return;
                 }
                 if (addFileSettingBean.isSuccess()) {
-                    setRightTvVisible();
-//                    turnPrintSetting(addFileSettingBean.getData());
+                    turnPrintSetting(addFileSettingBean.getData());
                 } else {
-                    ShowUtil.showToast(getString(R.string.upload_failure));
+                    Logger.i("net error");
+                    ToastUtil.doToast(context, getString(R.string.upload_failure));
                 }
             }
 
             @Override
             public void onFailed(String exception) {
+                dismissLoading();
                 ShowUtil.showToast(getString(R.string.net_error));
             }
-        }, true);
+        }, false);
     }
 
-    public static final String PRINT_SETTING = "print_setting";
-
     private void turnPrintSetting(PrintSetting printSetting) {
-        Intent intent = new Intent(context, DocPrintActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(PRINT_SETTING, printSetting);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
+        PickPrinterActivity.start(context, bundle);
         finish();
     }
 
@@ -137,19 +98,20 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         int id = v.getId();
         switch (id) {
             case R.id.rightTv:
-                PickPrinterActivity.start(context, null);
-                finish();
-//                add();
+                addFile(fileUrl);
                 break;
         }
     }
+
+    public static final String PRINT_SETTING = "print_setting";
 
     private void setRightTvVisible() {
         findViewById(R.id.rightTv).setVisibility(View.VISIBLE);
         findViewById(R.id.rightTv).setOnClickListener(this);
     }
 
-    public final static String KEY_URL = "url";
+    public final static String KEY_URL_LIST = "url_list";
+    public final static String KEY_URL = "file_url";
     public final static String KEY_FILE = "file";
 
     public static void start(Context context, Bundle bundle) {

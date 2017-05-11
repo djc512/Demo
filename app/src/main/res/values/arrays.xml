@@ -2,8 +2,8 @@
 <resources>
     <string-array name="distance">
         <item>1公里内</item>
-        <item>2公里内</item>
-        <item>3公里内</item>
-        <item>4公里内</item>
+        <item>5公里内</item>
+        <item>10公里内</item>
+        <item>50公里内</item>
     </string-array>
 </resources>

@@ -14,8 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.Set;
@@ -25,7 +23,6 @@ import cn.jpush.android.api.TagAliasCallback;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.event.login.HasLoginEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.logic.map.LocationCallBack;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -37,14 +34,13 @@ public abstract class BaseActivity extends Activity {
 
 	protected abstract BaseActivity getSelfActivity();
 	protected BaseApplication baseApplication;
-	protected LocationCallBack locationCallBack;
-
+	//protected LocationCallBack locationCallBack;
 	private static final int MSG_SET_ALIAS = 1001;
 	private static final int MSG_SET_TAGS = 1002;
 
-	public void setLocationCallBack(LocationCallBack locationCallBack) {
-		this.locationCallBack = locationCallBack;
-	}
+//	public void setLocationCallBack(LocationCallBack locationCallBack) {
+//		this.locationCallBack = locationCallBack;
+//	}
 
 	/**
 	 * 是否需要定位
@@ -368,25 +364,25 @@ public abstract class BaseActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	protected BDLocationListener locationListener = new BDLocationListener() {
-
-		@Override
-		public void onReceiveLocation(BDLocation location) {
-
-			baseApplication.setCity(ObjectUtils.formatString(location.getCity()));
-			baseApplication.setLat(location.getLatitude());
-			baseApplication.setLon(location.getLongitude());
-			String address = ObjectUtils.formatString(location.getCity())
-					+ ObjectUtils.formatString(location.getDistrict()) + ObjectUtils.formatString(location.getStreet())
-					+ ObjectUtils.formatString(location.getStreetNumber());
-			Logger.d("location:" + address);
-			baseApplication.setAddress(address);
-			if (null != locationCallBack) {
-				locationCallBack.location(location);
-			}
-
-		}
-	};
+//	protected BDLocationListener locationListener = new BDLocationListener() {
+//
+//		@Override
+//		public void onReceiveLocation(BDLocation location) {
+//
+//			baseApplication.setCity(ObjectUtils.formatString(location.getCity()));
+//			baseApplication.setLat(location.getLatitude());
+//			baseApplication.setLon(location.getLongitude());
+//			String address = ObjectUtils.formatString(location.getCity())
+//					+ ObjectUtils.formatString(location.getDistrict()) + ObjectUtils.formatString(location.getStreet())
+//					+ ObjectUtils.formatString(location.getStreetNumber());
+//			Logger.d("location:" + address);
+//			baseApplication.setAddress(address);
+//			if (null != locationCallBack) {
+//				locationCallBack.location(location);
+//			}
+//
+//		}
+//	};
 
 
 	/**

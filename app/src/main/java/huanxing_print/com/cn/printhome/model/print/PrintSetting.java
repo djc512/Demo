@@ -146,4 +146,20 @@ public class PrintSetting implements Parcelable {
             return new PrintSetting[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "PrintSetting{" +
+                "colourFlag=" + colourFlag +
+                ", directionFlag=" + directionFlag +
+                ", doubleFlag=" + doubleFlag +
+                ", fileName='" + fileName + '\'' +
+                ", filePage=" + filePage +
+                ", fileUrl='" + fileUrl + '\'' +
+                ", id=" + id +
+                ", printCount=" + printCount +
+                ", printerType=" + printerType +
+                ", sizeType=" + sizeType +
+                '}';
+    }
 }

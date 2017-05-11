@@ -29,7 +29,7 @@ import java.util.Locale;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.ui.activity.print.DocPreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
@@ -182,17 +182,12 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
                         ShowUtil.showToast("文件不可打印");
                     } else {
                         Bundle bundle = new Bundle();
-                        File f = new File((String) mAdapter.getData().get(position).get(AllFileListAdapter
-                                .FILE_PATH));
-
-                        if (FileType.getPrintType(f.getPath()) == FileType.TYPE_IMG) {
+                        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
                             bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, (String) mAdapter.getData().get
                                     (position).get(AllFileListAdapter.FILE_PATH));
                             ImgPreviewActivity.start(context, bundle);
                         } else {
-                            bundle.putSerializable(DocPreviewActivity.KEY_FILE, new File((String) mAdapter.getData().get
-                                    (position).get(AllFileListAdapter.FILE_PATH)));
-                            DocPreviewActivity.start(context, bundle);
+                            ((AddFileActivity)getActivity()).turnFile(file);
                         }
                     }
                 }
@@ -231,7 +226,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
             map.put(AllFileListAdapter.FILE_UPDATE_TIME, fileUpdateTime);
             map.put(AllFileListAdapter.FILE_TYPE, fileType);
             map.put(AllFileListAdapter.FILE_PATH, file.getPath());
-            map.put(FILE_OBJ, file);
+            map.put(AllFileListAdapter.FILE_OBJ, file);
             mAdapter.addData(map);
         }
         mAdapter.notifyDataSetChanged();

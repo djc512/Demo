@@ -38,7 +38,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        xlhRatingBar:canEdit="true"
+        xlhRatingBar:canEdit="false"
         xlhRatingBar:countSelected="1"
         xlhRatingBar:differentSize="false"
         xlhRatingBar:dividerWidth="3dp"

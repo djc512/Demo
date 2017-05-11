@@ -2,10 +2,13 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,12 +18,15 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.model.print.DocPreviewResp;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
+import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.AllFileFragment;
@@ -30,6 +36,8 @@ import huanxing_print.com.cn.printhome.ui.activity.print.fragment.QQFileFragment
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WechatFileFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WifiImportFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.FinderFragmentAdapter;
+import huanxing_print.com.cn.printhome.util.AlertUtil;
+import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
@@ -178,6 +186,116 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
             case R.id.pcBtn:
                 break;
         }
+    }
+
+    public void turnPreview(ArrayList<String> fileUrlList, String fileUrl) {
+        Bundle bundle = new Bundle();
+        bundle.putCharSequence(DocPreviewActivity.KEY_URL, fileUrl);
+        bundle.putStringArrayList(DocPreviewActivity.KEY_URL_LIST, fileUrlList);
+        bundle.putSerializable(DocPreviewActivity.KEY_FILE, file);
+        DocPreviewActivity.start(context, bundle);
+    }
+
+    static class MyHandler extends Handler {
+        WeakReference<AddFileActivity> mActivity;
+
+        MyHandler(AddFileActivity activity) {
+            mActivity = new WeakReference<AddFileActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            AddFileActivity activity = mActivity.get();
+            String base = (String) msg.obj;
+            if (base != null) {
+                activity.uploadFile(base);
+            }
+        }
+    }
+
+    private MyHandler mHandler = new MyHandler(this);
+
+    private File file;
+
+    public void turnFile(final File file) {
+        this.file = file;
+        if (file == null || !file.exists()) {
+            return;
+        }
+        if (FileUtils.isOutOfSize(file)) {
+            AlertUtil.show(context, "提示", "文件超限", null, new
+                    DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    });
+            return;
+        }
+        showLoading();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                Message msg = new Message();
+                msg.obj = FileUtils.getBase64(file);
+                mHandler.sendMessage(msg);
+            }
+        }.start();
+    }
+
+    private void uploadFile(String base) {
+        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(), "1", new
+                HttpListener() {
+                    @Override
+                    public void onSucceed(String content) {
+                        UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
+                        if (uploadFileBean == null) {
+                            dismissLoading();
+                            return;
+                        }
+                        if (uploadFileBean.isSuccess()) {
+                            if (isLoading()) {
+                                String url = uploadFileBean.getData().getImgUrl();
+                                getPreview(url);
+                                Logger.i(url);
+                            }
+                        } else {
+                            dismissLoading();
+                            ShowUtil.showToast(getString(R.string.upload_failure));
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(String exception) {
+                        dismissLoading();
+                        ShowUtil.showToast(getString(R.string.net_error));
+                    }
+                }, false);
+    }
+
+    private void getPreview(final String url) {
+        PrintRequest.docPreview(activity, url, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                DocPreviewResp docPreviewResp = GsonUtil.GsonToBean(content, DocPreviewResp.class);
+                if (docPreviewResp == null) {
+                    dismissLoading();
+                    return;
+                }
+                if (docPreviewResp.isSuccess()) {
+                    turnPreview(docPreviewResp.getData().getArryList(), url);
+                }
+                dismissLoading();
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                dismissLoading();
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
     }
 
     public void onPreviewBtn(View view) {

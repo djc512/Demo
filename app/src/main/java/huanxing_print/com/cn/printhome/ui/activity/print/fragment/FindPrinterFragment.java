@@ -18,6 +18,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps2d.model.LatLng;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshView.SimpleXRefreshListener;
 import com.andview.refreshview.XRefreshViewFooter;
@@ -29,13 +30,17 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.model.print.Printer;
-import huanxing_print.com.cn.printhome.ui.activity.copy.CopySettingActivity;
+import huanxing_print.com.cn.printhome.model.print.AroundPrinterResp;
+import huanxing_print.com.cn.printhome.model.print.PrintSetting;
+import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
+import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrinterLocationActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FindPrinterRcAdapter;
 import huanxing_print.com.cn.printhome.util.DisplayUtil;
+import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.StringUtil;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 
 /**
@@ -49,14 +54,22 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
 
     private RecyclerView printerRcList;
 
-    private List<Printer> printerList = new ArrayList<>();
+    private List<AroundPrinterResp.Printer> printerList = new ArrayList<>();
     private FindPrinterRcAdapter findPrinterRcAdapter;
 
     private Spinner spinner;
     private TextView addressTv;
     private ImageView refreshImg;
     private XRefreshView xRefreshView;
+    private final int DELAY = 500;
     private int pageCount = 1;
+    private int pageSize = 20;
+    private int radius = 4 * 1000;
+    private String center;
+    private PrintSetting printSetting;
+
+    private final int REFRESH = 1;
+    private final int LOADMORE = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +79,6 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        location();
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_printer_find, container, false);
             initView(view);
@@ -80,6 +92,15 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
 
     private void initView(View view) {
         xRefreshView = (XRefreshView) view.findViewById(R.id.xRefreshView);
+        xRefreshView.setPinnedTime(1000);
+        xRefreshView.setMoveForHorizontal(true);
+        xRefreshView.setPullLoadEnable(true);
+        xRefreshView.setAutoLoadMore(false);
+
+        xRefreshView.enableReleaseToLoadMore(true);
+        xRefreshView.enableRecyclerViewPullUp(true);
+        xRefreshView.enablePullUpWhenLoadCompleted(true);
+
         addressTv = (TextView) view.findViewById(R.id.addressTv);
         refreshImg = (ImageView) view.findViewById(R.id.refreshImg);
         refreshImg.setOnClickListener(new View.OnClickListener() {
@@ -95,17 +116,6 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
             }
         });
         spinner = (Spinner) view.findViewById(R.id.disSpinner);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                String[] dis = getResources().getStringArray(R.array.distance);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Another interface callback
-            }
-        });
         printerRcList = (RecyclerView) view.findViewById(R.id.mRecView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         printerRcList.setLayoutManager(mLayoutManager);
@@ -114,23 +124,29 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
         printerRcList.addItemDecoration(new RecyclerViewDivider(context, LinearLayoutManager.VERTICAL, DisplayUtil
                 .dip2px(context, 10), ContextCompat.getColor(context, R.color.bc_gray)));
         findPrinterRcAdapter = new FindPrinterRcAdapter(printerList);
+        findPrinterRcAdapter.setCustomLoadMoreView(new XRefreshViewFooter(context));
         findPrinterRcAdapter.setOnItemClickListener(new FindPrinterRcAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 switch (view.getId()) {
                     case R.id.printerLyt:
-                        CopySettingActivity.start(context, null);
+                        ((PickPrinterActivity) getActivity()).turnSetting(findPrinterRcAdapter.getPrinterList().get
+                                (position).getPrinterNo());
                         break;
                     case R.id.detailTv:
-                        Printer printer = new Printer();
-                        printer.setId(10);
-                        EventBus.getDefault().post(printer, PickPrinterActivity.TAG_EVENT_PRINTER);
+                        turnDetail(findPrinterRcAdapter.getPrinterList().get(position).getPrinterNo());
                         break;
-                    case R.id.navImg:
-                        PrinterLocationActivity.start(context, null);
-                        break;
-                    case R.id.addressTv:
-                        PrinterLocationActivity.start(context, null);
+                    case R.id.navLty:
+                        LatLng latLng = StringUtil.getLatLng(findPrinterRcAdapter.getPrinterList().get(position)
+                                .getLocation());
+                        Logger.i(latLng.toString());
+                        if (latLng != null) {
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable(PrinterLocationActivity.LATLNG, latLng);
+                            PrinterLocationActivity.start(context, bundle);
+                        } else {
+                            ShowUtil.showToast("位置错误");
+                        }
                         break;
                     case R.id.commentTv:
                         ShowUtil.showToast(position + " commentTv");
@@ -142,57 +158,65 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
             }
         });
         printerRcList.setAdapter(findPrinterRcAdapter);
-        printerList.add(new Printer());
-        printerList.add(new Printer());
-        printerList.add(new Printer());
-        printerList.add(new Printer());
-
-        xRefreshView.setPinnedTime(1000);
-        xRefreshView.setMoveForHorizontal(true);
-        xRefreshView.setPullLoadEnable(true);
-        xRefreshView.setAutoLoadMore(false);
-        findPrinterRcAdapter.setCustomLoadMoreView(new XRefreshViewFooter(context));
-        xRefreshView.enableReleaseToLoadMore(true);
-        xRefreshView.enableRecyclerViewPullUp(true);
-        xRefreshView.enablePullUpWhenLoadCompleted(true);
+//        printerList.add(new AroundPrinterResp.Printer());
+//        printerList.add(new AroundPrinterResp.Printer());
+//        printerList.add(new AroundPrinterResp.Printer());
+//        printerList.add(new AroundPrinterResp.Printer());
 
         xRefreshView.setXRefreshViewListener(new SimpleXRefreshListener() {
 
             @Override
             public void onRefresh() {
+                Logger.i("onRefresh");
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         pageCount = 1;
                         findPrinterRcAdapter.clear();
-                        for (int i = 0; i < 6; i++) {
-                            findPrinterRcAdapter.insert(new Printer(), findPrinterRcAdapter.getAdapterItemCount());
-                        }
-                        findPrinterRcAdapter.notifyDataSetChanged();
-                        xRefreshView.stopRefresh();
+                        ruqueryPrinters(REFRESH);
                     }
-                }, 500);
+                }, DELAY);
             }
 
             @Override
             public void onLoadMore(boolean isSilence) {
+                Logger.i("onLoadMore");
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
-                        for (int i = 0; i < 6; i++) {
-                            findPrinterRcAdapter.insert(new Printer(), findPrinterRcAdapter.getAdapterItemCount());
-                        }
-                        pageCount++;
-                        if (pageCount >= 3) {//模拟没有更多数据的情况
-                            xRefreshView.setLoadComplete(true);
-                        } else {
-                            // 刷新完成必须调用此方法停止加载
-                            xRefreshView.stopLoadMore(false);
-                            //当数据加载失败 不需要隐藏footerview时，可以调用以下方法，传入false，不传默认为true
-                            // 同时在Footerview的onStateFinish(boolean hideFooter)，可以在hideFooter为false时，显示数据加载失败的ui
-//                            xRefreshView1.stopLoadMore(false);
-                        }
+                        ruqueryPrinters(LOADMORE);
                     }
-                }, 500);
+                }, DELAY);
+            }
+        });
+    }
+
+    private void initSpinner() {
+        spinner.setSelection(1);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                String[] dis = getResources().getStringArray(R.array.distance);
+                Logger.i(pos);
+                switch (pos) {
+                    case 0:
+                        radius = 1 * 1000;
+                        break;
+                    case 1:
+                        radius = 5 * 1000;
+                        break;
+                    case 2:
+                        radius = 10 * 1000;
+                        break;
+                    case 3:
+                        radius = 50 * 1000;
+                        break;
+                }
+                xRefreshView.startRefresh();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
             }
         });
     }
@@ -202,9 +226,53 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
         if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
+        location();
         findPrinterRcAdapter.setPrinterList(printerList);
         findPrinterRcAdapter.notifyDataSetChanged();
         isLoaded = true;
+    }
+
+    private void turnDetail(String printerNo) {
+        ((PickPrinterActivity) getActivity()).requeryDetail(printerNo);
+    }
+
+    private void ruqueryPrinters(final int type) {
+        PrintRequest.queryAroundPrinter(mActivity, pageCount, pageSize, radius, center, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                AroundPrinterResp aroundPrinterResp = GsonUtil.GsonToBean(content, AroundPrinterResp.class);
+                if (aroundPrinterResp != null && aroundPrinterResp.isSuccess()) {
+                    printerList = aroundPrinterResp.getData().getList();
+                    if (printerList != null && !printerList.isEmpty()) {
+                        pageCount++;
+                        findPrinterRcAdapter.insert(printerList);
+                    } else if (type == REFRESH) {
+                        ShowUtil.showToast("附近没有打印机");
+                    }
+                }
+                findPrinterRcAdapter.notifyDataSetChanged();
+                if (findPrinterRcAdapter.getAdapterItemCount() < 20) {
+                    xRefreshView.setLoadComplete(true);
+                } else {
+                    xRefreshView.setLoadComplete(false);
+                }
+                if (type == REFRESH) {
+                    xRefreshView.stopRefresh();
+                } else {
+                    xRefreshView.stopLoadMore(false);
+                }
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+                if (type == REFRESH) {
+                    xRefreshView.stopRefresh();
+                } else {
+                    xRefreshView.stopLoadMore(false);
+                }
+            }
+        });
     }
 
     public void location() {
@@ -229,9 +297,14 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (null != aMapLocation) {
             if (aMapLocation.getErrorCode() == 0) {
+                initSpinner();
+                center = aMapLocation.getLongitude() + "," + aMapLocation.getLatitude();
                 addressTv.setText(aMapLocation.getAddress());
+                xRefreshView.setVisibility(View.VISIBLE);
+                xRefreshView.startRefresh();
             } else {
                 Logger.i("errorcode" + aMapLocation.getErrorCode());
+                xRefreshView.setVisibility(View.INVISIBLE);
                 addressTv.setText("定位失败");
             }
         }

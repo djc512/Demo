@@ -9,15 +9,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.WindowManager;
 
 import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
 
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.model.print.Printer;
+import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
+import huanxing_print.com.cn.printhome.model.print.PrintSetting;
+import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
+import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CopySettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PickPrinterFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PrinterDetailFragment;
+import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -29,19 +34,30 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
 
     private static final int REQUEST_CODE = 1;
     private static final int REQUEST_IMG = 1;
+    private PrintSetting printSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_printer);
-        initStepLine();
+        initData();
         initView();
         initFragment();
         isPermissionsGranted();
         EventBus.getDefault().register(this);
     }
 
+    private void initData() {
+        printSetting = getIntent().getParcelableExtra(SETTING);
+        Logger.i(printSetting.toString());
+    }
+
+    public PrintSetting getSetting() {
+        return printSetting;
+    }
+
     private void initView() {
+        initStepLine();
         initTitleBar("打印");
     }
 
@@ -54,6 +70,8 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         WindowManager wm = getWindowManager();
         printerDetailFragment = new PrinterDetailFragment();
+        printerDetailFragment.setPrintSetting(printSetting);
+
         pickPrinterFragment = new PickPrinterFragment();
         fragmentTransaction.add(R.id.content, pickPrinterFragment);
         fragmentTransaction.add(R.id.content, printerDetailFragment);
@@ -62,8 +80,8 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                 .commit();
     }
 
-    private void showPrintDetail(Printer printer) {
-        printerDetailFragment.updateView();
+    private void showPrintDetail(PrintInfoResp.Info printInfo) {
+        printerDetailFragment.updateView(printInfo);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.hide(pickPrinterFragment)
@@ -71,10 +89,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                 .commit();
     }
 
-    public static final String TAG_EVENT_SWITCH = "switch_printer";
-
-    @Subscriber(tag = TAG_EVENT_SWITCH)
-    private void showPick(Object object) {
+    public void showPick( ) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.hide(printerDetailFragment)
@@ -82,16 +97,42 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                 .commit();
     }
 
-    public static final String TAG_EVENT_PRINTER = "printer";
+    public void requeryDetail(String printerNo) {
+        showLoading();
+        PrintRequest.queryPrinterPrice(activity, printerNo, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                PrintInfoResp printInfoResp = GsonUtil.GsonToBean(content, PrintInfoResp.class);
+                if (printInfoResp != null && printInfoResp.isSuccess()) {
+                    PrintInfoResp.Info printInfo = printInfoResp.getData();
+                    if (printInfo != null && isLoading()) {
+                        showPrintDetail(printInfo);
+                    }
+                }
+                dismissLoading();
+            }
 
-    @Subscriber(tag = TAG_EVENT_PRINTER)
-    private void getPrinter(Printer printer) {
-        showPrintDetail(printer);
-        Logger.i(printer.toString());
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+                dismissLoading();
+            }
+        });
+        Logger.i(printerNo);
     }
+
+    public void turnSetting(String printerNo) {
+        Bundle bundle = new Bundle();
+        bundle.putString(CopySettingActivity.PRINTER_NO,printerNo);
+        bundle.putParcelable(CopySettingActivity.PRINT_SETTING,printSetting);
+        CopySettingActivity.start(context, bundle);
+    }
+
+    public static final String SETTING = "setting";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, PickPrinterActivity.class);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
 

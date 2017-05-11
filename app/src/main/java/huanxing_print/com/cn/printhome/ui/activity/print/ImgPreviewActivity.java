@@ -4,14 +4,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
@@ -58,18 +60,64 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         int id = v.getId();
         switch (id) {
             case R.id.rightTv:
-                PickPrinterActivity.start(context, null);
-                finish();
+                turnFile();
                 break;
         }
     }
 
-    private void uploadFile() {
+    static class MyHandler extends Handler {
+        WeakReference<ImgPreviewActivity> mActivity;
+
+        MyHandler(ImgPreviewActivity activity) {
+            mActivity = new WeakReference<ImgPreviewActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            ImgPreviewActivity activity = mActivity.get();
+            String base = (String) msg.obj;
+            if (base != null) {
+                activity.uploadFile(base);
+            }
+        }
+    }
+
+    private MyHandler mHandler = new MyHandler(this);
+
+    private void uploadFile(String base) {
+        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(), "1", new
+                HttpListener() {
+                    @Override
+                    public void onSucceed(String content) {
+                        UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
+                        if (uploadFileBean == null) {
+                            return;
+                        }
+                        if (uploadFileBean.isSuccess()) {
+                            if (isLoading()) {
+                                String url = uploadFileBean.getData().getImgUrl();
+                                addFile(url);
+                            }
+                        } else {
+                            ShowUtil.showToast(getString(R.string.upload_failure));
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(String exception) {
+                        dismissLoading();
+                        ShowUtil.showToast(getString(R.string.net_error));
+                    }
+                }, false);
+    }
+
+    private void turnFile() {
         file = new File(imgPath);
         if (file == null || !file.exists()) {
             return;
         }
-        if (FileUtils.getFileSize(file) > ConFig.FILE_UPLOAD_MAX) {
+        if (FileUtils.isOutOfSize(file)) {
             AlertUtil.show(context, "提示", "文件超限", null, new
                     DialogInterface.OnClickListener() {
                         @Override
@@ -79,33 +127,23 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                     });
             return;
         }
-        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), FileUtils.getBase64(file), file
-                .getName(), "1", new HttpListener() {
+        showLoading();
+        new Thread() {
             @Override
-            public void onSucceed(String content) {
-                UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
-                if (uploadFileBean == null) {
-                    return;
-                }
-                if (uploadFileBean.isSuccess()) {
-                    String url = uploadFileBean.getData().getImgUrl();
-                    addFile(url);
-                } else {
-                    ShowUtil.showToast(getString(R.string.upload_failure));
-                }
+            public void run() {
+                super.run();
+                Message msg = new Message();
+                msg.obj = FileUtils.getBase64(file);
+                mHandler.sendMessage(msg);
             }
-
-            @Override
-            public void onFailed(String exception) {
-                ShowUtil.showToast(getString(R.string.net_error));
-            }
-        }, false);
+        }.start();
     }
 
     private void addFile(String fileUrl) {
         PrintRequest.addFile(activity, "1", file.getName(), fileUrl, new HttpListener() {
             @Override
             public void onSucceed(String content) {
+                dismissLoading();
                 AddFileSettingBean addFileSettingBean = GsonUtil.GsonToBean(content, AddFileSettingBean.class);
                 if (addFileSettingBean == null) {
                     return;
@@ -120,18 +158,16 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
 
             @Override
             public void onFailed(String exception) {
-                Logger.i("网络错误");
+                dismissLoading();
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         }, false);
     }
 
     private void turnPrintSetting(PrintSetting printSetting) {
-        Intent intent = new Intent(ImgPreviewActivity.this, ImgPrintSettingActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ImgPrintSettingActivity.PRINT_SETTING, printSetting);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
+        PickPrinterActivity.start(context, bundle);
         finish();
     }
 

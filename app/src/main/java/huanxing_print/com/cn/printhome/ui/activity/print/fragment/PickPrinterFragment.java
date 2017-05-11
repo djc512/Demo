@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.print.Printer;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.PrinterFragmentAdapter;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
@@ -146,7 +145,7 @@ public class PickPrinterFragment extends BaseLazyFragment {
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
                     ShowUtil.showToast(result);
-                    EventBus.getDefault().post(new Printer(), PickPrinterActivity.TAG_EVENT_PRINTER);
+                    ((PickPrinterActivity) getActivity()).requeryDetail("zwf001");
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     ShowUtil.showToast("解析二维码失败");
                 }

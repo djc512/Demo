@@ -43,12 +43,20 @@ public class HttpUrl {
     public static final String checkTel = "friend/checkTelNo";//查询手机号是否是印家号
     public static final String groupList = "group/list";//群列表
     public static final String createGroup = "group/add";//添加群
+    public static final String queryGroupMsg = "group/queryInfo";//群信息查询
+    public static final String addMemberToGroup = "group/addMember";//群信息查询
+    public static final String delMemberFromGroup = "group/delMember";//群信息查询
+    public static final String exitGroup = "group/getOut";//退群
+    public static final String transferGroup = "group/transferOwner";//群转让
+    public static final String dissolutionGroup = "group/release";//群解散
+    public static final String modifyGroup = "group/updateInfo";//群解散
     public static final String addApproval = "approve/add";//新增审批
     public static final String queryApprovalList = "approve/list";//查询审批列表
     public static final String queryLast = "approve/queryLast";//查询上次的审批人和抄送人
     public static final String approval = "approve/adult";//审批
     public static final String prooft = "approve/prooft";//查看凭证
     public static final String queryCount = "approve/queryCount";//查看未读消息
+    public static final String submitComment = "appraise/add";//添加评论
     private static String postUrl;
 
     private static HttpUrl httpUrl;

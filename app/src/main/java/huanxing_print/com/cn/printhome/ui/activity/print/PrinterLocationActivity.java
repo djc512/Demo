@@ -45,7 +45,8 @@ public class PrinterLocationActivity extends AppCompatActivity implements Locati
 
     private static final int CAMERA_ZOOM = 16;
 
-    public final LatLng latLng = new LatLng(32.011192, 118.794448);
+    //        private  LatLng latLng = new LatLng(32.011192, 118.794448);
+    private LatLng latLng;
 
 
     @Override
@@ -55,8 +56,13 @@ public class PrinterLocationActivity extends AppCompatActivity implements Locati
         setContentView(R.layout.activity_printer_location);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
+        initData();
         init();
+    }
 
+    private void initData() {
+        latLng = (LatLng) getIntent().getExtras().getParcelable(LATLNG);
+        Logger.i(latLng.toString());
     }
 
     /**
@@ -216,8 +222,11 @@ public class PrinterLocationActivity extends AppCompatActivity implements Locati
         return true;
     }
 
+    public static final String LATLNG = "latlng";
+
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, PrinterLocationActivity.class);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
 }

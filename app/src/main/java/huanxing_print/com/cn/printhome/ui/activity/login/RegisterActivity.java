@@ -57,7 +57,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initData() {
-		setLocationCallBack(locationCallBack);
+		//setLocationCallBack(locationCallBack);
 	}
 
 	private void initViews() {

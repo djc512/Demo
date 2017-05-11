@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.print.Printer;
+import huanxing_print.com.cn.printhome.model.print.UsedPrinterResp;
 
 /**
  * Created by LGH on 2017/3/23.
@@ -19,13 +19,13 @@ import huanxing_print.com.cn.printhome.model.print.Printer;
 
 public class UsedPrinterRcAdapter extends RecyclerView.Adapter<UsedPrinterRcAdapter.ViewHolder> {
 
-    private List<Printer> printerList;
+    private List<UsedPrinterResp.Printer> printerList;
 
-    public UsedPrinterRcAdapter(List<Printer> printerList) {
+    public UsedPrinterRcAdapter(List<UsedPrinterResp.Printer> printerList) {
         this.printerList = printerList;
     }
 
-    public void setPrinterList(List<Printer> printerList) {
+    public void setPrinterList(List<UsedPrinterResp.Printer> printerList) {
         this.printerList = printerList;
     }
 
