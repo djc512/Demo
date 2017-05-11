@@ -335,7 +335,6 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                     sendBroadcast(intentsave);
                     saveName = System.currentTimeMillis() + ".jpg";
                     saveUtil.saveClipPic(compBitmap, saveName);
-                    Toast.makeText(ctx, "保存成功", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

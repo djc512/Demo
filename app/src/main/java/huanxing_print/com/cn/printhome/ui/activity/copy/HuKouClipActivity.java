@@ -7,16 +7,17 @@ import android.graphics.Canvas;
 import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
@@ -151,10 +152,17 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
                 picName = System.currentTimeMillis() + ".jpg";
                 if (null != bitmap && null != bitmapf) {
                     saveUtil.saveClipPic(mergeBitmap, picName);
+                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
+                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
+                    printIntent.putExtra("imagepath", path);
+                    startActivity(printIntent);
                 } else {
                     saveUtil.saveClipPic(mBitmap, picName);
+                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
+                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
+                    printIntent.putExtra("imagepath", path);
+                    startActivity(printIntent);
                 }
-                Toast.makeText(getSelfActivity(), "跳转到选择打印机", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

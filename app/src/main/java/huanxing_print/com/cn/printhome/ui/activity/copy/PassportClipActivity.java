@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.view.Display;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
@@ -99,6 +101,10 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
             case btn_confirm:
                 picName = System.currentTimeMillis() + ".jpg";
                 saveUtil.saveClipPic(thumbnail, picName);
+                String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
+                Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
+                printIntent.putExtra("imagepath", path);
+                startActivity(printIntent);
                 break;
         }
     }

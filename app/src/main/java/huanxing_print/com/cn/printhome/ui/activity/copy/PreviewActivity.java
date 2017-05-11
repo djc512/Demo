@@ -8,6 +8,7 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.BitmpaUtil;
 import huanxing_print.com.cn.printhome.util.copy.ClipPicUtil;
@@ -321,7 +323,10 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 if (compBitmap != null) {
                     saveName = System.currentTimeMillis() + ".jpg";
                     saveUtil.saveClipPic(compBitmap, saveName);
-                    Toast.makeText(ctx, "保存成功", Toast.LENGTH_SHORT).show();
+                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + saveName;
+                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
+                    printIntent.putExtra("imagepath", path);
+                    startActivity(printIntent);
                 }
                 break;
         }
@@ -409,15 +414,15 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (null != mResult ) {
+        if (null != mResult) {
             mResult.recycle();
             mResult = null;
         }
-        if (null != mBitmap ) {
+        if (null != mBitmap) {
             mBitmap.recycle();
             mBitmap = null;
         }
-        if (null != compBitmap ) {
+        if (null != compBitmap) {
             compBitmap.recycle();
             compBitmap = null;
         }
