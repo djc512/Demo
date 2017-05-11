@@ -77,7 +77,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private String content;
     private List<ImageUploadItem> imageitems = new ArrayList<>();
     private List<String> imageUrls = new ArrayList<>();
-    private String orderid;
+    private int orderid;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -92,7 +92,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         ctx = this;
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
         mResults.add(bimap);
-        orderid = (String) getIntent().getExtras().get("printer_id");
+        orderid = (int) getIntent().getExtras().get("printer_id");
         initView();
         initData();
         initListener();

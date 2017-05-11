@@ -370,9 +370,10 @@ public class BaseApplication extends Application {
 					 * 3. 如果是在后台发出长声音
 					 * 4. 如果在前台发出短声音
 					 */
-					Log.i("CMCC","收到消息了");
+					Log.i("CMCC","收到消息了666666666666666666666666666666");
+
 					EventBus.getDefault().post(list.get(0));
-					if (isRuninBackground()) {
+					/*if (isRuninBackground()) {
 						sendNotification(list.get(0));
 						//发出长声音
 						//参数2/3：左右喇叭声音的大小
@@ -380,7 +381,7 @@ public class BaseApplication extends Application {
 					} else {
 						//发出短声音
 						mSoundPool.play(mDuanSound,1,1,0,0,1);
-					}
+					}*/
 
 				}
 			}

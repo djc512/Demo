@@ -61,7 +61,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
     ImageView mAdd;
     LinearLayout mAddFile;
     //区分群聊和单聊
-    int type;
+    private int type;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -138,8 +138,14 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
          *  如果是，让ChatPresenter 更新数据
          *
          */
-        Log.i("CMCC", "事件接收到");
-        String from = message.getFrom();
+        String from;
+        if (type==1){
+            from = message.getTo();
+        }else {
+            from = message.getMsgId();
+        }
+        message.getUserName();
+        message.getTo();
         if (from.equals(mUsername)) {
             mChatPresenter.updateData(mUsername);
         }
@@ -169,9 +175,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.et_msg:
-                String msg = mEtMsg.getText().toString();
-                mChatPresenter.sendMessage(mUsername, msg);
-                mEtMsg.getText().clear();
+
                 break;
             case R.id.iv_add:
                 //点击添加的操作
@@ -189,16 +193,10 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
                 //发送消息
                 String msgg = mEtMsg.getText().toString();
                 if (type == 1) {
-                    EMMessage emMessage = EMMessage.createTxtSendMessage(msgg, mUsername);
-                    //如果是群聊，设置chattype，默认是单聊
-
-                    emMessage.setChatType(EMMessage.ChatType.GroupChat);
-                    emMessage.setStatus(EMMessage.Status.INPROGRESS);
-                    mChatPresenter.sendGroupMessage(mUsername, emMessage);
+                    mChatPresenter.sendMessage(mUsername, msgg, 1);
                 } else {
-                    mChatPresenter.sendMessage(mUsername, msgg);
+                    mChatPresenter.sendMessage(mUsername, msgg, 0);
                 }
-
 
                 mEtMsg.getText().clear();
 
@@ -247,6 +245,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
     @Override
     public void onUpdate(int size) {
+        Log.i("CMCC","收到消息了10100101010101010101100");
         mChatAdapter.notifyDataSetChanged();
         if (size != 0) {
             mRecyclerView.smoothScrollToPosition(size - 1);

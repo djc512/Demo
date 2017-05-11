@@ -14,6 +14,6 @@ public interface ChatPresenter {
 
     void updateData(String username);
 
-    void sendMessage(String username, String msg);
+    void sendMessage(String username, String msg,int type);
     void sendGroupMessage(String username, EMMessage msg);
 }

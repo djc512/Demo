@@ -44,7 +44,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
 		usedPrinterRcAdapter.setOnItemClickListener(new ChatRecylerAdapter.OnItemClickListener() {
 			@Override
 			public void onItemClick(View view, int position) {
-				Intent in = new Intent();
+				Intent in = new Intent(getActivity(), ChatActivity.class);
 				if(position==0){
 					//单聊
 					in.putExtra("type",2);
@@ -52,7 +52,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
 					//群聊
 					in.putExtra("type",1);
 				}
-				startActivity(new Intent(getActivity(), ChatActivity.class));
+				startActivity(in);
 			}
 		});
 		chatRecView.setAdapter(usedPrinterRcAdapter);
