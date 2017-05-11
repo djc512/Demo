@@ -18,7 +18,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
-import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter1;
+import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
@@ -32,7 +32,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private LinearLayout ll_back;
     private TextView tv_account_record;
     private RecyclerView rv_account;
-    private AccountCZAdapter1 adapter;
+    private AccountCZAdapter adapter;
     private String totleBalance;
     private List<ChongZhiBean> czList;
     private String rechargeAmout;
@@ -81,7 +81,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         ll_back.setOnClickListener(this);
         btn_chongzhi.setOnClickListener(this);
 
-        adapter.setOnItemClickLitener(new AccountCZAdapter1.OnItemClickLitener() {
+        adapter.setOnItemClickLitener(new AccountCZAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(ImageView view, int position) {
                 rechargeAmout = czList.get(position).getRechargeAmout();
@@ -115,7 +115,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void success(String msg, List<ChongZhiBean> list) {
             czList = list;
-            adapter = new AccountCZAdapter1(getSelfActivity(), null);
+            adapter = new AccountCZAdapter(getSelfActivity(), null);
             rv_account.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
             rv_account.setAdapter(adapter);
         }

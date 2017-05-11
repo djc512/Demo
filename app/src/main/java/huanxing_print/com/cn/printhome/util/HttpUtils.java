@@ -130,7 +130,7 @@ public class HttpUtils {
      * @param pageNo
      * @param callback
      */
-    public static void getCommentlist(Object obj, final String url, String loginToken, int pageNo,String printno,int type,
+    public static void getCommentlist(Object obj, final String url, String loginToken, int pageNo,int printno,int type,
                                 final HttpCallBack callback) {
         //String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
         //Logger.d("http-request:" + url + "----" + "----" + paramsStr);
@@ -140,7 +140,7 @@ public class HttpUtils {
                 .addHeader("platform", ConFig.PHONE_TYPE)
                 .addParams("pageNum", pageNo + "")
                 .addParams("pageSize", "10")
-                .addParams("printerNo",printno)
+                .addParams("printerNo",printno+"")
                 .addParams("type",type+"")
                 .tag(obj).build().execute(new StringCallback() {
 

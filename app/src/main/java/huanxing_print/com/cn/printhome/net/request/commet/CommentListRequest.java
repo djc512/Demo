@@ -17,7 +17,7 @@ import huanxing_print.com.cn.printhome.util.HttpUtils;
 
 public class CommentListRequest extends BaseRequst {
 
-    public static void request(Context ctx, int pageNum, String printno, int type, final CommentListCallback callBack) {
+    public static void request(Context ctx, int pageNum, int printno, int type, final CommentListCallback callBack) {
 
         String commentlistUrl = HTTP_URL + HttpUrl.getCommentList;
 

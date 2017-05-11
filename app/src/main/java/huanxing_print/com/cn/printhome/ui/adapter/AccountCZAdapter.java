@@ -1,11 +1,11 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,7 +25,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
     private List<ChongZhiBean> data;
 
     public interface OnItemClickLitener {
-        void onItemClick(View view, int position);
+        void onItemClick(ImageView view, int position);
     }
 
     private OnItemClickLitener mOnItemClickLitener;
@@ -54,26 +54,21 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-
-        ChongZhiBean chongZhiBean = data.get(position);
-        holder.tv_chong.setText("冲" + chongZhiBean.getRechargeAmout() + "元");
-        holder.tv_song.setText("送" + chongZhiBean.getSendAmount() + "元");
+        ChongZhiBean bean = data.get(position);
+        holder.tv_chong.setText("冲" + bean.getRechargeAmout() + "元");
+        holder.tv_song.setText("送" + bean.getSendAmount() + "元");
 
         if (clickTemp == position) {
-            holder.ll_cz.setBackgroundResource(R.drawable.shape_cz_money_green);
-            holder.tv_chong.setTextColor(ctx.getResources().getColor(R.color.green));
-            holder.tv_song.setTextColor(ctx.getResources().getColor(R.color.green));
+            holder.iv_check.setBackgroundResource(R.drawable.select);
         } else {
-            holder.ll_cz.setBackgroundResource(R.drawable.shape_cz_money_bg);
-            holder.tv_chong.setTextColor(Color.parseColor("#000000"));
-            holder.tv_song.setTextColor(Color.parseColor("#000000"));
+            holder.iv_check.setBackgroundResource(R.drawable.select_no);
         }
 
         if (mOnItemClickLitener != null) {
             holder.ll_cz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickLitener.onItemClick(holder.ll_cz, position);
+                    mOnItemClickLitener.onItemClick(holder.iv_check, position);
                 }
             });
         }
@@ -81,7 +76,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return 4;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -90,6 +85,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
         TextView tv_song;
         LinearLayout ll_cz;
         TextView tv_discount;
+        ImageView iv_check;
 
         public MyViewHolder(View view) {
             super(view);
@@ -97,6 +93,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
             tv_chong = (TextView) view.findViewById(R.id.tv_account_chong);
             tv_song = (TextView) view.findViewById(R.id.tv_account_song);
             tv_discount = (TextView) view.findViewById(R.id.tv_discount);
+            iv_check = (ImageView) view.findViewById(R.id.iv_check);
         }
     }
 }

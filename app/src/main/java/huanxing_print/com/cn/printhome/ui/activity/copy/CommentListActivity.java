@@ -55,13 +55,14 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     private CommentGoodFragment goodFragment;
     private CommentMediumFragment mediumFragment;
     private CommentBadFragment badFragment;
-
+    private int printno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_comment_list);
         ctx = this;
+        printno = Integer.valueOf(getIntent().getExtras().getString("printer_id"));
         initView();
         initData();
         initListener();
@@ -123,7 +124,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
      */
     private void getData() {
         DialogUtils.showProgressDialog(ctx,"正在加载中...");
-        CommentListRequest.request(ctx, 1, "zwf001", 0, new CommentListCallback() {
+        CommentListRequest.request(ctx, 1, printno, 0, new CommentListCallback() {
             @Override
             public void success(CommentListBean bean) {
                 DialogUtils.closeProgressDialog();
