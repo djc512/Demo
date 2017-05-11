@@ -92,7 +92,8 @@
 
         <activity
             android:name="huanxing_print.com.cn.printhome.ui.activity.welcome.SplashActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
