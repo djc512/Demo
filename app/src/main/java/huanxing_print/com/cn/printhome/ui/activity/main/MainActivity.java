@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         fragChat = new ChatFragment();
         fragApply = new ApplyFragment();
 
-        ll_bg.setBackgroundResource(R.color.yellow);
+        ll_bg.setBackgroundResource(R.color.white);
         rgp.setOnCheckedChangeListener(this);
         onCheckedChanged(rgp, R.id.rgb_print);
 
@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
                 fragTemp = fragApply;
                 break;
             case R.id.rgb_print:
-                ll_bg.setBackgroundResource(R.color.yellow);
+                ll_bg.setBackgroundResource(R.color.white);
                 fragTemp = fragPrint;
                 break;
             case R.id.rgb_contacts:

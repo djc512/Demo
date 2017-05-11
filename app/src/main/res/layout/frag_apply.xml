@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/all_bg_color"
+    android:background="@color/gray5"
     android:orientation="vertical" >
     <RelativeLayout
         android:padding="10dp"
@@ -18,102 +18,90 @@
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="文件制作"
+        android:textSize="18sp"
+        android:textColor="@color/text_color"
+        android:padding="10dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray5" />
     <LinearLayout
+        android:id="@+id/ll_copy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="20dp">
-
-    <LinearLayout
-        android:id="@+id/ll_approve"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="15dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/iv_procure_approva"
-            android:layout_gravity="center_horizontal"/>
+            android:src="@drawable/iv_apply_copy"
+            android:id="@+id/imageView5"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:text="扫描复印"
+            android:textSize="18sp"
+            android:textColor="@color/text_color"/>
 
+        <ImageView
+            android:id="@+id/iv_dayin"
+            style="@style/arrow_go" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="办公应用"
+        android:textSize="18sp"
+        android:textColor="@color/text_color"
+        android:padding="10dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray5" />
+
+    <LinearLayout
+        android:id="@+id/ll_approve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal"
+            android:src="@drawable/iv_apply_approve"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
             android:text="审批"
             android:textSize="18sp"
             android:textColor="@color/text_color"/>
-        <TextView
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center_horizontal"
-            android:text="企业移动审批"
-            android:textSize="14sp"
-            android:textColor="@color/text_content"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center_horizontal"
-            android:text="方便又快捷"
-            android:textSize="14sp"
-            android:textColor="@color/text_content"/>
+        <ImageView
+            android:id="@+id/iv_mingxi"
+            style="@style/arrow_go" />
     </LinearLayout>
-        <TextView
-            android:layout_width="20dip"
-            android:layout_height="match_parent"
-         />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:padding="10dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/iv_procure_approva"
-                android:layout_gravity="center_horizontal"/>
 
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"
-                android:text="更多"
-                android:textSize="18sp"
-                android:textColor="@color/text_color"/>
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"
-                android:text="更多企业打印应用"
-                android:textSize="14sp"
-                android:textColor="@color/text_content"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
-                android:text="敬请期待"
-                android:textSize="14sp"
-                android:textColor="@color/text_content"/>
-        </LinearLayout>
-    </LinearLayout>
 
 </LinearLayout>
