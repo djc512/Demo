@@ -82,7 +82,7 @@ public class PrinterDetailFragment extends BaseLazyFragment {
         this.printPrinterPrice = printPrinterPrice;
         nameTv.setText(printPrinterPrice.getCompanyName());
         addressTv.setText("地址：" + printPrinterPrice.getPrintAddress());
-        if (PrintUtil.TYPE_COLOR.equals(printPrinterPrice.getPrinterType())) {
+        if (PrintUtil.PRINTER_TYPE_COLOR.equals(printPrinterPrice.getPrinterType())) {
             colorPriceTv.setText("彩色 A4 ￥" + printPrinterPrice.getA4ColorPrice() + "   A3 ￥" + printPrinterPrice.getA3ColorPrice());
         } else {
             colorPriceTv.setVisibility(View.GONE);

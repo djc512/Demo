@@ -82,7 +82,7 @@ public class UsedPrinterRcAdapter extends RecyclerView.Adapter<UsedPrinterRcAdap
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         UsedPrinterResp.Printer printer = printerList.get(i);
         viewHolder.nameTv.setText(printer.getRemark());
-        if (PrintUtil.TYPE_COLOR.equals(printer.getPrinterType())) {
+        if (PrintUtil.PRINTER_TYPE_COLOR.equals(printer.getPrinterType())) {
             viewHolder.typeImg.setImageResource(R.drawable.ic_colorized);
         } else {
             viewHolder.typeImg.setImageResource(R.drawable.ic_black);

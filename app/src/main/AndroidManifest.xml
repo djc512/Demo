@@ -91,7 +91,7 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
-            android:name=".ui.activity.welcome.SplashActivity"
+            android:name="huanxing_print.com.cn.printhome.ui.activity.welcome.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -148,7 +148,7 @@
         <!-- 登录页 -->
         <activity
             android:name=".ui.activity.login.LoginActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 忘记密码 -->
         <activity
@@ -385,7 +385,8 @@
         <activity
             android:name=".ui.activity.copy.CopySettingActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 审批的界面 -->
         <activity
             android:name=".ui.activity.approval.ApprovalActivity"
@@ -523,7 +524,7 @@
         <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="1113170503115340#print" />
+            android:value="1196170420115735#ecostardev" />
         <!-- 声明SDK所需的service SDK核心功能 -->
         <service
             android:name="com.hyphenate.chat.EMChatService"

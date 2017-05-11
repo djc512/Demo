@@ -29,13 +29,13 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class ContantsFragment extends BaseFragment implements
         OnClickListener, IndexSideBar.OnTouchLetterListener,ContactsItemAdapter.OnTypeItemClickerListener {
-
+    private static final int STARTNEWFRIEND = 1000;
     private IndexSideBar indexSideBar;
     private RecyclerView contactsView;
     private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
     private ContactsItemAdapter adapter;
     private LinearLayoutManager layoutManager;
-
+    private String token;
     @Override
     protected void init() {
         initView();
@@ -70,8 +70,12 @@ public class ContantsFragment extends BaseFragment implements
     }
 
     private void initData() {
-        String token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
+        token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
+        getData();
+    }
+
+    private void getData() {
         DialogUtils.showProgressDialog(getActivity(),"加载中").show();
         FriendManagerRequest.queryFriendList(getActivity(),token,myFriendListCallback);
     }
@@ -112,7 +116,9 @@ public class ContantsFragment extends BaseFragment implements
 
     @Override
     public void newFriendLister() {
-        startActivity(NewFriendActivity.class);
+//        startActivity(NewFriendActivity.class);
+        Intent intent = new Intent(getActivity(), NewFriendActivity.class);
+        startActivityForResult(intent, STARTNEWFRIEND);
     }
 
     @Override
@@ -168,4 +174,15 @@ public class ContantsFragment extends BaseFragment implements
         }
     };
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case STARTNEWFRIEND:
+                if(resultCode == getActivity().RESULT_OK) {
+                    getData();
+                }
+                break;
+        }
+    }
 }

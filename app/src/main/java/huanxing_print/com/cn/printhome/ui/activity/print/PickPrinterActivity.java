@@ -126,6 +126,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
         bundle.putString(CopySettingActivity.PRINTER_NO, printerNo);
         bundle.putParcelable(CopySettingActivity.PRINT_SETTING, printSetting);
         CopySettingActivity.start(context, bundle);
+        finish();
     }
 
     public static final String SETTING = "setting";

@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_toLeftOf="@+id/iv_pay_bankcard"
+                android:layout_toLeftOf="@+id/iv_bankcard_check"
                 android:layout_toRightOf="@+id/iv_bankcard"
                 android:orientation="vertical">
 
