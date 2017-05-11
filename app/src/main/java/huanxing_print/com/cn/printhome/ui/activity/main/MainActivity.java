@@ -132,7 +132,11 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-        fragPrint.onActivityResult(arg0, arg1, arg2);
+        if(fragTemp instanceof PrintFragment) {
+            fragPrint.onActivityResult(arg0, arg1, arg2);
+        }else if(fragTemp instanceof ContantsFragment) {
+            fragContants.onActivityResult(arg0, arg1, arg2);
+        }
     }
 
     @Override
