@@ -90,7 +90,6 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
                 navLty.setOnClickListener(this);
                 nameTv.setOnClickListener(this);
                 detailTv.setOnClickListener(this);
-                printCountTv.setOnClickListener(this);
                 commentTv.setOnClickListener(this);
             }
         }
@@ -130,7 +129,8 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
         viewHolder.addressTv.setText(printer.getAddress());
         viewHolder.disTv.setText(StringUtil.getDistance(printer.getDistance()));
         Logger.i(StringUtil.getDistance(printer.getDistance()));
-        viewHolder.commentTv.setText("评论" + printer.getRemarkCount());
+        viewHolder.commentTv.setText("评论 " + printer.getRemarkCount());
+        viewHolder.printCountTv.setText("已打印 " + printer.getPageCount());
         if (PrintUtil.PRINTER_TYPE_COLOR.equals(printer.getPrinterType())) {
             viewHolder.typeImg.setImageResource(R.drawable.ic_colorized);
         } else {

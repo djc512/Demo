@@ -184,7 +184,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 AddOrderRespBean addOrderRespBean = new Gson().fromJson(content, AddOrderRespBean.class);
                 if (addOrderRespBean != null && addOrderRespBean.isSuccess() && isLoading()) {
                     AddOrderRespBean.Order order = addOrderRespBean.getData();
-                    ShowUtil.showToast(getString(R.string.add_order_success));
                     orderId = StringUtil.stringToLong(addOrderRespBean.getData().getOrderId());
                     if (isPersion) {
                         if (StringUtil.stringToFloat(order.getTotalAmount()) <= StringUtil.stringToFloat(order

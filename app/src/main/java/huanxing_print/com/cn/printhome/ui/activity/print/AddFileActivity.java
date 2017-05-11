@@ -66,12 +66,11 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private AllFileFragment allFileFragment;
     private int index = 0;
 
-
     private static final int REQUEST_CODE = 1;
     private static final int REQUEST_IMG = 1;
 
-    private static final String[] titles = {"全部文件", "微信", "QQ", "手机相册", "电脑上传", "WIFI导入"};
-    private int[] tabIcons = {
+    private final String[] titles = {"全部文件", "微信", "QQ", "手机相册", "电脑上传", "WIFI导入"};
+    private final int[] tabIcons = {
             R.drawable.ic_tab_file,
             R.drawable.ic_tab_wechat,
             R.drawable.ic_tab_qq,

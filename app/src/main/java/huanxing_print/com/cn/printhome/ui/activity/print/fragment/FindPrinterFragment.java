@@ -156,9 +156,6 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
 //                        intent.putExtras(intent);
 //                        startActivity(intent);
                         break;
-                    case R.id.printCountTv:
-                        ShowUtil.showToast(position + " printCountTv");
-                        break;
                 }
             }
         });

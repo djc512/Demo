@@ -24,7 +24,6 @@ public class DocPreViewpageAdapter extends PagerAdapter {
     public DocPreViewpageAdapter(Context context, List<String> urlList) {
         this.context = context;
         this.urlList = urlList;
-        this.urlList.add("http://i.imgur.com/DvpvklR.png");
     }
 
     @Override

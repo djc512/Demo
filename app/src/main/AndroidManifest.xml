@@ -86,7 +86,7 @@
             android:value="GlideModule" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="5e5e8550786ba228e56f171e6f33df36" />
+            android:value="599cc8f799b2f3fef6353f2fb36593ba" />
 
         <service android:name="com.amap.api.location.APSService" />
 
