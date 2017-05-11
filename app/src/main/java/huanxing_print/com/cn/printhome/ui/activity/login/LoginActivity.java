@@ -1,11 +1,14 @@
 package huanxing_print.com.cn.printhome.ui.activity.login;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -26,6 +30,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.listener.EmsCallBackListener;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.login.LoginBean;
 import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
@@ -48,10 +53,15 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import static android.content.ContentValues.TAG;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
+
+    private static final int REQUEST_SDCARD = 1;
+
     private TextView tv_login,getCodeTv;
     private EditText login_phone,et_code;
     private TextView  tv_register;
     private String phone;
+    String name;
+    String validCode;
 
     private long exitTime = 0;
     private String openid;
@@ -112,10 +122,19 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_login:
-                String name = login_phone.getText().toString().trim();
-                String validCode = et_code.getText().toString().trim();
+                name = login_phone.getText().toString().trim();
+                validCode = et_code.getText().toString().trim();
                 if (isUserNameAndPwdVali(name,validCode)) {
+                    /**
+                     * 1. 动态申请权限
+                     */
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PermissionChecker.PERMISSION_GRANTED){
+                        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_SDCARD);
+                        return;
+                    }
+
                     DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
+
                     LoginRequset.login(getSelfActivity(), name, validCode, loginCallback);
                 }
 //                jumpActivity(MainActivity.class);
@@ -143,9 +162,42 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private LoginCallback loginCallback = new LoginCallback() {
 
         @Override
-        public void success(LoginBean loginBean) {
+        public void success(final LoginBean loginBean) {
+            //判断环信是否登录成功
+            EMClient.getInstance().login(name, validCode, new EmsCallBackListener() {
+                @Override
+                public void onMainSuccess() {
+                    baseApplication.setHasLoginEvent(true);
+                    DialogUtils.closeProgressDialog();
+                    if (!ObjectUtils.isNull(loginBean)) {
+                        String loginToken = loginBean.getLoginToken();
+                        baseApplication.setLoginToken(loginToken);
+                        LoginBeanItem userInfo = loginBean.getMemberInfo();
+                        if (!ObjectUtils.isNull(userInfo)) {
+                            baseApplication.setPhone(userInfo.getMobileNumber());
+                            baseApplication.setNickName(userInfo.getNickName());
+                            baseApplication.setHeadImg(userInfo.getFaceUrl());
+                            baseApplication.setEasemobId(userInfo.getEasemobId());
+                            baseApplication.setUniqueId(userInfo.getUniqueId());
+                            if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+                                baseApplication.setWechatId(userInfo.getWechatId());
+                            }
+                            jumpActivity(MainActivity.class);
+                            finishCurrentActivity();
+                        }
+                    }
 
-            baseApplication.setHasLoginEvent(true);
+                }
+
+                @Override
+                public void onMainError(int i, String s) {
+                    DialogUtils.closeProgressDialog();
+                    toast("环信登录失败");
+
+                }
+            });
+
+            /*baseApplication.setHasLoginEvent(true);
             DialogUtils.closeProgressDialog();
             if (!ObjectUtils.isNull(loginBean)) {
                 String loginToken = loginBean.getLoginToken();
@@ -163,7 +215,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     jumpActivity(MainActivity.class);
                     finishCurrentActivity();
                 }
-            }
+            }*/
         }
 
         @Override
@@ -181,6 +233,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         }
 
     };
+
+
 
     /*
      * 判断用户名和密码是否有效

@@ -95,6 +95,14 @@ public class DialogUtils {
         void dissolution();
     }
 
+    public interface GroupDelMemDialogCallback{
+        void del();
+    }
+
+    public interface ExitGroupDialogCallback {
+        void exit();
+    }
+
     public static Dialog showProgressDialog(Context context, String content) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -386,6 +394,92 @@ public class DialogUtils {
                 tv_confirm.setTextColor(context.getResources().getColor(R.color.yellow2));
                 mProgressDialog.dismiss();
                 callbak.transfer();
+            }
+        });
+        return mProgressDialog;
+    }
+
+    /**
+     * 删除群成员
+     * @param context
+     * @param callbak
+     * @return
+     */
+    public static Dialog showGroupMemDelDialog(final Context context,String content, final GroupDelMemDialogCallback callbak) {
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_qun_dissolution, null);
+        if (null == mProgressDialog) {
+            mProgressDialog = new Dialog(context, R.style.loading_dialog);
+        }
+        mProgressDialog.setContentView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mProgressDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mProgressDialog.getWindow().setAttributes(lp);
+        mProgressDialog.setCancelable(false);
+        TextView tv_cancle = (TextView) v.findViewById(R.id.tv_cancle);
+        final TextView tv_confirm = (TextView) v.findViewById(R.id.tv_confirm);
+        TextView tv_content = (TextView) v.findViewById(R.id.tv_content);
+        tv_content.setText(content);
+        tv_cancle.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgressDialog.dismiss();
+            }
+        });
+        tv_confirm.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_confirm.setTextColor(context.getResources().getColor(R.color.yellow2));
+                mProgressDialog.dismiss();
+                callbak.del();
+            }
+        });
+        return mProgressDialog;
+    }
+
+    /**
+     * 退群
+     * @param context
+     * @param callbak
+     * @return
+     */
+    public static Dialog showexitGroupDialog(final Context context,String content, final ExitGroupDialogCallback callbak) {
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_qun_dissolution, null);
+        if (null == mProgressDialog) {
+            mProgressDialog = new Dialog(context, R.style.loading_dialog);
+        }
+        mProgressDialog.setContentView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mProgressDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mProgressDialog.getWindow().setAttributes(lp);
+        mProgressDialog.setCancelable(false);
+        TextView tv_cancle = (TextView) v.findViewById(R.id.tv_cancle);
+        final TextView tv_confirm = (TextView) v.findViewById(R.id.tv_confirm);
+        TextView tv_content = (TextView) v.findViewById(R.id.tv_content);
+        tv_content.setText(content);
+        tv_cancle.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgressDialog.dismiss();
+            }
+        });
+        tv_confirm.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_confirm.setTextColor(context.getResources().getColor(R.color.yellow2));
+                mProgressDialog.dismiss();
+                callbak.exit();
             }
         });
         return mProgressDialog;

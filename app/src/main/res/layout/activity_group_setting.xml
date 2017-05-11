@@ -252,7 +252,7 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
-                android:background="@color/white"
+                android:background="@drawable/bg_recycler_click_selector"
                 android:gravity="center">
 
                 <TextView

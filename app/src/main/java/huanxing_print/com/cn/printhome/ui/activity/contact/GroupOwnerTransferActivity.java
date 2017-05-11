@@ -10,17 +10,17 @@ import android.widget.LinearLayout;
 import org.simple.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.constant.ConFig;
-import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
-import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
-import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
-import huanxing_print.com.cn.printhome.ui.adapter.ContactsItemAdapter;
+import huanxing_print.com.cn.printhome.model.contact.GroupMember;
+import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
+import huanxing_print.com.cn.printhome.ui.adapter.QunMemberListAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
@@ -31,8 +31,10 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 public class GroupOwnerTransferActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_back;
     private RecyclerView recyclerView;
-    private ArrayList<FriendInfo> friends;
-    private ContactsItemAdapter adapter;
+    private QunMemberListAdapter adapter;
+    private ArrayList<GroupMember> groupMembers;
+    private GroupMessageInfo messageInfo;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -44,8 +46,8 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_groupowner_transfer);
         EventBus.getDefault().register(getSelfActivity());
-        initView();
         initData();
+        initView();
         setListener();
     }
 
@@ -57,38 +59,47 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
 
-        adapter = new ContactsItemAdapter(getSelfActivity(), friends);
+        adapter = new QunMemberListAdapter(getSelfActivity(), groupMembers);
         recyclerView.setAdapter(adapter);
     }
 
     private void initData() {
-        String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
-                "loginToken");
-        DialogUtils.showProgressDialog(this, "加载中").show();
-        FriendManagerRequest.queryFriendList(this, token, myFriendListCallback);
+        messageInfo = getIntent().getParcelableExtra("qunlist");
+        groupMembers = messageInfo.getGroupMembers();
     }
 
     private void setListener() {
         ll_back.setOnClickListener(this);
-        adapter.setTypeItemClickerListener(new ContactsItemAdapter.OnTypeItemClickerListener() {
+        adapter.setTypeItemClickerListener(new QunMemberListAdapter.OnTypeItemClickerListener() {
             @Override
-            public void newFriendLister() {
+            public void contactClick(final GroupMember info) {
+                DialogUtils.showQunTransferDialog(getSelfActivity(), "确定选择"+info.getMemberName()+"为新群主，您将主动放弃群主身份",
+                        new DialogUtils.QunOwnerTransferDialogCallBack() {
+                    @Override
+                 public void transfer() {
+                        Map<String, Object> params = new HashMap<String, Object>();
+                        params.put("groupId",messageInfo.getGroupId());
+                        params.put("memberId",info.getMemberId());
+                        GroupManagerRequest.transfer(getSelfActivity(), baseApplication.getLoginToken(), params, new NullCallback() {
+                            @Override
+                            public void success(String msg) {
+                                toast("发送成功:"+msg);
+                                setResult(RESULT_OK);
+                                finishCurrentActivity();
+                            }
 
-            }
+                            @Override
+                            public void fail(String msg) {
 
-            @Override
-            public void addressBookListener() {
+                            }
 
-            }
+                            @Override
+                            public void connectFail() {
 
-            @Override
-            public void groupListener() {
-
-            }
-
-            @Override
-            public void contactClick(FriendInfo info) {
-                showTransferDialog(info.getMemberName());
+                            }
+                        });
+                    }
+                }).show();
             }
         });
     }
@@ -119,32 +130,5 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
         }
     }
 
-    MyFriendListCallback myFriendListCallback = new MyFriendListCallback() {
 
-        @Override
-        public void success(String msg, ArrayList<FriendInfo> friendInfos) {
-            DialogUtils.closeProgressDialog();
-            if (null != friendInfos) {
-                for (FriendInfo info : friendInfos) {
-                    if (null == info.getMemberName()) {
-                        info.setMemberName("Null");
-                    }
-                }
-                friends = friendInfos;
-                adapter.modify(friendInfos);
-            }
-        }
-
-        @Override
-        public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getSelfActivity(), msg);
-        }
-
-        @Override
-        public void connectFail() {
-            DialogUtils.closeProgressDialog();
-            toastConnectFail();
-        }
-    };
 }

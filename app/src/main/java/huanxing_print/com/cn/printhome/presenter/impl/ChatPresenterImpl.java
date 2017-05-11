@@ -47,6 +47,11 @@ public class ChatPresenterImpl implements ChatPresenter {
     @Override
     public void sendMessage(String username, String msg) {
         EMMessage emMessage = EMMessage.createTxtSendMessage(msg,username);
+
+        //如果是群聊，设置chattype，默认是单聊
+        //if (chatType == CHATTYPE_GROUP);
+        //emMessage.setChatType(EMMessage.ChatType.GroupChat);
+
         emMessage.setStatus(EMMessage.Status.INPROGRESS);
         mEMMessageList.add(emMessage);
         mChatView.onUpdate(mEMMessageList.size());

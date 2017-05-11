@@ -112,20 +112,17 @@ public class ContantsFragment extends BaseFragment implements
 
     @Override
     public void newFriendLister() {
-        ToastUtil.doToast(getActivity(),"newFriendLister");
         startActivity(NewFriendActivity.class);
     }
 
     @Override
     public void addressBookListener() {
-        ToastUtil.doToast(getActivity(),"addressBookListener");
         startActivity(AddByAddressBookActivity.class);
     }
 
     @Override
     public void groupListener() {
         startGroupActivity();
-        ToastUtil.doToast(getActivity(),"groupListener");
     }
 
     private void startActivity(Class cls) {
