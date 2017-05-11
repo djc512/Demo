@@ -91,7 +91,7 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
-            android:name=".ui.activity.welcome.SplashActivity"
+            android:name="huanxing_print.com.cn.printhome.ui.activity.welcome.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -148,7 +148,7 @@
         <!-- 登录页 -->
         <activity
             android:name=".ui.activity.login.LoginActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 忘记密码 -->
         <activity

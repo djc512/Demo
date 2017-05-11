@@ -34,6 +34,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     private ArrayList<NewFriendInfo> friendInfos = new ArrayList<NewFriendInfo>();
     private String token;
     private NewFriendInfo clickOperationInfo;
+    private boolean isAgreeFriend = false;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -77,6 +78,9 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_back:
+                if(isAgreeFriend) {
+                    setResult(RESULT_OK);
+                }
                 finishCurrentActivity();
                 break;
             case R.id.add_friend:
@@ -140,6 +144,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
             clickOperationInfo.setType("1");
             adapter.updateData(friendInfos);
             clickOperationInfo = null;
+            isAgreeFriend = true;
         }
 
         @Override
