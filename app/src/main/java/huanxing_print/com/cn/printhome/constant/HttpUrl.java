@@ -57,6 +57,7 @@ public class HttpUrl {
     public static final String prooft = "approve/prooft";//查看凭证
     public static final String queryCount = "approve/queryCount";//查看未读消息
     public static final String submitComment = "appraise/add";//添加评论
+    public static final String batchFileUpload = "common/batchFileUpload";//批量上传
     private static String postUrl;
 
     private static HttpUrl httpUrl;

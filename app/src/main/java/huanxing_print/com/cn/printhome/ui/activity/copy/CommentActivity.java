@@ -12,6 +12,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,9 @@ import android.widget.Toast;
 
 import com.example.xlhratingbar_lib.XLHRatingBar;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,12 +37,19 @@ import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.comment.PicDataBean;
+import huanxing_print.com.cn.printhome.model.image.ImageUploadItem;
 import huanxing_print.com.cn.printhome.model.picupload.ImageItem;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
+import huanxing_print.com.cn.printhome.net.callback.comment.UpLoadPicCallBack;
 import huanxing_print.com.cn.printhome.net.request.commet.CommentRequest;
+import huanxing_print.com.cn.printhome.net.request.commet.UpLoadPicRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
 import huanxing_print.com.cn.printhome.util.picuplload.BitmapLoadUtils;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * Created by Administrator on 2017/5/4 0004.
@@ -64,6 +75,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private TextView tv_submit;
     private ImageView iv_comment;
     private String content;
+    private List<ImageUploadItem> imageitems = new ArrayList<>();
+    private List<String> imageUrls = new ArrayList<>();
+    private String orderid;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -78,10 +92,12 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         ctx = this;
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
         mResults.add(bimap);
+        orderid = (String) getIntent().getExtras().get("printer_id");
         initView();
         initData();
         initListener();
     }
+
 
     private void initView() {
         noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
@@ -253,7 +269,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                     break;
                 }
                 submitComment();
-                Toast.makeText(ctx, "发表成功", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.iv_comment:
                 if (isHideName) {
@@ -271,20 +286,95 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
      * 添加评论
      */
     private void submitComment() {
+        ArrayList<ImageItem> items = Bimp.tempSelectBitmap;
+        getUrl(items);
+        uploadPic();
+
         Map<String, Object> params = new HashMap<>();
         params.put("anonymous", anonymous);
         params.put("convenienceScore", handleStar);
-        params.put("orderId", "");
-        params.put("imgList", "");
+        params.put("orderId", orderid);
+        params.put("imgList", imageUrls);
         params.put("priceScore", priceStar);
         params.put("remark", content);
         params.put("speedScore", speedStar);
         params.put("totalScore", commentStar);
+        params.put("qualityScore", qulityStar);
 
         CommentRequest.submit(getSelfActivity(), baseApplication.getLoginToken(), params, new NullCallback() {
             @Override
             public void success(String msg) {
+                DialogUtils.closeProgressDialog();
+                Toast.makeText(ctx, "发表成功", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void fail(String msg) {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+        });
+    }
+
+    /**
+     * 获取上传图片的url
+     *
+     * @param items
+     */
+    private void getUrl(ArrayList<ImageItem> items) {
+        for (int i = 0; i < items.size(); i++) {
+            Bitmap bitmap = items.get(i).getBitmap();
+            setPicToView(bitmap, i + "");
+        }
+    }
+
+    private void setPicToView(Bitmap bitmap, String fileid) {
+        ImageUploadItem image = new ImageUploadItem();
+        String filename = System.currentTimeMillis() + "";
+        String filePath = FileUtils.savePic(getSelfActivity(), filename + ".jpg", bitmap);
+        if (!ObjectUtils.isNull(filePath)) {
+            File file = new File(filePath);
+            //file转化成二进制
+            byte[] buffer = null;
+            FileInputStream in;
+            int length = 0;
+            try {
+                in = new FileInputStream(file);
+                buffer = new byte[(int) file.length() + 100];
+                length = in.read(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+            image.setFileContent(data);
+            image.setFileId(fileid + "");
+            image.setFileName(filename);
+            image.setFileType(".jpg");
+
+            imageitems.add(image);
+        }
+    }
+
+    /**
+     * 上传图片
+     */
+    private void uploadPic() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("files", imageitems);
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...");
+        UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
+            @Override
+            public void success(List<PicDataBean> bean) {
+                if (null != bean && bean.size() > 0) {
+                    for (int i = 0; i < bean.size(); i++) {
+                        String imgUrl = bean.get(i).getImgUrl();
+                        imageUrls.add(imgUrl);
+                    }
+                }
             }
 
             @Override
