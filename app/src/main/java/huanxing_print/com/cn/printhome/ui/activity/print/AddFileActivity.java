@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -63,18 +64,20 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private ViewPager viewpager;
     private TabLayout tabLayout;
     private AllFileFragment allFileFragment;
-    private static final int REQUEST_CODE = 1;
+    private int index = 0;
 
+
+    private static final int REQUEST_CODE = 1;
     private static final int REQUEST_IMG = 1;
 
-    private static final String[] titles = {"全部文件", "手机相册", "微信", "QQ", "WIFI导入", "电脑上传"};
+    private static final String[] titles = {"全部文件", "微信", "QQ", "手机相册", "电脑上传", "WIFI导入"};
     private int[] tabIcons = {
             R.drawable.ic_tab_file,
-            R.drawable.ic_tab_photo,
             R.drawable.ic_tab_wechat,
             R.drawable.ic_tab_qq,
+            R.drawable.ic_tab_photo,
+            R.drawable.ic_tab_pc,
             R.drawable.ic_tab_wifi,
-            R.drawable.ic_tab_pc
     };
 
     @Override
@@ -84,8 +87,21 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         Logger.i(IMG_CACHE_PATH);
 //        setContentView(R.layout.activity_add_file);
         initStepLine();
+        initData();
         initView1();
 //        initView();
+    }
+
+    private void initData() {
+        index = getIntent().getExtras().getInt(INDEX);
+    }
+
+    public static final String INDEX = "index";
+
+    public static void start(Context context, Bundle bundle) {
+        Intent intent = new Intent(context, AddFileActivity.class);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 
     private void initView1() {
@@ -103,11 +119,11 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         List<Fragment> fragments = new ArrayList<>();
         allFileFragment = new AllFileFragment();
         fragments.add(allFileFragment);
-        fragments.add(new PhotoFragment());
         fragments.add(new WechatFileFragment());
         fragments.add(new QQFileFragment());
-        fragments.add(new WifiImportFragment());
+        fragments.add(new PhotoFragment());
         fragments.add(new PcFileFragment());
+        fragments.add(new WifiImportFragment());
         FinderFragmentAdapter mFragmentAdapteradapter = new FinderFragmentAdapter(getSupportFragmentManager(),
                 fragments, titleList);
         viewpager.setAdapter(mFragmentAdapteradapter);
@@ -117,6 +133,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         }
         tabLayout.setTabTextColors(ContextCompat.getColor(context, R.color.text_black), ContextCompat.getColor
                 (context, R.color.text_gray));
+        setTabIndex(index);
     }
 
     private void initStepLine() {
@@ -134,6 +151,11 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
             }
         }
         super.onBackPressed();
+    }
+
+    private void setTabIndex(int index) {
+        viewpager.setCurrentItem(index);
+        tabLayout.getTabAt(index).select();
     }
 
     private boolean isPermissionsGranted() {
