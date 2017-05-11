@@ -24,10 +24,6 @@ public class AccountCZAdapter1 extends RecyclerView.Adapter<AccountCZAdapter1.My
     private int clickTemp = -1;
     private List<ChongZhiBean> data;
 
-    public void updateData(List<ChongZhiBean> list) {
-        notifyDataSetChanged();
-    }
-
     public interface OnItemClickLitener {
         void onItemClick(ImageView view, int position);
     }
@@ -58,9 +54,9 @@ public class AccountCZAdapter1 extends RecyclerView.Adapter<AccountCZAdapter1.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-
-        holder.tv_chong.setText("冲" + 2000 + "元");
-        holder.tv_song.setText("送" + 2000 + "元");
+        ChongZhiBean bean = data.get(position);
+        holder.tv_chong.setText("冲" + bean.getRechargeAmout() + "元");
+        holder.tv_song.setText("送" + bean.getSendAmount() + "元");
 
         if (clickTemp == position) {
             holder.iv_check.setBackgroundResource(R.drawable.select);

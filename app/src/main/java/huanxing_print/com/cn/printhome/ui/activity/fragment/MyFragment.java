@@ -20,8 +20,7 @@ import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentListActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity1;
-import huanxing_print.com.cn.printhome.ui.activity.my.CommunityListActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.WebViewCommunityActivity;
@@ -162,8 +161,8 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(getActivity(), MyActivity.class));
                 break;
             case R.id.ll_my_account:
-                Intent accIntent = new Intent(getActivity(), AccountActivity1.class);
-//                accIntent.putExtra("totleBalance",totleBalance);
+                Intent accIntent = new Intent(getActivity(), AccountActivity.class);
+                accIntent.putExtra("totleBalance",totleBalance);
                 startActivity(accIntent);
                 break;
             case R.id.ll_station://布点建议
