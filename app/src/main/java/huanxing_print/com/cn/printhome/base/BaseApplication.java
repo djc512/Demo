@@ -300,7 +300,7 @@ public class BaseApplication extends Application {
 		initHttpConnection();
 		ZXingLibrary.initDisplayOpinion(this);
 		initHuanxin();
-		//添加消息的监听
+
 
 
 	}
@@ -327,7 +327,7 @@ public class BaseApplication extends Application {
 			EMClient.getInstance().init(this, options);
 	//在做打包混淆时，关闭debug模式，避免消耗不必要的资源
 			EMClient.getInstance().setDebugMode(true);
-
+	//添加消息的监听
 		initMessageListener();
 		//监听连接状态的改变
 		initConnectionListener();
