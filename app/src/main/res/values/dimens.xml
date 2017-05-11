@@ -86,7 +86,7 @@
     <dimen name="item_phone_btn_margin_bottom">5dp</dimen>
     <dimen name="item_phone_btn_padding_l">20dp</dimen>
     <dimen name="item_phone_btn_padding_r">20dp</dimen>
-    
+
     <!--群组-->
     <dimen name="group_create_padding">5dp</dimen>
     <dimen name="item_group_layout_h">50dp</dimen>
@@ -155,4 +155,7 @@
     <dimen name="group_create_member_cb_w_h">20dp</dimen>
     <dimen name="group_create_icon_w_h">40dp</dimen>
     <dimen name="group_create_icon_margin">15dp</dimen>
+
+
+    <dimen name="pickfile_tab_height">60dp</dimen>
 </resources>

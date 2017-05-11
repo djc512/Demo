@@ -11,9 +11,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -49,8 +52,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static huanxing_print.com.cn.printhome.constant.ConFig.IMG_CACHE_PATH;
 import static huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity.KEY_IMG_URI;
 
-;
-
 public class AddFileActivity extends BasePrintActivity implements EasyPermissions.PermissionCallbacks, View
         .OnClickListener {
 
@@ -60,11 +61,21 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private Button wechatBtn;
     private Button pcBtn;
     private ViewPager viewpager;
-    private TabLayout tabs;
+    private TabLayout tabLayout;
     private AllFileFragment allFileFragment;
     private static final int REQUEST_CODE = 1;
 
     private static final int REQUEST_IMG = 1;
+
+    private static final String[] titles = {"全部文件", "手机相册", "微信", "QQ", "WIFI导入", "电脑上传"};
+    private int[] tabIcons = {
+            R.drawable.ic_tab_file,
+            R.drawable.ic_tab_photo,
+            R.drawable.ic_tab_wechat,
+            R.drawable.ic_tab_qq,
+            R.drawable.ic_tab_wifi,
+            R.drawable.ic_tab_pc
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,16 +92,13 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         initTitleBar("选取文件");
         findViewById(R.id.titleTv).setOnClickListener(this);
         viewpager = (ViewPager) findViewById(R.id.viewpager);
-        tabs = (TabLayout) findViewById(R.id.tabs);
-        List<String> titles = new ArrayList<>();
-        titles.add("全部文件");
-        titles.add("手机相册");
-        titles.add("微信");
-        titles.add("QQ");
-        titles.add("WIFI导入");
-        titles.add("电脑上传");
-        for (int i = 0; i < titles.size(); i++) {
-            tabs.addTab(tabs.newTab().setText(titles.get(i)));
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        List<String> titleList = new ArrayList<>();
+//        for (int i = 0; i < titles.length; i++) {
+//            titleList.add(titles[i]);
+//        }
+        for (String title : titles) {
+            titleList.add(title);
         }
         List<Fragment> fragments = new ArrayList<>();
         allFileFragment = new AllFileFragment();
@@ -101,9 +109,14 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         fragments.add(new WifiImportFragment());
         fragments.add(new PcFileFragment());
         FinderFragmentAdapter mFragmentAdapteradapter = new FinderFragmentAdapter(getSupportFragmentManager(),
-                fragments, titles);
+                fragments, titleList);
         viewpager.setAdapter(mFragmentAdapteradapter);
-        tabs.setupWithViewPager(viewpager);
+        tabLayout.setupWithViewPager(viewpager);
+        for (int i = 0; i < titles.length; i++) {
+            tabLayout.getTabAt(i).setCustomView(getTabView(i));
+        }
+        tabLayout.setTabTextColors(ContextCompat.getColor(context, R.color.text_black), ContextCompat.getColor
+                (context, R.color.text_gray));
     }
 
     private void initStepLine() {
@@ -149,6 +162,14 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
+    public View getTabView(int position) {
+        View view = LayoutInflater.from(this).inflate(R.layout.item_pickfile_tab, null);
+        TextView txt_title = (TextView) view.findViewById(R.id.titleTv);
+        txt_title.setText(titles[position]);
+        ImageView img_title = (ImageView) view.findViewById(R.id.img);
+        img_title.setImageResource(tabIcons[position]);
+        return view;
+    }
 
     private void initView() {
         imageBtn = (Button) findViewById(R.id.imageBtn);

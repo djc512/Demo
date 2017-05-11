@@ -60,8 +60,8 @@ public class ApprovalFragment extends Fragment implements ListView.OnItemClickLi
     private void setInfo() {
         /*int i;
         for (i=1;i<5;i++)
-            Info ii = new Info("哈哈","哈哈","哈哈","哈哈",43);
-        infos.add(new Info("哈哈","哈哈","哈哈","哈哈",43));*/
+            PrinterPrice ii = new PrinterPrice("哈哈","哈哈","哈哈","哈哈",43);
+        infos.add(new PrinterPrice("哈哈","哈哈","哈哈","哈哈",43));*/
     }
 
 

@@ -145,7 +145,7 @@ public class PickPrinterFragment extends BaseLazyFragment {
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
                     ShowUtil.showToast(result);
-                    ((PickPrinterActivity) getActivity()).requeryDetail("zwf001");
+                    ((PickPrinterActivity) getActivity()).requeryPrice("zwf001");
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     ShowUtil.showToast("解析二维码失败");
                 }

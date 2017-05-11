@@ -56,7 +56,7 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         }else {
            holder = (MyViewHolder) convertView.getTag();
         }
-        //Info listBean = list.get(position);
+        //PrinterPrice listBean = list.get(position);
         //String date = listBean.getDate();
         //holder.tv_time.setText(date);
         /*holder.tv_name.setText(listBean.getName());

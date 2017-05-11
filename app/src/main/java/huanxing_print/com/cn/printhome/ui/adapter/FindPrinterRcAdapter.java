@@ -15,7 +15,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AroundPrinterResp;
-import huanxing_print.com.cn.printhome.util.PrinterUtil;
+import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
 
 /**
@@ -131,7 +131,7 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
         viewHolder.disTv.setText(StringUtil.getDistance(printer.getDistance()) );
         Logger.i(StringUtil.getDistance(printer.getDistance()) );
         viewHolder.commentTv.setText("评论" + printer.getRemarkCount());
-        if (PrinterUtil.TYPE_COLOR.equals(printer.getPrinterType())) {
+        if (PrintUtil.TYPE_COLOR.equals(printer.getPrinterType())) {
             viewHolder.typeImg.setImageResource(R.drawable.ic_colorized);
         } else {
             viewHolder.typeImg.setImageResource(R.drawable.ic_black);

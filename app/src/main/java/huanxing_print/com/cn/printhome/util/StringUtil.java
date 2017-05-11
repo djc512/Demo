@@ -32,6 +32,16 @@ public class StringUtil {
         return l;
     }
 
+    public static final float stringToFloat(String str) {
+        float f = -1;
+        try {
+            f = Float.parseFloat(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return f;
+    }
+
     public static final double stringToDouble(String str) {
         double d = -1;
         try {
@@ -40,6 +50,18 @@ public class StringUtil {
             e.printStackTrace();
         }
         return d;
+    }
+
+    /**
+     * 价格两位小数String
+     *
+     * @param f
+     * @return
+     */
+    public static final String floatToString(float f) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        String fStr = df.format(f);
+        return fStr;
     }
 
     public static final String getDistance(String dis) {

@@ -68,8 +68,9 @@ public class UsedPrinterFragment extends BaseLazyFragment {
             @Override
             public void onItemClick(View view, int position) {
                 switch (view.getId()) {
-                    case R.id.printerLyt:
-                        ((PickPrinterActivity) getActivity()).turnSetting("zwf001");
+                    case R.id.printLyt:
+                        ((PickPrinterActivity) getActivity()).turnSetting(usedPrinterRcAdapter.getPrinterList().get
+                                (position).getPrinterNo());
                         break;
                     case R.id.detailTv:
                         turnDetail("zwf001");
@@ -78,10 +79,10 @@ public class UsedPrinterFragment extends BaseLazyFragment {
             }
         });
         printerRcList.setAdapter(usedPrinterRcAdapter);
-        printerList.add(new UsedPrinterResp.Printer());
-        printerList.add(new UsedPrinterResp.Printer());
-        printerList.add(new UsedPrinterResp.Printer());
-        printerList.add(new UsedPrinterResp.Printer());
+//        printerList.add(new UsedPrinterResp.PrintUtil());
+//        printerList.add(new UsedPrinterResp.PrintUtil());
+//        printerList.add(new UsedPrinterResp.PrintUtil());
+//        printerList.add(new UsedPrinterResp.PrintUtil());
     }
 
     @Override
@@ -116,7 +117,7 @@ public class UsedPrinterFragment extends BaseLazyFragment {
     }
 
     private void turnDetail(String printerNo) {
-        ((PickPrinterActivity) getActivity()).requeryDetail(printerNo);
+        ((PickPrinterActivity) getActivity()).requeryPrice(printerNo);
     }
 
     @Override

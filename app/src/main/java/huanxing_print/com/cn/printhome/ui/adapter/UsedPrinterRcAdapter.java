@@ -12,6 +12,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.UsedPrinterResp;
+import huanxing_print.com.cn.printhome.util.PrintUtil;
 
 /**
  * Created by LGH on 2017/3/23.
@@ -29,6 +30,10 @@ public class UsedPrinterRcAdapter extends RecyclerView.Adapter<UsedPrinterRcAdap
         this.printerList = printerList;
     }
 
+    public List<UsedPrinterResp.Printer> getPrinterList() {
+        return printerList;
+    }
+
     public OnItemClickListener itemClickListener;
 
 
@@ -42,18 +47,18 @@ public class UsedPrinterRcAdapter extends RecyclerView.Adapter<UsedPrinterRcAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private LinearLayout printerLyt;
+        private LinearLayout printLyt;
         private ImageView typeImg;
         private TextView nameTv;
         private TextView detailTv;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            printerLyt = (LinearLayout) itemView.findViewById(R.id.printerLyt);
+            printLyt = (LinearLayout) itemView.findViewById(R.id.printLyt);
             typeImg = (ImageView) itemView.findViewById(R.id.typeImg);
             nameTv = (TextView) itemView.findViewById(R.id.nameTv);
             detailTv = (TextView) itemView.findViewById(R.id.detailTv);
-            printerLyt.setOnClickListener(this);
+            printLyt.setOnClickListener(this);
             typeImg.setOnClickListener(this);
             nameTv.setOnClickListener(this);
             detailTv.setOnClickListener(this);
@@ -75,7 +80,13 @@ public class UsedPrinterRcAdapter extends RecyclerView.Adapter<UsedPrinterRcAdap
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-//        viewHolder.nameTv.setText("aaaaa");
+        UsedPrinterResp.Printer printer = printerList.get(i);
+        viewHolder.nameTv.setText(printer.getRemark());
+        if (PrintUtil.TYPE_COLOR.equals(printer.getPrinterType())) {
+            viewHolder.typeImg.setImageResource(R.drawable.ic_colorized);
+        } else {
+            viewHolder.typeImg.setImageResource(R.drawable.ic_black);
+        }
     }
 
     @Override

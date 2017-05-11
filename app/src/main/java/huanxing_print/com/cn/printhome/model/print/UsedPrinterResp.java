@@ -19,10 +19,10 @@ public class UsedPrinterResp extends CommonResp {
         this.data = data;
     }
 
+    //[{"addTime":1494401888000,"id":185,"memberId":"100000309","pageCount":"563",
+    // "printerAddress":"江苏省南京市秦淮区东瓜匙路与明匙路交叉口西南150米","printerDef":0,"printerNo":"zwf001","printerType":"1",
+    // "remark":"测试-教育机","remarkCount":"13","status":true,"updateTime":1494401902000}
     public static class Printer {
-        //"data":[{"addTime":1488820433000,"id":28,"memberId":"100000091","pageCount":"52",
-        // "printerAddress":"南京市玄武区黄家圩41号-A2-201","printerDef":0,"printerNo":"yangjiandeyiliao","remark":"测测测试",
-        // "remarkCount":"1","status":false,"updateTime":1488820433000},
         private long addTime;
         private int id;
         private long memberId;
@@ -30,10 +30,29 @@ public class UsedPrinterResp extends CommonResp {
         private String printerAddress;
         private int printerDef;
         private String printerNo;
+        private String printerType;
         private String remark;
         private String remarkCount;
         private boolean status;
         private long updateTime;
+
+        @Override
+        public String toString() {
+            return "PrintUtil{" +
+                    "addTime=" + addTime +
+                    ", id=" + id +
+                    ", memberId=" + memberId +
+                    ", pageCount=" + pageCount +
+                    ", printerAddress='" + printerAddress + '\'' +
+                    ", printerDef=" + printerDef +
+                    ", printerNo='" + printerNo + '\'' +
+                    ", printerType='" + printerType + '\'' +
+                    ", remark='" + remark + '\'' +
+                    ", remarkCount='" + remarkCount + '\'' +
+                    ", status=" + status +
+                    ", updateTime=" + updateTime +
+                    '}';
+        }
 
         public long getAddTime() {
             return addTime;
@@ -91,6 +110,14 @@ public class UsedPrinterResp extends CommonResp {
             this.printerNo = printerNo;
         }
 
+        public String getPrinterType() {
+            return printerType;
+        }
+
+        public void setPrinterType(String printerType) {
+            this.printerType = printerType;
+        }
+
         public String getRemark() {
             return remark;
         }
@@ -121,23 +148,6 @@ public class UsedPrinterResp extends CommonResp {
 
         public void setUpdateTime(long updateTime) {
             this.updateTime = updateTime;
-        }
-
-        @Override
-        public String toString() {
-            return "Printer{" +
-                    "addTime=" + addTime +
-                    ", id=" + id +
-                    ", memberId=" + memberId +
-                    ", pageCount=" + pageCount +
-                    ", printerAddress='" + printerAddress + '\'' +
-                    ", printerDef=" + printerDef +
-                    ", printerNo='" + printerNo + '\'' +
-                    ", remark='" + remark + '\'' +
-                    ", remarkCount='" + remarkCount + '\'' +
-                    ", status=" + status +
-                    ", updateTime=" + updateTime +
-                    '}';
         }
     }
 

@@ -48,6 +48,7 @@ public class PrintRequest extends BaseRequst {
     public static final String QUERY_PRINTER_PRICE = "print/printer/getDetail";
     public static final String ADD_ORDER = "order/add";
     public static final String PRINT = "print/doPrint";
+    public static final String BLANCE_PAY = "pay/order/balancePay";
     public static final String RE_PRINT = "print/rePrint";
     public static final String QUERY_ORDER_STATUS = "order/queryStatus";
 
@@ -104,7 +105,6 @@ public class PrintRequest extends BaseRequst {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(FILE_NAME, fileName);
         params.put(FILE_URL, fileUrl);
-        params.put(PRINTER_NO, printerNo);
         Http.postString(activity, url, params, headerTokenMap, callback, showDialog);
     }
 
@@ -250,6 +250,20 @@ public class PrintRequest extends BaseRequst {
      */
     public static final void print(Activity activity, long orderId, final HttpListener callback) {
         String url = BASE_URL + PRINT;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(ORDER_ID, orderId);
+        Http.postString(activity, url, params, headerTokenMap, callback, true);
+    }
+
+    /**
+     * 余额支付
+     *
+     * @param activity
+     * @param orderId
+     * @param callback
+     */
+    public static final void balancePay(Activity activity, long orderId, final HttpListener callback) {
+        String url = BASE_URL + BLANCE_PAY;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(ORDER_ID, orderId);
         Http.postString(activity, url, params, headerTokenMap, callback, true);

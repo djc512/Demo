@@ -11,13 +11,13 @@ import huanxing_print.com.cn.printhome.model.CommonResp;
 
 public class PrintInfoResp extends CommonResp {
 
-    private Info data;
+    private PrinterPrice data;
 
-    public Info getData() {
+    public PrinterPrice getData() {
         return data;
     }
 
-    public void setData(Info data) {
+    public void setData(PrinterPrice data) {
         this.data = data;
     }
 
@@ -25,7 +25,7 @@ public class PrintInfoResp extends CommonResp {
     // "capability":"黑白  彩色","companyName":"南京田中机电再制造有限公司高淳分公司","delFlag":0,"id":48,
     // "printAddress":"江苏省南京市秦淮区东瓜匙路与明匙路交叉口西南150米","printName":"测试-教育机","printerNo":"zwf001","printerType":"1",
     // "resolution":"1200*1200dpi","technicalType":"仅支持激光","updateTime":1490925707000
-    public static class Info implements Parcelable {
+    public static class PrinterPrice implements Parcelable {
         private String a3BlackPrice;
         private String a3ColorPrice;
         private String a4BlackPrice;
@@ -166,10 +166,10 @@ public class PrintInfoResp extends CommonResp {
             dest.writeString(this.printerNo);
         }
 
-        public Info() {
+        public PrinterPrice() {
         }
 
-        protected Info(Parcel in) {
+        protected PrinterPrice(Parcel in) {
             this.a3BlackPrice = in.readString();
             this.a3ColorPrice = in.readString();
             this.a4BlackPrice = in.readString();
@@ -185,15 +185,15 @@ public class PrintInfoResp extends CommonResp {
             this.printerNo = in.readString();
         }
 
-        public static final Parcelable.Creator<Info> CREATOR = new Parcelable.Creator<Info>() {
+        public static final Parcelable.Creator<PrinterPrice> CREATOR = new Parcelable.Creator<PrinterPrice>() {
             @Override
-            public Info createFromParcel(Parcel source) {
-                return new Info(source);
+            public PrinterPrice createFromParcel(Parcel source) {
+                return new PrinterPrice(source);
             }
 
             @Override
-            public Info[] newArray(int size) {
-                return new Info[size];
+            public PrinterPrice[] newArray(int size) {
+                return new PrinterPrice[size];
             }
         };
     }

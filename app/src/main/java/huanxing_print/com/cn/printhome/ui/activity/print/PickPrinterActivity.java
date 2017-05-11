@@ -80,8 +80,8 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                 .commit();
     }
 
-    private void showPrintDetail(PrintInfoResp.Info printInfo) {
-        printerDetailFragment.updateView(printInfo);
+    private void showPrintDetail(PrintInfoResp.PrinterPrice printPrinterPrice) {
+        printerDetailFragment.updateView(printPrinterPrice);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.hide(pickPrinterFragment)
@@ -89,7 +89,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                 .commit();
     }
 
-    public void showPick( ) {
+    public void showPick() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.hide(printerDetailFragment)
@@ -97,16 +97,16 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                 .commit();
     }
 
-    public void requeryDetail(String printerNo) {
+    public void requeryPrice(String printerNo) {
         showLoading();
         PrintRequest.queryPrinterPrice(activity, printerNo, new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 PrintInfoResp printInfoResp = GsonUtil.GsonToBean(content, PrintInfoResp.class);
                 if (printInfoResp != null && printInfoResp.isSuccess()) {
-                    PrintInfoResp.Info printInfo = printInfoResp.getData();
-                    if (printInfo != null && isLoading()) {
-                        showPrintDetail(printInfo);
+                    PrintInfoResp.PrinterPrice printPrinterPrice = printInfoResp.getData();
+                    if (printPrinterPrice != null && isLoading()) {
+                        showPrintDetail(printPrinterPrice);
                     }
                 }
                 dismissLoading();
@@ -123,8 +123,8 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
 
     public void turnSetting(String printerNo) {
         Bundle bundle = new Bundle();
-        bundle.putString(CopySettingActivity.PRINTER_NO,printerNo);
-        bundle.putParcelable(CopySettingActivity.PRINT_SETTING,printSetting);
+        bundle.putString(CopySettingActivity.PRINTER_NO, printerNo);
+        bundle.putParcelable(CopySettingActivity.PRINT_SETTING, printSetting);
         CopySettingActivity.start(context, bundle);
     }
 

@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by LGH on 2017/3/21.
  */
 
-public class PrintSetting implements Parcelable {
+public class PrintSetting implements Parcelable, Cloneable {
 
     private int colourFlag;
     private int directionFlag;
@@ -161,5 +161,16 @@ public class PrintSetting implements Parcelable {
                 ", printerType=" + printerType +
                 ", sizeType=" + sizeType +
                 '}';
+    }
+
+    @Override
+    public PrintSetting clone() {
+        PrintSetting printSetting = null;
+        try {
+            printSetting = (PrintSetting) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return printSetting;
     }
 }

@@ -12,7 +12,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
-import huanxing_print.com.cn.printhome.util.PrinterUtil;
+import huanxing_print.com.cn.printhome.util.PrintUtil;
 
 /**
  * Created by LGH on 2017/5/4.
@@ -31,7 +31,7 @@ public class PrinterDetailFragment extends BaseLazyFragment {
     private TextView nameTv;
     private TextView resolutionTv;
     private TextView technicalTypeTv;
-    private PrintInfoResp.Info printInfo;
+    private PrintInfoResp.PrinterPrice printPrinterPrice;
 
 
     @Override
@@ -73,24 +73,24 @@ public class PrinterDetailFragment extends BaseLazyFragment {
         nextTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PickPrinterActivity) getActivity()).turnSetting(printInfo.getPrinterNo());
+                ((PickPrinterActivity) getActivity()).turnSetting(printPrinterPrice.getPrinterNo());
             }
         });
     }
 
-    public void updateView(PrintInfoResp.Info printInfo) {
-        this.printInfo = printInfo;
-        nameTv.setText(printInfo.getCompanyName());
-        addressTv.setText("地址：" + printInfo.getPrintAddress());
-        if (PrinterUtil.TYPE_COLOR.equals(printInfo.getPrinterType())) {
-            colorPriceTv.setText("彩色 A4 ￥" + printInfo.getA4ColorPrice() + "   A3 ￥" + printInfo.getA3ColorPrice());
+    public void updateView(PrintInfoResp.PrinterPrice printPrinterPrice) {
+        this.printPrinterPrice = printPrinterPrice;
+        nameTv.setText(printPrinterPrice.getCompanyName());
+        addressTv.setText("地址：" + printPrinterPrice.getPrintAddress());
+        if (PrintUtil.TYPE_COLOR.equals(printPrinterPrice.getPrinterType())) {
+            colorPriceTv.setText("彩色 A4 ￥" + printPrinterPrice.getA4ColorPrice() + "   A3 ￥" + printPrinterPrice.getA3ColorPrice());
         } else {
             colorPriceTv.setVisibility(View.GONE);
         }
-        backPriceTv.setText("黑色 A4 ￥" + printInfo.getA4BlackPrice() + "   A3 ￥" + printInfo.getA3BlackPrice());
-        typeTv.setText(printInfo.getCapability());
-        resolutionTv.setText(printInfo.getResolution());
-        technicalTypeTv.setText(printInfo.getTechnicalType());
+        backPriceTv.setText("黑色 A4 ￥" + printPrinterPrice.getA4BlackPrice() + "   A3 ￥" + printPrinterPrice.getA3BlackPrice());
+        typeTv.setText(printPrinterPrice.getCapability());
+        resolutionTv.setText(printPrinterPrice.getResolution());
+        technicalTypeTv.setText(printPrinterPrice.getTechnicalType());
     }
 
     @Override
