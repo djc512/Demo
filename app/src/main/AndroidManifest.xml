@@ -163,7 +163,7 @@
         <!-- 注册 -->
         <activity
             android:name=".ui.activity.login.RegisterActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 主页 -->
         <activity
@@ -222,9 +222,6 @@
         <!-- 充值界面 -->
         <activity
             android:name=".ui.activity.my.AccountActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.my.AccountActivity1"
             android:screenOrientation="portrait" />
         <!-- 明细界面 -->
         <activity
@@ -298,9 +295,6 @@
         <!-- 充值记录 -->
         <activity
             android:name=".ui.activity.my.AccountRecordActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.my.AccountRecordActivity1"
             android:screenOrientation="portrait" />
         <!-- 发票页面 -->
         <activity

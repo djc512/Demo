@@ -90,6 +90,13 @@
                         android:textColor="@color/black"
                         android:textColorHint="@color/gray3"
                         android:textSize="16sp" />
+                    <ImageView
+                        android:id="@+id/iv_phone_detele"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/iv_detele"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <View
@@ -126,7 +133,13 @@
                         android:maxLength="6"
                         android:textColorHint="@color/gray3"
                         android:textSize="16sp" />
-
+                    <ImageView
+                        android:id="@+id/iv_code_detele"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/iv_detele"
+                        android:visibility="gone"/>
                     <TextView
                         android:id="@+id/code_btn"
                         android:layout_width="wrap_content"

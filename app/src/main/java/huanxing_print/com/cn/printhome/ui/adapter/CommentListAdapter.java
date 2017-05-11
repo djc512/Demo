@@ -11,7 +11,10 @@ import android.widget.TextView;
 
 import com.example.xlhratingbar_lib.XLHRatingBar;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.comment.CommentListBean;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
@@ -20,9 +23,10 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.MyViewHold> {
     private Context ctx;
-
-    public CommentListAdapter(Context ctx) {
+    private List<CommentListBean.DetailBean> detail;
+    public CommentListAdapter(Context ctx,List<CommentListBean.DetailBean> detail) {
         this.ctx = ctx;
+        this.detail = detail;
     }
 
     @Override
@@ -33,10 +37,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHold holder, int position) {
-        holder.rb_comment_list.setCountSelected(4);
-        holder.tv_comment_list.setText("操作便捷，价格合理");
-        holder.tv_comment_name.setText("小强");
-        holder.tv_comment_time.setText("2015-03-21");
+        CommentListBean.DetailBean bean = detail.get(position);
+        holder.rb_comment_list.setCountSelected(bean.getTotalScore());
+        holder.tv_comment_list.setText(bean.getRemark());
+        holder.tv_comment_name.setText(bean.getNickName());
+        holder.tv_comment_time.setText(bean.getDateTime());
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx,160));
         holder.rv_iv.setLayoutParams(lp);
@@ -49,7 +54,8 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     @Override
     public int getItemCount() {
-        return 5;
+
+        return detail.size() >0 ? detail.size():0;
     }
 
     class MyViewHold extends RecyclerView.ViewHolder {

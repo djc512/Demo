@@ -9,18 +9,16 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.welcome.GetVersionBean;
 import huanxing_print.com.cn.printhome.net.callback.welcome.VersionCallback;
-import huanxing_print.com.cn.printhome.net.request.welcome.VersionRequset;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.AppUtils;
-import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class SplashActivity extends BaseActivity {
 
-	private static final int delayMillis = 2000;
+	private static final int delayMillis = 3000;
 	private boolean isFirst;
 	private String version;
 
@@ -57,20 +55,25 @@ public class SplashActivity extends BaseActivity {
 //			 }, delayMillis);
 //
 //		 }
+			 new Handler().postDelayed(new Runnable() {
+				 @Override
+				 public void run() {
 
-		autoLogin();
+					 autoLogin();
+				 }
+			 }, delayMillis);
 		// 判断是否有网络
-		if (CommonUtils.isNetWorkConnected(this)) {
-			new Handler().postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					// autoLogin();
-					VersionRequset.updateVersion(getSelfActivity(), version,callback);
-				}
-			}, delayMillis);
-		}else{
-			toast("没有可用的网络连接，请打开蜂窝数据或者wifi");
-		}
+//		if (CommonUtils.isNetWorkConnected(this)) {
+//			new Handler().postDelayed(new Runnable() {
+//				@Override
+//				public void run() {
+//					// autoLogin();
+//					VersionRequset.updateVersion(getSelfActivity(), version,callback);
+//				}
+//			}, delayMillis);
+//		}else{
+//			toast("没有可用的网络连接，请打开蜂窝数据或者wifi");
+//		}
 	}
 //判断是否第一次打开
 	 private boolean isFirstEnter() {
