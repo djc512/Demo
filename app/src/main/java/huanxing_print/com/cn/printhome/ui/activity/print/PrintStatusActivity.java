@@ -21,6 +21,7 @@ import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.OrderStatusResp;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
@@ -85,7 +86,11 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 ShowUtil.showToast("shareTv");
                 break;
             case R.id.commentTv:
-                ShowUtil.showToast("commentTv");
+                Bundle bundle = new Bundle();
+                bundle.putLong("order_id", orderId);
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }
