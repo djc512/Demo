@@ -125,4 +125,7 @@
     <string name="red_package_group_bottom_1">群红包不可领取,</string>
     <string name="red_package_group_bottom_2">群成员打印可选择群红包支付</string>
     <string name="edt_digits">0123456780.</string>
+    <string name="app_tip">提示</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+    <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
 </resources>

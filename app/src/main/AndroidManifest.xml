@@ -35,7 +35,6 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <!-- 相机 -->
     <uses-permission android:name="android.permission.CAMERA" />
-
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -332,6 +331,11 @@
             android:exported="false"
             android:screenOrientation="behind" />
 
+        <!--微信支付-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
         <!-- 开发票列表界面 -->
         <activity
             android:name=".ui.activity.my.DebitListActivity"
@@ -378,7 +382,7 @@
             android:name=".ui.activity.copy.CopySettingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 审批的界面 -->
         <activity
             android:name=".ui.activity.approval.ApprovalActivity"

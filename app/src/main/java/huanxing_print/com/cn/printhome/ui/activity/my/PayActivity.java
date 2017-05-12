@@ -17,6 +17,7 @@ import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.net.request.my.OrderIdRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 
 /**
  * Created by Administrator on 2017/3/27 0027.
@@ -171,7 +172,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
      * @param bean
      */
     private void wechatpay(WeChatPayBean bean) {
-
+        PayUtil.getInstance(getSelfActivity()).weChatPay(bean);
     }
 
     /**
