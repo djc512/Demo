@@ -7,12 +7,13 @@ package huanxing_print.com.cn.printhome.model.approval;
 
 public class ApprovalObject {
     private String addTime;//申请时间
-    private long amountMonney;//请款金额/总报销金额
-    private long id;//审批id
+    private String amountMonney;//请款金额/总报销金额
+    private String id;//审批id
     private String jobNumber;//申请人-工号
     private String purchaseList;//采购清单
-    private long status;//审批状态
+    private int status;//审批状态
     private String title;//用途说明
+    private int type;//类型  1 采购 2报销
 
     public String getAddTime() {
         return addTime;
@@ -22,19 +23,19 @@ public class ApprovalObject {
         this.addTime = addTime;
     }
 
-    public long getAmountMonney() {
+    public String getAmountMonney() {
         return amountMonney;
     }
 
-    public void setAmountMonney(long amountMonney) {
+    public void setAmountMonney(String amountMonney) {
         this.amountMonney = amountMonney;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -54,11 +55,11 @@ public class ApprovalObject {
         this.purchaseList = purchaseList;
     }
 
-    public long getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(long status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -68,5 +69,13 @@ public class ApprovalObject {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

@@ -124,14 +124,15 @@ public class HttpUtils {
 
     /**
      * 获取评论列表
+     *
      * @param obj
      * @param url
      * @param loginToken
      * @param pageNo
      * @param callback
      */
-    public static void getCommentlist(Object obj, final String url, String loginToken, int pageNo,int printno,int type,
-                                final HttpCallBack callback) {
+    public static void getCommentlist(Object obj, final String url, String loginToken, int pageNo, int printno, int type,
+                                      final HttpCallBack callback) {
         //String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
         //Logger.d("http-request:" + url + "----" + "----" + paramsStr);
         TimeUtils.beginTime();
@@ -140,8 +141,8 @@ public class HttpUtils {
                 .addHeader("platform", ConFig.PHONE_TYPE)
                 .addParams("pageNum", pageNo + "")
                 .addParams("pageSize", "10")
-                .addParams("printerNo",printno+"")
-                .addParams("type",type+"")
+                .addParams("printerNo", printno + "")
+                .addParams("type", type + "")
                 .tag(obj).build().execute(new StringCallback() {
 
             @Override
@@ -218,14 +219,14 @@ public class HttpUtils {
      * @param loginToken
      * @param callback
      */
-    public static void getApprovalDetailParam(Object obj, final String url, String loginToken, int approveId, final HttpCallBack callback) {
+    public static void getApprovalDetailParam(Object obj, final String url, String loginToken, String approveId, final HttpCallBack callback) {
         //String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
         //Logger.d("http-request:" + url + "----" + "----" + paramsStr);
         TimeUtils.beginTime();
         OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
                 .addHeader("loginToken", loginToken)
                 .addHeader("platform", ConFig.PHONE_TYPE)
-                .addParams("approveId", approveId + "")
+                .addParams("approveId", approveId)
                 .tag(obj).build().execute(new StringCallback() {
 
             @Override
@@ -466,6 +467,7 @@ public class HttpUtils {
 
     /**
      * 查询群信息
+     *
      * @param obj
      * @param url
      * @param loginToken
@@ -473,7 +475,7 @@ public class HttpUtils {
      * @param callback
      */
     public static void getGroupMsgParam(Object obj, final String url, String loginToken, String groupId,
-                                            final HttpCallBack callback) {
+                                        final HttpCallBack callback) {
         //String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
         //Logger.d("http-request:" + url + "----" + "----" + paramsStr);
         TimeUtils.beginTime();

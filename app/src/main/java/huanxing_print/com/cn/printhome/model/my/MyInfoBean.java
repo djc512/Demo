@@ -7,21 +7,15 @@ package huanxing_print.com.cn.printhome.model.my;
 public class MyInfoBean {
 
     private String faceUrl;//头像
-    private int memberId;
+    private String memberId;
     private String mobileNumber;
-    private String monthConsume;//本月消费
+    // private String monthConsume;//本月消费
     private String name;
     private String nickName;
     private String totleBalance;//余额
-    private String wechatId;
+    private String totlePrintCount;//总打印量
+    private String wechatId;//微信id，有值说明已绑定微信
 
-    public String getWechatId() {
-        return wechatId;
-    }
-
-    public void setWechatId(String wechatId) {
-        this.wechatId = wechatId;
-    }
     public String getFaceUrl() {
         return faceUrl;
     }
@@ -30,11 +24,11 @@ public class MyInfoBean {
         this.faceUrl = faceUrl;
     }
 
-    public int getMemberId() {
+    public String getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(int memberId) {
+    public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
 
@@ -44,14 +38,6 @@ public class MyInfoBean {
 
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
-    }
-
-    public String getMonthConsume() {
-        return monthConsume;
-    }
-
-    public void setMonthConsume(String monthConsume) {
-        this.monthConsume = monthConsume;
     }
 
     public String getName() {
@@ -78,16 +64,19 @@ public class MyInfoBean {
         this.totleBalance = totleBalance;
     }
 
-    @Override
-    public String toString() {
-        return "MyInfoBean{" +
-                "faceUrl='" + faceUrl + '\'' +
-                ", memberId=" + memberId +
-                ", mobileNumber=" + mobileNumber +
-                ", monthConsume='" + monthConsume + '\'' +
-                ", name='" + name + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", totleBalance='" + totleBalance + '\'' +
-                '}';
+    public String getTotlePrintCount() {
+        return totlePrintCount;
+    }
+
+    public void setTotlePrintCount(String totlePrintCount) {
+        this.totlePrintCount = totlePrintCount;
+    }
+
+    public String getWechatId() {
+        return wechatId;
+    }
+
+    public void setWechatId(String wechatId) {
+        this.wechatId = wechatId;
     }
 }

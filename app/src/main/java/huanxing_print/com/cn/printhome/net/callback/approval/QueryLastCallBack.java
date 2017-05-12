@@ -1,6 +1,6 @@
 package huanxing_print.com.cn.printhome.net.callback.approval;
 
-import huanxing_print.com.cn.printhome.model.approval.LastApprover;
+import huanxing_print.com.cn.printhome.model.approval.LastApproval;
 import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
 
 /**
@@ -8,5 +8,5 @@ import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
  */
 
 public interface QueryLastCallBack extends BaseCallback {
-    void success(String msg, LastApprover approver);
+    void success(String msg, LastApproval approval);
 }

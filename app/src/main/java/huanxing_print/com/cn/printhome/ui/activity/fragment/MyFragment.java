@@ -32,13 +32,13 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 public class MyFragment extends BaseFragment implements OnClickListener {
 
     private CircleImageView iv_head;
-    private TextView tv_phone, tv_name, tv_account_money, tv_month_money;
+    private TextView tv_uniqueid, tv_name, tv_print_count, tv_totle_balance;
     private String token;
     private String headUrl;
     private String nickName;
     private String phone;
     private String totleBalance;
-    private String monthConsume;
+    private String printCount;
     private String wechatId;
 
     @Override
@@ -100,14 +100,15 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 headUrl = bean.getFaceUrl();
                 nickName = bean.getNickName();
                 phone = bean.getMobileNumber();
+                printCount = bean.getTotlePrintCount();
                 totleBalance = bean.getTotleBalance();
-                monthConsume = bean.getMonthConsume();
+                // monthConsume = bean.getMonthConsume();
                 wechatId = bean.getWechatId();
 
                 tv_name.setText(nickName);
-                tv_phone.setText(phone);
-                tv_account_money.setText("￥" + totleBalance);
-                tv_month_money.setText("本月打印消费￥" + monthConsume);
+                tv_uniqueid.setText(phone);
+                tv_print_count.setText(printCount);
+                tv_totle_balance.setText(totleBalance);
                 //设置用户头像
                 BitmapUtils.displayImage(getActivity(), headUrl, R.drawable.iv_head, iv_head);
             }
@@ -125,11 +126,11 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     }
 
     private void initViews() {
-//        tv_phone = (TextView) findViewById(R.id.tv_phone);
-//        tv_name = (TextView) findViewById(R.id.tv_name);
-//        tv_account_money = (TextView) findViewById(R.id.tv_account_money);
-//        tv_month_money = (TextView) findViewById(R.id.tv_month_money);
-//        iv_head = (CircleImageView) findViewById(R.id.iv_head);
+        tv_uniqueid = (TextView) findViewById(R.id.tv_uniqueid);
+        tv_name = (TextView) findViewById(R.id.tv_name);
+        tv_print_count = (TextView) findViewById(R.id.tv_print_count);
+        tv_totle_balance = (TextView) findViewById(R.id.tv_totle_balance);
+        iv_head = (CircleImageView) findViewById(R.id.iv_head);
 
     }
 

@@ -7,9 +7,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,29 +21,48 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.approval.Approver;
+import huanxing_print.com.cn.printhome.model.approval.LastApproval;
 import huanxing_print.com.cn.printhome.model.approval.SubFormItem;
+import huanxing_print.com.cn.printhome.model.comment.PicDataBean;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
+import huanxing_print.com.cn.printhome.model.image.ImageUploadItem;
+import huanxing_print.com.cn.printhome.model.picupload.ImageItem;
+import huanxing_print.com.cn.printhome.net.callback.approval.AddApprovalCallBack;
+import huanxing_print.com.cn.printhome.net.callback.approval.QueryLastCallBack;
+import huanxing_print.com.cn.printhome.net.callback.comment.UpLoadPicCallBack;
+import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
+import huanxing_print.com.cn.printhome.net.request.commet.UpLoadPicRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PhotoPickerActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PreviewPhotoActivity;
-import huanxing_print.com.cn.printhome.ui.adapter.UpLoadPicAdapter;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
-import huanxing_print.com.cn.printhome.util.picuplload.UpLoadPicUtil;
+import huanxing_print.com.cn.printhome.util.picuplload.BitmapLoadUtils;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.ScrollListView;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.view.imageview.RoundImageView;
 
 /**
@@ -53,7 +75,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
 
     private List<Bitmap> mResults = new ArrayList<>();
     private GridView noScrollgridview;
-    private UpLoadPicAdapter adapter;
+    private GridAdapter adapter;
     public static Bitmap bimap;
     private Context ctx;
     private static final int PICK_PHOTO = 1;
@@ -69,6 +91,14 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
     private ArrayList<SubFormItem> subFormItems = new ArrayList<>();//报销条目集合(这里未包含第一条记录)
     private int CODE_APPROVAL_REQUEST = 0X11;//审批人请求码
     private int CODE_COPY_REQUEST = 0X12;//抄送人人请求码
+    private List<ImageUploadItem> imageitems = new ArrayList<>();
+    private List<String> imageUrls = new ArrayList<>();
+    private ArrayList<Approver> approvers = new ArrayList<>();//上传的审批人集合
+    private ArrayList<Approver> copyApprovers = new ArrayList<>();//上传的抄送人集合
+    private EditText edt_expense_department;//报销部门
+    private EditText editText2;//备注
+    private EditText edt_request_num;//报销金额
+    private AddApprovalObject object = new AddApprovalObject();//提交的审批对象
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -99,7 +129,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                     Intent intent = new Intent(ctx, PhotoPickerActivity.class);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, PhotoPickerActivity.DEFAULT_NUM);
                     // 总共选择的图片数量
                     intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
                     startActivityForResult(intent, PICK_PHOTO);
@@ -156,6 +186,9 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         grid_scroll_approval = (ScrollGridView) findViewById(R.id.grid_scroll_approval);
         grid_scroll_copy = (ScrollGridView) findViewById(R.id.grid_scroll_copy);
         scroll_lv = (ScrollListView) findViewById(R.id.scroll_lv);
+        edt_expense_department = (EditText) findViewById(R.id.edt_expense_department);
+        editText2 = (EditText) findViewById(R.id.editText2);
+        edt_request_num = (EditText) findViewById(R.id.edt_request_num);
         //返回
         View view = findViewById(R.id.back);
         view.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
@@ -173,13 +206,59 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         subFormItems.add(new SubFormItem());
         edtAdapter = new ListViewExpenseAdapter();
         scroll_lv.setAdapter(edtAdapter);
-        adapter = new UpLoadPicAdapter(getSelfActivity(), mResults);
+
+        adapter = new GridAdapter(this);
         adapter.update();
 
         findViewById(R.id.btn_submit_expense_approval).setOnClickListener(this);
         findViewById(R.id.rel_choose_image).setOnClickListener(this);
         findViewById(R.id.rel_add_expense).setOnClickListener(this);
+
+        //请求上次的审批人和联系人
+        ApprovalRequest.queryLast(getSelfActivity(), baseApplication.getLoginToken(),
+                2, callBack);
     }
+
+    QueryLastCallBack callBack = new QueryLastCallBack() {
+        @Override
+        public void success(String msg, LastApproval approval) {
+            //ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
+            //转为FriendInfo对象
+            ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
+            ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
+            if (!ObjectUtils.isNull(approvals)) {
+                for (ApprovalOrCopy approvalOrCopy : approvals) {
+                    FriendInfo info = new FriendInfo();
+                    info.setMemberId(approvalOrCopy.getJobNumber());
+                    info.setMemberName(approvalOrCopy.getName());
+                    info.setMemberUrl(approvalOrCopy.getFaceUrl());
+                    approvalFriends.add(info);
+                }
+            }
+            if (!ObjectUtils.isNull(copys)) {
+                for (ApprovalOrCopy orCopy : copys) {
+                    FriendInfo info = new FriendInfo();
+                    info.setMemberId(orCopy.getJobNumber());
+                    info.setMemberName(orCopy.getName());
+                    info.setMemberUrl(orCopy.getFaceUrl());
+                    copyFriends.add(info);
+                }
+            }
+            //更新UI
+            approvalAdapter.notifyDataSetChanged();
+            copyAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void fail(String msg) {
+            ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人失败," + msg);
+        }
+
+        @Override
+        public void connectFail() {
+            ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人connectFail");
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -187,8 +266,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         if (requestCode == PICK_PHOTO) {
             if (resultCode == RESULT_OK) {
                 ArrayList<String> result = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
-                UpLoadPicUtil upLoadPicUtil = new UpLoadPicUtil(ctx, mResults, adapter);
-                upLoadPicUtil.showResult(result);
+                showResult(result);
             }
         }
         if (requestCode == CODE_APPROVAL_REQUEST &&
@@ -287,6 +365,34 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
     }
 
 
+    private void showResult(ArrayList<String> paths) {
+        if (mResults == null) {
+            mResults = new ArrayList<>();
+        }
+        if (paths.size() != 0) {
+            mResults.remove(mResults.size() - 1);
+        }
+        for (int i = 0; i < paths.size(); i++) {
+            // 压缩图片
+            Bitmap bitmap = BitmapLoadUtils.decodeSampledBitmapFromFd(paths.get(i), 400, 500);
+            // 针对小图也可以不压缩
+//            Bitmap bitmap = BitmapFactory.decodeFile(paths.get(i));
+            mResults.add(bitmap);
+
+            ImageItem takePhoto = new ImageItem();
+            takePhoto.setBitmap(bitmap);
+            Bimp.tempSelectBitmap.add(takePhoto);
+        }
+        mResults.add(BitmapFactory.decodeResource(getResources(), R.drawable.add));
+        adapter.notifyDataSetChanged();
+    }
+
+
+    public int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
     protected void onRestart() {
         adapter.update();
         super.onRestart();
@@ -297,11 +403,11 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         super.onResume();
         int gvHeight = 0;
         if (adapter.getCount() < 5) {
-            gvHeight = CommonUtils.dip2px(ctx, 60);
+            gvHeight = dip2px(ctx, 60);
         } else if (adapter.getCount() < 9) {
-            gvHeight = CommonUtils.dip2px(ctx, 125);
+            gvHeight = dip2px(ctx, 125);
         } else {
-            gvHeight = CommonUtils.dip2px(ctx, 190);
+            gvHeight = dip2px(ctx, 190);
         }
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gvHeight);
@@ -313,7 +419,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         switch (v.getId()) {
             case R.id.btn_submit_expense_approval:
                 //提交报销审批
-
+                createPurchaseApproval();
                 break;
             case R.id.rel_choose_image:
                 //选择图片
@@ -338,6 +444,182 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                 }
                 break;
         }
+    }
+
+
+    /**
+     * 提交采购审批
+     */
+    private void createPurchaseApproval() {
+
+        if (ObjectUtils.isNull(edt_expense_department.getText().toString())) {
+            toast("报销部门不能为空!");
+            return;
+        }
+        if (ObjectUtils.isNull(edt_request_num.getText().toString())) {
+            toast("报销金额不能为空!");
+            return;
+        }
+        object.setDepartment(edt_expense_department.getText().toString());
+        object.setAmountMonney(edt_request_num.getText().toString());
+        object.setRemark(editText2.getText().toString());
+
+        ArrayList<SubFormItem> subItems = new ArrayList<>();
+        //判断报销条目
+        SubFormItem last = subFormItems.get(subFormItems.size() - 1);
+        if (ObjectUtils.isNull(last.getAmount()) ||
+                ObjectUtils.isNull(last.getType())) {
+            //如果这是第一条数据,那就提醒用户去填写
+            if (1 == subFormItems.size()) {
+                ToastUtil.doToast(getSelfActivity(), "请填写完毕上面的报销条目!");
+                return;
+            }
+            if (subFormItems.size() > 1) {
+                //取出除了最后一条消息
+                for (int i = 0; i < (subFormItems.size() - 1); i++) {
+                    subItems.add(subFormItems.get(i));
+                }
+                object.setSubFormList(subItems);
+            }
+        }
+        object.setSubFormList(subFormItems);
+
+
+        //构建审批人列表和抄送人列表
+        if (0 == approvalFriends.size()) {
+            ToastUtil.doToast(getSelfActivity(), "审批人列表不能为空");
+            return;
+        }
+        if (approvalFriends.size() > 0) {
+            for (int i = 0; i < approvalFriends.size(); i++) {
+                Approver approver = new Approver();
+                approver.setJobNumber(approvalFriends.get(i).getMemberId());
+                approver.setPriority(i + 1);
+                approvers.add(approver);
+            }
+        }
+        object.setApproverList(approvers);
+
+
+        if (0 == copyFriends.size()) {
+            ToastUtil.doToast(getSelfActivity(), "抄送人列表不能为空");
+            return;
+        }
+        if (copyFriends.size() > 0) {
+            for (int i = 0; i < copyFriends.size(); i++) {
+                Approver approver = new Approver();
+                approver.setJobNumber(copyFriends.get(i).getMemberId());
+                approver.setPriority(i + 1);
+                copyApprovers.add(approver);
+            }
+        }
+        object.setCopyerList(copyApprovers);
+
+        //提交图片获得图片url
+        if (mResults.size() > 0) {
+            DialogUtils.showProgressDialog(getSelfActivity(), "正在提交中").show();
+            ArrayList<ImageItem> items = Bimp.tempSelectBitmap;
+            getUrl(items);
+            uploadPic();
+        }
+
+    }
+
+    AddApprovalCallBack addCallBack = new AddApprovalCallBack() {
+        @Override
+        public void success(String msg, String data) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(getSelfActivity(), "新建采购审批,id:" + data);
+        }
+
+        @Override
+        public void fail(String msg) {
+            ToastUtil.doToast(getSelfActivity(), "新建采购审批失败," + msg);
+            DialogUtils.closeProgressDialog();
+        }
+
+        @Override
+        public void connectFail() {
+            ToastUtil.doToast(getSelfActivity(), "新建采购审批connectFail");
+            DialogUtils.closeProgressDialog();
+        }
+    };
+
+    /**
+     * 获取上传图片的url
+     *
+     * @param items
+     */
+
+    private void getUrl(ArrayList<ImageItem> items) {
+        for (int i = 0; i < items.size(); i++) {
+            Bitmap bitmap = items.get(i).getBitmap();
+            setPicToView(bitmap, i + "");
+        }
+    }
+
+    private void setPicToView(Bitmap bitmap, String fileid) {
+        ImageUploadItem image = new ImageUploadItem();
+        String filename = System.currentTimeMillis() + "";
+        String filePath = FileUtils.savePic(getSelfActivity(), filename + ".jpg", bitmap);
+        if (!ObjectUtils.isNull(filePath)) {
+            File file = new File(filePath);
+            //file转化成二进制
+            byte[] buffer = null;
+            FileInputStream in;
+            int length = 0;
+            try {
+                in = new FileInputStream(file);
+                buffer = new byte[(int) file.length() + 100];
+                length = in.read(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+            image.setFileContent(data);
+            image.setFileId(fileid + "");
+            image.setFileName(filename);
+            image.setFileType(".jpg");
+
+            imageitems.add(image);
+        }
+    }
+
+    /**
+     * 上传图片
+     */
+    private void uploadPic() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("files", imageitems);
+        //DialogUtils.showProgressDialog(getSelfActivity(), "正在上传图片中...");
+        UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
+            @Override
+            public void success(List<PicDataBean> bean) {
+                //DialogUtils.closeProgressDialog();
+                if (null != bean && bean.size() > 0) {
+                    for (int i = 0; i < bean.size(); i++) {
+                        String imgUrl = bean.get(i).getImgUrl();
+                        imageUrls.add(imgUrl);
+                    }
+                }
+
+                if (imageUrls.size() > 0) {
+                    ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
+                            2, object, addCallBack);
+                }
+
+            }
+
+            @Override
+            public void fail(String msg) {
+                //DialogUtils.closeProgressDialog();
+            }
+
+            @Override
+            public void connectFail() {
+                //DialogUtils.closeProgressDialog();
+            }
+        });
     }
 
     /**
@@ -568,6 +850,97 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
             EditText edt_expense_type;
             EditText edt_expense_num;
         }
+    }
+
+    /**
+     * 适配器
+     */
+    public class GridAdapter extends BaseAdapter {
+
+        private LayoutInflater inflater;
+
+        public GridAdapter(Context context) {
+            inflater = LayoutInflater.from(context);
+        }
+
+        public void update() {
+            loading();
+        }
+
+        public int getCount() {
+            if (Bimp.tempSelectBitmap.size() == 9) {
+                return 9;
+            }
+            return (Bimp.tempSelectBitmap.size() + 1);
+        }
+
+        public Object getItem(int arg0) {
+            return mResults.get(arg0);
+        }
+
+        public long getItemId(int arg0) {
+            return arg0;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.item_gridview, null);
+                holder = new ViewHolder();
+                holder.image = (ImageView) convertView
+                        .findViewById(R.id.imageView1);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            if (position == Bimp.tempSelectBitmap.size()) {
+                holder.image.setImageBitmap(BitmapFactory.decodeResource(
+                        getResources(), R.drawable.add));
+                if (position == 9) {
+                    holder.image.setVisibility(View.GONE);
+                }
+            } else {
+                holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
+            }
+            return convertView;
+        }
+
+        public class ViewHolder {
+            public ImageView image;
+        }
+
+        Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case 1:
+                        adapter.notifyDataSetChanged();
+                        break;
+                }
+                super.handleMessage(msg);
+            }
+        };
+
+        public void loading() {
+            new Thread(new Runnable() {
+                public void run() {
+                    while (true) {
+                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
+                            Message message = new Message();
+                            message.what = 1;
+                            handler.sendMessage(message);
+                            break;
+                        } else {
+                            Bimp.max += 1;
+                            Message message = new Message();
+                            message.what = 1;
+                            handler.sendMessage(message);
+                        }
+                    }
+                }
+            }).start();
+        }
+
     }
 
     /**
