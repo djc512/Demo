@@ -164,4 +164,16 @@
     <dimen name="invitation_btn_margin_t">10dp</dimen>
 
     <dimen name="pickfile_tab_height">60dp</dimen>
+
+    <!--群管理页面-->
+    <dimen name="scroll_margin_t">5dp</dimen>
+    <dimen name="group_part_layout_h">50dp</dimen>
+    <dimen name="group_man_margin">5dp</dimen>
+    <dimen name="group_man_margin_l_r">15dp</dimen>
+    <dimen name="group_name_tv_w">100dp</dimen>
+    <dimen name="group_tv_arrow_margin">5dp</dimen>
+    <dimen name="group_balance_w">100dp</dimen>
+    <dimen name="group_mem_icon_w_h">50dp</dimen>
+    <dimen name="group_mem_w_h">60dp</dimen>
+    <dimen name="group_mem_del_icon_w_h">20dp</dimen>
 </resources>
