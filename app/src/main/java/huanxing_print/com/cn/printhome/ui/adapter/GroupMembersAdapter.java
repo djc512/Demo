@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -79,7 +80,7 @@ public class GroupMembersAdapter extends BaseAdapter{
         if(position == groupMembers.size()) {
             //最后一个
             holder.delIcon.setVisibility(View.GONE);
-            Glide.with(ctx).load(R.drawable.ic_group_member_add).into(holder.memberIcon);
+            Glide.with(ctx).load(R.drawable.ic_group_member_add).diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.memberIcon);
             holder.memberIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
