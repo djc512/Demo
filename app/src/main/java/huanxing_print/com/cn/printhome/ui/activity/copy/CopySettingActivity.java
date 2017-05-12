@@ -224,7 +224,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                             addOrder();
                         } else {
                             dismissLoading();
-                            ShowUtil.showToast("设置修改成功");
                         }
                     }
 
