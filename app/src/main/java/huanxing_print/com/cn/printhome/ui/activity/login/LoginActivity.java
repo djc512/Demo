@@ -205,7 +205,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         @Override
         public void success(final LoginBean loginBean) {
-            toast(""+loginBean.getMemberInfo().getEasemobId());
+           // toast(""+loginBean.getMemberInfo().getEasemobId());
             //判断环信是否登录成功
             EMClient.getInstance().login(loginBean.getMemberInfo().getEasemobId(),loginBean.getMemberInfo().getEasemobId() , new EmsCallBackListener() {
                 @Override
@@ -224,6 +224,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                             baseApplication.setUniqueId(userInfo.getUniqueId());
                             if (!ObjectUtils.isNull(userInfo.getWechatId())) {
                                 baseApplication.setWechatId(userInfo.getWechatId());
+                            }
+                            if (!ObjectUtils.isNull(userInfo.getWechatName())) {
+                                baseApplication.setWeixinName(userInfo.getWechatName());
                             }
                             jumpActivity(MainActivity.class);
                             finishCurrentActivity();
