@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
@@ -316,17 +315,16 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
                 startActivityForResult(intent, REQUEST_CAPTURE);
             case R.id.btn_photoconfirm://跳转到印家打印
-                //将保存后的图片路径传递到打印界面
-                Toast.makeText(ctx, "去打印", Toast.LENGTH_SHORT).show();
+                saveName = System.currentTimeMillis() + ".jpg";
+                String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + saveName;
+                Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
+                printIntent.putExtra("imagepath", path);
+                startActivity(printIntent);
                 break;
             case R.id.btn_save:
                 if (compBitmap != null) {
                     saveName = System.currentTimeMillis() + ".jpg";
                     saveUtil.saveClipPic(compBitmap, saveName);
-                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + saveName;
-                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
-                    printIntent.putExtra("imagepath", path);
-                    startActivity(printIntent);
                 }
                 break;
         }

@@ -5,20 +5,20 @@
               android:gravity="center">
 
     <RelativeLayout
-        android:layout_width="60dp"
-        android:layout_height="60dp">
+        android:layout_width="@dimen/group_mem_w_h"
+        android:layout_height="@dimen/group_mem_w_h">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_member_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/group_mem_icon_w_h"
+            android:layout_height="@dimen/group_mem_icon_w_h"
             android:layout_centerInParent="true"
             android:src="@drawable/iv_head"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_member_del"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="@dimen/group_mem_del_icon_w_h"
+            android:layout_height="@dimen/group_mem_del_icon_w_h"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_group_member_del"/>
     </RelativeLayout>

@@ -29,7 +29,7 @@
 
             <huanxing_print.com.cn.printhome.view.ScrollGridView
                 android:id="@+id/gv_group_members"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/scroll_margin_t"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -39,22 +39,22 @@
             <LinearLayout
                 android:id="@+id/ll_modifyname"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="@dimen/group_part_layout_h"
+                android:layout_marginTop="@dimen/group_man_margin"
                 android:background="@color/white"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="@dimen/group_man_margin_l_r"
                     android:layout_weight="1"
                     android:text="群名称"
                     android:id="@+id/textView4" />
 
                 <TextView
                     android:id="@+id/tv_group_name"
-                    android:layout_width="100dp"
+                    android:layout_width="@dimen/group_name_tv_w"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="right"
@@ -64,15 +64,15 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="@dimen/group_tv_arrow_margin"
+                    android:layout_marginRight="@dimen/group_man_margin_l_r"
                     android:src="@drawable/arrow_go"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/group_man_margin"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -84,22 +84,22 @@
                     <LinearLayout
                         android:id="@+id/ll_transfer"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="@dimen/group_part_layout_h"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginLeft="@dimen/group_man_margin_l_r"
                             android:layout_weight="1"
                             android:text="群主转让"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginLeft="@dimen/group_tv_arrow_margin"
+                            android:layout_marginRight="@dimen/group_man_margin_l_r"
                             android:src="@drawable/arrow_go"/>
                     </LinearLayout>
 
@@ -111,10 +111,8 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/add_line_h"
-                            android:layout_marginEnd="15dp"
                             android:layout_marginLeft="@dimen/recycler_icon_margin_l"
                             android:layout_marginRight="@dimen/recycler_icon_margin_r"
-                            android:layout_marginStart="15dp"
                             android:background="#e5e5e5"
                             />
                     </LinearLayout>
@@ -122,22 +120,22 @@
                     <LinearLayout
                         android:id="@+id/ll_dissolution"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="@dimen/group_part_layout_h"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
+                            android:layout_marginLeft="@dimen/group_man_margin_l_r"
                             android:layout_weight="1"
                             android:text="群解散"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginLeft="@dimen/group_tv_arrow_margin"
+                            android:layout_marginRight="@dimen/group_man_margin_l_r"
                             android:src="@drawable/arrow_go"/>
                     </LinearLayout>
 
@@ -149,10 +147,8 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/add_line_h"
-                            android:layout_marginEnd="15dp"
                             android:layout_marginLeft="@dimen/recycler_icon_margin_l"
                             android:layout_marginRight="@dimen/recycler_icon_margin_r"
-                            android:layout_marginStart="15dp"
                             android:background="#e5e5e5"
                             />
                     </LinearLayout>
@@ -160,23 +156,23 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="@dimen/group_part_layout_h"
+                    android:layout_marginTop="@dimen/group_man_margin"
                     android:background="@color/white"
                     android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/group_man_margin_l_r"
                         android:layout_weight="1"
                         android:text="群红包余额"/>
 
                     <TextView
                         android:id="@+id/tv_balance"
-                        android:layout_width="100dp"
+                        android:layout_width="@dimen/group_balance_w"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="@dimen/group_man_margin_l_r"
                         android:ellipsize="end"
                         android:gravity="right"
                         android:maxLines="1"
@@ -188,29 +184,29 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/group_man_margin"
                 android:background="@color/white"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/ll_contactfile"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/group_part_layout_h"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/group_man_margin_l_r"
                         android:layout_weight="1"
                         android:text="聊天文件"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginLeft="@dimen/group_tv_arrow_margin"
+                        android:layout_marginRight="@dimen/group_man_margin_l_r"
                         android:src="@drawable/arrow_go"/>
                 </LinearLayout>
 
@@ -222,10 +218,8 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/add_line_h"
-                        android:layout_marginEnd="15dp"
                         android:layout_marginLeft="@dimen/recycler_icon_margin_l"
                         android:layout_marginRight="@dimen/recycler_icon_margin_r"
-                        android:layout_marginStart="15dp"
                         android:background="#e5e5e5"
                         />
                 </LinearLayout>
@@ -233,14 +227,14 @@
                 <LinearLayout
                     android:id="@+id/ll_clear"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="@dimen/group_part_layout_h"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="@dimen/group_man_margin_l_r"
                         android:layout_weight="1"
                         android:text="清空聊天记录"/>
                 </LinearLayout>
@@ -249,9 +243,9 @@
             <LinearLayout
                 android:id="@+id/btn_exit"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="@dimen/group_part_layout_h"
+                android:layout_marginBottom="@dimen/group_man_margin"
+                android:layout_marginTop="@dimen/group_man_margin"
                 android:background="@drawable/bg_recycler_click_selector"
                 android:gravity="center">
 
