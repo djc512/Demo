@@ -314,11 +314,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
                 startActivityForResult(intent, REQUEST_CAPTURE);
-            case R.id.btn_photoconfirm://跳转到印家打印
-                //将保存后的图片路径传递到打印界面
-                Toast.makeText(ctx, "去打印", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btn_save:
+            case R.id.btn_photoconfirm:
                 if (compBitmap != null) {
                     Intent intentsave = new Intent();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -333,6 +329,13 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                     intentsave.putExtra("bytes", bytes);
                     intentsave.setAction("bitmap");
                     sendBroadcast(intentsave);
+                    saveName = System.currentTimeMillis() + ".jpg";
+                    saveUtil.saveClipPic(compBitmap, saveName);
+                }
+                Toast.makeText(ctx, "去打印", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btn_save:
+                if (compBitmap != null) {
                     saveName = System.currentTimeMillis() + ".jpg";
                     saveUtil.saveClipPic(compBitmap, saveName);
                 }

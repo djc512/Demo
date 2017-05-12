@@ -28,6 +28,7 @@ import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
@@ -494,6 +495,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void alipay() {
                         Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
+                        PayUtil.getInstance(getSelfActivity()).alipay(orderId);
                     }
                 });
 
