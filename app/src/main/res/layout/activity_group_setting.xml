@@ -14,6 +14,7 @@
         <include layout="@layout/layout_contact_back"/>
 
         <TextView
+            android:id="@+id/title_group_name"
             style="@style/title"
             android:text="群管理"/>
     </RelativeLayout>
