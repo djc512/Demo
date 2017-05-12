@@ -42,6 +42,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private LinearLayout ll_back;
     private TextView tv_groupName;
     private TextView tv_balance;
+    private TextView title_group_name;
     private ArrayList<GroupMember> groupMembers = new ArrayList<GroupMember>();
     private String currentGroupId;
     private String token;
@@ -76,6 +77,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initView() {
+        title_group_name = (TextView) findViewById(R.id.title_group_name);
         ll_transfer = (LinearLayout) findViewById(R.id.ll_transfer);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         memberGridView = (ScrollGridView) findViewById(R.id.gv_group_members);
@@ -176,6 +178,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
 
     public void setData() {
         if (groupMessageInfo != null) {
+            title_group_name.setText(String.format("群管理(%s)", String.valueOf(groupMessageInfo.getGroupMembers().size())));
             tv_groupName.setText(groupMessageInfo.getGroupName());
             tv_balance.setText(String.format("%s元", groupMessageInfo.getBalance() == null ? "0" : groupMessageInfo.getBalance()));
             if ("1".equals(groupMessageInfo.getIsManage())) {

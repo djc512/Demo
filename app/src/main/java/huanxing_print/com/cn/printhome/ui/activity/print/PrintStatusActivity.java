@@ -37,6 +37,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 
     private OrderStatusResp orderStatusResp;
     private long orderId;
+    private int awakeAccount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +118,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 
     public void update() {
         OrderStatusResp.OrderStatus orderStatus = orderStatusResp.getData();
-        if (orderStatus.isNeedAwake()) {
+        if (orderStatus.isNeedAwake() && awakeAccount < 3) {
+            awakeAccount++;
             setAwake();
         } else if (orderStatus.getWaitingCount() > 0) {
             setQueueView(orderStatus.getWaitingCount());
@@ -134,6 +136,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                     break;
                 //打印失败
                 case 2:
+                    stopTimerTask();
                     setExceptionView();
                     break;
             }

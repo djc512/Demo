@@ -9,11 +9,17 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.model.my.AuthResult;
 import huanxing_print.com.cn.printhome.model.my.PayResult;
+import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
+
+import static huanxing_print.com.cn.printhome.base.BaseApplication.WX_APPID;
 
 /**
  * Created by Administrator on 2017/5/12 0012.
@@ -24,6 +30,7 @@ public class PayUtil {
     private static final int SDK_AUTH_FLAG = 2;
     private static Context mContext;
     private static PayUtil singleton = null;
+    private static IWXAPI mWxApi;
 
     private PayUtil() {
     }
@@ -36,7 +43,7 @@ public class PayUtil {
         return singleton;
     }
 
-    private  Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -102,13 +109,14 @@ public class PayUtil {
      *
      * @param id
      */
-    public void alipay(final long id) {
+    public void alipay(final String id) {
         Runnable payRunnable = new Runnable() {
 
             @Override
             public void run() {
                 PayTask alipay = new PayTask((Activity) mContext);
-                Map<String, String> result = alipay.payV2(id+"", true);
+
+                Map<String, String> result = alipay.payV2(id, true);
                 Log.i("msp", result.toString());
 
                 Message msg = new Message();
@@ -122,8 +130,9 @@ public class PayUtil {
         payThread.start();
     }
 
-    public interface PayCallBack{
+    public interface PayCallBack {
         void paySuccess();
+
         void payFailed();
     }
 
@@ -132,4 +141,21 @@ public class PayUtil {
     }
 
     private PayCallBack callBack;
+
+    public static void weChatPay(WeChatPayBean bean) {
+        mWxApi = WXAPIFactory.createWXAPI(mContext, WX_APPID, true);
+        mWxApi.registerApp(WX_APPID);
+
+        if (mWxApi != null) {
+            PayReq req = new PayReq();
+            req.appId = WX_APPID;// 微信开放平台审核通过的应用APPID
+            req.partnerId = bean.getPartnerId();// 微信支付分配的商户号
+            req.prepayId = bean.getPrepayId();// 预支付订单号，app服务器调用“统一下单”接口获取
+            req.nonceStr = bean.getNonceStr();// 随机字符串，不长于32位，服务器小哥会给咱生成
+            req.timeStamp = bean.getTimeStamp();// 时间戳，app服务器小哥给出
+            req.packageValue = bean.getPkg();// 固定值Sign=WXPay，可以直接写死，服务器返回的也是这个固定值
+            req.sign = bean.getPaySign();// 签名，服务器小哥给出，他会根据：https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_3指导得到这个
+            mWxApi.sendReq(req);
+        }
+    }
 }

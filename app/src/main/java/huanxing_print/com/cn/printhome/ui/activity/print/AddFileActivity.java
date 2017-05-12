@@ -266,7 +266,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
             return;
         }
         if (FileUtils.isOutOfSize(file)) {
-            AlertUtil.show(context, "提示", "文件超限", null, new
+            AlertUtil.show(context, "提示", getString(R.string.size_out), null, new
                     DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -288,7 +288,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     }
 
     private void uploadFile(String base) {
-        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(), "1", new
+        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(),  new
                 HttpListener() {
                     @Override
                     public void onSucceed(String content) {

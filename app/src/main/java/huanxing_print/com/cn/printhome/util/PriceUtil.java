@@ -20,20 +20,20 @@ public class PriceUtil {
 
     public static float getPrice(PrintSetting printSetting, PrintInfoResp.PrinterPrice printerPrice) {
         float price;
-        if (PrintUtil.SETTING_COLOR.equals(printSetting.getPrinterType())) {
-            if (PrintUtil.SETTING_SIZE_A4.equals(printSetting.getSizeType())) {
+        if (PrintUtil.SETTING_COLOR == printSetting.getColourFlag()) {
+            if (PrintUtil.SETTING_SIZE_A4 == printSetting.getSizeType()) {
                 price = StringUtil.stringToFloat(printerPrice.getA4ColorPrice());
             } else {
                 price = StringUtil.stringToFloat(printerPrice.getA3ColorPrice());
             }
         } else {
-            if (PrintUtil.SETTING_SIZE_A4.equals(printSetting.getSizeType())) {
+            if (PrintUtil.SETTING_SIZE_A4 == printSetting.getSizeType()) {
                 price = StringUtil.stringToFloat(printerPrice.getA4BlackPrice());
             } else {
                 price = StringUtil.stringToFloat(printerPrice.getA3BlackPrice());
             }
         }
-        if (PrintUtil.SETTING_DOUBLE_FLAG_YES.equals(printSetting.getDoubleFlag())) {
+        if (PrintUtil.SETTING_DOUBLE_FLAG_YES == printSetting.getDoubleFlag()) {
             price = (float) (price * 1.5);
         }
         price = price * printSetting.getPrintCount();

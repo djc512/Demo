@@ -2,8 +2,11 @@ package huanxing_print.com.cn.printhome.ui.activity.approval;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,12 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.Info;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.view.ScrollListView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -29,22 +35,23 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     public Context mContext;
 
 
-    ImageView iv_user_name;
-    ImageView iv_back;
-    ImageView iv_camera;
-    Button btn_agree;
-    Button btn_bohui;
-    Button btn_commit;
-    TextView iv_name;
-    TextView tv_use;
-    TextView tv_number;
-    TextView tv_section;
-    TextView tv_total;
-    TextView tv_kind;
-    TextView iv_isapproval;
-    TextView tv_apply_money;
-    TextView tv_overtime;
-    TextView tv_use_name;
+    private ImageView iv_user_name;
+    private ImageView iv_back;
+    private ImageView iv_camera;
+    private Button btn_agree;
+    private Button btn_bohui;
+    private Button btn_commit;
+    private TextView iv_name;
+    private TextView tv_use;
+    private TextView tv_number;
+    private TextView tv_section;
+    private TextView tv_total;
+    private TextView tv_kind;
+    private TextView iv_isapproval;
+    private TextView tv_apply_money;
+    private TextView tv_overtime;
+    private TextView tv_use_name;
+    private ScrollListView ll_detail;
 
     LinearLayout ll_commit;
     LinearLayout bt_reject_agree;
@@ -120,6 +127,10 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         personAdapter = new ApprovalPersonAdapter(this,lists);
         ll_person.setAdapter(personAdapter);
 
+        //明细的listview
+
+        ll_detail.setAdapter(new DetailAdapter(mContext,lists));
+
 
     }
 
@@ -130,7 +141,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         tv_section = (TextView) findViewById(R.id.tv_section);
         tv_number = (TextView) findViewById(R.id.tv_number);
         tv_section = (TextView) findViewById(R.id.tv_section);
-        tv_apply_money = (TextView) findViewById(R.id.tv_apply_money);
+//        tv_apply_money = (TextView) findViewById(R.id.tv_apply_money);
         tv_kind = (TextView) findViewById(R.id.tv_kind);
         tv_total = (TextView) findViewById(R.id.tv_total);
         //抄送人的名字
@@ -149,8 +160,11 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         btn_agree = (Button) findViewById(R.id.btn_agree);
 
         ll_commit = (LinearLayout) findViewById(R.id.ll_remove);
+
         bt_reject_agree = (LinearLayout) findViewById(R.id.bt_reject_agree);
         rl_sertificate = (RelativeLayout) findViewById(R.id.rl_sertificate);
+        ll_detail = (ScrollListView) findViewById(R.id.rl_apply_detail);
+
 
     }
 
@@ -206,4 +220,62 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         }
 
     }
+    private class DetailAdapter extends BaseAdapter{
+
+        private Context ctx;
+        private List<Info> list;
+
+        public DetailAdapter(Context ctx, List<Info> list) {
+            this.ctx = ctx;
+            this.list = list;
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return list.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            MyViewHolder holder = null;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(ctx).inflate(R.layout.item_apply_detail,null);
+                holder = new MyViewHolder();
+                holder.tv_money = (TextView) convertView.findViewById(R.id.tv_money);
+                holder.tv_kind = (TextView) convertView.findViewById(R.id.tv_kind);
+                holder.tv_detail = (TextView) convertView.findViewById(R.id.tv_detail);//明细列表
+
+                convertView.setTag(holder);
+            }else {
+                holder = (MyViewHolder) convertView.getTag();
+            }
+
+            //Info info = list.get(position);
+
+        /*BitmapUtils.displayImage(ctx,info.getUsePic(),holder.iv_user_head);
+        //holder.iv_user_head.setImageResource();
+        holder.tv_name.setText(info.getName());
+        //holder.iv_isapproval
+        holder.tv_time.setText(info.getTime());
+        holder.tv_detail.setText(info.getDetail());*/
+
+            return convertView;
+        }
+        public class MyViewHolder{
+            TextView tv_money;
+            TextView tv_kind;
+            TextView tv_detail;
+        }
+    }
+
 }

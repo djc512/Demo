@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -55,8 +56,17 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         ChongZhiBean bean = data.get(position);
-        holder.tv_chong.setText("冲" + 2000 + "元");
-        holder.tv_song.setText("送" + 100 + "元");
+        holder.tv_chong.setText("冲" + bean.getRechargeAmout() + "元");
+        holder.tv_song.setText("送" + bean.getSendAmount() + "元");
+
+        double rechargeAmout = Double.parseDouble(bean.getRechargeAmout());
+        double sendAmount = Double.parseDouble(bean.getSendAmount());
+
+        double discount = rechargeAmout / (rechargeAmout + sendAmount);
+
+        BigDecimal bd = new BigDecimal(discount);
+        double value = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+        holder.tv_discount.setText(value+"折");
 
         if (clickTemp == position) {
             holder.iv_check.setBackgroundResource(R.drawable.select);
@@ -76,7 +86,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return 4;
+        return data.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

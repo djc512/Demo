@@ -58,7 +58,7 @@ public class ApprovalPersonAdapter extends BaseAdapter {
            holder = (MyViewHolder) convertView.getTag();
         }
 
-        Info info = list.get(position);
+        //Info info = list.get(position);
 
         /*BitmapUtils.displayImage(ctx,info.getUsePic(),holder.iv_user_head);
         //holder.iv_user_head.setImageResource();
