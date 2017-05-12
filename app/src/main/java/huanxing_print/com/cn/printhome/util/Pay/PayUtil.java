@@ -65,7 +65,7 @@ public class PayUtil {
                         Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT).show();
 
                         if (null != callBack) {
-                            callBack.payFaile();
+                            callBack.payFailed();
                         }
                     }
                     break;
@@ -124,7 +124,7 @@ public class PayUtil {
 
     public interface PayCallBack{
         void paySuccess();
-        void payFaile();
+        void payFailed();
     }
 
     public void setCallBack(PayCallBack callBack) {

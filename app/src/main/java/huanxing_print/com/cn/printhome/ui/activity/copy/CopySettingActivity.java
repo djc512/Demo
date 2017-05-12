@@ -502,7 +502,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                             }
 
                             @Override
-                            public void payFaile() {
+                            public void payFailed() {
 
                             }
                         });
