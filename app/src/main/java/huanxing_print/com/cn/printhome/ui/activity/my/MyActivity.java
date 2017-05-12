@@ -633,7 +633,9 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(receiveBroadCast);
+        if(null!=receiveBroadCast) {
+            unregisterReceiver(receiveBroadCast);
+        }
         EventBus.getDefault().unregister(this);
     }
 }
