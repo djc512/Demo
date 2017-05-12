@@ -56,6 +56,7 @@ public class BaseApplication extends Application {
 	private String  uniqueId;//印家号
 	private String memberId;//会员id
 	private String nickName;
+	private String weixinName;
 	private String comId;
 	private SoundPool mSoundPool;
 	private int mDuanSound;
@@ -199,6 +200,18 @@ public class BaseApplication extends Application {
 	public void setMemberId(String memberId) {
 		SharedPreferencesUtils.putShareValue(this, "memberId", memberId);
 		this.memberId = memberId;
+	}
+
+	public String getWeixinName() {
+		if (ObjectUtils.isNull(weixinName)) {
+			weixinName = SharedPreferencesUtils.getShareString(this, "weixinName");
+		}
+		return weixinName;
+	}
+
+	public void setWeixinName(String weixinName) {
+		SharedPreferencesUtils.putShareValue(this, "weixinName", weixinName);
+		this.weixinName = weixinName;
 	}
 
 	public String getNickName() {

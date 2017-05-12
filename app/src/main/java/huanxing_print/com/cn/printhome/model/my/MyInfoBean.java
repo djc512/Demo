@@ -15,6 +15,7 @@ public class MyInfoBean {
     private String totleBalance;//余额
     private String totlePrintCount;//总打印量
     private String wechatId;//微信id，有值说明已绑定微信
+    private String wechatName;//微信昵称，有值说明已绑定微信
 
     public String getFaceUrl() {
         return faceUrl;
@@ -78,5 +79,13 @@ public class MyInfoBean {
 
     public void setWechatId(String wechatId) {
         this.wechatId = wechatId;
+    }
+
+    public String getWechatName() {
+        return wechatName;
+    }
+
+    public void setWechatName(String wechatName) {
+        this.wechatName = wechatName;
     }
 }
