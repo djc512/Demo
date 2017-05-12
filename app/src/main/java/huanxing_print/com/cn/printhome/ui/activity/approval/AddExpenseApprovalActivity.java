@@ -37,6 +37,7 @@ import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
 import huanxing_print.com.cn.printhome.model.approval.Approver;
@@ -92,7 +93,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
     private int CODE_APPROVAL_REQUEST = 0X11;//审批人请求码
     private int CODE_COPY_REQUEST = 0X12;//抄送人人请求码
     private List<ImageUploadItem> imageitems = new ArrayList<>();
-    private List<String> imageUrls = new ArrayList<>();
+    private ArrayList<String> imageUrls = new ArrayList<>();
     private ArrayList<Approver> approvers = new ArrayList<>();//上传的审批人集合
     private ArrayList<Approver> copyApprovers = new ArrayList<>();//上传的抄送人集合
     private EditText edt_expense_department;//报销部门
@@ -224,26 +225,29 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         public void success(String msg, LastApproval approval) {
             //ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
             //转为FriendInfo对象
-            ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-            ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
-            if (!ObjectUtils.isNull(approvals)) {
-                for (ApprovalOrCopy approvalOrCopy : approvals) {
-                    FriendInfo info = new FriendInfo();
-                    info.setMemberId(approvalOrCopy.getJobNumber());
-                    info.setMemberName(approvalOrCopy.getName());
-                    info.setMemberUrl(approvalOrCopy.getFaceUrl());
-                    approvalFriends.add(info);
+            if (!ObjectUtils.isNull(approval)) {
+                ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
+                ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
+                if (!ObjectUtils.isNull(approvals)) {
+                    for (ApprovalOrCopy approvalOrCopy : approvals) {
+                        FriendInfo info = new FriendInfo();
+                        info.setMemberId(approvalOrCopy.getJobNumber());
+                        info.setMemberName(approvalOrCopy.getName());
+                        info.setMemberUrl(approvalOrCopy.getFaceUrl());
+                        approvalFriends.add(info);
+                    }
+                }
+                if (!ObjectUtils.isNull(copys)) {
+                    for (ApprovalOrCopy orCopy : copys) {
+                        FriendInfo info = new FriendInfo();
+                        info.setMemberId(orCopy.getJobNumber());
+                        info.setMemberName(orCopy.getName());
+                        info.setMemberUrl(orCopy.getFaceUrl());
+                        copyFriends.add(info);
+                    }
                 }
             }
-            if (!ObjectUtils.isNull(copys)) {
-                for (ApprovalOrCopy orCopy : copys) {
-                    FriendInfo info = new FriendInfo();
-                    info.setMemberId(orCopy.getJobNumber());
-                    info.setMemberName(orCopy.getName());
-                    info.setMemberUrl(orCopy.getFaceUrl());
-                    copyFriends.add(info);
-                }
-            }
+
             //更新UI
             approvalAdapter.notifyDataSetChanged();
             copyAdapter.notifyDataSetChanged();
@@ -514,6 +518,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
             }
         }
         object.setCopyerList(copyApprovers);
+        object.setType(2);
 
         //提交图片获得图片url
         if (mResults.size() > 0) {
@@ -529,18 +534,21 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         @Override
         public void success(String msg, String data) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getSelfActivity(), "新建采购审批,id:" + data);
+            Logger.i("新建采购审批,id:" + data);
+            //ToastUtil.doToast(getSelfActivity(), "新建采购审批,id:" + data);
         }
 
         @Override
         public void fail(String msg) {
-            ToastUtil.doToast(getSelfActivity(), "新建采购审批失败," + msg);
+            Logger.i("新建采购审批失败," + msg);
+            //ToastUtil.doToast(getSelfActivity(), "新建采购审批失败," + msg);
             DialogUtils.closeProgressDialog();
         }
 
         @Override
         public void connectFail() {
-            ToastUtil.doToast(getSelfActivity(), "新建采购审批connectFail");
+            Logger.i("新建采购审批connectFail");
+            //ToastUtil.doToast(getSelfActivity(), "新建采购审批connectFail");
             DialogUtils.closeProgressDialog();
         }
     };
@@ -604,6 +612,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                 }
 
                 if (imageUrls.size() > 0) {
+                    object.setAttachmentList(imageUrls);
                     ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
                             2, object, addCallBack);
                 }

@@ -177,8 +177,6 @@ public class MySponsorListActivity extends BaseActivity {
             }
         });
 
-//        ApprovalRequest.getQueryApprovalList(getSelfActivity(),
-//                pageNum, pageSize, 3, baseApplication.getLoginToken(), callBack);
         xrf_czrecord.startRefresh();
         xrf_czrecord.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
 
