@@ -7,6 +7,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -23,24 +27,41 @@ import android.widget.ToggleButton;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.approval.Approver;
+import huanxing_print.com.cn.printhome.model.approval.LastApproval;
+import huanxing_print.com.cn.printhome.model.comment.PicDataBean;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
+import huanxing_print.com.cn.printhome.model.image.ImageUploadItem;
+import huanxing_print.com.cn.printhome.model.picupload.ImageItem;
+import huanxing_print.com.cn.printhome.net.callback.approval.AddApprovalCallBack;
+import huanxing_print.com.cn.printhome.net.callback.approval.QueryLastCallBack;
+import huanxing_print.com.cn.printhome.net.callback.comment.UpLoadPicCallBack;
+import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
+import huanxing_print.com.cn.printhome.net.request.commet.UpLoadPicRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PhotoPickerActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PreviewPhotoActivity;
-import huanxing_print.com.cn.printhome.ui.adapter.UpLoadPicAdapter;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
-import huanxing_print.com.cn.printhome.util.picuplload.UpLoadPicUtil;
+import huanxing_print.com.cn.printhome.util.picuplload.BitmapLoadUtils;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.view.imageview.RoundImageView;
@@ -62,6 +83,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     private EditText edt_payee;//收款方
     private EditText edt_opening_bank;//开户行
     private EditText edt_account_number;//帐号
+    private EditText editText2;//备注
     private ToggleButton button;
     private List<Bitmap> mResults = new ArrayList<>();
     private GridView noScrollgridview;
@@ -69,7 +91,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     private ScrollGridView grid_scroll_copy;//抄送
     private GridViewApprovalAdapter approvalAdapter;
     private GridViewCopyAdapter copyAdapter;
-    private UpLoadPicAdapter adapter;
+    private GridAdapter adapter;
     public static Bitmap bimap;
     private Context ctx;
     private static final int PICK_PHOTO = 1;
@@ -78,6 +100,11 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     private ArrayList<FriendInfo> copyFriends = new ArrayList<FriendInfo>();//抄送人
     private int CODE_APPROVAL_REQUEST = 0X11;//审批人请求码
     private int CODE_COPY_REQUEST = 0X12;//抄送人人请求码
+    private List<ImageUploadItem> imageitems = new ArrayList<>();
+    private List<String> imageUrls = new ArrayList<>();
+    private ArrayList<Approver> approvers = new ArrayList<>();//上传的审批人集合
+    private ArrayList<Approver> copyApprovers = new ArrayList<>();//上传的抄送人集合
+    private AddApprovalObject object = new AddApprovalObject();//提交的审批对象
 
 
     @Override
@@ -94,7 +121,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         ctx = this;
 
         initData();
-        getData();
+        //getData();
         functionModule();
     }
 
@@ -127,15 +154,10 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == mResults.size() - 1 || i == Bimp.tempSelectBitmap.size()) {
-//                    //判断一下现在的集合数量
-//                    if (6 <= mResults.size()) {
-//                        ToastUtil.doToast(getSelfActivity(), "最多可传5张图片!");
-//                        return;
-//                    }
                     Intent intent = new Intent(ctx, PhotoPickerActivity.class);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, PhotoPickerActivity.DEFAULT_NUM);
                     // 总共选择的图片数量
                     intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
                     startActivityForResult(intent, PICK_PHOTO);
@@ -159,11 +181,6 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                     Intent intent = new Intent(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
                     intent.putParcelableArrayListExtra("friends", friends);
                     startActivityForResult(intent, CODE_APPROVAL_REQUEST);
-//                    //点击了添加按钮
-//                    approvals.set(position,
-//                            BitmapFactory.decodeResource(getResources(), R.drawable.iv_head));
-//                    approvals.add(bimapAdd);
-//                    approvalAdapter.notifyDataSetChanged();
                 } else {
                     approvalFriends.remove(position);
                     approvalAdapter.notifyDataSetChanged();
@@ -179,13 +196,8 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 if (position == (copyFriends.size())) {
                     //跳转到选择联系人界面
                     Intent intent = new Intent(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
-                    intent.putParcelableArrayListExtra("friends", friends);
+                    //intent.putParcelableArrayListExtra("friends", friends);
                     startActivityForResult(intent, CODE_COPY_REQUEST);
-//                    //点击了添加按钮
-//                    copys.set(position,
-//                            BitmapFactory.decodeResource(getResources(), R.drawable.iv_head));
-//                    copys.add(bimapAdd);
-//                    copyAdapter.notifyDataSetChanged();
                 } else {
                     copyFriends.remove(position);
                     copyAdapter.notifyDataSetChanged();
@@ -209,6 +221,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         edt_payee = (EditText) findViewById(R.id.edt_payee);
         edt_opening_bank = (EditText) findViewById(R.id.edt_opening_bank);
         edt_account_number = (EditText) findViewById(R.id.edt_account_number);
+        editText2 = (EditText) findViewById(R.id.editText2);
 
         findViewById(R.id.rel_choose_image).setOnClickListener(this);
         findViewById(R.id.rel_choose_time).setOnClickListener(this);
@@ -228,7 +241,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         noScrollgridview = (GridView) include.findViewById(R.id.noScrollgridview);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
-        adapter = new UpLoadPicAdapter(getSelfActivity(), mResults);
+        adapter = new GridAdapter(this);
         adapter.update();
 
         approvalAdapter = new GridViewApprovalAdapter();
@@ -237,18 +250,52 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
         mResults.add(bimap);
 
+        //请求上次的审批人和联系人
+        ApprovalRequest.queryLast(getSelfActivity(), baseApplication.getLoginToken(), 1, callBack);
+
     }
 
+    QueryLastCallBack callBack = new QueryLastCallBack() {
+        @Override
+        public void success(String msg, LastApproval approval) {
+            ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
+            //转为FriendInfo对象
+            ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
+            ArrayList<ApprovalOrCopy> copys = approval.getCopyerList();
+            for (ApprovalOrCopy approvalOrCopy : approvals) {
+                FriendInfo info = new FriendInfo();
+                info.setMemberId(approvalOrCopy.getJobNumber());
+                info.setMemberName(approvalOrCopy.getName());
+                info.setMemberUrl(approvalOrCopy.getFaceUrl());
+                approvalFriends.add(info);
+            }
+            for (ApprovalOrCopy orCopy : approvals) {
+                FriendInfo info = new FriendInfo();
+                info.setMemberId(orCopy.getJobNumber());
+                info.setMemberName(orCopy.getName());
+                info.setMemberUrl(orCopy.getFaceUrl());
+                copyFriends.add(info);
+            }
+            //更新UI
+            approvalAdapter.notifyDataSetChanged();
+            copyAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void fail(String msg) {
+            ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人失败," + msg);
+        }
+
+        @Override
+        public void connectFail() {
+            ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人connectFail");
+        }
+    };
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_choose_image:
-//                //判断一下现在的集合数量
-//                if (6 <= mResults.size()) {
-//                    ToastUtil.doToast(getSelfActivity(), "最多可传5张图片!");
-//                    return;
-//                }
                 //选择图片
                 Intent intent = new Intent(ctx, PhotoPickerActivity.class);
                 intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
@@ -305,6 +352,32 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             toast("完成日期不能为空!");
             return;
         }
+        //构建审批人列表和抄送人列表
+        if (0 == approvalFriends.size()) {
+            ToastUtil.doToast(getSelfActivity(), "审批人列表不能为空");
+            return;
+        }
+        if (approvalFriends.size() > 0) {
+            for (int i = 0; i < approvalFriends.size(); i++) {
+                Approver approver = new Approver();
+                approver.setJobNumber(approvalFriends.get(i).getMemberId());
+                approver.setPriority(i + 1);
+                approvers.add(approver);
+            }
+        }
+        if (0 == copyFriends.size()) {
+            ToastUtil.doToast(getSelfActivity(), "抄送人列表不能为空");
+            return;
+        }
+        if (copyFriends.size() > 0) {
+            for (int i = 0; i < copyFriends.size(); i++) {
+                Approver approver = new Approver();
+                approver.setJobNumber(copyFriends.get(i).getMemberId());
+                approver.setPriority(i + 1);
+                copyApprovers.add(approver);
+            }
+        }
+
         //判断请款金额开关是否打开
         if (button.isChecked()) {
             //打开的
@@ -324,14 +397,133 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 toast("帐号不能为空!");
                 return;
             }
-            DialogUtils.showProgressDialog(getSelfActivity(), "提交中").show();
-            //ApprovalRequest.addApproval();
+
+            if (ObjectUtils.isNull(imageUrls)) {
+                ToastUtil.doToast(getSelfActivity(), "上传图片失败!");
+                return;
+            }
+            object.setAmountMonney(edt_request_num.getText().toString());
+            object.setBankAccount(edt_account_number.getText().toString());
+            object.setBankName(edt_opening_bank.getText().toString());
+            object.setBankPerson(edt_payee.getText().toString());
+
         }
 
-        if (!button.isChecked()) {
-            DialogUtils.showProgressDialog(getSelfActivity(), "提交中").show();
-            //ApprovalRequest.addApproval();
+        object.setApproverList(approvers);
+        //object.setAttachmentList(null);
+        object.setCopyerList(copyApprovers);
+        object.setDepartment(edt_borrow_department.getText().toString());
+        object.setFinishTime(edt_finish_time.getText().toString());
+        object.setPurchaseList(edt_purchasing_list.getText().toString());
+        object.setRemark(editText2.getText().toString());
+        //object.setSubFormList(null);
+        object.setTitle(edt_buy_reason.getText().toString());
+        object.setType(1);
+
+        //提交图片获得图片url
+        if (mResults.size() > 0) {
+            DialogUtils.showProgressDialog(getSelfActivity(), "正在提交中").show();
+            ArrayList<ImageItem> items = Bimp.tempSelectBitmap;
+            getUrl(items);
+            uploadPic();
         }
+
+
+    }
+
+    AddApprovalCallBack addCallBack = new AddApprovalCallBack() {
+        @Override
+        public void success(String msg, String data) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(getSelfActivity(), "新建采购审批" + msg + ",id:" + data);
+        }
+
+        @Override
+        public void fail(String msg) {
+            ToastUtil.doToast(getSelfActivity(), "新建采购审批失败," + msg);
+            DialogUtils.closeProgressDialog();
+        }
+
+        @Override
+        public void connectFail() {
+            ToastUtil.doToast(getSelfActivity(), "新建采购审批connectFail");
+            DialogUtils.closeProgressDialog();
+        }
+    };
+
+    /**
+     * 获取上传图片的url
+     *
+     * @param items
+     */
+    private void getUrl(ArrayList<ImageItem> items) {
+        for (int i = 0; i < items.size(); i++) {
+            Bitmap bitmap = items.get(i).getBitmap();
+            setPicToView(bitmap, i + "");
+        }
+    }
+
+    private void setPicToView(Bitmap bitmap, String fileid) {
+        ImageUploadItem image = new ImageUploadItem();
+        String filename = System.currentTimeMillis() + "";
+        String filePath = FileUtils.savePic(getSelfActivity(), filename + ".jpg", bitmap);
+        if (!ObjectUtils.isNull(filePath)) {
+            File file = new File(filePath);
+            //file转化成二进制
+            byte[] buffer = null;
+            FileInputStream in;
+            int length = 0;
+            try {
+                in = new FileInputStream(file);
+                buffer = new byte[(int) file.length() + 100];
+                length = in.read(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+            image.setFileContent(data);
+            image.setFileId(fileid + "");
+            image.setFileName(filename);
+            image.setFileType(".jpg");
+
+            imageitems.add(image);
+        }
+    }
+
+    /**
+     * 上传图片
+     */
+    private void uploadPic() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("files", imageitems);
+        //DialogUtils.showProgressDialog(getSelfActivity(), "正在上传图片中...");
+        UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
+            @Override
+            public void success(List<PicDataBean> bean) {
+                //DialogUtils.closeProgressDialog();
+                if (null != bean && bean.size() > 0) {
+                    for (int i = 0; i < bean.size(); i++) {
+                        String imgUrl = bean.get(i).getImgUrl();
+                        imageUrls.add(imgUrl);
+                    }
+                }
+
+                if (imageUrls.size() > 0) {
+                    ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
+                            1, object, addCallBack);
+                }
+            }
+
+            @Override
+            public void fail(String msg) {
+                //DialogUtils.closeProgressDialog();
+            }
+
+            @Override
+            public void connectFail() {
+                //DialogUtils.closeProgressDialog();
+            }
+        });
     }
 
     /**
@@ -352,8 +544,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         if (requestCode == PICK_PHOTO) {
             if (resultCode == RESULT_OK) {
                 ArrayList<String> result = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
-                UpLoadPicUtil upLoadPicUtil = new UpLoadPicUtil(ctx, mResults, adapter);
-                upLoadPicUtil.showResult(result);
+                showResult(result);
             }
         }
         if (requestCode == CODE_APPROVAL_REQUEST &&
@@ -451,6 +642,33 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         }
     }
 
+    private void showResult(ArrayList<String> paths) {
+        if (mResults == null) {
+            mResults = new ArrayList<>();
+        }
+        if (paths.size() != 0) {
+            mResults.remove(mResults.size() - 1);
+        }
+        for (int i = 0; i < paths.size(); i++) {
+            // 压缩图片
+            Bitmap bitmap = BitmapLoadUtils.decodeSampledBitmapFromFd(paths.get(i), 400, 500);
+            // 针对小图也可以不压缩
+//            Bitmap bitmap = BitmapFactory.decodeFile(paths.get(i));
+            mResults.add(bitmap);
+
+            ImageItem takePhoto = new ImageItem();
+            takePhoto.setBitmap(bitmap);
+            Bimp.tempSelectBitmap.add(takePhoto);
+        }
+        mResults.add(BitmapFactory.decodeResource(getResources(), R.drawable.add));
+        adapter.notifyDataSetChanged();
+    }
+
+
+    public int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
 
     protected void onRestart() {
         adapter.update();
@@ -462,11 +680,11 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         super.onResume();
         int gvHeight = 0;
         if (adapter.getCount() < 5) {
-            gvHeight = CommonUtils.dip2px(ctx, 60);
+            gvHeight = dip2px(ctx, 60);
         } else if (adapter.getCount() < 9) {
-            gvHeight = CommonUtils.dip2px(ctx, 125);
+            gvHeight = dip2px(ctx, 125);
         } else {
-            gvHeight = CommonUtils.dip2px(ctx, 190);
+            gvHeight = dip2px(ctx, 190);
         }
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gvHeight);
@@ -604,6 +822,97 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         class ViewHolder {
             RoundImageView round_head_image;
             TextView txt_name;
+        }
+    }
+
+
+    /**
+     * 适配器
+     */
+    public class GridAdapter extends BaseAdapter {
+
+        private LayoutInflater inflater;
+
+        public GridAdapter(Context context) {
+            inflater = LayoutInflater.from(context);
+        }
+
+        public void update() {
+            loading();
+        }
+
+        public int getCount() {
+            if (Bimp.tempSelectBitmap.size() == 9) {
+                return 9;
+            }
+            return (Bimp.tempSelectBitmap.size() + 1);
+        }
+
+        public Object getItem(int arg0) {
+            return mResults.get(arg0);
+        }
+
+        public long getItemId(int arg0) {
+            return arg0;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.item_gridview, null);
+                holder = new ViewHolder();
+                holder.image = (ImageView) convertView
+                        .findViewById(R.id.imageView1);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            if (position == Bimp.tempSelectBitmap.size()) {
+                holder.image.setImageBitmap(BitmapFactory.decodeResource(
+                        getResources(), R.drawable.add));
+                if (position == 9) {
+                    holder.image.setVisibility(View.GONE);
+                }
+            } else {
+                holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
+            }
+            return convertView;
+        }
+
+        public class ViewHolder {
+            public ImageView image;
+        }
+
+        Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case 1:
+                        adapter.notifyDataSetChanged();
+                        break;
+                }
+                super.handleMessage(msg);
+            }
+        };
+
+        public void loading() {
+            new Thread(new Runnable() {
+                public void run() {
+                    while (true) {
+                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
+                            Message message = new Message();
+                            message.what = 1;
+                            handler.sendMessage(message);
+                            break;
+                        } else {
+                            Bimp.max += 1;
+                            Message message = new Message();
+                            message.what = 1;
+                            handler.sendMessage(message);
+                        }
+                    }
+                }
+            }).start();
         }
     }
 

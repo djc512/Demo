@@ -27,13 +27,9 @@ public class MySponsorListAdapter extends BaseAdapter {
         this.objects = objects;
     }
 
-    //    @Override
-//    public int getCount() {
-//        return objects.size();
-//    }
     @Override
     public int getCount() {
-        return 10;
+        return objects.size();
     }
 
     @Override
@@ -61,12 +57,12 @@ public class MySponsorListAdapter extends BaseAdapter {
         } else {
             holder = (DefaultViewHolder) convertView.getTag();
         }
-//        holder.txt_name_type.setText(objects.get(position).getJobNumber());
-//        holder.txt_time.setText(objects.get(position).getAddTime());
-//        //根据状态码来显示不同的状态
-//        //holder.txt_status.setText(objects.get(position).getStatus()+"");
-//        holder.txt_use_type.setText(objects.get(position).getTitle());
-//        holder.txt_name_type.setText(objects.get(position).getPurchaseList());
+        holder.txt_name_type.setText(objects.get(position).getJobNumber());
+        holder.txt_time.setText(objects.get(position).getAddTime());
+        //根据状态码来显示不同的状态
+        //holder.txt_status.setText(objects.get(position).getStatus()+"");
+        holder.txt_use_type.setText(objects.get(position).getTitle());
+        holder.txt_name_type.setText(objects.get(position).getPurchaseList());
         return convertView;
     }
 

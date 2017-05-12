@@ -52,9 +52,10 @@ public class HttpUrl {
     public static final String modifyGroup = "group/updateInfo";//群解散
     public static final String addApproval = "approve/add";//新增审批
     public static final String queryApprovalList = "approve/list";//查询审批列表
+    public static final String queryApprovalDetail = "approve/detail";//查询审批详情
     public static final String queryLast = "approve/queryLast";//查询上次的审批人和抄送人
     public static final String approval = "approve/adult";//审批
-    public static final String prooft = "approve/prooft";//查看凭证
+    public static final String proof = "approve/proof";//查看凭证
     public static final String queryCount = "approve/queryCount";//查看未读消息
     public static final String submitComment = "appraise/add";//添加评论
     public static final String getCommentList = "appraise/list";//评论列表
