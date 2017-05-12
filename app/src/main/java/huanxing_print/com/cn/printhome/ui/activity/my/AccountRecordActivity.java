@@ -124,11 +124,13 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
             } else {
-                datalist = bean.getList();
-                if (null != datalist && datalist.size() > 0) {
-                    AccountRecordAdapter adapter = new AccountRecordAdapter(getSelfActivity(), datalist);
-                    lv_account_record.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
-                    lv_account_record.setAdapter(adapter);
+                if (bean !=null) {
+                    datalist = bean.getList();
+                    if (null != datalist && datalist.size() > 0) {
+                        AccountRecordAdapter adapter = new AccountRecordAdapter(getSelfActivity(), datalist);
+                        lv_account_record.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
+                        lv_account_record.setAdapter(adapter);
+                    }
                 }
             }
             xrf_czrecord.setPullLoadEnable(true);
