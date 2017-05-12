@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.media.SoundPool;
 import android.os.Build;
-import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
@@ -28,7 +27,6 @@ import com.zhy.http.okhttp.OkHttpUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -311,7 +309,7 @@ public class BaseApplication extends Application {
 		super.onCreate();
 		mInstance = this;
 		CollectLog clog = CollectLog.getInstance();
-		clog.init(this, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "dreamlivemeng");
+		clog.init(this);
 		api = WXAPIFactory.createWXAPI(this, WX_APPID, true);
 		api.registerApp(WX_APPID);
 		initJPush();
