@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.base.BaseApplication;
+import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
 
 /**
@@ -35,9 +36,9 @@ public class PrintRequest extends BaseRequst {
     public static final String RADIUS = "radius";
     public static final String CENTER = "center";
     public static final String PAY_AMOUNT = "payAmount";
-
     //    public static final String BASE_URL = "http://appprint.inkin.cc/";
-    public static final String BASE_URL = "http://106.14.77.102:22012/";
+    //    public static final String BASE_URL = "http://106.14.77.102:22012/";
+    public static final String BASE_URL = HttpUrl.getInstance().getPostUrl();
     public static final String FILE_UPLOAD = "common/fileUpload";
     public static final String FILE_ADD = "print/file/add";
     public static final String FILE_DEL = "print/file/del";

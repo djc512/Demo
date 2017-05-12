@@ -206,7 +206,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                         } else {
                             dismissLoading();
                             showPayType();
-                            ShowUtil.showToast("余额不足");
+                            Logger.i("余额不足");
                         }
                     } else {
                         dismissLoading();

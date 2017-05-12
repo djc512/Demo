@@ -141,7 +141,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         tv_section = (TextView) findViewById(R.id.tv_section);
         tv_number = (TextView) findViewById(R.id.tv_number);
         tv_section = (TextView) findViewById(R.id.tv_section);
-        tv_apply_money = (TextView) findViewById(R.id.tv_apply_money);
+//        tv_apply_money = (TextView) findViewById(R.id.tv_apply_money);
         tv_kind = (TextView) findViewById(R.id.tv_kind);
         tv_total = (TextView) findViewById(R.id.tv_total);
         //抄送人的名字
