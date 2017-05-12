@@ -331,8 +331,8 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                     sendBroadcast(intentsave);
                     saveName = System.currentTimeMillis() + ".jpg";
                     saveUtil.saveClipPic(compBitmap, saveName);
+                    Toast.makeText(ctx, "处理完成", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(ctx, "去打印", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_save:
                 if (compBitmap != null) {
@@ -425,15 +425,15 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (null != mResult ) {
+        if (null != mResult) {
             mResult.recycle();
             mResult = null;
         }
-        if (null != mBitmap ) {
+        if (null != mBitmap) {
             mBitmap.recycle();
             mBitmap = null;
         }
-        if (null != compBitmap ) {
+        if (null != compBitmap) {
             compBitmap.recycle();
             compBitmap = null;
         }
