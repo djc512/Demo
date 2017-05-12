@@ -18,8 +18,6 @@ import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
-import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
-import huanxing_print.com.cn.printhome.ui.activity.copy.CommentListActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyContactActivity;
@@ -39,6 +37,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private String phone;
     private String totleBalance;
     private String printCount;
+    private String uniqueId;//印家号
     private String wechatId;
 
     @Override
@@ -46,7 +45,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         EventBus.getDefault().register(this);
 
         initViews();
-        // initData();
+        initData();
         setListener();
     }
 
@@ -85,6 +84,8 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private void initData() {
         token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
+        uniqueId= SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
+                "uniqueId");
         DialogUtils.showProgressDialog(getActivity(), "加载中");
         //网络请求，获取用户信息
         MyInfoRequest.getMyInfo(getActivity(), token, new MyMyInfoCallBack());
@@ -104,9 +105,11 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 totleBalance = bean.getTotleBalance();
                 // monthConsume = bean.getMonthConsume();
                 wechatId = bean.getWechatId();
-
+                if (!ObjectUtils.isNull(bean.getWechatName())) {
+                    baseApplication.setWeixinName(bean.getWechatName());
+                }
                 tv_name.setText(nickName);
-                tv_uniqueid.setText(phone);
+                tv_uniqueid.setText("印家号:"+uniqueId);
                 tv_print_count.setText(printCount);
                 tv_totle_balance.setText(totleBalance);
                 //设置用户头像
@@ -167,11 +170,16 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 startActivity(accIntent);
                 break;
             case R.id.ll_station://布点建议
-                //startActivity(new Intent(getActivity(), HandWriteActivity.class));
-                startActivity(new Intent(getActivity(), CommentListActivity.class));
+                Intent stationIntent=new Intent(getActivity(), WebViewCommunityActivity.class);
+                stationIntent.putExtra("titleName", "布点建议");
+                stationIntent.putExtra("webUrl", HttpUrl.myLay);
+                startActivity(stationIntent);
                 break;
             case R.id.ll_join://打印点加盟
-                startActivity(new Intent(getActivity(), CommentActivity.class));
+                Intent joinIntent=new Intent(getActivity(), WebViewCommunityActivity.class);
+                joinIntent.putExtra("titleName", "打印点加盟");
+                joinIntent.putExtra("webUrl", HttpUrl.myEarn);
+                startActivity(joinIntent);
                 break;
             case R.id.ll_my_contact:
                 startActivity(new Intent(getActivity(), MyContactActivity.class));

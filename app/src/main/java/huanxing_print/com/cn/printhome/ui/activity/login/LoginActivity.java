@@ -200,7 +200,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         @Override
         public void success(final LoginBean loginBean) {
-            toast(""+loginBean.getMemberInfo().getEasemobId());
+            //toast(""+loginBean.getMemberInfo().getEasemobId());
             //判断环信是否登录成功
             EMClient.getInstance().login(loginBean.getMemberInfo().getEasemobId(),loginBean.getMemberInfo().getEasemobId() , new EmsCallBackListener() {
                 @Override
@@ -414,6 +414,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     JSONObject jsonObject = new JSONObject(response);
                     Log.d(TAG, "------获取到的个人信息------" + jsonObject.toString());
                     String nickName = jsonObject.getString("nickname");
+                    baseApplication.setWeixinName(nickName);
                     String sex = jsonObject.getString("sex");
                     String province = jsonObject.getString("province");
                     String city = jsonObject.getString("city");
