@@ -2,13 +2,11 @@ package huanxing_print.com.cn.printhome.net.resolve;
 
 import com.google.gson.Gson;
 
-
 import org.simple.eventbus.EventBus;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import huanxing_print.com.cn.printhome.event.login.HasLoginEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.util.JsonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
@@ -52,9 +50,9 @@ public abstract class BaseResolve<T> {
         }else {
             code =0;
             if (FAIL_CODE_TOKEN_FAIL.equals(errorCode)) {
-                HasLoginEvent hasLoginEvent = new HasLoginEvent();
-                hasLoginEvent.setResultMessage(errorMsg);
-                EventBus.getDefault().post(hasLoginEvent);
+//                HasLoginEvent hasLoginEvent = new HasLoginEvent();
+//                hasLoginEvent.setResultMessage(errorMsg);
+                EventBus.getDefault().post("hasLoginEvent");
             }
         }
 

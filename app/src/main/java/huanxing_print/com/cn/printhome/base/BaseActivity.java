@@ -16,12 +16,13 @@ import android.widget.Toast;
 
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import org.simple.eventbus.Subscriber;
+
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.event.login.HasLoginEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
@@ -384,19 +385,26 @@ public abstract class BaseActivity extends Activity {
 //		}
 //	};
 
-
-	/**
-	 * 退出事件
-	 *  //订阅事件FirstEvent
-	 * @param hasLoginEvent
-	 */
-	public void onEventMainThread(HasLoginEvent hasLoginEvent) {
-		    clearUserData();
-			ActivityHelper.getInstance().finishAllActivity();
-			activityExitAnim();
-			jumpActivityNoAnim(null, LoginActivity.class);
-
+	@Subscriber(tag = "hasLoginEvent")
+	private void setHasLogin() {
+		// 这里实现你的逻辑即可
+		clearUserData();
+		ActivityHelper.getInstance().finishAllActivity();
+		activityExitAnim();
+		jumpActivityNoAnim(null, LoginActivity.class);
 	}
+//	/**
+//	 * 退出事件
+//	 *  //订阅事件FirstEvent
+//	 * @param hasLoginEvent
+//	 */
+//	public void onEventMainThread(HasLoginEvent hasLoginEvent) {
+//		    clearUserData();
+//			ActivityHelper.getInstance().finishAllActivity();
+//			activityExitAnim();
+//			jumpActivityNoAnim(null, LoginActivity.class);
+//
+//	}
 
 	protected void clearUserData() {
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "loginToken");
