@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
 
 /**
  * Created by Administrator on 2017/3/23 0023.
@@ -16,9 +19,10 @@ import huanxing_print.com.cn.printhome.R;
 public class AccountRecordAdapter extends RecyclerView.Adapter<AccountRecordAdapter.MyViewHolder> {
 
     private Context ctx;
-
-    public AccountRecordAdapter(Context ctx) {
+    private  List<ChongZhiRecordBean.ListBean> list;
+    public AccountRecordAdapter(Context ctx, List<ChongZhiRecordBean.ListBean> list) {
         this.ctx = ctx;
+        this.list =list;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class AccountRecordAdapter extends RecyclerView.Adapter<AccountRecordAdap
 
     @Override
     public int getItemCount() {
-        return 4;
+        return list.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

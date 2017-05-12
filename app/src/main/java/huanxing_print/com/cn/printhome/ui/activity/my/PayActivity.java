@@ -1,29 +1,18 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alipay.sdk.app.PayTask;
-
-import org.simple.eventbus.EventBus;
-
-import java.util.Map;
-
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.model.my.AuthResult;
-import huanxing_print.com.cn.printhome.model.my.PayResult;
-import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
+import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
+import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
@@ -32,12 +21,23 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
  */
 
 public class PayActivity extends BaseActivity implements View.OnClickListener {
-    private LinearLayout ll_back;
-    private TextView tv_pay_money;
-    private ImageView iv_pay_wechat;
-    private ImageView iv_pay_alipay;
-    private Button btn_pay;
-    private String orderId;
+
+    private ImageView iv_back;
+    private EditText et_cardnum;
+    private EditText et_cardname;
+    private TextView tv_yinjia_account;
+    private ImageView iv_wechat_check;
+    private ImageView iv_bankcard_check;
+    private TextView tv_confirm;
+    private LinearLayout ll_bank;
+    private String cardnum;
+    private String cardname;
+    private TextView tv_money;
+    private TextView tv_money1;
+    private String orderid;
+    private LinearLayout ll_confirm;
+    private LinearLayout ll_confirm1;
+    private TextView tv_confirm1;
     private String rechargeAmout;
 
     @Override
@@ -56,81 +56,105 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initData() {
-        Intent intent = getIntent();
-        orderId = intent.getStringExtra("orderId");
-        rechargeAmout = intent.getStringExtra("rechargeAmout");
-
-        tv_pay_money.setText("￥" + rechargeAmout);
+        orderid = getIntent().getStringExtra("orderid");
+        rechargeAmout = getIntent().getStringExtra("rechargeAmout");
+        tv_money.setText(rechargeAmout);
+        tv_money1.setText(rechargeAmout);
     }
 
     private void setListener() {
-        btn_pay.setOnClickListener(this);
-        ll_back.setOnClickListener(this);
-        iv_pay_alipay.setOnClickListener(this);
-        iv_pay_wechat.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
+        et_cardnum.setOnClickListener(this);
+        et_cardname.setOnClickListener(this);
+
+        iv_wechat_check.setOnClickListener(this);
+        iv_bankcard_check.setOnClickListener(this);
+        tv_confirm1.setOnClickListener(this);
     }
 
     private void initView() {
-        ll_back = (LinearLayout) findViewById(R.id.ll_back);
-        tv_pay_money = (TextView) findViewById(R.id.tv_pay_money);
-        iv_pay_wechat = (ImageView) findViewById(R.id.iv_pay_wechat);
-        iv_pay_alipay = (ImageView) findViewById(R.id.iv_pay_alipay);
-        btn_pay = (Button) findViewById(R.id.btn_pay);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        et_cardnum = (EditText) findViewById(R.id.et_cardnum);
+        et_cardname = (EditText) findViewById(R.id.et_cardname);
+        tv_yinjia_account = (TextView) findViewById(R.id.tv_yinjia_account);
+        iv_wechat_check = (ImageView) findViewById(R.id.iv_wechat_check);
+        iv_bankcard_check = (ImageView) findViewById(R.id.iv_bankcard_check);
+        tv_confirm = (TextView) findViewById(R.id.tv_confirm);
+        ll_bank = (LinearLayout) findViewById(R.id.ll_bank);
+        tv_money = (TextView) findViewById(R.id.tv_money);
+        tv_money1 = (TextView) findViewById(R.id.tv_money1);
+        tv_confirm1 = (TextView) findViewById(R.id.tv_confirm1);
+        ll_confirm = (LinearLayout) findViewById(R.id.ll_confirm);
+        ll_confirm1 = (LinearLayout) findViewById(R.id.ll_confirm1);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_pay:
-                go2Pay();
-                break;
-            case R.id.ll_back:
+            case R.id.iv_back:
                 finishCurrentActivity();
                 break;
-            case R.id.iv_pay_alipay:
-                iv_pay_alipay.setBackgroundResource(R.drawable.check_2x);
-                iv_pay_wechat.setBackgroundResource(R.drawable.uncheck_2x);
+            case R.id.iv_bankcard_check:
+                iv_bankcard_check.setBackgroundResource(R.drawable.select);
+                iv_wechat_check.setBackgroundResource(R.drawable.select_no);
+                ll_bank.setVisibility(View.VISIBLE);
+                ll_confirm1.setVisibility(View.VISIBLE);
+                ll_confirm.setVisibility(View.GONE);
                 break;
-            case R.id.iv_pay_wechat:
-                iv_pay_wechat.setBackgroundResource(R.drawable.check_2x);
-                iv_pay_alipay.setBackgroundResource(R.drawable.uncheck_2x);
+            case R.id.iv_wechat_check:
+                iv_wechat_check.setBackgroundResource(R.drawable.select);
+                iv_bankcard_check.setBackgroundResource(R.drawable.select_no);
+                ll_bank.setVisibility(View.GONE);
+                ll_confirm.setVisibility(View.VISIBLE);
+                ll_confirm1.setVisibility(View.GONE);
+                break;
+            case R.id.tv_confirm:
+                gotoWeChat();
+                Toast.makeText(getSelfActivity(), "请先选择充值方式", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tv_confirm1:
                 break;
         }
     }
 
-    private void alipay(final String id) {
-        Runnable payRunnable = new Runnable() {
+//    IWXAPI mWxApi = WXAPIFactory.createWXAPI(mContext, WX_APPID, true);
+//    mWxApi.registerApp(WX_APPID);
+//    /**
+//     * 请求app服务器得到的回调结果
+//     */
+//    @Override
+//    public void onGet(JSONObject jsonObject) {
+//        if (mWxApi != null) {
+//            PayReq req = new PayReq();
+//
+//            req.appId = WX_APPID;// 微信开放平台审核通过的应用APPID
+//            try {
+//                req.partnerId = jsonObject.getString("partnerid");// 微信支付分配的商户号
+//                req.prepayId = jsonObject.getString("prepayid");// 预支付订单号，app服务器调用“统一下单”接口获取
+//                req.nonceStr = jsonObject.getString("noncestr");// 随机字符串，不长于32位，服务器小哥会给咱生成
+//                req.timeStamp = jsonObject.getString("timestamp");// 时间戳，app服务器小哥给出
+//                req.packageValue = jsonObject.getString("package");// 固定值Sign=WXPay，可以直接写死，服务器返回的也是这个固定值
+//                req.sign = jsonObject.getString("sign");// 签名，服务器小哥给出，他会根据：https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_3指导得到这个
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            mWxApi.sendReq(req);
+//            Log.d("发起微信支付申请");
+//        }
+//
+//    }
 
-            @Override
-            public void run() {
-                PayTask alipay = new PayTask(PayActivity.this);
-                Map<String, String> result = alipay.payV2(id, true);
-                Log.i("msp", result.toString());
-
-                Message msg = new Message();
-                msg.what = SDK_PAY_FLAG;
-                msg.obj = result;
-                mHandler.sendMessage(msg);
-            }
-        };
-
-        Thread payThread = new Thread(payRunnable);
-        payThread.start();
-    }
 
     /**
-     * 去支付
+     * 微信支付
      */
-    private static final int SDK_PAY_FLAG = 1;
-    private static final int SDK_AUTH_FLAG = 2;
-
-    private void go2Pay() {
-        Go2PayRequest.go2Pay(getSelfActivity(), orderId, "CZ", new Go2PayCallBack() {
-
+    private void gotoWeChat() {
+        Go2PayRequest.go2PWeChat(getSelfActivity(), orderid, "CZ", new WeChatCallBack() {
             @Override
-            public void success(String msg, String id) {
-                alipay(id);
+            public void success(WeChatPayBean bean) {
+
             }
+
             @Override
             public void fail(String msg) {
 
@@ -144,66 +168,18 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * get the sdk version. 获取SDK版本号
-     *
+     * 银行卡帐号密码
      */
-    public void getSDKVersion() {
-        PayTask payTask = new PayTask(this);
-        String version = payTask.getVersion();
-        Toast.makeText(this, version, Toast.LENGTH_SHORT).show();
+    private void submit() {
+        cardnum = et_cardnum.getText().toString().trim();
+        if (TextUtils.isEmpty(cardnum)) {
+            Toast.makeText(this, "输入您汇款的银行卡号", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        cardname = et_cardname.getText().toString().trim();
+        if (TextUtils.isEmpty(cardname)) {
+            Toast.makeText(this, "输入您汇款的银行开户名", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
-
-    private Handler mHandler = new Handler() {
-        @SuppressWarnings("unused")
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SDK_PAY_FLAG: {
-                    @SuppressWarnings("unchecked")
-                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-                    /**
-                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
-                     */
-                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
-                    String resultStatus = payResult.getResultStatus();
-                    // 判断resultStatus 为9000则代表支付成功
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                        Toast.makeText(getSelfActivity(), "支付成功", Toast.LENGTH_SHORT).show();
-
-                        //修改账户余额
-                        EventBus.getDefault().post(rechargeAmout,"rechargeAmout");
-
-                        finishCurrentActivity();
-                    } else {
-                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        Toast.makeText(getSelfActivity(), "支付失败", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
-                }
-                case SDK_AUTH_FLAG: {
-                    @SuppressWarnings("unchecked")
-                    AuthResult authResult = new AuthResult((Map<String, String>) msg.obj, true);
-                    String resultStatus = authResult.getResultStatus();
-
-                    // 判断resultStatus 为“9000”且result_code
-                    // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
-                    if (TextUtils.equals(resultStatus, "9000") && TextUtils.equals(authResult.getResultCode(), "200")) {
-                        // 获取alipay_open_id，调支付时作为参数extern_token 的value
-                        // 传入，则支付账户为该授权账户
-                        Toast.makeText(getSelfActivity(),
-                                "授权成功\n" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT)
-                                .show();
-                    } else {
-                        // 其他状态值则为授权失败
-                        Toast.makeText(getSelfActivity(),
-                                "授权失败" + String.format("authCode:%s", authResult.getAuthCode()), Toast.LENGTH_SHORT).show();
-
-                    }
-                    break;
-                }
-                default:
-                    break;
-            }
-        };
-    };
 }

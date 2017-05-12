@@ -25,7 +25,7 @@ import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
-import huanxing_print.com.cn.printhome.ui.activity.my.PayActivity1;
+import huanxing_print.com.cn.printhome.ui.activity.my.PayActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
@@ -485,7 +485,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.ll_cz_persion://第三方支付
-                Intent intent = new Intent(getSelfActivity(), PayActivity1.class);
+                Intent intent = new Intent(getSelfActivity(), PayActivity.class);
                 intent.putExtra("orderid", orderId);
                 startActivity(intent);
 
