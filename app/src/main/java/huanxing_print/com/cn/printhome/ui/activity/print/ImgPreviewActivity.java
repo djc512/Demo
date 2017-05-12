@@ -14,8 +14,6 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.base.BaseApplication;
-import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
@@ -86,8 +84,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     private MyHandler mHandler = new MyHandler(this);
 
     private void uploadFile(String base) {
-        Logger.i(BaseApplication.getInstance().getLoginToken());
-        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(), "1", new
+        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(), new
                 HttpListener() {
                     @Override
                     public void onSucceed(String content) {
@@ -119,7 +116,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
             return;
         }
         if (FileUtils.isOutOfSize(file)) {
-            AlertUtil.show(context, "提示", "文件超限", null, new
+            AlertUtil.show(context, "提示", getString(R.string.size_out), null, new
                     DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -141,7 +138,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void addFile(String fileUrl) {
-        PrintRequest.addFile(activity, "1", file.getName(), fileUrl, new HttpListener() {
+        PrintRequest.addFile(activity, file.getName(), fileUrl, new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 dismissLoading();

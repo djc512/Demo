@@ -70,7 +70,7 @@ public class FileListActivity extends BasePrintActivity {
 
     private void upload(final File file) {
         PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), FileUtils.getBase64(file), file
-                .getName(), "1", new HttpListener() {
+                .getName(),  new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
