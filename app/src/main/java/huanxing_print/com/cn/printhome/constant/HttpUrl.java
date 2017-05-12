@@ -29,6 +29,7 @@ public class HttpUrl {
     public static final String mxDetail = "/pay/queryConsume"; // 账单明细接口
     public static final String payOrderId = "pay/recharge/addOrder"; // 获取充值订单号接口
     public static final String doPay = "pay/doAlipay"; // 跳转支付宝的接口
+    public static final String doWeChat = "pay/doWxpay"; // 跳转微信的接口
     public static final String dyList = "order/getPrintHistory"; //打印订单列表接口
     public static final String printerList = "print/printer/history"; // 最近使用的打印机列表
     public static final String setDefaultprinter = "print/printer/setDefault"; // 设置默认打印机

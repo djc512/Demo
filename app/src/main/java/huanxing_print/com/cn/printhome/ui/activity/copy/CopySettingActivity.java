@@ -25,10 +25,10 @@ import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.my.PayActivity1;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
-import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
@@ -485,29 +485,33 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.ll_cz_persion://第三方支付
-                DialogUtils.showPayChooseDialog(ctx, new DialogUtils.PayChooseDialogCallBack() {
-                    @Override
-                    public void wechat() {
-                        Toast.makeText(ctx, "微信支付", Toast.LENGTH_SHORT).show();
-                    }
+                Intent intent = new Intent(getSelfActivity(), PayActivity1.class);
+                intent.putExtra("orderid", orderId);
+                startActivity(intent);
 
-                    @Override
-                    public void alipay() {
-                        Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
-                        PayUtil.getInstance(getSelfActivity()).alipay(orderId);
-                        PayUtil.getInstance(getSelfActivity()).setCallBack(new PayUtil.PayCallBack() {
-                            @Override
-                            public void paySuccess() {
-
-                            }
-
-                            @Override
-                            public void payFailed() {
-
-                            }
-                        });
-                    }
-                });
+//                DialogUtils.showPayChooseDialog(ctx, new DialogUtils.PayChooseDialogCallBack() {
+//                    @Override
+//                    public void wechat() {
+//                        Toast.makeText(ctx, "微信支付", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void alipay() {
+//                        Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
+//                        PayUtil.getInstance(getSelfActivity()).alipay(orderId);
+//                        PayUtil.getInstance(getSelfActivity()).setCallBack(new PayUtil.PayCallBack() {
+//                            @Override
+//                            public void paySuccess() {
+//
+//                            }
+//
+//                            @Override
+//                            public void payFailed() {
+//
+//                            }
+//                        });
+//                    }
+//                });
 
                 break;
             case R.id.ll_cz_qun://群支付

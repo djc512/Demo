@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
+import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
@@ -31,6 +34,10 @@ public class PayActivity1 extends BaseActivity implements View.OnClickListener {
     private String cardname;
     private TextView tv_money;
     private TextView tv_money1;
+    private String orderid;
+    private LinearLayout ll_confirm;
+    private LinearLayout ll_confirm1;
+    private TextView tv_confirm1;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -42,6 +49,7 @@ public class PayActivity1 extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_pay1);
+        orderid = getIntent().getStringExtra("orderid");
         initView();
         initData();
         setListener();
@@ -57,6 +65,7 @@ public class PayActivity1 extends BaseActivity implements View.OnClickListener {
 
         iv_wechat_check.setOnClickListener(this);
         iv_bankcard_check.setOnClickListener(this);
+        tv_confirm1.setOnClickListener(this);
     }
 
     private void initView() {
@@ -70,6 +79,9 @@ public class PayActivity1 extends BaseActivity implements View.OnClickListener {
         ll_bank = (LinearLayout) findViewById(R.id.ll_bank);
         tv_money = (TextView) findViewById(R.id.tv_money);
         tv_money1 = (TextView) findViewById(R.id.tv_money1);
+        tv_confirm1 = (TextView) findViewById(R.id.tv_confirm1);
+        ll_confirm = (LinearLayout) findViewById(R.id.ll_confirm);
+        ll_confirm1 = (LinearLayout) findViewById(R.id.ll_confirm1);
     }
 
     @Override
@@ -82,19 +94,78 @@ public class PayActivity1 extends BaseActivity implements View.OnClickListener {
                 iv_bankcard_check.setBackgroundResource(R.drawable.select);
                 iv_wechat_check.setBackgroundResource(R.drawable.select_no);
                 ll_bank.setVisibility(View.VISIBLE);
+                ll_confirm1.setVisibility(View.VISIBLE);
+                ll_confirm.setVisibility(View.GONE);
                 break;
             case R.id.iv_wechat_check:
                 iv_wechat_check.setBackgroundResource(R.drawable.select);
                 iv_bankcard_check.setBackgroundResource(R.drawable.select_no);
                 ll_bank.setVisibility(View.GONE);
+                ll_confirm.setVisibility(View.VISIBLE);
+                ll_confirm1.setVisibility(View.GONE);
                 break;
             case R.id.tv_confirm:
-                submit();
+                gotoWeChat();
                 Toast.makeText(getSelfActivity(), "请先选择充值方式", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.tv_confirm1:
                 break;
         }
     }
 
+//    IWXAPI mWxApi = WXAPIFactory.createWXAPI(mContext, WX_APPID, true);
+//    mWxApi.registerApp(WX_APPID);
+//    /**
+//     * 请求app服务器得到的回调结果
+//     */
+//    @Override
+//    public void onGet(JSONObject jsonObject) {
+//        if (mWxApi != null) {
+//            PayReq req = new PayReq();
+//
+//            req.appId = WX_APPID;// 微信开放平台审核通过的应用APPID
+//            try {
+//                req.partnerId = jsonObject.getString("partnerid");// 微信支付分配的商户号
+//                req.prepayId = jsonObject.getString("prepayid");// 预支付订单号，app服务器调用“统一下单”接口获取
+//                req.nonceStr = jsonObject.getString("noncestr");// 随机字符串，不长于32位，服务器小哥会给咱生成
+//                req.timeStamp = jsonObject.getString("timestamp");// 时间戳，app服务器小哥给出
+//                req.packageValue = jsonObject.getString("package");// 固定值Sign=WXPay，可以直接写死，服务器返回的也是这个固定值
+//                req.sign = jsonObject.getString("sign");// 签名，服务器小哥给出，他会根据：https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_3指导得到这个
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            mWxApi.sendReq(req);
+//            Log.d("发起微信支付申请");
+//        }
+//
+//    }
+
+
+    /**
+     * 微信支付
+     */
+    private void gotoWeChat() {
+        Go2PayRequest.go2PWeChat(getSelfActivity(), orderid, "CZ", new WeChatCallBack() {
+            @Override
+            public void success(WeChatPayBean bean) {
+
+            }
+
+            @Override
+            public void fail(String msg) {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+        });
+    }
+
+    /**
+     * 银行卡帐号密码
+     */
     private void submit() {
         cardnum = et_cardnum.getText().toString().trim();
         if (TextUtils.isEmpty(cardnum)) {

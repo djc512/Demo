@@ -176,6 +176,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -198,5 +199,26 @@
             android:text="确认支付"
             android:textColor="@color/white"
             android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_confirm1"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_confirm1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_preview_finish_bg"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:textColor="@color/black2"
+            android:text="确认转账" />
     </LinearLayout>
 </LinearLayout>
