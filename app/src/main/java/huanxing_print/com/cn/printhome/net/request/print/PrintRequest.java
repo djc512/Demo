@@ -34,6 +34,7 @@ public class PrintRequest extends BaseRequst {
     public static final String ORDER_ID = "orderId";
     public static final String RADIUS = "radius";
     public static final String CENTER = "center";
+    public static final String PAY_AMOUNT = "payAmount";
 
     //    public static final String BASE_URL = "http://appprint.inkin.cc/";
     public static final String BASE_URL = "http://106.14.77.102:22012/";
@@ -46,6 +47,7 @@ public class PrintRequest extends BaseRequst {
     public static final String QUERY_PRINT_AROUND = "print/printer/around";
     public static final String QUERY_PRINTERS = "print/printer/history";
     public static final String QUERY_PRINTER_PRICE = "print/printer/getDetail";
+    public static final String QUERY_GROUP = "pay/group/queryGroup";
     public static final String ADD_ORDER = "order/add";
     public static final String PRINT = "print/doPrint";
     public static final String BLANCE_PAY = "pay/order/balancePay";
@@ -80,18 +82,17 @@ public class PrintRequest extends BaseRequst {
      * @param fileType
      * @param fileContent
      * @param fileName
-     * @param needWater
      * @param callback
      */
 
-    public static final void uploadFile(Activity activity, String fileType, String fileContent, String fileName, String
-            needWater, final HttpListener callback, boolean showDialog) {
+    public static final void uploadFile(Activity activity, String fileType, String fileContent, String fileName,
+                                        final HttpListener callback, boolean showDialog) {
         String url = BASE_URL + FILE_UPLOAD;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(FILE_TYPE, fileType);
         params.put(FILE_CONTENT, fileContent);
         params.put(FILE_NAME, fileName);
-        params.put(NEED_WATER, needWater);
+        params.put(NEED_WATER, "1");
         Http.postFile(activity, url, params, getHeaderTokenMap(), callback, showDialog);
     }
 
@@ -99,12 +100,11 @@ public class PrintRequest extends BaseRequst {
      * 添加文件
      *
      * @param activity
-     * @param printerNo
      * @param fileName
      * @param fileUrl
      * @param callback
      */
-    public static final void addFile(Activity activity, String printerNo, String fileName, String fileUrl, final
+    public static final void addFile(Activity activity, String fileName, String fileUrl, final
     HttpListener callback, boolean showDialog) {
         String url = BASE_URL + FILE_ADD;
         Map<String, Object> params = new HashMap<String, Object>();
@@ -181,6 +181,20 @@ public class PrintRequest extends BaseRequst {
         params.put(PAGE_NUM, pageNum);
         params.put(PAGE_SIZE, pageSize);
         Http.get(activity, url, params, getHeaderTokenMap(), callback, true);
+    }
+
+    /**
+     * 获取可支付的群
+     *
+     * @param activity
+     * @param payAmount
+     * @param callback
+     */
+    public static final void queryGroup(Activity activity, String payAmount, final HttpListener callback) {
+        String url = BASE_URL + QUERY_GROUP;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(PAY_AMOUNT, payAmount);
+        Http.get(activity, url, params, getHeaderTokenMap(), callback, false);
     }
 
 

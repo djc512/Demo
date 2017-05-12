@@ -61,7 +61,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
 
     private void addFile(String fileUrl) {
         showLoading();
-        PrintRequest.addFile(activity, "1", file.getName(), fileUrl, new HttpListener() {
+        PrintRequest.addFile(activity,  file.getName(), fileUrl, new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 dismissLoading();

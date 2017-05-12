@@ -73,7 +73,7 @@ public class UsedPrinterFragment extends BaseLazyFragment {
                                 (position).getPrinterNo());
                         break;
                     case R.id.detailTv:
-                        turnDetail("zwf001");
+                        turnDetail(usedPrinterRcAdapter.getPrinterList().get(position).getPrinterNo());
                         break;
                 }
             }

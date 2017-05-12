@@ -109,13 +109,14 @@ public class PayUtil {
      *
      * @param id
      */
-    public void alipay(final long id) {
+    public void alipay(final String id) {
         Runnable payRunnable = new Runnable() {
 
             @Override
             public void run() {
                 PayTask alipay = new PayTask((Activity) mContext);
-                Map<String, String> result = alipay.payV2(id + "", true);
+
+                Map<String, String> result = alipay.payV2(id, true);
                 Log.i("msp", result.toString());
 
                 Message msg = new Message();
