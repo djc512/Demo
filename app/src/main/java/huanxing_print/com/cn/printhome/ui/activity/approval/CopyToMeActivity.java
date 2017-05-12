@@ -69,9 +69,7 @@ public class CopyToMeActivity extends BaseActivity {
             }
         });
 
-        ApprovalRequest.getQueryApprovalList(getSelfActivity(),
-                pageNum, pageSize, 4, baseApplication.getLoginToken(), callBack);
-
+        xrf_czrecord.startRefresh();
         xrf_czrecord.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
 
             @Override
@@ -81,7 +79,7 @@ public class CopyToMeActivity extends BaseActivity {
                 datalist.clear();
                 pageNum = 1;
                 //获取我发起的列表
-                ApprovalRequest.getQueryApprovalList(getSelfActivity(), pageNum, pageSize, 3,
+                ApprovalRequest.getQueryApprovalList(getSelfActivity(), pageNum, pageSize, 4,
                         baseApplication.getLoginToken(), callBack);
                 xrf_czrecord.stopRefresh();
             }

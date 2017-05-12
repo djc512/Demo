@@ -11,6 +11,7 @@ public class LastApproval {
 
     private ArrayList<ApprovalOrCopy> approverList;
     private ArrayList<ApprovalOrCopy> copyList;
+    private String groupId;
 
     public ArrayList<ApprovalOrCopy> getApproverList() {
         return approverList;
@@ -26,5 +27,13 @@ public class LastApproval {
 
     public void setCopyList(ArrayList<ApprovalOrCopy> copyList) {
         this.copyList = copyList;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }

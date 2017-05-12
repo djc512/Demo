@@ -30,10 +30,13 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
+import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.presenter.ChatPresenter;
 import huanxing_print.com.cn.printhome.presenter.impl.ChatPresenterImpl;
 import huanxing_print.com.cn.printhome.ui.adapter.ChatAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 import static huanxing_print.com.cn.printhome.util.ShowUtil.showToast;
 
@@ -85,17 +88,35 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
         Intent intent = getIntent();
         type = intent.getIntExtra("type", -1);
 
+        GroupInfo groupInfo = intent.getParcelableExtra("GroupInfo");
+        FriendInfo friendInfo = intent.getParcelableExtra("FriendInfo");
+        if (!ObjectUtils.isNull(groupInfo)) {
+            //群聊
+            type = 1;
+            mUsername = groupInfo.getEasemobGroupId();
+            mTvTitle.setText(groupInfo.getGroupName());
+            Log.i("CMCC", "type:" + type + ",mUsername:" + mUsername);
+        }
+
+        if (!ObjectUtils.isNull(friendInfo)) {
+            //私聊
+            type = 2;
+            mUsername = friendInfo.getEasemobId();
+            mTvTitle.setText(friendInfo.getMemberName());
+            Log.i("CMCC", "type:" + type + ",mUsername:" + mUsername);
+        }
+
         //聊天对象
         // mUsername = intent.getStringExtra("username");
         //测试，
-        mUsername = "15830317334532";
+        //mUsername = "15830317334532";
 
         if (TextUtils.isEmpty(mUsername)) {
             showToast("跟鬼聊呀，请携带username参数！");
             finish();
             return;
         }
-        mTvTitle.setText("与" + mUsername + "聊天中");
+
 
         mEtMsg.addTextChangedListener(this);
         String msg = mEtMsg.getText().toString();
@@ -138,14 +159,17 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
          *  如果是，让ChatPresenter 更新数据
          *
          */
-        String from;
-        if (type==1){
+        String from = "";
+        if (type == 1) {
             from = message.getTo();
-        }else {
-            from = message.getMsgId();
+            Log.i("CMCC", "111111from:" + from + ",mUsername:" + mUsername);
+        } else if (type == 2) {
+            from = message.getFrom();
+            Log.i("CMCC", "222222from:" + from + ",mUsername:" + mUsername);
         }
-        message.getUserName();
-        message.getTo();
+//        message.getUserName();
+//        message.getTo();
+
         if (from.equals(mUsername)) {
             mChatPresenter.updateData(mUsername);
         }
@@ -190,11 +214,14 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
                 break;
             case R.id.btn_send:
+                Log.i("CMCC", "发送消息:" + type + ",mUsername:" + mUsername);
                 //发送消息
                 String msgg = mEtMsg.getText().toString();
                 if (type == 1) {
+                    Log.i("CMCC", "1111");
                     mChatPresenter.sendMessage(mUsername, msgg, 1);
-                } else {
+                } else if (2 == type) {
+                    Log.i("CMCC", "2222");
                     mChatPresenter.sendMessage(mUsername, msgg, 0);
                 }
 
@@ -245,7 +272,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
     @Override
     public void onUpdate(int size) {
-        Log.i("CMCC","收到消息了10100101010101010101100");
+        Log.i("CMCC", "收到消息了10100101010101010101100");
         mChatAdapter.notifyDataSetChanged();
         if (size != 0) {
             mRecyclerView.smoothScrollToPosition(size - 1);

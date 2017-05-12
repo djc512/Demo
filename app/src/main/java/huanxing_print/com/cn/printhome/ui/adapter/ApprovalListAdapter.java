@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.util.Info;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalObject;
 
 /**
  * Created by Administrator on 2017/3/23 0023.
@@ -18,16 +18,16 @@ import huanxing_print.com.cn.printhome.util.Info;
 
 public class ApprovalListAdapter extends BaseAdapter {
     private Context ctx;
-    private List<Info> list;
+    private List<ApprovalObject> list;
 
-    public ApprovalListAdapter(Context ctx, List<Info> list) {
+    public ApprovalListAdapter(Context ctx, List<ApprovalObject> list) {
         this.ctx = ctx;
         this.list = list;
     }
 
     @Override
     public int getCount() {
-        return 10;
+        return list.size();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ApprovalListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         MyViewHolder holder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(ctx).inflate(R.layout.item_approval,null);
+            convertView = LayoutInflater.from(ctx).inflate(R.layout.item_approval, null);
             holder = new MyViewHolder();
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
             holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
@@ -53,21 +53,18 @@ public class ApprovalListAdapter extends BaseAdapter {
             holder.tv_state = (TextView) convertView.findViewById(R.id.tv_state);
 
             convertView.setTag(holder);
-        }else {
-           holder = (MyViewHolder) convertView.getTag();
+        } else {
+            holder = (MyViewHolder) convertView.getTag();
         }
-        //PrinterPrice listBean = list.get(position);
-        //String date = listBean.getDate();
-        //holder.tv_time.setText(date);
-        /*holder.tv_name.setText(listBean.getName());
-        holder.tv_name.setText(listBean.getTime());
-        holder.tv_name.setText(listBean.getUse());
-        holder.tv_name.setText(listBean.getDetail());
-        holder.tv_name.setText(listBean.getId());*/
-
+        ApprovalObject listBean = list.get(position);
+        holder.tv_name.setText(listBean.getJobNumber());
+        holder.tv_time.setText(listBean.getAddTime());
+        holder.tv_use.setText(listBean.getTitle());
+        holder.tv_detail.setText(listBean.getPurchaseList());
         return convertView;
     }
-    public class MyViewHolder{
+
+    public class MyViewHolder {
         TextView tv_name;
         TextView tv_time;
         TextView tv_use;

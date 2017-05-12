@@ -13,6 +13,7 @@ public class GroupMember implements Parcelable {
     private String memberName;//用户名称
     private String memberUrl;//用户头像
     private String type;//群用户身份 0 普通 1群主
+    private int mType;//用于联系人页面item类型
 
     public GroupMember() {
 
@@ -104,4 +105,11 @@ public class GroupMember implements Parcelable {
         this.type = type;
     }
 
+    public int getmType() {
+        return mType;
+    }
+
+    public void setmType(int mType) {
+        this.mType = mType;
+    }
 }

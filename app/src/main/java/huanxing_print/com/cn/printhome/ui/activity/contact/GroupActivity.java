@@ -14,6 +14,7 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupAdatper;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -25,7 +26,7 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  * Created by wanghao on 2017/5/5.
  */
 
-public class GroupActivity extends BaseActivity implements View.OnClickListener,GroupAdatper.OnItemGroupClickListener {
+public class GroupActivity extends BaseActivity implements View.OnClickListener, GroupAdatper.OnItemGroupClickListener {
     private static final int CREATE_GROUP = 1000;
     private RecyclerView recyclerView;
     private ArrayList<GroupInfo> groups = new ArrayList<GroupInfo>();
@@ -61,7 +62,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     private void initData() {
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(this,"加载中").show();
+        DialogUtils.showProgressDialog(this, "加载中").show();
         GroupManagerRequest.queryGroupList(this, token, groupListCallback);
     }
 
@@ -89,7 +90,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CREATE_GROUP:
-                if(resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     GroupInfo info = data.getParcelableExtra("created");
 
                     groups.add(info);
@@ -101,11 +102,11 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void clickGroup(GroupInfo info) {
-        if(null != info) {
+        if (null != info) {
             ToastUtil.doToast(this, info.getGroupName());
             //假设跳入到群设置详情，后续删除
-            Intent intent = new Intent(GroupActivity.this, GroupSettingActivity.class);
-            intent.putExtra("groupId", info.getGroupId());
+            Intent intent = new Intent(GroupActivity.this, ChatActivity.class);
+            intent.putExtra("GroupInfo", info);
             startActivity(intent);
 
         }
@@ -115,7 +116,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public void success(String msg, ArrayList<GroupInfo> groupInfos) {
             DialogUtils.closeProgressDialog();
-            if(null != groupInfos) {
+            if (null != groupInfos) {
                 groups = groupInfos;
                 adatper.modifyData(groups);
             }
