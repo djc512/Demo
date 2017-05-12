@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.net.request.my;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +30,7 @@ public class OrderIdRequest extends BaseRequst {
         HttpUtils.post(ctx, orderIdurl, BaseApplication.getInstance().getLoginToken(), params, new HttpCallBack() {
             @Override
             public void success(String content) {
+                Log.d("OrderIdRequest", content);
                 OrderIdResolve resolve = new OrderIdResolve(content);
                 resolve.resolve(callBack);
             }

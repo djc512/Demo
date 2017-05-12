@@ -5,34 +5,21 @@ package huanxing_print.com.cn.printhome.model.my;
  */
 
 public class WeChatPayBean {
-    private String partnerId;
-    private String prepayId;
+//    data : {"appId":"wxb54a2ee8a63993f9","nonceStr":"xcmjntnlk19nn1he","partnerId":"1457268302","paySign":"5B28851D6ACC6C2A9E656A597769CBF9","pkg":"Sign=WXPay","prepayId":"wx20170512171348b744b70dc1016436732","timeStamp":"1494580428"}
+    private String appId;
     private String nonceStr;
+    private String partnerId;
+    private String paySign;
+    private String pkg;
+    private String prepayId;
     private String timeStamp;
-    private String sign;
 
-    public String getPackageValue() {
-        return packageValue;
+    public String getAppId() {
+        return appId;
     }
 
-    public void setPackageValue(String packageValue) {
-        this.packageValue = packageValue;
-    }
-
-    public String getPartnerId() {
-        return partnerId;
-    }
-
-    public void setPartnerId(String partnerId) {
-        this.partnerId = partnerId;
-    }
-
-    public String getPrepayId() {
-        return prepayId;
-    }
-
-    public void setPrepayId(String prepayId) {
-        this.prepayId = prepayId;
+    public void setAppId(String appId) {
+        this.appId = appId;
     }
 
     public String getNonceStr() {
@@ -43,6 +30,38 @@ public class WeChatPayBean {
         this.nonceStr = nonceStr;
     }
 
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    public String getPaySign() {
+        return paySign;
+    }
+
+    public void setPaySign(String paySign) {
+        this.paySign = paySign;
+    }
+
+    public String getPkg() {
+        return pkg;
+    }
+
+    public void setPkg(String pkg) {
+        this.pkg = pkg;
+    }
+
+    public String getPrepayId() {
+        return prepayId;
+    }
+
+    public void setPrepayId(String prepayId) {
+        this.prepayId = prepayId;
+    }
+
     public String getTimeStamp() {
         return timeStamp;
     }
@@ -50,14 +69,4 @@ public class WeChatPayBean {
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
-
-    private String packageValue;
 }

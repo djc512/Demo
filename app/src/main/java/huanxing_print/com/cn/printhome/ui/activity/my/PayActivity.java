@@ -12,8 +12,10 @@ import android.widget.Toast;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
+import huanxing_print.com.cn.printhome.net.callback.my.OrderIdCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
+import huanxing_print.com.cn.printhome.net.request.my.OrderIdRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
@@ -59,7 +61,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         orderid = getIntent().getStringExtra("orderid");
         rechargeAmout = getIntent().getStringExtra("rechargeAmout");
         tv_money.setText(rechargeAmout);
-        tv_money1.setText(rechargeAmout);
+        tv_money1.setText("总价:" + rechargeAmout);
+
     }
 
     private void setListener() {
@@ -70,6 +73,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         iv_wechat_check.setOnClickListener(this);
         iv_bankcard_check.setOnClickListener(this);
         tv_confirm1.setOnClickListener(this);
+        tv_confirm.setOnClickListener(this);
     }
 
     private void initView() {
@@ -117,42 +121,15 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-//    IWXAPI mWxApi = WXAPIFactory.createWXAPI(mContext, WX_APPID, true);
-//    mWxApi.registerApp(WX_APPID);
-//    /**
-//     * 请求app服务器得到的回调结果
-//     */
-//    @Override
-//    public void onGet(JSONObject jsonObject) {
-//        if (mWxApi != null) {
-//            PayReq req = new PayReq();
-//
-//            req.appId = WX_APPID;// 微信开放平台审核通过的应用APPID
-//            try {
-//                req.partnerId = jsonObject.getString("partnerid");// 微信支付分配的商户号
-//                req.prepayId = jsonObject.getString("prepayid");// 预支付订单号，app服务器调用“统一下单”接口获取
-//                req.nonceStr = jsonObject.getString("noncestr");// 随机字符串，不长于32位，服务器小哥会给咱生成
-//                req.timeStamp = jsonObject.getString("timestamp");// 时间戳，app服务器小哥给出
-//                req.packageValue = jsonObject.getString("package");// 固定值Sign=WXPay，可以直接写死，服务器返回的也是这个固定值
-//                req.sign = jsonObject.getString("sign");// 签名，服务器小哥给出，他会根据：https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=4_3指导得到这个
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            mWxApi.sendReq(req);
-//            Log.d("发起微信支付申请");
-//        }
-//
-//    }
-
-
     /**
      * 微信支付
      */
     private void gotoWeChat() {
-        Go2PayRequest.go2PWeChat(getSelfActivity(), orderid, "CZ", new WeChatCallBack() {
+        OrderIdRequest.getOrderId(getSelfActivity(), rechargeAmout, new OrderIdCallBack() {
             @Override
-            public void success(WeChatPayBean bean) {
-
+            public void success(String msg, String data) {
+                String czOrderid = data;
+                go2WeChat(czOrderid, "CZ");
             }
 
             @Override
@@ -165,6 +142,36 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
+    }
+    /**
+     * 微信支付
+     */
+    private void go2WeChat(String orderid, String type) {
+
+        Go2PayRequest.go2PWeChat(getSelfActivity(), orderid, type, new WeChatCallBack() {
+            @Override
+            public void success(WeChatPayBean bean) {
+                wechatpay(bean);
+            }
+
+            @Override
+            public void fail(String msg) {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+        });
+    }
+
+    /**
+     * 调微信支付api
+     * @param bean
+     */
+    private void wechatpay(WeChatPayBean bean) {
+
     }
 
     /**

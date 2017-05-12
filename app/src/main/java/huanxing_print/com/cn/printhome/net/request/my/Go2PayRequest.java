@@ -66,7 +66,7 @@ public class Go2PayRequest extends BaseRequst {
         HttpUtils.post(ctx, payUrl, BaseApplication.getInstance().getLoginToken(), params, new HttpCallBack() {
             @Override
             public void success(String content) {
-                Log.d("payUrl", "content:"+content);
+                Log.d("payUrl", "content:" + content);
                 WeChatResolve resolve = new WeChatResolve(content);
                 resolve.resolve(callBack);
             }
