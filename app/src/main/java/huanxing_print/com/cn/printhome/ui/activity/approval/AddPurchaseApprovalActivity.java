@@ -251,30 +251,35 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         mResults.add(bimap);
 
         //请求上次的审批人和联系人
-        ApprovalRequest.queryLast(getSelfActivity(), baseApplication.getLoginToken(), 1, callBack);
+        ApprovalRequest.queryLast(getSelfActivity(), baseApplication.getLoginToken(),
+                1, callBack);
 
     }
 
     QueryLastCallBack callBack = new QueryLastCallBack() {
         @Override
         public void success(String msg, LastApproval approval) {
-            ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
+            //ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
             //转为FriendInfo对象
             ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-            ArrayList<ApprovalOrCopy> copys = approval.getCopyerList();
-            for (ApprovalOrCopy approvalOrCopy : approvals) {
-                FriendInfo info = new FriendInfo();
-                info.setMemberId(approvalOrCopy.getJobNumber());
-                info.setMemberName(approvalOrCopy.getName());
-                info.setMemberUrl(approvalOrCopy.getFaceUrl());
-                approvalFriends.add(info);
+            ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
+            if (!ObjectUtils.isNull(approvals)) {
+                for (ApprovalOrCopy approvalOrCopy : approvals) {
+                    FriendInfo info = new FriendInfo();
+                    info.setMemberId(approvalOrCopy.getJobNumber());
+                    info.setMemberName(approvalOrCopy.getName());
+                    info.setMemberUrl(approvalOrCopy.getFaceUrl());
+                    approvalFriends.add(info);
+                }
             }
-            for (ApprovalOrCopy orCopy : approvals) {
-                FriendInfo info = new FriendInfo();
-                info.setMemberId(orCopy.getJobNumber());
-                info.setMemberName(orCopy.getName());
-                info.setMemberUrl(orCopy.getFaceUrl());
-                copyFriends.add(info);
+            if (!ObjectUtils.isNull(copys)) {
+                for (ApprovalOrCopy orCopy : copys) {
+                    FriendInfo info = new FriendInfo();
+                    info.setMemberId(orCopy.getJobNumber());
+                    info.setMemberName(orCopy.getName());
+                    info.setMemberUrl(orCopy.getFaceUrl());
+                    copyFriends.add(info);
+                }
             }
             //更新UI
             approvalAdapter.notifyDataSetChanged();

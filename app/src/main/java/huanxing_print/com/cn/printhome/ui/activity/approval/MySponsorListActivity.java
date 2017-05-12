@@ -179,7 +179,7 @@ public class MySponsorListActivity extends BaseActivity {
 
 //        ApprovalRequest.getQueryApprovalList(getSelfActivity(),
 //                pageNum, pageSize, 3, baseApplication.getLoginToken(), callBack);
-        xrf_czrecord.setAutoRefresh(true);
+        xrf_czrecord.startRefresh();
         xrf_czrecord.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
 
             @Override
@@ -210,7 +210,12 @@ public class MySponsorListActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //查看我的列表详情
                 // ToastUtil.doToast(MySponsorListActivity.this, "查看列表详情" + position);
-                Intent intent = new Intent(MySponsorListActivity.this, ApprovalBuyAddOrRemoveActivity.class);
+                Intent intent = new Intent();
+                if (1 == datalist.get(position).getType()) {
+                    intent.setClass(MySponsorListActivity.this, ApprovalBuyAddOrRemoveActivity.class);
+                } else if (2 == datalist.get(position).getType()) {
+                    intent.setClass(MySponsorListActivity.this, ApprovalApplyDetailsActivity.class);
+                }
                 intent.putExtra("approveId", datalist.get(position).getId());
                 startActivity(intent);
             }
@@ -220,7 +225,7 @@ public class MySponsorListActivity extends BaseActivity {
     QueryApprovalListCallBack callBack = new QueryApprovalListCallBack() {
         @Override
         public void success(String msg, ArrayList<ApprovalObject> approvalObjects) {
-            ToastUtil.doToast(getSelfActivity(), "查询我发起的列表成功");
+            //ToastUtil.doToast(getSelfActivity(), "查询我发起的列表成功");
             if (isLoadMore) {//如果是加载更多
                 if (!ObjectUtils.isNull(approvalObjects)) {
                     xrf_czrecord.stopLoadMore();

@@ -215,16 +215,17 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         findViewById(R.id.rel_add_expense).setOnClickListener(this);
 
         //请求上次的审批人和联系人
-        ApprovalRequest.queryLast(getSelfActivity(), baseApplication.getLoginToken(), 1, callBack);
+        ApprovalRequest.queryLast(getSelfActivity(), baseApplication.getLoginToken(),
+                2, callBack);
     }
 
     QueryLastCallBack callBack = new QueryLastCallBack() {
         @Override
         public void success(String msg, LastApproval approval) {
-            ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
+            //ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
             //转为FriendInfo对象
             ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-            ArrayList<ApprovalOrCopy> copys = approval.getCopyerList();
+            ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
             if (!ObjectUtils.isNull(approvals)) {
                 for (ApprovalOrCopy approvalOrCopy : approvals) {
                     FriendInfo info = new FriendInfo();
@@ -235,7 +236,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                 }
             }
             if (!ObjectUtils.isNull(copys)) {
-                for (ApprovalOrCopy orCopy : approvals) {
+                for (ApprovalOrCopy orCopy : copys) {
                     FriendInfo info = new FriendInfo();
                     info.setMemberId(orCopy.getJobNumber());
                     info.setMemberName(orCopy.getName());
