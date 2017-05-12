@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
-import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
@@ -78,7 +77,6 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
                 finishCurrentActivity();
                 break;
             case R.id.create_group:
-                ToastUtil.doToast(this, "发起群组");
                 Intent intent = new Intent(this, CreateGroup.class);
                 startActivityForResult(intent, CREATE_GROUP);
                 break;
