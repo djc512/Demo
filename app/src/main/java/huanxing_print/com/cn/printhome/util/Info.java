@@ -8,14 +8,14 @@ public class Info {
     private String name;
     private String time;
     private String detail;//明细
-    private String use;
+    private String use_pic;
     private int id;//是否审批中
 
     public Info(String name, String time, String detail, String use, int id) {
         this.name = name;
         this.time = time;
         this.detail = detail;
-        this.use = use;
+        this.use_pic = use;
         this.id = id;
     }
 
@@ -43,12 +43,12 @@ public class Info {
         this.detail = detail;
     }
 
-    public String getUse() {
-        return use;
+    public String getUsePic() {
+        return use_pic;
     }
 
-    public void setUse(String use) {
-        this.use = use;
+    public void setUsePic(String use) {
+        this.use_pic = use;
     }
 
     public int getId() {

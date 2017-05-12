@@ -335,7 +335,7 @@
                         android:layout_toLeftOf="@+id/iv_right"
                         android:src="@drawable/iv_head" />
                     <TextView
-                        android:id="@+id/tv_use_name"
+                        android:id="@+id/tv_copy_name"
                         android:paddingLeft="20dp"
                         android:paddingBottom="10dp"
                         android:layout_width="wrap_content"
