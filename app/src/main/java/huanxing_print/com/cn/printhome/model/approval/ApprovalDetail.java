@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class ApprovalDetail {
     private String addTime;//创建时间
-    private long amountMonney;//金额
+    private String amountMonney;//金额
     private String approveId;//	申请单号
     private ArrayList<ApprovalOrCopy> approverList;//审核列表
     private ArrayList<String> attachmentList;//附件列表
@@ -21,10 +21,10 @@ public class ApprovalDetail {
     private String jobNumber;//工号
     private String purchaseList;//采购清单
     private String remark;//标注
-    private long status;//状态
+    private int status;//状态
     private ArrayList<SubFormItem> subFormList;//报销条目
     private String title;//名称
-    private long type;//类别  类型1.采购 2报销
+    private int type;//类别  类型1.采购 2报销
 
     public String getAddTime() {
         return addTime;
@@ -34,11 +34,11 @@ public class ApprovalDetail {
         this.addTime = addTime;
     }
 
-    public long getAmountMonney() {
+    public String getAmountMonney() {
         return amountMonney;
     }
 
-    public void setAmountMonney(long amountMonney) {
+    public void setAmountMonney(String amountMonney) {
         this.amountMonney = amountMonney;
     }
 
@@ -130,11 +130,11 @@ public class ApprovalDetail {
         this.remark = remark;
     }
 
-    public long getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(long status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -154,11 +154,11 @@ public class ApprovalDetail {
         this.title = title;
     }
 
-    public long getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(long type) {
+    public void setType(int type) {
         this.type = type;
     }
 }

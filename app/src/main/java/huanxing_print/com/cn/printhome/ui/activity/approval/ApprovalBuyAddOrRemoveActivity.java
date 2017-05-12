@@ -3,11 +3,13 @@ package huanxing_print.com.cn.printhome.ui.activity.approval;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -22,9 +24,12 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalDetail;
+import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalDetailCallBack;
+import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
-import huanxing_print.com.cn.printhome.ui.adapter.PicApprovalAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
@@ -59,16 +64,16 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     LinearLayout bt_reject_agree;
     //凭证id
     RelativeLayout rl_sertificate;//凭证布局
-
     ListView ll_approval_process;
-
     private GridView noScrollgridview;//采购展示图片的GridView
-
     boolean isRequestMoney =false;
 
     ApprovalPersonAdapter personAdapter;
-    private PicApprovalAdapter adapter;
+    private PicAdapter adapter;
     ArrayList lists = new ArrayList();
+    String approveId;
+
+    private ApprovalDetail details;
 
 
     @Override
@@ -96,48 +101,68 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         //rl_sertificate.setOnClickListener(this);
     }
 
-    private void initData() {
-        if (!ObjectUtils.isNull(getIntent().getStringExtra("what"))){
-            switch (getIntent().getStringExtra("what")){
-                //驳回，同意签字
-                case "1":
-                    ll_commit.setVisibility(View.GONE);
-                    bt_reject_agree.setVisibility(View.VISIBLE);
-                    rl_sertificate.setVisibility(View.GONE);
-                    break;
-                //生成凭证
-                case "2":
-                    ll_commit.setVisibility(View.VISIBLE);
-                    bt_reject_agree.setVisibility(View.GONE);
-                    btn_certificate.setText("生成凭证");
-                    //rl_sertificate.setVisibility(View.VISIBLE);
-                    break;
-                //撤回
-                case "3":
-                    ll_commit.setVisibility(View.VISIBLE);
-                    bt_reject_agree.setVisibility(View.GONE);
-                    rl_sertificate.setVisibility(View.GONE);
-                    break;
-                default:
-                    break;
+    QueryApprovalDetailCallBack callBack = new QueryApprovalDetailCallBack() {
+        @Override
+        public void success(String msg, ApprovalDetail approvalDetail) {
+            details = approvalDetail;
+            if (!ObjectUtils.isNull(approvalDetail.getType())){
+                switch (approvalDetail.getType()){
+                    //驳回，同意签字
+                    case 1:
+                        ll_commit.setVisibility(View.GONE);
+                        bt_reject_agree.setVisibility(View.VISIBLE);
+                        rl_sertificate.setVisibility(View.GONE);
+                        break;
+                    //生成凭证
+                    case 2:
+                        ll_commit.setVisibility(View.VISIBLE);
+                        bt_reject_agree.setVisibility(View.GONE);
+                        btn_certificate.setText("生成凭证");
+                        //rl_sertificate.setVisibility(View.VISIBLE);
+                        break;
+                    //撤回
+                    case 3:
+                        ll_commit.setVisibility(View.VISIBLE);
+                        bt_reject_agree.setVisibility(View.GONE);
+                        rl_sertificate.setVisibility(View.GONE);
+                        break;
+                    default:
+                        break;
+                }
             }
+
         }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
+        }
+    };
+    private void initData() {
+        approveId = getIntent().getStringExtra("approveId");
+        ApprovalRequest.getQueryApprovalDetail(getSelfActivity(),baseApplication.getLoginToken(),approveId,callBack);
+
         personAdapter = new ApprovalPersonAdapter(this,lists);
         ll_approval_process.setAdapter(personAdapter);;
         //横向图片展示
-        //假数据
+        /*//假数据
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add_people);
         mResults.add(bimap);
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_go);
 
-        mResults.add(bimap);
-        adapter = new PicApprovalAdapter(getSelfActivity(), mResults);
+        mResults.add(bimap);*/
+
+        //展示采购图片的gridview
+        adapter = new PicAdapter();
         //adapter.update();
         noScrollgridview.setAdapter(adapter);
 
         showData();
-
-
     }
 
     private void showData() {
@@ -229,4 +254,43 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     }
 
+    private class PicAdapter extends BaseAdapter{
+        @Override
+        public int getCount() {
+            return details.getAttachmentList().size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return details.getAttachmentList().get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                holder = new PicAdapter.ViewHolder();
+                convertView = LayoutInflater.from(ApprovalBuyAddOrRemoveActivity.this).inflate(
+                        R.layout.item_pic_show, null);
+                holder.image = (ImageView) convertView.findViewById(R.id.iv_pic);
+
+            } else {
+                holder = (PicAdapter.ViewHolder) convertView.getTag();
+            }
+            //请求网络拿图片
+            //请求的url前面加什么？、？？？第二个参数
+            ImageUtil.showImageView(ApprovalBuyAddOrRemoveActivity.this,details.getAttachmentList().get(position),holder.image);
+
+            return convertView;
+        }
+
+        class ViewHolder {
+            ImageView image;
+        }
+    }
 }

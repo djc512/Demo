@@ -68,7 +68,7 @@ public class PicApprovalAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public class ViewHolder {
+    public static class ViewHolder {
         public ImageView image;
     }
 
