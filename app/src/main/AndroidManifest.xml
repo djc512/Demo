@@ -312,9 +312,6 @@
         <activity
             android:name=".ui.activity.my.PayActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.my.PayActivity1"
-            android:screenOrientation="portrait" />
         <!-- 订单详情界面 -->
         <activity
             android:name=".ui.activity.my.OrderDetailActivity"

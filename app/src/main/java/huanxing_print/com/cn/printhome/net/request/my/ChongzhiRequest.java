@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.net.request.my;
 
 import android.content.Context;
+import android.util.Log;
 
 import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
@@ -23,6 +24,7 @@ public class ChongzhiRequest extends BaseRequst{
         HttpUtils.get(ctx, chongzhiUrl, BaseApplication.getInstance().getLoginToken(),new HttpCallBack() {
             @Override
             public void success(String content) {
+                Log.d("ChongzhiRequest", content);
                 ChongzhiResolve resolve = new ChongzhiResolve(content);
                 resolve.resolve(callBack);
             }

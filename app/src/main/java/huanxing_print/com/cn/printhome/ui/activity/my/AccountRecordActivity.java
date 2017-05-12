@@ -54,10 +54,6 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initData() {
-        AccountRecordAdapter adapter = new AccountRecordAdapter(getSelfActivity());
-        lv_account_record.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
-        lv_account_record.setAdapter(adapter);
-
         //获取充值记录
         ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
     }
@@ -129,8 +125,11 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                 }
             } else {
                 datalist = bean.getList();
-                adapter = new AccountRecordAdapter(getSelfActivity());
-                lv_account_record.setAdapter(adapter);
+                if (null != datalist && datalist.size() > 0) {
+                    AccountRecordAdapter adapter = new AccountRecordAdapter(getSelfActivity(), datalist);
+                    lv_account_record.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
+                    lv_account_record.setAdapter(adapter);
+                }
             }
             xrf_czrecord.setPullLoadEnable(true);
             xrf_czrecord.setAutoLoadMore(false);

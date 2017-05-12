@@ -6,7 +6,7 @@
                 >
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_user_name"
+        android:id="@+id/iv_user_head"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:paddingLeft="20dp"

@@ -48,7 +48,8 @@ public class ApprovalPersonAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(ctx).inflate(R.layout.item_approval_person,null);
             holder = new MyViewHolder();
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
-            holder.iv_user_name = (ImageView) convertView.findViewById(R.id.iv_user_name);
+            holder.iv_user_head = (ImageView) convertView.findViewById(R.id.iv_user_head);
+            holder.iv_isapproval = (ImageView) convertView.findViewById(R.id.iv_isapproval);
             holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
             holder.tv_detail = (TextView) convertView.findViewById(R.id.tv_detail);
 
@@ -56,21 +57,23 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         }else {
            holder = (MyViewHolder) convertView.getTag();
         }
-        //PrinterPrice listBean = list.get(position);
-        //String date = listBean.getDate();
-        //holder.tv_time.setText(date);
-        /*holder.tv_name.setText(listBean.getName());
-        holder.tv_name.setText(listBean.getTime());
-        holder.tv_name.setText(listBean.getUse());
-        holder.tv_name.setText(listBean.getDetail());
-        holder.tv_name.setText(listBean.getId());*/
+
+        Info info = list.get(position);
+
+        /*BitmapUtils.displayImage(ctx,info.getUsePic(),holder.iv_user_head);
+        //holder.iv_user_head.setImageResource();
+        holder.tv_name.setText(info.getName());
+        //holder.iv_isapproval
+        holder.tv_time.setText(info.getTime());
+        holder.tv_detail.setText(info.getDetail());*/
 
         return convertView;
     }
     public class MyViewHolder{
         TextView tv_name;
         TextView tv_time;
-        ImageView iv_user_name;
-        TextView tv_detail;
+        ImageView iv_user_head;
+        ImageView iv_isapproval;
+        TextView tv_detail;//发起申请，审批中，审批完成
     }
 }

@@ -1,6 +1,6 @@
 package huanxing_print.com.cn.printhome.net.resolve.approval;
 
-import huanxing_print.com.cn.printhome.model.approval.LastApprover;
+import huanxing_print.com.cn.printhome.model.approval.LastApproval;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryLastCallBack;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
 
@@ -8,7 +8,7 @@ import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
  * Created by dd on 2017/5/8.
  */
 
-public class LastApprovalResolve extends BaseResolve<LastApprover> {
+public class LastApprovalResolve extends BaseResolve<LastApproval> {
     public LastApprovalResolve(String result) {
         super(result);
     }

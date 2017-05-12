@@ -40,28 +40,29 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     public static Bitmap bimap;
 
     ImageView iv_user_name;
+    ImageView iv_user_head;
     ImageView iv_back;
     Button btn_agree;
     Button btn_bohui;
     Button btn_certificate;
     TextView iv_name;
-    TextView tv_use;
+    TextView tv_use;//用途说明
     TextView tv_number;
-    TextView tv_section;
-    TextView tv_detail;
+    TextView tv_section;//请款部门
+    TextView tv_detail;//采购清单
     TextView iv_isapproval;
-    TextView tv_money;
-    TextView tv_overtime;
-    TextView tv_use_name;
+    TextView tv_money;//请款金额
+    TextView tv_overtime;//完成日期
+    TextView tv_copy_name;
 
     LinearLayout ll_commit;
     LinearLayout bt_reject_agree;
     //凭证id
-    RelativeLayout rl_sertificate;
+    RelativeLayout rl_sertificate;//凭证布局
 
-    ListView ll_person;
+    ListView ll_approval_process;
 
-    private GridView noScrollgridview;
+    private GridView noScrollgridview;//采购展示图片的GridView
 
     boolean isRequestMoney =false;
 
@@ -122,7 +123,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             }
         }
         personAdapter = new ApprovalPersonAdapter(this,lists);
-        ll_person.setAdapter(personAdapter);;
+        ll_approval_process.setAdapter(personAdapter);;
         //横向图片展示
         //假数据
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add_people);
@@ -152,10 +153,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         tv_detail = (TextView) findViewById(R.id.tv_detail);
         tv_money = (TextView) findViewById(R.id.tv_money);
         tv_overtime = (TextView) findViewById(R.id.tv_overtime);
-        tv_use_name = (TextView) findViewById(R.id.tv_use_name);
+        tv_copy_name = (TextView) findViewById(R.id.tv_copy_name);
 
-        ll_person = (ListView) findViewById(R.id.ll_person);
-        iv_user_name = (ImageView) findViewById(R.id.iv_user_name);
+        ll_approval_process = (ListView) findViewById(R.id.ll_approval_process);
         iv_back = (ImageView) findViewById(R.id.iv_back);
 
         btn_certificate = (Button) findViewById(R.id.btn_certificate);
@@ -168,6 +168,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
         noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        iv_user_head = (ImageView) findViewById(R.id.iv_user_head);
 
     }
 

@@ -21,19 +21,14 @@ import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.CommonResp;
 import huanxing_print.com.cn.printhome.model.print.AddOrderRespBean;
 import huanxing_print.com.cn.printhome.model.print.FileBean;
-import huanxing_print.com.cn.printhome.model.print.GroupResp;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
-import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
-import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.my.PayActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
-import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
-import huanxing_print.com.cn.printhome.util.PriceUtil;
-import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
@@ -117,12 +112,14 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         CommonUtils.initSystemBar(this);
         StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PAY);
         initData();
+        initView();
+        initListener();
         log();
     }
 
     private void initData() {
         Bundle bundle = getIntent().getExtras();
-        printerNo = bundle.getString(PRINTER_NO);
+        printerNo = bundle.getString(PRINTER_NO, "");
         printSetting = bundle.getParcelable(PRINT_SETTING);
         newSetting = printSetting.clone();
 
@@ -138,19 +135,15 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     private boolean isSettingChange() {
-        updateSetting();
-        if (newSetting.toString().equals(printSetting.toString())) {
-            return false;
-        }
-        return true;
-    }
-
-    private void updateSetting() {
         newSetting.setColourFlag(colourFlag);
         newSetting.setDirectionFlag(directionFlag);
         newSetting.setDoubleFlag(doubleFlag);
         newSetting.setSizeType(sizeType);
         newSetting.setPrintCount(printCount);
+        if (newSetting.toString().equals(printSetting.toString())) {
+            return false;
+        }
+        return true;
     }
 
     public void requeryPrice(String printerNo) {
@@ -162,13 +155,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     PrintInfoResp.PrinterPrice printerPrice = printInfoResp.getData();
                     if (printerPrice != null) {
                         setPrice(printerPrice);
-                        initView();
-                        initListener();
-                    } else {
-                        ShowUtil.showToast(getString(R.string.price_error));
                     }
-                } else {
-                    ShowUtil.showToast(getString(R.string.price_error));
                 }
             }
 
@@ -205,7 +192,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                             balancePay();
                         } else {
                             dismissLoading();
-                            showPayType();
                             ShowUtil.showToast("余额不足");
                         }
                     } else {
@@ -294,42 +280,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
-    private void queryGroup() {
-        if (printerPrice == null) {
-            ShowUtil.showToast(getString(R.string.price_error));
-            return;
-        }
-        float price = PriceUtil.getPrice(newSetting, printerPrice);
-        Logger.i(price);
-        PriceUtil.getPrice(newSetting, printerPrice);
-        showLoading();
-        PrintRequest.queryGroup(this, price + "", new HttpListener() {
-            @Override
-            public void onSucceed(String content) {
-                dismissLoading();
-                Logger.i(content);
-                GroupResp resp = new Gson().fromJson(content, GroupResp.class);
-                if (resp.isSuccess()) {
-                    if (resp.getData() == null || resp.getData().size() == 0) {
-                        ShowUtil.showToast("没有可支付的群");
-                        setGroupViewGone();
-                    } else {
-                        setGroupViewVisible();
-                    }
-                } else {
-                    setGroupViewGone();
-                    ShowUtil.showToast(resp.getErrorMsg());
-                }
-            }
-
-            @Override
-            public void onFailed(String exception) {
-                dismissLoading();
-                ShowUtil.showToast(getString(R.string.net_error));
-            }
-        });
-    }
-
     private void turnPrintState() {
         Bundle bundle = new Bundle();
         bundle.putLong(PrintStatusActivity.ORDER_ID, orderId);
@@ -396,21 +346,14 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             tv_vertical.setTextColor(getResources().getColor(R.color.black2));
             iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
         }
-        if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
+        if (colourFlag == 0) {
+            tv_black.setTextColor(getResources().getColor(R.color.gray8));
+            tv_color.setTextColor(getResources().getColor(R.color.black2));
+            iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+        } else {
             tv_black.setTextColor(getResources().getColor(R.color.black2));
             tv_color.setTextColor(getResources().getColor(R.color.gray8));
             iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-            colourFlag = 1;
-        } else {
-            if (colourFlag == 0) {
-                tv_black.setTextColor(getResources().getColor(R.color.gray8));
-                tv_color.setTextColor(getResources().getColor(R.color.black2));
-                iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
-            } else {
-                tv_black.setTextColor(getResources().getColor(R.color.black2));
-                tv_color.setTextColor(getResources().getColor(R.color.gray8));
-                iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-            }
         }
         if (sizeType == 0) {
             iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
@@ -451,24 +394,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     private boolean isPersion = true;
 
-    private void setGroupViewVisible() {
-        iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
-        tv_qun.setTextColor(getResources().getColor(R.color.black2));
-        tv_persion.setTextColor(getResources().getColor(R.color.gray8));
-        ll_cz_persion.setVisibility(View.GONE);
-        ll_cz_qun.setVisibility(View.VISIBLE);
-        isPersion = false;
-    }
-
-    private void setGroupViewGone() {
-        iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-        tv_qun.setTextColor(getResources().getColor(R.color.gray8));
-        tv_persion.setTextColor(getResources().getColor(R.color.black2));
-        ll_cz_persion.setVisibility(View.VISIBLE);
-        ll_cz_qun.setVisibility(View.GONE);
-        isPersion = true;
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -504,20 +429,16 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.iv_color://色彩
-                if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
-                    ShowUtil.showToast("黑白机不可选色彩");
-                } else {
-                    if (colourFlag == 1) {
-                        tv_black.setTextColor(getResources().getColor(R.color.gray8));
-                        tv_color.setTextColor(getResources().getColor(R.color.black2));
-                        iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
-                        colourFlag = 0;
-                    } else {//黑白
-                        tv_black.setTextColor(getResources().getColor(R.color.black2));
-                        tv_color.setTextColor(getResources().getColor(R.color.gray8));
-                        iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-                        colourFlag = 1;
-                    }
+                if (colourFlag == 1) {
+                    tv_black.setTextColor(getResources().getColor(R.color.gray8));
+                    tv_color.setTextColor(getResources().getColor(R.color.black2));
+                    iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    colourFlag = 0;
+                } else {//黑白
+                    tv_black.setTextColor(getResources().getColor(R.color.black2));
+                    tv_color.setTextColor(getResources().getColor(R.color.gray8));
+                    iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                    colourFlag = 1;
                 }
                 break;
             case R.id.iv_a43://纸张
@@ -548,10 +469,50 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_copy_cz://支付方式
                 if (isPersion) {
-                    queryGroup();
+                    iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    tv_qun.setTextColor(getResources().getColor(R.color.black2));
+                    tv_persion.setTextColor(getResources().getColor(R.color.gray8));
+                    ll_cz_persion.setVisibility(View.GONE);
+                    ll_cz_qun.setVisibility(View.VISIBLE);
+                    isPersion = false;
                 } else {
-                    setGroupViewGone();
+                    iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                    tv_qun.setTextColor(getResources().getColor(R.color.gray8));
+                    tv_persion.setTextColor(getResources().getColor(R.color.black2));
+                    ll_cz_persion.setVisibility(View.VISIBLE);
+                    ll_cz_qun.setVisibility(View.GONE);
+                    isPersion = true;
                 }
+                break;
+            case R.id.ll_cz_persion://第三方支付
+                Intent intent = new Intent(getSelfActivity(), PayActivity.class);
+                intent.putExtra("orderid", orderId);
+                startActivity(intent);
+
+//                DialogUtils.showPayChooseDialog(ctx, new DialogUtils.PayChooseDialogCallBack() {
+//                    @Override
+//                    public void wechat() {
+//                        Toast.makeText(ctx, "微信支付", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void alipay() {
+//                        Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
+//                        PayUtil.getInstance(getSelfActivity()).alipay(orderId);
+//                        PayUtil.getInstance(getSelfActivity()).setCallBack(new PayUtil.PayCallBack() {
+//                            @Override
+//                            public void paySuccess() {
+//
+//                            }
+//
+//                            @Override
+//                            public void payFailed() {
+//
+//                            }
+//                        });
+//                    }
+//                });
+
                 break;
             case R.id.ll_cz_qun://群支付
                 DialogUtils.showQunChooseDialog(ctx, new DialogUtils.PayQunChooseDialogCallBack() {
@@ -569,63 +530,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_finish://完成
                 break;
             case R.id.btn_preview://完成
-                if (printerPrice != null) {
-                    complete();
-                } else {
-                    ShowUtil.showToast(getString(R.string.price_error));
-                }
+                complete();
                 break;
         }
-        updateSetting();
         log();
-    }
-
-    private void showPayType() {
-        dismissLoading();
-        DialogUtils.showPayChooseDialog(ctx, new DialogUtils.PayChooseDialogCallBack() {
-            @Override
-            public void wechat() {
-                Toast.makeText(ctx, "微信支付", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void alipay() {
-                Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
-                Go2PayRequest.go2Pay(getSelfActivity(), orderId + "", "PT", new Go2PayCallBack() {
-
-                    @Override
-                    public void success(String msg, String id) {
-                        Logger.i(id);
-                        aliPay(id);
-                    }
-
-                    @Override
-                    public void fail(String msg) {
-                        ShowUtil.showToast(msg);
-                    }
-
-                    @Override
-                    public void connectFail() {
-                        ShowUtil.showToast("connectFail ");
-                    }
-                });
-            }
-        });
-    }
-
-    private void aliPay(String payInfo) {
-        PayUtil.getInstance(getSelfActivity()).setCallBack(new PayUtil.PayCallBack() {
-            @Override
-            public void paySuccess() {
-                showLoading();
-                print();
-            }
-
-            @Override
-            public void payFailed() {
-            }
-        });
-        PayUtil.getInstance(getSelfActivity()).alipay(payInfo);
     }
 
     public static final String PRINT_SETTING = "setting";

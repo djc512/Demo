@@ -3,66 +3,47 @@ package huanxing_print.com.cn.printhome.model.approval;
 import java.util.ArrayList;
 
 /**
- * 审批详情
- * Created by dd on 2017/5/9.
+ * 提交的审批对象
+ * Created by dd on 2017/5/12.
  */
 
-public class ApprovalDetail {
-    private String addTime;//创建时间
-    private long amountMonney;//金额
-    private String approveId;//	申请单号
-    private ArrayList<ApprovalOrCopy> approverList;//审核列表
-    private ArrayList<String> attachmentList;//附件列表
+public class AddApprovalObject {
+    private String amountMonney;//总金额
+    private ArrayList<Approver> approverList;//审批人列表
+    private ArrayList<Object> attachmentList;//附件列表
     private String bankAccount;//收款方账号
     private String bankName;//收款方开户行
-    private String bankPerson;//收款仿全称
+    private String bankPerson;//收款方全称
+    private ArrayList<Approver> copyerList;//抄送人列表
     private String department;//部门
     private String finishTime;//完成时间
-    private String jobNumber;//工号
     private String purchaseList;//采购清单
-    private String remark;//标注
-    private long status;//状态
+    private String remark;//备注
     private ArrayList<SubFormItem> subFormList;//报销条目
-    private String title;//名称
-    private long type;//类别  类型1.采购 2报销
+    private String title;//标题
+    private int type;//类型  1.采购 2报销
 
-    public String getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(String addTime) {
-        this.addTime = addTime;
-    }
-
-    public long getAmountMonney() {
+    public String getAmountMonney() {
         return amountMonney;
     }
 
-    public void setAmountMonney(long amountMonney) {
+    public void setAmountMonney(String amountMonney) {
         this.amountMonney = amountMonney;
     }
 
-    public String getApproveId() {
-        return approveId;
-    }
-
-    public void setApproveId(String approveId) {
-        this.approveId = approveId;
-    }
-
-    public ArrayList<ApprovalOrCopy> getApproverList() {
+    public ArrayList<Approver> getApproverList() {
         return approverList;
     }
 
-    public void setApproverList(ArrayList<ApprovalOrCopy> approverList) {
+    public void setApproverList(ArrayList<Approver> approverList) {
         this.approverList = approverList;
     }
 
-    public ArrayList<String> getAttachmentList() {
+    public ArrayList<Object> getAttachmentList() {
         return attachmentList;
     }
 
-    public void setAttachmentList(ArrayList<String> attachmentList) {
+    public void setAttachmentList(ArrayList<Object> attachmentList) {
         this.attachmentList = attachmentList;
     }
 
@@ -90,6 +71,14 @@ public class ApprovalDetail {
         this.bankPerson = bankPerson;
     }
 
+    public ArrayList<Approver> getCopyerList() {
+        return copyerList;
+    }
+
+    public void setCopyerList(ArrayList<Approver> copyerList) {
+        this.copyerList = copyerList;
+    }
+
     public String getDepartment() {
         return department;
     }
@@ -104,14 +93,6 @@ public class ApprovalDetail {
 
     public void setFinishTime(String finishTime) {
         this.finishTime = finishTime;
-    }
-
-    public String getJobNumber() {
-        return jobNumber;
-    }
-
-    public void setJobNumber(String jobNumber) {
-        this.jobNumber = jobNumber;
     }
 
     public String getPurchaseList() {
@@ -130,14 +111,6 @@ public class ApprovalDetail {
         this.remark = remark;
     }
 
-    public long getStatus() {
-        return status;
-    }
-
-    public void setStatus(long status) {
-        this.status = status;
-    }
-
     public ArrayList<SubFormItem> getSubFormList() {
         return subFormList;
     }
@@ -154,11 +127,11 @@ public class ApprovalDetail {
         this.title = title;
     }
 
-    public long getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(long type) {
+    public void setType(int type) {
         this.type = type;
     }
 }

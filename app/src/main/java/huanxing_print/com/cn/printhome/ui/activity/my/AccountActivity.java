@@ -34,7 +34,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private RecyclerView rv_account;
     private AccountCZAdapter adapter;
     private String totleBalance;
-    private List<ChongZhiBean> czList;
     private String rechargeAmout;
 
     @Override
@@ -55,7 +54,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        totleBalance = getIntent().getStringExtra("totleBalance");
+//        totleBalance = getIntent().getStringExtra("totleBalance");
     }
 
     private void initView() {
@@ -80,13 +79,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         tv_account_record.setOnClickListener(this);
         ll_back.setOnClickListener(this);
         btn_chongzhi.setOnClickListener(this);
-
-        adapter.setOnItemClickLitener(new AccountCZAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(ImageView view, int position) {
-                rechargeAmout = czList.get(position).getRechargeAmout();
-            }
-        });
     }
 
     @Override
@@ -97,7 +89,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                     Toast.makeText(getSelfActivity(), "先选择充值金额", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent payIntent = new Intent(getSelfActivity(), PayActivity1.class);
+                Toast.makeText(baseApplication, rechargeAmout + "", Toast.LENGTH_SHORT).show();
+                Intent payIntent = new Intent(getSelfActivity(), PayActivity.class);
                 payIntent.putExtra("rechargeAmout", rechargeAmout);
                 startActivity(payIntent);
                 break;
@@ -113,11 +106,19 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     public class MyChongzhiCallBack extends ChongzhiCallBack {
 
         @Override
-        public void success(String msg, List<ChongZhiBean> list) {
-            czList = list;
-            adapter = new AccountCZAdapter(getSelfActivity(), null);
+        public void success(String msg, final List<ChongZhiBean> list) {
+            adapter = new AccountCZAdapter(getSelfActivity(), list);
             rv_account.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
             rv_account.setAdapter(adapter);
+            adapter.setOnItemClickLitener(new AccountCZAdapter.OnItemClickLitener() {
+                @Override
+                public void onItemClick(ImageView view, int position) {
+                    adapter.setSeclection(position);
+                    adapter.notifyDataSetChanged();
+                    ChongZhiBean chongZhiBean = list.get(position);
+                    rechargeAmout = chongZhiBean.getRechargeAmout();
+                }
+            });
         }
 
         @Override

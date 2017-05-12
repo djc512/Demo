@@ -21,7 +21,7 @@ public class HttpUrl {
     public static final String updateInfo = "member/updateMember"; // 修改用户信息
     public static final String feedBack = "feedback/add"; // 反馈信息
     public static final String chongzhi = "pay/recharge/queryConfig"; // 充值接口
-    public static final String myinfo = "member/getBalance"; //余额查询
+    public static final String myinfo = "member/getMemberInfo"; //个人资料查询
     public static final String czRecord = "pay/recharge/queryOrder"; // 充值记录接口
     public static final String normalDebit = "pay/bill/addCommBill"; // 普通发票接口
     public static final String valueDebit = "pay/bill/addVATBill"; // 增值发票接口
@@ -29,6 +29,7 @@ public class HttpUrl {
     public static final String mxDetail = "/pay/queryConsume"; // 账单明细接口
     public static final String payOrderId = "pay/recharge/addOrder"; // 获取充值订单号接口
     public static final String doPay = "pay/doAlipay"; // 跳转支付宝的接口
+    public static final String doWeChat = "pay/doWxpay"; // 跳转微信的接口
     public static final String dyList = "order/getPrintHistory"; //打印订单列表接口
     public static final String printerList = "print/printer/history"; // 最近使用的打印机列表
     public static final String setDefaultprinter = "print/printer/setDefault"; // 设置默认打印机
@@ -52,9 +53,10 @@ public class HttpUrl {
     public static final String modifyGroup = "group/updateInfo";//群解散
     public static final String addApproval = "approve/add";//新增审批
     public static final String queryApprovalList = "approve/list";//查询审批列表
+    public static final String queryApprovalDetail = "approve/detail";//查询审批详情
     public static final String queryLast = "approve/queryLast";//查询上次的审批人和抄送人
     public static final String approval = "approve/adult";//审批
-    public static final String prooft = "approve/prooft";//查看凭证
+    public static final String proof = "approve/proof";//查看凭证
     public static final String queryCount = "approve/queryCount";//查看未读消息
     public static final String submitComment = "appraise/add";//添加评论
     public static final String getCommentList = "appraise/list";//评论列表

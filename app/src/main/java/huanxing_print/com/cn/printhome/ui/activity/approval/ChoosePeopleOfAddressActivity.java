@@ -72,15 +72,15 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
     }
 
     private void initData() {
-        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
-        friends = friendInfos;
-        adapter.modify(friends);
+//        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
+//        friends = friendInfos;
+//        adapter.modify(friends);
 
         //请求联系人数据
-        String token = SharedPreferencesUtils.getShareString(getSelfActivity(), ConFig.SHAREDPREFERENCES_NAME,
+        String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(getSelfActivity(), "加载中");
-        FriendManagerRequest.queryFriendList(getSelfActivity(), token, myFriendListCallback);
+        DialogUtils.showProgressDialog(this, "加载中").show();
+        FriendManagerRequest.queryFriendList(this, token, myFriendListCallback);
     }
 
     private void setListener() {
@@ -128,23 +128,29 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
         @Override
         public void success(String msg, ArrayList<FriendInfo> friendInfos) {
             DialogUtils.closeProgressDialog();
-            if (null != friendInfos && friendInfos.size() > 0) {
-//                friends = friendInfos;
-//                adapter.modify(friendInfos);
-                ToastUtil.doToast(getSelfActivity(), " -- 假数据");
+            if (null != friendInfos) {
+                for (FriendInfo info : friendInfos) {
+                    if (null == info.getMemberName()) {
+                        info.setMemberName("Null");
+                    }
+                }
+                friends = friendInfos;
+                btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, friends.size()));
+
+                adapter.modify(friends);
             }
         }
 
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getSelfActivity(), msg + " -- 假数据");
+            ToastUtil.doToast(getSelfActivity(), msg);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getSelfActivity(), "网络连接超时");
+            toastConnectFail();
         }
     };
 }
