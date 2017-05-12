@@ -34,7 +34,6 @@ import huanxing_print.com.cn.printhome.listener.EmsCallBackListener;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.login.LoginBean;
 import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
-import huanxing_print.com.cn.printhome.model.login.WeiXinBean;
 import huanxing_print.com.cn.printhome.net.callback.login.LoginCallback;
 import huanxing_print.com.cn.printhome.net.callback.login.WeiXinCallback;
 import huanxing_print.com.cn.printhome.net.callback.register.GetVerCodeCallback;
@@ -57,7 +56,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private static final int REQUEST_SDCARD = 1;
 
     private TextView tv_login,getCodeTv;
-    private EditText login_phone,et_code;
+    private EditText et_phone,et_code;
     private ImageView iv_phone_detele,iv_code_detele;
     private TextView  tv_register;
     private String phone;
@@ -104,7 +103,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 //        if (!ObjectUtils.isNull(phone)) {
 //            login_phone.setText(phone);
 //        }
-        login_phone.addTextChangedListener(new TextWatcher() {
+        et_phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -147,7 +146,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     }
 
     private void initViews() {
-        login_phone = (EditText) findViewById(R.id.login_user);
+        et_phone = (EditText) findViewById(R.id.login_user);
         et_code= (EditText) findViewById(R.id.et_code);
         tv_register = (TextView) findViewById(R.id.tv_register);
         getCodeTv = (TextView) findViewById(R.id.code_btn);
@@ -166,7 +165,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_login:
-                name = login_phone.getText().toString().trim();
+                name = et_phone.getText().toString().trim();
                 validCode = et_code.getText().toString().trim();
                 if (isUserNameAndPwdVali(name,validCode)) {
 
@@ -181,6 +180,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.code_btn:// 获取验证码
                 getVerCode();
+                break;
+            case R.id.iv_phone_detele://
+                et_phone.setText("");
+                break;
+            case R.id.iv_code_detele://
+                et_code.setText("");
                 break;
             case R.id.ll_weixin:
                 if (CommonUtils.isWeixinAvilible(getSelfActivity())) {
@@ -200,7 +205,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         @Override
         public void success(final LoginBean loginBean) {
-            //toast(""+loginBean.getMemberInfo().getEasemobId());
+            toast(""+loginBean.getMemberInfo().getEasemobId());
             //判断环信是否登录成功
             EMClient.getInstance().login(loginBean.getMemberInfo().getEasemobId(),loginBean.getMemberInfo().getEasemobId() , new EmsCallBackListener() {
                 @Override
@@ -296,7 +301,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      * 获取验证码
      */
     private void getVerCode() {
-        phone = login_phone.getText().toString();
+        phone = et_phone.getText().toString();
         if (ObjectUtils.isNull(phone)) {
             toast("手机号不能为空");
             return;
@@ -305,7 +310,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             toast("手机号码格式有误");
             return;
         }
-        login_phone.setEnabled(false);
+        et_phone.setEnabled(false);
         if (!ObjectUtils.isNull(phone)) {
             getCodeTv.setClickable(false);
             DialogUtils.showProgressDialog(getSelfActivity(), "正在获取验证码").show();
@@ -321,7 +326,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             DialogUtils.closeProgressDialog();
             toast(msg);
             getCodeTv.setClickable(true);
-            login_phone.setEnabled(true);
+            et_phone.setEnabled(true);
         }
 
         @Override
@@ -329,7 +334,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             DialogUtils.closeProgressDialog();
             toastConnectFail();
             getCodeTv.setClickable(true);
-            login_phone.setEnabled(true);
+            et_phone.setEnabled(true);
         }
 
         @Override
@@ -441,32 +446,25 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private WeiXinCallback weiXinCallback = new WeiXinCallback() {
 
         @Override
-        public void success(WeiXinBean weiXinBean) {
+        public void success(LoginBean loginBean) {
 
             baseApplication.setHasLoginEvent(true);
             DialogUtils.closeProgressDialog();
-            if (!ObjectUtils.isNull(weiXinBean)) {
-                String wechatId = weiXinBean.getWechatId();
-                baseApplication.setWechatId(wechatId);
-                weiXinFlag = weiXinBean.isLoginFlag();
-                if (weiXinFlag) {
-                    String loginToken = weiXinBean.getLoginResult().getLoginToken();
-                    baseApplication.setLoginToken(loginToken);
-                    LoginBeanItem userInfo = weiXinBean.getLoginResult().getMemberInfo();
-                    if (!ObjectUtils.isNull(userInfo)) {
-                        baseApplication.setPhone(userInfo.getMobileNumber());
-                        baseApplication.setNickName(userInfo.getNickName());
-                        baseApplication.setHeadImg(userInfo.getFaceUrl());
-                        baseApplication.setEasemobId(userInfo.getEasemobId());
-                        baseApplication.setUniqueId(userInfo.getUniqueId());
-                        if (!ObjectUtils.isNull(userInfo.getWechatId())) {
-                            baseApplication.setWechatId(userInfo.getWechatId());
-                        }
-                        jumpActivity(MainActivity.class);
-                        finishCurrentActivity();
+            if (!ObjectUtils.isNull(loginBean)) {
+                String loginToken = loginBean.getLoginToken();
+                baseApplication.setLoginToken(loginToken);
+                LoginBeanItem userInfo = loginBean.getMemberInfo();
+                if (!ObjectUtils.isNull(userInfo)) {
+                    baseApplication.setPhone(userInfo.getMobileNumber());
+                    baseApplication.setNickName(userInfo.getNickName());
+                    baseApplication.setHeadImg(userInfo.getFaceUrl());
+                    baseApplication.setEasemobId(userInfo.getEasemobId());
+                    baseApplication.setUniqueId(userInfo.getUniqueId());
+                    if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+                        baseApplication.setWechatId(userInfo.getWechatId());
                     }
-                } else {
-                    jumpActivity(RegisterActivity.class);
+                    jumpActivity(MainActivity.class);
+                    finishCurrentActivity();
                 }
             }
         }
@@ -513,7 +511,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             public void end() {
                 getCodeTv.setText("重新获取");
                 getCodeTv.setClickable(true);
-                login_phone.setEnabled(true);
+                et_phone.setEnabled(true);
             }
         }, 0, 1000, 60);
         scheduledTimer.start();

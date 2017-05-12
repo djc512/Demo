@@ -1,11 +1,11 @@
 package huanxing_print.com.cn.printhome.net.resolve.login;
 
-import huanxing_print.com.cn.printhome.model.login.WeiXinBean;
+import huanxing_print.com.cn.printhome.model.login.LoginBean;
 import huanxing_print.com.cn.printhome.net.callback.login.WeiXinCallback;
 import huanxing_print.com.cn.printhome.net.resolve.BaseResolve;
 
 
-public class WeiXinResolve extends BaseResolve<WeiXinBean> {
+public class WeiXinResolve extends BaseResolve<LoginBean> {
 
 	public WeiXinResolve(String result) {
 		super(result);
