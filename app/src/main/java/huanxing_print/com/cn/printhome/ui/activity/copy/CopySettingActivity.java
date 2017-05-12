@@ -496,6 +496,17 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     public void alipay() {
                         Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
                         PayUtil.getInstance(getSelfActivity()).alipay(orderId);
+                        PayUtil.getInstance(getSelfActivity()).setCallBack(new PayUtil.PayCallBack() {
+                            @Override
+                            public void paySuccess() {
+
+                            }
+
+                            @Override
+                            public void payFaile() {
+
+                            }
+                        });
                     }
                 });
 

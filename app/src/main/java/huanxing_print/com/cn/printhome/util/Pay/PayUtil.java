@@ -53,6 +53,9 @@ public class PayUtil {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(mContext, "支付成功", Toast.LENGTH_SHORT).show();
 
+                        if (null != callBack) {
+                            callBack.paySuccess();
+                        }
                         //修改账户余额
 //                        EventBus.getDefault().post(rechargeAmout, "rechargeAmout");
 
@@ -60,6 +63,10 @@ public class PayUtil {
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT).show();
+
+                        if (null != callBack) {
+                            callBack.payFaile();
+                        }
                     }
                     break;
                 }
@@ -114,4 +121,15 @@ public class PayUtil {
         Thread payThread = new Thread(payRunnable);
         payThread.start();
     }
+
+    public interface PayCallBack{
+        void paySuccess();
+        void payFaile();
+    }
+
+    public void setCallBack(PayCallBack callBack) {
+        this.callBack = callBack;
+    }
+
+    private PayCallBack callBack;
 }
