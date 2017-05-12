@@ -21,7 +21,7 @@ public class HttpUrl {
     public static final String updateInfo = "member/updateMember"; // 修改用户信息
     public static final String feedBack = "feedback/add"; // 反馈信息
     public static final String chongzhi = "pay/recharge/queryConfig"; // 充值接口
-    public static final String myinfo = "member/getBalance"; //余额查询
+    public static final String myinfo = "member/getMemberInfo"; //个人资料查询
     public static final String czRecord = "pay/recharge/queryOrder"; // 充值记录接口
     public static final String normalDebit = "pay/bill/addCommBill"; // 普通发票接口
     public static final String valueDebit = "pay/bill/addVATBill"; // 增值发票接口

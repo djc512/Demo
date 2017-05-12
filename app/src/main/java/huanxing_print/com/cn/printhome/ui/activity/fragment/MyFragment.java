@@ -100,6 +100,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 headUrl = bean.getFaceUrl();
                 nickName = bean.getNickName();
                 phone = bean.getMobileNumber();
+                printCount = bean.getTotlePrintCount();
                 totleBalance = bean.getTotleBalance();
                 // monthConsume = bean.getMonthConsume();
                 wechatId = bean.getWechatId();
