@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true"
-    android:gravity="bottom"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:fitsSystemWindows="true"
+              android:gravity="bottom"
+              android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -15,11 +15,16 @@
         android:padding="10dp"
         android:text="第三方支付"
         android:textColor="@color/black2"
-        android:textSize="13sp" />
+        android:textSize="13sp"/>
 
-    <include layout="@layout/viewline" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/devide_gray"/>
+
 
     <TextView
+        android:id="@+id/amountTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -27,9 +32,13 @@
         android:padding="15dp"
         android:text="￥25.00"
         android:textColor="@color/black2"
-        android:textSize="20sp" />
+        android:textSize="20sp"/>
 
-    <include layout="@layout/viewline" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/devide_gray"/>
 
     <LinearLayout
         android:id="@+id/ll_wechat"
@@ -43,9 +52,9 @@
         android:paddingTop="10dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/wechat_2x" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/wechat_2x"/>
 
         <TextView
             android:layout_width="0dp"
@@ -54,22 +63,25 @@
             android:paddingLeft="13dp"
             android:text="微信支付"
             android:textColor="@color/black2"
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <ImageView
             android:id="@+id/iv_pay_wechat"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/arrow_go" />
+            android:src="@drawable/arrow_go"/>
     </LinearLayout>
 
-    <include layout="@layout/viewline" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/devide_gray"/>
 
     <LinearLayout
+        android:id="@+id/ll_alipay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ll_alipay"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingBottom="10dp"
@@ -78,28 +90,32 @@
         android:paddingTop="10dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/alipay_2x" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/alipay_2x"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="17dp"
             android:text="支付宝支付"
             android:textColor="@color/black2"
-            android:textSize="15sp" />
+            android:paddingLeft="13dp"
+            android:textSize="15sp"/>
 
         <ImageView
             android:id="@+id/iv_pay_alipay"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/arrow_go" />
+            android:src="@drawable/arrow_go"/>
     </LinearLayout>
 
-    <include layout="@layout/view" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/devide_gray"/>
 
     <TextView
         android:id="@+id/tv_cancle"
@@ -108,6 +124,6 @@
         android:background="@color/white"
         android:gravity="center"
         android:padding="15dp"
-        android:textSize="15sp"
-        android:text="取消" />
+        android:text="取消"
+        android:textSize="15sp"/>
 </LinearLayout>
