@@ -407,12 +407,14 @@ public abstract class BaseActivity extends Activity {
 //	}
 
 	protected void clearUserData() {
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "phone");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "loginToken");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "passWord");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "sex");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "headImg");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "nickName");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "comId");
+		baseApplication.setPhone("");
 		baseApplication.setPassWord("");
 		baseApplication.setSex("");
 		baseApplication.setNickName("");

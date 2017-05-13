@@ -286,7 +286,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                     Log.i("CMCC", "groupId:" + groupId);
                 }
                 ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-                ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
+                ArrayList<ApprovalOrCopy> copys = approval.getCopyerList();
                 if (!ObjectUtils.isNull(approvals)) {
                     for (ApprovalOrCopy approvalOrCopy : approvals) {
                         GroupMember info = new GroupMember();
@@ -394,6 +394,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 approver.setPriority(i + 1);
                 approvers.add(approver);
             }
+            object.setApproverList(approvers);
         }
 //        if (0 == copyFriends.size()) {
 //            ToastUtil.doToast(getSelfActivity(), "抄送人列表不能为空");
@@ -406,6 +407,9 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 approver.setPriority(i + 1);
                 copyApprovers.add(approver);
             }
+            object.setCopyerList(copyApprovers);
+        } else {
+            object.setCopyerList(null);
         }
 
         //判断请款金额开关是否打开
@@ -439,9 +443,8 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
 
         }
 
-        object.setApproverList(approvers);
+
         object.setAttachmentList(null);
-        object.setCopyerList(copyApprovers);
         object.setDepartment(edt_borrow_department.getText().toString());
         object.setFinishTime(edt_finish_time.getText().toString());
         object.setPurchaseList(edt_purchasing_list.getText().toString());
@@ -792,16 +795,16 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            GridViewApprovalAdapter.ViewHolder holder = null;
+            ViewHolder holder = null;
             if (convertView == null) {
-                holder = new GridViewApprovalAdapter.ViewHolder();
+                holder = new ViewHolder();
                 convertView = LayoutInflater.from(AddPurchaseApprovalActivity.this).inflate(
                         R.layout.item_grid_approval, null);
                 holder.round_head_image = (RoundImageView) convertView.findViewById(R.id.round_head_image);
                 holder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
                 convertView.setTag(holder);
             } else {
-                holder = (GridViewApprovalAdapter.ViewHolder) convertView.getTag();
+                holder = (ViewHolder) convertView.getTag();
             }
             //holder.round_head_image.setImageBitmap(approvals.get(position));
             if (position == approvalFriends.size()) {
@@ -860,16 +863,16 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            GridViewCopyAdapter.ViewHolder holder = null;
+            ViewHolder holder = null;
             if (convertView == null) {
-                holder = new GridViewCopyAdapter.ViewHolder();
+                holder = new ViewHolder();
                 convertView = LayoutInflater.from(AddPurchaseApprovalActivity.this).inflate(
                         R.layout.item_grid_approval, null);
                 holder.round_head_image = (RoundImageView) convertView.findViewById(R.id.round_head_image);
                 holder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
                 convertView.setTag(holder);
             } else {
-                holder = (GridViewCopyAdapter.ViewHolder) convertView.getTag();
+                holder = (ViewHolder) convertView.getTag();
             }
             if (position == copyFriends.size()) {
                 //这里是加号

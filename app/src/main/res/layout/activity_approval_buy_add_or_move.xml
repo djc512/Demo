@@ -300,6 +300,7 @@
                 android:id="@+id/ll_approval_process"
                 android:layout_width="match_parent"
                 android:layout_height="310dp"
+                android:divider="@null"
                 android:layout_marginTop="10dp"
                 android:paddingBottom="10dp"/>
 

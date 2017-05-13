@@ -89,10 +89,10 @@ public class SplashActivity extends BaseActivity {
 	private void autoLogin() {
 		String phone = baseApplication.getPhone();
 		String password = baseApplication.getPassWord();
-		if (ObjectUtils.isNull(phone)) {
-			jumpActivityNoAnim(LoginActivity.class);
-		} else {
+		if (!ObjectUtils.isNull(phone)) {
 			jumpActivity(MainActivity.class);
+		} else {
+			jumpActivityNoAnim(LoginActivity.class);
 //			 new Handler().postDelayed(new Runnable() {
 //			 @Override
 //			 public void run() {

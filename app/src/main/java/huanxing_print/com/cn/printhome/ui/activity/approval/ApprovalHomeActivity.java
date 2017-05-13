@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
@@ -20,6 +21,10 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
     private LinearLayout ll_send;
     private LinearLayout ll_purchase;
     private LinearLayout ll_reimburse;
+    private TextView tv_approver_num,tv_copyer_num,tv_initiator_num;
+    private int approverNum;//待我审批
+    private int copyerNum;//抄送我的
+    private int initiatorNum;//我发起的
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -33,6 +38,7 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_approval_home);
         initView();
         initListener();
+        initData();
     }
 
     private void initListener() {
@@ -50,16 +56,36 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
         ll_send = (LinearLayout) findViewById(R.id.ll_send);
         ll_purchase = (LinearLayout) findViewById(R.id.ll_purchase);
         ll_reimburse = (LinearLayout) findViewById(R.id.ll_reimburse);
+        tv_approver_num= (TextView) findViewById(R.id.tv_approver_num);
+        tv_copyer_num= (TextView) findViewById(R.id.tv_copyer_num);
+        tv_initiator_num= (TextView) findViewById(R.id.tv_initiator_num);
 
-        //结束
-        ll_back.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
+
+    private void initData() {
+        approverNum = getIntent().getIntExtra("approverNum",0);
+        copyerNum = getIntent().getIntExtra("copyerNum",0);
+        initiatorNum = getIntent().getIntExtra("initiatorNum",0);
+        if (approverNum>0){
+            tv_approver_num.setVisibility(View.VISIBLE);
+            tv_approver_num.setText(approverNum+"");
+        }else{
+            tv_approver_num.setVisibility(View.GONE);
+        }
+        if (copyerNum>0){
+            tv_copyer_num.setVisibility(View.VISIBLE);
+            tv_copyer_num.setText(copyerNum+"");
+        }else{
+            tv_copyer_num.setVisibility(View.GONE);
+        }
+        if (initiatorNum>0){
+            tv_initiator_num.setVisibility(View.VISIBLE);
+            tv_initiator_num.setText(initiatorNum+"");
+        }else{
+            tv_initiator_num.setVisibility(View.GONE);
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

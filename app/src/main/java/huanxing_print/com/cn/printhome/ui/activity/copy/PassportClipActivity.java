@@ -104,6 +104,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
                 String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                 Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                 printIntent.putExtra("imagepath", path);
+                printIntent.putExtra("copyfile",false);
                 startActivity(printIntent);
                 break;
         }
