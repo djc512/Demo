@@ -93,9 +93,6 @@ public class ApprovalRequest extends BaseRequst {
     public static void addApproval(Context context, String loginToken, int type,
                                    AddApprovalObject object, final AddApprovalCallBack addApprovalCallBack) {
         String url = HTTP_URL + HttpUrl.addApproval;
-        Log.i("CMCC", "新增审批数据 类型:" + object.getType() + ",报销条目长度:" + object.getSubFormList().size() + ",图片长度:" +
-                object.getAttachmentList().size() + ",审批人:" + object.getApproverList().size() + ",抄送人:" +
-                object.getCopyerList().size());
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("amountMonney", object.getAmountMonney());
         params.put("approverList", object.getApproverList());
@@ -111,6 +108,7 @@ public class ApprovalRequest extends BaseRequst {
         params.put("subFormList", object.getSubFormList());
         params.put("title", object.getTitle());
         params.put("type", type);
+        params.put("groupId", object.getGroupId());
 
         HttpUtils.post(context, url, loginToken, params, new HttpCallBack() {
             @Override
@@ -193,7 +191,7 @@ public class ApprovalRequest extends BaseRequst {
      * @param context
      * @param loginToken
      * @param approveId
-     * @param type 0采购 1 报销
+     * @param type       0采购 1 报销
      * @param callBack
      */
     public static void checkVoucher(Context context, String loginToken, String approveId,

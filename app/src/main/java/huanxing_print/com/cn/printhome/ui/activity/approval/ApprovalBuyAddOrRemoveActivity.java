@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +20,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalDetail;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalDetailCallBack;
 import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
+import huanxing_print.com.cn.printhome.ui.adapter.ApprovalCopyMembersAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 
@@ -65,12 +74,15 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     //凭证id
     RelativeLayout rl_sertificate;//凭证布局
     ListView ll_approval_process;
-    private GridView noScrollgridview;//采购展示图片的GridView
+    private ScrollGridView noScrollgridview;//采购展示图片的GridView
+    private ScrollGridView copyScrollgridview;//抄送成员展示
     boolean isRequestMoney =false;
 
     ApprovalPersonAdapter personAdapter;
     private PicAdapter adapter;
-    ArrayList lists = new ArrayList();
+    private ApprovalCopyMembersAdapter copyMembersAdapter;
+    ArrayList<ApprovalOrCopy> lists = new ArrayList<ApprovalOrCopy>();
+    ArrayList<ApprovalOrCopy> copyMembers = new ArrayList<ApprovalOrCopy>();
     String approveId;
 
     private ApprovalDetail details;
@@ -105,29 +117,32 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         @Override
         public void success(String msg, ApprovalDetail approvalDetail) {
             details = approvalDetail;
-            if (!ObjectUtils.isNull(approvalDetail.getType())){
-                switch (approvalDetail.getType()){
-                    //驳回，同意签字
-                    case 1:
-                        ll_commit.setVisibility(View.GONE);
-                        bt_reject_agree.setVisibility(View.VISIBLE);
-                        rl_sertificate.setVisibility(View.GONE);
-                        break;
-                    //生成凭证
-                    case 2:
-                        ll_commit.setVisibility(View.VISIBLE);
-                        bt_reject_agree.setVisibility(View.GONE);
-                        btn_certificate.setText("生成凭证");
-                        //rl_sertificate.setVisibility(View.VISIBLE);
-                        break;
-                    //撤回
-                    case 3:
-                        ll_commit.setVisibility(View.VISIBLE);
-                        bt_reject_agree.setVisibility(View.GONE);
-                        rl_sertificate.setVisibility(View.GONE);
-                        break;
-                    default:
-                        break;
+            if(null != details) {
+                showData();
+                if (!ObjectUtils.isNull(details.getType())) {
+                    switch (details.getType()) {
+                        //驳回，同意签字
+                        case 1:
+                            ll_commit.setVisibility(View.GONE);
+                            bt_reject_agree.setVisibility(View.VISIBLE);
+                            rl_sertificate.setVisibility(View.GONE);
+                            break;
+                        //生成凭证
+                        case 2:
+                            ll_commit.setVisibility(View.VISIBLE);
+                            bt_reject_agree.setVisibility(View.GONE);
+                            btn_certificate.setText("生成凭证");
+                            //rl_sertificate.setVisibility(View.VISIBLE);
+                            break;
+                        //撤回
+                        case 3:
+                            ll_commit.setVisibility(View.VISIBLE);
+                            bt_reject_agree.setVisibility(View.GONE);
+                            rl_sertificate.setVisibility(View.GONE);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
 
@@ -149,25 +164,110 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
         personAdapter = new ApprovalPersonAdapter(this,lists);
         ll_approval_process.setAdapter(personAdapter);;
-        //横向图片展示
-        /*//假数据
-        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add_people);
-        mResults.add(bimap);
-        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_go);
-
-        mResults.add(bimap);*/
-
+//        //横向图片展示
+//        /*//假数据
+//        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add_people);
+//        mResults.add(bimap);
+//        bimap = BitmapFactory.decodeResource(getResources(), R.drawable.arrow_go);
+//
+//        mResults.add(bimap);*/
+//
         //展示采购图片的gridview
         adapter = new PicAdapter();
         //adapter.update();
         noScrollgridview.setAdapter(adapter);
-
-        showData();
+//
+////        showData();
+        //展示抄送人员
+        copyMembersAdapter = new ApprovalCopyMembersAdapter(this, copyMembers);
+        copyScrollgridview.setAdapter(copyMembersAdapter);
     }
 
     private void showData() {
         //展示 数据
+
+        showApprovalMemberName();
+        showApprovalMemberIcon();
+        showApprovalState();
+        showApprovalDetail();
+        showApprovalPerson();
+        showApprovalCopyMembers();
     }
+
+    /**
+     * member名称
+     */
+    private void showApprovalMemberName() {
+        iv_name.setText(details.getMemberName().isEmpty() ? "Null" : details.getMemberName());
+    }
+
+    /**
+     * member头像
+     */
+    private void showApprovalMemberIcon() {
+        Glide.with(mContext).load(details.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                iv_user_head.setImageDrawable(resource);
+            }
+        });
+    }
+
+    /**
+     * 审批状态
+     */
+    private void showApprovalState() {
+        if("0".equals(details.getStatus())) {
+            iv_isapproval.setText("审批中");
+            iv_isapproval.setTextColor(getResources().getColor(R.color.text_yellow));
+        }else if("2".equals(details.getStatus())) {
+            iv_isapproval.setText("审批完成");
+            iv_isapproval.setTextColor(getResources().getColor(R.color.green));
+        }else if("3".equals(details.getStatus())) {
+            iv_isapproval.setText("已驳回");
+            iv_isapproval.setTextColor(getResources().getColor(R.color.green));
+        }else if("4".equals(details.getStatus())) {
+            iv_isapproval.setText("已撤销");
+            iv_isapproval.setTextColor(getResources().getColor(R.color.green));
+        }else if("5".equals(details.getStatus())) {
+            iv_isapproval.setText("打印凭证");
+            iv_isapproval.setTextColor(getResources().getColor(R.color.green));
+        }else if("6".equals(details.getStatus())) {
+            iv_isapproval.setText("已打印");
+            iv_isapproval.setTextColor(getResources().getColor(R.color.green));
+        }
+
+    }
+
+    /**
+     * 审批人列表审批状态
+     */
+    private void showApprovalPerson() {
+        ArrayList<ApprovalOrCopy> list =  details.getApproverList();
+        if(null != list && list.size() > 0) {
+            lists = list;
+            personAdapter.modifyApprovalPersons(list);
+        }
+    }
+
+    private void showApprovalCopyMembers() {
+        ArrayList<ApprovalOrCopy> list =  details.getCopyerList();
+        if(null != list && list.size() > 0) {
+            copyMembers = list;
+            copyMembersAdapter.modifyData(copyMembers);
+        }
+    }
+
+    private void showApprovalDetail() {
+        tv_number.setText(details.getApproveId().isEmpty() ? "" : details.getApproveId());
+        tv_section.setText(details.getDepartment().isEmpty() ? "" : details.getDepartment());
+        tv_use.setText(details.getRemark().isEmpty() ? "" : details.getRemark());
+        tv_detail.setText(details.getPurchaseList().isEmpty() ? "" : details.getPurchaseList());
+        tv_money.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
+        tv_overtime.setText(details.getAddTime().isEmpty() ? "" : details.getAddTime());
+        adapter.notifyDataSetChanged();
+    }
+
 
     private void initView() {
         iv_isapproval = (TextView) findViewById(R.id.iv_isapproval);
@@ -191,10 +291,10 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         bt_reject_agree = (LinearLayout) findViewById(R.id.bt_reject_agree);
         rl_sertificate = (RelativeLayout) findViewById(R.id.rl_sertificate);
 
-        noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
+        noScrollgridview = (ScrollGridView) findViewById(R.id.noScrollgridview);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
         iv_user_head = (ImageView) findViewById(R.id.iv_user_head);
-
+        copyScrollgridview = (ScrollGridView) findViewById(R.id.gridview_copy_member);
     }
 
 
@@ -257,6 +357,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     private class PicAdapter extends BaseAdapter{
         @Override
         public int getCount() {
+            if(null == details || (null == details.getAttachmentList())){
+                return 0;
+            }
             return details.getAttachmentList().size();
         }
 
@@ -282,11 +385,22 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             } else {
                 holder = (PicAdapter.ViewHolder) convertView.getTag();
             }
-            //请求网络拿图片
-            //请求的url前面加什么？、？？？第二个参数
-            ImageUtil.showImageView(ApprovalBuyAddOrRemoveActivity.this,details.getAttachmentList().get(position),holder.image);
+//            //请求网络拿图片
+//            //请求的url前面加什么？、？？？第二个参数
+//            ImageUtil.showImageView(ApprovalBuyAddOrRemoveActivity.this,details.getAttachmentList().get(position),holder.image);
 
+            String picPath = details.getAttachmentList().get(position);
+            loadPic(holder.image, picPath);
             return convertView;
+        }
+
+        private void loadPic(final ImageView iv_user_head, String picPath) {
+            Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    iv_user_head.setImageDrawable(resource);
+                }
+            });
         }
 
         class ViewHolder {

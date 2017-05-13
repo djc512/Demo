@@ -69,6 +69,8 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
+        groupMemberAdapter = new ChooseGroupMemberAdapter(getSelfActivity(), groupMembers);
+        recyclerView.setAdapter(groupMemberAdapter);
     }
 
     private void initData() {
@@ -121,9 +123,10 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
                 finishCurrentActivity();
                 break;
             case R.id.btn_create:
+                //返回
                 Intent intent = new Intent();
                 intent.putExtra("FriendInfo", chooseGroupMembers);
-                setResult(RESULT_OK, intent);
+                setResult(0x12, intent);
                 finish();
                 break;
         }
