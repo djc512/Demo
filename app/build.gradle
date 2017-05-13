@@ -2,24 +2,19 @@ apply plugin: 'com.android.application'
 
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'maps'
-            keyPassword '123456'
-            storeFile file('/Users/wanghao/Documents/YinXinMasterNew/app-lcs/app/maps.jks')
-            storePassword '123456'
-        }
-    }
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
+
     dexOptions {
         javaMaxHeapSize "4g"
     }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
         }
     }
+
     defaultConfig {
         applicationId "huanxing_print.com.cn.printhome"
         minSdkVersion 15
@@ -36,10 +31,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
-        }
-        debug {
-            signingConfig signingConfigs.config
         }
     }
 }
