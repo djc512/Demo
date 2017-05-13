@@ -64,12 +64,26 @@ public class ApprovalPersonAdapter extends BaseAdapter {
             holder.iv_isapproval = (ImageView) convertView.findViewById(R.id.iv_isapproval);
             holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
             holder.tv_detail = (TextView) convertView.findViewById(R.id.tv_detail);
-
+            holder.line_top = convertView.findViewById(R.id.vertical_line_top);
+            holder.line_bottom = convertView.findViewById(R.id.vertical_line);
             convertView.setTag(holder);
         }else {
            holder = (MyViewHolder) convertView.getTag();
         }
 
+        holder.line_top.setVisibility(View.VISIBLE);
+        holder.line_bottom.setVisibility(View.VISIBLE);
+        if(0 == position) {
+            holder.line_top.setVisibility(View.INVISIBLE);
+            if(position == (list.size()-1)) {
+                holder.line_bottom.setVisibility(View.INVISIBLE);
+            }else{
+                holder.line_bottom.setVisibility(View.VISIBLE);
+            }
+        }else if(position == (list.size()-1)) {
+            holder.line_top.setVisibility(View.VISIBLE);
+            holder.line_bottom.setVisibility(View.INVISIBLE);
+        }
 
         holder.iv_isapproval.setBackgroundResource(R.drawable.approval_finish);
         //Info info = list.get(position);
@@ -121,6 +135,8 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         });
     }
     public class MyViewHolder{
+        View line_bottom;
+        View line_top;
         TextView tv_name;
         TextView tv_time;
         ImageView iv_user_head;

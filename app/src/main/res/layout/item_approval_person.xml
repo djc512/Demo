@@ -2,69 +2,98 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/bg_recycler_click_selector"
-                >
+              android:background="@drawable/bg_recycler_click_selector">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_user_head"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:paddingLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_toLeftOf="@+id/iv_right"
-        android:src="@drawable/iv_head" />
-
-    <RelativeLayout
-        android:background="@drawable/back_process_2x"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="20dp"
-        android:gravity="center_vertical"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        >
-        <ImageView
-            android:id="@+id/iv_isapproval"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:background="@drawable/approval_finish"/>
-        <RelativeLayout
-            android:layout_toRightOf="@+id/iv_isapproval"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/vertical_line_top"
+                android:layout_width="1dp"
+                android:layout_height="10dp"
+                android:background="@color/gray5"
+                android:orientation="vertical"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_user_head"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/iv_head"/>
+
+            <LinearLayout
+                android:id="@+id/vertical_line"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray5"
+                android:orientation="vertical"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="80dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/back_process_2x"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:paddingLeft="10dp"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_gray"
-            android:text="12222222222"/>
-        <TextView
-            android:id="@+id/tv_detail"
-            android:layout_below="@+id/tv_name"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_gray"
-            android:text="发起申请"/>
-        <TextView
-            android:id="@+id/tv_time"
-            android:gravity="right"
-            android:layout_alignParentRight="true"
-            android:paddingRight="20dp"
-            android:textSize="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_gray"
-            android:text="2017-05-12 14:18:22"/>
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_isapproval"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/approval_finish"/>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:paddingLeft="5dp"
+                    android:text="12222222222"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="right"
+                    android:maxLines="1"
+                    android:layout_marginRight="20dp"
+                    android:text="2017-05-12 14:18:22"
+                    android:textColor="@color/text_gray"
+                    android:textSize="8dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_name_1"
+                android:layout_marginLeft="40dp"
+                android:text="发起申请"
+                android:textColor="@color/text_gray"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
