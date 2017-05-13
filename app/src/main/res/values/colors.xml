@@ -47,4 +47,12 @@
     <color name="btn_normal">#00ACFF</color>
     <color name="btn_pressed">#00A1DB</color>
     <color name="navpage">#FFE1E8EB</color>
+
+    <!--审批单状态颜色-->
+    <color name="color_status_zero">#FACD85</color>
+    <color name="color_status_two">#43bc42</color>
+    <color name="color_status_three">#E93B3B</color>
+    <color name="color_status_four">#dfdfdf</color>
+    <color name="color_status_five">#dfdfdf</color>
+    <color name="color_status_six">#dfdfdf</color>
 </resources>

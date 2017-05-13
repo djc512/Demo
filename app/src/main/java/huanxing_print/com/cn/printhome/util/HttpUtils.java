@@ -195,6 +195,7 @@ public class HttpUtils {
             public void onResponse(String result, int arg1) {
                 TimeUtils.endTime();
                 Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                Log.d("CMCC", "http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
                 callback.success(result);
             }
 
@@ -202,6 +203,7 @@ public class HttpUtils {
             public void onError(Call call, Exception exception, int arg2) {
                 TimeUtils.endTime();
                 Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                Log.e("CMCC", "http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
                 String message = exception.getMessage();
                 if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
 

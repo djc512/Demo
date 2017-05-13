@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class AddApprovalObject {
     private String amountMonney;//总金额
     private ArrayList<Approver> approverList;//审批人列表
-    private ArrayList<String> attachmentList;//附件列表
+    private ArrayList<ImageUrl> attachmentList;//附件列表
     private String bankAccount;//收款方账号
     private String bankName;//收款方开户行
     private String bankPerson;//收款方全称
@@ -40,11 +40,11 @@ public class AddApprovalObject {
         this.approverList = approverList;
     }
 
-    public ArrayList<String> getAttachmentList() {
+    public ArrayList<ImageUrl> getAttachmentList() {
         return attachmentList;
     }
 
-    public void setAttachmentList(ArrayList<String> attachmentList) {
+    public void setAttachmentList(ArrayList<ImageUrl> attachmentList) {
         this.attachmentList = attachmentList;
     }
 

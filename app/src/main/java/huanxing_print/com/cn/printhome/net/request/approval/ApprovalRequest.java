@@ -25,6 +25,7 @@ import huanxing_print.com.cn.printhome.net.resolve.approval.QueryApprovalDetailR
 import huanxing_print.com.cn.printhome.net.resolve.approval.QueryApprovalListResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.QueryMessageResolve;
 import huanxing_print.com.cn.printhome.util.HttpUtils;
+import huanxing_print.com.cn.printhome.util.time.TimeUtils;
 
 /**
  * Created by dd on 2017/5/8.
@@ -43,10 +44,11 @@ public class ApprovalRequest extends BaseRequst {
                                             String loginToken,
                                             final QueryApprovalListCallBack callBack) {
         Log.i("CMCC", "loginToken:" + loginToken);
-        String url = HTTP_URL + HttpUrl.queryApprovalList;
+        final String url = HTTP_URL + HttpUrl.queryApprovalList;
         HttpUtils.getApprovalParam(context, url, loginToken, pageNum, pageSize, type, new HttpCallBack() {
             @Override
             public void success(String content) {
+                Log.d("CMCC", "http-result:" + url + "----" + content + "----" + TimeUtils.subTime() + " ms");
                 QueryApprovalListResolve resolve = new QueryApprovalListResolve(content);
                 resolve.resolve(callBack);
             }
@@ -68,11 +70,12 @@ public class ApprovalRequest extends BaseRequst {
      */
     public static void getQueryApprovalDetail(Context context, String loginToken,
                                               String approveId, final QueryApprovalDetailCallBack callBack) {
-        String url = HTTP_URL + HttpUrl.queryApprovalDetail;
+        final String url = HTTP_URL + HttpUrl.queryApprovalDetail;
 
         HttpUtils.getApprovalDetailParam(context, url, loginToken, approveId, new HttpCallBack() {
             @Override
             public void success(String content) {
+                Log.d("CMCC", "http-result:" + url + "----" + content + "----" + TimeUtils.subTime() + " ms");
                 QueryApprovalDetailResolve resolve = new QueryApprovalDetailResolve(content);
                 resolve.resolve(callBack);
             }
@@ -120,6 +123,8 @@ public class ApprovalRequest extends BaseRequst {
 
             @Override
             public void fail(String exception) {
+
+                Log.d("CMCC", exception);
                 addApprovalCallBack.connectFail();
             }
         });

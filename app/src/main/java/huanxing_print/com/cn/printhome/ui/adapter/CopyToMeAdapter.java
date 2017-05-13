@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -53,16 +54,58 @@ public class CopyToMeAdapter extends BaseAdapter {
             holder.txt_status = (TextView) convertView.findViewById(R.id.txt_status);
             holder.txt_use_type = (TextView) convertView.findViewById(R.id.txt_use_type);
             holder.txt_buy_form = (TextView) convertView.findViewById(R.id.txt_buy_form);
+            holder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
+            holder.lin_middle = (LinearLayout) convertView.findViewById(R.id.lin_middle);
+            holder.lin_bottom = (LinearLayout) convertView.findViewById(R.id.lin_bottom);
             convertView.setTag(holder);
         } else {
             holder = (DefaultViewHolder) convertView.getTag();
         }
-        holder.txt_name_type.setText(objects.get(position).getJobNumber());
+        int type = objects.get(position).getType();
+        if (0 == type) {
+            //采购
+            holder.lin_middle.setVisibility(View.VISIBLE);
+            holder.lin_bottom.setVisibility(View.VISIBLE);
+            holder.txt_name_type.setText(objects.get(position).getApproveTitle());
+            holder.txt_name.setText("用途说明:");
+            holder.txt_use_type.setText(objects.get(position).getTitle());
+        } else if (1 == type) {
+            //报销
+            holder.lin_middle.setVisibility(View.VISIBLE);
+            holder.lin_bottom.setVisibility(View.INVISIBLE);
+            holder.txt_name_type.setText(objects.get(position).getApproveTitle());
+            holder.txt_name.setText("报销金额总计:");
+            holder.txt_use_type.setText(objects.get(position).getAmountMonney());
+        }
         holder.txt_time.setText(objects.get(position).getAddTime());
+        holder.txt_buy_form.setText(objects.get(position).getPurchaseList());
         //根据状态码来显示不同的状态
-        //holder.txt_status.setText(objects.get(position).getStatus()+"");
-        holder.txt_use_type.setText(objects.get(position).getTitle());
-        holder.txt_name_type.setText(objects.get(position).getPurchaseList());
+        int status = objects.get(position).getStatus();
+        if (0 == status) {
+            //审批中
+            holder.txt_status.setText(R.string.status_zero);
+            holder.txt_status.setTextColor(context.getResources().getColor(R.color.color_status_zero));
+        } else if (2 == status) {
+            //审批完成
+            holder.txt_status.setText(R.string.status_two);
+            holder.txt_status.setTextColor(context.getResources().getColor(R.color.color_status_two));
+        } else if (3 == status) {
+            //已驳回
+            holder.txt_status.setText(R.string.status_three);
+            holder.txt_status.setTextColor(context.getResources().getColor(R.color.color_status_three));
+        } else if (4 == status) {
+            //已撤销
+            holder.txt_status.setText(R.string.status_four);
+            holder.txt_status.setTextColor(context.getResources().getColor(R.color.color_status_four));
+        } else if (5 == status) {
+            //打印凭证
+            holder.txt_status.setText(R.string.status_five);
+            holder.txt_status.setTextColor(context.getResources().getColor(R.color.color_status_five));
+        } else if (6 == status) {
+            //已打印
+            holder.txt_status.setText(R.string.status_six);
+            holder.txt_status.setTextColor(context.getResources().getColor(R.color.color_status_six));
+        }
         return convertView;
     }
 
@@ -72,5 +115,8 @@ public class CopyToMeAdapter extends BaseAdapter {
         TextView txt_status;
         TextView txt_use_type;
         TextView txt_buy_form;
+        TextView txt_name;
+        LinearLayout lin_middle;
+        LinearLayout lin_bottom;
     }
 }

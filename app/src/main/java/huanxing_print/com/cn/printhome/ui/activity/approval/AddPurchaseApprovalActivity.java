@@ -27,6 +27,10 @@ import android.widget.ToggleButton;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -45,6 +49,9 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
 import huanxing_print.com.cn.printhome.model.approval.Approver;
+import huanxing_print.com.cn.printhome.model.approval.ChooseGroupEvent;
+import huanxing_print.com.cn.printhome.model.approval.ChooseMemberEvent;
+import huanxing_print.com.cn.printhome.model.approval.ImageUrl;
 import huanxing_print.com.cn.printhome.model.approval.LastApproval;
 import huanxing_print.com.cn.printhome.model.comment.PicDataBean;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
@@ -124,6 +131,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         setContentView(R.layout.activity_add_purchase);
         ctx = this;
 
+        EventBus.getDefault().register(this);
         initData();
         //getData();
         functionModule();
@@ -181,18 +189,45 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == approvalFriends.size()) {
-                    //跳转到选择联系人界面
-                    Intent intent = new Intent();
-                    if (ObjectUtils.isNull(groupId)) {
-                        //跳到群选择界面
-                        intent.setClass(getSelfActivity(), ChooseGroupActivity.class);
+                    //这里审批任何抄送人都为空才去群选择界面
+                    if (0 == approvalFriends.size() &&
+                            0 == copyFriends.size()) {
+                        //跳转到选择联系人界面
+                        Intent intent = new Intent(getSelfActivity(), ChooseGroupActivity.class);
+                        intent.putExtra("type", "approvalFriends");//区别审批人和抄送人
+                        startActivity(intent);
                     } else {
+                        Intent intent = new Intent();
                         //将群id传过去
                         intent.setClass(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
                         intent.putExtra("groupId", groupId);
+                        intent.putExtra("type", "approvalFriends");//区别审批人和抄送人
+                        startActivity(intent);
                     }
+//                    //这里还要判断一下,抄送人为空那就重新选择群组
+//                    if (approvalFriends.size() > 0) {
+//                        //跳转到选择联系人界面或者选择联系人界面
+//                        Intent intent = new Intent();
+//                        if (ObjectUtils.isNull(groupId)) {
+//                            //跳到群选择界面
+//                            intent.setClass(getSelfActivity(), ChooseGroupActivity.class);
+//                        } else {
+//                            //将群id传过去
+//                            intent.setClass(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
+//                            intent.putExtra("groupId", groupId);
+//                        }
+//                        //将群id传过去
+//                        intent.setClass(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
+//                        intent.putExtra("groupId", groupId);
+//                        intent.putExtra("type", "approvalFriends");//区别审批人和抄送人
+//                        startActivity(intent);
+//                    } else {
+//                        //跳转到选择联系人界面
+//                        Intent intent = new Intent(getSelfActivity(), ChooseGroupActivity.class);
+//                        intent.putExtra("type", "approvalFriends");//区别审批人和抄送人
+//                        startActivity(intent);
+//                    }
 
-                    startActivityForResult(intent, CODE_APPROVAL_REQUEST);
                 } else {
                     approvalFriends.remove(position);
                     approvalAdapter.notifyDataSetChanged();
@@ -206,17 +241,43 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == (copyFriends.size())) {
-                    //跳转到选择联系人界面
-                    Intent intent = new Intent();
-                    if (ObjectUtils.isNull(groupId)) {
-                        //跳到群选择界面
-                        intent.setClass(getSelfActivity(), ChooseGroupActivity.class);
+                    if (0 == approvalFriends.size() &&
+                            0 == copyFriends.size()) {
+                        //跳转到选择群界面然后去选择人员
+                        Intent intent = new Intent(getSelfActivity(), ChooseGroupActivity.class);
+                        intent.putExtra("type", "copyFriends");//区别审批人和抄送人
+                        startActivity(intent);
                     } else {
+                        Intent intent = new Intent();
                         //将群id传过去
                         intent.setClass(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
                         intent.putExtra("groupId", groupId);
+                        intent.putExtra("type", "copyFriends");//区别审批人和抄送人
+                        startActivity(intent);
                     }
-                    startActivityForResult(intent, CODE_COPY_REQUEST);
+//                    if (copyFriends.size() > 0) {
+//                        //跳转到选择联系人界面
+//                        Intent intent = new Intent();
+//                        if (ObjectUtils.isNull(groupId)) {
+//                            //跳到群选择界面
+//                            intent.setClass(getSelfActivity(), ChooseGroupActivity.class);
+//                        } else {
+//                            //将群id传过去
+//                            intent.setClass(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
+//                            intent.putExtra("groupId", groupId);
+//                        }
+//                        //将群id传过去
+//                        intent.setClass(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
+//                        intent.putExtra("groupId", groupId);
+//                        intent.putExtra("type", "copyFriends");//区别审批人和抄送人
+//                        startActivity(intent);
+//                    } else {
+//                        //跳转到选择群界面然后去选择人员
+//                        Intent intent = new Intent(getSelfActivity(), ChooseGroupActivity.class);
+//                        intent.putExtra("type", "copyFriends");//区别审批人和抄送人
+//                        startActivity(intent);
+//                    }
+
                 } else {
                     copyFriends.remove(position);
                     copyAdapter.notifyDataSetChanged();
@@ -552,8 +613,15 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                     }
                 }
 
+                ArrayList<ImageUrl> urls = new ArrayList<ImageUrl>();
+                for (String img : imageUrls) {
+                    ImageUrl url = new ImageUrl();
+                    url.setFileUrl(img);
+                    urls.add(url);
+                }
+
                 Log.i("CMCC", "新建采购审批11111111111111111");
-                object.setAttachmentList(imageUrls);
+                object.setAttachmentList(urls);
                 DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...");
                 ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
                         1, object, addCallBack);
@@ -592,6 +660,102 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         return format.format(date);
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onChooseEvent(ChooseMemberEvent event) {
+        if (0x11 == event.getMsgCode()) {
+            //审批人选择
+            ArrayList<GroupMember> infos = event.getGroupMembers();
+            //判断一下抄送人中是否包含审批人
+            if (0 != copyFriends.size()) {
+                //审批人不为空,判断审批人和传过来的抄送人是否重复
+                for (int i = 0; i < infos.size(); i++) {
+                    int num = 0;//重复次数
+                    for (GroupMember friendInfo : copyFriends) {
+                        if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                            //重复次数计算
+                            num++;
+                        }
+                    }
+                    if (num > 0) {
+                        ToastUtil.doToast(getSelfActivity(), "审批人和抄送人不能相同!");
+                        return;
+                    }
+                }
+            }
+            //剔除重复的审批人数据
+            if (0 == approvalFriends.size()) {
+                approvalFriends.addAll(infos);
+            } else {
+                for (int i = 0; i < infos.size(); i++) {
+                    int num = 0;
+                    for (GroupMember friendInfo : approvalFriends) {
+                        if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                            //重复次数计算
+                            num++;
+                        }
+                    }
+                    //判断
+                    if (0 == num) {
+                        //不重复
+                        approvalFriends.add(infos.get(i));
+                    }
+                }
+            }
+            //刷新数据
+            approvalAdapter.notifyDataSetChanged();
+        } else if (0x12 == event.getMsgCode()) {
+            //抄送
+            Log.i("CMCC", "抄送人返回");
+            //抄送人选择
+            ArrayList<GroupMember> infos = event.getGroupMembers();
+            //判断一下审批人中是否包含抄送人
+            if (0 != approvalFriends.size()) {
+                //审批人不为空,判断审批人和传过来的抄送人是否重复
+                for (int i = 0; i < infos.size(); i++) {
+                    int num = 0;//重复次数
+                    for (GroupMember friendInfo : approvalFriends) {
+                        if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                            //重复次数计算
+                            num++;
+                        }
+                    }
+                    if (num > 0) {
+                        ToastUtil.doToast(getSelfActivity(), "审批人和抄送人不能相同!");
+                        return;
+                    }
+                }
+            }
+
+            //剔除重复的抄送人数据
+            if (0 == copyFriends.size()) {
+                //抄送人为空直接添加
+                copyFriends.addAll(infos);
+            } else {
+                for (int i = 0; i < infos.size(); i++) {
+                    int num = 0;//重复次数
+                    for (GroupMember friendInfo : copyFriends) {
+                        if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
+                            //重复次数计算
+                            num++;
+                        }
+                    }
+                    //判断
+                    if (0 == num) {
+                        //不重复
+                        copyFriends.add(infos.get(i));
+                    }
+                }
+            }
+            //刷新数据
+            copyAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGroupEvent(ChooseGroupEvent event) {
+        groupId = event.getGroupId();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -993,5 +1157,11 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 }
             }).start();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
