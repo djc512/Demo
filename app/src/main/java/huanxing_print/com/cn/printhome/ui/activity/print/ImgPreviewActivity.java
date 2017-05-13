@@ -24,6 +24,7 @@ import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ImageUtil;
+import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 public class ImgPreviewActivity extends BasePrintActivity implements View.OnClickListener {
@@ -138,7 +139,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void addFile(String fileUrl) {
-        PrintRequest.addFile(activity, file.getName(), fileUrl, new HttpListener() {
+        PrintRequest.addFile(activity, file.getName(), fileUrl, PrintUtil.TYPE_PRINT, new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 dismissLoading();

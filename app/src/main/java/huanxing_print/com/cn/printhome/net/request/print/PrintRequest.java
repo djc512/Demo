@@ -107,12 +107,13 @@ public class PrintRequest extends BaseRequst {
      * @param fileUrl
      * @param callback
      */
-    public static final void addFile(Activity activity, String fileName, String fileUrl, final
+    public static final void addFile(Activity activity, String fileName, String fileUrl, String fileType, final
     HttpListener callback, boolean showDialog) {
         String url = BASE_URL + FILE_ADD;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(FILE_NAME, fileName);
         params.put(FILE_URL, fileUrl);
+        params.put(FILE_TYPE, fileType);
         Http.postString(activity, url, params, getHeaderTokenMap(), callback, showDialog);
     }
 

@@ -30,6 +30,7 @@ import huanxing_print.com.cn.printhome.util.AlertUtil;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
@@ -147,7 +148,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
     }
 
     private void addFile(String fileUrl) {
-        PrintRequest.addFile(activity, file.getName(), fileUrl, new HttpListener() {
+        PrintRequest.addFile(activity, file.getName(), fileUrl, PrintUtil.TYPE_COPY, new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 dismissLoading();

@@ -27,12 +27,14 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.CommonResp;
+import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
 import huanxing_print.com.cn.printhome.model.print.AddOrderRespBean;
 import huanxing_print.com.cn.printhome.model.print.FileBean;
 import huanxing_print.com.cn.printhome.model.print.GroupResp;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
@@ -132,12 +134,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         CommonUtils.initSystemBar(this);
         StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PAY);
         initData();
-        groupList.add(new GroupResp.Group("", "", "name1", ""));
-        groupList.add(new GroupResp.Group("", "", "name2", ""));
-        groupList.add(new GroupResp.Group("", "", "name3", ""));
-        groupList.add(new GroupResp.Group("", "", "name4", ""));
-        groupList.add(new GroupResp.Group("", "", "name5", ""));
-
         log();
     }
 
@@ -250,7 +246,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         PrintRequest.groupPay(this, group.getGroupId(), orderId, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                Logger.i("balancePay onSucceed");
+                Logger.i("groupPay onSucceed");
                 CommonResp resp = new Gson().fromJson(content, CommonResp.class);
                 if (resp.isSuccess() && isLoading()) {
                     Logger.i("modifySetting onSucceed");
@@ -335,10 +331,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         });
-    }
-
-    private void payGroup() {
-
     }
 
     private void queryGroup() {
@@ -610,12 +602,11 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_finish://完成
                 break;
             case R.id.btn_preview://完成
-                showPayType();
-//                if (printerPrice != null) {
-//                    complete();
-//                } else {
-//                    ShowUtil.showToast(getString(R.string.price_error));
-//                }
+                if (printerPrice != null) {
+                    complete();
+                } else {
+                    ShowUtil.showToast(getString(R.string.price_error));
+                }
                 break;
         }
         updateSetting();
@@ -662,16 +653,32 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     private void showPayType() {
         dismissLoading();
-        DialogUtils.showPayChooseDialog(ctx, PriceUtil.getPrice(printSetting, printerPrice) + "", new DialogUtils
+        DialogUtils.showPayChooseDialog(ctx, PriceUtil.getPrice(newSetting, printerPrice) + "", new DialogUtils
                 .PayChooseDialogCallBack() {
             @Override
             public void wechat() {
-                Toast.makeText(ctx, "微信支付", Toast.LENGTH_SHORT).show();
+                Logger.i("微信支付");
+                Go2PayRequest.go2PWeChat(getSelfActivity(), orderId + "", "PT", new WeChatCallBack() {
+                    @Override
+                    public void success(WeChatPayBean bean) {
+                        wechatPay(bean);
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+
+                    }
+
+                    @Override
+                    public void connectFail() {
+
+                    }
+                });
             }
 
             @Override
             public void alipay() {
-                Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
+                Logger.i("支付宝支付");
                 Go2PayRequest.go2Pay(getSelfActivity(), orderId + "", "PT", new Go2PayCallBack() {
 
                     @Override
@@ -692,6 +699,21 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 });
             }
         });
+    }
+
+    private void wechatPay(WeChatPayBean bean) {
+        PayUtil.getInstance(getSelfActivity()).setCallBack(new PayUtil.PayCallBack() {
+            @Override
+            public void paySuccess() {
+                showLoading();
+                print();
+            }
+
+            @Override
+            public void payFailed() {
+            }
+        });
+        PayUtil.getInstance(getSelfActivity()).weChatPay(bean);
     }
 
     private void aliPay(String payInfo) {
