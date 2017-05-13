@@ -549,6 +549,11 @@
             android:name=".ui.activity.approval.ChoosePeopleOfAddressActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <!--审批选择群组-->
+        <activity
+            android:name=".ui.activity.approval.ChooseGroupActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.chat.SendRedEnvelopesSingleChatActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

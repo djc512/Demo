@@ -37,16 +37,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
 import huanxing_print.com.cn.printhome.model.approval.Approver;
 import huanxing_print.com.cn.printhome.model.approval.LastApproval;
 import huanxing_print.com.cn.printhome.model.comment.PicDataBean;
-import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
+import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
+import huanxing_print.com.cn.printhome.model.contact.GroupMember;
 import huanxing_print.com.cn.printhome.model.image.ImageUploadItem;
 import huanxing_print.com.cn.printhome.model.picupload.ImageItem;
 import huanxing_print.com.cn.printhome.net.callback.approval.AddApprovalCallBack;
@@ -96,17 +98,17 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     public static Bitmap bimap;
     private Context ctx;
     private static final int PICK_PHOTO = 1;
-    private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();//生成的假数据
-    private ArrayList<FriendInfo> approvalFriends = new ArrayList<FriendInfo>();//审批人
-    private ArrayList<FriendInfo> copyFriends = new ArrayList<FriendInfo>();//抄送人
+    private ArrayList<GroupMember> approvalFriends = new ArrayList<GroupMember>();//审批人
+    private ArrayList<GroupMember> copyFriends = new ArrayList<GroupMember>();//抄送人
     private int CODE_APPROVAL_REQUEST = 0X11;//审批人请求码
     private int CODE_COPY_REQUEST = 0X12;//抄送人人请求码
     private List<ImageUploadItem> imageitems = new ArrayList<>();
-    private List<String> imageUrls = new ArrayList<>();
+    private ArrayList<String> imageUrls = new ArrayList<>();
     private ArrayList<Approver> approvers = new ArrayList<>();//上传的审批人集合
     private ArrayList<Approver> copyApprovers = new ArrayList<>();//上传的抄送人集合
     private AddApprovalObject object = new AddApprovalObject();//提交的审批对象
     private String groupId;//群组id
+    private ExecutorService service = Executors.newSingleThreadExecutor();
 
 
     @Override
@@ -180,8 +182,16 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == approvalFriends.size()) {
                     //跳转到选择联系人界面
-                    Intent intent = new Intent(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
-                    intent.putExtra("groupId",groupId);
+                    Intent intent = new Intent();
+                    if (ObjectUtils.isNull(groupId)) {
+                        //跳到群选择界面
+                        intent.setClass(getSelfActivity(), ChooseGroupActivity.class);
+                    } else {
+                        //将群id传过去
+                        intent.setClass(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
+                        intent.putExtra("groupId", groupId);
+                    }
+
                     startActivityForResult(intent, CODE_APPROVAL_REQUEST);
                 } else {
                     approvalFriends.remove(position);
@@ -197,8 +207,15 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == (copyFriends.size())) {
                     //跳转到选择联系人界面
-                    Intent intent = new Intent(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
-                    intent.putExtra("groupId",groupId);
+                    Intent intent = new Intent();
+                    if (ObjectUtils.isNull(groupId)) {
+                        //跳到群选择界面
+                        intent.setClass(getSelfActivity(), ChooseGroupActivity.class);
+                    } else {
+                        //将群id传过去
+                        intent.setClass(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
+                        intent.putExtra("groupId", groupId);
+                    }
                     startActivityForResult(intent, CODE_COPY_REQUEST);
                 } else {
                     copyFriends.remove(position);
@@ -264,12 +281,15 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             //ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
             //转为FriendInfo对象
             if (!ObjectUtils.isNull(approval)) {
-                groupId=approval.getGroupId();
+                groupId = approval.getGroupId();
+                if (!ObjectUtils.isNull(groupId)) {
+                    Log.i("CMCC", "groupId:" + groupId);
+                }
                 ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
                 ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
                 if (!ObjectUtils.isNull(approvals)) {
                     for (ApprovalOrCopy approvalOrCopy : approvals) {
-                        FriendInfo info = new FriendInfo();
+                        GroupMember info = new GroupMember();
                         info.setMemberId(approvalOrCopy.getJobNumber());
                         info.setMemberName(approvalOrCopy.getName());
                         info.setMemberUrl(approvalOrCopy.getFaceUrl());
@@ -278,7 +298,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 }
                 if (!ObjectUtils.isNull(copys)) {
                     for (ApprovalOrCopy orCopy : copys) {
-                        FriendInfo info = new FriendInfo();
+                        GroupMember info = new GroupMember();
                         info.setMemberId(orCopy.getJobNumber());
                         info.setMemberName(orCopy.getName());
                         info.setMemberUrl(orCopy.getFaceUrl());
@@ -375,10 +395,10 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 approvers.add(approver);
             }
         }
-        if (0 == copyFriends.size()) {
-            ToastUtil.doToast(getSelfActivity(), "抄送人列表不能为空");
-            return;
-        }
+//        if (0 == copyFriends.size()) {
+//            ToastUtil.doToast(getSelfActivity(), "抄送人列表不能为空");
+//            return;
+//        }
         if (copyFriends.size() > 0) {
             for (int i = 0; i < copyFriends.size(); i++) {
                 Approver approver = new Approver();
@@ -420,22 +440,30 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         }
 
         object.setApproverList(approvers);
-        //object.setAttachmentList(null);
+        object.setAttachmentList(null);
         object.setCopyerList(copyApprovers);
         object.setDepartment(edt_borrow_department.getText().toString());
         object.setFinishTime(edt_finish_time.getText().toString());
         object.setPurchaseList(edt_purchasing_list.getText().toString());
         object.setRemark(editText2.getText().toString());
-        //object.setSubFormList(null);
+        object.setSubFormList(null);
         object.setTitle(edt_buy_reason.getText().toString());
         object.setType(1);
+        object.setGroupId(groupId);
 
         //提交图片获得图片url
-        if (mResults.size() > 0) {
-            DialogUtils.showProgressDialog(getSelfActivity(), "正在提交中").show();
+        if (mResults.size() > 1) {
+            Log.i("CMCC", "图片不为空," + mResults.size());
+            DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...");
             ArrayList<ImageItem> items = Bimp.tempSelectBitmap;
             getUrl(items);
             uploadPic();
+        } else {
+            Log.i("CMCC", "新建采购审批22222222222");
+            object.setAttachmentList(null);
+            DialogUtils.showProgressDialog(getSelfActivity(), "正在提交中").show();
+            ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
+                    1, object, addCallBack);
         }
 
 
@@ -445,20 +473,21 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         @Override
         public void success(String msg, String data) {
             DialogUtils.closeProgressDialog();
-            Logger.i("新建采购审批id:" + data);
-            //ToastUtil.doToast(getSelfActivity(), );
+            Log.i("CMCC", "新建采购审批id:" + data);
+            finishCurrentActivity();
+            ToastUtil.doToast(getSelfActivity(), "新建采购审批成功!");
         }
 
         @Override
         public void fail(String msg) {
-            Logger.i("新建采购审批失败," + msg);
+            Log.i("CMCC", "新建采购审批失败," + msg);
             //ToastUtil.doToast(getSelfActivity(), "新建采购审批失败," + msg);
             DialogUtils.closeProgressDialog();
         }
 
         @Override
         public void connectFail() {
-            Logger.i("新建采购审批connectFail");
+            Log.i("CMCC", "新建采购审批connectFail");
             //ToastUtil.doToast(getSelfActivity(), "新建采购审批connectFail");
             DialogUtils.closeProgressDialog();
         }
@@ -509,7 +538,6 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     private void uploadPic() {
         Map<String, Object> map = new HashMap<>();
         map.put("files", imageitems);
-        //DialogUtils.showProgressDialog(getSelfActivity(), "正在上传图片中...");
         UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
             @Override
             public void success(List<PicDataBean> bean) {
@@ -521,21 +549,31 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                     }
                 }
 
-                if (imageUrls.size() > 0) {
-                    object.setAttachmentList((ArrayList<String>) imageUrls);
-                    ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
-                            1, object, addCallBack);
-                }
+                Log.i("CMCC", "新建采购审批11111111111111111");
+                object.setAttachmentList(imageUrls);
+                DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...");
+                ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
+                        1, object, addCallBack);
+
+//                service.submit(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                    }
+//                });
+
             }
 
             @Override
             public void fail(String msg) {
-                //DialogUtils.closeProgressDialog();
+                Log.i("CMCC", "uploadPic:" + msg);
+                DialogUtils.closeProgressDialog();
             }
 
             @Override
             public void connectFail() {
-                //DialogUtils.closeProgressDialog();
+                Log.i("CMCC", "connectFail:");
+                DialogUtils.closeProgressDialog();
             }
         });
     }
@@ -562,17 +600,29 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             }
         }
         if (requestCode == CODE_APPROVAL_REQUEST &&
-                resultCode == RESULT_OK) {
+                resultCode == 0x11) {
+            //选择了群,得到群id
+            if (data != null) {
+                GroupInfo info = data.getParcelableExtra("GroupInfo");
+                if (info != null) {
+                    groupId = info.getGroupId();
+                    Log.i("CMCC", "groupId:" + groupId);
+                }
+            }
+        }
+        if (requestCode == CODE_APPROVAL_REQUEST &&
+                resultCode == 0x12) {
+            //选择联系人
             Log.i("CMCC", "审批人返回");
             if (data != null) {
                 //审批人选择
-                ArrayList<FriendInfo> infos = data.getParcelableArrayListExtra("FriendInfo");
+                ArrayList<GroupMember> infos = data.getParcelableArrayListExtra("FriendInfo");
                 //判断一下抄送人中是否包含审批人
                 if (0 != copyFriends.size()) {
                     //审批人不为空,判断审批人和传过来的抄送人是否重复
                     for (int i = 0; i < infos.size(); i++) {
                         int num = 0;//重复次数
-                        for (FriendInfo friendInfo : copyFriends) {
+                        for (GroupMember friendInfo : copyFriends) {
                             if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
                                 //重复次数计算
                                 num++;
@@ -590,7 +640,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 } else {
                     for (int i = 0; i < infos.size(); i++) {
                         int num = 0;
-                        for (FriendInfo friendInfo : approvalFriends) {
+                        for (GroupMember friendInfo : approvalFriends) {
                             if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
                                 //重复次数计算
                                 num++;
@@ -607,17 +657,29 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 approvalAdapter.notifyDataSetChanged();
             }
         }
+
         if (requestCode == CODE_COPY_REQUEST &&
-                resultCode == RESULT_OK) {
+                resultCode == 0x11) {
+            //选择了群,得到群id
+            if (data != null) {
+                GroupInfo info = data.getParcelableExtra("GroupInfo");
+                if (info != null) {
+                    groupId = info.getGroupId();
+                    Log.i("CMCC", "groupId:" + groupId);
+                }
+            }
+        }
+        if (requestCode == CODE_COPY_REQUEST &&
+                resultCode == 0x12) {
             Log.i("CMCC", "抄送人返回");
             //抄送人选择
-            ArrayList<FriendInfo> infos = data.getParcelableArrayListExtra("FriendInfo");
+            ArrayList<GroupMember> infos = data.getParcelableArrayListExtra("FriendInfo");
             //判断一下审批人中是否包含抄送人
             if (0 != approvalFriends.size()) {
                 //审批人不为空,判断审批人和传过来的抄送人是否重复
                 for (int i = 0; i < infos.size(); i++) {
                     int num = 0;//重复次数
-                    for (FriendInfo friendInfo : approvalFriends) {
+                    for (GroupMember friendInfo : approvalFriends) {
                         if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
                             //重复次数计算
                             num++;
@@ -637,7 +699,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             } else {
                 for (int i = 0; i < infos.size(); i++) {
                     int num = 0;//重复次数
-                    for (FriendInfo friendInfo : copyFriends) {
+                    for (GroupMember friendInfo : copyFriends) {
                         if (infos.get(i).getMemberId().equals(friendInfo.getMemberId())) {
                             //重复次数计算
                             num++;
@@ -929,83 +991,4 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             }).start();
         }
     }
-
-    /**
-     * 假数据，后面要删除
-     */
-    private ArrayList<FriendInfo> getData() {
-        FriendInfo data01 = new FriendInfo();
-        data01.setMemberName("汪浩");
-        data01.setMemberId("1");
-        data01.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
-
-        FriendInfo data02 = new FriendInfo();
-        data02.setMemberName("陆成宋");
-        data02.setMemberId("2");
-        data02.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434200&di=7c53b18639aa82a8a58a296b9502d4ee&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D7048a12f9e16fdfad839ceea81bfa062%2F6a63f6246b600c3350e384cc194c510fd9f9a118.jpg");
-
-        FriendInfo data03 = new FriendInfo();
-        data03.setMemberName("123");
-        data03.setMemberId("3");
-        data03.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
-
-        FriendInfo data04 = new FriendInfo();
-        data04.setMemberName("汪浩01");
-        data04.setMemberId("4");
-        data04.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434199&di=85b82a89a5b9cb3403033e90dc2dc2a1&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3Dddf0103f252dd42a5f0901a3333a5b2f%2Fa4a8805494eef01f30f35d93e0fe9925bd317da3.jpg");
-
-        FriendInfo data05 = new FriendInfo();
-        data05.setMemberName("陆成宋01");
-        data05.setMemberId("5");
-        data05.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434198&di=83e45ffe0f07e6336bbbd1cdc284e9a5&imgtype=0&src=http%3A%2F%2Fwenwen.soso.com%2Fp%2F20140404%2F20140404111309-1793362574.jpg");
-
-        FriendInfo data06 = new FriendInfo();
-        data06.setMemberName("陆成宋02");
-        data06.setMemberId("6");
-        data06.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065730069&di=12540a26599230b583e0bf4f477cc8d7&imgtype=0&src=http%3A%2F%2Fwww.qxjlm.com%2Ftupians%2Fbd16072941.jpg");
-
-        FriendInfo data07 = new FriendInfo();
-        data07.setMemberName("陆成宋03");
-        data07.setMemberId("7");
-        data07.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434198&di=2271e06f1c39be89ce18f3ab9746c7d1&imgtype=0&src=http%3A%2F%2Fwww.lsswgs.com%2Fqqwebhimgs%2Fuploads%2Fbd24449651.jpg");
-
-        FriendInfo data08 = new FriendInfo();
-        data08.setMemberName("陆成宋04");
-        data08.setMemberId("8");
-        data08.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065662993&di=1d4fabe377e894277d005e17818ea64b&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D575752541%2C1102211525%26fm%3D214%26gp%3D0.jpg");
-
-        FriendInfo data09 = new FriendInfo();
-        data09.setMemberName("陆成宋05");
-        data09.setMemberId("9");
-        data09.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434197&di=9043dfda20c52ecfa1676e3999658669&imgtype=0&src=http%3A%2F%2Fwenwen.soso.com%2Fp%2F20111030%2F20111030173922-1579981974.jpg");
-
-        FriendInfo data10 = new FriendInfo();
-        data10.setMemberName("陆成宋06");
-        data10.setMemberId("10");
-        data10.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065434197&di=af5f1a36863ac751b71b1e167e57a8e7&imgtype=0&src=http%3A%2F%2Fwenwen.soso.com%2Fp%2F20131201%2F20131201114242-1190841548.jpg");
-
-        FriendInfo data11 = new FriendInfo();
-        data11.setMemberName("陆成宋07");
-        data11.setMemberId("11");
-        data11.setMemberUrl("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3609186921,1453144627&fm=23&gp=0.jpg");
-
-        FriendInfo data12 = new FriendInfo();
-        data12.setMemberName("陆成宋08");
-        data12.setMemberId("12");
-        data12.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065730070&di=b4ae9186fcb1795ee5bec334ec893997&imgtype=0&src=http%3A%2F%2Fwww.qxjlm.com%2Ftupians%2Fbd13706313.jpg");
-        friends.add(data01);
-        friends.add(data02);
-        friends.add(data03);
-        friends.add(data04);
-        friends.add(data05);
-        friends.add(data06);
-        friends.add(data07);
-        friends.add(data08);
-        friends.add(data09);
-        friends.add(data10);
-        friends.add(data11);
-        friends.add(data12);
-        return friends;
-    }
-
 }

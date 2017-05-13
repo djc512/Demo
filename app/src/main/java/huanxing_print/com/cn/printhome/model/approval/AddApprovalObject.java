@@ -21,6 +21,7 @@ public class AddApprovalObject {
     private String remark;//备注
     private ArrayList<SubFormItem> subFormList;//报销条目
     private String title;//标题
+    private String groupId;//groupId
     private int type;//类型  1.采购 2报销
 
     public String getAmountMonney() {
@@ -133,5 +134,13 @@ public class AddApprovalObject {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }
