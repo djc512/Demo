@@ -120,6 +120,8 @@ public class ApprovalRequest extends BaseRequst {
 
             @Override
             public void fail(String exception) {
+
+                Log.d("CMCC", exception);
                 addApprovalCallBack.connectFail();
             }
         });
