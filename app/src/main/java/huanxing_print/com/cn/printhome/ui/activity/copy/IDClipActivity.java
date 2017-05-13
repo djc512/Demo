@@ -154,13 +154,14 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("id",false);
+                    printIntent.putExtra("copyfile",false);
                     startActivity(printIntent);
                 } else {
                     saveUtil.saveClipPic(mBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
+                    printIntent.putExtra("copyfile",false);
                     startActivity(printIntent);
                 }
                 break;
