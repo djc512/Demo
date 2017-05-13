@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -283,7 +284,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                             @Override
                             public void ok() {
                                 DialogUtils.showProgressDialog(getSelfActivity(), "正在退出登录").show();
-                                LoginRequset.loginOut(getSelfActivity(), baseApplication.getLoginToken(), loginoutcallback);
+                                LoginRequset.loginOut(getSelfActivity(),
+                                        baseApplication.getLoginToken(), loginoutcallback);
 
                             }
                         }).show();
@@ -463,6 +465,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             clearUserData();// 清空数据
+            EMClient.getInstance().logout(true);//环信退出
             ActivityHelper.getInstance().finishAllActivity();
             activityExitAnim();
             jumpActivityNoAnim(LoginActivity.class, false);

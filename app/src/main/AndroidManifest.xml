@@ -168,7 +168,6 @@
         <!-- 主页 -->
         <activity
             android:name=".ui.activity.main.MainActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
 
         <!-- 第三方类 -->
