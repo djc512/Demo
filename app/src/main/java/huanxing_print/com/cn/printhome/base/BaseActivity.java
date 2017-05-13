@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import org.simple.eventbus.Subscriber;
@@ -390,6 +391,7 @@ public abstract class BaseActivity extends Activity {
 		// 这里实现你的逻辑即可
 		clearUserData();
 		ActivityHelper.getInstance().finishAllActivity();
+		EMClient.getInstance().logout(true);//环信退出
 		activityExitAnim();
 		jumpActivityNoAnim(null, LoginActivity.class);
 	}
@@ -413,14 +415,14 @@ public abstract class BaseActivity extends Activity {
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "sex");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "headImg");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "nickName");
-		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "comId");
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "uniqueId");
 		baseApplication.setPhone("");
 		baseApplication.setPassWord("");
 		baseApplication.setSex("");
 		baseApplication.setNickName("");
 		baseApplication.setHeadImg("");
 		baseApplication.setLoginToken("");
-		baseApplication.setComId("");
+		baseApplication.setUniqueId("");
 	}
 
 	protected void initJPush(String alias) {

@@ -168,7 +168,6 @@
         <!-- 主页 -->
         <activity
             android:name=".ui.activity.main.MainActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
 
         <!-- 第三方类 -->
@@ -297,9 +296,6 @@
             android:name=".ui.activity.my.AccountRecordActivity"
             android:screenOrientation="portrait" />
         <!-- 发票页面 -->
-        <activity
-            android:name=".ui.activity.my.BillDebitActivity"
-            android:screenOrientation="portrait" />
         <!-- 发票详情页面 -->
         <activity
             android:name=".ui.activity.my.BillDetailActivity"

@@ -109,7 +109,6 @@
             android:id="@+id/tv_userInfo_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="昵称"
             android:textColor="@color/text_content"
             android:textSize="18sp" />
 
@@ -177,7 +176,6 @@
             android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="15850793218"
             android:textColor="@color/text_content"
             android:textSize="18sp" />
 

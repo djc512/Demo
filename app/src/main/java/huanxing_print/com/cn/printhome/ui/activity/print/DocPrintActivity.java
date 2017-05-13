@@ -56,7 +56,7 @@ public class DocPrintActivity extends BasePrintActivity {
     public void onModify(View view) {
         PrintRequest.modifySetting(activity, printSetting.getColourFlag(), printSetting.getDirectionFlag(),
                 printSetting.getDoubleFlag(), printSetting.getId(), printSetting.getPrintCount(), printSetting
-                        .getSizeType(), new
+                        .getSizeType(), 100, new
                         HttpListener() {
                             @Override
                             public void onSucceed(String content) {

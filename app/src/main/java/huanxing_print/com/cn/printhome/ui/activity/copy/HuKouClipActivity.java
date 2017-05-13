@@ -21,7 +21,6 @@ import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
-import static huanxing_print.com.cn.printhome.R.id.btn_confirm;
 import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
 
 /**
@@ -65,7 +64,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     private void initView() {
         iv_preview = (ImageView) findViewById(R.id.iv_preview);
         btn_reset = (TextView) findViewById(R.id.btn_reset);
-        btn_preview = (TextView) findViewById(btn_confirm);
+        btn_preview = (TextView) findViewById(R.id.btn_confirm);
     }
 
     private void initData() {
@@ -155,12 +154,14 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
+                    printIntent.putExtra("copyfile",false);
                     startActivity(printIntent);
                 } else {
                     saveUtil.saveClipPic(mBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
+                    printIntent.putExtra("copyfile",false);
                     startActivity(printIntent);
                 }
                 break;

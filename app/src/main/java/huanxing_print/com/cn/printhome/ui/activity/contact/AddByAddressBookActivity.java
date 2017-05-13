@@ -28,6 +28,7 @@ import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.contact.PhoneContactInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.PhoneContactCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.AddAddressBookAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -173,13 +174,13 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private void checkNextStep(FriendSearchInfo info) {
         if(null != info) {
             if (0 == info.getIsMember()) {
-                ToastUtil.doToast(this, "不是印家用户");
                 showInvitation(info);
             } else {
                 if (1 == info.getIsFriend()) {
-                    ToastUtil.doToast(this, "是好友");
+                    Intent intent = new Intent(AddByAddressBookActivity.this, ChatActivity.class);
+                    intent.putExtra("FriendSearchInfo", info);
+                    startActivity(intent);
                 } else {
-                    ToastUtil.doToast(this, "不是好友");
                     ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
                     infos.add(info);
                     startActivity(infos);
