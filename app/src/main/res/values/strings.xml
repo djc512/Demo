@@ -87,7 +87,7 @@
     <string name="text_verification_send">发送</string>
     <string name="text_verification_hint">您需要发送验证申请,等待对方通过~</string>
     <string name="text_verification_et_hint">我是</string>
-    <string name="title_add_by_phone">从手机联系人添加</string>
+    <string name="title_add_by_phone">手机联系人</string>
     <string name="title_qr">二维码名片</string>
     <string name="title_top_hint">印家打印二维码名片</string>
     <string name="value_my_qr_yjnum">印家号:%s</string>
