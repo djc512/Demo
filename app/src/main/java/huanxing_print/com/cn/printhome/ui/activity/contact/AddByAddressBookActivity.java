@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,6 +134,10 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void itemBtn(PhoneContactInfo contactInfo) {
+        if(baseApplication.getPhone().equals(contactInfo.getTelNo())) {
+            ToastUtil.doToast(AddByAddressBookActivity.this,"不能添加自己为联系人");
+            return;
+        }
         this.currentClickPhoneContact = contactInfo;
         checkPhone();
     }
