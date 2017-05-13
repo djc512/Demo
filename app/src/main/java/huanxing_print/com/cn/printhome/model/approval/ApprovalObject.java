@@ -8,12 +8,21 @@ package huanxing_print.com.cn.printhome.model.approval;
 public class ApprovalObject {
     private String addTime;//申请时间
     private String amountMonney;//请款金额/总报销金额
+    private String approveTitle;//标题
     private String id;//审批id
     private String jobNumber;//申请人-工号
     private String purchaseList;//采购清单
     private int status;//审批状态
     private String title;//用途说明
     private int type;//类型  1 采购 2报销
+
+    public String getApproveTitle() {
+        return approveTitle;
+    }
+
+    public void setApproveTitle(String approveTitle) {
+        this.approveTitle = approveTitle;
+    }
 
     public String getAddTime() {
         return addTime;

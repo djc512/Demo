@@ -128,4 +128,12 @@
     <string name="app_tip">提示</string>
     <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
     <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
+
+    <!--审批单状态-->
+    <string name="status_zero">审批中</string>
+    <string name="status_two">审批完成</string>
+    <string name="status_three">已驳回</string>
+    <string name="status_four">已撤销</string>
+    <string name="status_five">打印凭证</string>
+    <string name="status_six">已打印</string>
 </resources>
