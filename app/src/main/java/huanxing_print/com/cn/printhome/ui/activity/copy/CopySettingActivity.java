@@ -15,10 +15,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.hyphenate.util.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,16 +99,27 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout ll_cz_persion;
     private ImageView iv_cz_qun;
     private LinearLayout ll_cz_qun;
+    private LinearLayout printTypeLyt;
     protected LoadingDialog loadingDialog;
+    private SeekBar seekBar;
+    private LinearLayout seekLyt;
+    private ImageView scaleImg;
+    private TextView defaultTv;
+    private TextView defTv;
+    private LinearLayout scaleLyt;
 
 
     private List<GroupResp.Group> groupList = new ArrayList<>();
     private String printerNo;
     private PrintSetting printSetting;
     private PrintSetting newSetting;
+    private String printType;
     private PrintInfoResp.PrinterPrice printerPrice;
     private long orderId;
     private GroupResp.Group group;
+    private int scaleRatio = 100;
+    private boolean isStandard = false;
+    private boolean isFileCopy = false;
 
     //    colourFlag	彩色打印0-彩色 1-黑白	number
     //    directionFlag	方向标识0-横版  1-竖版	number
@@ -118,6 +132,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private int doubleFlag = 1;
     private int printCount = 1;
     private int sizeType = 0;
+
 
     private int id;
 
@@ -139,9 +154,12 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     private void initData() {
         Bundle bundle = getIntent().getExtras();
+        printType = bundle.getString(PRINT_TYPE);
         printerNo = bundle.getString(PRINTER_NO);
         printSetting = bundle.getParcelable(PRINT_SETTING);
+        isFileCopy = bundle.getBoolean(COPY_FILE_FLAG);
         newSetting = printSetting.clone();
+        newSetting.setScaleRatio(100);
 
         colourFlag = newSetting.getColourFlag();
         directionFlag = newSetting.getDirectionFlag();
@@ -157,7 +175,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private boolean isSettingChange() {
         updateSetting();
         if (newSetting.toString().equals(printSetting.toString())) {
-            return false;
+            return true;
         }
         return true;
     }
@@ -168,6 +186,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         newSetting.setDoubleFlag(doubleFlag);
         newSetting.setSizeType(sizeType);
         newSetting.setPrintCount(printCount);
+        newSetting.setScaleRatio(scaleRatio);
     }
 
     public void requeryPrice(String printerNo) {
@@ -268,6 +287,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private void modifySetting() {
         PrintRequest.modifySetting(this, newSetting.getColourFlag(), newSetting.getDirectionFlag(), newSetting
                         .getDoubleFlag(), newSetting.getId(), newSetting.getPrintCount(), newSetting.getSizeType(),
+                newSetting.getScaleRatio(),
                 new HttpListener() {
                     @Override
                     public void onSucceed(String content) {
@@ -382,6 +402,31 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initView() {
+        scaleLyt = (LinearLayout) findViewById(R.id.scaleLyt);
+        defaultTv = (TextView) findViewById(R.id.defaultTv);
+        defTv = (TextView) findViewById(R.id.defTv);
+        scaleImg = (ImageView) findViewById(R.id.scaleImg);
+        seekLyt = (LinearLayout) findViewById(R.id.seekLyt);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int newHeight = DensityUtil.dip2px(CopySettingActivity.this, 60) * progress / 100;
+                RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) iv_paper.getLayoutParams();
+                iv_paper.getLayoutParams().height = newHeight;
+                iv_paper.setLayoutParams(layout);
+                scaleRatio = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        printTypeLyt = (LinearLayout) findViewById(R.id.printTypeLyt);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         pickFileTv = (TextView) findViewById(R.id.pickFileTv);
@@ -471,6 +516,13 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             tv_single.setTextColor(getResources().getColor(R.color.black2));
             tv_double.setTextColor(getResources().getColor(R.color.gray8));
         }
+        if (isFileCopy) {
+            printTypeLyt.setVisibility(View.GONE);
+            scaleLyt.setVisibility(View.VISIBLE);
+        } else {
+            printTypeLyt.setVisibility(View.VISIBLE);
+            scaleLyt.setVisibility(View.GONE);
+        }
     }
 
     private void initListener() {
@@ -488,6 +540,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         ll_cz_persion.setOnClickListener(this);
         ll_cz_qun.setOnClickListener(this);
         btn_preview.setOnClickListener(this);
+        scaleImg.setOnClickListener(this);
     }
 
     private boolean isPersion = true;
@@ -515,6 +568,23 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.scaleImg://缩放
+                if (isStandard) {
+                    seekLyt.setVisibility(View.VISIBLE);
+                    scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    defTv.setTextColor(getResources().getColor(R.color.black2));
+                    defaultTv.setTextColor(getResources().getColor(R.color.gray8));
+                    isStandard = false;
+                } else {
+                    seekLyt.setVisibility(View.GONE);
+                    defTv.setTextColor(getResources().getColor(R.color.gray8));
+                    defaultTv.setTextColor(getResources().getColor(R.color.black2));
+                    scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                    isStandard = true;
+                    scaleRatio = 100;
+                    seekBar.setProgress(100);
+                }
+                break;
             case R.id.iv_back://返回
                 finishCurrentActivity();
                 break;
@@ -533,7 +603,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_orientation://方向
                 if (directionFlag == 1) {
-                    iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
+                    iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.orientation));
                     tv_orientation.setTextColor(getResources().getColor(R.color.black2));
                     tv_vertical.setTextColor(getResources().getColor(R.color.gray8));
@@ -553,7 +623,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     if (colourFlag == 1) {
                         tv_black.setTextColor(getResources().getColor(R.color.gray8));
                         tv_color.setTextColor(getResources().getColor(R.color.black2));
-                        iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
+                        iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                         colourFlag = 0;
                     } else {//黑白
                         tv_black.setTextColor(getResources().getColor(R.color.black2));
@@ -572,13 +642,13 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 } else {
                     tv_a4.setTextColor(getResources().getColor(R.color.gray8));
                     tv_a3.setTextColor(getResources().getColor(R.color.black2));
-                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
+                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     sizeType = 1;
                 }
                 break;
             case R.id.iv_print_type://单双面
                 if (doubleFlag == 1) {
-                    iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
+                    iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     tv_double.setTextColor(getResources().getColor(R.color.black2));
                     tv_single.setTextColor(getResources().getColor(R.color.gray8));
                     doubleFlag = 0;
@@ -732,7 +802,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     public static final String PRINT_SETTING = "setting";
+    public static final String PRINT_TYPE = "print_type";
     public static final String PRINTER_NO = "pinter_no";
+    public static final String COPY_FILE_FLAG = "copy_file_flag";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, CopySettingActivity.class);
