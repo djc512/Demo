@@ -42,11 +42,9 @@
 
             <ImageView
                 android:id="@+id/iv_paper"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_centerInParent="true"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
                 android:src="@drawable/vertical"/>
         </RelativeLayout>
 
@@ -237,6 +235,7 @@
             <include layout="@layout/viewline1"/>
 
             <LinearLayout
+                android:id="@+id/printTypeLyt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -244,7 +243,8 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -277,6 +277,78 @@
                     android:text="双面"
                     android:textColor="@color/gray2"
                     android:textSize="16sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/scaleLyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="打印尺寸"
+                        android:textColor="@color/black2"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/defaultTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="标准"
+                        android:textColor="@color/gray2"
+                        android:textSize="16sp"/>
+
+                    <ImageView
+                        android:id="@+id/scaleImg"
+                        android:layout_width="40dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/on"/>
+
+                    <TextView
+                        android:id="@+id/defTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="自定"
+                        android:textColor="@color/black2"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:id="@+id/seekLyt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
+
+                    <SeekBar
+                        android:id="@+id/seekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="5dp"
+                        android:minHeight="5dp"
+                        android:progress="100"
+                        android:progressDrawable="@drawable/progressbar_bc"
+                        android:splitTrack="false"
+                        android:thumb="@drawable/shape_dot_seekbar"
+                        android:thumbOffset="0dp"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -407,7 +479,7 @@
             android:gravity="center_horizontal"
             android:padding="10dp"
             android:shadowColor="@color/black2"
-            android:text="完成"
+            android:text="确认"
             android:textSize="18sp"
             />
     </LinearLayout>
