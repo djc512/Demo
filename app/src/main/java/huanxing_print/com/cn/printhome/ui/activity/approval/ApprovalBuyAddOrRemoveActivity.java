@@ -6,13 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,7 +35,6 @@ import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalCopyMembersAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -381,7 +378,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
                 convertView = LayoutInflater.from(ApprovalBuyAddOrRemoveActivity.this).inflate(
                         R.layout.item_pic_show, null);
                 holder.image = (ImageView) convertView.findViewById(R.id.iv_pic);
-
+                convertView.setTag(holder);
             } else {
                 holder = (PicAdapter.ViewHolder) convertView.getTag();
             }
