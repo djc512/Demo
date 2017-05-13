@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by LGH on 2017/3/21.
  */
 
-public class PrintSetting implements Parcelable, Cloneable {
+public class PrintSetting implements  Cloneable, Parcelable {
 
     private int colourFlag;
     private int directionFlag;
@@ -19,6 +19,7 @@ public class PrintSetting implements Parcelable, Cloneable {
     private int printCount;
     private int printerType;
     private int sizeType;
+    private int scaleRatio;
 
     public int getColourFlag() {
         return colourFlag;
@@ -100,6 +101,25 @@ public class PrintSetting implements Parcelable, Cloneable {
         this.sizeType = sizeType;
     }
 
+    public int getScaleRatio() {
+        return scaleRatio;
+    }
+
+    public void setScaleRatio(int scaleRatio) {
+        this.scaleRatio = scaleRatio;
+    }
+
+    @Override
+    public PrintSetting clone() {
+        PrintSetting printSetting = null;
+        try {
+            printSetting = (PrintSetting) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return printSetting;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -117,6 +137,7 @@ public class PrintSetting implements Parcelable, Cloneable {
         dest.writeInt(this.printCount);
         dest.writeInt(this.printerType);
         dest.writeInt(this.sizeType);
+        dest.writeInt(this.scaleRatio);
     }
 
     public PrintSetting() {
@@ -133,9 +154,10 @@ public class PrintSetting implements Parcelable, Cloneable {
         this.printCount = in.readInt();
         this.printerType = in.readInt();
         this.sizeType = in.readInt();
+        this.scaleRatio = in.readInt();
     }
 
-    public static final Creator<PrintSetting> CREATOR = new Creator<PrintSetting>() {
+    public static final Parcelable.Creator<PrintSetting> CREATOR = new Parcelable.Creator<PrintSetting>() {
         @Override
         public PrintSetting createFromParcel(Parcel source) {
             return new PrintSetting(source);
@@ -146,31 +168,4 @@ public class PrintSetting implements Parcelable, Cloneable {
             return new PrintSetting[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return "PrintSetting{" +
-                "colourFlag=" + colourFlag +
-                ", directionFlag=" + directionFlag +
-                ", doubleFlag=" + doubleFlag +
-                ", fileName='" + fileName + '\'' +
-                ", filePage=" + filePage +
-                ", fileUrl='" + fileUrl + '\'' +
-                ", id=" + id +
-                ", printCount=" + printCount +
-                ", printerType=" + printerType +
-                ", sizeType=" + sizeType +
-                '}';
-    }
-
-    @Override
-    public PrintSetting clone() {
-        PrintSetting printSetting = null;
-        try {
-            printSetting = (PrintSetting) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        return printSetting;
-    }
 }

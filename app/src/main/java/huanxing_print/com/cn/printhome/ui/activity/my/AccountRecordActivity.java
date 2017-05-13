@@ -108,9 +108,8 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                 finishCurrentActivity();
                 break;
             case R.id.tv_receipt://开票
-                DialogUtils.showProgressDialog(getSelfActivity(),"加载中...");
+                DialogUtils.showProgressDialog(getSelfActivity(), "加载中...");
                 getReceiptAccount();
-                startActivity(new Intent(getSelfActivity(), ReceiptActivity.class));
                 break;
         }
     }

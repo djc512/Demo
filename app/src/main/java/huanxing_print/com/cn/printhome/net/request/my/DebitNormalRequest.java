@@ -38,7 +38,7 @@ public class DebitNormalRequest extends BaseRequst {
                                       String companyName,//发票抬头
                                       String expAmount,//邮费
                                       String fileSize,//文件份数
-                                      int payType,//支付方式0-微信 1-支付宝 2-货到付款	number
+                                      String payType,//支付方式0-微信 1-支付宝 2-货到付款	number
                                       String receiver,//收件人
                                       String telPhone,//联系方式
                                     final DebitNormalCallBack callBack) {

@@ -80,10 +80,11 @@
             <TextView
                 android:id="@+id/printTv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:visibility="invisible"
                 android:background="@drawable/shape_preview_finish_bg"
                 android:gravity="center"
                 android:padding="15dp"
