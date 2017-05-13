@@ -73,34 +73,46 @@
         android:layout_height="1dp"
         android:background="@color/gray5" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_approve"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:padding="15dp">
 
         <ImageView
+            android:id="@+id/iv_approve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:src="@drawable/iv_apply_approve"
             android:layout_marginLeft="10dp"/>
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/tv_approve"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_approve"
             android:layout_marginLeft="15dp"
-            android:layout_weight="1"
             android:text="审批"
             android:textSize="18sp"
             android:textColor="@color/text_color"/>
-
+        <TextView
+            android:id="@+id/tv_approve_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_circle"
+            android:layout_toRightOf="@+id/tv_approve"
+            android:layout_marginLeft="10dip"
+            android:gravity="center"
+            android:text="8"
+            android:textColor="@color/white" />
         <ImageView
             android:id="@+id/iv_mingxi"
-            style="@style/arrow_go" />
-    </LinearLayout>
+            style="@style/arrow_go"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
 
 

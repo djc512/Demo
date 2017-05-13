@@ -26,6 +26,7 @@ import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.net.request.my.OrderIdRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
@@ -79,6 +80,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         if (null != totleBalance) {
             tv_money.setText("￥:" + totleBalance);
         }
+        DialogUtils.showProgressDialog(getSelfActivity(), "加载中");
         //充值接口
         ChongzhiRequest.getChongZhi(getSelfActivity(), new MyChongzhiCallBack());
     }
@@ -184,6 +186,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
 
         @Override
         public void success(String msg, final List<ChongZhiBean> list) {
+            DialogUtils.closeProgressDialog();
             adapter = new AccountCZAdapter(getSelfActivity(), list);
             rv_account.setLayoutManager(new LinearLayoutManager(getSelfActivity()));
             rv_account.setAdapter(adapter);
@@ -200,12 +203,14 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
 
         @Override
         public void fail(String msg) {
-
+            DialogUtils.closeProgressDialog();
+            toast(msg);
         }
 
         @Override
         public void connectFail() {
-
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
         }
     }
 }

@@ -46,6 +46,7 @@
                     android:src="@drawable/iv_wait_approval" />
 
                 <TextView
+                    android:id="@+id/tv_approver_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/iv_approval"
@@ -83,6 +84,7 @@
                     android:src="@drawable/iv_my_initiate" />
 
                 <TextView
+                    android:id="@+id/tv_initiator_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/iv_submit"
@@ -120,6 +122,7 @@
                     android:src="@drawable/iv_copy_my" />
 
                 <TextView
+                    android:id="@+id/tv_copyer_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/iv_send"
