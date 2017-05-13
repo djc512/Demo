@@ -109,7 +109,6 @@ public class ClipPicUtil {
             PointF point3 = new PointF(width-50, height-50);
             PointF point4 = new PointF(0+50, height-50);
             PointF[] finalPoints = {point1, point2, point3, point4};
-            Toast.makeText(ctx, "图片识别失败，请重新拍照或手动调整", Toast.LENGTH_SHORT).show();
             return finalPoints;
         }
         return tempPoint;
