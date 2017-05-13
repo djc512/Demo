@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,13 +13,13 @@ import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.constant.ConFig;
-import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
-import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
-import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
-import huanxing_print.com.cn.printhome.ui.adapter.ChooseGroupContactAdapter;
+import huanxing_print.com.cn.printhome.model.contact.GroupMember;
+import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
+import huanxing_print.com.cn.printhome.net.callback.contact.GroupMessageCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
+import huanxing_print.com.cn.printhome.ui.adapter.ChooseGroupMemberAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -31,15 +32,16 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  */
 public class ChoosePeopleOfAddressActivity extends BaseActivity implements
         View.OnClickListener,
-        ChooseGroupContactAdapter.OnClickGroupInListener,
-        ChooseGroupContactAdapter.OnChooseMemberListener {
+        ChooseGroupMemberAdapter.OnClickGroupInListener,
+        ChooseGroupMemberAdapter.OnChooseMemberListener {
 
     private Button btn_create;
     private RecyclerView recyclerView;
     private TextView tv_hint_member;
-    private ChooseGroupContactAdapter adapter;
-    private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
-    private ArrayList<FriendInfo> chooseMembers;
+    private ChooseGroupMemberAdapter groupMemberAdapter;
+    private String groupId;//群组id
+    private ArrayList<GroupMember> groupMembers = new ArrayList<>();
+    private ArrayList<GroupMember> chooseGroupMembers;//选择的群组成员
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -58,6 +60,7 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
     }
 
     private void initView() {
+        groupId = getIntent().getStringExtra("groupId");
         btn_create = (Button) findViewById(R.id.btn_create);
         tv_hint_member = (TextView) findViewById(R.id.hint_member);
 
@@ -66,28 +69,49 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
-
-        adapter = new ChooseGroupContactAdapter(this, friends);
-        recyclerView.setAdapter(adapter);
     }
 
     private void initData() {
-//        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("friends");
-//        friends = friendInfos;
-//        adapter.modify(friends);
+//        ArrayList<FriendInfo> friendInfos = getIntent().getParcelableArrayListExtra("groupMembers");
+//        groupMembers = friendInfos;
+//        adapter.modify(groupMembers);
 
-        //请求联系人数据
-        String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
-                "loginToken");
+        Log.i("CMCC", "groupId:" + groupId);
+        //请求群数据
         DialogUtils.showProgressDialog(this, "加载中").show();
-        FriendManagerRequest.queryFriendList(this, token, myFriendListCallback);
+        GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
+                groupId, groupMessageCallback);
     }
+
+    GroupMessageCallback groupMessageCallback = new GroupMessageCallback() {
+        @Override
+        public void success(String msg, GroupMessageInfo groupMessageInfo) {
+            DialogUtils.closeProgressDialog();
+            if (!ObjectUtils.isNull(groupMessageInfo)) {
+                if (!ObjectUtils.isNull(groupMessageInfo.getGroupMembers())) {
+                    groupMembers = groupMessageInfo.getGroupMembers();
+                    btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, groupMembers.size()));
+                    groupMemberAdapter.modify(groupMembers);
+                }
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+        }
+    };
 
     private void setListener() {
         findViewById(R.id.ll_back).setOnClickListener(this);
         btn_create.setOnClickListener(this);
-        adapter.setOnChooseMemberListener(this);
-        adapter.setOnClickGroupInListener(this);
+        groupMemberAdapter.setOnChooseMemberListener(this);
+        groupMemberAdapter.setOnClickGroupInListener(this);
     }
 
     @Override
@@ -98,7 +122,7 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
                 break;
             case R.id.btn_create:
                 Intent intent = new Intent();
-                intent.putExtra("FriendInfo", chooseMembers);
+                intent.putExtra("FriendInfo", chooseGroupMembers);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
@@ -111,11 +135,11 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
     }
 
     @Override
-    public void choose(ArrayList<FriendInfo> infos) {
-        chooseMembers = infos;
+    public void choose(ArrayList<GroupMember> infos) {
+        chooseGroupMembers = infos;
         if (null != infos) {
             tv_hint_member.setText(String.format(getString(R.string.hint_choose_members), infos.size()));
-            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), friends.size()));
+            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), groupMembers.size()));
             if (infos.size() > 0) {
                 btn_create.setEnabled(true);
             } else {
@@ -123,34 +147,4 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
             }
         }
     }
-
-    MyFriendListCallback myFriendListCallback = new MyFriendListCallback() {
-        @Override
-        public void success(String msg, ArrayList<FriendInfo> friendInfos) {
-            DialogUtils.closeProgressDialog();
-            if (null != friendInfos) {
-                for (FriendInfo info : friendInfos) {
-                    if (null == info.getMemberName()) {
-                        info.setMemberName("Null");
-                    }
-                }
-                friends = friendInfos;
-                btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, friends.size()));
-
-                adapter.modify(friends);
-            }
-        }
-
-        @Override
-        public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getSelfActivity(), msg);
-        }
-
-        @Override
-        public void connectFail() {
-            DialogUtils.closeProgressDialog();
-            toastConnectFail();
-        }
-    };
 }

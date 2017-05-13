@@ -40,6 +40,7 @@ import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
 import huanxing_print.com.cn.printhome.model.approval.Approver;
@@ -105,6 +106,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     private ArrayList<Approver> approvers = new ArrayList<>();//上传的审批人集合
     private ArrayList<Approver> copyApprovers = new ArrayList<>();//上传的抄送人集合
     private AddApprovalObject object = new AddApprovalObject();//提交的审批对象
+    private String groupId;//群组id
 
 
     @Override
@@ -179,7 +181,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 if (position == approvalFriends.size()) {
                     //跳转到选择联系人界面
                     Intent intent = new Intent(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
-                    intent.putParcelableArrayListExtra("friends", friends);
+                    intent.putExtra("groupId",groupId);
                     startActivityForResult(intent, CODE_APPROVAL_REQUEST);
                 } else {
                     approvalFriends.remove(position);
@@ -196,7 +198,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 if (position == (copyFriends.size())) {
                     //跳转到选择联系人界面
                     Intent intent = new Intent(getSelfActivity(), ChoosePeopleOfAddressActivity.class);
-                    //intent.putParcelableArrayListExtra("friends", friends);
+                    intent.putExtra("groupId",groupId);
                     startActivityForResult(intent, CODE_COPY_REQUEST);
                 } else {
                     copyFriends.remove(position);
@@ -261,24 +263,27 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         public void success(String msg, LastApproval approval) {
             //ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
             //转为FriendInfo对象
-            ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-            ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
-            if (!ObjectUtils.isNull(approvals)) {
-                for (ApprovalOrCopy approvalOrCopy : approvals) {
-                    FriendInfo info = new FriendInfo();
-                    info.setMemberId(approvalOrCopy.getJobNumber());
-                    info.setMemberName(approvalOrCopy.getName());
-                    info.setMemberUrl(approvalOrCopy.getFaceUrl());
-                    approvalFriends.add(info);
+            if (!ObjectUtils.isNull(approval)) {
+                groupId=approval.getGroupId();
+                ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
+                ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
+                if (!ObjectUtils.isNull(approvals)) {
+                    for (ApprovalOrCopy approvalOrCopy : approvals) {
+                        FriendInfo info = new FriendInfo();
+                        info.setMemberId(approvalOrCopy.getJobNumber());
+                        info.setMemberName(approvalOrCopy.getName());
+                        info.setMemberUrl(approvalOrCopy.getFaceUrl());
+                        approvalFriends.add(info);
+                    }
                 }
-            }
-            if (!ObjectUtils.isNull(copys)) {
-                for (ApprovalOrCopy orCopy : copys) {
-                    FriendInfo info = new FriendInfo();
-                    info.setMemberId(orCopy.getJobNumber());
-                    info.setMemberName(orCopy.getName());
-                    info.setMemberUrl(orCopy.getFaceUrl());
-                    copyFriends.add(info);
+                if (!ObjectUtils.isNull(copys)) {
+                    for (ApprovalOrCopy orCopy : copys) {
+                        FriendInfo info = new FriendInfo();
+                        info.setMemberId(orCopy.getJobNumber());
+                        info.setMemberName(orCopy.getName());
+                        info.setMemberUrl(orCopy.getFaceUrl());
+                        copyFriends.add(info);
+                    }
                 }
             }
             //更新UI
@@ -440,18 +445,21 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         @Override
         public void success(String msg, String data) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getSelfActivity(), "新建采购审批" + msg + ",id:" + data);
+            Logger.i("新建采购审批id:" + data);
+            //ToastUtil.doToast(getSelfActivity(), );
         }
 
         @Override
         public void fail(String msg) {
-            ToastUtil.doToast(getSelfActivity(), "新建采购审批失败," + msg);
+            Logger.i("新建采购审批失败," + msg);
+            //ToastUtil.doToast(getSelfActivity(), "新建采购审批失败," + msg);
             DialogUtils.closeProgressDialog();
         }
 
         @Override
         public void connectFail() {
-            ToastUtil.doToast(getSelfActivity(), "新建采购审批connectFail");
+            Logger.i("新建采购审批connectFail");
+            //ToastUtil.doToast(getSelfActivity(), "新建采购审批connectFail");
             DialogUtils.closeProgressDialog();
         }
     };
@@ -514,6 +522,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 }
 
                 if (imageUrls.size() > 0) {
+                    object.setAttachmentList((ArrayList<String>) imageUrls);
                     ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
                             1, object, addCallBack);
                 }

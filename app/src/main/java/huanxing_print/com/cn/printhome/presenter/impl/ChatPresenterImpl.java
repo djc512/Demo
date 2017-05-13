@@ -1,5 +1,7 @@
 package huanxing_print.com.cn.printhome.presenter.impl;
 
+import android.util.Log;
+
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
@@ -22,7 +24,7 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     private ChatView mChatView;
     private List<EMMessage> mEMMessageList = new ArrayList<>();
-    private int type =1;
+    private int type = 1;
 
     public ChatPresenterImpl(ChatView chatView) {
         mChatView = chatView;
@@ -46,11 +48,13 @@ public class ChatPresenterImpl implements ChatPresenter {
     }
 
     @Override
-    public void sendMessage(String username, String msg,int chatType) {
-        EMMessage emMessage = EMMessage.createTxtSendMessage(msg,username);
+    public void sendMessage(String username, String msg, int chatType) {
+        EMMessage emMessage = EMMessage.createTxtSendMessage(msg, username);
 
+        Log.i("CMCC", "chatType:" + chatType);
         //如果是群聊，设置chattype，默认是单聊
         if (chatType == type) {
+            Log.i("CMCC", "22222222");
             emMessage.setChatType(EMMessage.ChatType.GroupChat);
         }
         //emMessage.setChatType(EMMessage.ChatType.GroupChat);
@@ -62,6 +66,7 @@ public class ChatPresenterImpl implements ChatPresenter {
             public void onMainSuccess() {
                 mChatView.onUpdate(mEMMessageList.size());
             }
+
             @Override
             public void onMainError(int i, String s) {
                 mChatView.onUpdate(mEMMessageList.size());
@@ -75,7 +80,7 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     @Override
     public void sendGroupMessage(String username, EMMessage msg) {
-        EMMessage emMessage = EMMessage.createTxtSendMessage(msg.getFrom(),username);
+        EMMessage emMessage = EMMessage.createTxtSendMessage(msg.getFrom(), username);
 
         //如果是群聊，设置chattype，默认是单聊
         //if (chatType == CHATTYPE_GROUP);
@@ -89,6 +94,7 @@ public class ChatPresenterImpl implements ChatPresenter {
             public void onMainSuccess() {
                 mChatView.onUpdate(mEMMessageList.size());
             }
+
             @Override
             public void onMainError(int i, String s) {
                 mChatView.onUpdate(mEMMessageList.size());
@@ -111,7 +117,7 @@ public class ChatPresenterImpl implements ChatPresenter {
             EMMessage lastMessage = conversation.getLastMessage();
             //获取最后一条消息之前的19条（最多）
             int count = 19;
-            if (mEMMessageList.size()>=19){
+            if (mEMMessageList.size() >= 19) {
                 count = mEMMessageList.size();
             }
             List<EMMessage> messageList = conversation.loadMoreMsgFromDB(lastMessage.getMsgId(), count);

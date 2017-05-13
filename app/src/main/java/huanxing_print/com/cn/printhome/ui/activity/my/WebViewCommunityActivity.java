@@ -20,6 +20,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
@@ -28,12 +33,17 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 public class WebViewCommunityActivity extends BaseActivity implements OnClickListener {
     private WebView webview;
     private TextView tv_title;
-    private String url,loginToken;
+    private String url, loginToken;
     private String titleName;
 
     private ValueCallback<Uri> uploadMessage;
     private ValueCallback<Uri[]> uploadMessageAboveL;
     private final static int FILE_CHOOSER_RESULT_CODE = 10000;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -47,15 +57,21 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.webview);
         initViews();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void initViews() {
         url = getIntent().getStringExtra("webUrl");
+        titleName = getIntent().getStringExtra("titleName");
         loginToken = baseApplication.getLoginToken();
 
         webview = (WebView) findViewById(R.id.web_view);
+        tv_title = (TextView) findViewById(R.id.tv_title);
         findViewById(R.id.ll_back).setOnClickListener(this);
         findViewById(R.id.ll_close).setOnClickListener(this);
+        tv_title.setText(titleName);
         //url = "http://ecostar.inkin.cc/purchase/user/list";
         WebSettings s = webview.getSettings();
         s.setBuiltInZoomControls(true);
@@ -68,22 +84,22 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
         s.setDomStorageEnabled(true);
         webview.requestFocus();
-        //webview.setScrollBarStyle(0);
+        webview.setScrollBarStyle(0);
 
         synCookies(getSelfActivity(), url);
         webview.loadUrl(url);
-        webview.setWebViewClient(new WebViewClient(){
+        webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
             }
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 tv_title.setText(view.getTitle());
             }
         });
-
 
 
         webview.setWebChromeClient(new WebChromeClient() {
@@ -108,7 +124,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
 
             // For Android >= 5.0
             @Override
-            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 uploadMessageAboveL = filePathCallback;
                 openImageChooserActivity();
                 return true;
@@ -172,7 +188,6 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -186,15 +201,16 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
                 break;
         }
     }
+
     @SuppressWarnings("deprecation")
-    private  void synCookies(Context context, String url) {
+    private void synCookies(Context context, String url) {
         CookieSyncManager.createInstance(context);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
         cookieManager.removeAllCookie();//移除
         //cookieManager.setCookie(url, "UID=EBFDA984906B62C444931EA0");
-        cookieManager.setCookie(url, "loginToken="+loginToken);//cookies是在HttpClient中获得的cookie
-        cookieManager.setCookie(url, "platform="+ConFig.PHONE_TYPE);
+        cookieManager.setCookie(url, "loginToken=" + loginToken);//cookies是在HttpClient中获得的cookie
+        cookieManager.setCookie(url, "platform=" + ConFig.PHONE_TYPE);
         if (Build.VERSION.SDK_INT < 21) {
             CookieSyncManager.getInstance().sync();
         } else {
@@ -220,7 +236,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         if ((keyCode == KeyEvent.KEYCODE_BACK) && webview.canGoBack()) {
             webview.goBack();
             return true;
-        }else {
+        } else {
 
             finishCurrentActivity();
         }
@@ -228,4 +244,39 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         return false;
     }
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("WebViewCommunity Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
 }

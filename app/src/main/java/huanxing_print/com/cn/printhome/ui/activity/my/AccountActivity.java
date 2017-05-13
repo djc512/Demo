@@ -54,7 +54,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-//        totleBalance = getIntent().getStringExtra("totleBalance");
+        totleBalance = getIntent().getStringExtra("totleBalance");
     }
 
     private void initView() {

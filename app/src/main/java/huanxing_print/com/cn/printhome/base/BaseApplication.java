@@ -56,6 +56,7 @@ public class BaseApplication extends Application {
 	private String  uniqueId;//印家号
 	private String memberId;//会员id
 	private String nickName;
+	private String weixinName;
 	private String comId;
 	private SoundPool mSoundPool;
 	private int mDuanSound;
@@ -76,8 +77,8 @@ public class BaseApplication extends Application {
 	//判断是否登录
 	private boolean hasLoginEvent=false;
    //微信第三方登录
-	public static final String WX_APPID = "wx4c877768d9a9fc08";
-	public static final String WX_APPSecret = "d7ba93d327cfdd1d02b8d5a4b43b1223";
+	public static final String WX_APPID = "wxb54a2ee8a63993f9";
+	public static final String WX_APPSecret = "c8c5ed7d1e388e54cb5a1b4c1af35663";
 	private IWXAPI api;
 
 	private static BaseApplication mInstance;
@@ -201,6 +202,18 @@ public class BaseApplication extends Application {
 		this.memberId = memberId;
 	}
 
+	public String getWeixinName() {
+		if (ObjectUtils.isNull(weixinName)) {
+			weixinName = SharedPreferencesUtils.getShareString(this, "weixinName");
+		}
+		return weixinName;
+	}
+
+	public void setWeixinName(String weixinName) {
+		SharedPreferencesUtils.putShareValue(this, "weixinName", weixinName);
+		this.weixinName = weixinName;
+	}
+
 	public String getNickName() {
 		if (ObjectUtils.isNull(nickName)) {
 			nickName = SharedPreferencesUtils.getShareString(this, "nickName");
@@ -298,7 +311,7 @@ public class BaseApplication extends Application {
 		super.onCreate();
 		mInstance = this;
 		CollectLog clog = CollectLog.getInstance();
-		clog.init(this, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "dreamlivemeng");
+		clog.init(this, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "YinJia");
 		api = WXAPIFactory.createWXAPI(this, WX_APPID, true);
 		api.registerApp(WX_APPID);
 		initJPush();

@@ -75,10 +75,10 @@
             android:textColor="@color/text_color"/>
 
         <TextView
+            android:id="@+id/tv_uniqueid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="NJ2017x1250"
             android:textColor="@color/text_content"
             android:textSize="18sp" />
     </LinearLayout>
@@ -109,7 +109,6 @@
             android:id="@+id/tv_userInfo_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:text="昵称"
             android:textColor="@color/text_content"
             android:textSize="18sp" />
@@ -126,6 +125,7 @@
         android:background="#e5e5e5" />
 
     <LinearLayout
+        android:id="@+id/ll_userInfo_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -141,13 +141,11 @@
             android:textSize="18sp"
             android:textColor="@color/text_color"/>
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="二维码"
-            android:textColor="@color/text_content"
-            android:textSize="18sp" />
+            android:src="@drawable/iv_mycode"
+             />
 
         <ImageView
             style="@style/arrow_go" />
@@ -179,7 +177,6 @@
             android:id="@+id/tv_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:text="15850793218"
             android:textColor="@color/text_content"
             android:textSize="18sp" />
@@ -215,8 +212,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
+            android:ellipsize="end"
             android:textColor="@color/text_content"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:maxLines="1" />
 
         <ImageView
             style="@style/arrow_go" />
@@ -252,7 +251,6 @@
             android:id="@+id/tv_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:textColor="@color/text_content"
             android:textSize="18sp" />
 
@@ -286,7 +284,6 @@
             android:id="@+id/tv_cache"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
             android:textColor="@color/text_content"
             android:textSize="18sp" />
 

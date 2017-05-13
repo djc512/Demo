@@ -32,8 +32,8 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private TextView btn_preview;
     private double a4Width = 210;
     private double a4Height = 297;
-    private double idWidth = 85.5;
-    private double idHeight = 54;
+    private double idWidth = 75.5;
+    private double idHeight = 44;
     private int screenWidth;
     private int screenHeight;
     private double sqrtRatio;

@@ -10,6 +10,7 @@ public class LoginBeanItem {
 	private String nickName;//昵称
 	private String uniqueId;//印家号
 	private String wechatId;// 微信id
+	private String wechatName;// 微信昵称
 
 	public String getEasemobId() {
 		return easemobId;
@@ -75,5 +76,11 @@ public class LoginBeanItem {
 		this.wechatId = wechatId;
 	}
 
+	public String getWechatName() {
+		return wechatName;
+	}
 
+	public void setWechatName(String wechatName) {
+		this.wechatName = wechatName;
+	}
 }

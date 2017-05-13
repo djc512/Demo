@@ -315,16 +315,19 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
                 startActivityForResult(intent, REQUEST_CAPTURE);
             case R.id.btn_photoconfirm://跳转到印家打印
-                saveName = System.currentTimeMillis() + ".jpg";
-                String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + saveName;
-                Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
-                printIntent.putExtra("imagepath", path);
-                startActivity(printIntent);
+                if (compBitmap != null) {
+                    String nameConfirm = System.currentTimeMillis() + ".jpg";
+                    saveUtil.saveClipPic(compBitmap, nameConfirm);
+                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + nameConfirm;
+                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
+                    printIntent.putExtra("imagepath", path);
+                    startActivity(printIntent);
+                }
                 break;
             case R.id.btn_save:
                 if (compBitmap != null) {
-                    saveName = System.currentTimeMillis() + ".jpg";
-                    saveUtil.saveClipPic(compBitmap, saveName);
+                    String nameSave = System.currentTimeMillis() + ".jpg";
+                    saveUtil.saveClipPic(compBitmap, nameSave);
                 }
                 break;
         }

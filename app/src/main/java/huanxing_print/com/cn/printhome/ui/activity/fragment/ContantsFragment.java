@@ -15,10 +15,10 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddByAddressBookActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.GroupActivity;
-import huanxing_print.com.cn.printhome.ui.activity.contact.GroupSettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.NewFriendActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ContactsItemAdapter;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -28,7 +28,7 @@ import huanxing_print.com.cn.printhome.view.IndexSideBar;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class ContantsFragment extends BaseFragment implements
-        OnClickListener, IndexSideBar.OnTouchLetterListener,ContactsItemAdapter.OnTypeItemClickerListener {
+        OnClickListener, IndexSideBar.OnTouchLetterListener, ContactsItemAdapter.OnTypeItemClickerListener {
     private static final int STARTNEWFRIEND = 1000;
     private IndexSideBar indexSideBar;
     private RecyclerView contactsView;
@@ -36,6 +36,7 @@ public class ContantsFragment extends BaseFragment implements
     private ContactsItemAdapter adapter;
     private LinearLayoutManager layoutManager;
     private String token;
+
     @Override
     protected void init() {
         initView();
@@ -60,7 +61,7 @@ public class ContantsFragment extends BaseFragment implements
         layoutManager = new LinearLayoutManager(getActivity());
         contactsView.setHasFixedSize(true);
         contactsView.setLayoutManager(layoutManager);
-        contactsView.addItemDecoration(new MyDecoration(getActivity(),MyDecoration.HORIZONTAL_LIST));
+        contactsView.addItemDecoration(new MyDecoration(getActivity(), MyDecoration.HORIZONTAL_LIST));
 
         adapter = new ContactsItemAdapter(getActivity(), friends);
         adapter.setTypeItemClickerListener(this);
@@ -76,8 +77,8 @@ public class ContantsFragment extends BaseFragment implements
     }
 
     private void getData() {
-        DialogUtils.showProgressDialog(getActivity(),"加载中").show();
-        FriendManagerRequest.queryFriendList(getActivity(),token,myFriendListCallback);
+        DialogUtils.showProgressDialog(getActivity(), "加载中").show();
+        FriendManagerRequest.queryFriendList(getActivity(), token, myFriendListCallback);
     }
 
 
@@ -103,7 +104,7 @@ public class ContantsFragment extends BaseFragment implements
 
     @Override
     public void onTouchingLetterListener(String letter) {
-        if(null != adapter) {
+        if (null != adapter) {
             int position = adapter.getScrollPosition(letter);
             layoutManager.scrollToPositionWithOffset(position, 0);
         }
@@ -143,16 +144,19 @@ public class ContantsFragment extends BaseFragment implements
 
     @Override
     public void contactClick(FriendInfo info) {
-        ToastUtil.doToast(getActivity(),"点击了 --- " + info.getMemberName());
+        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        intent.putExtra("FriendInfo", info);
+        startActivity(intent);
+        //ToastUtil.doToast(getActivity(), "点击了 --- " + info.getMemberName());
     }
 
     MyFriendListCallback myFriendListCallback = new MyFriendListCallback() {
         @Override
         public void success(String msg, ArrayList<FriendInfo> friendInfos) {
             DialogUtils.closeProgressDialog();
-            if(null !=  friendInfos) {
-                for(FriendInfo info : friendInfos) {
-                    if(null == info.getMemberName()) {
+            if (null != friendInfos) {
+                for (FriendInfo info : friendInfos) {
+                    if (null == info.getMemberName()) {
                         info.setMemberName("Null");
                     }
                 }
@@ -164,13 +168,13 @@ public class ContantsFragment extends BaseFragment implements
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getActivity(),msg);
+            ToastUtil.doToast(getActivity(), msg);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getActivity(),"网络连接超时");
+            ToastUtil.doToast(getActivity(), "网络连接超时");
         }
     };
 
@@ -179,7 +183,7 @@ public class ContantsFragment extends BaseFragment implements
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case STARTNEWFRIEND:
-                if(resultCode == getActivity().RESULT_OK) {
+                if (resultCode == getActivity().RESULT_OK) {
                     getData();
                 }
                 break;

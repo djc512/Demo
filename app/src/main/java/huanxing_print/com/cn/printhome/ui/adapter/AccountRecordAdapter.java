@@ -19,10 +19,11 @@ import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
 public class AccountRecordAdapter extends RecyclerView.Adapter<AccountRecordAdapter.MyViewHolder> {
 
     private Context ctx;
-    private  List<ChongZhiRecordBean.ListBean> list;
+    private List<ChongZhiRecordBean.ListBean> list;
+
     public AccountRecordAdapter(Context ctx, List<ChongZhiRecordBean.ListBean> list) {
         this.ctx = ctx;
-        this.list =list;
+        this.list = list;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class AccountRecordAdapter extends RecyclerView.Adapter<AccountRecordAdap
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list.size() > 0 ? list.size() : 0;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
