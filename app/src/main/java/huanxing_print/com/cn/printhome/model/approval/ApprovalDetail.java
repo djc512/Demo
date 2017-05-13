@@ -13,7 +13,7 @@ public class ApprovalDetail {
     private String approveId;//	申请单号
     private ArrayList<ApprovalOrCopy> approverList;//审核列表
     private ArrayList<ApprovalOrCopy> copyerList;//抄送列表
-    private ArrayList<String> attachmentList;//附件列表
+    private ArrayList<Attachment> attachmentList;//附件列表
     private String bankAccount;//收款方账号
     private String bankName;//收款方开户行
     private String bankPerson;//收款仿全称
@@ -61,11 +61,11 @@ public class ApprovalDetail {
         this.approverList = approverList;
     }
 
-    public ArrayList<String> getAttachmentList() {
+    public ArrayList<Attachment> getAttachmentList() {
         return attachmentList;
     }
 
-    public void setAttachmentList(ArrayList<String> attachmentList) {
+    public void setAttachmentList(ArrayList<Attachment> attachmentList) {
         this.attachmentList = attachmentList;
     }
 

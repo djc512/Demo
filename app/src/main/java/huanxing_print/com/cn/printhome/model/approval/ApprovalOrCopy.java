@@ -9,7 +9,7 @@ public class ApprovalOrCopy {
     private String faceUrl;//头像
     private String jobNumber;//会员id
     private String name;//名字
-    private long priority;//排序
+    private String priority;//排序
     private String status;//-1-（默认）未开始、0-审批中、2-已同意/3-已拒绝、4-申请人撤销、5-完成-未读、6-完成-
     private String type;//0-申请人；1-审批人；2-抄送人
     private String updateTime;//更新时间
@@ -38,11 +38,11 @@ public class ApprovalOrCopy {
         this.name = name;
     }
 
-    public long getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(long priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 

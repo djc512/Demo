@@ -389,7 +389,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 //            //请求的url前面加什么？、？？？第二个参数
 //            ImageUtil.showImageView(ApprovalBuyAddOrRemoveActivity.this,details.getAttachmentList().get(position),holder.image);
 
-            String picPath = details.getAttachmentList().get(position);
+            String picPath = details.getAttachmentList().get(position).getFileUrl();
             loadPic(holder.image, picPath);
             return convertView;
         }
