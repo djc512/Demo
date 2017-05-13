@@ -41,10 +41,8 @@ public class GetContactsUtils {
             nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
         }
         while (cursor.moveToNext()) {
-            PhoneContactInfo phoneContactInfo = new PhoneContactInfo();
             String contactId = cursor.getString(contactIdIndex);
             String name = cursor.getString(nameIndex);
-            phoneContactInfo.setTelName(name);
 
             /*
              * 查找该联系人的phone信息
@@ -54,20 +52,14 @@ public class GetContactsUtils {
                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId,
                     null, null);
             int phoneIndex = 0;
-            ArrayList<String> telNos = null;
             if (phones.getCount() > 0) {
                 phoneIndex = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                telNos = new ArrayList<String>();
             }
             while (phones.moveToNext()) {
                 String phoneNumber = phones.getString(phoneIndex);
-                if (null != telNos) {
-                    telNos.add(phoneNumber);
-                }
-            }
-            //添加到集合
-            if(null != telNos && telNos.size() > 0) {
-                phoneContactInfo.setTelNo(telNos.get(0).replace(" ",""));
+                PhoneContactInfo phoneContactInfo = new PhoneContactInfo();
+                phoneContactInfo.setTelName(name);
+                phoneContactInfo.setTelNo(phoneNumber.replace(" ",""));
                 infos.add(phoneContactInfo);
             }
 
