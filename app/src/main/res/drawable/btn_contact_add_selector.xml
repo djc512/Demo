@@ -13,7 +13,7 @@
             <!-- 圆角 -->
             <corners android:radius="5dp" />
             <!--填充颜色为白色-->
-            <solid android:color="@color/text_yellow" />
+            <solid android:color="@color/theme_yellow" />
         </shape>
     </item>
     <item android:state_pressed="true">
@@ -21,7 +21,7 @@
             <!-- 圆角 -->
             <corners android:radius="5dp" />
             <!--填充颜色为白色-->
-            <solid android:color="@color/theme_yellow" />
+            <solid android:color="@color/text_yellow" />
         </shape>
     </item>
 
