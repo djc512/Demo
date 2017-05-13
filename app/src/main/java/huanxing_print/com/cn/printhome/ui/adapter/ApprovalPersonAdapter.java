@@ -8,9 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
 import huanxing_print.com.cn.printhome.util.Info;
 
 /**
@@ -19,16 +26,21 @@ import huanxing_print.com.cn.printhome.util.Info;
 
 public class ApprovalPersonAdapter extends BaseAdapter {
     private Context ctx;
-    private List<Info> list;
+    private ArrayList<ApprovalOrCopy> list;
 
-    public ApprovalPersonAdapter(Context ctx, List<Info> list) {
+    public ApprovalPersonAdapter(Context ctx, ArrayList<ApprovalOrCopy> list) {
         this.ctx = ctx;
         this.list = list;
     }
 
+    public void modifyApprovalPersons(ArrayList<ApprovalOrCopy> ls) {
+        this.list = ls;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
-        return 3;
+        return list.size();
     }
 
     @Override
@@ -58,7 +70,37 @@ public class ApprovalPersonAdapter extends BaseAdapter {
            holder = (MyViewHolder) convertView.getTag();
         }
 
+
+        holder.iv_isapproval.setBackgroundResource(R.drawable.approval_finish);
         //Info info = list.get(position);
+        ApprovalOrCopy  info = list.get(position);
+        loadPic(holder.iv_user_head, info.getFaceUrl());
+        holder.tv_name.setText(info.getName());
+        holder.tv_time.setText(info.getUpdateTime());
+        String type = info.getStatus();
+        if("1".equals(type)) {
+            holder.tv_detail.setText("未开始");
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+        }else if("0".equals(type)) {
+            holder.tv_detail.setText("审批中");
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.text_yellow));
+            holder.iv_isapproval.setBackgroundResource(R.drawable.approval_ing);
+        }else if("2".equals(type)) {
+            holder.tv_detail.setText("已同意");
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+        }else if("3".equals(type)) {
+            holder.tv_detail.setText("已拒绝");
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+        }else if("4".equals(type)) {
+            holder.tv_detail.setText("申请人撤销");
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+        }else if("5".equals(type)) {
+            holder.tv_detail.setText("完成-未读");
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+        }else if("6".equals(type)) {
+            holder.tv_detail.setText("完成");
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+        }
 
         /*BitmapUtils.displayImage(ctx,info.getUsePic(),holder.iv_user_head);
         //holder.iv_user_head.setImageResource();
@@ -68,6 +110,15 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         holder.tv_detail.setText(info.getDetail());*/
 
         return convertView;
+    }
+
+    private void loadPic(final ImageView iv_user_head, String picPath) {
+        Glide.with(ctx).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                iv_user_head.setImageDrawable(resource);
+            }
+        });
     }
     public class MyViewHolder{
         TextView tv_name;

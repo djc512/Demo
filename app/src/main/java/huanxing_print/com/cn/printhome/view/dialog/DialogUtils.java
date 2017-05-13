@@ -5,6 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -16,16 +20,19 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
+import huanxing_print.com.cn.printhome.model.print.GroupResp;
+import huanxing_print.com.cn.printhome.ui.adapter.GroupRecylerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.LinePathView;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 
 import static huanxing_print.com.cn.printhome.R.id.tv_content;
 
@@ -91,11 +98,12 @@ public class DialogUtils {
     public interface QunOwnerTransferDialogCallBack {
         void transfer();
     }
+
     public interface QunOwnerDissolutionDialogCallBack {
         void dissolution();
     }
 
-    public interface GroupDelMemDialogCallback{
+    public interface GroupDelMemDialogCallback {
         void del();
     }
 
@@ -270,7 +278,7 @@ public class DialogUtils {
      * @param callBack
      * @return
      */
-    public static Dialog showPayChooseDialog(Context context, final PayChooseDialogCallBack callBack) {
+    public static Dialog showPayChooseDialog(Context context, String amount, final PayChooseDialogCallBack callBack) {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay, null);
         mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
         mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -287,6 +295,8 @@ public class DialogUtils {
         mPicChooseDialog.show();
         LinearLayout ll_wechat = (LinearLayout) view.findViewById(R.id.ll_wechat);
         LinearLayout ll_alipay = (LinearLayout) view.findViewById(R.id.ll_alipay);
+        TextView amountTv = (TextView) view.findViewById(R.id.amountTv);
+        amountTv.setText("￥" + amount);
         TextView tv_cancle = (TextView) view.findViewById(R.id.tv_cancle);
         tv_cancle.setOnClickListener(new OnClickListener() {
 
@@ -313,8 +323,9 @@ public class DialogUtils {
         return mPicChooseDialog;
     }
 
-    public static Dialog showQunChooseDialog(Context context, final PayQunChooseDialogCallBack callBack) {
-        View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay_qun, null);
+    public static Dialog showQunChooseDialog(Context context, List<GroupResp.Group> groupList, GroupRecylerAdapter
+            .OnItemClickListener onItemClickListener) {
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_pay_qun1, null);
         mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
         mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         Window window = mPicChooseDialog.getWindow();
@@ -324,35 +335,46 @@ public class DialogUtils {
         wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
         wl.width = LayoutParams.MATCH_PARENT;
         wl.height = LayoutParams.WRAP_CONTENT;
-
         mPicChooseDialog.onWindowAttributesChanged(wl);
         mPicChooseDialog.setCanceledOnTouchOutside(true);
         mPicChooseDialog.show();
-        RelativeLayout ll_yinjia = (RelativeLayout) view.findViewById(R.id.ll_yinjia);
-        RelativeLayout ll_tuniu = (RelativeLayout) view.findViewById(R.id.ll_tuniu);
-        TextView tv_cancle = (TextView) view.findViewById(R.id.tv_cancle);
-        tv_cancle.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View arg0) {
-                mPicChooseDialog.dismiss();
-            }
-        });
-        ll_yinjia.setOnClickListener(new OnClickListener() {//微信支付
-            @Override
-            public void onClick(View arg0) {
-                mPicChooseDialog.dismiss();
-                callBack.yinjia();
-            }
-        });
+        RecyclerView mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+        mRcList.setLayoutManager(mLayoutManager);
+        mRcList.setHasFixedSize(true);
+        mRcList.setItemAnimator(new DefaultItemAnimator());
+        GroupRecylerAdapter mAdapter = new GroupRecylerAdapter(groupList);
+        mRcList.setAdapter(mAdapter);
+        mRcList.addItemDecoration(new RecyclerViewDivider(context, LinearLayoutManager.VERTICAL, 1, ContextCompat
+                .getColor(context, R.color.devide_gray)));
+        mAdapter.setOnItemClickListener(onItemClickListener);
 
-        ll_tuniu.setOnClickListener(new OnClickListener() {//支付宝支付
-            @Override
-            public void onClick(View arg0) {
-                mPicChooseDialog.dismiss();
-                callBack.tuniu();
-            }
-        });
+//        RelativeLayout ll_yinjia = (RelativeLayout) view.findViewById(R.id.ll_yinjia);
+//        RelativeLayout ll_tuniu = (RelativeLayout) view.findViewById(R.id.ll_tuniu);
+//        TextView tv_cancle = (TextView) view.findViewById(R.id.tv_cancle);
+//        tv_cancle.setOnClickListener(new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View arg0) {
+//                mPicChooseDialog.dismiss();
+//            }
+//        });
+//        ll_yinjia.setOnClickListener(new OnClickListener() {//微信支付
+//            @Override
+//            public void onClick(View arg0) {
+//                mPicChooseDialog.dismiss();
+//                callBack.yinjia();
+//            }
+//        });
+//
+//        ll_tuniu.setOnClickListener(new OnClickListener() {//支付宝支付
+//            @Override
+//            public void onClick(View arg0) {
+//                mPicChooseDialog.dismiss();
+//                callBack.tuniu();
+//            }
+//        });
         return mPicChooseDialog;
     }
 
@@ -362,7 +384,8 @@ public class DialogUtils {
      * @param context
      * @return
      */
-    public static Dialog showQunTransferDialog(final Context context, final String content, final QunOwnerTransferDialogCallBack callbak) {
+    public static Dialog showQunTransferDialog(final Context context, final String content, final
+    QunOwnerTransferDialogCallBack callbak) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_qun_transfer, null);
@@ -401,11 +424,13 @@ public class DialogUtils {
 
     /**
      * 删除群成员
+     *
      * @param context
      * @param callbak
      * @return
      */
-    public static Dialog showGroupMemDelDialog(final Context context,String content, final GroupDelMemDialogCallback callbak) {
+    public static Dialog showGroupMemDelDialog(final Context context, String content, final GroupDelMemDialogCallback
+            callbak) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_qun_dissolution, null);
@@ -444,11 +469,13 @@ public class DialogUtils {
 
     /**
      * 退群
+     *
      * @param context
      * @param callbak
      * @return
      */
-    public static Dialog showexitGroupDialog(final Context context,String content, final ExitGroupDialogCallback callbak) {
+    public static Dialog showexitGroupDialog(final Context context, String content, final ExitGroupDialogCallback
+            callbak) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_qun_dissolution, null);
@@ -487,11 +514,13 @@ public class DialogUtils {
 
     /**
      * 解散群
+     *
      * @param context
      * @param callbak
      * @return
      */
-    public static Dialog showQunDissolutionDialog(final Context context,String content, final QunOwnerDissolutionDialogCallBack callbak) {
+    public static Dialog showQunDissolutionDialog(final Context context, String content, final
+    QunOwnerDissolutionDialogCallBack callbak) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_qun_dissolution, null);
@@ -604,7 +633,7 @@ public class DialogUtils {
             @Override
             public void onClick(View v) {
 
-                if(mPathView.getTouched()){
+                if (mPathView.getTouched()) {
                     try {
                         mPathView.save("/sdcard/signature.png", true, 10);
                         mSignatureDialog.dismiss();
@@ -612,7 +641,7 @@ public class DialogUtils {
                         e.printStackTrace();
                     }
                     signatureDialogCallBack.ok();
-                }else {
+                } else {
                     signatureDialogCallBack.cancel();
                 }
                 /*try {

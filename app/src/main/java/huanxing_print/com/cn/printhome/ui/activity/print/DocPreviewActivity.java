@@ -17,6 +17,7 @@ import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.DocPreViewpageAdapter;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
@@ -61,7 +62,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
 
     private void addFile(String fileUrl) {
         showLoading();
-        PrintRequest.addFile(activity,  file.getName(), fileUrl, new HttpListener() {
+        PrintRequest.addFile(activity, file.getName(), fileUrl, PrintUtil.TYPE_PRINT, new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 dismissLoading();

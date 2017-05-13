@@ -23,6 +23,13 @@ public class GroupResp extends CommonResp {
     //  "balance":"测试内容3h6b","groupId":"测试内容a4k8","groupName":"测试内容6quq","groupUrl":"测试内容9il2"
     public static class Group {
 
+        public Group(String balance, String groupId, String groupName, String groupUrl) {
+            this.balance = balance;
+            this.groupId = groupId;
+            this.groupName = groupName;
+            this.groupUrl = groupUrl;
+        }
+
         private String balance;
         private String groupId;
         private String groupName;
