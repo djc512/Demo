@@ -155,12 +155,14 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
+                    printIntent.putExtra("hukou",false);
                     startActivity(printIntent);
                 } else {
                     saveUtil.saveClipPic(mBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
+                    printIntent.putExtra("hukou",false);
                     startActivity(printIntent);
                 }
                 break;

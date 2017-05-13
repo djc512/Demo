@@ -321,6 +321,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + nameConfirm;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
+                    printIntent.putExtra("file",true);
                     startActivity(printIntent);
                 }
                 break;
