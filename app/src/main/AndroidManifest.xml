@@ -340,6 +340,9 @@
         <activity
             android:name=".ui.activity.my.DebitListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.my.ReceiptNewActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".util.webserver.WebServer"

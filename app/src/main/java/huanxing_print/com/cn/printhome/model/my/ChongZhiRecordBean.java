@@ -69,6 +69,7 @@ public class ChongZhiRecordBean {
             private String context;
             private String date;
             private int type;
+            private int  orderId;
 
             public String getAmount() {
                 return amount;
@@ -100,6 +101,14 @@ public class ChongZhiRecordBean {
 
             public void setType(int type) {
                 this.type = type;
+            }
+
+            public int getOrderId() {
+                return orderId;
+            }
+
+            public void setOrderId(int orderId) {
+                this.orderId = orderId;
             }
         }
     }
