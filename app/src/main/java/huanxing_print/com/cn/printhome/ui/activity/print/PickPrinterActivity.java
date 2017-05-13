@@ -183,7 +183,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
 
     private void initView() {
         initStepLine();
-        initTitleBar("打印");
+        initTitleBar("选打印机");
     }
 
     private void initStepLine() {
