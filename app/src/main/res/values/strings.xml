@@ -94,8 +94,8 @@
     <string name="title_bottom_hint">在印家打印上扫一扫加我</string>
     <string name="title_new_friend">新的朋友</string>
     <string name="btn_add_friend">添加朋友</string>
-    <string name="title_my_group">我的群组</string>
-    <string name="btn_create_group">发起群组</string>
+    <string name="title_my_group">群组</string>
+    <string name="btn_create_group">发起群</string>
     <string name="btn_cancel">取消</string>
     <string name="title_add_member">联系人</string>
     <string name="title_selcet_newowner">选择新群主</string>
