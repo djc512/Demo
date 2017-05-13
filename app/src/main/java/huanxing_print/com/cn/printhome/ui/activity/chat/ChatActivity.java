@@ -31,6 +31,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
+import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.presenter.ChatPresenter;
 import huanxing_print.com.cn.printhome.presenter.impl.ChatPresenterImpl;
@@ -90,6 +91,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
         GroupInfo groupInfo = intent.getParcelableExtra("GroupInfo");
         FriendInfo friendInfo = intent.getParcelableExtra("FriendInfo");
+        FriendSearchInfo friendSearchInfo = intent.getParcelableExtra("FriendSearchInfo");
         if (!ObjectUtils.isNull(groupInfo)) {
             //群聊
             type = 1;
@@ -103,6 +105,14 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
             type = 2;
             mUsername = friendInfo.getEasemobId();
             mTvTitle.setText(friendInfo.getMemberName());
+            Log.i("CMCC", "type:" + type + ",mUsername:" + mUsername);
+        }
+
+        if (!ObjectUtils.isNull(friendSearchInfo)) {
+            //私聊
+            type = 2;
+            mUsername = friendSearchInfo.getMemberId();
+            mTvTitle.setText(friendSearchInfo.getMemberName());
             Log.i("CMCC", "type:" + type + ",mUsername:" + mUsername);
         }
 
