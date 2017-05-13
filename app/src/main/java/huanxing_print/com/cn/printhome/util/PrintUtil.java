@@ -9,6 +9,9 @@ public class PrintUtil {
     public static final String PRINTER_TYPE_COLOR = "1";//彩色打印机
     public static final String PRINTER_TYPE_BLACK = "0";//黑白打印机
 
+    public static final String TYPE_PRINT = "0";//打印
+    public static final String TYPE_COPY = "1";//复印
+
     public static final int SETTING_BLACK = 1;//设置黑白
     public static final int SETTING_COLOR = 0;//设置彩色
 

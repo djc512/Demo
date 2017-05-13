@@ -1,5 +1,7 @@
 package huanxing_print.com.cn.printhome.util;
 
+import android.util.Log;
+
 import com.google.gson.GsonBuilder;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
@@ -273,6 +275,7 @@ public class HttpUtils {
             public void onResponse(String result, int arg1) {
                 TimeUtils.endTime();
                 Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                Log.i("CMCC", "http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
                 callback.success(result);
             }
 

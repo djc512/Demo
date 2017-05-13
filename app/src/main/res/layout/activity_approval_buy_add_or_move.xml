@@ -311,8 +311,17 @@
                 android:background="@color/white"
                 android:padding="15dp"
                 android:text="抄送人" />
+            <huanxing_print.com.cn.printhome.view.ScrollGridView
+                android:id="@+id/gridview_copy_member"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:numColumns="5"
+                android:verticalSpacing="5dp" >
+            </huanxing_print.com.cn.printhome.view.ScrollGridView>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

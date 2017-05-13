@@ -113,6 +113,7 @@ public class ApprovalRequest extends BaseRequst {
         HttpUtils.post(context, url, loginToken, params, new HttpCallBack() {
             @Override
             public void success(String content) {
+                Log.d("CMCC", content);
                 AddApprovalResolve approvalResolve = new AddApprovalResolve(content);
                 approvalResolve.resolve(addApprovalCallBack);
             }
@@ -140,6 +141,7 @@ public class ApprovalRequest extends BaseRequst {
         HttpUtils.getLastApprovalParam(context, url, loginToken, type, new HttpCallBack() {
             @Override
             public void success(String content) {
+                Log.d("CMCC", content);
                 LastApprovalResolve resolve = new LastApprovalResolve(content);
                 resolve.resolve(callBack);
             }

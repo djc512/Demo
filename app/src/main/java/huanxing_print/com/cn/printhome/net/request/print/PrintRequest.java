@@ -33,6 +33,7 @@ public class PrintRequest extends BaseRequst {
     public static final String PAGE_SIZE = "pageSize";
     public static final String FILE_LIST = "fileList";
     public static final String ORDER_ID = "orderId";
+    public static final String GROUP_ID = "groupId";
     public static final String RADIUS = "radius";
     public static final String CENTER = "center";
     public static final String PAY_AMOUNT = "payAmount";
@@ -52,6 +53,7 @@ public class PrintRequest extends BaseRequst {
     public static final String ADD_ORDER = "order/add";
     public static final String PRINT = "print/doPrint";
     public static final String BLANCE_PAY = "pay/order/balancePay";
+    public static final String GROUP_PAY = "pay/order/groupPay";
     public static final String RE_PRINT = "print/rePrint";
     public static final String QUERY_ORDER_STATUS = "order/queryStatus";
 
@@ -105,12 +107,13 @@ public class PrintRequest extends BaseRequst {
      * @param fileUrl
      * @param callback
      */
-    public static final void addFile(Activity activity, String fileName, String fileUrl, final
+    public static final void addFile(Activity activity, String fileName, String fileUrl, String fileType, final
     HttpListener callback, boolean showDialog) {
         String url = BASE_URL + FILE_ADD;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(FILE_NAME, fileName);
         params.put(FILE_URL, fileUrl);
+        params.put(FILE_TYPE, fileType);
         Http.postString(activity, url, params, getHeaderTokenMap(), callback, showDialog);
     }
 
@@ -286,6 +289,22 @@ public class PrintRequest extends BaseRequst {
         String url = BASE_URL + BLANCE_PAY;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(ORDER_ID, orderId);
+        Http.postString(activity, url, params, getHeaderTokenMap(), callback, false);
+    }
+
+    /**
+     * 群支付
+     *
+     * @param activity
+     * @param groupId
+     * @param orderId
+     * @param callback
+     */
+    public static final void groupPay(Activity activity, String groupId, long orderId, final HttpListener callback) {
+        String url = BASE_URL + GROUP_PAY;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(ORDER_ID, orderId);
+        params.put(GROUP_ID, groupId);
         Http.postString(activity, url, params, getHeaderTokenMap(), callback, false);
     }
 

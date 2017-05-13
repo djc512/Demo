@@ -12,6 +12,7 @@ public class ApprovalDetail {
     private String amountMonney;//金额
     private String approveId;//	申请单号
     private ArrayList<ApprovalOrCopy> approverList;//审核列表
+    private ArrayList<ApprovalOrCopy> copyerList;//抄送列表
     private ArrayList<String> attachmentList;//附件列表
     private String bankAccount;//收款方账号
     private String bankName;//收款方开户行
@@ -19,9 +20,11 @@ public class ApprovalDetail {
     private String department;//部门
     private String finishTime;//完成时间
     private String jobNumber;//工号
+    private String memberName;//会员名称
+    private String memberUrl;//会员头像
     private String purchaseList;//采购清单
     private String remark;//标注
-    private int status;//状态
+    private int status;//状态0-审批中；（2-审批完成；3-已驳回）；4-已撤销；5-打印凭证；6-已打印
     private ArrayList<SubFormItem> subFormList;//报销条目
     private String title;//名称
     private int type;//类别  类型1.采购 2报销
@@ -160,5 +163,29 @@ public class ApprovalDetail {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getMemberUrl() {
+        return memberUrl;
+    }
+
+    public void setMemberUrl(String memberUrl) {
+        this.memberUrl = memberUrl;
+    }
+
+    public ArrayList<ApprovalOrCopy> getCopyerList() {
+        return copyerList;
+    }
+
+    public void setCopyerList(ArrayList<ApprovalOrCopy> copyerList) {
+        this.copyerList = copyerList;
     }
 }

@@ -16,10 +16,18 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
+import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.OrderIdCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
+import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
+import huanxing_print.com.cn.printhome.net.request.my.OrderIdRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -91,10 +99,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                     Toast.makeText(getSelfActivity(), "先选择充值金额", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(baseApplication, rechargeAmout + "", Toast.LENGTH_SHORT).show();
-                Intent payIntent = new Intent(getSelfActivity(), PayActivity.class);
-                payIntent.putExtra("rechargeAmout", rechargeAmout);
-                startActivity(payIntent);
+                getOrderId();
                 break;
             case R.id.tv_account_record://充值记录
                 startActivity(new Intent(getSelfActivity(), AccountRecordActivity.class));
@@ -103,6 +108,78 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 finishCurrentActivity();
                 break;
         }
+    }
+
+    /**
+     * 获取商品id
+     */
+    private void getOrderId() {
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在加载...");
+        OrderIdRequest.getOrderId(getSelfActivity(), rechargeAmout, new OrderIdCallBack() {
+            @Override
+            public void success(String msg, String data) {
+                DialogUtils.closeProgressDialog();
+                String czOrderid = data;
+                showPaySelect(czOrderid);
+            }
+
+            @Override
+            public void fail(String msg) {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+        });
+    }
+
+    /**
+     * 充值选择
+     */
+    private void showPaySelect(final String orderid) {
+        DialogUtils.showPayChooseDialog(getSelfActivity(), rechargeAmout, new DialogUtils.PayChooseDialogCallBack() {
+            @Override
+            public void wechat() {
+                Go2PayRequest.go2PWeChat(getSelfActivity(), orderid, "CZ", new WeChatCallBack() {
+                    @Override
+                    public void success(WeChatPayBean bean) {
+                        PayUtil.getInstance(getSelfActivity()).weChatPay(bean);
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+
+                    }
+
+                    @Override
+                    public void connectFail() {
+                        toast("网络连接失败");
+                    }
+                });
+            }
+
+            @Override
+            public void alipay() {
+                Go2PayRequest.go2Pay(getSelfActivity(), orderid+"", "CZ", new Go2PayCallBack() {
+                    @Override
+                    public void success(String msg, String s) {
+                        PayUtil.getInstance(getSelfActivity()).alipay(s);
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+
+                    }
+
+                    @Override
+                    public void connectFail() {
+
+                    }
+                });
+            }
+        });
     }
 
     public class MyChongzhiCallBack extends ChongzhiCallBack {

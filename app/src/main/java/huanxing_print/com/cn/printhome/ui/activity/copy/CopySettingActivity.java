@@ -1,10 +1,18 @@
 package huanxing_print.com.cn.printhome.ui.activity.copy;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,16 +27,19 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.CommonResp;
+import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
 import huanxing_print.com.cn.printhome.model.print.AddOrderRespBean;
 import huanxing_print.com.cn.printhome.model.print.FileBean;
 import huanxing_print.com.cn.printhome.model.print.GroupResp;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
+import huanxing_print.com.cn.printhome.ui.adapter.GroupRecylerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
@@ -37,9 +48,12 @@ import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
+import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
+
+import static huanxing_print.com.cn.printhome.R.drawable.on;
 
 /**
  * Created by Administrator on 2017/5/3 0003.
@@ -74,6 +88,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private TextView tv_persion;
     private ImageView iv_copy_cz;
     private TextView tv_qun;
+    private TextView groupTv;
     private ImageView iv_cz_persion;
     private TextView btn_preview;
     private LinearLayout ll_finish;
@@ -84,11 +99,13 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     protected LoadingDialog loadingDialog;
 
 
+    private List<GroupResp.Group> groupList = new ArrayList<>();
     private String printerNo;
     private PrintSetting printSetting;
     private PrintSetting newSetting;
     private PrintInfoResp.PrinterPrice printerPrice;
     private long orderId;
+    private GroupResp.Group group;
 
     //    colourFlag	彩色打印0-彩色 1-黑白	number
     //    directionFlag	方向标识0-横版  1-竖版	number
@@ -204,17 +221,39 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                                 .getTotleBalance())) {
                             balancePay();
                         } else {
-                            dismissLoading();
                             showPayType();
-                            Logger.i("余额不足");
+                            Logger.i("余额不足,调用第三方支付");
                         }
                     } else {
-                        dismissLoading();
+                        groupPay();
                         ShowUtil.showToast("请使用群支付");
                     }
                 } else {
                     dismissLoading();
                     ShowUtil.showToast(addOrderRespBean.getErrorMsg());
+                }
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                dismissLoading();
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
+    }
+
+    private void groupPay() {
+        PrintRequest.groupPay(this, group.getGroupId(), orderId, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                Logger.i("groupPay onSucceed");
+                CommonResp resp = new Gson().fromJson(content, CommonResp.class);
+                if (resp.isSuccess() && isLoading()) {
+                    Logger.i("modifySetting onSucceed");
+                    print();
+                } else {
+                    dismissLoading();
+                    ShowUtil.showToast(resp.getErrorMsg());
                 }
             }
 
@@ -314,7 +353,8 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                         ShowUtil.showToast("没有可支付的群");
                         setGroupViewGone();
                     } else {
-                        setGroupViewVisible();
+                        groupList = resp.getData();
+                        setGroupViewVisible(groupList.get(0));
                     }
                 } else {
                     setGroupViewGone();
@@ -351,6 +391,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         stepView = (StepLineView) findViewById(R.id.stepView);
         lv = (LinearLayout) findViewById(R.id.lv);
 
+        groupTv = (TextView) findViewById(R.id.groupTv);
         iv_paper = (ImageView) findViewById(R.id.iv_paper);
         iv_minus = (ImageView) findViewById(R.id.iv_minus);
         tv_mount = (TextView) findViewById(R.id.tv_mount);
@@ -386,7 +427,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         //    sizeType	   大小类型0-A4  1-A3
         tv_mount.setText(newSetting.getPrintCount() + "");
         if (directionFlag == 0) {
-            iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+            iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
             iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.orientation));
             tv_orientation.setTextColor(getResources().getColor(R.color.black2));
             tv_vertical.setTextColor(getResources().getColor(R.color.gray8));
@@ -405,7 +446,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             if (colourFlag == 0) {
                 tv_black.setTextColor(getResources().getColor(R.color.gray8));
                 tv_color.setTextColor(getResources().getColor(R.color.black2));
-                iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
             } else {
                 tv_black.setTextColor(getResources().getColor(R.color.black2));
                 tv_color.setTextColor(getResources().getColor(R.color.gray8));
@@ -419,10 +460,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         } else {
             tv_a4.setTextColor(getResources().getColor(R.color.gray8));
             tv_a3.setTextColor(getResources().getColor(R.color.black2));
-            iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+            iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
         }
         if (doubleFlag == 0) {
-            iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+            iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
             tv_double.setTextColor(getResources().getColor(R.color.black2));
             tv_single.setTextColor(getResources().getColor(R.color.gray8));
         } else {
@@ -451,8 +492,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     private boolean isPersion = true;
 
-    private void setGroupViewVisible() {
-        iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+    private void setGroupViewVisible(GroupResp.Group group) {
+        this.group = group;
+        groupTv.setText(group.getGroupName());
+        iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
         tv_qun.setTextColor(getResources().getColor(R.color.black2));
         tv_persion.setTextColor(getResources().getColor(R.color.gray8));
         ll_cz_persion.setVisibility(View.GONE);
@@ -490,7 +533,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_orientation://方向
                 if (directionFlag == 1) {
-                    iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
                     iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.orientation));
                     tv_orientation.setTextColor(getResources().getColor(R.color.black2));
                     tv_vertical.setTextColor(getResources().getColor(R.color.gray8));
@@ -510,7 +553,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     if (colourFlag == 1) {
                         tv_black.setTextColor(getResources().getColor(R.color.gray8));
                         tv_color.setTextColor(getResources().getColor(R.color.black2));
-                        iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                        iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
                         colourFlag = 0;
                     } else {//黑白
                         tv_black.setTextColor(getResources().getColor(R.color.black2));
@@ -529,13 +572,13 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 } else {
                     tv_a4.setTextColor(getResources().getColor(R.color.gray8));
                     tv_a3.setTextColor(getResources().getColor(R.color.black2));
-                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
                     sizeType = 1;
                 }
                 break;
             case R.id.iv_print_type://单双面
                 if (doubleFlag == 1) {
-                    iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
                     tv_double.setTextColor(getResources().getColor(R.color.black2));
                     tv_single.setTextColor(getResources().getColor(R.color.gray8));
                     doubleFlag = 0;
@@ -554,17 +597,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.ll_cz_qun://群支付
-                DialogUtils.showQunChooseDialog(ctx, new DialogUtils.PayQunChooseDialogCallBack() {
-                    @Override
-                    public void tuniu() {
-                        Toast.makeText(ctx, "图牛群支付", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void yinjia() {
-                        Toast.makeText(ctx, "印加群支付", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                showGroupDialog();
                 break;
             case R.id.ll_finish://完成
                 break;
@@ -580,17 +613,72 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         log();
     }
 
+    private void showGroupDialog() {
+        final Dialog dialog = new Dialog(this, R.style.GroupDialogStyle);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+        Window window = dialog.getWindow();
+        window.setWindowAnimations(R.style.main_menu_animstyle);
+        window.setGravity(Gravity.BOTTOM);
+        View view = View.inflate(this, R.layout.dialog_pay_qun1, null);
+        window.setContentView(view);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+
+        RecyclerView mRcList = (RecyclerView) view.findViewById(R.id.groupRecView);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(CopySettingActivity.this);
+        mRcList.setLayoutManager(mLayoutManager);
+        mRcList.setHasFixedSize(true);
+        mRcList.setItemAnimator(new DefaultItemAnimator());
+        GroupRecylerAdapter mAdapter = new GroupRecylerAdapter(groupList);
+        mRcList.setAdapter(mAdapter);
+        mRcList.addItemDecoration(new RecyclerViewDivider(CopySettingActivity.this, LinearLayoutManager.VERTICAL, 1,
+                ContextCompat.getColor(CopySettingActivity.this, R.color.devide_gray)));
+        mAdapter.setOnItemClickListener(new GroupRecylerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                dialog.dismiss();
+                setGroupViewVisible(groupList.get(position));
+            }
+        });
+
+        TextView cancelTv = (TextView) view.findViewById(R.id.cancelTv);
+        cancelTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                dialog.dismiss();
+            }
+        });
+    }
+
     private void showPayType() {
         dismissLoading();
-        DialogUtils.showPayChooseDialog(ctx, new DialogUtils.PayChooseDialogCallBack() {
+        DialogUtils.showPayChooseDialog(ctx, PriceUtil.getPrice(newSetting, printerPrice) + "", new DialogUtils
+                .PayChooseDialogCallBack() {
             @Override
             public void wechat() {
-                Toast.makeText(ctx, "微信支付", Toast.LENGTH_SHORT).show();
+                Logger.i("微信支付");
+                Go2PayRequest.go2PWeChat(getSelfActivity(), orderId + "", "PT", new WeChatCallBack() {
+                    @Override
+                    public void success(WeChatPayBean bean) {
+                        wechatPay(bean);
+                    }
+
+                    @Override
+                    public void fail(String msg) {
+
+                    }
+
+                    @Override
+                    public void connectFail() {
+
+                    }
+                });
             }
 
             @Override
             public void alipay() {
-                Toast.makeText(ctx, "支付宝支付", Toast.LENGTH_SHORT).show();
+                Logger.i("支付宝支付");
                 Go2PayRequest.go2Pay(getSelfActivity(), orderId + "", "PT", new Go2PayCallBack() {
 
                     @Override
@@ -611,6 +699,21 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 });
             }
         });
+    }
+
+    private void wechatPay(WeChatPayBean bean) {
+        PayUtil.getInstance(getSelfActivity()).setCallBack(new PayUtil.PayCallBack() {
+            @Override
+            public void paySuccess() {
+                showLoading();
+                print();
+            }
+
+            @Override
+            public void payFailed() {
+            }
+        });
+        PayUtil.getInstance(getSelfActivity()).weChatPay(bean);
     }
 
     private void aliPay(String payInfo) {
