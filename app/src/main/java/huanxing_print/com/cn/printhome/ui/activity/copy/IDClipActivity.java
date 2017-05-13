@@ -30,6 +30,8 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
 public class IDClipActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_preview;
     private TextView btn_preview;
+    //    private double a4Width = 210;
+//    private double a4Height = 297;
     private double a4Width = 220;
     private double a4Height = 307;
     private double idWidth = 85.5;
@@ -44,7 +46,8 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private PicSaveUtil saveUtil;
     private Bitmap mBitmap;
     private TextView btn_reset;
-//    private double scale =
+
+    //  1毫米 约等于 3.78像素
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -110,7 +113,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private void scaleID(Bitmap mBitmap) {
         sqrtRatio = (a4Width * a4Height) / (idWidth * idHeight);//a4纸与身份证面积比
         //计算图片在屏幕中应占的比例面积
-        ivSqrt = (screenHeight * screenWidth) / sqrtRatio;
+        ivSqrt = ((screenHeight-37.8) * (screenWidth-37.8)) / sqrtRatio;
         double idRatio = idWidth / idHeight;//获取身份证的宽高比
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
@@ -128,7 +131,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private void initMergePic() {
         sqrtRatio = (a4Width * a4Height) / (idWidth * idHeight);//a4纸与身份证面积比
         //计算图片在屏幕中应占的比例面积
-        ivSqrt = (screenHeight * screenWidth) / sqrtRatio;
+        ivSqrt = ((screenHeight-37.8) *(screenWidth-37.8)) / sqrtRatio;
         double idRatio = idWidth / idHeight;//获取身份证的宽高比
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
@@ -154,14 +157,14 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("copyfile",false);
+                    printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
                 } else {
                     saveUtil.saveClipPic(mBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("copyfile",false);
+                    printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
                 }
                 break;

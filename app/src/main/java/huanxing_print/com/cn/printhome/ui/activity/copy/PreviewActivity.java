@@ -323,6 +323,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                     printIntent.putExtra("imagepath", path);
                     printIntent.putExtra("copyfile",true);
                     startActivity(printIntent);
+                    finishCurrentActivity();
                 }
                 break;
             case R.id.btn_save:
