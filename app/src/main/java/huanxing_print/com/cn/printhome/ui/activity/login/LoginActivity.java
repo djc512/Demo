@@ -55,10 +55,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     private static final int REQUEST_SDCARD = 1;
 
-    private TextView tv_login,getCodeTv;
-    private EditText et_phone,et_code;
-    private ImageView iv_phone_detele,iv_code_detele;
-    private TextView  tv_register;
+    private TextView tv_login, getCodeTv;
+    private EditText et_phone, et_code;
+    private ImageView iv_phone_detele, iv_code_detele;
+    private TextView tv_register;
     private String phone;
     String name;
     String validCode;
@@ -89,6 +89,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         initViews();
         initData();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -111,9 +112,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (start>0){
+                if (start > 0) {
                     iv_phone_detele.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     iv_phone_detele.setVisibility(View.GONE);
                 }
             }
@@ -131,9 +132,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (start>0){
+                if (start > 0) {
                     iv_code_detele.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     iv_code_detele.setVisibility(View.GONE);
                 }
             }
@@ -147,7 +148,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     private void initViews() {
         et_phone = (EditText) findViewById(R.id.login_user);
-        et_code= (EditText) findViewById(R.id.et_code);
+        et_code = (EditText) findViewById(R.id.et_code);
         tv_register = (TextView) findViewById(R.id.tv_register);
         getCodeTv = (TextView) findViewById(R.id.code_btn);
         iv_phone_detele = (ImageView) findViewById(R.id.iv_phone_detele);
@@ -167,7 +168,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             case R.id.tv_login:
                 name = et_phone.getText().toString().trim();
                 validCode = et_code.getText().toString().trim();
-                if (isUserNameAndPwdVali(name,validCode)) {
+                if (isUserNameAndPwdVali(name, validCode)) {
 
                     DialogUtils.showProgressDialog(getSelfActivity(), "正在登录中").show();
 
@@ -205,9 +206,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         @Override
         public void success(final LoginBean loginBean) {
-           // toast(""+loginBean.getMemberInfo().getEasemobId());
+            // toast(""+loginBean.getMemberInfo().getEasemobId());
             //判断环信是否登录成功
-            EMClient.getInstance().login(loginBean.getMemberInfo().getEasemobId(),loginBean.getMemberInfo().getEasemobId() , new EmsCallBackListener() {
+            EMClient.getInstance().login(loginBean.getMemberInfo().getEasemobId(), loginBean.getMemberInfo().getEasemobId(), new EmsCallBackListener() {
                 @Override
                 public void onMainSuccess() {
                     baseApplication.setHasLoginEvent(true);
@@ -242,6 +243,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
                 }
             });
+            Log.d("CMCC", "登陆人环信号:" + loginBean.getMemberInfo().getEasemobId());
 
             /*baseApplication.setHasLoginEvent(true);
             DialogUtils.closeProgressDialog();
@@ -281,18 +283,17 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     };
 
 
-
     /*
      * 判断用户名和密码是否有效
      */
-    private boolean isUserNameAndPwdVali(String name,String code) {
+    private boolean isUserNameAndPwdVali(String name, String code) {
         if (ObjectUtils.isNull(name)) {
             toast(getStringFromResource(R.string.phone_no_null));
             return false;
         } else if (!CommonUtils.isPhone(name)) {
             toast(getStringFromResource(R.string.phone_format_error));
             return false;
-        }else if (ObjectUtils.isNull(code)) {
+        } else if (ObjectUtils.isNull(code)) {
             toast(getStringFromResource(R.string.code_no_null));
             return false;
         }

@@ -286,7 +286,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                     Log.i("CMCC", "groupId:" + groupId);
                 }
                 ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-                ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
+                ArrayList<ApprovalOrCopy> copys = approval.getCopyerList();
                 if (!ObjectUtils.isNull(approvals)) {
                     for (ApprovalOrCopy approvalOrCopy : approvals) {
                         GroupMember info = new GroupMember();

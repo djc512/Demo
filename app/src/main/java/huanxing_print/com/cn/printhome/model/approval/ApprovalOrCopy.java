@@ -9,7 +9,7 @@ public class ApprovalOrCopy {
     private String faceUrl;//头像
     private String jobNumber;//会员id
     private String name;//名字
-    private long priority;//排序
+    private String priority;//排序
 
     public String getFaceUrl() {
         return faceUrl;
@@ -35,11 +35,11 @@ public class ApprovalOrCopy {
         this.name = name;
     }
 
-    public long getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(long priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 }

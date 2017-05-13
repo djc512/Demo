@@ -244,7 +244,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                     Log.i("CMCC", "groupId:" + groupId);
                 }
                 ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-                ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
+                ArrayList<ApprovalOrCopy> copys = approval.getCopyerList();
                 if (!ObjectUtils.isNull(approvals)) {
                     for (ApprovalOrCopy approvalOrCopy : approvals) {
                         GroupMember info = new GroupMember();
@@ -580,7 +580,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         public void success(String msg, String data) {
             DialogUtils.closeProgressDialog();
             Log.i("CMCC", "新建报销审批,id:" + data);
-            finishCurrentActivity();
+            finish();
             ToastUtil.doToast(getSelfActivity(), "新建报销审批成功!");
             //ToastUtil.doToast(getSelfActivity(), "新建采购审批,id:" + data);
         }
