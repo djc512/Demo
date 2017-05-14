@@ -132,38 +132,16 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     }
 
     private void showData() {
-        showApprovalMemberName();
-        showApprovalMemberIcon();
-        showApprovalState();
-        showApprovalDetail();
-        showApprovalPerson();
-        showApprovalCopyMembers();
-        showApprovalSubForm();
-    }
-
-    /**
-     * member名称
-     */
-    private void showApprovalMemberName() {
+        //member名称
         iv_name.setText(details.getMemberName().isEmpty() ? "Null" : details.getMemberName());
-    }
-
-    /**
-     * member头像
-     */
-    private void showApprovalMemberIcon() {
+        //member头像
         Glide.with(mContext).load(details.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                 iv_user_head.setImageDrawable(resource);
             }
         });
-    }
-
-    /**
-     * 审批状态
-     */
-    private void showApprovalState() {
+        //审批状态
         if(0 == details.getStatus()) {
             iv_isapproval.setText("审批中");
             iv_isapproval.setTextColor(getResources().getColor(R.color.text_yellow));
@@ -184,42 +162,20 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
         }
 
-    }
-
-    private void showApprovalDetail() {
-        tv_number.setText(details.getApproveId().isEmpty() ? "" : details.getApproveId());
-        tv_section.setText(details.getDepartment().isEmpty() ? "" : details.getDepartment());
-        tv_total.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
-//        tv_use.setText(details.getRemark().isEmpty() ? "" : details.getRemark());
-//        tv_detail.setText(details.getPurchaseList().isEmpty() ? "" : details.getPurchaseList());
-//        tv_money.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
-//        tv_overtime.setText(details.getAddTime().isEmpty() ? "" : details.getAddTime());
-//        adapter.notifyDataSetChanged();
-        if(null != details.getAttachmentList()) {
-            attachmentAdatper.modifyData(details.getAttachmentList());
-        }
-    }
-
-    /**
-     * 审批人列表审批状态
-     */
-    private void showApprovalPerson() {
+        //审批人列表审批状态
         ArrayList<ApprovalOrCopy> list =  details.getApproverList();
         if(null != list && list.size() > 0) {
             lists = list;
             personAdapter.modifyApprovalPersons(list);
         }
-    }
-
-    private void showApprovalCopyMembers() {
-        ArrayList<ApprovalOrCopy> list =  details.getCopyerList();
-        if(null != list && list.size() > 0) {
-            copyMembers = list;
+        //抄送
+        ArrayList<ApprovalOrCopy> copylist =  details.getCopyerList();
+        if(null != copylist && copylist.size() > 0) {
+            copyMembers = copylist;
             copyMembersAdapter.modifyData(copyMembers);
         }
-    }
 
-    private void showApprovalSubForm() {
+        //明细
         ArrayList<SubFormItem> items = details.getSubFormList();
         if(null != items && items.size() > 0) {
             subFormItems = items;
