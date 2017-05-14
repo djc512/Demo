@@ -138,7 +138,7 @@
                         android:paddingBottom="5dp"
                         android:paddingLeft="20dp"
                         android:textSize="12sp"
-                        android:text="报销金额总计"/>
+                        android:text="金额总计"/>
                     <TextView
                         android:id="@+id/tv_total"
                         android:background="@color/white"
@@ -170,27 +170,28 @@
                         android:text="图片  "
                         android:id="@+id/textView2" />
 
-                    <ImageView
-                        android:layout_marginLeft="25dp"
-                        android:id="@+id/iv_camera"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="30dp"
-                        android:src="@drawable/camera"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/textView2"
-                        android:layout_toEndOf="@+id/textView2"
-                        android:layout_marginStart="25dp" />
+                    <include layout="@layout/item_approval_gridview" />
+
                 </RelativeLayout>
-
-                <ListView
-                    android:id="@+id/ll_person"
+                <TextView
+                    android:gravity="center"
+                    android:background="@color/white"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="12dp"
+                    android:textColor="@color/title_color"
+                    android:text="备注:审批结束后,图片保留30天"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp">
+                    android:layout_height="wrap_content"/>
 
-                </ListView>
+                <huanxing_print.com.cn.printhome.view.ScrollListView
+                    android:id="@+id/ll_approval_process"
+                    android:layout_width="match_parent"
+                    android:layout_height="310dp"
+                    android:divider="@null"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"/>
+
                 <TextView
                     android:padding="15dp"
                     android:layout_marginTop="5dp"
@@ -199,7 +200,18 @@
                     android:background="@color/white"
                     android:text="抄送人"/>
 
+                <huanxing_print.com.cn.printhome.view.ScrollGridView
+                    android:id="@+id/gridview_copy_member"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:numColumns="5"
+                    android:verticalSpacing="5dp" >
+                </huanxing_print.com.cn.printhome.view.ScrollGridView>
+
+
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"

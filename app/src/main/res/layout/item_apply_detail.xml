@@ -10,6 +10,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/subform_title"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:layout_width="match_parent"

@@ -8,6 +8,8 @@ package huanxing_print.com.cn.printhome.model.approval;
 public class SubFormItem {
     private String amount;//金额
     private String type;//类别
+    private String approveId;
+    private int id;
 
     public String getAmount() {
         return amount;
@@ -23,5 +25,21 @@ public class SubFormItem {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getApproveId() {
+        return approveId;
+    }
+
+    public void setApproveId(String approveId) {
+        this.approveId = approveId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
