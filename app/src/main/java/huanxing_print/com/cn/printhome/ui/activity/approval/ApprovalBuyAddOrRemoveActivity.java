@@ -214,22 +214,22 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
      * 审批状态
      */
     private void showApprovalState() {
-        if("0".equals(details.getStatus())) {
+        if(0 == details.getStatus()) {
             iv_isapproval.setText("审批中");
             iv_isapproval.setTextColor(getResources().getColor(R.color.text_yellow));
-        }else if("2".equals(details.getStatus())) {
+        }else if(2 == details.getStatus()) {
             iv_isapproval.setText("审批完成");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("3".equals(details.getStatus())) {
+        }else if(3 == details.getStatus()) {
             iv_isapproval.setText("已驳回");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("4".equals(details.getStatus())) {
+        }else if(4 == details.getStatus()) {
             iv_isapproval.setText("已撤销");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("5".equals(details.getStatus())) {
+        }else if(5 == details.getStatus()) {
             iv_isapproval.setText("打印凭证");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("6".equals(details.getStatus())) {
+        }else if(6 == details.getStatus()) {
             iv_isapproval.setText("已打印");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
         }
