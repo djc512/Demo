@@ -96,6 +96,12 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
             if (!ObjectUtils.isNull(groupMessageInfo)) {
                 if (!ObjectUtils.isNull(groupMessageInfo.getGroupMembers())) {
                     groupMembers = groupMessageInfo.getGroupMembers();
+                    for(GroupMember member : groupMembers) {
+                        if(member.getEasemobId().equals(baseApplication.getEasemobId())) {
+                            groupMembers.remove(member);
+                            break;
+                        }
+                    }
                     btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, groupMembers.size()));
                     groupMemberAdapter.modify(groupMembers);
                 }
