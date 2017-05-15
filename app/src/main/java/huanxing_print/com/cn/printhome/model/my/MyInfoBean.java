@@ -14,6 +14,7 @@ public class MyInfoBean {
     private String nickName;
     private String totleBalance;//余额
     private String totlePrintCount;//总打印量
+    private String uniqueModifyFlag;//能否修改印家号
     private String wechatId;//微信id，有值说明已绑定微信
     private String wechatName;//微信昵称，有值说明已绑定微信
 
@@ -71,6 +72,14 @@ public class MyInfoBean {
 
     public void setTotlePrintCount(String totlePrintCount) {
         this.totlePrintCount = totlePrintCount;
+    }
+
+    public String getUniqueModifyFlag() {
+        return uniqueModifyFlag;
+    }
+
+    public void setUniqueModifyFlag(String uniqueModifyFlag) {
+        this.uniqueModifyFlag = uniqueModifyFlag;
     }
 
     public String getWechatId() {
