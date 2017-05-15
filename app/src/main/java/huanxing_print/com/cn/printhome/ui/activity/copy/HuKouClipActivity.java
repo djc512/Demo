@@ -31,8 +31,8 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     private ImageView iv_preview;
     private TextView btn_reset;
     private TextView btn_preview;
-    private double a4Width = 210;
-    private double a4Height = 297;
+    private double a4Width = 220;
+    private double a4Height = 307;
     private double idWidth = 105;
     private double idHeight = 143;
     private int screenWidth;
@@ -116,7 +116,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) ivWidth, (int) ivHeight);
+        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7581));
         iv_preview.setImageBitmap(mBitmap);
     }
 
@@ -134,8 +134,8 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) ivWidth, (int) ivHeight);
-        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) ivWidth, (int) ivHeight);
+        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7851));
+        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7851));
 
         mergeBitmap = mergePic(bitmap1, bitmap2, ivWidth, ivHeight);
         iv_preview.setImageBitmap(mergeBitmap);
@@ -154,15 +154,17 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("copyfile",false);
+                    printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
+                    finishCurrentActivity();
                 } else {
                     saveUtil.saveClipPic(mBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("copyfile",false);
+                    printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
+                    finishCurrentActivity();
                 }
                 break;
         }
@@ -190,13 +192,13 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (null !=mBitmap) {
+        if (null != mBitmap) {
             mBitmap.recycle();
             mBitmap = null;
         }
         if (null != mergeBitmap) {
             mergeBitmap.recycle();
-            mergeBitmap =null;
+            mergeBitmap = null;
         }
         System.gc();
     }
