@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.activity.approval;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -237,10 +238,10 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
                         }).show();
                 break;
             case R.id.btn_print:
-                ToastUtil.doToast(this,"生成凭证");
+                createAndLook();
                 break;
             case R.id.btn_look:
-                ToastUtil.doToast(this,"查看凭证");
+                createAndLook();
                 break;
             default:
                 break;
@@ -248,6 +249,13 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
 
         }
 
+    }
+
+    private void createAndLook() {
+        Intent intent = new Intent(ApprovalApplyDetailsActivity.this, VoucherPreviewActivity.class);
+        intent.putExtra("approveId", Integer.valueOf(approveId));
+        intent.putExtra("type", 1);
+        startActivity(intent);
     }
 
     private void revoke() {

@@ -545,6 +545,13 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
+        <!---->
+        <activity
+            android:name=".ui.activity.approval.VoucherPreviewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+
         <!-- 选择审批人、抄送人 -->
         <activity
             android:name=".ui.activity.approval.ChoosePeopleOfAddressActivity"
