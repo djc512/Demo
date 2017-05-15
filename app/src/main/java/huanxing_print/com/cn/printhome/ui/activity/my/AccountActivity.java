@@ -30,6 +30,8 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
+import static huanxing_print.com.cn.printhome.R.id.tv_xieyi;
+
 /**
  * Created by Administrator on 2017/3/17 0017.
  */
@@ -44,7 +46,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private AccountCZAdapter adapter;
     private String totleBalance;
     private String rechargeAmout;
-    private TextView tv_xieyi;
     private LinearLayout ll_xieyi;
 
     @Override
@@ -70,7 +71,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private void initView() {
         tv_money = (TextView) findViewById(R.id.tv_money);
         btn_chongzhi = (Button) findViewById(R.id.btn_chongzhi);
-        tv_xieyi = (TextView) findViewById(R.id.tv_xieyi);
 
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         tv_account_record = (TextView) findViewById(R.id.tv_account_record);
