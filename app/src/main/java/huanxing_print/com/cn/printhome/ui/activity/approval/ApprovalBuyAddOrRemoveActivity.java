@@ -194,79 +194,44 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     private void showData() {
         //展示 数据
 
-        showApprovalMemberName();
-        showApprovalMemberIcon();
-        showApprovalState();
-        showApprovalDetail();
-        showApprovalPerson();
-        showApprovalCopyMembers();
-    }
-
-    /**
-     * member名称
-     */
-    private void showApprovalMemberName() {
+        //member名称
         iv_name.setText(details.getMemberName().isEmpty() ? "Null" : details.getMemberName());
-    }
 
-    /**
-     * member头像
-     */
-    private void showApprovalMemberIcon() {
+        //member头像
         Glide.with(mContext).load(details.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                 iv_user_head.setImageDrawable(resource);
             }
         });
-    }
 
-    /**
-     * 审批状态
-     */
-    private void showApprovalState() {
-        if("0".equals(details.getStatus())) {
+        //审批状态
+        if(0 == details.getStatus()) {
             iv_isapproval.setText("审批中");
             iv_isapproval.setTextColor(getResources().getColor(R.color.text_yellow));
-        }else if("2".equals(details.getStatus())) {
+        }else if(2 == details.getStatus()) {
             iv_isapproval.setText("审批完成");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("3".equals(details.getStatus())) {
+        }else if(3 == details.getStatus()) {
             iv_isapproval.setText("已驳回");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("4".equals(details.getStatus())) {
+        }else if(4 == details.getStatus()) {
             iv_isapproval.setText("已撤销");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("5".equals(details.getStatus())) {
+        }else if(5 == details.getStatus()) {
             iv_isapproval.setText("打印凭证");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("6".equals(details.getStatus())) {
+        }else if(6 == details.getStatus()) {
             iv_isapproval.setText("已打印");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
         }
-
-    }
-
-    /**
-     * 审批人列表审批状态
-     */
-    private void showApprovalPerson() {
+        //审批人列表审批状态
         ArrayList<ApprovalOrCopy> list =  details.getApproverList();
         if(null != list && list.size() > 0) {
             lists = list;
             personAdapter.modifyApprovalPersons(list);
         }
-    }
 
-    private void showApprovalCopyMembers() {
-        ArrayList<ApprovalOrCopy> list =  details.getCopyerList();
-        if(null != list && list.size() > 0) {
-            copyMembers = list;
-            copyMembersAdapter.modifyData(copyMembers);
-        }
-    }
-
-    private void showApprovalDetail() {
         tv_number.setText(details.getApproveId().isEmpty() ? "" : details.getApproveId());
         tv_section.setText(details.getDepartment().isEmpty() ? "" : details.getDepartment());
         tv_use.setText(details.getRemark().isEmpty() ? "" : details.getRemark());
@@ -274,8 +239,13 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         tv_money.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
         tv_overtime.setText(details.getAddTime().isEmpty() ? "" : details.getAddTime());
         adapter.notifyDataSetChanged();
-    }
 
+        ArrayList<ApprovalOrCopy> copyMemberList =  details.getCopyerList();
+        if(null != copyMemberList && copyMemberList.size() > 0) {
+            copyMembers = copyMemberList;
+            copyMembersAdapter.modifyData(copyMembers);
+        }
+    }
 
     private void initView() {
         iv_isapproval = (TextView) findViewById(R.id.iv_isapproval);
