@@ -61,6 +61,7 @@ public class HttpUrl {
     public static final String approval = "approve/adult";//审批
     public static final String proof = "approve/proof";//查看凭证
     public static final String queryCount = "approve/queryCount";//查看未读消息
+    public static final String approvalRevoke = "approve/revocation";//审批撤销
     public static final String submitComment = "appraise/add";//添加评论
     public static final String getCommentList = "appraise/list";//评论列表
     public static final String batchFileUpload = "common/batchFileUpload";//批量上传
