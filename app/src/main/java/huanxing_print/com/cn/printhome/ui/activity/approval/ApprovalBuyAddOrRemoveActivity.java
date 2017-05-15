@@ -37,6 +37,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalDetail;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.approval.Attachment;
 import huanxing_print.com.cn.printhome.model.image.HeadImageBean;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalDetailCallBack;
@@ -45,6 +46,7 @@ import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
 import huanxing_print.com.cn.printhome.net.request.image.HeadImageUploadRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalCopyMembersAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.AttachmentAdatper;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
@@ -87,7 +89,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     boolean isRequestMoney =false;
 
     ApprovalPersonAdapter personAdapter;
-    private PicAdapter adapter;
+//    private PicAdapter adapter;
+    private AttachmentAdatper attachmentAdatper;
+    ArrayList<Attachment> attachments = new ArrayList<Attachment>();
     private ApprovalCopyMembersAdapter copyMembersAdapter;
     ArrayList<ApprovalOrCopy> lists = new ArrayList<ApprovalOrCopy>();
     ArrayList<ApprovalOrCopy> copyMembers = new ArrayList<ApprovalOrCopy>();
@@ -181,9 +185,10 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 //        mResults.add(bimap);*/
 //
         //展示采购图片的gridview
-        adapter = new PicAdapter();
+//        adapter = new PicAdapter();
         //adapter.update();
-        noScrollgridview.setAdapter(adapter);
+        attachmentAdatper = new AttachmentAdatper(this, attachments);
+        noScrollgridview.setAdapter(attachmentAdatper);
 //
 ////        showData();
         //展示抄送人员
@@ -245,7 +250,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         tv_detail.setText(details.getPurchaseList().isEmpty() ? "" : details.getPurchaseList());
         tv_money.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
         tv_overtime.setText(details.getAddTime().isEmpty() ? "" : details.getAddTime());
-        adapter.notifyDataSetChanged();
+        if(null != details.getAttachmentList()) {
+            attachmentAdatper.modifyData(details.getAttachmentList());
+        }
 
         ArrayList<ApprovalOrCopy> copyMemberList =  details.getCopyerList();
         if(null != copyMemberList && copyMemberList.size() > 0) {
@@ -341,59 +348,59 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     }
 
-    private class PicAdapter extends BaseAdapter{
-        @Override
-        public int getCount() {
-            if(null == details || (null == details.getAttachmentList())){
-                return 0;
-            }
-            return details.getAttachmentList().size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return details.getAttachmentList().get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
-            if (convertView == null) {
-                holder = new PicAdapter.ViewHolder();
-                convertView = LayoutInflater.from(ApprovalBuyAddOrRemoveActivity.this).inflate(
-                        R.layout.item_pic_show, null);
-                holder.image = (ImageView) convertView.findViewById(R.id.iv_pic);
-                convertView.setTag(holder);
-            } else {
-                holder = (PicAdapter.ViewHolder) convertView.getTag();
-            }
-//            //请求网络拿图片
-//            //请求的url前面加什么？、？？？第二个参数
-//            ImageUtil.showImageView(ApprovalBuyAddOrRemoveActivity.this,details.getAttachmentList().get(position),holder.image);
-
-            String picPath = details.getAttachmentList().get(position).getFileUrl();
-            loadPic(holder.image, picPath);
-            return convertView;
-        }
-
-        private void loadPic(final ImageView iv_user_head, String picPath) {
-            Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
-                @Override
-                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                    iv_user_head.setImageDrawable(resource);
-                }
-            });
-        }
-
-        class ViewHolder {
-            ImageView image;
-        }
-    }
+//    private class PicAdapter extends BaseAdapter{
+//        @Override
+//        public int getCount() {
+//            if(null == details || (null == details.getAttachmentList())){
+//                return 0;
+//            }
+//            return details.getAttachmentList().size();
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return details.getAttachmentList().get(position);
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            ViewHolder holder = null;
+//            if (convertView == null) {
+//                holder = new PicAdapter.ViewHolder();
+//                convertView = LayoutInflater.from(ApprovalBuyAddOrRemoveActivity.this).inflate(
+//                        R.layout.item_pic_show, null);
+//                holder.image = (ImageView) convertView.findViewById(R.id.iv_pic);
+//                convertView.setTag(holder);
+//            } else {
+//                holder = (PicAdapter.ViewHolder) convertView.getTag();
+//            }
+////            //请求网络拿图片
+////            //请求的url前面加什么？、？？？第二个参数
+////            ImageUtil.showImageView(ApprovalBuyAddOrRemoveActivity.this,details.getAttachmentList().get(position),holder.image);
+//
+//            String picPath = details.getAttachmentList().get(position).getFileUrl();
+//            loadPic(holder.image, picPath);
+//            return convertView;
+//        }
+//
+//        private void loadPic(final ImageView iv_user_head, String picPath) {
+//            Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+//                @Override
+//                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                    iv_user_head.setImageDrawable(resource);
+//                }
+//            });
+//        }
+//
+//        class ViewHolder {
+//            ImageView image;
+//        }
+//    }
 
     private NullCallback nullcallback = new NullCallback() {
 

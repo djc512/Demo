@@ -30,8 +30,6 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
-import static huanxing_print.com.cn.printhome.R.id.tv_xieyi;
-
 /**
  * Created by Administrator on 2017/3/17 0017.
  */
