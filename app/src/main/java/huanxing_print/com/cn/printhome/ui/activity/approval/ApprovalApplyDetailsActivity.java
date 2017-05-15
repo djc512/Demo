@@ -1,7 +1,10 @@
 package huanxing_print.com.cn.printhome.ui.activity.approval;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,7 +17,12 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
@@ -23,9 +31,12 @@ import huanxing_print.com.cn.printhome.model.approval.ApprovalDetail;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
 import huanxing_print.com.cn.printhome.model.approval.Attachment;
 import huanxing_print.com.cn.printhome.model.approval.SubFormItem;
+import huanxing_print.com.cn.printhome.model.image.HeadImageBean;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalDetailCallBack;
+import huanxing_print.com.cn.printhome.net.callback.image.HeadImageUploadCallback;
 import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
+import huanxing_print.com.cn.printhome.net.request.image.HeadImageUploadRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalCopyMembersAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.AttachmentAdatper;
@@ -94,7 +105,6 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     private void initData() {
         approveId = getIntent().getStringExtra("approveId");
         ApprovalRequest.getQueryApprovalDetail(getSelfActivity(),baseApplication.getLoginToken(),approveId,callBack);
-
     }
 
     private void showData() {
@@ -206,10 +216,25 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
                 revoke();
                 break;
             case R.id.btn_reject:
-                ToastUtil.doToast(this,"驳回");
+                reject();
                 break;
             case R.id.btn_pass:
-                ToastUtil.doToast(this,"同意并签字");
+                DialogUtils.showSignatureDialog(getSelfActivity(),
+                        new DialogUtils.SignatureDialogCallBack() {
+                            @Override
+                            public void ok() {
+                                Toast.makeText(getSelfActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+                                Bitmap bitmp = BitmapFactory.decodeFile("/sdcard/signature.png");
+                                if(null!=bitmp){
+                                    setPicToView(bitmp,"/sdcard/signature.png");
+                                }
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        }).show();
                 break;
             case R.id.btn_print:
                 ToastUtil.doToast(this,"生成凭证");
@@ -228,6 +253,74 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     private void revoke() {
         DialogUtils.showProgressDialog(this, "撤销审批中").show();
         ApprovalRequest.revokeReq(this, baseApplication.getLoginToken(), approveId, revokeCallback);
+    }
+
+    /**
+     * 同意并签字请求
+     * @param signUrl
+     */
+    private void pass(String signUrl) {
+        DialogUtils.showProgressDialog(this, "处理中").show();
+        ApprovalRequest.approval(this, baseApplication.getLoginToken(), approveId, 1, signUrl, passCallback);
+    }
+
+    /**
+     * 驳回
+     */
+    private void reject() {
+        DialogUtils.showProgressDialog(this, "驳回处理中").show();
+        ApprovalRequest.approval(this, baseApplication.getLoginToken(), approveId, 2, "", rejectCallBack);
+    }
+
+    private void setPicToView(Bitmap bitMap,String filePath ) {
+        if (null != bitMap) {
+            if (!ObjectUtils.isNull(filePath)) {
+                File file = new File(filePath);
+                //file转化成二进制
+                byte[] buffer = null;
+                FileInputStream in ;
+                int length = 0;
+                try {
+                    in = new FileInputStream(file);
+                    buffer = new byte[(int) file.length() + 100];
+                    length = in.read(buffer);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+
+                DialogUtils.showProgressDialog(getSelfActivity(), "文件上传中").show();
+                Map<String, Object> params = new HashMap<String, Object>();
+                params.put("fileContent", data);
+                params.put("fileName", filePath);
+                params.put("fileType", ".jpg");
+                HeadImageUploadRequest.upload(getSelfActivity(),  params,
+                        new HeadImageUploadCallback() {
+
+                            @Override
+                            public void fail(String msg) {
+                                toast(msg);
+                                DialogUtils.closeProgressDialog();
+                            }
+
+                            @Override
+                            public void connectFail() {
+                                toastConnectFail();
+                                DialogUtils.closeProgressDialog();
+                            }
+
+                            @Override
+                            public void success(String msg, HeadImageBean bean) {
+                                //Logger.d("PersonInfoActivity ---------HeadImage--------:" + bean.getImgUrl()
+                                // );
+                                String imgUrl = bean.getImgUrl()+"";
+                                ApprovalRequest.approval(getSelfActivity(),baseApplication.getLoginToken(),
+                                        approveId,1,imgUrl,passCallback);
+                            }
+                        });
+            }
+
+        }
     }
 
     QueryApprovalDetailCallBack callBack = new QueryApprovalDetailCallBack() {
@@ -252,13 +345,11 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
                                 findViewById(R.id.ll_pass).setVisibility(View.VISIBLE);
                             }
                             break;
-                        case 4://已撤销
-                            break;
-                        case 5://打印凭证
+                        case 2://打印凭证
                             findViewById(R.id.ll_print).setVisibility(View.VISIBLE);
                             findViewById(R.id.rl_sertificate).setVisibility(View.VISIBLE);
                             break;
-                        case 6://已打印
+                        case 5://已打印
                             findViewById(R.id.ll_look).setVisibility(View.VISIBLE);
                             findViewById(R.id.rl_sertificate).setVisibility(View.VISIBLE);
                             break;
@@ -299,4 +390,46 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
             connectFail();
         }
     };
+
+    NullCallback rejectCallBack = new NullCallback() {
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(ApprovalApplyDetailsActivity.this, "驳回成功");
+            finishCurrentActivity();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(ApprovalApplyDetailsActivity.this, msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            connectFail();
+        }
+    };
+
+    NullCallback passCallback = new NullCallback() {
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            initData();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(ApprovalApplyDetailsActivity.this, msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            connectFail();
+        }
+    };
+
 }
