@@ -78,7 +78,7 @@ public class WifiImportFragment extends BaseLazyFragment {
         fileRecView.setLayoutManager(mLayoutManager);
         fileRecView.setHasFixedSize(true);
         fileRecView.setItemAnimator(new DefaultItemAnimator());
-        FileRecyclerAdapter mAdapter = new FileRecyclerAdapter(fileList);
+        FileRecyclerAdapter mAdapter = new FileRecyclerAdapter(fileList, context);
         fileRecView.setAdapter(mAdapter);
         fileRecView.addItemDecoration(new RecyclerViewDivider(context, LinearLayoutManager.VERTICAL, 1, ContextCompat
                 .getColor(context, R.color.devide_gray)));

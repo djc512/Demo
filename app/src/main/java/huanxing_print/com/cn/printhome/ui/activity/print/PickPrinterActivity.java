@@ -26,7 +26,7 @@ import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CopySettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PickPrinterFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PrinterDetailFragment;
-import huanxing_print.com.cn.printhome.util.AlertUtil;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
@@ -47,7 +47,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
     private String imagePath;
     private File file;
     private String printType;
-    private boolean isFileCopy=false;
+    private boolean isFileCopy = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
         if (printSetting == null) {
             printType = PrintUtil.TYPE_COPY;
             imagePath = getIntent().getStringExtra(IMAGE_PATH);
-            isFileCopy = getIntent().getBooleanExtra(COPY_FLAG,false);
+            isFileCopy = getIntent().getBooleanExtra(COPY_FLAG, false);
             Logger.i(imagePath);
             Logger.i(isFileCopy);
             if (imagePath == null) {
@@ -133,7 +133,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
             finish();
         }
         if (FileUtils.isOutOfSize(file)) {
-            AlertUtil.show(context, "提示", getString(R.string.size_out), null, new
+            Alert.show(context, "提示", getString(R.string.size_out), null, new
                     DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -233,6 +233,9 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                         showPrintDetail(printPrinterPrice);
                     }
                 }
+                if (printInfoResp != null && !printInfoResp.isSuccess()) {
+                    ShowUtil.showToast(printInfoResp.getErrorMsg());
+                }
                 dismissLoading();
             }
 
@@ -252,7 +255,6 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
         bundle.putParcelable(CopySettingActivity.PRINT_SETTING, printSetting);
         bundle.putBoolean(CopySettingActivity.COPY_FILE_FLAG, isFileCopy);
         CopySettingActivity.start(context, bundle);
-        finish();
     }
 
     public static final String SETTING = "setting";

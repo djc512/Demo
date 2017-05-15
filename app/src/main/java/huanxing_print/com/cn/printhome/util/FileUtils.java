@@ -305,6 +305,35 @@ public class FileUtils {
     }
 
     /**
+     * 根据路径获取路径下所有文件列表
+     *
+     * @param path
+     * @return
+     */
+    public static final List getAllFileList(String path) {
+        List<File> fileList = new ArrayList<File>();
+        try {
+            File qqFile = new File(path);
+            if (qqFile == null) {
+                return null;
+            }
+            File[] files = qqFile.listFiles();
+            if (files != null) {
+                int fileLength = files.length;
+                for (int i = 0; i < fileLength; i++) {
+                    File file = files[i];
+                    if (file.isFile()) {
+                        fileList.add(file);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return fileList;
+    }
+
+    /**
      * 获取所有图片列表
      *
      * @param context

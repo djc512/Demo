@@ -41,6 +41,7 @@ import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupRecylerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -669,7 +670,8 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             case R.id.ll_cz_qun://群支付
                 showGroupDialog();
                 break;
-            case R.id.ll_finish://完成
+            case R.id.ll_cz_persion:
+                startActivity(new Intent(CopySettingActivity.this, AccountActivity.class));
                 break;
             case R.id.btn_preview://完成
                 if (printerPrice != null) {

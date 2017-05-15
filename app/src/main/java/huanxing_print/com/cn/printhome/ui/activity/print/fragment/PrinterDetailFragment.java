@@ -32,6 +32,7 @@ public class PrinterDetailFragment extends BaseLazyFragment {
     private TextView nameTv;
     private TextView resolutionTv;
     private TextView technicalTypeTv;
+    private TextView remainTv;
     private PrintInfoResp.PrinterPrice printPrinterPrice;
 
 
@@ -56,6 +57,7 @@ public class PrinterDetailFragment extends BaseLazyFragment {
 
 
     private void initView(View view) {
+        remainTv = (TextView) view.findViewById(R.id.remainTv);
         typeImg = (ImageView) view.findViewById(R.id.typeImg);
         technicalTypeTv = (TextView) view.findViewById(R.id.technicalTypeTv);
         resolutionTv = (TextView) view.findViewById(R.id.resolutionTv);
@@ -110,6 +112,7 @@ public class PrinterDetailFragment extends BaseLazyFragment {
         typeTv.setText(printPrinterPrice.getCapability());
         resolutionTv.setText(printPrinterPrice.getResolution());
         technicalTypeTv.setText(printPrinterPrice.getTechnicalType());
+        remainTv.setText("A4 "+printPrinterPrice.getA4Num()+"张 A3 "+printPrinterPrice.getA3Num()+"张");
     }
 
     @Override

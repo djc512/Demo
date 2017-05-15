@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,12 +32,14 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.PdfPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.file.FileComparator;
 import huanxing_print.com.cn.printhome.view.ClearEditText;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 import static huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter.FILE_OBJ;
 import static huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter.FILE_TYPE_DIR;
@@ -51,7 +54,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     protected AllFileListAdapter mAdapter;
     private LinkedList<String> mHistory;
     private ListView fileListView;
-    private int  mode = FileComparator.MODE_NAME;
+    private int mode = FileComparator.MODE_NAME;
     private ClearEditText searchEditText;
     private ImageView filterBtn;
     private RelativeLayout searchRyt;
@@ -84,7 +87,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     }
 
     private void initView(View view) {
-        searchRyt = (RelativeLayout)view.findViewById(R.id.searchRyt);
+        searchRyt = (RelativeLayout) view.findViewById(R.id.searchRyt);
         fileListView = (ListView) view.findViewById(R.id.fileListView);
         filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
         filterBtn.setOnClickListener(new View.OnClickListener() {
@@ -186,12 +189,34 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
                             bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, (String) mAdapter.getData().get
                                     (position).get(AllFileListAdapter.FILE_PATH));
                             ImgPreviewActivity.start(context, bundle);
-                        } else {
-                            ((AddFileActivity)getActivity()).turnFile(file);
+                        } else if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
+                            bundle.putCharSequence(PdfPreviewActivity.KEY_PDF_PATH, file.getPath());
+                            PdfPreviewActivity.start(context, bundle);
+                        }else {
+                            ((AddFileActivity) getActivity()).turnFile(file);
                         }
                     }
                 }
                 Logger.i(mHistory);
+            }
+        });
+        fileListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                HashMap<String, Object> map = mAdapter.getItem(position);
+                final File file = (File) map.get(AllFileListAdapter.FILE_OBJ);
+                if (!file.isDirectory()) {
+                    Alert.show(context, "提示", "确定删除文件？", null, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (file.delete()) {
+                                mAdapter.getData().remove(position);
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+                return true;
             }
         });
         updateList(fileToShow);

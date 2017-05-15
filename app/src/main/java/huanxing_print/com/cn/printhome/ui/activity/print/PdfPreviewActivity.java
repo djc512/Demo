@@ -8,49 +8,55 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
-import com.github.chrisbanes.photoview.PhotoView;
+import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
-import huanxing_print.com.cn.printhome.view.dialog.Alert;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
-import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
-public class ImgPreviewActivity extends BasePrintActivity implements View.OnClickListener {
+public class PdfPreviewActivity extends BasePrintActivity implements View.OnClickListener, OnLoadCompleteListener {
 
-    private PhotoView photoView;
-
-    private String imgPath;
+    private PDFView pdfView;
+    private String pdfPath;
     private File file;
+    private int page;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_img_priview);
+        setContentView(R.layout.activity_pdt_preview);
         initData();
-        initTitleBar("图片预览");
+        initTitleBar(file.getName());
         initView();
-        setRightTvVisible();
     }
 
     private void initData() {
-        imgPath = (String) getIntent().getExtras().get(KEY_IMG_URI);
+        pdfPath = (String) getIntent().getExtras().get(KEY_PDF_PATH);
+        file = new File(pdfPath);
     }
 
     private void initView() {
-        photoView = (PhotoView) findViewById(R.id.photoView);
-        ImageUtil.showImageView(context, imgPath, photoView);
+        pdfView = (PDFView) findViewById(R.id.pdfView);
+        pdfView.fromFile(new File(pdfPath))
+                .enableAnnotationRendering(true)
+                .onLoad(this)
+                .scrollHandle(new DefaultScrollHandle(this))
+                .load();
     }
 
     @Override
@@ -59,22 +65,33 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         int id = v.getId();
         switch (id) {
             case R.id.rightTv:
+                if (page > 200) {
+                    ShowUtil.showToast(getString(R.string.file_outpage));
+                    return;
+                }
                 turnFile();
                 break;
         }
     }
 
-    static class MyHandler extends Handler {
-        WeakReference<ImgPreviewActivity> mActivity;
+    @Override
+    public void loadComplete(int nbPages) {
+        Logger.i(nbPages);
+        page = nbPages;
+        setRightTvVisible();
+    }
 
-        MyHandler(ImgPreviewActivity activity) {
-            mActivity = new WeakReference<ImgPreviewActivity>(activity);
+    static class MyHandler extends Handler {
+        WeakReference<PdfPreviewActivity> mActivity;
+
+        MyHandler(PdfPreviewActivity activity) {
+            mActivity = new WeakReference<PdfPreviewActivity>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            ImgPreviewActivity activity = mActivity.get();
+            PdfPreviewActivity activity = mActivity.get();
             String base = (String) msg.obj;
             if (base != null) {
                 activity.uploadFile(base);
@@ -112,7 +129,6 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void turnFile() {
-        file = new File(imgPath);
         if (file == null || !file.exists()) {
             return;
         }
@@ -173,10 +189,10 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         findViewById(R.id.rightTv).setOnClickListener(this);
     }
 
-    public static final String KEY_IMG_URI = "image_path";
+    public static final String KEY_PDF_PATH = "pdf_path";
 
     public static void start(Context context, Bundle bundle) {
-        Intent intent = new Intent(context, ImgPreviewActivity.class);
+        Intent intent = new Intent(context, PdfPreviewActivity.class);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }

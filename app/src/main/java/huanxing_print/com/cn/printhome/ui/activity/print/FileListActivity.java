@@ -49,7 +49,7 @@ public class FileListActivity extends BasePrintActivity {
         mRcList.setLayoutManager(mLayoutManager);
         mRcList.setHasFixedSize(true);
         mRcList.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new FileRecyclerAdapter(fileList);
+        mAdapter = new FileRecyclerAdapter(fileList, context);
         mRcList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(
                 new FileRecyclerAdapter.OnItemClickListener() {
@@ -70,7 +70,7 @@ public class FileListActivity extends BasePrintActivity {
 
     private void upload(final File file) {
         PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), FileUtils.getBase64(file), file
-                .getName(),  new HttpListener() {
+                .getName(), new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);

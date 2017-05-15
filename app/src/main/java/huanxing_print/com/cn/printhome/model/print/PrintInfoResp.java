@@ -26,6 +26,8 @@ public class PrintInfoResp extends CommonResp {
     // "printAddress":"江苏省南京市秦淮区东瓜匙路与明匙路交叉口西南150米","printName":"测试-教育机","printerNo":"zwf001","printerType":"1",
     // "resolution":"1200*1200dpi","technicalType":"仅支持激光","updateTime":1490925707000
     public static class PrinterPrice implements Parcelable {
+        private String a3Num;
+        private String a4Num;
         private String a3BlackPrice;
         private String a3ColorPrice;
         private String a4BlackPrice;
@@ -39,6 +41,22 @@ public class PrintInfoResp extends CommonResp {
         private String resolution;
         private String technicalType;
         private String printerNo;
+
+        public String getA3Num() {
+            return a3Num;
+        }
+
+        public void setA3Num(String a3Num) {
+            this.a3Num = a3Num;
+        }
+
+        public String getA4Num() {
+            return a4Num;
+        }
+
+        public void setA4Num(String a4Num) {
+            this.a4Num = a4Num;
+        }
 
         public String getA3BlackPrice() {
             return a3BlackPrice;
@@ -151,6 +169,8 @@ public class PrintInfoResp extends CommonResp {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.a3Num);
+            dest.writeString(this.a4Num);
             dest.writeString(this.a3BlackPrice);
             dest.writeString(this.a3ColorPrice);
             dest.writeString(this.a4BlackPrice);
@@ -170,6 +190,8 @@ public class PrintInfoResp extends CommonResp {
         }
 
         protected PrinterPrice(Parcel in) {
+            this.a3Num = in.readString();
+            this.a4Num = in.readString();
             this.a3BlackPrice = in.readString();
             this.a3ColorPrice = in.readString();
             this.a4BlackPrice = in.readString();

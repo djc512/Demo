@@ -40,7 +40,7 @@ import huanxing_print.com.cn.printhome.ui.activity.print.fragment.QQFileFragment
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WechatFileFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WifiImportFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.FinderFragmentAdapter;
-import huanxing_print.com.cn.printhome.util.AlertUtil;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
@@ -266,7 +266,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
             return;
         }
         if (FileUtils.isOutOfSize(file)) {
-            AlertUtil.show(context, "提示", getString(R.string.size_out), null, new
+            Alert.show(context, "提示", getString(R.string.size_out), null, new
                     DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -288,7 +288,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     }
 
     private void uploadFile(String base) {
-        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(),  new
+        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(), new
                 HttpListener() {
                     @Override
                     public void onSucceed(String content) {
@@ -321,15 +321,21 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         PrintRequest.docPreview(activity, url, new HttpListener() {
             @Override
             public void onSucceed(String content) {
+                dismissLoading();
                 DocPreviewResp docPreviewResp = GsonUtil.GsonToBean(content, DocPreviewResp.class);
                 if (docPreviewResp == null) {
                     dismissLoading();
                     return;
                 }
-                if (docPreviewResp.isSuccess()) {
-                    turnPreview(docPreviewResp.getData().getArryList(), url);
+                if (!docPreviewResp.isSuccess()) {
+                    ShowUtil.showToast(docPreviewResp.getErrorMsg());
+                    return;
                 }
-                dismissLoading();
+                if (docPreviewResp.getData().getPaperNum() > 200) {
+                    ShowUtil.showToast(getString(R.string.file_outpage));
+                    return;
+                }
+                turnPreview(docPreviewResp.getData().getArryList(), url);
             }
 
             @Override

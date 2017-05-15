@@ -3,6 +3,7 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -24,6 +25,8 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 public class DocPreviewActivity extends BasePrintActivity implements View.OnClickListener {
 
+    private final int timeCount = 10 * 60 * 1000;
+    private boolean isTimeout = false;
     private ViewPager viewpager;
 
     private List<String> fileUrlList;
@@ -37,7 +40,6 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         setContentView(R.layout.activity_doc_preview);
         initData();
         initView();
-//        upload(file);
     }
 
     private void initView() {
@@ -90,7 +92,6 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
         PickPrinterActivity.start(context, bundle);
-        finish();
     }
 
     @Override
@@ -99,6 +100,9 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         int id = v.getId();
         switch (id) {
             case R.id.rightTv:
+                if (isTimeout) {
+                    ShowUtil.showToast(getString(R.string.file_outtime));
+                }
                 addFile(fileUrl);
                 break;
         }
@@ -119,5 +123,24 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         Intent intent = new Intent(context, DocPreviewActivity.class);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    private CountDownTimer timer = new CountDownTimer(timeCount, 1000) {
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            Logger.i(millisUntilFinished / 1000);
+        }
+
+        @Override
+        public void onFinish() {
+            isTimeout = true;
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
     }
 }

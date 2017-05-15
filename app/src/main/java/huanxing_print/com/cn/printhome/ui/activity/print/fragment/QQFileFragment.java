@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,6 +30,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.PdfPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
@@ -36,6 +38,7 @@ import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.file.FileComparator;
 import huanxing_print.com.cn.printhome.view.ClearEditText;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 /**
  * Created by LGH on 2017/4/27.
@@ -69,7 +72,7 @@ public class QQFileFragment extends BaseLazyFragment {
     }
 
     private void initView(View view) {
-        searchRyt = (RelativeLayout)view.findViewById(R.id.searchRyt);
+        searchRyt = (RelativeLayout) view.findViewById(R.id.searchRyt);
         mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
         filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
         filterBtn.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +86,7 @@ public class QQFileFragment extends BaseLazyFragment {
             @Override
             public void onClear() {
                 isSearch = false;
-                fileList = FileUtils.getFileList(PATH_QQ_FILE);
+                fileList = FileUtils.getAllFileList(PATH_QQ_FILE);
                 updateList(fileList);
             }
         });
@@ -106,7 +109,7 @@ public class QQFileFragment extends BaseLazyFragment {
         if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
-        fileList = FileUtils.getFileList(PATH_QQ_FILE);
+        fileList = FileUtils.getAllFileList(PATH_QQ_FILE);
         if (fileList == null || fileList.size() == 0) {
             ShowUtil.showToast("没有相关文件");
             searchRyt.setVisibility(View.GONE);
@@ -117,7 +120,7 @@ public class QQFileFragment extends BaseLazyFragment {
         mRcList.setLayoutManager(mLayoutManager);
         mRcList.setHasFixedSize(true);
         mRcList.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new FileRecyclerAdapter(fileList);
+        mAdapter = new FileRecyclerAdapter(fileList, context);
         mRcList.setAdapter(mAdapter);
         mRcList.addItemDecoration(new RecyclerViewDivider(context, LinearLayoutManager.VERTICAL, 1, ContextCompat
                 .getColor(context, R.color.devide_gray)));
@@ -125,16 +128,38 @@ public class QQFileFragment extends BaseLazyFragment {
                 new FileRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(final View view, int position) {
+                        File file = mAdapter.getFileList().get(position);
+                        if (!FileType.isPrintType(file.getPath())) {
+                            ShowUtil.showToast("文件不可打印");
+                            return;
+                        }
                         Bundle bundle = new Bundle();
-                        File file =  mAdapter.getFileList().get(position);
                         if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
                             bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, file.getPath());
                             ImgPreviewActivity.start(context, bundle);
+                        } else if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
+                            bundle.putCharSequence(PdfPreviewActivity.KEY_PDF_PATH, file.getPath());
+                            PdfPreviewActivity.start(context, bundle);
                         } else {
-                            ((AddFileActivity)getActivity()).turnFile(file);
+                            ((AddFileActivity) getActivity()).turnFile(file);
                         }
                     }
                 });
+        mAdapter.setItemLongClickListener(new FileRecyclerAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, final int position) {
+                final File file = mAdapter.getFileList().get(position);
+                Alert.show(context, "提示", "确定删除文件？", null, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (file.delete()) {
+                            mAdapter.getFileList().remove(position);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+            }
+        });
         updateList(fileList);
         isLoaded = true;
     }

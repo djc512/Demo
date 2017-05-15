@@ -1,2 +1,2 @@
-include ':app', ':openCVLibrary2411', ':photoview', ':lib-zxing', ':pickerview'
+include ':app', ':openCVLibrary2411', ':photoview', ':lib-zxing', ':pickerview', ':android-pdf-viewer'
 include ':pickerViewLib'

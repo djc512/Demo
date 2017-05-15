@@ -1,6 +1,8 @@
 package huanxing_print.com.cn.printhome.util.file;
 
 import java.io.File;
+import java.text.CollationKey;
+import java.text.Collator;
 import java.util.Comparator;
 
 import huanxing_print.com.cn.printhome.util.FileType;
@@ -16,6 +18,8 @@ public class FileComparator implements Comparator<File> {
     public static final int MODE_TYPE = 3;
 
     private int mode;
+
+    private Collator collator = Collator.getInstance();
 
     public FileComparator(int mode) {
         this.mode = mode;
@@ -47,7 +51,13 @@ public class FileComparator implements Comparator<File> {
                     } else if (pFile1.isFile() && pFile2.isDirectory()) {
                         return 1;
                     } else {
-                        return pFile1.getName().compareToIgnoreCase(pFile2.getName());
+
+                        CollationKey key1 = collator.getCollationKey(pFile1.getName().toString());
+                        //要想不区分大小写进行比较用o1.toString().toLowerCase()
+                        CollationKey key2 = collator.getCollationKey(pFile2.getName().toString());
+
+                        return key1.compareTo(key2);
+//                        return pFile1.getName().compareToIgnoreCase(pFile2.getName());
                     }
                 }
             case MODE_TYPE:

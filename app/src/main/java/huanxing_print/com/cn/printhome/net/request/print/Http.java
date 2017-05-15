@@ -27,7 +27,7 @@ public class Http {
     public static void postString(final Activity activity, final String url, Map<String, Object> params, Map<String,
             String> headerMap, final HttpListener callback, final boolean showDialog) {
         String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
-        Logger.d("http-request:" + url + "----" + paramsStr);
+        Logger.i("http-request:" + url + "----" + paramsStr);
         TimeUtils.beginTime();
         final RequestCall requestCall = OkHttpUtils.postString()
                 .url(url)
@@ -62,7 +62,7 @@ public class Http {
             @Override
             public void onResponse(String result, int arg1) {
                 TimeUtils.endTime();
-                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                Logger.i("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
                 callback.onSucceed(result);
             }
 
@@ -90,7 +90,7 @@ public class Http {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Logger.d("http-request:" + url + "----" + paramsStr);
+                        Logger.i("http-request:" + url + "----" + paramsStr);
                         TimeUtils.beginTime();
                         final RequestCall requestCall = OkHttpUtils.postString()
                                 .url(url)
@@ -126,7 +126,7 @@ public class Http {
                             @Override
                             public void onResponse(String result, int arg1) {
                                 TimeUtils.endTime();
-                                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                                Logger.i("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
                                 callback.onSucceed(result);
                             }
 
@@ -184,14 +184,14 @@ public class Http {
             @Override
             public void onResponse(String result, int arg1) {
                 TimeUtils.endTime();
-                Logger.d("http-result:" + getUrl + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                Logger.i("http-result:" + getUrl + "----" + result + "----" + TimeUtils.subTime() + " ms");
                 callback.onSucceed(result);
             }
 
             @Override
             public void onError(Call call, Exception exception, int arg2) {
                 TimeUtils.endTime();
-                Logger.e("http-exception:" + getUrl + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                Logger.i("http-exception:" + getUrl + "----" + exception + "----" + TimeUtils.subTime() + " ms");
                 String message = exception.getMessage();
                 if ("Socket closed".equalsIgnoreCase(message)) {
 

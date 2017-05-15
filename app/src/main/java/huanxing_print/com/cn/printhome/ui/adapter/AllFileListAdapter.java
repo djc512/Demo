@@ -51,10 +51,9 @@ public class AllFileListAdapter extends BaseAdapter {
     }
 
     public void addData(HashMap<String, Object> singleData) {
-        mData.add(singleData);
         String fileName = (String) singleData.get(FILE_NAME);
         if (!fileName.startsWith(".")) {
-            notHiddenFileIndexList.add(mData.size() - 1);
+            mData.add(singleData);
         }
     }
 
@@ -68,11 +67,7 @@ public class AllFileListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (showHiddenFiles) {
-            return mData.size();
-        } else {
-            return notHiddenFileIndexList.size();
-        }
+        return mData.size();
     }
 
     public void clearData() {
@@ -82,11 +77,7 @@ public class AllFileListAdapter extends BaseAdapter {
 
     @Override
     public HashMap<String, Object> getItem(int position) {
-        if (showHiddenFiles) {
-            return mData.get(position);
-        } else {
-            return mData.get(notHiddenFileIndexList.get(position));
-        }
+        return mData.get(position);
     }
 
     @Override
@@ -132,6 +123,10 @@ public class AllFileListAdapter extends BaseAdapter {
         if (FileType.getPrintType(file.getPath()) == FileType.TYPE_DOC || FileType.getPrintType(file.getPath()) ==
                 FileType.TYPE_DOCX) {
             return R.drawable.ic_word;
+        }
+        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PPT || FileType.getPrintType(file.getPath()) ==
+                FileType.TYPE_PPTX) {
+            return R.drawable.ic_ppt;
         }
         if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
             return R.drawable.ic_pdf;

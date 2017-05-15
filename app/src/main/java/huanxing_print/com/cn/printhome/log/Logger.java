@@ -1,10 +1,10 @@
 package huanxing_print.com.cn.printhome.log;
 
-import huanxing_print.com.cn.printhome.constant.ConFig;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
-
 import android.text.TextUtils;
 import android.util.Log;
+
+import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 public class Logger {
 
@@ -21,7 +21,7 @@ public class Logger {
 	public static boolean allowWtf = true;
 
 	private static String generateTag(StackTraceElement caller) {
-		isDebug();
+//		isDebug();
 		String tag = "%s.%s(L:%d)";
 		String callerClazzName = caller.getClassName();
 		callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);

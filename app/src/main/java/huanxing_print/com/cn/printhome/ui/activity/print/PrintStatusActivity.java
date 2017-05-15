@@ -22,6 +22,7 @@ import huanxing_print.com.cn.printhome.model.print.OrderStatusResp;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
+import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
@@ -78,6 +79,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 finish();
                 break;
             case R.id.exitTv:
+                startActivity(new Intent(context, MainActivity.class));
                 finish();
                 break;
             case R.id.printTv:
@@ -127,7 +129,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
             switch (orderStatus.getStatus()) {
                 //正在打印
                 case 0:
-                    setExceptionView();
+                    setUpload();
                     break;
                 //打印成功
                 case 1:
@@ -209,7 +211,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         animImg.setImageResource(R.drawable.anim_upload);
         AnimationDrawable queueAnum = (AnimationDrawable) animImg.getDrawable();
         queueAnum.start();
-        stateTv.setText("文件上传中");
+        stateTv.setText("文件发送中");
         stateDetailTv.setText("");
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
