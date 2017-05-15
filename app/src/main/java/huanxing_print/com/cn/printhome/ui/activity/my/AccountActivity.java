@@ -45,6 +45,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private String totleBalance;
     private String rechargeAmout;
     private TextView tv_xieyi;
+    private LinearLayout ll_xieyi;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -74,6 +75,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         tv_account_record = (TextView) findViewById(R.id.tv_account_record);
         rv_account = (RecyclerView) findViewById(R.id.rv_account);
+        ll_xieyi = (LinearLayout) findViewById(R.id.ll_xieyi);
     }
 
     private void initData() {
@@ -93,6 +95,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         ll_back.setOnClickListener(this);
         btn_chongzhi.setOnClickListener(this);
         tv_xieyi.setOnClickListener(this);
+        ll_xieyi.setOnClickListener(this);
     }
 
     @Override
@@ -111,8 +114,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
             case R.id.ll_back://返回
                 finishCurrentActivity();
                 break;
-            case R.id.iv_xieyi:
-
+            case R.id.ll_xieyi:
+                startActivity(new Intent(getSelfActivity(),XieYiActivity.class));
                 break;
         }
     }
