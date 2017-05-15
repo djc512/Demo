@@ -240,7 +240,9 @@ public class MySponsorListActivity extends BaseActivity {
                     return;
                 }
             } else {
-                datalist = approvalObjects;
+                if (!ObjectUtils.isNull(approvalObjects)) {
+                    datalist = approvalObjects;
+                }
                 listAdapter = new MySponsorListAdapter(getSelfActivity(), datalist);
                 lv_my_list.setAdapter(listAdapter);
             }

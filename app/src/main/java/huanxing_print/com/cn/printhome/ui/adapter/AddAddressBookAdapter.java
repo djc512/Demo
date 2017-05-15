@@ -34,7 +34,6 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private Context mContext;
     private LayoutInflater layoutInflater;
     private List<String> characterList; // 字母List
-    private List<String> mContactList; // 联系人名称List（转换成拼音）
     private ArrayList<PhoneContactInfo> contactInfos = new ArrayList<PhoneContactInfo>();
 
     public AddAddressBookAdapter(Context context, ArrayList<PhoneContactInfo> contacts) {
@@ -50,40 +49,49 @@ public class AddAddressBookAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private void updateData(ArrayList<PhoneContactInfo> contacts) {
         contactInfos.clear();
-        Map<String, PhoneContactInfo> map = new HashMap<>();
+        Map<String, ArrayList<PhoneContactInfo>> map = new HashMap<String, ArrayList<PhoneContactInfo>>();
         ArrayList<PhoneContactInfo> newInfos = new ArrayList<PhoneContactInfo>();
-        mContactList = new ArrayList<String>();
+        List<String> mContactList = new ArrayList<String>();
         characterList = new ArrayList<String>();
         for (int i = 0; i < contacts.size(); i++) {
             String pinyin = PinYinUtil.getPingYin(contacts.get(i).getTelName());
-            map.put(pinyin, contacts.get(i));
-            mContactList.add(pinyin);
+            ArrayList<PhoneContactInfo> contactInfoValues = map.get(pinyin);
+            if(null == contactInfoValues) {
+                contactInfoValues = new ArrayList<PhoneContactInfo>();
+            }
+            contactInfoValues.add(contacts.get(i));
+            map.put(pinyin, contactInfoValues);
+            if(!mContactList.contains(pinyin)) {
+                mContactList.add(pinyin);
+            }
         }
         Collections.sort(mContactList, new ContactComparator());
 
         for (String pinyin : mContactList) {
-            PhoneContactInfo info = map.get(pinyin);
-            if (null != info) {
-                String character = (pinyin.charAt(0) + "").toUpperCase(Locale.ENGLISH);
-                if (!characterList.contains(character)) {
-                    if (character.hashCode() >= "A".hashCode() && character.hashCode() <= "Z".hashCode()) { // 是字母
-                        characterList.add(character);
-                        PhoneContactInfo characterInfo = new PhoneContactInfo();
-                        characterInfo.setType(ITEM_TYPE.ITEM_TYPE_CHARACTER.ordinal());
-                        characterInfo.setTelName(character);
-                        newInfos.add(characterInfo);
-                    } else {
-                        if (!characterList.contains("#")) {
-                            characterList.add("#");
+            ArrayList<PhoneContactInfo> contactInfoValues = map.get(pinyin);
+            for (PhoneContactInfo info : contactInfoValues) {
+                if (null != info) {
+                    String character = (pinyin.charAt(0) + "").toUpperCase(Locale.ENGLISH);
+                    if (!characterList.contains(character)) {
+                        if (character.hashCode() >= "A".hashCode() && character.hashCode() <= "Z".hashCode()) { // 是字母
+                            characterList.add(character);
                             PhoneContactInfo characterInfo = new PhoneContactInfo();
                             characterInfo.setType(ITEM_TYPE.ITEM_TYPE_CHARACTER.ordinal());
-                            characterInfo.setTelName("#");
+                            characterInfo.setTelName(character);
                             newInfos.add(characterInfo);
+                        } else {
+                            if (!characterList.contains("#")) {
+                                characterList.add("#");
+                                PhoneContactInfo characterInfo = new PhoneContactInfo();
+                                characterInfo.setType(ITEM_TYPE.ITEM_TYPE_CHARACTER.ordinal());
+                                characterInfo.setTelName("#");
+                                newInfos.add(characterInfo);
+                            }
                         }
                     }
+                    info.setType(ITEM_TYPE.ITEM_TYPE_CONTACT.ordinal());
+                    newInfos.add(info);
                 }
-                info.setType(ITEM_TYPE.ITEM_TYPE_CONTACT.ordinal());
-                newInfos.add(info);
             }
         }
         contactInfos.addAll(newInfos);

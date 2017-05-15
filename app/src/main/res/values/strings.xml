@@ -96,8 +96,8 @@
     <string name="title_bottom_hint">在印家打印上扫一扫加我</string>
     <string name="title_new_friend">新的朋友</string>
     <string name="btn_add_friend">添加朋友</string>
-    <string name="title_my_group">我的群组</string>
-    <string name="btn_create_group">发起群组</string>
+    <string name="title_my_group">群组</string>
+    <string name="btn_create_group">发起群</string>
     <string name="btn_cancel">取消</string>
     <string name="title_add_member">联系人</string>
     <string name="title_selcet_newowner">选择新群主</string>
@@ -130,4 +130,26 @@
     <string name="app_tip">提示</string>
     <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
     <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
+
+    <!--审批单状态-->
+    <string name="status_zero">审批中</string>
+    <string name="status_two">审批完成</string>
+    <string name="status_three">已驳回</string>
+    <string name="status_four">已撤销</string>
+    <string name="status_five">打印凭证</string>
+    <string name="status_six">已打印</string>
+
+    <!--EasyUi-->
+    <string name="were_mentioned">[有人@我]</string>
+    <string name="location_recv">[%1$s的位置]</string>
+    <string name="location_prefix">[我的位置]</string>
+    <string name="picture">[图片]</string>
+    <string name="voice_prefix">[语音]</string>
+    <string name="video">[视频]</string>
+    <string name="voice_call">[语音通话]</string>
+    <string name="video_call">[视频通话]</string>
+    <string name="dynamic_expression">[动态表情]</string>
+    <string name="file">[文件]</string>
+    <string name="all_members">所有成员</string>
+
 </resources>

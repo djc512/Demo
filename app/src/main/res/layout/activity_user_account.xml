@@ -65,7 +65,6 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:paddingBottom="20dp"
-                    android:text="￥100.00"
                     android:textColor="@color/black2"
                     android:textSize="40sp"
                     android:textStyle="bold" />
@@ -87,6 +86,7 @@
                 android:background="@color/white" />
 
             <LinearLayout
+                android:id="@+id/ll_xieyi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -125,7 +125,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_preview_finish_bg"
-                android:text="微信支付"
+                android:text="支付"
                 android:textColor="@color/black2"
                 android:textSize="18sp" />
         </LinearLayout>

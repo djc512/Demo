@@ -264,20 +264,17 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                     Toast.makeText(ctx, "请先填写评论", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (anonymous == -1) {
-                    Toast.makeText(ctx, "请先选择是否匿名评论", Toast.LENGTH_SHORT).show();
-                    break;
-                }
                 submitComment();
                 break;
             case R.id.iv_comment:
                 if (isHideName) {
-                    iv_comment.setImageResource(R.drawable.select);
-                    anonymous = 0;
-                } else {
                     iv_comment.setImageResource(R.drawable.select_no);
                     anonymous = 1;
+                } else {
+                    iv_comment.setImageResource(R.drawable.select);
+                    anonymous = 0;
                 }
+                isHideName = !isHideName;
                 break;
         }
     }

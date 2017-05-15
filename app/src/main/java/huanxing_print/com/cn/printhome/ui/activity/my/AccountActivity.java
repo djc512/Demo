@@ -26,7 +26,7 @@ import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
 import huanxing_print.com.cn.printhome.net.request.my.OrderIdRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
@@ -44,6 +44,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private AccountCZAdapter adapter;
     private String totleBalance;
     private String rechargeAmout;
+    private LinearLayout ll_xieyi;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -63,7 +64,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        totleBalance = getIntent().getStringExtra("totleBalance");
     }
 
     private void initView() {
@@ -73,12 +73,15 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         tv_account_record = (TextView) findViewById(R.id.tv_account_record);
         rv_account = (RecyclerView) findViewById(R.id.rv_account);
+        ll_xieyi = (LinearLayout) findViewById(R.id.ll_xieyi);
     }
 
     private void initData() {
-
-        if (null != totleBalance) {
-            tv_money.setText("￥:" + totleBalance);
+        totleBalance = getIntent().getStringExtra("totleBalance");
+        if (!ObjectUtils.isNull(totleBalance)) {
+            tv_money.setText("￥" + totleBalance);
+        }else{
+            tv_money.setText("￥0");
         }
         DialogUtils.showProgressDialog(getSelfActivity(), "加载中");
         //充值接口
@@ -89,6 +92,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         tv_account_record.setOnClickListener(this);
         ll_back.setOnClickListener(this);
         btn_chongzhi.setOnClickListener(this);
+        ll_xieyi.setOnClickListener(this);
     }
 
     @Override
@@ -106,6 +110,9 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.ll_back://返回
                 finishCurrentActivity();
+                break;
+            case R.id.ll_xieyi:
+                startActivity(new Intent(getSelfActivity(),XieYiActivity.class));
                 break;
         }
     }

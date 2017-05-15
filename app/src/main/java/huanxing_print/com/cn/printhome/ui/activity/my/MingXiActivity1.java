@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andview.refreshview.XRefreshView;
 
@@ -68,6 +69,11 @@ public class MingXiActivity1 extends BaseActivity implements View.OnClickListene
             public void onRefresh() {
                 super.onRefresh();
                 isLoadMore = false;
+                if (null == list) {
+                    Toast.makeText(getSelfActivity(), "没有充值记录", Toast.LENGTH_SHORT).show();
+                    xrf_zdmx.stopRefresh();
+                    return;
+                }
                 list.clear();
                 pageNum = 1;
                 MingXiDetailRequest.getMxDetail(getSelfActivity(), pageNum, new MyCallBack());
@@ -109,8 +115,8 @@ public class MingXiActivity1 extends BaseActivity implements View.OnClickListene
                             ToastUtil.doToast(getSelfActivity(), "可开发票金额为0");
                             return;
                         } else {
-                            Intent intent = new Intent(getSelfActivity(), BillDebitActivity.class);
-                            intent.putExtra("billValue", billValue);
+                            Intent intent = new Intent(getSelfActivity(), ReceiptNewActivity.class);
+                            intent.putExtra("billValue", s);
                             startActivity(intent);
                         }
                     }
@@ -142,7 +148,7 @@ public class MingXiActivity1 extends BaseActivity implements View.OnClickListene
                     if (!ObjectUtils.isNull(bean.getList())) {
                         list.addAll(bean.getList());
                         adapter.notifyDataSetChanged();
-                    }else {
+                    } else {
                         ToastUtil.doToast(getSelfActivity(), "没有更多数据");
                         return;
                     }
@@ -152,9 +158,13 @@ public class MingXiActivity1 extends BaseActivity implements View.OnClickListene
                     return;
                 }
             } else {
-                list = bean.getList();
-                adapter = new MyBillAdapter(getSelfActivity(), list);
-                lv_bill_detail.setAdapter(adapter);
+                if (bean != null) {
+                    list = bean.getList();
+                    if (null != list && list.size() > 0) {
+                        adapter = new MyBillAdapter(getSelfActivity(), list);
+                        lv_bill_detail.setAdapter(adapter);
+                    }
+                }
             }
 
             if (!ObjectUtils.isNull(list)) {

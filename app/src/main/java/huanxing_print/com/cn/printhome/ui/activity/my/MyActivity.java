@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMClient;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -83,7 +84,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView tv_uniqueid,tv_userInfo_nickname,tv_phone,tv_version,tv_weixin,tv_cache;
     private String cropImagePath;
-    private String uniqueId,nickName,wdixinName,phone,weixin;
+    private String uniqueId,nickName,wdixinName,phone,weixin,uniqueModifyFlag;
     private Bitmap bitMap;
     private String version;
     private String ApkUrl;
@@ -122,12 +123,12 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
      * 获取用户信息
      */
     private void initData() {
-        Intent intent = getIntent();
         uniqueId = baseApplication.getUniqueId();
         nickName = baseApplication.getNickName();
         wdixinName= baseApplication.getWeixinName();
         phone = baseApplication.getPhone();
         weixin = baseApplication.getWechatId();
+        uniqueModifyFlag = baseApplication.getUniqueModifyFlag();
         BitmapUtils.displayImage(getSelfActivity(), baseApplication.getHeadImg(),
                 R.drawable.iv_head, iv_user_head);
 
@@ -283,7 +284,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                             @Override
                             public void ok() {
                                 DialogUtils.showProgressDialog(getSelfActivity(), "正在退出登录").show();
-                                LoginRequset.loginOut(getSelfActivity(), baseApplication.getLoginToken(), loginoutcallback);
+                                LoginRequset.loginOut(getSelfActivity(),
+                                        baseApplication.getLoginToken(), loginoutcallback);
 
                             }
                         }).show();
@@ -463,6 +465,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             clearUserData();// 清空数据
+            EMClient.getInstance().logout(true);//环信退出
             ActivityHelper.getInstance().finishAllActivity();
             activityExitAnim();
             jumpActivityNoAnim(LoginActivity.class, false);

@@ -87,9 +87,9 @@ public class SplashActivity extends BaseActivity {
 	 }
 
 	private void autoLogin() {
-		String phone = baseApplication.getPhone();
+		String uniqueId = baseApplication.getUniqueId();//印家号
 		String password = baseApplication.getPassWord();
-		if (!ObjectUtils.isNull(phone)) {
+		if (!ObjectUtils.isNull(uniqueId)) {
 			jumpActivity(MainActivity.class);
 		} else {
 			jumpActivityNoAnim(LoginActivity.class);

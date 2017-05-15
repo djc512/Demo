@@ -1,300 +1,360 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bc_gray"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bc_gray"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
     <RelativeLayout style="@style/Re_title">
 
         <include layout="@layout/ll_title_back"></include>
 
         <TextView
             style="@style/title"
-            android:text="报销审批" />
+            android:text="报销审批"/>
     </RelativeLayout>
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
 
-        <ScrollView
-            android:layout_marginTop="10dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="80dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_user_head"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/iv_right"
+                    android:paddingLeft="20dp"
+                    android:src="@drawable/iv_head"/>
 
                 <LinearLayout
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/iv_user_head"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:paddingLeft="20dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_toLeftOf="@+id/iv_right"
-                        android:src="@drawable/iv_head" />
-
-                    <LinearLayout
-                        android:padding="20dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/iv_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="张三"/>
-                        <TextView
-                            android:id="@+id/iv_isapproval"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#ffd988"
-                            android:text="等待审批"/>
-
-                    </LinearLayout>
-            </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_marginTop="1dp"
-                    android:background="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:gravity="center_vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="20dp"
-                        android:textSize="12sp"
-                        android:text="审批编号"/>
-                    <TextView
-                        android:id="@+id/tv_number"
-                        android:background="@color/white"
-                        android:layout_marginLeft="70dp"
-                        android:gravity="center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="30dp"
-                        android:textSize="12sp"
-                        android:text="456123456456678"/>
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:gravity="center_vertical"
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="20dp"
-                    android:textSize="12sp"
-                    android:text="请款部门"/>
-                    <TextView
-                        android:id="@+id/tv_section"
-                        android:background="@color/white"
-                        android:layout_marginLeft="70dp"
-                        android:gravity="center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="30dp"
-                        android:textSize="12sp"
-                        android:text="研发部"/>
-            </RelativeLayout>
-                <huanxing_print.com.cn.printhome.view.ScrollListView
-                    android:id="@+id/rl_apply_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                <RelativeLayout
-                    android:background="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
                     <TextView
-                        android:gravity="center_vertical"
+                        android:id="@+id/iv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="20dp"
-                        android:textSize="12sp"
-                        android:text="报销金额总计"/>
-                    <TextView
-                        android:id="@+id/tv_total"
-                        android:background="@color/white"
-                        android:layout_marginLeft="100dp"
-                        android:gravity="center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:textSize="12sp"
-                        android:text="1000元"/>
-                </RelativeLayout>
+                        android:text="张三"/>
 
-                <RelativeLayout
-
-                    android:layout_marginTop="1dp"
-                    android:background="@color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
                     <TextView
-                        android:gravity="center_vertical"
+                        android:id="@+id/iv_isapproval"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="20dp"
-                        android:textSize="12sp"
-                        android:text="图片  "
-                        android:id="@+id/textView2" />
-
-                    <ImageView
-                        android:layout_marginLeft="25dp"
-                        android:id="@+id/iv_camera"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="30dp"
-                        android:src="@drawable/camera"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/textView2"
-                        android:layout_toEndOf="@+id/textView2"
-                        android:layout_marginStart="25dp" />
-                </RelativeLayout>
-
-                <ListView
-                    android:id="@+id/ll_person"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp">
-
-                </ListView>
-                <TextView
-                    android:padding="15dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:text="抄送人"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/iv_user_name"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:paddingLeft="20dp"
-                        android:layout_toLeftOf="@+id/iv_right"
-                        android:src="@drawable/iv_head" />
-                    <TextView
-                        android:id="@+id/tv_copy_name"
-                        android:paddingLeft="20dp"
-                        android:paddingBottom="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="国强"/>
-
+                        android:text="等待审批"
+                        android:textColor="#ffd988"/>
 
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/rl_sertificate"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
 
-
-                <FrameLayout
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp">
-                    <LinearLayout
-                        android:id="@+id/ll_remove"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:background="@color/white">
-
-                        <Button
-                            android:id="@+id/btn_commit"
-                            android:background="@drawable/broder_blue_full"
-                            android:text="撤回"
-                            android:textSize="18dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-                    <LinearLayout
-
-                        android:id="@+id/bt_reject_agree"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:background="@color/white">
-
-                        <Button
-                            android:id="@+id/btn_bohui"
-                            android:layout_weight="2"
-                            android:background="@drawable/broder_yellow_full"
-                            android:text="驳回"
-                            android:textSize="18dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="6dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                        <Button
-                            android:id="@+id/btn_agree"
-                            android:layout_weight="1"
-                            android:background="@drawable/broder_blue_full"
-                            android:text="同意并签字"
-                            android:textSize="18dp"
-                            android:layout_marginLeft="7dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-                    </LinearLayout>
-                </FrameLayout>
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/appicon_print"/>
+                </LinearLayout>
             </LinearLayout>
-        </ScrollView>
-        <RelativeLayout
-            android:visibility="gone"
-            android:id="@+id/rl_sertificate"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:paddingTop="20dp"
-                android:paddingRight="20dp"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/appicon_print"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-    </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:text="审批编号"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="5dp"
+                    android:text="456123456456678"
+                    android:textSize="12sp"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:text="请款部门"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/tv_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="5dp"
+                    android:text="研发部"
+                    android:textSize="12sp"/>
+            </RelativeLayout>
+
+            <huanxing_print.com.cn.printhome.view.ScrollListView
+                android:id="@+id/rl_apply_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:text="金额总计"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/tv_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="100dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="1000元"
+                    android:textSize="12sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:text="图片  "
+                    android:textSize="12sp"/>
+
+                <include layout="@layout/item_approval_gridview"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="备注:审批结束后,图片保留30天"
+                android:textColor="@color/title_color"
+                android:textSize="12dp"/>
+
+            <huanxing_print.com.cn.printhome.view.ScrollListView
+                android:id="@+id/ll_approval_process"
+                android:layout_width="match_parent"
+                android:layout_height="310dp"
+                android:layout_marginTop="10dp"
+                android:divider="@null"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:padding="15dp"
+                android:text="抄送人"/>
+
+            <huanxing_print.com.cn.printhome.view.ScrollGridView
+                android:id="@+id/gridview_copy_member"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:numColumns="5"
+                android:verticalSpacing="5dp">
+            </huanxing_print.com.cn.printhome.view.ScrollGridView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_user_name"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_toLeftOf="@+id/iv_right"
+                    android:paddingLeft="20dp"
+                    android:src="@drawable/iv_head"/>
+
+                <TextView
+                    android:id="@+id/tv_copy_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:text="国强"/>
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:id="@+id/ll_revoke"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btn_revoke"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/broder_blue_full"
+                        android:text="撤回"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <Button
+                        android:id="@+id/btn_reject"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="6dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/broder_yellow_full"
+                        android:text="驳回"
+                        android:textSize="18dp"/>
+
+                    <Button
+                        android:id="@+id/btn_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/broder_blue_full"
+                        android:text="同意并签字"
+                        android:textSize="18dp"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_print"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btn_print"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/broder_blue_full"
+                        android:text="生成凭证"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_look"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btn_look"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/broder_blue_full"
+                        android:text="查看凭证"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
 </LinearLayout>

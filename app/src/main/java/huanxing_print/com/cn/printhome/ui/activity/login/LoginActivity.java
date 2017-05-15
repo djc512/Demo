@@ -211,6 +211,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             EMClient.getInstance().login(loginBean.getMemberInfo().getEasemobId(), loginBean.getMemberInfo().getEasemobId(), new EmsCallBackListener() {
                 @Override
                 public void onMainSuccess() {
+                    EMClient.getInstance().chatManager().loadAllConversations();
+                    EMClient.getInstance().groupManager().loadAllGroups();
+
                     baseApplication.setHasLoginEvent(true);
                     DialogUtils.closeProgressDialog();
                     if (!ObjectUtils.isNull(loginBean)) {
@@ -222,6 +225,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                             baseApplication.setNickName(userInfo.getNickName());
                             baseApplication.setHeadImg(userInfo.getFaceUrl());
                             baseApplication.setEasemobId(userInfo.getEasemobId());
+                            baseApplication.setMemberId(userInfo.getMemberId());
                             baseApplication.setUniqueId(userInfo.getUniqueId());
                             if (!ObjectUtils.isNull(userInfo.getWechatId())) {
                                 baseApplication.setWechatId(userInfo.getWechatId());
@@ -245,25 +249,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             });
             Log.d("CMCC", "登陆人环信号:" + loginBean.getMemberInfo().getEasemobId());
 
-            /*baseApplication.setHasLoginEvent(true);
-            DialogUtils.closeProgressDialog();
-            if (!ObjectUtils.isNull(loginBean)) {
-                String loginToken = loginBean.getLoginToken();
-                baseApplication.setLoginToken(loginToken);
-                LoginBeanItem userInfo = loginBean.getMemberInfo();
-                if (!ObjectUtils.isNull(userInfo)) {
-                    baseApplication.setPhone(userInfo.getMobileNumber());
-                    baseApplication.setNickName(userInfo.getNickName());
-                    baseApplication.setHeadImg(userInfo.getFaceUrl());
-                    baseApplication.setEasemobId(userInfo.getEasemobId());
-                    baseApplication.setUniqueId(userInfo.getUniqueId());
-                    if (!ObjectUtils.isNull(userInfo.getWechatId())) {
-                        baseApplication.setWechatId(userInfo.getWechatId());
-                    }
-                    jumpActivity(MainActivity.class);
-                    finishCurrentActivity();
-                }
-            }*/
         }
 
         @Override
@@ -450,27 +435,48 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private WeiXinCallback weiXinCallback = new WeiXinCallback() {
 
         @Override
-        public void success(LoginBean loginBean) {
+        public void success(final LoginBean loginBean) {
 
-            baseApplication.setHasLoginEvent(true);
-            DialogUtils.closeProgressDialog();
-            if (!ObjectUtils.isNull(loginBean)) {
-                String loginToken = loginBean.getLoginToken();
-                baseApplication.setLoginToken(loginToken);
-                LoginBeanItem userInfo = loginBean.getMemberInfo();
-                if (!ObjectUtils.isNull(userInfo)) {
-                    baseApplication.setPhone(userInfo.getMobileNumber());
-                    baseApplication.setNickName(userInfo.getNickName());
-                    baseApplication.setHeadImg(userInfo.getFaceUrl());
-                    baseApplication.setEasemobId(userInfo.getEasemobId());
-                    baseApplication.setUniqueId(userInfo.getUniqueId());
-                    if (!ObjectUtils.isNull(userInfo.getWechatId())) {
-                        baseApplication.setWechatId(userInfo.getWechatId());
-                    }
-                    jumpActivity(MainActivity.class);
-                    finishCurrentActivity();
-                }
-            }
+            EMClient.getInstance().login(loginBean.getMemberInfo().getEasemobId(), loginBean.getMemberInfo().getEasemobId(),
+                    new EmsCallBackListener() {
+
+                        @Override
+                        public void onMainSuccess() {
+
+                            EMClient.getInstance().chatManager().loadAllConversations();
+                            EMClient.getInstance().groupManager().loadAllGroups();
+
+                            baseApplication.setHasLoginEvent(true);
+                            DialogUtils.closeProgressDialog();
+                            if (!ObjectUtils.isNull(loginBean)) {
+                                String loginToken = loginBean.getLoginToken();
+                                baseApplication.setLoginToken(loginToken);
+                                LoginBeanItem userInfo = loginBean.getMemberInfo();
+                                if (!ObjectUtils.isNull(userInfo)) {
+                                    String phone = userInfo.getMobileNumber();
+                                    if (!ObjectUtils.isNull(phone)) {
+                                        baseApplication.setPhone(phone);
+                                    }
+                                    baseApplication.setNickName(userInfo.getNickName() + "");
+                                    baseApplication.setHeadImg(userInfo.getFaceUrl() + "");
+                                    baseApplication.setEasemobId(userInfo.getEasemobId() + "");
+                                    baseApplication.setUniqueId(userInfo.getUniqueId() + "");
+                                    baseApplication.setMemberId(userInfo.getMemberId());
+                                    if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+                                        baseApplication.setWechatId(userInfo.getWechatId());
+                                    }
+                                    jumpActivity(MainActivity.class);
+                                    finishCurrentActivity();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onMainError(int i, String s) {
+                            toast("环信登录失败");
+                        }
+                    });
+            Log.d("CMCC", "登陆人环信号:" + loginBean.getMemberInfo().getEasemobId());
         }
 
         @Override

@@ -16,17 +16,19 @@
         <TextView
             style="@style/title"
             android:text="@string/title_new_friend"/>
-
-        <TextView
+        <LinearLayout
             android:id="@+id/add_friend"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:background="@drawable/bg_recycler_click_selector"
+            android:layout_width="@dimen/add_w_h"
+            android:layout_height="@dimen/add_w_h"
             android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:padding="@dimen/new_friend_add_padding"
-            android:text="@string/btn_add_friend"
-            android:textColor="@color/text_yellow"
-            android:textSize="@dimen/new_friend_add_tv_size"/>
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/add_img_w"
+                android:layout_height="@dimen/add_img_h"
+                android:background="@drawable/ic_contact_add"/>
+        </LinearLayout>
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

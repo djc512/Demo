@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -109,9 +108,9 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                             ToastUtil.doToast(getSelfActivity(), "可开发票金额为0");
                             return;
                         } else {
-                            Intent intent = new Intent(getSelfActivity(), BillDebitActivity.class);
-                            intent.putExtra("billValue", billValue);
-                            startActivity(intent);
+//                            Intent intent = new Intent(getSelfActivity(), BillDebitActivity.class);
+//                            intent.putExtra("billValue", billValue);
+//                            startActivity(intent);
                         }
                     }
 

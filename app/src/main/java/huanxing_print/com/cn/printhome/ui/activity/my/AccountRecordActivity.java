@@ -108,9 +108,8 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                 finishCurrentActivity();
                 break;
             case R.id.tv_receipt://开票
-                DialogUtils.showProgressDialog(getSelfActivity(),"加载中...");
+                DialogUtils.showProgressDialog(getSelfActivity(), "加载中...");
                 getReceiptAccount();
-                startActivity(new Intent(getSelfActivity(), ReceiptActivity.class));
                 break;
         }
     }
@@ -124,7 +123,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             @Override
             public void success(String msg, String s) {
                 DialogUtils.closeProgressDialog();
-                if (s.equals("0")) {
+                if ("0".equals(s)) {
                     ToastUtil.doToast(getSelfActivity(), "可开发票金额为0");
                     return;
                 } else {

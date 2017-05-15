@@ -314,6 +314,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
                 startActivityForResult(intent, REQUEST_CAPTURE);
+                break;
             case R.id.btn_photoconfirm:
                 if (compBitmap != null) {
                     Intent intentsave = new Intent();
@@ -332,6 +333,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                     saveName = System.currentTimeMillis() + ".jpg";
                     saveUtil.saveClipPic(compBitmap, saveName);
                     Toast.makeText(ctx, "处理完成", Toast.LENGTH_SHORT).show();
+                    finishCurrentActivity();
                 }
                 break;
             case R.id.btn_save:

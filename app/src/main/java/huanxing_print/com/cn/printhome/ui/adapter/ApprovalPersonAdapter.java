@@ -14,6 +14,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -27,6 +28,7 @@ import huanxing_print.com.cn.printhome.util.Info;
 public class ApprovalPersonAdapter extends BaseAdapter {
     private Context ctx;
     private ArrayList<ApprovalOrCopy> list;
+    private HashMap<Integer, View> viewMap = new HashMap<Integer, View>();
 
     public ApprovalPersonAdapter(Context ctx, ArrayList<ApprovalOrCopy> list) {
         this.ctx = ctx;
@@ -56,7 +58,7 @@ public class ApprovalPersonAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         MyViewHolder holder = null;
-        if (convertView == null) {
+        if(!viewMap.containsKey(position) || viewMap.get(position) == null) {
             convertView = LayoutInflater.from(ctx).inflate(R.layout.item_approval_person,null);
             holder = new MyViewHolder();
             holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
@@ -67,7 +69,9 @@ public class ApprovalPersonAdapter extends BaseAdapter {
             holder.line_top = convertView.findViewById(R.id.vertical_line_top);
             holder.line_bottom = convertView.findViewById(R.id.vertical_line);
             convertView.setTag(holder);
+            viewMap.put(position,convertView);
         }else {
+            convertView = viewMap.get(position);
            holder = (MyViewHolder) convertView.getTag();
         }
 
@@ -92,9 +96,12 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         holder.tv_name.setText(info.getName());
         holder.tv_time.setText(info.getUpdateTime());
         String type = info.getStatus();
-        if("1".equals(type)) {
-            holder.tv_detail.setText("未开始");
+        if ("-2".equals(type)) {
+            holder.tv_detail.setText("发起申请");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+        } else if("-1".equals(type)) {
+            holder.tv_detail.setText("未开始");
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.text_yellow));
         }else if("0".equals(type)) {
             holder.tv_detail.setText("审批中");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.text_yellow));

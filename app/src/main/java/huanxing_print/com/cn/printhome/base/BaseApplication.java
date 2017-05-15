@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.dreamlive.cn.clog.CollectLog;
@@ -58,6 +60,7 @@ public class BaseApplication extends Application {
 	private String nickName;
 	private String weixinName;
 	private String comId;
+	private String uniqueModifyFlag;//能否修改印家号
 	private SoundPool mSoundPool;
 	private int mDuanSound;
 	private int mYuluSound;
@@ -77,8 +80,12 @@ public class BaseApplication extends Application {
 	//判断是否登录
 	private boolean hasLoginEvent=false;
    //微信第三方登录
-	public static final String WX_APPID = "wxb54a2ee8a63993f9";
-	public static final String WX_APPSecret = "c8c5ed7d1e388e54cb5a1b4c1af35663";
+	//正式
+//	public static final String WX_APPID = "wxb54a2ee8a63993f9";
+//	public static final String WX_APPSecret = "c8c5ed7d1e388e54cb5a1b4c1af35663";
+	//测试
+	public static final String WX_APPID = "wx4c877768d9a9fc08";
+	public static final String WX_APPSecret = "d7ba93d327cfdd1d02b8d5a4b43b1223";
 	private IWXAPI api;
 
 	private static BaseApplication mInstance;
@@ -189,7 +196,17 @@ public class BaseApplication extends Application {
 		SharedPreferencesUtils.putShareValue(this, "uniqueId", uniqueId);
 		this.uniqueId = uniqueId;
 	}
+	public String getUniqueModifyFlag() {
+		if (ObjectUtils.isNull(uniqueModifyFlag)) {
+			uniqueModifyFlag = SharedPreferencesUtils.getShareString(this, "uniqueModifyFlag");
+		}
+		return uniqueModifyFlag;
+	}
 
+	public void setUniqueModifyFlag(String uniqueModifyFlag) {
+		SharedPreferencesUtils.putShareValue(this, "uniqueModifyFlag", uniqueModifyFlag);
+		this.uniqueModifyFlag = uniqueModifyFlag;
+	}
 	public String getMemberId() {
 		if (ObjectUtils.isNull(memberId)) {
 			memberId = SharedPreferencesUtils.getShareString(this, "memberId");
@@ -318,18 +335,20 @@ public class BaseApplication extends Application {
 		initHttpConnection();
 		ZXingLibrary.initDisplayOpinion(this);
 		initHuanxin();
-
-
-
+	}
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(base);
+		MultiDex.install(this);
 	}
 
 	private void initHuanxin() {
 			EMOptions options = new EMOptions();
 	// 默认添加好友时，是不需要验证的，改成需要验证
 			options.setAcceptInvitationAlways(false);
-
-		int pid = android.os.Process.myPid();
-		String processAppName = getAppName(pid);
+		    options.setAutoLogin(true);
+		    int pid = android.os.Process.myPid();
+		    String processAppName = getAppName(pid);
 // 如果APP启用了远程的service，此application:onCreate会被调用2次
 // 为了防止环信SDK被初始化2次，加此判断会保证SDK被初始化1次
 // 默认的APP会在以包名为默认的process name下运行，如果查到的process name不是APP的process name就立即返回

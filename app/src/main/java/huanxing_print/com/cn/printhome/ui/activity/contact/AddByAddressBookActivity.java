@@ -2,6 +2,8 @@ package huanxing_print.com.cn.printhome.ui.activity.contact;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +12,7 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +31,12 @@ import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.contact.PhoneContactInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.PhoneContactCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.AddAddressBookAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.util.WeiXinUtils;
 import huanxing_print.com.cn.printhome.util.contact.GetContactsUtils;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.IndexSideBar;
@@ -48,7 +53,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private AddAddressBookAdapter adapter;
     private LinearLayoutManager layoutManager;
     private PhoneContactInfo currentClickPhoneContact;
-
+    private String shareAppUrl = "https://www.baidu.com";
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -132,6 +137,10 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void itemBtn(PhoneContactInfo contactInfo) {
+        if(baseApplication.getPhone().equals(contactInfo.getTelNo())) {
+            ToastUtil.doToast(AddByAddressBookActivity.this,"不能添加自己为联系人");
+            return;
+        }
         this.currentClickPhoneContact = contactInfo;
         checkPhone();
     }
@@ -173,13 +182,13 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private void checkNextStep(FriendSearchInfo info) {
         if(null != info) {
             if (0 == info.getIsMember()) {
-                ToastUtil.doToast(this, "不是印家用户");
                 showInvitation(info);
             } else {
                 if (1 == info.getIsFriend()) {
-                    ToastUtil.doToast(this, "是好友");
+                    Intent intent = new Intent(AddByAddressBookActivity.this, ChatActivity.class);
+                    intent.putExtra("FriendSearchInfo", info);
+                    startActivity(intent);
                 } else {
-                    ToastUtil.doToast(this, "不是好友");
                     ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
                     infos.add(info);
                     startActivity(infos);
@@ -250,13 +259,17 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private void invitationMessage(FriendSearchInfo info,String message) {
         if(null != info && (!info.getTelNo().isEmpty()) && PhoneNumberUtils.isGlobalPhoneNumber(info.getTelNo())){
             Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"+info.getTelNo()));
-            intent.putExtra("sms_body", message);
+            intent.putExtra("sms_body", String.format("%1$s邀请您使用印家打印App %2$s", baseApplication.getNickName(),shareAppUrl));
             startActivity(intent);
         }
     }
 
     private void invitationWeiXin(FriendSearchInfo info,String message) {
-        ToastUtil.doToast(this,"微信分享，问陆成宋");
+        WeiXinUtils weiXinUtils = WeiXinUtils.getInstance();
+        weiXinUtils.init(this, baseApplication.WX_APPID);
+        weiXinUtils.shareToWXSceneSession(message);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.appicon_print);
+        weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", baseApplication.getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", shareAppUrl, bmp);
     }
 
     private void startActivity(ArrayList<FriendSearchInfo> infos) {

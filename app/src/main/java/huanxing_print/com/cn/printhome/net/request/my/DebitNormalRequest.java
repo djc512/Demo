@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.net.request.my;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class DebitNormalRequest extends BaseRequst {
                                       String companyName,//发票抬头
                                       String expAmount,//邮费
                                       String fileSize,//文件份数
-                                      int payType,//支付方式0-微信 1-支付宝 2-货到付款	number
+                                      String payType,//支付方式0-微信 1-支付宝 2-货到付款	number
                                       String receiver,//收件人
                                       String telPhone,//联系方式
                                     final DebitNormalCallBack callBack) {
@@ -56,6 +57,9 @@ public class DebitNormalRequest extends BaseRequst {
         params.put("payType", payType);
         params.put("receiver", receiver);
         params.put("telPhone", telPhone);
+
+        Log.d("DebitNormalRequest", "params:" + params);
+
 
         HttpUtils.post(ctx, normalUrl, BaseApplication.getInstance().getLoginToken(), params, new HttpCallBack() {
             @Override

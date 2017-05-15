@@ -314,6 +314,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
                 startActivityForResult(intent, REQUEST_CAPTURE);
+                break;
             case R.id.btn_photoconfirm://跳转到印家打印
                 if (compBitmap != null) {
                     String nameConfirm = System.currentTimeMillis() + ".jpg";
@@ -323,6 +324,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                     printIntent.putExtra("imagepath", path);
                     printIntent.putExtra("copyfile",true);
                     startActivity(printIntent);
+                    finishCurrentActivity();
                 }
                 break;
             case R.id.btn_save:

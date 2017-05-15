@@ -3,16 +3,16 @@ package huanxing_print.com.cn.printhome.ui.activity.approval;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -25,19 +25,29 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalDetail;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.approval.Attachment;
+import huanxing_print.com.cn.printhome.model.image.HeadImageBean;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalDetailCallBack;
+import huanxing_print.com.cn.printhome.net.callback.image.HeadImageUploadCallback;
 import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
+import huanxing_print.com.cn.printhome.net.request.image.HeadImageUploadRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalCopyMembersAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.AttachmentAdatper;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -79,7 +89,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     boolean isRequestMoney =false;
 
     ApprovalPersonAdapter personAdapter;
-    private PicAdapter adapter;
+//    private PicAdapter adapter;
+    private AttachmentAdatper attachmentAdatper;
+    ArrayList<Attachment> attachments = new ArrayList<Attachment>();
     private ApprovalCopyMembersAdapter copyMembersAdapter;
     ArrayList<ApprovalOrCopy> lists = new ArrayList<ApprovalOrCopy>();
     ArrayList<ApprovalOrCopy> copyMembers = new ArrayList<ApprovalOrCopy>();
@@ -173,9 +185,10 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 //        mResults.add(bimap);*/
 //
         //展示采购图片的gridview
-        adapter = new PicAdapter();
+//        adapter = new PicAdapter();
         //adapter.update();
-        noScrollgridview.setAdapter(adapter);
+        attachmentAdatper = new AttachmentAdatper(this, attachments);
+        noScrollgridview.setAdapter(attachmentAdatper);
 //
 ////        showData();
         //展示抄送人员
@@ -186,88 +199,67 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     private void showData() {
         //展示 数据
 
-        showApprovalMemberName();
-        showApprovalMemberIcon();
-        showApprovalState();
-        showApprovalDetail();
-        showApprovalPerson();
-        showApprovalCopyMembers();
-    }
-
-    /**
-     * member名称
-     */
-    private void showApprovalMemberName() {
+        //member名称
         iv_name.setText(details.getMemberName().isEmpty() ? "Null" : details.getMemberName());
-    }
 
-    /**
-     * member头像
-     */
-    private void showApprovalMemberIcon() {
+        //member头像
         Glide.with(mContext).load(details.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                 iv_user_head.setImageDrawable(resource);
             }
         });
-    }
 
-    /**
-     * 审批状态
-     */
-    private void showApprovalState() {
-        if("0".equals(details.getStatus())) {
+        //审批状态
+        if(0 == details.getStatus()) {
             iv_isapproval.setText("审批中");
             iv_isapproval.setTextColor(getResources().getColor(R.color.text_yellow));
-        }else if("2".equals(details.getStatus())) {
+        }else if(2 == details.getStatus()) {
             iv_isapproval.setText("审批完成");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("3".equals(details.getStatus())) {
+        }else if(3 == details.getStatus()) {
             iv_isapproval.setText("已驳回");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("4".equals(details.getStatus())) {
+        }else if(4 == details.getStatus()) {
             iv_isapproval.setText("已撤销");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("5".equals(details.getStatus())) {
+        }else if(5 == details.getStatus()) {
             iv_isapproval.setText("打印凭证");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
-        }else if("6".equals(details.getStatus())) {
+        }else if(6 == details.getStatus()) {
             iv_isapproval.setText("已打印");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
         }
-
-    }
-
-    /**
-     * 审批人列表审批状态
-     */
-    private void showApprovalPerson() {
+        //审批人列表审批状态
         ArrayList<ApprovalOrCopy> list =  details.getApproverList();
         if(null != list && list.size() > 0) {
-            lists = list;
-            personAdapter.modifyApprovalPersons(list);
+            ApprovalOrCopy approvalOrCopy = new ApprovalOrCopy();
+            approvalOrCopy.setName(details.getMemberName());
+            approvalOrCopy.setFaceUrl(details.getMemberUrl());
+            approvalOrCopy.setUpdateTime(details.getAddTime());
+            approvalOrCopy.setStatus("-2");
+            lists.clear();
+            lists.add(approvalOrCopy);
+            lists.addAll(list);
+            personAdapter.modifyApprovalPersons(lists);
         }
-    }
 
-    private void showApprovalCopyMembers() {
-        ArrayList<ApprovalOrCopy> list =  details.getCopyerList();
-        if(null != list && list.size() > 0) {
-            copyMembers = list;
-            copyMembersAdapter.modifyData(copyMembers);
-        }
-    }
-
-    private void showApprovalDetail() {
         tv_number.setText(details.getApproveId().isEmpty() ? "" : details.getApproveId());
         tv_section.setText(details.getDepartment().isEmpty() ? "" : details.getDepartment());
         tv_use.setText(details.getRemark().isEmpty() ? "" : details.getRemark());
         tv_detail.setText(details.getPurchaseList().isEmpty() ? "" : details.getPurchaseList());
         tv_money.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
         tv_overtime.setText(details.getAddTime().isEmpty() ? "" : details.getAddTime());
-        adapter.notifyDataSetChanged();
-    }
+        if(null != details.getAttachmentList()) {
+            attachmentAdatper.modifyData(details.getAttachmentList());
+        }
 
+        ArrayList<ApprovalOrCopy> copyMemberList =  details.getCopyerList();
+        if(null != copyMemberList && copyMemberList.size() > 0) {
+            copyMembers = copyMemberList;
+            copyMembersAdapter.modifyData(copyMembers);
+        }
+    }
 
     private void initView() {
         iv_isapproval = (TextView) findViewById(R.id.iv_isapproval);
@@ -310,10 +302,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
                 break;
             case R.id.btn_bohui:
-                finishCurrentActivity();
                 //同时反馈数据给服务器
-
-
+                ApprovalRequest.approval(getSelfActivity(),baseApplication.getLoginToken(),
+                        approveId,2,"",nullcallback);
                 break;
             case R.id.btn_agree:
                 //startActivity(new Intent(getSelfActivity(), HandWriteActivity.class));
@@ -334,7 +325,10 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
                             @Override
                             public void ok() {
                                Toast.makeText(getSelfActivity(), "保存成功", Toast.LENGTH_SHORT).show();
-
+                               Bitmap bitmp = BitmapFactory.decodeFile("/sdcard/signature.png");
+                              if(null!=bitmp){
+                                  setPicToView(bitmp,"/sdcard/signature.png");
+                              }
 
                             }
 
@@ -354,57 +348,136 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     }
 
-    private class PicAdapter extends BaseAdapter{
+//    private class PicAdapter extends BaseAdapter{
+//        @Override
+//        public int getCount() {
+//            if(null == details || (null == details.getAttachmentList())){
+//                return 0;
+//            }
+//            return details.getAttachmentList().size();
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return details.getAttachmentList().get(position);
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            ViewHolder holder = null;
+//            if (convertView == null) {
+//                holder = new PicAdapter.ViewHolder();
+//                convertView = LayoutInflater.from(ApprovalBuyAddOrRemoveActivity.this).inflate(
+//                        R.layout.item_pic_show, null);
+//                holder.image = (ImageView) convertView.findViewById(R.id.iv_pic);
+//                convertView.setTag(holder);
+//            } else {
+//                holder = (PicAdapter.ViewHolder) convertView.getTag();
+//            }
+////            //请求网络拿图片
+////            //请求的url前面加什么？、？？？第二个参数
+////            ImageUtil.showImageView(ApprovalBuyAddOrRemoveActivity.this,details.getAttachmentList().get(position),holder.image);
+//
+//            String picPath = details.getAttachmentList().get(position).getFileUrl();
+//            loadPic(holder.image, picPath);
+//            return convertView;
+//        }
+//
+//        private void loadPic(final ImageView iv_user_head, String picPath) {
+//            Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+//                @Override
+//                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                    iv_user_head.setImageDrawable(resource);
+//                }
+//            });
+//        }
+//
+//        class ViewHolder {
+//            ImageView image;
+//        }
+//    }
+
+    private NullCallback nullcallback = new NullCallback() {
+
         @Override
-        public int getCount() {
-            if(null == details || (null == details.getAttachmentList())){
-                return 0;
-            }
-            return details.getAttachmentList().size();
+        public void fail(String msg) {
+            toast(msg);
+            DialogUtils.closeProgressDialog();
+
         }
 
         @Override
-        public Object getItem(int position) {
-            return details.getAttachmentList().get(position);
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
         }
 
         @Override
-        public long getItemId(int position) {
-            return position;
+        public void success(String msg) {
+            toast(msg);
+            DialogUtils.closeProgressDialog();
+            finishCurrentActivity();
         }
+    };
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
-            if (convertView == null) {
-                holder = new PicAdapter.ViewHolder();
-                convertView = LayoutInflater.from(ApprovalBuyAddOrRemoveActivity.this).inflate(
-                        R.layout.item_pic_show, null);
-                holder.image = (ImageView) convertView.findViewById(R.id.iv_pic);
-
-            } else {
-                holder = (PicAdapter.ViewHolder) convertView.getTag();
-            }
-//            //请求网络拿图片
-//            //请求的url前面加什么？、？？？第二个参数
-//            ImageUtil.showImageView(ApprovalBuyAddOrRemoveActivity.this,details.getAttachmentList().get(position),holder.image);
-
-            String picPath = details.getAttachmentList().get(position);
-            loadPic(holder.image, picPath);
-            return convertView;
-        }
-
-        private void loadPic(final ImageView iv_user_head, String picPath) {
-            Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
-                @Override
-                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                    iv_user_head.setImageDrawable(resource);
+    private void setPicToView(Bitmap bitMap,String filePath ) {
+        //Bundle extras = picdata.getExtras();
+        if (null != bitMap) {
+            //Bitmap photo = extras.getParcelable("data");
+            //Bitmap photo =filterColor(phmp);
+            iv_user_head.setImageBitmap(bitMap);
+            //String filePath = FileUtils.savePic(getSelfActivity(), "signImg.jpg", bitMap);
+            if (!ObjectUtils.isNull(filePath)) {
+                File file = new File(filePath);
+                //file转化成二进制
+                byte[] buffer = null;
+                FileInputStream in ;
+                int length = 0;
+                try {
+                    in = new FileInputStream(file);
+                    buffer = new byte[(int) file.length() + 100];
+                    length = in.read(buffer);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            });
-        }
+                String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
 
-        class ViewHolder {
-            ImageView image;
+                DialogUtils.showProgressDialog(getSelfActivity(), "文件上传中").show();
+                Map<String, Object> params = new HashMap<String, Object>();
+                params.put("fileContent", data);
+                params.put("fileName", filePath);
+                params.put("fileType", ".jpg");
+                HeadImageUploadRequest.upload(getSelfActivity(),  params,
+                        new HeadImageUploadCallback() {
+
+                            @Override
+                            public void fail(String msg) {
+                                toast(msg);
+                                DialogUtils.closeProgressDialog();
+                            }
+
+                            @Override
+                            public void connectFail() {
+                                toastConnectFail();
+                                DialogUtils.closeProgressDialog();
+                            }
+
+                            @Override
+                            public void success(String msg, HeadImageBean bean) {
+                                //Logger.d("PersonInfoActivity ---------HeadImage--------:" + bean.getImgUrl()
+                                // );
+                                String imgUrl = bean.getImgUrl()+"";
+                                ApprovalRequest.approval(getSelfActivity(),baseApplication.getLoginToken(),
+                                        approveId,1,imgUrl,nullcallback);
+                            }
+                        });
+            }
+
         }
     }
 }

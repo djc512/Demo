@@ -121,8 +121,9 @@ public class ApprovalNoFragment extends Fragment implements ListView.OnItemClick
             } else {
                 if (ObjectUtils.isNull(approvalObjects)) {
                     ToastUtil.doToast(getActivity(), "暂无数据");
+                } else {
+                    datalist = approvalObjects;
                 }
-                datalist = approvalObjects;
                 lvAdapter = new ApprovalListAdapter(getActivity(), datalist);
                 lv_my_list.setAdapter(lvAdapter);
             }

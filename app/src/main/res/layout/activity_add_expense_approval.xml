@@ -338,7 +338,8 @@
                     android:hint="填写报销金额"
                     android:paddingLeft="2dp"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size_sixteen" />
+                    android:textSize="@dimen/text_size_sixteen"
+                    android:inputType="number"/>
 
 
             </LinearLayout>

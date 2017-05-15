@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -19,6 +21,7 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 public class CommunityNewestListAdapter extends RecyclerView.Adapter<CommunityNewestListAdapter.MyViewHold> {
     private Context ctx;
+    private ArrayList<String> imageList = new ArrayList<>();
 
     public CommunityNewestListAdapter(Context ctx) {
         this.ctx = ctx;
@@ -33,9 +36,9 @@ public class CommunityNewestListAdapter extends RecyclerView.Adapter<CommunityNe
     @Override
     public void onBindViewHolder(MyViewHold holder, int position) {
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx,160));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx, 160));
         holder.rv_iv.setLayoutParams(lp);
-        CommentPicAdapter adapter = new CommentPicAdapter(ctx);
+        CommentPicAdapter adapter = new CommentPicAdapter(ctx, imageList);
         GridLayoutManager manager = new GridLayoutManager(ctx, 4);
         holder.rv_iv.setLayoutManager(manager);
         holder.rv_iv.setAdapter(adapter);
@@ -55,11 +58,12 @@ public class CommunityNewestListAdapter extends RecyclerView.Adapter<CommunityNe
         private TextView tv_time;
         private TextView tv_comment_num;
         private TextView tv_browse_num;
+
         public MyViewHold(View view) {
             super(view);
             iv_head = (CircleImageView) view.findViewById(R.id.iv_head);
             tv_name = (TextView) view.findViewById(R.id.tv_name);
-            tv_content= (TextView) view.findViewById(R.id.tv_content);
+            tv_content = (TextView) view.findViewById(R.id.tv_content);
             rv_iv = (RecyclerView) view.findViewById(R.id.rv_iv);
             tv_time = (TextView) view.findViewById(R.id.tv_time);
             tv_comment_num = (TextView) view.findViewById(R.id.tv_comment_num);

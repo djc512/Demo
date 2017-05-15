@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.approval;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,10 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.approval.ChooseMemberEvent;
 import huanxing_print.com.cn.printhome.model.contact.GroupMember;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupMessageCallback;
@@ -42,6 +44,7 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
     private String groupId;//群组id
     private ArrayList<GroupMember> groupMembers = new ArrayList<>();
     private ArrayList<GroupMember> chooseGroupMembers;//选择的群组成员
+    private String type;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -61,6 +64,7 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
 
     private void initView() {
         groupId = getIntent().getStringExtra("groupId");
+        type = getIntent().getStringExtra("type");
         btn_create = (Button) findViewById(R.id.btn_create);
         tv_hint_member = (TextView) findViewById(R.id.hint_member);
 
@@ -92,6 +96,12 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
             if (!ObjectUtils.isNull(groupMessageInfo)) {
                 if (!ObjectUtils.isNull(groupMessageInfo.getGroupMembers())) {
                     groupMembers = groupMessageInfo.getGroupMembers();
+                    for(GroupMember member : groupMembers) {
+                        if(member.getEasemobId().equals(baseApplication.getEasemobId())) {
+                            groupMembers.remove(member);
+                            break;
+                        }
+                    }
                     btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, groupMembers.size()));
                     groupMemberAdapter.modify(groupMembers);
                 }
@@ -124,9 +134,14 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
                 break;
             case R.id.btn_create:
                 //返回
-                Intent intent = new Intent();
-                intent.putExtra("FriendInfo", chooseGroupMembers);
-                setResult(0x12, intent);
+                //区分两种
+                if ("approvalFriends".equals(type)) {
+                    //审批
+                    EventBus.getDefault().post(new ChooseMemberEvent(0x11, chooseGroupMembers));
+                } else if ("copyFriends".equals(type)) {
+                    //抄送
+                    EventBus.getDefault().post(new ChooseMemberEvent(0x12, chooseGroupMembers));
+                }
                 finish();
                 break;
         }

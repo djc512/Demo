@@ -133,7 +133,7 @@ public class HttpUtils {
      * @param pageNo
      * @param callback
      */
-    public static void getCommentlist(Object obj, final String url, String loginToken, int pageNo, int printno, int type,
+    public static void getCommentlist(Object obj, final String url, String loginToken, int pageNo, String printno, int type,
                                       final HttpCallBack callback) {
         //String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
         //Logger.d("http-request:" + url + "----" + "----" + paramsStr);
@@ -143,7 +143,7 @@ public class HttpUtils {
                 .addHeader("platform", ConFig.PHONE_TYPE)
                 .addParams("pageNum", pageNo + "")
                 .addParams("pageSize", "10")
-                .addParams("printerNo", printno + "")
+                .addParams("printerNo", printno)
                 .addParams("type", type + "")
                 .tag(obj).build().execute(new StringCallback() {
 
@@ -195,6 +195,7 @@ public class HttpUtils {
             public void onResponse(String result, int arg1) {
                 TimeUtils.endTime();
                 Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                Log.d("CMCC", "http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
                 callback.success(result);
             }
 
@@ -202,6 +203,7 @@ public class HttpUtils {
             public void onError(Call call, Exception exception, int arg2) {
                 TimeUtils.endTime();
                 Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                Log.e("CMCC", "http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
                 String message = exception.getMessage();
                 if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
 

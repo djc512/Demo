@@ -9,22 +9,23 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.approval.AddApprovalCallBack;
-import huanxing_print.com.cn.printhome.net.callback.approval.ApprovalCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.CheckVoucherCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalDetailCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalListCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryLastCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryMessageCallBack;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
+import huanxing_print.com.cn.printhome.net.resolve.NullResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.AddApprovalResolve;
-import huanxing_print.com.cn.printhome.net.resolve.approval.ApprovalResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.CheckVoucherResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.LastApprovalResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.QueryApprovalDetailResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.QueryApprovalListResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.QueryMessageResolve;
 import huanxing_print.com.cn.printhome.util.HttpUtils;
+import huanxing_print.com.cn.printhome.util.time.TimeUtils;
 
 /**
  * Created by dd on 2017/5/8.
@@ -43,10 +44,11 @@ public class ApprovalRequest extends BaseRequst {
                                             String loginToken,
                                             final QueryApprovalListCallBack callBack) {
         Log.i("CMCC", "loginToken:" + loginToken);
-        String url = HTTP_URL + HttpUrl.queryApprovalList;
+        final String url = HTTP_URL + HttpUrl.queryApprovalList;
         HttpUtils.getApprovalParam(context, url, loginToken, pageNum, pageSize, type, new HttpCallBack() {
             @Override
             public void success(String content) {
+                Log.d("CMCC", "http-result:" + url + "----" + content + "----" + TimeUtils.subTime() + " ms");
                 QueryApprovalListResolve resolve = new QueryApprovalListResolve(content);
                 resolve.resolve(callBack);
             }
@@ -68,11 +70,12 @@ public class ApprovalRequest extends BaseRequst {
      */
     public static void getQueryApprovalDetail(Context context, String loginToken,
                                               String approveId, final QueryApprovalDetailCallBack callBack) {
-        String url = HTTP_URL + HttpUrl.queryApprovalDetail;
+        final String url = HTTP_URL + HttpUrl.queryApprovalDetail;
 
         HttpUtils.getApprovalDetailParam(context, url, loginToken, approveId, new HttpCallBack() {
             @Override
             public void success(String content) {
+                Log.d("CMCC", "http-result:" + url + "----" + content + "----" + TimeUtils.subTime() + " ms");
                 QueryApprovalDetailResolve resolve = new QueryApprovalDetailResolve(content);
                 resolve.resolve(callBack);
             }
@@ -120,6 +123,8 @@ public class ApprovalRequest extends BaseRequst {
 
             @Override
             public void fail(String exception) {
+
+                Log.d("CMCC", exception);
                 addApprovalCallBack.connectFail();
             }
         });
@@ -166,7 +171,7 @@ public class ApprovalRequest extends BaseRequst {
      */
     public static void approval(Context context, String loginToken, String approveId,
                                 int isPass, String signUrl,
-                                final ApprovalCallBack callBack) {
+                                final NullCallback callBack) {
         String url = HTTP_URL + HttpUrl.approval;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("approveId", approveId);
@@ -176,7 +181,7 @@ public class ApprovalRequest extends BaseRequst {
         HttpUtils.post(context, url, loginToken, params, new HttpCallBack() {
             @Override
             public void success(String content) {
-                ApprovalResolve resolve = new ApprovalResolve(content);
+                NullResolve resolve = new NullResolve(content);
                 resolve.resolve(callBack);
             }
 
@@ -239,6 +244,33 @@ public class ApprovalRequest extends BaseRequst {
             @Override
             public void fail(String exception) {
                 callBack.connectFail();
+            }
+        });
+    }
+
+    /**
+     * 撤销
+     * @param context
+     * @param loginToken
+     * @param approveId
+     * @param callback
+     */
+    public static void revokeReq(Context context, String loginToken, String approveId, final NullCallback callback) {
+        String url = HTTP_URL + HttpUrl.approvalRevoke;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("approveId", approveId);
+
+        HttpUtils.post(context, url, loginToken, params, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                Log.d("CMCC", content);
+                NullResolve resolve = new NullResolve(content);
+                resolve.resolve(callback);
+            }
+
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
             }
         });
     }

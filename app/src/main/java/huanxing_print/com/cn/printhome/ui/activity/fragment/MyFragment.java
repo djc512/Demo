@@ -19,6 +19,7 @@ import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity1;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.WebViewCommunityActivity;
@@ -39,6 +40,8 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private String printCount;
     private String uniqueId;//印家号
     private String wechatId;
+    private String uniqueModifyFlag;//能否修改印家号
+
 
     @Override
     protected void init() {
@@ -103,11 +106,15 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 phone = bean.getMobileNumber();
                 printCount = bean.getTotlePrintCount();
                 totleBalance = bean.getTotleBalance();
+                uniqueModifyFlag = bean.getUniqueModifyFlag();
                 // monthConsume = bean.getMonthConsume();
                 wechatId = bean.getWechatId();
                 if (!ObjectUtils.isNull(bean.getWechatName())) {
                     baseApplication.setWeixinName(bean.getWechatName());
                 }
+//                if (!ObjectUtils.isNull(uniqueModifyFlag)) {
+//                    baseApplication.setUniqueModifyFlag(bean.getUniqueModifyFlag());
+//                }
                 tv_name.setText(nickName);
                 tv_uniqueid.setText("印家号:"+uniqueId);
                 tv_print_count.setText(printCount);
@@ -142,26 +149,16 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
         findViewById(R.id.ll_my_account).setOnClickListener(this);
         findViewById(R.id.ll_my_contact).setOnClickListener(this);
-//        findViewById(R.id.ll_my_dy).setOnClickListener(this);
-//        findViewById(R.id.ll_my_mx).setOnClickListener(this);
-//        findViewById(R.id.ll_my_set).setOnClickListener(this);
-//        findViewById(R.id.ll_my_share).setOnClickListener(this);
-//        findViewById(R.id.rl_userMsg).setOnClickListener(this);
         findViewById(R.id.ll_station).setOnClickListener(this);
         findViewById(R.id.ll_join).setOnClickListener(this);
         findViewById(R.id.ll_my_community).setOnClickListener(this);
         findViewById(R.id.iv_set).setOnClickListener(this);
+        findViewById(R.id.ll_printnum).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.rl_userMsg:
-//                Intent intent = new Intent(getActivity(), MyActivity.class);
-//                intent.putExtra("nickName",nickName);
-//                intent.putExtra("wechatId",wechatId);
-//                startActivity(intent);
-//                break;
             case R.id.iv_set:
                 startActivity(new Intent(getActivity(), MyActivity.class));
                 break;
@@ -196,7 +193,9 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 ////                startActivity(new Intent(getActivity(), ApprovalActivity.class));
 //                startActivity(new Intent(getActivity(), CommentActivity.class));
 //                break;
-
+            case R.id.ll_printnum:
+                startActivity(new Intent(getActivity(), MingXiActivity1.class));
+                break;
 
             default:
                 break;

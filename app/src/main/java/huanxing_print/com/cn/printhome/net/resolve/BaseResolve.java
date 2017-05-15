@@ -46,7 +46,6 @@ public abstract class BaseResolve<T> {
         if (success){
             code =1;
 
-
         }else {
             code =0;
             if (FAIL_CODE_TOKEN_FAIL.equals(errorCode)) {
