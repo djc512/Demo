@@ -162,6 +162,14 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
         }
 
+
+        tv_number.setText(details.getApproveId().isEmpty() ? "" : details.getApproveId());
+        tv_section.setText(details.getDepartment().isEmpty() ? "" : details.getDepartment());
+        tv_total.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
+        if(null != details.getAttachmentList()) {
+            attachmentAdatper.modifyData(details.getAttachmentList());
+        }
+
         //审批人列表审批状态
         ArrayList<ApprovalOrCopy> list =  details.getApproverList();
         if(null != list && list.size() > 0) {
