@@ -222,6 +222,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                             baseApplication.setNickName(userInfo.getNickName());
                             baseApplication.setHeadImg(userInfo.getFaceUrl());
                             baseApplication.setEasemobId(userInfo.getEasemobId());
+                            baseApplication.setMemberId(userInfo.getMemberId());
                             baseApplication.setUniqueId(userInfo.getUniqueId());
                             if (!ObjectUtils.isNull(userInfo.getWechatId())) {
                                 baseApplication.setWechatId(userInfo.getWechatId());
@@ -453,6 +454,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                                     baseApplication.setHeadImg(userInfo.getFaceUrl()+"");
                                     baseApplication.setEasemobId(userInfo.getEasemobId()+"");
                                     baseApplication.setUniqueId(userInfo.getUniqueId()+"");
+                                    baseApplication.setMemberId(userInfo.getMemberId());
                                     if (!ObjectUtils.isNull(userInfo.getWechatId())) {
                                         baseApplication.setWechatId(userInfo.getWechatId());
                                     }

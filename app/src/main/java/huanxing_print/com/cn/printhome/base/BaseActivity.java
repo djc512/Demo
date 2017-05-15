@@ -416,6 +416,7 @@ public abstract class BaseActivity extends Activity {
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "headImg");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "nickName");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "uniqueId");
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "memberId");
 		baseApplication.setPhone("");
 		baseApplication.setPassWord("");
 		baseApplication.setSex("");
@@ -423,6 +424,8 @@ public abstract class BaseActivity extends Activity {
 		baseApplication.setHeadImg("");
 		baseApplication.setLoginToken("");
 		baseApplication.setUniqueId("");
+		baseApplication.setMemberId("");
+
 	}
 
 	protected void initJPush(String alias) {

@@ -251,6 +251,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 						baseApplication.setHeadImg(userInfo.getFaceUrl());
 						baseApplication.setEasemobId(userInfo.getEasemobId());
 						baseApplication.setUniqueId(userInfo.getUniqueId());
+						baseApplication.setMemberId(userInfo.getMemberId());
 						if (!ObjectUtils.isNull(userInfo.getWechatId())) {
 							baseApplication.setWechatId(userInfo.getWechatId());
 						}

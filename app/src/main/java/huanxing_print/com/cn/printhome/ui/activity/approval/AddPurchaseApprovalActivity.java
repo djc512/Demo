@@ -347,7 +347,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                     Log.i("CMCC", "groupId:" + groupId);
                 }
                 ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-                ArrayList<ApprovalOrCopy> copys = approval.getCopyerList();
+                ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
                 if (!ObjectUtils.isNull(approvals)) {
                     for (ApprovalOrCopy approvalOrCopy : approvals) {
                         GroupMember info = new GroupMember();
@@ -622,7 +622,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
 
                 Log.i("CMCC", "新建采购审批11111111111111111");
                 object.setAttachmentList(urls);
-                DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...");
+                //DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...");
                 ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
                         1, object, addCallBack);
 

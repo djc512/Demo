@@ -156,13 +156,45 @@
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_station"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:layout_marginTop="15dip"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/iv_station" />
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="布点建议"
+                    android:textColor="@color/text_color"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/iv_mingxi"
+                    style="@style/arrow_go" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/gray5" />
             <LinearLayout
                 android:id="@+id/ll_my_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dip"
+
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -188,38 +220,8 @@
                     style="@style/arrow_go" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray5" />
 
-            <LinearLayout
-                android:id="@+id/ll_station"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="10dp">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/iv_station" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="布点建议"
-                    android:textColor="@color/text_color"
-                    android:textSize="18sp" />
-
-                <ImageView
-                    android:id="@+id/iv_mingxi"
-                    style="@style/arrow_go" />
-            </LinearLayout>
 
 
             <LinearLayout
