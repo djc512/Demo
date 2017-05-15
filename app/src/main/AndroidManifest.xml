@@ -328,6 +328,7 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
+            android:theme="@android:style/Theme.Dialog"
             android:launchMode="singleTop" />
         <!-- 开发票列表界面 -->
         <activity
