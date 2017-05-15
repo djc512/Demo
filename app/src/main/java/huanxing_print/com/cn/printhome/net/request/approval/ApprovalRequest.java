@@ -9,16 +9,16 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
 import huanxing_print.com.cn.printhome.net.HttpCallBack;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.approval.AddApprovalCallBack;
-import huanxing_print.com.cn.printhome.net.callback.approval.ApprovalCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.CheckVoucherCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalDetailCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalListCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryLastCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryMessageCallBack;
 import huanxing_print.com.cn.printhome.net.request.BaseRequst;
+import huanxing_print.com.cn.printhome.net.resolve.NullResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.AddApprovalResolve;
-import huanxing_print.com.cn.printhome.net.resolve.approval.ApprovalResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.CheckVoucherResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.LastApprovalResolve;
 import huanxing_print.com.cn.printhome.net.resolve.approval.QueryApprovalDetailResolve;
@@ -171,7 +171,7 @@ public class ApprovalRequest extends BaseRequst {
      */
     public static void approval(Context context, String loginToken, String approveId,
                                 int isPass, String signUrl,
-                                final ApprovalCallBack callBack) {
+                                final NullCallback callBack) {
         String url = HTTP_URL + HttpUrl.approval;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("approveId", approveId);
@@ -181,7 +181,7 @@ public class ApprovalRequest extends BaseRequst {
         HttpUtils.post(context, url, loginToken, params, new HttpCallBack() {
             @Override
             public void success(String content) {
-                ApprovalResolve resolve = new ApprovalResolve(content);
+                NullResolve resolve = new NullResolve(content);
                 resolve.resolve(callBack);
             }
 

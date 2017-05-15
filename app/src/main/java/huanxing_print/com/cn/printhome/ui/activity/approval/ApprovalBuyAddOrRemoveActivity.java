@@ -3,9 +3,11 @@ package huanxing_print.com.cn.printhome.ui.activity.approval;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +25,24 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalDetail;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.image.HeadImageBean;
+import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalDetailCallBack;
+import huanxing_print.com.cn.printhome.net.callback.image.HeadImageUploadCallback;
 import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
+import huanxing_print.com.cn.printhome.net.request.image.HeadImageUploadRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalCopyMembersAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -307,10 +318,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
                 break;
             case R.id.btn_bohui:
-                finishCurrentActivity();
                 //同时反馈数据给服务器
-
-
+                ApprovalRequest.approval(getSelfActivity(),baseApplication.getLoginToken(),
+                        approveId,2,"",nullcallback);
                 break;
             case R.id.btn_agree:
                 //startActivity(new Intent(getSelfActivity(), HandWriteActivity.class));
@@ -331,7 +341,10 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
                             @Override
                             public void ok() {
                                Toast.makeText(getSelfActivity(), "保存成功", Toast.LENGTH_SHORT).show();
-
+                               Bitmap bitmp = BitmapFactory.decodeFile("/sdcard/signature.png");
+                              if(null!=bitmp){
+                                  setPicToView(bitmp,"/sdcard/signature.png");
+                              }
 
                             }
 
@@ -402,6 +415,85 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
         class ViewHolder {
             ImageView image;
+        }
+    }
+
+    private NullCallback nullcallback = new NullCallback() {
+
+        @Override
+        public void fail(String msg) {
+            toast(msg);
+            DialogUtils.closeProgressDialog();
+
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
+        }
+
+        @Override
+        public void success(String msg) {
+            toast(msg);
+            DialogUtils.closeProgressDialog();
+            finishCurrentActivity();
+        }
+    };
+
+    private void setPicToView(Bitmap bitMap,String filePath ) {
+        //Bundle extras = picdata.getExtras();
+        if (null != bitMap) {
+            //Bitmap photo = extras.getParcelable("data");
+            //Bitmap photo =filterColor(phmp);
+            iv_user_head.setImageBitmap(bitMap);
+            //String filePath = FileUtils.savePic(getSelfActivity(), "signImg.jpg", bitMap);
+            if (!ObjectUtils.isNull(filePath)) {
+                File file = new File(filePath);
+                //file转化成二进制
+                byte[] buffer = null;
+                FileInputStream in ;
+                int length = 0;
+                try {
+                    in = new FileInputStream(file);
+                    buffer = new byte[(int) file.length() + 100];
+                    length = in.read(buffer);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+
+                DialogUtils.showProgressDialog(getSelfActivity(), "文件上传中").show();
+                Map<String, Object> params = new HashMap<String, Object>();
+                params.put("fileContent", data);
+                params.put("fileName", filePath);
+                params.put("fileType", ".jpg");
+                HeadImageUploadRequest.upload(getSelfActivity(),  params,
+                        new HeadImageUploadCallback() {
+
+                            @Override
+                            public void fail(String msg) {
+                                toast(msg);
+                                DialogUtils.closeProgressDialog();
+                            }
+
+                            @Override
+                            public void connectFail() {
+                                toastConnectFail();
+                                DialogUtils.closeProgressDialog();
+                            }
+
+                            @Override
+                            public void success(String msg, HeadImageBean bean) {
+                                //Logger.d("PersonInfoActivity ---------HeadImage--------:" + bean.getImgUrl()
+                                // );
+                                String imgUrl = bean.getImgUrl()+"";
+                                ApprovalRequest.approval(getSelfActivity(),baseApplication.getLoginToken(),
+                                        approveId,1,imgUrl,nullcallback);
+                            }
+                        });
+            }
+
         }
     }
 }
