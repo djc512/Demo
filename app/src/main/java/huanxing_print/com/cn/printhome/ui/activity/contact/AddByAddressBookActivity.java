@@ -34,6 +34,7 @@ import huanxing_print.com.cn.printhome.ui.adapter.AddAddressBookAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.util.WeiXinUtils;
 import huanxing_print.com.cn.printhome.util.contact.GetContactsUtils;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.IndexSideBar;
@@ -262,7 +263,10 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private void invitationWeiXin(FriendSearchInfo info,String message) {
-        ToastUtil.doToast(this,"微信分享，问陆成宋");
+//        ToastUtil.doToast(this,"微信分享，问陆成宋");
+        WeiXinUtils weiXinUtils = WeiXinUtils.getInstance();
+        weiXinUtils.init(this, baseApplication.WX_APPID);
+        weiXinUtils.shareToWXSceneSession(message);
     }
 
     private void startActivity(ArrayList<FriendSearchInfo> infos) {
