@@ -94,6 +94,11 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
         Intent intent = getIntent();
         type = intent.getIntExtra("type", -1);
+        mUsername = intent.getStringExtra("id");
+        String name = intent.getStringExtra("name");
+        mTvTitle.setText(name);
+
+        Log.i("CMCC", "type:" + type + ",id:" + mUsername + ",name:" + name);
 
         GroupInfo groupInfo = intent.getParcelableExtra("GroupInfo");
         FriendInfo friendInfo = intent.getParcelableExtra("FriendInfo");
