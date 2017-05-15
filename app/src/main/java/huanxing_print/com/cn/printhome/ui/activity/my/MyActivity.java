@@ -189,6 +189,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         iv_user_head.setOnClickListener(this);
         ll_back.setOnClickListener(this);
         findViewById(R.id.ll_userInfo_code).setOnClickListener(this);
+        findViewById(R.id.ll_uniqueid).setOnClickListener(this);
         findViewById(R.id.ll_userInfo_name).setOnClickListener(this);
         findViewById(R.id.ll_userInfo_phone).setOnClickListener(this);
         findViewById(R.id.ll_userInfo_weixin).setOnClickListener(this);
@@ -225,6 +226,13 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
             case R.id.ll_userInfo_code:
                 Intent codeIntent = new Intent(getSelfActivity(), MyQRCodeActivity.class);
                 startActivity(codeIntent);
+                break;
+            case R.id.ll_uniqueid:
+                if(!ObjectUtils.isNull(uniqueModifyFlag)&&"true".equals(uniqueModifyFlag)) {
+                    Intent uniqueIdIntent = new Intent(getSelfActivity(), MyModifyUniqueIdActivty.class);
+                    uniqueIdIntent.putExtra("uniqueId", uniqueId);
+                    startActivity(uniqueIdIntent);
+                }
                 break;
             case R.id.ll_userInfo_name:
                 Intent nameIntent = new Intent(getSelfActivity(), MyModifyNameActivty.class);
@@ -342,6 +350,15 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                     phone = intent.getStringExtra("phone");
                     if (!ObjectUtils.isNull(phone)) {
                         tv_phone.setText(phone);
+                    }
+
+                }
+                break;
+            case WEIXIN_CODE:
+                if (null != intent) {
+                    uniqueId = intent.getStringExtra("uniqueId");
+                    if (!ObjectUtils.isNull(uniqueId)) {
+                        tv_uniqueid.setText(uniqueId);
                     }
 
                 }
