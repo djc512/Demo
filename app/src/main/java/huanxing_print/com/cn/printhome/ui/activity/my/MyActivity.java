@@ -228,6 +228,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(codeIntent);
                 break;
             case R.id.ll_uniqueid:
+                uniqueModifyFlag = baseApplication.getUniqueModifyFlag();
                 if(!ObjectUtils.isNull(uniqueModifyFlag)&&"true".equals(uniqueModifyFlag)) {
                     Intent uniqueIdIntent = new Intent(getSelfActivity(), MyModifyUniqueIdActivty.class);
                     uniqueIdIntent.putExtra("uniqueId", uniqueId);
@@ -294,7 +295,6 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                                 DialogUtils.showProgressDialog(getSelfActivity(), "正在退出登录").show();
                                 LoginRequset.loginOut(getSelfActivity(),
                                         baseApplication.getLoginToken(), loginoutcallback);
-
                             }
                         }).show();
                 break;
@@ -360,7 +360,6 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                     if (!ObjectUtils.isNull(uniqueId)) {
                         tv_uniqueid.setText(uniqueId);
                     }
-
                 }
                 break;
             default:

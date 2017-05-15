@@ -44,7 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
+            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
             android:background="@null"
+            android:maxLength="14"
             android:textColor="@color/text_color"
             android:textSize="18sp" />
 

@@ -101,7 +101,11 @@ public class MyModifyUniqueIdActivty extends BaseActivity implements View.OnClic
             case R.id.iv_modifyName_finish:
                 uniqueId = et_modify_nickName.getText().toString().trim();
                 if(ObjectUtils.isNull(uniqueId)){
-                    ToastUtil.doToast(getSelfActivity(),"请输入用户名");
+                    ToastUtil.doToast(getSelfActivity(),"印家号不能为空");
+                    return;
+                }
+                if (uniqueId.length() < 6) {
+                    toast("印家号不能少于6位");
                     return;
                 }
 
@@ -142,9 +146,9 @@ public class MyModifyUniqueIdActivty extends BaseActivity implements View.OnClic
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             baseApplication.setUniqueId(uniqueId);
-            Intent carlist = new Intent(getSelfActivity() , MyActivity.class);
-            carlist.putExtra("uniqueId", uniqueId);
-            setResult(105, carlist);
+            Intent uniquelist = new Intent(getSelfActivity() , MyActivity.class);
+            uniquelist.putExtra("uniqueId", uniqueId);
+            setResult(105, uniquelist);
             finishCurrentActivity();
             EventBus.getDefault().post(uniqueId, "uniqueId");
             //EventBus.getDefault().post(new UpdateEvent());

@@ -297,6 +297,12 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         public void success(String msg, LastApproval approval) {
             //ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
             //转为FriendInfo对象
+            if(null!=approvalFriends&&approvalFriends.size()>0){
+                approvalFriends.clear();
+            }
+            if(null!=copyFriends&&copyFriends.size()>0){
+                copyFriends.clear();
+            }
             if (!ObjectUtils.isNull(approval)) {
                 groupId = approval.getGroupId();
                 if (!ObjectUtils.isNull(groupId)) {
