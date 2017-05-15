@@ -5,9 +5,8 @@
     android:gravity="center"
     android:orientation="vertical">
     <ImageView
-        android:padding="5dp"
         android:id="@+id/iv_comment"
         android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/c"/>
+        android:layout_height="100dp"
+        />
 </LinearLayout>

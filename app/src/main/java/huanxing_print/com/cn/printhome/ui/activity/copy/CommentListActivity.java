@@ -56,7 +56,6 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     private CommentMediumFragment mediumFragment;
     private CommentBadFragment badFragment;
     private String printno;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
