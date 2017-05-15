@@ -55,7 +55,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     private CommentGoodFragment goodFragment;
     private CommentMediumFragment mediumFragment;
     private CommentBadFragment badFragment;
-    private int printno;
+    private String printno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_comment_list);
         ctx = this;
-        printno = Integer.valueOf(getIntent().getExtras().getString("printer_id"));
+        printno = getIntent().getExtras().getString("printer_id");
         initView();
         initData();
         initListener();
@@ -101,22 +101,22 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
 
         allFragment = new CommentAllFragment();
         Bundle allbundle = new Bundle();
-        allbundle.putInt("printno", printno);
+        allbundle.putString("printno", printno);
         allFragment.setArguments(allbundle);
 
         goodFragment = new CommentGoodFragment();
         Bundle goodbundle = new Bundle();
-        goodbundle.putInt("printno", printno);
+        goodbundle.putString("printno", printno);
         goodFragment.setArguments(goodbundle);
 
         mediumFragment = new CommentMediumFragment();
         Bundle mediumbundle = new Bundle();
-        mediumbundle.putInt("printno", printno);
+        mediumbundle.putString("printno", printno);
         mediumFragment.setArguments(mediumbundle);
 
         badFragment = new CommentBadFragment();
         Bundle badbundle = new Bundle();
-        badbundle.putInt("printno", printno);
+        badbundle.putString("printno", printno);
         badFragment.setArguments(badbundle);
 
         fragments.add(allFragment);

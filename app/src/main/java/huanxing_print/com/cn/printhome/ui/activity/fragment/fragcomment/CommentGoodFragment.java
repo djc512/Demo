@@ -27,13 +27,13 @@ public class CommentGoodFragment extends Fragment {
 
     private RecyclerView rv_comment_list;
     private Context ctx;
-    private int printno;
+    private String printno;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ctx = getActivity();
-        printno = getArguments().getInt("printno");
+        printno = getArguments().getString("printno");
         View view = inflater.inflate(R.layout.frag_comment, null);
         initView(view);
         return view;
@@ -49,7 +49,7 @@ public class CommentGoodFragment extends Fragment {
         getData(1, printno);
     }
 
-    public void getData(int type, int index) {
+    public void getData(int type, String index) {
         DialogUtils.showProgressDialog(ctx,"正在加载中...");
         CommentListRequest.request(ctx, 1, printno, type, new CommentListCallback() {
             @Override
