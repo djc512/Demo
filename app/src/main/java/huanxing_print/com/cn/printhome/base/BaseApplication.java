@@ -61,6 +61,7 @@ public class BaseApplication extends Application {
     private String nickName;
     private String weixinName;
     private String comId;
+    private String uniqueModifyFlag;//能否修改印家号
     private SoundPool mSoundPool;
     private int mDuanSound;
     private int mYuluSound;
@@ -197,7 +198,17 @@ public class BaseApplication extends Application {
         SharedPreferencesUtils.putShareValue(this, "uniqueId", uniqueId);
         this.uniqueId = uniqueId;
     }
+    public String getUniqueModifyFlag() {
+        if (ObjectUtils.isNull(uniqueModifyFlag)) {
+            uniqueModifyFlag = SharedPreferencesUtils.getShareString(this, "uniqueModifyFlag");
+        }
+        return uniqueModifyFlag;
+    }
 
+    public void setUniqueModifyFlag(String uniqueModifyFlag) {
+        SharedPreferencesUtils.putShareValue(this, "uniqueModifyFlag", uniqueModifyFlag);
+        this.uniqueModifyFlag = uniqueModifyFlag;
+    }
     public String getMemberId() {
         if (ObjectUtils.isNull(memberId)) {
             memberId = SharedPreferencesUtils.getShareString(this, "memberId");
