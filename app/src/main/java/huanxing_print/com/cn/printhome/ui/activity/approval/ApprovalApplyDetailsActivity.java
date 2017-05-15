@@ -354,11 +354,15 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
                             }
                             break;
                         case 2://打印凭证
-                            findViewById(R.id.ll_print).setVisibility(View.VISIBLE);
+                            if (details.getJobNumber().equals(baseApplication.getMemberId())) {
+                                findViewById(R.id.ll_print).setVisibility(View.VISIBLE);
+                            }
                             findViewById(R.id.rl_sertificate).setVisibility(View.VISIBLE);
                             break;
                         case 5://已打印
-                            findViewById(R.id.ll_look).setVisibility(View.VISIBLE);
+                            if (details.getJobNumber().equals(baseApplication.getMemberId())) {
+                                findViewById(R.id.ll_look).setVisibility(View.VISIBLE);
+                            }
                             findViewById(R.id.rl_sertificate).setVisibility(View.VISIBLE);
                             break;
                     }
