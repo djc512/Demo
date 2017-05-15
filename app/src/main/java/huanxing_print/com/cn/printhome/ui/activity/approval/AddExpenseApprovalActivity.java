@@ -303,7 +303,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                     Log.i("CMCC", "groupId:" + groupId);
                 }
                 ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-                ArrayList<ApprovalOrCopy> copys = approval.getCopyerList();
+                ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
                 if (!ObjectUtils.isNull(approvals)) {
                     for (ApprovalOrCopy approvalOrCopy : approvals) {
                         GroupMember info = new GroupMember();
@@ -773,8 +773,8 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
 
     private void setPicToView(Bitmap bitmap, String fileid) {
         ImageUploadItem image = new ImageUploadItem();
-        String filename = System.currentTimeMillis() + "";
-        String filePath = FileUtils.savePic(getSelfActivity(), filename + ".jpg", bitmap);
+        String filename = System.currentTimeMillis()+".jpg";
+        String filePath = FileUtils.savePic(getSelfActivity(), filename, bitmap);
         if (!ObjectUtils.isNull(filePath)) {
             File file = new File(filePath);
             //file转化成二进制
@@ -808,7 +808,8 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
             @Override
             public void success(List<PicDataBean> bean) {
-                DialogUtils.closeProgressDialog();
+                //DialogUtils.closeProgressDialog();
+                Log.d("TAG","------bean------------"+bean);
                 if (null != bean && bean.size() > 0) {
                     for (int i = 0; i < bean.size(); i++) {
                         String imgUrl = bean.get(i).getImgUrl();
@@ -833,12 +834,12 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
 
             @Override
             public void fail(String msg) {
-                //DialogUtils.closeProgressDialog();
+                DialogUtils.closeProgressDialog();
             }
 
             @Override
             public void connectFail() {
-                //DialogUtils.closeProgressDialog();
+                DialogUtils.closeProgressDialog();
             }
         });
     }

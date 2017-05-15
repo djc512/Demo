@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class LastApproval {
 
     private ArrayList<ApprovalOrCopy> approverList;
-    private ArrayList<ApprovalOrCopy> copyerList;
+    private ArrayList<ApprovalOrCopy> copyList;
     private String groupId;
 
     public ArrayList<ApprovalOrCopy> getApproverList() {
@@ -21,12 +21,12 @@ public class LastApproval {
         this.approverList = approverList;
     }
 
-    public ArrayList<ApprovalOrCopy> getCopyerList() {
-        return copyerList;
+    public ArrayList<ApprovalOrCopy> getCopyList() {
+        return copyList;
     }
 
-    public void setCopyerList(ArrayList<ApprovalOrCopy> copyerList) {
-        this.copyerList = copyerList;
+    public void setCopyList(ArrayList<ApprovalOrCopy> copyList) {
+        this.copyList = copyList;
     }
 
     public String getGroupId() {

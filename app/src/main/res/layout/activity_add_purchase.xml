@@ -299,7 +299,8 @@
                     android:hint="填写请款金额"
                     android:paddingLeft="2dp"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size_sixteen" />
+                    android:textSize="@dimen/text_size_sixteen"
+                    android:inputType="number"/>
 
                 <ToggleButton
                     android:id="@+id/toggleButton"
@@ -407,7 +408,8 @@
                     android:hint="填写帐号"
                     android:paddingLeft="2dp"
                     android:singleLine="true"
-                    android:textSize="@dimen/text_size_sixteen" />
+                    android:textSize="@dimen/text_size_sixteen"
+                    android:inputType="number"/>
 
             </LinearLayout>
 
