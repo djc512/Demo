@@ -44,6 +44,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private AccountCZAdapter adapter;
     private String totleBalance;
     private String rechargeAmout;
+    private TextView tv_xieyi;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -68,6 +69,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private void initView() {
         tv_money = (TextView) findViewById(R.id.tv_money);
         btn_chongzhi = (Button) findViewById(R.id.btn_chongzhi);
+        tv_xieyi = (TextView) findViewById(R.id.tv_xieyi);
 
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         tv_account_record = (TextView) findViewById(R.id.tv_account_record);
@@ -77,9 +79,9 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private void initData() {
         totleBalance = getIntent().getStringExtra("totleBalance");
         if (!ObjectUtils.isNull(totleBalance)) {
-            tv_money.setText("￥:" + totleBalance);
+            tv_money.setText("￥" + totleBalance);
         }else{
-            tv_money.setText("￥:0");
+            tv_money.setText("￥0");
         }
         DialogUtils.showProgressDialog(getSelfActivity(), "加载中");
         //充值接口
@@ -90,6 +92,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         tv_account_record.setOnClickListener(this);
         ll_back.setOnClickListener(this);
         btn_chongzhi.setOnClickListener(this);
+        tv_xieyi.setOnClickListener(this);
     }
 
     @Override
@@ -107,6 +110,9 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.ll_back://返回
                 finishCurrentActivity();
+                break;
+            case R.id.iv_xieyi:
+
                 break;
         }
     }

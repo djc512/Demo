@@ -93,6 +93,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_xieyi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="已阅读并同意"
@@ -124,7 +125,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_preview_finish_bg"
-                android:text="微信支付"
+                android:text="支付"
                 android:textColor="@color/black2"
                 android:textSize="18sp" />
         </LinearLayout>
