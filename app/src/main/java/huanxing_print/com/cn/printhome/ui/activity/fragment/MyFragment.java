@@ -34,7 +34,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private TextView tv_uniqueid, tv_name, tv_print_count, tv_totle_balance;
     private String token;
     private String headUrl;
-    private String nickName;
+    private String nickName,wechatName;
     private String phone;
     private String totleBalance;
     private String printCount;
@@ -46,7 +46,6 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     @Override
     protected void init() {
         EventBus.getDefault().register(this);
-
         initViews();
         initData();
         setListener();
@@ -103,18 +102,20 @@ public class MyFragment extends BaseFragment implements OnClickListener {
             if (!ObjectUtils.isNull(bean)) {
                 headUrl = bean.getFaceUrl();
                 nickName = bean.getNickName();
+                wechatName=bean.getWechatName();
                 phone = bean.getMobileNumber();
                 printCount = bean.getTotlePrintCount();
                 totleBalance = bean.getTotleBalance();
                 uniqueModifyFlag = bean.getUniqueModifyFlag();
                 // monthConsume = bean.getMonthConsume();
                 wechatId = bean.getWechatId();
-                if (!ObjectUtils.isNull(bean.getWechatName())) {
-                    baseApplication.setWeixinName(bean.getWechatName());
+                if (!ObjectUtils.isNull(wechatName)) {
+                    SharedPreferencesUtils.putShareValue(getActivity(), "wechatName", wechatName);
                 }
-//                if (!ObjectUtils.isNull(uniqueModifyFlag)) {
-//                    baseApplication.setUniqueModifyFlag(bean.getUniqueModifyFlag());
-//                }
+                if (!ObjectUtils.isNull(uniqueModifyFlag)) {
+                    SharedPreferencesUtils.putShareValue(getActivity(),
+                            "uniqueModifyFlag", uniqueModifyFlag);
+                }
                 tv_name.setText(nickName);
                 tv_uniqueid.setText("印家号:"+uniqueId);
                 tv_print_count.setText(printCount);
