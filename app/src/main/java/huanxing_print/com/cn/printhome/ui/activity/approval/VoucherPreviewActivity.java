@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.activity.approval;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -12,6 +13,7 @@ import huanxing_print.com.cn.printhome.net.callback.approval.CheckVoucherCallBac
 import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 
 /**
  * description: 凭证预览界面
@@ -39,11 +41,12 @@ public class VoucherPreviewActivity extends BaseActivity implements View.OnClick
     }
 
     private void init() {
-
+        int approveId = getIntent().getIntExtra("approveId", 0);
+        int type = getIntent().getIntExtra("type", 0);
         img_voucher = (ImageView) findViewById(R.id.img_voucher);
         findViewById(R.id.btn_print_proof).setOnClickListener(this);
         ApprovalRequest.checkVoucher(getSelfActivity(), baseApplication.getLoginToken(),
-                "", 1, checkVoucherCallBack);
+                approveId, type, checkVoucherCallBack);
     }
 
     CheckVoucherCallBack checkVoucherCallBack = new CheckVoucherCallBack() {
@@ -60,7 +63,7 @@ public class VoucherPreviewActivity extends BaseActivity implements View.OnClick
 
         @Override
         public void fail(String msg) {
-
+            ToastUtil.doToast(VoucherPreviewActivity.this, msg);
         }
 
         @Override

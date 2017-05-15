@@ -201,7 +201,7 @@ public class ApprovalRequest extends BaseRequst {
      * @param type       0采购 1 报销
      * @param callBack
      */
-    public static void checkVoucher(Context context, String loginToken, String approveId,
+    public static void checkVoucher(Context context, String loginToken, int approveId,
                                     int type, final CheckVoucherCallBack callBack) {
         String url = HTTP_URL + HttpUrl.proof;
         Map<String, Object> params = new HashMap<String, Object>();
@@ -211,6 +211,7 @@ public class ApprovalRequest extends BaseRequst {
         HttpUtils.post(context, url, loginToken, params, new HttpCallBack() {
             @Override
             public void success(String content) {
+                Log.e("CMCC","checkVoucher -- " + content);
                 CheckVoucherResolve resolve = new CheckVoucherResolve(content);
                 resolve.resolve(callBack);
             }
