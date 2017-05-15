@@ -40,7 +40,6 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
     private EditText et_phone;
     private TextView tv_location;
     private TextView et_detail_location;
-    private TextView tv_comfirm;
     private OptionsPickerView<String> mOpv;
     private Context ctx;
     private List<ProvinceModel> provinceList = new ArrayList<ProvinceModel>();
@@ -57,6 +56,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
     private String companyName;
     private String receiver;
     private String phone;
+    private TextView tv_confirm;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -81,20 +81,19 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
         et_phone = (EditText) findViewById(R.id.et_phone);
         tv_location = (TextView) findViewById(R.id.tv_location);
         et_detail_location = (TextView) findViewById(R.id.et_detail_location);
-        tv_comfirm = (TextView) findViewById(R.id.tv_comfirm);
+        tv_confirm = (TextView) findViewById(R.id.tv_confirm);
     }
 
     private void initData() {
         billValue = getIntent().getStringExtra("billValue");
-        DialogUtils.showProgressDialog(getSelfActivity(), "数据加载中").show();
-        CompanyAddressListRequest.verify(getSelfActivity(), BaseApplication.getInstance().getLoginToken(), companyAddressListCallback);
         tv_money.setText(billValue);
+        CompanyAddressListRequest.verify(getSelfActivity(), BaseApplication.getInstance().getLoginToken(), companyAddressListCallback);
     }
 
     private void initListener() {
         iv_back.setOnClickListener(this);
-        tv_comfirm.setOnClickListener(this);
         tv_location.setOnClickListener(this);
+        tv_confirm.setOnClickListener(this);
     }
 
     @Override
@@ -112,6 +111,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
                 break;
         }
     }
+
     /**
      * 城市列表
      */
@@ -135,6 +135,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
      */
     private void go2Receipt() {
         String city = tv_location.getText().toString().trim();
+        DialogUtils.showProgressDialog(getSelfActivity(), "数据加载中").show();
         DebitNormalRequest.sendNormalBack(getSelfActivity(),
                 "",
                 billValue,
@@ -149,7 +150,8 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
                 new DebitNormalCallBack() {
                     @Override
                     public void success(String msg, String bean) {
-
+                        DialogUtils.closeProgressDialog();
+                        Toast.makeText(ctx, "开票成功", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -159,14 +161,13 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void connectFail() {
-
+                        Toast.makeText(ctx, "网络连接失败", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
     }
 
     private void submit() {
-        // validate
         companyName = et_companyName.getText().toString().trim();
         if (TextUtils.isEmpty(companyName)) {
             Toast.makeText(this, "填写公司名称或个人", Toast.LENGTH_SHORT).show();
@@ -195,9 +196,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
             provinceList = bean;
             if (null != provinceList && provinceList.size() > 0) {
                 initJsonDatas();
-
             }
-
         }
 
         @Override
@@ -264,6 +263,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
                 comAreaAddressId = provinceList.get(options1).getAreaId() + "," + provinceList.get(options1).getChildren().get(option2).getAreaId() + ","
                         + provinceList.get(options1).getChildren().get(option2).getChildren().get(options3).getAreaId();
                 tv_location.setText(comAreaAddress);
+                tv_location.setTextColor(getResources().getColor(R.color.black2));
             }
         });
     }

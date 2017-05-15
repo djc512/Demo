@@ -30,10 +30,10 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
 public class IDClipActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_preview;
     private TextView btn_preview;
-//    private double a4Width = 210;
-//    private double a4Height = 297;
-    private double a4Width = 220;
-    private double a4Height = 307;
+    private double a4Width = 210;
+    private double a4Height = 297;
+//    private double a4Width = 220;
+//    private double a4Height = 307;
     private double idWidth = 85.5;
     private double idHeight = 54;
     private int screenWidth;
@@ -118,7 +118,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7581));
+        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.66), (int) (ivHeight * 0.57));
         iv_preview.setImageBitmap(mBitmap);
     }
 
@@ -136,8 +136,8 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7581));
-        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7581));
+        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.66), (int) (ivHeight * 0.57));
+        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.66), (int) (ivHeight * 0.57));
 
         mergeBitmap = mergePic(bitmap1, bitmap2, ivWidth, ivHeight);
         iv_preview.setImageBitmap(mergeBitmap);
@@ -159,6 +159,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
                     printIntent.putExtra("imagepath", path);
                     printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
+                    finishCurrentActivity();
                 } else {
                     saveUtil.saveClipPic(mBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
@@ -166,6 +167,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
                     printIntent.putExtra("imagepath", path);
                     printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
+                    finishCurrentActivity();
                 }
                 break;
         }

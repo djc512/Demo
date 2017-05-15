@@ -39,13 +39,13 @@
 
         <EditText
             android:id="@+id/et_companyName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:hint="填写公司名称或个人"
             android:singleLine="true"
-            android:textColor="@color/gray7"
+            android:textColor="@color/black2"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -107,7 +107,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="1080"
             android:textColor="@color/yellow2"
             android:textSize="15sp" />
 
@@ -142,13 +141,13 @@
 
         <EditText
             android:id="@+id/et_receiver"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:hint="填写收件人"
             android:singleLine="true"
-            android:textColor="@color/gray7"
+            android:textColor="@color/black2"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -176,7 +175,7 @@
 
         <EditText
             android:id="@+id/et_phone"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:background="@null"
@@ -209,7 +208,7 @@
 
         <TextView
             android:id="@+id/tv_location"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="选择地区信息"
@@ -242,12 +241,12 @@
 
         <EditText
             android:id="@+id/et_detail_location"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:hint="填写详细信息"
-            android:textColor="@color/gray8"
+            android:textColor="@color/black2"
             android:textSize="15sp" />
 
     </LinearLayout>
@@ -261,7 +260,7 @@
         android:textColor="@color/gray8" />
 
     <TextView
-        android:id="@+id/tv_comfirm"
+        android:id="@+id/tv_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"

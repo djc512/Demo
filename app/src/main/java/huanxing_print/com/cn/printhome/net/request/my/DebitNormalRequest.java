@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.net.request.my;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +57,9 @@ public class DebitNormalRequest extends BaseRequst {
         params.put("payType", payType);
         params.put("receiver", receiver);
         params.put("telPhone", telPhone);
+
+        Log.d("DebitNormalRequest", "params:" + params);
+
 
         HttpUtils.post(ctx, normalUrl, BaseApplication.getInstance().getLoginToken(), params, new HttpCallBack() {
             @Override

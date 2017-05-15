@@ -300,9 +300,6 @@
         <activity
             android:name=".ui.activity.my.BillDetailActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.my.ReceiptActivity"
-            android:screenOrientation="portrait" />
         <!-- 充值界面 -->
         <activity
             android:name=".ui.activity.my.PayActivity"
