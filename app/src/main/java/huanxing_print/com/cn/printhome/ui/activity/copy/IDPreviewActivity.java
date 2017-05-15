@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.copy;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,6 +37,7 @@ import huanxing_print.com.cn.printhome.util.copy.ClipPicUtil;
 import huanxing_print.com.cn.printhome.util.copy.OpenCVCallback;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 import huanxing_print.com.cn.printhome.view.SelectionImageView;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import timber.log.Timber;
 
 import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.perspectiveTransform;
@@ -52,7 +52,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
     private Bitmap mBitmap;
     private static final int MAX_HEIGHT = 500;
     private Context ctx;
-    private ProgressDialog pd;
+//    private ProgressDialog pd;
     private BitmpaUtil bitmpaUtil;
     private Uri uri;
     private SelectionImageView selectionView;
@@ -136,16 +136,18 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        pd = new ProgressDialog(ctx);
-        pd.setProgress(ProgressDialog.STYLE_SPINNER);
-        pd.setCanceledOnTouchOutside(false);
-        if (!pd.isShowing()) {
-            pd.show();
-        }
+//        pd = new ProgressDialog(ctx);
+//        pd.setProgress(ProgressDialog.STYLE_SPINNER);
+//        pd.setCanceledOnTouchOutside(false);
+//        if (!pd.isShowing()) {
+//            pd.show();
+//        }
+        show();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                pd.dismiss();
+//                pd.dismiss();
+                close();
                 btn_adjust.performClick();
             }
         }, 1000);
@@ -194,7 +196,8 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 ll.setVisibility(View.GONE);
                 ll1.setVisibility(View.VISIBLE);
                 iv.setVisibility(View.INVISIBLE);
-                pd.show();
+//                pd.show();
+                show();
                 new Thread() {
                     @Override
                     public void run() {
@@ -210,7 +213,8 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pd.dismiss();
+//                                    pd.dismiss();
+                                    close();
                                     iv.setVisibility(View.VISIBLE);
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
@@ -224,7 +228,8 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 }.start();
                 break;
             case R.id.btn_black:
-                pd.show();
+//                pd.show();
+                show();
                 new Thread() {
                     @Override
                     public void run() {
@@ -240,7 +245,8 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pd.dismiss();
+//                                    pd.dismiss();
+                                    close();
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
                                     iv.setImageBitmap(compBitmap);
@@ -253,7 +259,8 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 }.start();
                 break;
             case R.id.btn_gray:
-                pd.show();
+//                pd.show();
+                show();
                 new Thread() {
                     @Override
                     public void run() {
@@ -269,7 +276,8 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pd.dismiss();
+//                                    pd.dismiss();
+                                    close();
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
                                     iv.setImageBitmap(compBitmap);
@@ -282,7 +290,8 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 }.start();
                 break;
             case R.id.btn_original:
-                pd.show();
+//                pd.show();
+                show();
                 new Thread() {
                     @Override
                     public void run() {
@@ -298,7 +307,8 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pd.dismiss();
+//                                    pd.dismiss();
+                                    close();
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
                                     iv.setImageBitmap(compBitmap);
@@ -440,5 +450,18 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
             compBitmap = null;
         }
         System.gc();
+    }
+    /**
+     * 显示进度条
+     */
+    private void show() {
+        DialogUtils.showProgressDialog(ctx, "正在加载...").show();
+    }
+
+    /**
+     * 关闭进度条
+     */
+    private void close() {
+        DialogUtils.closeProgressDialog();
     }
 }
