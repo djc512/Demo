@@ -67,7 +67,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = conversationListView.getItem(position);
-                EMMessage message = conversation.getLastMessage();
+                EMMessage message = conversation.getLatestMessageFromOthers();
 
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 if (EMConversation.EMConversationType.GroupChat ==
