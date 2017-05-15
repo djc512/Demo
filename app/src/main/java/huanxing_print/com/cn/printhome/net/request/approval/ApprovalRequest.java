@@ -211,7 +211,7 @@ public class ApprovalRequest extends BaseRequst {
         HttpUtils.post(context, url, loginToken, params, new HttpCallBack() {
             @Override
             public void success(String content) {
-                Log.e("CMCC","checkVoucher -- " + content);
+                Log.e("CMCC", "checkVoucher -- " + content);
                 CheckVoucherResolve resolve = new CheckVoucherResolve(content);
                 resolve.resolve(callBack);
             }
@@ -251,6 +251,7 @@ public class ApprovalRequest extends BaseRequst {
 
     /**
      * 撤销
+     *
      * @param context
      * @param loginToken
      * @param approveId

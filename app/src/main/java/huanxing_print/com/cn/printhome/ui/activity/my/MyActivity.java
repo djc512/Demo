@@ -70,21 +70,21 @@ import static com.zhy.http.okhttp.log.LoggerInterceptor.TAG;
 public class MyActivity extends BaseActivity implements View.OnClickListener {
 
     //请求相机
-    private  final int REQUEST_CAPTURE = 100;
+    private final int REQUEST_CAPTURE = 100;
     //请求相册
-    private  final int REQUEST_PICK = 101;
+    private final int REQUEST_PICK = 101;
     //请求截图
-    private  final int REQUEST_CROP_PHOTO = 102;
-    private  final int NAME_CODE = 103;
-    private  final int PHONE_CODE = 104;
-    private  final int WEIXIN_CODE = 105;
+    private final int REQUEST_CROP_PHOTO = 102;
+    private final int NAME_CODE = 103;
+    private final int PHONE_CODE = 104;
+    private final int WEIXIN_CODE = 105;
     private String oriPath = ConFig.IMG_CACHE_PATH + File.separator + "headImg.jpg";
     private ImageView iv_user_head;
     private LinearLayout ll_back;
 
-    private TextView tv_uniqueid,tv_userInfo_nickname,tv_phone,tv_version,tv_weixin,tv_cache;
+    private TextView tv_uniqueid, tv_userInfo_nickname, tv_phone, tv_version, tv_weixin, tv_cache;
     private String cropImagePath;
-    private String uniqueId,nickName,wdixinName,phone,weixin,uniqueModifyFlag;
+    private String uniqueId, nickName, wdixinName, phone, weixin, uniqueModifyFlag;
     private Bitmap bitMap;
     private String version;
     private String ApkUrl;
@@ -111,6 +111,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         initData();
         setListener();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -119,16 +120,17 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         filter.addAction("authlogin");
         registerReceiver(receiveBroadCast, filter);
     }
+
     /**
      * 获取用户信息
      */
     private void initData() {
         uniqueId = baseApplication.getUniqueId();
         nickName = baseApplication.getNickName();
-        wdixinName= baseApplication.getWeixinName();
+        wdixinName = baseApplication.getWeixinName();
         phone = baseApplication.getPhone();
         weixin = baseApplication.getWechatId();
-        uniqueModifyFlag = baseApplication.getUniqueModifyFlag();
+        //uniqueModifyFlag = baseApplication.getUniqueModifyFlag();
         BitmapUtils.displayImage(getSelfActivity(), baseApplication.getHeadImg(),
                 R.drawable.iv_head, iv_user_head);
 
@@ -144,7 +146,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         if (!ObjectUtils.isNull(wdixinName)) {
             tv_weixin.setText(wdixinName);
         }
-        tv_version.setText("当前V"+version+"版本");
+        tv_version.setText("当前V" + version + "版本");
 
         try {
             dataSize = MyDataCleanManager.getTotalCacheSize(getApplicationContext());
@@ -180,9 +182,9 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         tv_uniqueid = (TextView) findViewById(R.id.tv_uniqueid);
         tv_userInfo_nickname = (TextView) findViewById(R.id.tv_userInfo_nickname);
         tv_phone = (TextView) findViewById(R.id.tv_phone);
-        tv_version= (TextView) findViewById(R.id.tv_version);
-        tv_weixin= (TextView) findViewById(R.id.tv_weixin);
-        tv_cache= (TextView) findViewById(R.id.tv_cache);
+        tv_version = (TextView) findViewById(R.id.tv_version);
+        tv_weixin = (TextView) findViewById(R.id.tv_weixin);
+        tv_cache = (TextView) findViewById(R.id.tv_cache);
     }
 
     private void setListener() {
@@ -258,9 +260,9 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.rl_set_version://版本更新
                 //startActivity(new Intent(getSelfActivity(), OperatingInstructionsActivity.class));
-                if (baseApplication.isNewApp()){
+                if (baseApplication.isNewApp()) {
                     toast("当前版本为最新版本");
-                }else{
+                } else {
                     DialogUtils.showTipsDialog(getSelfActivity(), getResources().getString(R.string.dlg_content_update_version),
                             new DialogUtils.TipsDialogCallBack() {
                                 @Override
@@ -302,6 +304,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
@@ -393,7 +396,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 File file = new File(filePath);
                 //file转化成二进制
                 byte[] buffer = null;
-                FileInputStream in ;
+                FileInputStream in;
                 int length = 0;
                 try {
                     in = new FileInputStream(file);
@@ -409,7 +412,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 params.put("fileContent", data);
                 params.put("fileName", filePath);
                 params.put("fileType", ".jpg");
-                HeadImageUploadRequest.upload(getSelfActivity(),  params,
+                HeadImageUploadRequest.upload(getSelfActivity(), params,
                         new HeadImageUploadCallback() {
 
                             @Override
@@ -431,7 +434,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                                 //DialogUtils.closeProgressDialog();
                                 Map<String, Object> params = new HashMap<String, Object>();
                                 params.put("faceUrl", bean.getImgUrl());
-                                UpdatePersonInfoRequest.update(getSelfActivity(),  baseApplication.getLoginToken(),params, callback);
+                                UpdatePersonInfoRequest.update(getSelfActivity(), baseApplication.getLoginToken(), params, callback);
                             }
                         });
             }
@@ -602,7 +605,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                     String headImgurl = jsonObject.getString("headimgurl");
                     String privilege = jsonObject.getString("privilege");
                     String unionId = jsonObject.getString("unionid");
-                    MyInfoRequest.bindWechat(getSelfActivity(),baseApplication.getLoginToken(),
+                    MyInfoRequest.bindWechat(getSelfActivity(), baseApplication.getLoginToken(),
                             city, country, headImgurl, nickName, openid,
                             privilege, sex, unionId, weiXinCallback);
                 } catch (JSONException e) {
@@ -649,10 +652,11 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
 //            startActivity(intent1);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(null!=receiveBroadCast) {
+        if (null != receiveBroadCast) {
             unregisterReceiver(receiveBroadCast);
         }
         EventBus.getDefault().unregister(this);
