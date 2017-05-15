@@ -35,7 +35,7 @@ public class CommunityCollectionListAdapter extends RecyclerView.Adapter<Communi
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx,160));
         holder.rv_iv.setLayoutParams(lp);
-        CommentPicAdapter adapter = new CommentPicAdapter(ctx);
+        CommentPicAdapter adapter = new CommentPicAdapter(ctx, imageList);
         GridLayoutManager manager = new GridLayoutManager(ctx, 4);
         holder.rv_iv.setLayoutManager(manager);
         holder.rv_iv.setAdapter(adapter);

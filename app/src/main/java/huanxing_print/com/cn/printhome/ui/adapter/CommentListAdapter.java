@@ -43,9 +43,10 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         holder.tv_comment_name.setText(bean.getNickName());
         holder.tv_comment_time.setText(bean.getDateTime());
 
+        List<String> imageList = bean.getImageList();
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx,160));
         holder.rv_iv.setLayoutParams(lp);
-        CommentPicAdapter adapter = new CommentPicAdapter(ctx);
+        CommentPicAdapter adapter = new CommentPicAdapter(ctx,imageList);
         GridLayoutManager manager = new GridLayoutManager(ctx, 4);
         holder.rv_iv.setLayoutManager(manager);
         holder.rv_iv.setAdapter(adapter);
