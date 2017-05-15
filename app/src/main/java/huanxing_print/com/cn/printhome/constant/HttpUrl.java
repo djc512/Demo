@@ -65,6 +65,17 @@ public class HttpUrl {
     public static final String submitComment = "appraise/add";//添加评论
     public static final String getCommentList = "appraise/list";//评论列表
     public static final String batchFileUpload = "common/batchFileUpload";//批量上传
+    public static final String queryMessageStatus = "message/queryStatus";//查询应用消息提醒状态
+    public static final String sendRedPackage = "redPackage/person/send";//发送红包
+    public static final String receiveRedPackage = "redPackage/person/receive";//收红包
+    public static final String queryPackageDetail = "redPackage/person/queryDetail";//查看红包记录
+    public static final String sendGroupPackage = "redPackage/group/sendCommon";//发群红包
+    public static final String sendLuckyGroupPackage = "redPackage/group/sendLucky";//发拼手气群红包
+    public static final String robRedPackage = "redPackage/group/receive";//抢红包
+    public static final String checkGroupPackageDetail = "redPackage/group/queryLuckyDetail";//查看手气群红包记录
+    public static final String checkLuckyGroupPackageDetail = "redPackage/group/queryCommDetail";//查看普通群红包记录
+    public static final String getMemberHead = "chat/getMemberHead";//查询用户头像名称
+    public static final String getGroupHead = "chat/getGroupHead";//查询群头像名称
     private static String postUrl;
 
     private static HttpUrl httpUrl;

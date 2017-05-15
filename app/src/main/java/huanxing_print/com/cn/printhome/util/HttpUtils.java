@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.util;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.GsonBuilder;
@@ -470,6 +471,75 @@ public class HttpUtils {
         });
     }
 
+    public static void getQueryStatus(Object obj, final String url, String loginToken,
+                                      final HttpCallBack callback) {
+        //String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
+        //Logger.d("http-request:" + url + "----" + "----" + paramsStr);
+        TimeUtils.beginTime();
+        OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
+                .addHeader("loginToken", loginToken)
+                .addHeader("platform", ConFig.PHONE_TYPE)
+                .tag(obj).build().execute(new StringCallback() {
+
+            @Override
+            public void onResponse(String result, int arg1) {
+                TimeUtils.endTime();
+                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                Log.d("CMCC", "http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                callback.success(result);
+            }
+
+            @Override
+            public void onError(Call call, Exception exception, int arg2) {
+                TimeUtils.endTime();
+                Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                Log.e("CMCC", "http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                String message = exception.getMessage();
+                if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
+
+                } else {
+                    callback.fail(exception.getMessage());
+                }
+
+            }
+        });
+    }
+
+    public static void queryPackageDetail(Object obj, final String url, String loginToken,
+                                          String packetId, final HttpCallBack callback) {
+        //String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
+        //Logger.d("http-request:" + url + "----" + "----" + paramsStr);
+        TimeUtils.beginTime();
+        OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
+                .addHeader("loginToken", loginToken)
+                .addHeader("platform", ConFig.PHONE_TYPE)
+                .addParams("packetId", packetId)
+                .tag(obj).build().execute(new StringCallback() {
+
+            @Override
+            public void onResponse(String result, int arg1) {
+                TimeUtils.endTime();
+                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                Log.d("CMCC", "http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                callback.success(result);
+            }
+
+            @Override
+            public void onError(Call call, Exception exception, int arg2) {
+                TimeUtils.endTime();
+                Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                Log.e("CMCC", "http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                String message = exception.getMessage();
+                if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
+
+                } else {
+                    callback.fail(exception.getMessage());
+                }
+
+            }
+        });
+    }
+
     /**
      * 查询群信息
      *
@@ -598,4 +668,101 @@ public class HttpUtils {
 
     }
 
+    public static void getLuckyPackageDetail(Context context, final String url, String loginToken,
+                                             String easemobGroupId, String groupId, String packetId,
+                                             final HttpCallBack callback) {
+        TimeUtils.beginTime();
+        OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
+                .addHeader("loginToken", loginToken)
+                .addHeader("platform", ConFig.PHONE_TYPE)
+                .addParams("easemobGroupId", easemobGroupId)
+                .addParams("groupId", groupId)
+                .addParams("packetId", packetId)
+                .tag(context).build().execute(new StringCallback() {
+
+            @Override
+            public void onResponse(String result, int arg1) {
+                TimeUtils.endTime();
+                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                callback.success(result);
+            }
+
+            @Override
+            public void onError(Call call, Exception exception, int arg2) {
+                TimeUtils.endTime();
+                Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                String message = exception.getMessage();
+                if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
+
+                } else {
+                    callback.fail(exception.getMessage());
+                }
+
+            }
+        });
+    }
+
+    public static void getMemberHead(Context context, final String url,
+                                     String loginToken, String memberId,
+                                     final HttpCallBack callback) {
+        TimeUtils.beginTime();
+        OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
+                .addHeader("loginToken", loginToken)
+                .addHeader("platform", ConFig.PHONE_TYPE)
+                .addParams("memberId", memberId)
+                .tag(context).build().execute(new StringCallback() {
+
+            @Override
+            public void onResponse(String result, int arg1) {
+                TimeUtils.endTime();
+                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                callback.success(result);
+            }
+
+            @Override
+            public void onError(Call call, Exception exception, int arg2) {
+                TimeUtils.endTime();
+                Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                String message = exception.getMessage();
+                if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
+
+                } else {
+                    callback.fail(exception.getMessage());
+                }
+
+            }
+        });
+    }
+
+    public static void getGroupHead(Context context, final String url,
+                                    String loginToken, String groupId,
+                                    final HttpCallBack callback) {
+        TimeUtils.beginTime();
+        OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
+                .addHeader("loginToken", loginToken)
+                .addHeader("platform", ConFig.PHONE_TYPE)
+                .addParams("groupId", groupId)
+                .tag(context).build().execute(new StringCallback() {
+
+            @Override
+            public void onResponse(String result, int arg1) {
+                TimeUtils.endTime();
+                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                callback.success(result);
+            }
+
+            @Override
+            public void onError(Call call, Exception exception, int arg2) {
+                TimeUtils.endTime();
+                Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                String message = exception.getMessage();
+                if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
+
+                } else {
+                    callback.fail(exception.getMessage());
+                }
+
+            }
+        });
+    }
 }
