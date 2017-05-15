@@ -92,9 +92,12 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         holder.tv_name.setText(info.getName());
         holder.tv_time.setText(info.getUpdateTime());
         String type = info.getStatus();
-        if("1".equals(type)) {
-            holder.tv_detail.setText("未开始");
+        if ("-2".equals(type)) {
+            holder.tv_detail.setText("发起申请");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+        } else if("-1".equals(type)) {
+            holder.tv_detail.setText("未开始");
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.text_yellow));
         }else if("0".equals(type)) {
             holder.tv_detail.setText("审批中");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.text_yellow));

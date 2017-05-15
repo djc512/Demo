@@ -228,8 +228,15 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         //审批人列表审批状态
         ArrayList<ApprovalOrCopy> list =  details.getApproverList();
         if(null != list && list.size() > 0) {
-            lists = list;
-            personAdapter.modifyApprovalPersons(list);
+            ApprovalOrCopy approvalOrCopy = new ApprovalOrCopy();
+            approvalOrCopy.setName(details.getMemberName());
+            approvalOrCopy.setFaceUrl(details.getMemberUrl());
+            approvalOrCopy.setUpdateTime(details.getAddTime());
+            approvalOrCopy.setStatus("-2");
+            lists.clear();
+            lists.add(approvalOrCopy);
+            lists.addAll(list);
+            personAdapter.modifyApprovalPersons(lists);
         }
 
         tv_number.setText(details.getApproveId().isEmpty() ? "" : details.getApproveId());

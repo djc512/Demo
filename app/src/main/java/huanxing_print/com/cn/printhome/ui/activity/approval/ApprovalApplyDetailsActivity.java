@@ -173,8 +173,15 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         //审批人列表审批状态
         ArrayList<ApprovalOrCopy> list =  details.getApproverList();
         if(null != list && list.size() > 0) {
-            lists = list;
-            personAdapter.modifyApprovalPersons(list);
+            ApprovalOrCopy approvalOrCopy = new ApprovalOrCopy();
+            approvalOrCopy.setName(details.getMemberName());
+            approvalOrCopy.setFaceUrl(details.getMemberUrl());
+            approvalOrCopy.setUpdateTime(details.getAddTime());
+            approvalOrCopy.setStatus("-2");
+            lists.clear();
+            lists.add(approvalOrCopy);
+            lists.addAll(list);
+            personAdapter.modifyApprovalPersons(lists);
         }
         //抄送
         ArrayList<ApprovalOrCopy> copylist =  details.getCopyerList();
