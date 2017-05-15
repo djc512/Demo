@@ -63,7 +63,13 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
     EditText mEtMsg;
     Button mBtnSend;
     ImageView mAdd;
+    ImageView mBack;
     LinearLayout mAddFile;
+    //底部的四个图片
+    LinearLayout mPhoto;
+    LinearLayout mCarema;
+    LinearLayout mFile;
+    LinearLayout mRedPacket;
     //区分群聊和单聊
     private int type;
 
@@ -146,18 +152,32 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
 
     protected void initVIew() {
+        mBack = (ImageView) findViewById(R.id.iv_back);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mEtMsg = (EditText) findViewById(R.id.et_msg);
         mBtnSend = (Button) findViewById(R.id.btn_send);
         mAdd = (ImageView) findViewById(R.id.iv_add);
         mAddFile = (LinearLayout) findViewById(R.id.ll_add_file);
+        //底部的四个图片
+        mPhoto = (LinearLayout) findViewById(R.id.ll_photo);
+        mCarema = (LinearLayout) findViewById(R.id.ll_camera);
+        mFile = (LinearLayout) findViewById(R.id.ll_file);
+        mRedPacket = (LinearLayout) findViewById(R.id.ll_red_packet);
+
 
     }
 
     private void initListener() {
         mBtnSend.setOnClickListener(this);
         mAdd.setOnClickListener(this);
+        mBack.setOnClickListener(this);
+        mEtMsg.setOnClickListener(this);
+        mPhoto.setOnClickListener(this);
+        mCarema.setOnClickListener(this);
+        mFile.setOnClickListener(this);
+        mRedPacket.setOnClickListener(this);
+
     }
 
 
@@ -208,8 +228,15 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_back:
+                finishCurrentActivity();
+                break;
             case R.id.et_msg:
-
+                //如果打开就关闭
+                if(isOpen){
+                    mAddFile.setVisibility(View.GONE);
+                    isOpen = false;
+                }
                 break;
             case R.id.iv_add:
                 //点击添加的操作
@@ -218,6 +245,8 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
                     isOpen = false;
                 } else {
                     mAddFile.setVisibility(View.VISIBLE);
+                    InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
                     isOpen = true;
                 }
 
@@ -238,6 +267,25 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
                 mEtMsg.getText().clear();
 
                 break;
+            case R.id.ll_photo:
+
+                break;
+            case R.id.ll_camera:
+
+                break;
+            case R.id.ll_file:
+
+                break;
+            case R.id.ll_red_packet:
+                if (type==1){
+                    //群聊
+                    startActivity(new Intent(getSelfActivity(),SendRedEnvelopesGroupChatActivity.class));
+                }else {
+                    //私聊
+                    jumpActivity(SendRedEnvelopesSingleChatActivity.class);
+                }
+
+                break;
             default:
                 break;
         }
@@ -246,6 +294,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
     }
 
     @Override
