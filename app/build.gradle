@@ -63,6 +63,7 @@ dependencies {
     compile project(':openCVLibrary2411')
     compile project(':photoview')
     compile project(':lib-zxing')
+    compile project(':android-pdf-viewer')
     compile files('libs/Amap_2DMap_V4.2.0_20170120.jar')
     //compile project(':pickerview')
     compile 'com.android.support:appcompat-v7:25.0.1'
