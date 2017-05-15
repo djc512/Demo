@@ -94,7 +94,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         tv_account_record.setOnClickListener(this);
         ll_back.setOnClickListener(this);
         btn_chongzhi.setOnClickListener(this);
-        tv_xieyi.setOnClickListener(this);
         ll_xieyi.setOnClickListener(this);
     }
 
