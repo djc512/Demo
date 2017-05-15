@@ -67,19 +67,20 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = conversationListView.getItem(position);
+                //单聊
                 EMMessage message = conversation.getLatestMessageFromOthers();
 
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 if (EMConversation.EMConversationType.GroupChat ==
                         conversation.getType()) {
                     intent.putExtra("type", 1);
-                    intent.putExtra("id", message.getTo());
-                    intent.putExtra("name", message.getUserName());
+                    intent.putExtra("id", conversation.conversationId());
+                    intent.putExtra("name", conversation.conversationId());
                 } else if (EMConversation.EMConversationType.ChatRoom ==
                         conversation.getType()) {
                     intent.putExtra("type", 3);
-                    intent.putExtra("id", message.getTo());
-                    intent.putExtra("name", message.getUserName());
+                    intent.putExtra("id", conversation.conversationId());
+                    intent.putExtra("name", conversation.conversationId());
                 } else {
                     intent.putExtra("type", 2);
                     intent.putExtra("id", message.getFrom());
