@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
 
 /**
@@ -15,25 +19,27 @@ import huanxing_print.com.cn.printhome.R;
 
 public class CommentPicAdapter extends RecyclerView.Adapter<CommentPicAdapter.MyViewHolder> {
     private Context ctx;
+    private List<String> imageList;
 
-    public CommentPicAdapter(Context ctx) {
+    public CommentPicAdapter(Context ctx, List<String> imageList) {
         this.ctx = ctx;
+        this.imageList = imageList;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(ctx).inflate(R.layout.item_comment_pic,parent,false));
+        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(ctx).inflate(R.layout.item_comment_pic, parent, false));
         return holder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
+        Glide.with(ctx).load(imageList.get(position)).into(holder.iv_comment);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return imageList.size() > 0 ? imageList.size() : 0;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

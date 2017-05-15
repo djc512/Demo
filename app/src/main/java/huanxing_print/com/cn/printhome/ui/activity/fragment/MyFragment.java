@@ -19,6 +19,7 @@ import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity1;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.WebViewCommunityActivity;
@@ -152,6 +153,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         findViewById(R.id.ll_join).setOnClickListener(this);
         findViewById(R.id.ll_my_community).setOnClickListener(this);
         findViewById(R.id.iv_set).setOnClickListener(this);
+        findViewById(R.id.ll_printnum).setOnClickListener(this);
     }
 
     @Override
@@ -191,7 +193,9 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 ////                startActivity(new Intent(getActivity(), ApprovalActivity.class));
 //                startActivity(new Intent(getActivity(), CommentActivity.class));
 //                break;
-
+            case R.id.ll_printnum:
+                startActivity(new Intent(getActivity(), MingXiActivity1.class));
+                break;
 
             default:
                 break;

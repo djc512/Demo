@@ -56,4 +56,7 @@
     <color name="color_status_four">#dfdfdf</color>
     <color name="color_status_five">#dfdfdf</color>
     <color name="color_status_six">#dfdfdf</color>
+
+    <color name="list_itease_secondary_color">#888888</color>
+    <color name="list_itease_primary_color">#000</color>
 </resources>

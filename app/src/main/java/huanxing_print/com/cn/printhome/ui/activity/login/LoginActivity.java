@@ -211,6 +211,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             EMClient.getInstance().login(loginBean.getMemberInfo().getEasemobId(), loginBean.getMemberInfo().getEasemobId(), new EmsCallBackListener() {
                 @Override
                 public void onMainSuccess() {
+                    EMClient.getInstance().chatManager().loadAllConversations();
+                    EMClient.getInstance().groupManager().loadAllGroups();
+
                     baseApplication.setHasLoginEvent(true);
                     DialogUtils.closeProgressDialog();
                     if (!ObjectUtils.isNull(loginBean)) {
@@ -439,6 +442,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
                         @Override
                         public void onMainSuccess() {
+
+                            EMClient.getInstance().chatManager().loadAllConversations();
+                            EMClient.getInstance().groupManager().loadAllGroups();
+
                             baseApplication.setHasLoginEvent(true);
                             DialogUtils.closeProgressDialog();
                             if (!ObjectUtils.isNull(loginBean)) {
@@ -450,10 +457,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                                     if (!ObjectUtils.isNull(phone)) {
                                         baseApplication.setPhone(phone);
                                     }
-                                    baseApplication.setNickName(userInfo.getNickName()+"");
-                                    baseApplication.setHeadImg(userInfo.getFaceUrl()+"");
-                                    baseApplication.setEasemobId(userInfo.getEasemobId()+"");
-                                    baseApplication.setUniqueId(userInfo.getUniqueId()+"");
+                                    baseApplication.setNickName(userInfo.getNickName() + "");
+                                    baseApplication.setHeadImg(userInfo.getFaceUrl() + "");
+                                    baseApplication.setEasemobId(userInfo.getEasemobId() + "");
+                                    baseApplication.setUniqueId(userInfo.getUniqueId() + "");
                                     baseApplication.setMemberId(userInfo.getMemberId());
                                     if (!ObjectUtils.isNull(userInfo.getWechatId())) {
                                         baseApplication.setWechatId(userInfo.getWechatId());

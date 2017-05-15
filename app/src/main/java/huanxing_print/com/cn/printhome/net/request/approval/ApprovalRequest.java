@@ -247,4 +247,31 @@ public class ApprovalRequest extends BaseRequst {
             }
         });
     }
+
+    /**
+     * 撤销
+     * @param context
+     * @param loginToken
+     * @param approveId
+     * @param callback
+     */
+    public static void revokeReq(Context context, String loginToken, String approveId, final NullCallback callback) {
+        String url = HTTP_URL + HttpUrl.approvalRevoke;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("approveId", approveId);
+
+        HttpUtils.post(context, url, loginToken, params, new HttpCallBack() {
+            @Override
+            public void success(String content) {
+                Log.d("CMCC", content);
+                NullResolve resolve = new NullResolve(content);
+                resolve.resolve(callback);
+            }
+
+            @Override
+            public void fail(String exception) {
+                callback.connectFail();
+            }
+        });
+    }
 }

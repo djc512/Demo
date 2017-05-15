@@ -38,6 +38,7 @@
         android:background="@color/gray5"/>
 
     <huanxing_print.com.cn.printhome.view.IndexSideBar
+        android:visibility="gone"
         android:id="@+id/contacts_sidebar"
         android:layout_width="@dimen/sidebar_width"
         android:layout_height="match_parent"

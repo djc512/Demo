@@ -224,7 +224,7 @@
             android:screenOrientation="portrait" />
         <!-- 明细界面 -->
         <activity
-            android:name=".ui.activity.my.MingXiActivity"
+            android:name=".ui.activity.my.MingXiActivity1"
             android:screenOrientation="portrait" />
         <!-- 打印详情界面 -->
         <activity
@@ -328,6 +328,7 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
+            android:theme="@android:style/Theme.Dialog"
             android:launchMode="singleTop" />
         <!-- 开发票列表界面 -->
         <activity
@@ -552,6 +553,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.chat.SendRedEnvelopesSingleChatActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity android:name=".ui.activity.chat.SendRedEnvelopesGroupChatActivity"></activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

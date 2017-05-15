@@ -25,6 +25,7 @@ import huanxing_print.com.cn.printhome.net.callback.my.CompanyAddressListCallbac
 import huanxing_print.com.cn.printhome.net.callback.my.DebitNormalCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.CompanyAddressListRequest;
 import huanxing_print.com.cn.printhome.net.request.my.DebitNormalRequest;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -183,6 +184,9 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
         phone = et_phone.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
             Toast.makeText(this, "填写联系方式", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (!CommonUtils.isPhone(phone)) {
+            Toast.makeText(ctx, "手机号码不正确", Toast.LENGTH_SHORT).show();
             return;
         }
     }

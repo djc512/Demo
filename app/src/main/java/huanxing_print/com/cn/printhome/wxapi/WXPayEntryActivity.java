@@ -1,10 +1,7 @@
 package huanxing_print.com.cn.printhome.wxapi;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -13,46 +10,46 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.BaseActivity;
 
 import static huanxing_print.com.cn.printhome.base.BaseApplication.WX_APPID;
 
 
-public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
-	
-	private static final String TAG = "WXPayEntryActivity";
-	
+public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
+
+    private static final String TAG = "WXPayEntryActivity";
+
     private IWXAPI api;
-	
+
+    @Override
+    protected BaseActivity getSelfActivity() {
+        return this;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pay_result);
-        
-    	api = WXAPIFactory.createWXAPI(this, WX_APPID);
+
+        api = WXAPIFactory.createWXAPI(this, WX_APPID);
         api.handleIntent(getIntent(), this);
     }
 
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		setIntent(intent);
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
         api.handleIntent(intent, this);
-	}
+    }
 
-	@Override
-	public void onReq(BaseReq req) {
-	}
+    @Override
+    public void onReq(BaseReq req) {
+    }
 
-	@Override
-	public void onResp(BaseResp resp) {
-		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+    @Override
+    public void onResp(BaseResp resp) {
 
-		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.app_tip);
-			builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
-			builder.show();
-		}
-	}
+        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            finishCurrentActivity();
+        }
+    }
 }
