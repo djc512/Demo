@@ -118,6 +118,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     QueryApprovalDetailCallBack callBack = new QueryApprovalDetailCallBack() {
         @Override
         public void success(String msg, ApprovalDetail approvalDetail) {
+            DialogUtils.closeProgressDialog();
             details = approvalDetail;
             if(null != details) {
                 showData();
@@ -157,17 +158,21 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
         @Override
         public void fail(String msg) {
-
+            DialogUtils.closeProgressDialog();
+            toast(msg);
         }
 
         @Override
         public void connectFail() {
-
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
         }
     };
     private void initData() {
         approveId = getIntent().getStringExtra("approveId");
-        ApprovalRequest.getQueryApprovalDetail(getSelfActivity(),baseApplication.getLoginToken(),approveId,callBack);
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
+        ApprovalRequest.getQueryApprovalDetail(getSelfActivity(),baseApplication.getLoginToken(),
+                approveId,callBack);
 
         personAdapter = new ApprovalPersonAdapter(this,lists);
         ll_approval_process.setAdapter(personAdapter);;
