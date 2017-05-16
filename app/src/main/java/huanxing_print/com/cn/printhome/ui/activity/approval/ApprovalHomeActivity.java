@@ -93,9 +93,11 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
                 finishCurrentActivity();
                 break;
             case R.id.ll_approval://待我审批
-                startActivity(new Intent(this, ApprovalActivity.class));
+                Intent intent = new Intent(this, ApprovalActivity.class);
+                intent.putExtra("approverNum",approverNum);
+                startActivity(intent);
                 break;
-            case R.id.ll_submit://提交审批
+            case R.id.ll_submit://我发起的
                 startActivity(new Intent(this, MySponsorListActivity.class));
                 break;
             case R.id.ll_send://抄送

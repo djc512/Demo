@@ -59,9 +59,9 @@ public class MyContactActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_contact_phone:
-                String number = tv_contact_phone.getText().toString().trim();
+                //String number = tv_contact_phone.getText().toString().trim();
                 //用intent启动拨打电话
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "400-666-2060"));
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }

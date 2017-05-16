@@ -14,10 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.fragapproval.ApprovalFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ApprovalNoFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.fragapproval.ApprovalFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 /**
  * Created by Administrator on 2017/5/4 0004.
@@ -34,6 +35,7 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
     private Context ctx;
     private List<Fragment> fragments;
     private ViewPagerAdapter adapter;
+    private String approverNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +57,16 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
     }
 
     private void initData() {
-
+        approverNum = getIntent().getStringExtra("approverNum");
         fragments = new ArrayList<>();
         ApprovalFragment approvalFragment = new ApprovalFragment();
         ApprovalNoFragment approvalnoFragment = new ApprovalNoFragment();
         fragments.add(approvalFragment);
         fragments.add(approvalnoFragment);
 
+        if(!ObjectUtils.isNull(approverNum)){
+            tv_approval.setText("待审批("+approverNum+")");
+        }
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         vp_approval.setAdapter(adapter);
     }
