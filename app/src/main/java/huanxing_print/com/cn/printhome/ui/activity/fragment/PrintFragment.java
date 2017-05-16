@@ -144,7 +144,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
 
     private void turnPickFile(PrintInfoResp.PrinterPrice printPrinterPrice) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable();
+//        bundle.putParcelable();
     }
 
     @Override
