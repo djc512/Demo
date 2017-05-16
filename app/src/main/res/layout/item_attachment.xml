@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/attachement_pic"
-        android:layout_width="90dp"
-        android:layout_height="60dp"
+        android:layout_width="@dimen/approval_attachment_pic_w"
+        android:layout_height="@dimen/approval_attachment_pic_h"
         android:background="@color/bc_gray"/>
 </LinearLayout>
