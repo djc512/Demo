@@ -1,7 +1,5 @@
 package huanxing_print.com.cn.printhome.presenter;
 
-import com.hyphenate.chat.EMMessage;
-
 /**
  * 作者： itheima
  * 时间：2016-10-18 17:19
@@ -10,10 +8,10 @@ import com.hyphenate.chat.EMMessage;
 
 public interface ChatPresenter {
 
-    void initChat(String contact);
+    void initChat(String contact,int kind);
 
-    void updateData(String username);
+    void updateData(String username,int kind);
 
-    void sendMessage(String username, String msg,int type);
-    void sendGroupMessage(String username, EMMessage msg);
+    void sendMessage(String username, String msg,int type,int kind);
+    void sendImgMessage(String username, String url,int type,int kind);
 }

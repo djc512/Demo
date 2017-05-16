@@ -36,6 +36,10 @@ public class GetContactsUtils {
         int contactIdIndex = 0;
         int nameIndex = 0;
 
+        if(null == cursor) {
+            return infos;
+        }
+
         if (cursor.getCount() > 0) {
             contactIdIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);
             nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);

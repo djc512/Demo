@@ -1,21 +1,31 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
+import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.DateUtils;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 
 /**
  * 作者： itheima
@@ -25,10 +35,15 @@ import huanxing_print.com.cn.printhome.R;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
+    private static final int TEXT = 0;//文本
+    private static final int PIC = 1;//图片
     private List<EMMessage> mEMMessageList;
+    private int mKind;
+    private Context ctx;
 
-    public ChatAdapter(List<EMMessage> EMMessageList) {
+    public ChatAdapter(Context ctx,List<EMMessage> EMMessageList) {
         mEMMessageList = EMMessageList;
+        this.ctx= ctx;
     }
 
     @Override
@@ -63,10 +78,50 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(ChatViewHolder holder, int position) {
         EMMessage emMessage = mEMMessageList.get(position);
         long msgTime = emMessage.getMsgTime();
-        //需要将消息body转换为EMTextMessageBody
-        EMTextMessageBody body = (EMTextMessageBody) emMessage.getBody();
-        String message = body.getMessage();
-        holder.mTvMsg.setText(message);
+
+        try {
+            mKind = emMessage.getIntAttribute("kind");
+            Log.i("CMCC", "kind=========="+mKind);
+            if (mKind==TEXT){
+                //需要将消息body转换为EMTextMessageBody
+                Log.i("CMCC", "kind==========111111111111111111111");
+                EMTextMessageBody body = (EMTextMessageBody) emMessage.getBody();
+                String message = body.getMessage();
+                holder.mTvMsg.setText(message);
+                Log.i("CMCC", "44444444444444444444"+message);
+                holder.mPic.setVisibility(View.GONE);
+                holder.mTvMsg.setVisibility(View.VISIBLE);
+            }else if(mKind==PIC){
+                Log.i("CMCC", "kind==========2222222222222222222222");
+
+                holder.mPic.setVisibility(View.VISIBLE);
+                holder.mTvMsg.setVisibility(View.GONE);
+                EMImageMessageBody body = (EMImageMessageBody) emMessage.getBody();
+                String url = body.getFileName();
+                File file = new File(ConFig.IMG_SAVE);
+                if(!file.exists()){
+                    file.mkdirs();
+                }
+                body.setThumbnailUrl(ConFig.IMG_SAVE);
+                body.getThumbnailUrl();
+                Log.i("CMCC", "3333333333333333333333333"+url);
+                /*Glide.with(ctx).load(url)
+                        .error(R.drawable.error_photo).into(holder.mPic);*/
+                Glide.with(ctx).load(new File(ConFig.IMG_SAVE,url)).error(R.drawable.error_photo).into(holder.mPic);
+
+                // 压缩图片
+                /*Bitmap bitmap = BitmapLoadUtils.decodeSampledBitmapFromFd(url, 400, 500);
+                holder.mPic.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
+                holder.mTvMsg.setVisibility(View.GONE);*/
+                //BitmapFactory.decodeResource(getResources(), R.drawable.add);
+            }else{
+
+            }
+
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
+
 
         holder.mTvTime.setText(DateUtils.getTimestampString(new Date(msgTime)));
         if (position==0){
@@ -102,18 +157,29 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         }
     }
 
+
     class ChatViewHolder extends RecyclerView.ViewHolder {
 
         TextView mTvTime;
         TextView mTvMsg;
         ImageView mIvState;
+        ImageView mPic;
 
         public ChatViewHolder(View itemView) {
             super(itemView);
             mTvTime = (TextView) itemView.findViewById(R.id.tv_time);
             mTvMsg = (TextView) itemView.findViewById(R.id.tv_msg);
             mIvState = (ImageView) itemView.findViewById(R.id.iv_state);
+            mPic = (ImageView) itemView.findViewById(R.id.iv_pic);
         }
+    }
+    private void loadPic(final ImageView iv_user_head, String picPath) {
+        Glide.with(ctx).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                iv_user_head.setImageDrawable(resource);
+            }
+        });
     }
 
 }

@@ -217,7 +217,7 @@ public class ChatRequest extends BaseRequst {
      */
     public static void sendLuckyPackage(Context context, String loginToken,
                                         String amount, String easemobGroupId,
-                                        String groupId, String number, String remark,
+                                        String groupId, int number, String remark,
                                         final SendLuckyPackageCallBack callBack) {
         String url = HTTP_URL + HttpUrl.sendLuckyGroupPackage;
         Map<String, Object> params = new HashMap<String, Object>();

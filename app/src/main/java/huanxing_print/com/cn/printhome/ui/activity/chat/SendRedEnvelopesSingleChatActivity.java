@@ -1,6 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.chat;
 
-import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,9 +11,12 @@ import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.chat.RedPackage;
+import huanxing_print.com.cn.printhome.net.callback.chat.SendPackageCallBack;
+import huanxing_print.com.cn.printhome.net.request.chat.ChatRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
-import huanxing_print.com.cn.printhome.view.dialog.SingleRedEnvelopesDialog;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
  * description: 单对单的发红包
@@ -27,6 +30,8 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
     private EditText edt_leave_word;//留言
     private TextView txt_num;//跟随着你的输入额变化
     private Button btn_plug_money;
+    private String str_money, str_word;
+    private String memberId;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -44,6 +49,7 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
     }
 
     private void init() {
+        memberId = baseApplication.getMemberId();
         edt_single_money = (EditText) findViewById(R.id.edt_single_money);
         edt_leave_word = (EditText) findViewById(R.id.edt_leave_word);
         txt_num = (TextView) findViewById(R.id.txt_num);
@@ -63,9 +69,11 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
                     //改变下面的金额 以及按钮的颜色
                     txt_num.setText(s);
                     btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_red);
+                    btn_plug_money.setEnabled(true);
                 } else {
                     txt_num.setText("0.00");
                     btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_null);
+                    btn_plug_money.setEnabled(false);
                 }
             }
 
@@ -88,12 +96,52 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_plug_money:
+                str_money = edt_single_money.getText().toString().trim();
+                str_word = edt_leave_word.getText().toString().trim();
+                if (ObjectUtils.isNull(str_word)) {
+                    str_word = "恭喜发财，大吉大利";
+                }
+                ChatRequest.sendRedPackage(getSelfActivity(), baseApplication.getLoginToken()
+                        , str_money, str_word, memberId, callBack);
                 //发红包
                 //展示假的红包
-                Dialog dialog = new SingleRedEnvelopesDialog(getSelfActivity(),
-                        R.style.MyDialog);
-                dialog.show();
+//                Dialog dialog = new SingleRedEnvelopesDialog(getSelfActivity(),
+//                        R.style.MyDialog);
+//                dialog.show();
                 break;
         }
     }
+
+
+    SendPackageCallBack callBack = new SendPackageCallBack() {
+
+        @Override
+        public void success(String msg, RedPackage redPackage) {
+            DialogUtils.closeProgressDialog();
+            if (null != redPackage) {
+                String amount = redPackage.getAmount();
+                String masterName = redPackage.getMasterName();
+                String packetId = redPackage.getPacketId();
+                String remark = redPackage.getRemark();
+                Intent intent = new Intent();
+                intent.putExtra("packetId",packetId);
+                setResult(0x11,intent);
+                finishCurrentActivity();
+            }
+
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            toast(msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
+        }
+
+    };
 }

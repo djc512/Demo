@@ -6,10 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +40,6 @@ import huanxing_print.com.cn.printhome.ui.adapter.ApprovalPersonAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.AttachmentAdatper;
 import huanxing_print.com.cn.printhome.ui.adapter.SubFormAdatper;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.Info;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
@@ -105,7 +101,8 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
 
     private void initData() {
         approveId = getIntent().getStringExtra("approveId");
-        ApprovalRequest.getQueryApprovalDetail(getSelfActivity(),baseApplication.getLoginToken(),approveId,callBack);
+        ApprovalRequest.getQueryApprovalDetail(getSelfActivity(),
+                baseApplication.getLoginToken(),approveId,callBack);
     }
 
     private void showData() {
@@ -334,6 +331,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     QueryApprovalDetailCallBack callBack = new QueryApprovalDetailCallBack() {
         @Override
         public void success(String msg, ApprovalDetail approvalDetail) {
+            DialogUtils.closeProgressDialog();
             details = approvalDetail;
             if(null != details) {
                 showData();
@@ -373,12 +371,14 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
 
         @Override
         public void fail(String msg) {
-
+            DialogUtils.closeProgressDialog();
+            toast(msg);
         }
 
         @Override
         public void connectFail() {
-
+            DialogUtils.closeProgressDialog();
+            toastConnectFail();
         }
     };
 

@@ -2,7 +2,10 @@ package huanxing_print.com.cn.printhome.ui.activity.chat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -21,11 +24,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.exceptions.HyphenateException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -38,6 +44,8 @@ import huanxing_print.com.cn.printhome.presenter.impl.ChatPresenterImpl;
 import huanxing_print.com.cn.printhome.ui.adapter.ChatAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.copy.BitmapCorrectUtil;
+import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
 import static huanxing_print.com.cn.printhome.util.ShowUtil.showToast;
 
@@ -52,8 +60,22 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
     //private ChatAdapter mChatAdapter;
     private Context ctx;
 
+    private File tempFile;
+    private static final int REQUEST_CAPTURE = 100;
+    private static final int REQUEST_FILE = 110;
+    private static final int PICK_PHOTO = 1;
+    private static final int TEXT = 0;//文本
+    private static final int PIC = 1;//图片
+    private  int mKind;
+    private int CODE_APPROVAL_REQUEST = 0X11;//审批人请求码
+    private int CODE_COPY_REQUEST = 0X12;//抄送人人请求码
+    private List<Bitmap> mResults = new ArrayList<>();
+    private int PICK_IMAGE_REQUEST = 1;
+
     private ChatAdapter mChatAdapter;
     Boolean isOpen = false;
+    private int kind;
+    private PicSaveUtil saveUtil;
 
     TextView mTvTitle;
     //标题栏没写
@@ -89,6 +111,8 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         ctx = this;
 
+        saveUtil = new PicSaveUtil(ctx);
+        tempFile = saveUtil.createCameraTempFile(savedInstanceState);
         initVIew();
         initListener();
 
@@ -150,7 +174,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
         /**
          * 显示最多最近的20条聊天记录，然后定位RecyclerView到最后一行
          */
-        mChatPresenter.initChat(mUsername);
+        mChatPresenter.initChat(mUsername,TEXT);
         EventBus.getDefault().register(this);
 
     }
@@ -186,6 +210,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
     }
 
 
+//接收消息
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void on(EMMessage message) {
         //当收到信消息的时候
@@ -194,6 +219,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
          *  如果是，让ChatPresenter 更新数据
          *
          */
+
         String from = "";
         if (type == 1) {
             from = message.getTo();
@@ -202,12 +228,18 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
             from = message.getFrom();
             Log.i("CMCC", "222222from:" + from + ",mUsername:" + mUsername);
         }
+        try {
+            mKind = message.getIntAttribute("kind");
 //        message.getUserName();
 //        message.getTo();
 
-        if (from.equals(mUsername)) {
-            mChatPresenter.updateData(mUsername);
+                if (from.equals(mUsername)) {
+                    mChatPresenter.updateData(mUsername,mKind);
+                }
+        } catch (HyphenateException e) {
+            e.printStackTrace();
         }
+
 
     }
 
@@ -263,28 +295,39 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
                 String msgg = mEtMsg.getText().toString();
                 if (type == 1) {
                     Log.i("CMCC", "1111");
-                    mChatPresenter.sendMessage(mUsername, msgg, 1);
+                    mChatPresenter.sendMessage(mUsername, msgg, 1,TEXT);
                 } else if (2 == type) {
                     Log.i("CMCC", "2222");
-                    mChatPresenter.sendMessage(mUsername, msgg, 0);
+                    mChatPresenter.sendMessage(mUsername, msgg, 0,TEXT);
                 }
 
                 mEtMsg.getText().clear();
 
                 break;
             case R.id.ll_photo:
+                Intent intentPhoto = new Intent();
+                intentPhoto.setType("image/*");
+                intentPhoto.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intentPhoto, "Select Picture"), PICK_IMAGE_REQUEST);
 
                 break;
             case R.id.ll_camera:
+                Intent intenCamera_ = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intenCamera_.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+                startActivityForResult(intenCamera_, REQUEST_CAPTURE);
 
                 break;
             case R.id.ll_file:
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(intent,REQUEST_FILE);
 
                 break;
             case R.id.ll_red_packet:
                 if (type==1){
                     //群聊
-                    startActivity(new Intent(getSelfActivity(),SendRedEnvelopesGroupChatActivity.class));
+                    jumpActivity(SendRedEnvelopesGroupChatActivity.class);
                 }else {
                     //私聊
                     jumpActivity(SendRedEnvelopesSingleChatActivity.class);
@@ -296,6 +339,27 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            String path = BitmapCorrectUtil.uriTopath(getSelfActivity(),uri);
+            mChatPresenter.sendImgMessage(mUsername,path,type,PIC);
+        }else if (requestCode == REQUEST_CAPTURE && resultCode == RESULT_OK) {
+            Uri uri = Uri.fromFile(tempFile);
+            String path = BitmapCorrectUtil.uriTopath(getSelfActivity(),uri);
+            mChatPresenter.sendImgMessage(mUsername,path,type,PIC);
+        }else {
+            Uri uri = data.getData();
+            String path = BitmapCorrectUtil.uriTopath(getSelfActivity(),uri);
+            mChatPresenter.sendImgMessage(mUsername,path,type,PIC);
+        }
+
+
+    }
+
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -327,7 +391,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
          * 初始化RecyclerView
          */
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mChatAdapter = new ChatAdapter(emMessageList);
+        mChatAdapter = new ChatAdapter(getSelfActivity(),emMessageList);
         mRecyclerView.setAdapter(mChatAdapter);
         if (emMessageList.size() != 0) {
             mRecyclerView.smoothScrollToPosition(emMessageList.size() - 1);

@@ -264,7 +264,6 @@ public class PhotoPickerActivity extends BaseActivity implements PhotoAdapter.Ph
 
     private void getPhotosSuccess() {
         mProgressDialog.dismiss();
-        mPhotoLists.addAll(mFolderMap.get(ALL_PHOTO).getPhotoList());
 
         mPhotoNumTV.setText(OtherUtils.formatResourceString(getApplicationContext(),
                 R.string.photos_num, mPhotoLists.size()));
@@ -472,6 +471,23 @@ public class PhotoPickerActivity extends BaseActivity implements PhotoAdapter.Ph
         @Override
         protected Object doInBackground(Object[] params) {
             mFolderMap = PhotoUtils.getPhotos(PhotoPickerActivity.this.getApplicationContext());
+
+            mPhotoLists.addAll(mFolderMap.get(ALL_PHOTO).getPhotoList());
+
+            //-----------遍历删除不存在的文件 start-----------------
+            ArrayList<Photo> delPhoto = new ArrayList<Photo>();
+            for(Photo photo : mPhotoLists) {
+                String picPath = photo.getPath();
+                if(!picPath.isEmpty()) {
+                    File file = new File(picPath);
+                    if(!file.exists()) {
+                        delPhoto.add(photo);
+                    }
+                }
+            }
+            mPhotoLists.removeAll(delPhoto);
+            //----------遍历删除不存在的文件 end------------------
+
             return null;
         }
 
