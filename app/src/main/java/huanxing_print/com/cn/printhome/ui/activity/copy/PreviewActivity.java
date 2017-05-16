@@ -32,6 +32,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.copy.BitmapCorrectUtil;
 import huanxing_print.com.cn.printhome.util.copy.BitmpaUtil;
 import huanxing_print.com.cn.printhome.util.copy.ClipPicUtil;
 import huanxing_print.com.cn.printhome.util.copy.OpenCVCallback;
@@ -74,6 +75,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private Bitmap compBitmap;
     private TextView btn_reset1;
     private TextView tv_back;
+    private String path;
+    private Bitmap rotateBitmap;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -404,16 +407,29 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAPTURE && resultCode == RESULT_OK) {
             uri = Uri.fromFile(tempFile);
+            path = BitmapCorrectUtil.uriTopath(ctx,uri);
         }
         ll.setVisibility(View.VISIBLE);
         ll1.setVisibility(View.GONE);
         try {
             mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            trunBitmap();
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (mBitmap != null) {
             selectionView.setImageBitmap(mBitmap);
+        }
+    }
+
+    /**
+     * 判断是否需要旋转图片
+     */
+    private void trunBitmap() {
+        int bitmapDegree = BitmapCorrectUtil.getBitmapDegree(path);
+        if (bitmapDegree == 90) {
+            rotateBitmap = BitmapCorrectUtil.rotateBitmapByDegree(mBitmap, 0);
+            mBitmap = rotateBitmap;
         }
     }
 
