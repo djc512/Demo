@@ -766,4 +766,45 @@ public class HttpUtils {
             }
         });
     }
+
+    /**
+     * 订单列表
+     * @param obj
+     * @param url
+     * @param loginToken
+     * @param callback
+     */
+    public static void getOrderList(Object obj, final String url, String loginToken, String pageNum,
+                                      final HttpCallBack callback) {
+        //String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
+        //Logger.d("http-request:" + url + "----" + "----" + paramsStr);
+        TimeUtils.beginTime();
+        OkHttpUtils.get().url(url).addHeader("apiversion", ConFig.VERSION_TYPE)
+                .addHeader("loginToken", loginToken)
+                .addHeader("platform", ConFig.PHONE_TYPE)
+                .addParams("pageNum", pageNum)
+                .addParams("pageSize", "10")
+                .tag(obj).build().execute(new StringCallback() {
+
+            @Override
+            public void onResponse(String result, int arg1) {
+                TimeUtils.endTime();
+                Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                callback.success(result);
+            }
+
+            @Override
+            public void onError(Call call, Exception exception, int arg2) {
+                TimeUtils.endTime();
+                Logger.e("http-exception:" + url + "----" + exception + "----" + TimeUtils.subTime() + " ms");
+                String message = exception.getMessage();
+                if ("Socket closed".equalsIgnoreCase(message)) {// 取消请求
+
+                } else {
+                    callback.fail(exception.getMessage());
+                }
+
+            }
+        });
+    }
 }

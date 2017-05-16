@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.hyphenate.chat.EMClient;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
 import java.util.Set;
@@ -67,7 +68,7 @@ public abstract class BaseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//在当前界面注册一个订阅者
-		//EventBus.getDefault().register(this);
+		EventBus.getDefault().register(this);
 		init();
 	}
 
@@ -96,7 +97,7 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		//EventBus.getDefault().unregister(this);
+		EventBus.getDefault().unregister(this);
 		DialogUtils.closeProgressDialog();
 		OkHttpUtils.getInstance().cancelTag(getSelfActivity());
 	}
@@ -417,6 +418,7 @@ public abstract class BaseActivity extends Activity {
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "nickName");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "uniqueId");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "memberId");
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "weixinName");
 		baseApplication.setPhone("");
 		baseApplication.setPassWord("");
 		baseApplication.setSex("");
@@ -425,7 +427,7 @@ public abstract class BaseActivity extends Activity {
 		baseApplication.setLoginToken("");
 		baseApplication.setUniqueId("");
 		baseApplication.setMemberId("");
-
+		baseApplication.setWeixinName("");
 	}
 
 	protected void initJPush(String alias) {
