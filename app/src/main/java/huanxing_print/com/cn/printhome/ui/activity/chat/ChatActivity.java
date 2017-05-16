@@ -72,6 +72,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
     LinearLayout mRedPacket;
     //区分群聊和单聊
     private int type;
+    private GroupInfo groupInfo;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -100,7 +101,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
         Log.i("CMCC", "type:" + type + ",id:" + mUsername + ",name:" + name);
 
-        GroupInfo groupInfo = intent.getParcelableExtra("GroupInfo");
+        groupInfo = intent.getParcelableExtra("GroupInfo");
         FriendInfo friendInfo = intent.getParcelableExtra("FriendInfo");
         FriendSearchInfo friendSearchInfo = intent.getParcelableExtra("FriendSearchInfo");
         if (!ObjectUtils.isNull(groupInfo)) {
@@ -284,7 +285,9 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
             case R.id.ll_red_packet:
                 if (type==1){
                     //群聊
-                    startActivity(new Intent(getSelfActivity(),SendRedEnvelopesGroupChatActivity.class));
+                    Intent groupRedPackage = new Intent(getSelfActivity(),SendRedEnvelopesGroupChatActivity.class);
+                    groupRedPackage.putExtra("groupInfo",groupInfo);
+                    startActivity(groupRedPackage);
                 }else {
                     //私聊
                     jumpActivity(SendRedEnvelopesSingleChatActivity.class);
