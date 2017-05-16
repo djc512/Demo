@@ -34,8 +34,13 @@ public class UrlUtil {
     }
 
     public static String getValueByName(String url, String name) {
-        Uri uri = Uri.parse(url);
-        String result = uri.getQueryParameter(name);
+        String result = null;
+        try {
+            Uri uri = Uri.parse(url);
+            result = uri.getQueryParameter(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 }
