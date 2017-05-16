@@ -2,19 +2,15 @@ package huanxing_print.com.cn.printhome.ui.activity.approval;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Base64;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -65,10 +61,6 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     ImageView iv_user_name;
     ImageView iv_user_head;
-    ImageView iv_back;
-    Button btn_agree;
-    Button btn_bohui;
-    Button btn_certificate;
     TextView iv_name;
     TextView tv_use;//用途说明
     TextView tv_number;
@@ -79,8 +71,6 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     TextView tv_overtime;//完成日期
     TextView tv_copy_name;
 
-    LinearLayout ll_commit;
-    LinearLayout bt_reject_agree;
     //凭证id
     RelativeLayout rl_sertificate;//凭证布局
     ListView ll_approval_process;
@@ -117,12 +107,12 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     }
 
     private void initListener() {
-
-        btn_certificate.setOnClickListener(this);
-        btn_bohui.setOnClickListener(this);
-        btn_agree.setOnClickListener(this);
-        iv_back.setOnClickListener(this);
-        //rl_sertificate.setOnClickListener(this);
+        findViewById(R.id.ll_back).setOnClickListener(this);
+        findViewById(R.id.btn_revoke).setOnClickListener(this);
+        findViewById(R.id.btn_reject).setOnClickListener(this);
+        findViewById(R.id.btn_pass).setOnClickListener(this);
+        findViewById(R.id.btn_print).setOnClickListener(this);
+        findViewById(R.id.btn_look).setOnClickListener(this);
     }
 
     QueryApprovalDetailCallBack callBack = new QueryApprovalDetailCallBack() {
@@ -131,28 +121,33 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             details = approvalDetail;
             if(null != details) {
                 showData();
-                if (!ObjectUtils.isNull(details.getType())) {
-                    switch (details.getType()) {
-                        //驳回，同意签字
-                        case 1:
-                            ll_commit.setVisibility(View.GONE);
-                            bt_reject_agree.setVisibility(View.VISIBLE);
-                            rl_sertificate.setVisibility(View.GONE);
+                if (!ObjectUtils.isNull(details.getStatus())) {
+                    findViewById(R.id.ll_revoke).setVisibility(View.GONE);
+                    findViewById(R.id.ll_pass).setVisibility(View.GONE);
+                    findViewById(R.id.ll_print).setVisibility(View.GONE);
+                    findViewById(R.id.ll_look).setVisibility(View.GONE);
+                    findViewById(R.id.rl_sertificate).setVisibility(View.GONE);
+                    switch (details.getStatus()) {
+                        case 0://审批中
+                            if (details.getJobNumber().equals(baseApplication.getMemberId())) {
+                                //撤销
+                                findViewById(R.id.ll_revoke).setVisibility(View.VISIBLE);
+                            }else{
+                                //驳回、同意并签字
+                                findViewById(R.id.ll_pass).setVisibility(View.VISIBLE);
+                            }
                             break;
-                        //生成凭证
-                        case 2:
-                            ll_commit.setVisibility(View.VISIBLE);
-                            bt_reject_agree.setVisibility(View.GONE);
-                            btn_certificate.setText("生成凭证");
-                            //rl_sertificate.setVisibility(View.VISIBLE);
+                        case 2://打印凭证
+                            if (details.getJobNumber().equals(baseApplication.getMemberId())) {
+                                findViewById(R.id.ll_print).setVisibility(View.VISIBLE);
+                            }
+                            findViewById(R.id.rl_sertificate).setVisibility(View.VISIBLE);
                             break;
-                        //撤回
-                        case 3:
-                            ll_commit.setVisibility(View.VISIBLE);
-                            bt_reject_agree.setVisibility(View.GONE);
-                            rl_sertificate.setVisibility(View.GONE);
-                            break;
-                        default:
+                        case 5://已打印
+                            if (details.getJobNumber().equals(baseApplication.getMemberId())) {
+                                findViewById(R.id.ll_look).setVisibility(View.VISIBLE);
+                            }
+                            findViewById(R.id.rl_sertificate).setVisibility(View.VISIBLE);
                             break;
                     }
                 }
@@ -273,14 +268,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         tv_copy_name = (TextView) findViewById(R.id.tv_copy_name);
 
         ll_approval_process = (ListView) findViewById(R.id.ll_approval_process);
-        iv_back = (ImageView) findViewById(R.id.iv_back);
 
-        btn_certificate = (Button) findViewById(R.id.btn_certificate);
-        btn_bohui = (Button) findViewById(R.id.btn_bohui);
-        btn_agree = (Button) findViewById(R.id.btn_agree);
-
-        ll_commit = (LinearLayout) findViewById(R.id.ll_remove);
-        bt_reject_agree = (LinearLayout) findViewById(R.id.bt_reject_agree);
         rl_sertificate = (RelativeLayout) findViewById(R.id.rl_sertificate);
 
         noScrollgridview = (ScrollGridView) findViewById(R.id.noScrollgridview);
@@ -296,49 +284,35 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             case R.id.iv_back:
                 finishCurrentActivity();
                 break;
-            case R.id.btn_certificate:
-                //点击生成凭证
-                rl_sertificate.setVisibility(View.VISIBLE);
-
+            case R.id.btn_revoke:
+                revoke();
                 break;
-            case R.id.btn_bohui:
-                //同时反馈数据给服务器
-                ApprovalRequest.approval(getSelfActivity(),baseApplication.getLoginToken(),
-                        approveId,2,"",nullcallback);
+            case R.id.btn_reject:
+                reject();
                 break;
-            case R.id.btn_agree:
-                //startActivity(new Intent(getSelfActivity(), HandWriteActivity.class));
-//                if (mPathView.getTouched()) {
-//                    try {
-//                        mPathView.save("/sdcard/qm.png", true, 10);
-//                        Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//
-//                    Toast.makeText(this, "您没有签名~", Toast.LENGTH_SHORT).show();
-//                }
-
+            case R.id.btn_pass:
                 DialogUtils.showSignatureDialog(getSelfActivity(),
                         new DialogUtils.SignatureDialogCallBack() {
                             @Override
                             public void ok() {
-                               Toast.makeText(getSelfActivity(), "保存成功", Toast.LENGTH_SHORT).show();
-                               Bitmap bitmp = BitmapFactory.decodeFile("/sdcard/signature.png");
-                              if(null!=bitmp){
-                                  setPicToView(bitmp,"/sdcard/signature.png");
-                              }
-
+                                Toast.makeText(getSelfActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+                                Bitmap bitmp = BitmapFactory.decodeFile("/sdcard/signature.png");
+                                if(null!=bitmp){
+                                    setPicToView(bitmp,"/sdcard/signature.png");
+                                }
                             }
 
                             @Override
                             public void cancel() {
-                                Toast.makeText(getSelfActivity(), "请签名", Toast.LENGTH_SHORT).show();
 
                             }
                         }).show();
-
+                break;
+            case R.id.btn_print:
+                createAndLook();
+                break;
+            case R.id.btn_look:
+                createAndLook();
                 break;
             default:
                 break;
@@ -348,59 +322,34 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     }
 
-//    private class PicAdapter extends BaseAdapter{
-//        @Override
-//        public int getCount() {
-//            if(null == details || (null == details.getAttachmentList())){
-//                return 0;
-//            }
-//            return details.getAttachmentList().size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return details.getAttachmentList().get(position);
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//            ViewHolder holder = null;
-//            if (convertView == null) {
-//                holder = new PicAdapter.ViewHolder();
-//                convertView = LayoutInflater.from(ApprovalBuyAddOrRemoveActivity.this).inflate(
-//                        R.layout.item_pic_show, null);
-//                holder.image = (ImageView) convertView.findViewById(R.id.iv_pic);
-//                convertView.setTag(holder);
-//            } else {
-//                holder = (PicAdapter.ViewHolder) convertView.getTag();
-//            }
-////            //请求网络拿图片
-////            //请求的url前面加什么？、？？？第二个参数
-////            ImageUtil.showImageView(ApprovalBuyAddOrRemoveActivity.this,details.getAttachmentList().get(position),holder.image);
-//
-//            String picPath = details.getAttachmentList().get(position).getFileUrl();
-//            loadPic(holder.image, picPath);
-//            return convertView;
-//        }
-//
-//        private void loadPic(final ImageView iv_user_head, String picPath) {
-//            Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
-//                @Override
-//                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-//                    iv_user_head.setImageDrawable(resource);
-//                }
-//            });
-//        }
-//
-//        class ViewHolder {
-//            ImageView image;
-//        }
-//    }
+    private void createAndLook() {
+        Intent intent = new Intent(this, VoucherPreviewActivity.class);
+        intent.putExtra("approveId", Integer.valueOf(approveId));
+        intent.putExtra("type", 0);
+        startActivity(intent);
+    }
+
+    private void revoke() {
+        DialogUtils.showProgressDialog(this, "撤销审批中").show();
+        ApprovalRequest.revokeReq(this, baseApplication.getLoginToken(), approveId, revokeCallback);
+    }
+
+    /**
+     * 同意并签字请求
+     * @param signUrl
+     */
+    private void pass(String signUrl) {
+        DialogUtils.showProgressDialog(this, "处理中").show();
+        ApprovalRequest.approval(this, baseApplication.getLoginToken(), approveId, 1, signUrl, passCallback);
+    }
+
+    /**
+     * 驳回
+     */
+    private void reject() {
+        DialogUtils.showProgressDialog(this, "驳回处理中").show();
+        ApprovalRequest.approval(this, baseApplication.getLoginToken(), approveId, 2, "", rejectCallBack);
+    }
 
     private NullCallback nullcallback = new NullCallback() {
 
@@ -419,9 +368,71 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
         @Override
         public void success(String msg) {
-            toast(msg);
+            toast("驳回成功");
             DialogUtils.closeProgressDialog();
             finishCurrentActivity();
+        }
+    };
+
+    NullCallback revokeCallback = new NullCallback() {
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            toast("撤销成功");
+            finishCurrentActivity();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            toast(msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            connectFail();
+        }
+    };
+
+    NullCallback rejectCallBack = new NullCallback() {
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            toast("驳回成功");
+            finishCurrentActivity();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            toast(msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            connectFail();
+        }
+    };
+
+    NullCallback passCallback = new NullCallback() {
+        @Override
+        public void success(String msg) {
+            DialogUtils.closeProgressDialog();
+            initData();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            toast(msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            connectFail();
         }
     };
 

@@ -45,6 +45,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private TextView title_group_name;
     private ArrayList<GroupMember> groupMembers = new ArrayList<GroupMember>();
     private String currentGroupId;
+    private String easemobGroupId;
     private String token;
     private static final int transferRequsetCoder = 1;//修改群主的请求码
     private GroupMember delGroupMember;
@@ -91,6 +92,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
 
     private void initData() {
         currentGroupId = getIntent().getStringExtra("groupId");
+        easemobGroupId = getIntent().getStringExtra("easemobGroupId");
         token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
         queryGroupMsg();
@@ -325,7 +327,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
 
     private void queryGroupMsg() {
         DialogUtils.showProgressDialog(this, "加载中").show();
-        GroupManagerRequest.queryGroupMessage(this, token, currentGroupId, groupMessageCallback);
+        GroupManagerRequest.queryGroupMessage(this, token, currentGroupId,easemobGroupId, groupMessageCallback);
     }
 
     GroupMessageCallback groupMessageCallback = new GroupMessageCallback() {

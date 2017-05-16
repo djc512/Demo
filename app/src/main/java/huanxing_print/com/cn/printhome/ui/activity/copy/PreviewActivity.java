@@ -1,6 +1,5 @@
 package huanxing_print.com.cn.printhome.ui.activity.copy;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -33,11 +32,13 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.copy.BitmapCorrectUtil;
 import huanxing_print.com.cn.printhome.util.copy.BitmpaUtil;
 import huanxing_print.com.cn.printhome.util.copy.ClipPicUtil;
 import huanxing_print.com.cn.printhome.util.copy.OpenCVCallback;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 import huanxing_print.com.cn.printhome.view.SelectionImageView;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import timber.log.Timber;
 
 import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.perspectiveTransform;
@@ -52,7 +53,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private Bitmap mBitmap;
     private static final int MAX_HEIGHT = 500;
     private Context ctx;
-    private ProgressDialog pd;
+    //    private ProgressDialog pd;
     private BitmpaUtil bitmpaUtil;
     private Uri uri;
     private SelectionImageView selectionView;
@@ -74,6 +75,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private Bitmap compBitmap;
     private TextView btn_reset1;
     private TextView tv_back;
+    private String path;
+    private Bitmap rotateBitmap;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -136,16 +139,18 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        pd = new ProgressDialog(ctx);
-        pd.setProgress(ProgressDialog.STYLE_SPINNER);
-        pd.setCanceledOnTouchOutside(false);
-        if (!pd.isShowing()) {
-            pd.show();
-        }
+//        pd = new ProgressDialog(ctx);
+//        pd.setProgress(ProgressDialog.STYLE_SPINNER);
+//        pd.setCanceledOnTouchOutside(false);
+//        if (!pd.isShowing()) {
+//            pd.show();
+//        }
+        show();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                pd.dismiss();
+//                pd.dismiss();
+                close();
                 btn_adjust.performClick();
             }
         }, 1000);
@@ -194,7 +199,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 ll.setVisibility(View.GONE);
                 ll1.setVisibility(View.VISIBLE);
                 iv.setVisibility(View.INVISIBLE);
-                pd.show();
+//                pd.show();
+                show();
                 new Thread() {
                     @Override
                     public void run() {
@@ -210,7 +216,9 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pd.dismiss();
+//                                  pd.dismiss();
+                                    close();
+                                    DialogUtils.closeProgressDialog();
                                     iv.setVisibility(View.VISIBLE);
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
@@ -224,7 +232,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 }.start();
                 break;
             case R.id.btn_black:
-                pd.show();
+//                DialogUtils.showProgressDialog(ctx, "正在加载...");
+                show();
                 new Thread() {
                     @Override
                     public void run() {
@@ -240,7 +249,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pd.dismiss();
+//                                    pd.dismiss();
+                                    close();
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
                                     iv.setImageBitmap(compBitmap);
@@ -253,7 +263,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 }.start();
                 break;
             case R.id.btn_gray:
-                pd.show();
+//                pd.show();
+                show();
                 new Thread() {
                     @Override
                     public void run() {
@@ -269,7 +280,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pd.dismiss();
+//                                    pd.dismiss();
+                                    close();
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
                                     iv.setImageBitmap(compBitmap);
@@ -282,7 +294,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 }.start();
                 break;
             case R.id.btn_original:
-                pd.show();
+//                pd.show();
+                show();
                 new Thread() {
                     @Override
                     public void run() {
@@ -298,7 +311,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    pd.dismiss();
+//                                    pd.dismiss();
+                                    close();
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
                                     iv.setImageBitmap(compBitmap);
@@ -322,7 +336,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + nameConfirm;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("copyfile",true);
+                    printIntent.putExtra("copyfile", true);
                     startActivity(printIntent);
                     finishCurrentActivity();
                 }
@@ -393,16 +407,29 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAPTURE && resultCode == RESULT_OK) {
             uri = Uri.fromFile(tempFile);
+            path = BitmapCorrectUtil.uriTopath(ctx,uri);
         }
         ll.setVisibility(View.VISIBLE);
         ll1.setVisibility(View.GONE);
         try {
             mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            trunBitmap();
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (mBitmap != null) {
             selectionView.setImageBitmap(mBitmap);
+        }
+    }
+
+    /**
+     * 判断是否需要旋转图片
+     */
+    private void trunBitmap() {
+        int bitmapDegree = BitmapCorrectUtil.getBitmapDegree(path);
+        if (bitmapDegree == 90) {
+            rotateBitmap = BitmapCorrectUtil.rotateBitmapByDegree(mBitmap, 0);
+            mBitmap = rotateBitmap;
         }
     }
 
@@ -431,5 +458,19 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
             compBitmap = null;
         }
         System.gc();
+    }
+
+    /**
+     * 显示进度条
+     */
+    private void show() {
+        DialogUtils.showProgressDialog(ctx, "正在加载...").show();
+    }
+
+    /**
+     * 关闭进度条
+     */
+    private void close() {
+        DialogUtils.closeProgressDialog();
     }
 }

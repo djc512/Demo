@@ -322,6 +322,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
         adapter = new GridAdapter(this);
+        adapter.clear();
         adapter.update();
 
         approvalAdapter = new GridViewApprovalAdapter();
@@ -341,6 +342,12 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         public void success(String msg, LastApproval approval) {
             //ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人成功");
             //转为FriendInfo对象
+            if(null!=approvalFriends&&approvalFriends.size()>0){
+                approvalFriends.clear();
+            }
+            if(null!=copyFriends&&copyFriends.size()>0){
+                copyFriends.clear();
+            }
             if (!ObjectUtils.isNull(approval)) {
                 groupId = approval.getGroupId();
                 if (!ObjectUtils.isNull(groupId)) {
@@ -571,8 +578,8 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
 
     private void setPicToView(Bitmap bitmap, String fileid) {
         ImageUploadItem image = new ImageUploadItem();
-        String filename = System.currentTimeMillis() + "";
-        String filePath = FileUtils.savePic(getSelfActivity(), filename + ".jpg", bitmap);
+        String filename = System.currentTimeMillis() + ".jpg";
+        String filePath = FileUtils.savePic(getSelfActivity(), filename, bitmap);
         if (!ObjectUtils.isNull(filePath)) {
             File file = new File(filePath);
             //file转化成二进制
@@ -1083,10 +1090,12 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         public void update() {
             loading();
         }
-
+        public void clear() {
+            Bimp.tempSelectBitmap.clear();
+        }
         public int getCount() {
-            if (Bimp.tempSelectBitmap.size() == 9) {
-                return 9;
+            if (Bimp.tempSelectBitmap.size() == 5) {
+                return 5;
             }
             return (Bimp.tempSelectBitmap.size() + 1);
         }
@@ -1114,7 +1123,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             if (position == Bimp.tempSelectBitmap.size()) {
                 holder.image.setImageBitmap(BitmapFactory.decodeResource(
                         getResources(), R.drawable.add));
-                if (position == 9) {
+                if (position == 5) {
                     holder.image.setVisibility(View.GONE);
                 }
             } else {

@@ -287,7 +287,11 @@
         <activity
             android:name=".ui.activity.my.MyModifyPhoneActivty"
             android:screenOrientation="portrait" />
-        <!-- 我的设置里的手机号修改 -->
+        <!-- 我的设置里的微信号修改 -->
+        <activity
+            android:name=".ui.activity.my.MyModifyUniqueIdActivty"
+            android:screenOrientation="portrait" />
+        <!-- 我的设置里的印家号修改 -->
         <activity
             android:name=".ui.activity.my.MyModifyWeixinActivty"
             android:screenOrientation="portrait" />
@@ -544,6 +548,13 @@
             android:name=".ui.activity.chat.ChatActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
+        <!---->
+        <activity
+            android:name=".ui.activity.approval.VoucherPreviewActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
 
         <!-- 选择审批人、抄送人 -->
         <activity
