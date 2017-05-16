@@ -37,7 +37,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
@@ -77,7 +77,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:background="@color/white"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -124,7 +124,7 @@
                 <LinearLayout
                     android:id="@+id/lin_top"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -165,7 +165,7 @@
             <RelativeLayout
                 android:id="@+id/rel_add_expense"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:background="@color/white">
 
                 <RelativeLayout
@@ -200,7 +200,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:background="@color/white"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
@@ -267,7 +267,7 @@
                 <LinearLayout
                     android:id="@+id/lin_top_second"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -280,18 +280,20 @@
                         android:textSize="@dimen/text_size_sixteen" />
 
                     <EditText
+                        android:id="@+id/editText2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:background="@null"
-                        android:enabled="false"
+                        android:maxLength="200"
                         android:hint="填写备注内容"
-                        android:paddingLeft="2dp"
-                        android:textSize="@dimen/text_size_sixteen" />
+                        android:textColorHint="@color/gray8"
+                        android:textSize="@dimen/text_size_sixteen"
+                        android:textColor="@color/black2" />
                 </LinearLayout>
 
-                <EditText
+<!--                <EditText
                     android:id="@+id/editText2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -300,7 +302,7 @@
                     android:maxLines="10"
                     android:minLines="2"
                     android:paddingLeft="2dp"
-                    android:textSize="@dimen/text_size_sixteen" />
+                    android:textSize="@dimen/text_size_sixteen" />-->
 
 
             </LinearLayout>
@@ -313,7 +315,7 @@
             <LinearLayout
                 android:id="@+id/lin_request_money"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -460,7 +462,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white">
 
                 <Button
@@ -468,10 +470,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="10dp"
                     android:background="@drawable/broder_blue_full"
                     android:text="提交"
                     android:textColor="@color/white" />
