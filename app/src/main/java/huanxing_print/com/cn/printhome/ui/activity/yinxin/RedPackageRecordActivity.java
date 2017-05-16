@@ -54,8 +54,7 @@ public class RedPackageRecordActivity extends BaseActivity {
         recordRecView.setLayoutManager(mLayoutManager);
         recordRecView.setHasFixedSize(true);
         recordRecView.setItemAnimator(new DefaultItemAnimator());
-        recordRecView.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.VERTICAL, 1, ContextCompat
-                .getColor(this, R.color.devide_gray)));
+        recordRecView.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.VERTICAL, 1, ContextCompat.getColor(this, R.color.devide_gray)));
         RedPackageBean date = new RedPackageBean();
         redPackageAdapter = new RedPackageAdapter();
         recordRecView.setAdapter(redPackageAdapter);

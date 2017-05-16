@@ -21,9 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.PrinterFragmentAdapter;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.UrlUtil;
 import huanxing_print.com.cn.printhome.view.viewpager.NoScrollViewPager;
 
 public class PickPrinterFragment extends BaseLazyFragment {
@@ -144,7 +146,13 @@ public class PickPrinterFragment extends BaseLazyFragment {
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    ((PickPrinterActivity) getActivity()).requeryPrice(result);
+                    Logger.i(result);
+                    String printNo = UrlUtil.getValueByName(result, "printNo");
+                    if (printNo == null) {
+                        ShowUtil.showToast("无效的二维码");
+                        return;
+                    }
+                    ((PickPrinterActivity) getActivity()).requeryIsOnline(printNo);
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     ShowUtil.showToast("解析二维码失败");
                 }

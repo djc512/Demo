@@ -18,6 +18,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
+import huanxing_print.com.cn.printhome.model.print.IsOnlineResp;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
@@ -26,7 +27,6 @@ import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CopySettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PickPrinterFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PrinterDetailFragment;
-import huanxing_print.com.cn.printhome.view.dialog.Alert;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
@@ -34,6 +34,7 @@ import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class PickPrinterActivity extends BasePrintActivity implements EasyPermissions.PermissionCallbacks {
@@ -219,6 +220,31 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
         fragmentTransaction.hide(printerDetailFragment)
                 .show(pickPrinterFragment)
                 .commit();
+    }
+
+    public void requeryIsOnline(final String printerNo) {
+        PrintRequest.queryIsOnline(activity, printerNo, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                IsOnlineResp isOnlineResp = GsonUtil.GsonToBean(content, IsOnlineResp.class);
+                if (isOnlineResp != null) {
+                    if (isOnlineResp.isSuccess()) {
+                        if (isOnlineResp.getData() == true) {
+                            requeryPrice(printerNo);
+                        } else {
+                            ShowUtil.showToast(isOnlineResp.getErrorMsg());
+                        }
+                    } else {
+                        ShowUtil.showToast(isOnlineResp.getErrorMsg());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
     }
 
     public void requeryPrice(String printerNo) {

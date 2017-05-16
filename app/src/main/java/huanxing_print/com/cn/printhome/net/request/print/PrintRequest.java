@@ -50,6 +50,7 @@ public class PrintRequest extends BaseRequst {
     public static final String QUERY_PRINT_AROUND = "print/printer/around";
     public static final String QUERY_PRINTERS = "print/printer/history";
     public static final String QUERY_PRINTER_PRICE = "print/printer/getDetail";
+    public static final String QUERY_PRINTER_ISONLINE = "print/printer/isPrinterOnline";
     public static final String QUERY_GROUP = "pay/group/queryGroup";
     public static final String ADD_ORDER = "order/add";
     public static final String PRINT = "print/doPrint";
@@ -160,7 +161,7 @@ public class PrintRequest extends BaseRequst {
      * @param callback
      */
     public static final void modifySetting(Activity activity, int colourFlag, int directionFlag, int doubleFlag, int
-            id, int printCount, int sizeType, int scaleRatio,final HttpListener callback) {
+            id, int printCount, int sizeType, int scaleRatio, final HttpListener callback) {
         String url = BASE_URL + SETTING_MODIFY;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(COLOUR_FLAG, colourFlag);
@@ -245,6 +246,20 @@ public class PrintRequest extends BaseRequst {
      */
     public static final void queryPrinterPrice(Activity activity, String printerNo, final HttpListener callback) {
         String url = BASE_URL + QUERY_PRINTER_PRICE;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(PRINT_NO, printerNo);
+        Http.get(activity, url, params, getHeaderTokenMap(), callback, false);
+    }
+
+    /**
+     * 判断是否打印机是否在线
+     *
+     * @param activity
+     * @param printerNo
+     * @param callback
+     */
+    public static final void queryIsOnline(Activity activity, String printerNo, final HttpListener callback) {
+        String url = BASE_URL + QUERY_PRINTER_ISONLINE;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(PRINT_NO, printerNo);
         Http.get(activity, url, params, getHeaderTokenMap(), callback, false);

@@ -11,6 +11,7 @@ public class PrintUtil {
 
     public static final String TYPE_PRINT = "0";//打印
     public static final String TYPE_COPY = "1";//复印
+    public static final String TYPE_AUTN = "2";//复印
 
     public static final int PRINT_TYPE_FILE = 1;//复印文件
 

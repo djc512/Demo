@@ -29,6 +29,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.DocPreviewResp;
+import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
@@ -40,13 +41,13 @@ import huanxing_print.com.cn.printhome.ui.activity.print.fragment.QQFileFragment
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WechatFileFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WifiImportFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.FinderFragmentAdapter;
-import huanxing_print.com.cn.printhome.view.dialog.Alert;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 import huanxing_print.com.cn.printhome.view.dialog.WaitDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -65,6 +66,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private TabLayout tabLayout;
     private AllFileFragment allFileFragment;
     private int index = 0;
+    private PrintInfoResp.PrinterPrice printPrinterPrice;
 
     private static final int REQUEST_CODE = 1;
     private static final int REQUEST_IMG = 1;
@@ -92,10 +94,15 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     }
 
     private void initData() {
-        index = getIntent().getExtras().getInt(INDEX);
+        Bundle bundle = getIntent().getExtras();
+        index = bundle.getInt(INDEX);
+        printPrinterPrice = bundle.getParcelable(PRINTER_PRICE);
+        Logger.i(index);
+        Logger.i(printPrinterPrice.toString());
     }
 
     public static final String INDEX = "index";
+    public static final String PRINTER_PRICE = "printer_price";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, AddFileActivity.class);
