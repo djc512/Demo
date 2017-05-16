@@ -44,15 +44,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="编号：012345"
-                    android:textColor="@color/gray8" />
+                    android:text="编号:"
+                    android:textColor="@color/gray8"
+                    android:id="@+id/textView8" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="200dp"
                 android:background="@drawable/shape_feedback_bg"
                 android:padding="15sp">
 

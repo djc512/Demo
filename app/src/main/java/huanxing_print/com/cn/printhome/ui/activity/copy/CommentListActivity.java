@@ -146,8 +146,8 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
                 DialogUtils.closeProgressDialog();
                 List<CommentListBean.DetailBean> detail = bean.getDetail();
                 CommentListBean.DetailBean detailBean = detail.get(0);
-                tv_address.setText(bean.getAddress());
-                tv_printno.setText("编号:" + printno);
+                tv_address.setText(detailBean.getPrinterName());
+                tv_printno.setText("编号:" + detailBean.getPrinterNo());
             }
 
             @Override

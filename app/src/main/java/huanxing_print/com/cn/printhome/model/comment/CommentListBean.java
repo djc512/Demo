@@ -81,7 +81,23 @@ public class CommentListBean {
         private String nickName;
         private String remark;
         private int totalScore;
+        private String printerName;
+        private String printerNo;
 
+        public String getPrinterNo() {
+            return printerNo;
+        }
+
+        public void setPrinterNo(String printerNo) {
+            this.printerNo = printerNo;
+        }
+
+        public String getPrinterName() {
+            return printerName;
+        }
+        public void setPrinterName(String printerName) {
+            this.printerName = printerName;
+        }
         public void setImageList(List<String> imageList) {
             this.imageList = imageList;
         }

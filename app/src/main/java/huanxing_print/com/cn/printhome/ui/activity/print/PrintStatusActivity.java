@@ -68,13 +68,17 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         findViewById(R.id.printTv).setOnClickListener(this);
         findViewById(R.id.shareTv).setOnClickListener(this);
         findViewById(R.id.commentTv).setOnClickListener(this);
+        findViewById(R.id.backImg).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         int id = v.getId();
         switch (id) {
+            case R.id.backImg:
+                startActivity(new Intent(context, MainActivity.class));
+                finish();
+                break;
             case R.id.errorExitTv:
                 finish();
                 break;

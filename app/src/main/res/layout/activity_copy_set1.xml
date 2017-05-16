@@ -9,8 +9,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ll_finish"
-        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -70,6 +68,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -115,7 +114,6 @@
                 <include layout="@layout/viewline1"/>
 
                 <LinearLayout
-                    android:id="@+id/directionLv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -302,7 +300,6 @@
                     android:id="@+id/scaleLyt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -328,7 +325,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="标准"
-                            android:textColor="@color/black2"
+                            android:textColor="@color/gray2"
                             android:textSize="16sp"/>
 
                         <ImageView
@@ -337,14 +334,14 @@
                             android:layout_height="30dp"
                             android:layout_marginLeft="15dp"
                             android:layout_marginRight="15dp"
-                            android:src="@drawable/off"/>
+                            android:src="@drawable/on"/>
 
                         <TextView
                             android:id="@+id/defTv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="自定"
-                            android:textColor="@color/gray2"
+                            android:textColor="@color/black2"
                             android:textSize="16sp"/>
                     </LinearLayout>
 
@@ -370,122 +367,117 @@
                             android:thumbOffset="0dp"/>
                     </LinearLayout>
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="@color/bc_gray"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="支付方式"
-                        android:textColor="@color/black2"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:id="@+id/tv_persion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="个人"
-                        android:textColor="@color/black2"
-                        android:textSize="16sp"/>
-
-                    <ImageView
-                        android:id="@+id/iv_copy_cz"
-                        android:layout_width="40dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:src="@drawable/off"/>
-
-                    <TextView
-                        android:id="@+id/tv_qun"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="共印群"
-                        android:textColor="@color/gray8"
-                        android:textSize="16sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_cz_persion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="充值"
-                        android:textColor="@color/black2"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="充值最高5折优惠"/>
-
-                    <ImageView
-                        android:id="@+id/iv_cz_persion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:src="@drawable/arrow_go"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_cz_qun"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        android:id="@+id/groupTv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="图牛研发打印群"
-                        android:textColor="@color/black2"
-                        android:textSize="16sp"/>
-
-                    <ImageView
-                        android:id="@+id/iv_cz_qun"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:src="@drawable/arrow_go"/>
-                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="支付方式"
+                android:textColor="@color/black2"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/tv_persion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个人"
+                android:textColor="@color/black2"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/iv_copy_cz"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/off"/>
+
+            <TextView
+                android:id="@+id/tv_qun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="共印群"
+                android:textColor="@color/gray8"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_cz_persion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="充值"
+                android:textColor="@color/black2"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="充值最高5折优惠"/>
+
+            <ImageView
+                android:id="@+id/iv_cz_persion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:src="@drawable/arrow_go"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_cz_qun"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/groupTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="图牛研发打印群"
+                android:textColor="@color/black2"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/iv_cz_qun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:src="@drawable/arrow_go"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

@@ -17,6 +17,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
 import static huanxing_print.com.cn.printhome.R.id.btn_confirm;
@@ -104,7 +105,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
                 String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                 Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                 printIntent.putExtra("imagepath", path);
-                printIntent.putExtra("copyfile", false);
+                printIntent.putExtra("print_type", PrintUtil.PRINT_TYPE_PASSFORT);
                 startActivity(printIntent);
                 finishCurrentActivity();
                 break;

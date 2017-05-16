@@ -32,6 +32,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.copy.BitmpaUtil;
 import huanxing_print.com.cn.printhome.util.copy.ClipPicUtil;
 import huanxing_print.com.cn.printhome.util.copy.OpenCVCallback;
@@ -335,7 +336,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + nameConfirm;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("copyfile", true);
+                    printIntent.putExtra("print_type", PrintUtil.PRINT_TYPE_FILE);
                     startActivity(printIntent);
                     finishCurrentActivity();
                 }
