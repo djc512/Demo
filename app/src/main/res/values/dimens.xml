@@ -81,11 +81,11 @@
     <dimen name="item_phone_icon_margin_r">15dp</dimen>
     <dimen name="item_phone_name_tv_size">15dp</dimen>
     <dimen name="item_phone_num_tv_size">10dp</dimen>
-    <dimen name="item_phone_btn_margin_r">30dp</dimen>
+    <dimen name="item_phone_btn_margin_r">20dp</dimen>
     <dimen name="item_phone_btn_margin_top">5dp</dimen>
     <dimen name="item_phone_btn_margin_bottom">5dp</dimen>
-    <dimen name="item_phone_btn_padding_l">20dp</dimen>
-    <dimen name="item_phone_btn_padding_r">20dp</dimen>
+    <dimen name="item_phone_btn_padding_l">10dp</dimen>
+    <dimen name="item_phone_btn_padding_r">10dp</dimen>
     
     <!--群组-->
     <dimen name="group_create_padding">5dp</dimen>
@@ -176,4 +176,27 @@
     <dimen name="group_mem_icon_w_h">50dp</dimen>
     <dimen name="group_mem_w_h">60dp</dimen>
     <dimen name="group_mem_del_icon_w_h">20dp</dimen>
+
+    <!--审批详情-->
+    <dimen name="approval_person_margin_t">10dp</dimen>
+    <dimen name="approval_person_icon_w_h">50dp</dimen>
+    <dimen name="approval_person_icon_padding_l">20dp</dimen>
+    <dimen name="approval_person_padding">20dp</dimen>
+    <dimen name="approval_line_h">1dp</dimen>
+    <dimen name="approval_msg_key_padding_l">20dp</dimen>
+    <dimen name="approval_msg_padding_t_b">5dp</dimen>
+    <dimen name="approval_msg_value_margin_l">70dp</dimen>
+    <dimen name="approval_msg_value_padding_l">30dp</dimen>
+    <dimen name="approval_sertificate_padding">10dp</dimen>
+    <dimen name="approval_member_margin_t">10dp</dimen>
+    <dimen name="approval_member_margin_b">10dp</dimen>
+    <dimen name="approval_copy_margin_t">5dp</dimen>
+    <dimen name="approval_copy_padding">15dp</dimen>
+    <dimen name="approval_copy_group_vertical">5dp</dimen>
+    <dimen name="approval_btn_margin_t">20dp</dimen>
+    <dimen name="approval_btn_ll_h">60dp</dimen>
+    <dimen name="approval_btn_margin_l_r">10dp</dimen>
+    <dimen name="approval_btn_margin_t_b">5dp</dimen>
+    <dimen name="approval_attachment_pic_w">90dp</dimen>
+    <dimen name="approval_attachment_pic_h">60dp</dimen>
 </resources>

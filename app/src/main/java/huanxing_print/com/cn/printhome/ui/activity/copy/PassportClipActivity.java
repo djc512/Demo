@@ -29,8 +29,8 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
     private ImageView iv_preview;
     private TextView btn_reset;
     private TextView btn_preview;
-    private double a4Width = 210;
-    private double a4Height = 297;
+    private double a4Width = 220;
+    private double a4Height = 307;
     private double passportWidth = 125;
     private double passportHeight = 88;
     private int screenWidth;
@@ -82,7 +82,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
         byte[] bytes = intent.getByteArrayExtra("bytes");
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
-        thumbnail = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7851));
+        thumbnail = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788*0.8684), (int) (ivHeight * 0.7851* 0.9101));
 
         iv_preview.setImageBitmap(thumbnail);
     }

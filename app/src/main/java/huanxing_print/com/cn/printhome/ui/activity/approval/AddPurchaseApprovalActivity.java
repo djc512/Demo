@@ -439,17 +439,17 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             return;
         }
         if (ObjectUtils.isNull(edt_buy_reason.getText().toString())) {
-            toast("采购事项不能为空!");
+            toast("用途说明不能为空!");
             return;
         }
         if (ObjectUtils.isNull(edt_purchasing_list.getText().toString())) {
             toast("采购清单不能为空!");
             return;
         }
-        if (ObjectUtils.isNull(edt_finish_time.getText().toString())) {
-            toast("完成日期不能为空!");
-            return;
-        }
+//        if (ObjectUtils.isNull(edt_finish_time.getText().toString())) {
+//            toast("完成日期不能为空!");
+//            return;
+//        }
         //构建审批人列表和抄送人列表
         if (0 == approvalFriends.size()) {
             ToastUtil.doToast(getSelfActivity(), "审批人列表不能为空");

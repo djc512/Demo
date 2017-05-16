@@ -28,7 +28,9 @@
                 android:layout_below="@id/round_head_image"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
-                android:text="刘鑫不在家,你想干嘛?"
+                android:maxEms="8"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColor="@color/text_gray"
                 android:textSize="@dimen/text_size_fourteen" />
 

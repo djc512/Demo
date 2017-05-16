@@ -30,7 +30,7 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
 public class IDClipActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_preview;
     private TextView btn_preview;
-//    private double a4Width = 210;
+    //    private double a4Width = 210;
 //    private double a4Height = 297;
     private double a4Width = 220;
     private double a4Height = 307;
@@ -118,7 +118,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7581));
+        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
         iv_preview.setImageBitmap(mBitmap);
     }
 
@@ -136,8 +136,8 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7581));
-        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7581));
+        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
+        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
 
         mergeBitmap = mergePic(bitmap1, bitmap2, ivWidth, ivHeight);
         iv_preview.setImageBitmap(mergeBitmap);

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
@@ -68,7 +69,11 @@ public class MyContactActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.rl_service:
-                startActivity(new Intent(MyContactActivity.this, SuggestActivity.class));
+                Intent chatIntent = new Intent(getSelfActivity(), ChatActivity.class);
+                chatIntent.putExtra("type", 2);
+                chatIntent.putExtra("id", "secretary");
+                chatIntent.putExtra("name", "印家小秘书");
+                startActivity(chatIntent);
                 break;
             case R.id.ll_back:
                 finishCurrentActivity();

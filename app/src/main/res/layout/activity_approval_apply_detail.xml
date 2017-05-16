@@ -18,7 +18,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="@dimen/approval_person_margin_t">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,11 +42,11 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_user_head"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="@dimen/approval_person_icon_w_h"
+                            android:layout_height="@dimen/approval_person_icon_w_h"
                             android:layout_gravity="center_vertical"
                             android:layout_toLeftOf="@+id/iv_right"
-                            android:paddingLeft="20dp"
+                            android:paddingLeft="@dimen/approval_person_icon_padding_l"
                             android:src="@drawable/iv_head" />
 
                         <LinearLayout
@@ -54,7 +54,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:orientation="vertical"
-                            android:padding="20dp">
+                            android:padding="@dimen/approval_person_padding">
 
                             <TextView
                                 android:id="@+id/iv_name"
@@ -75,7 +75,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="1dp"
+                        android:layout_marginTop="@dimen/approval_line_h"
                         android:background="@color/white"
                         android:orientation="horizontal">
 
@@ -83,9 +83,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:paddingBottom="5dp"
-                            android:paddingLeft="20dp"
-                            android:paddingTop="5dp"
+                            android:paddingBottom="@dimen/approval_msg_padding_t_b"
+                            android:paddingLeft="@dimen/approval_msg_key_padding_l"
+                            android:paddingTop="@dimen/approval_msg_padding_t_b"
                             android:text="审批编号"
                             android:textSize="12sp" />
 
@@ -93,12 +93,12 @@
                             android:id="@+id/tv_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="70dp"
+                            android:layout_marginLeft="@dimen/approval_msg_value_margin_l"
                             android:background="@color/white"
                             android:gravity="center_vertical"
-                            android:paddingBottom="5dp"
-                            android:paddingLeft="30dp"
-                            android:paddingTop="5dp"
+                            android:paddingBottom="@dimen/approval_msg_padding_t_b"
+                            android:paddingLeft="@dimen/approval_msg_value_padding_l"
+                            android:paddingTop="@dimen/approval_msg_padding_t_b"
                             android:text="456123456456678"
                             android:textSize="12sp" />
                     </RelativeLayout>
@@ -114,8 +114,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:paddingRight="10dp"
-                        android:paddingTop="10dp"
+                        android:paddingRight="@dimen/approval_sertificate_padding"
+                        android:paddingTop="@dimen/approval_sertificate_padding"
                         android:src="@drawable/certificate" />
                 </RelativeLayout>
             </FrameLayout>
@@ -130,9 +130,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
+                    android:paddingBottom="@dimen/approval_msg_padding_t_b"
+                    android:paddingLeft="@dimen/approval_msg_key_padding_l"
+                    android:paddingTop="@dimen/approval_msg_padding_t_b"
                     android:text="请款部门"
                     android:textSize="12sp"/>
 
@@ -140,12 +140,12 @@
                     android:id="@+id/tv_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="70dp"
+                    android:layout_marginLeft="@dimen/approval_msg_value_margin_l"
                     android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="30dp"
-                    android:paddingTop="5dp"
+                    android:paddingBottom="@dimen/approval_msg_padding_t_b"
+                    android:paddingLeft="@dimen/approval_msg_value_padding_l"
+                    android:paddingTop="@dimen/approval_msg_padding_t_b"
                     android:text="研发部"
                     android:textSize="12sp"/>
             </RelativeLayout>
@@ -165,9 +165,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
+                    android:paddingBottom="@dimen/approval_msg_padding_t_b"
+                    android:paddingLeft="@dimen/approval_msg_key_padding_l"
+                    android:paddingTop="@dimen/approval_msg_padding_t_b"
                     android:text="金额总计"
                     android:textSize="12sp"/>
 
@@ -175,11 +175,12 @@
                     android:id="@+id/tv_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="100dp"
+                    android:layout_marginLeft="@dimen/approval_msg_value_margin_l"
                     android:background="@color/white"
                     android:gravity="center_vertical"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
+                    android:paddingLeft="@dimen/approval_msg_value_padding_l"
+                    android:paddingBottom="@dimen/approval_msg_padding_t_b"
+                    android:paddingTop="@dimen/approval_msg_padding_t_b"
                     android:text="1000元"
                     android:textSize="12sp"/>
             </RelativeLayout>
@@ -188,7 +189,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
+                android:layout_marginTop="@dimen/approval_line_h"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -197,9 +198,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
+                    android:paddingBottom="@dimen/approval_msg_padding_t_b"
+                    android:paddingLeft="@dimen/approval_msg_key_padding_l"
+                    android:paddingTop="@dimen/approval_msg_padding_t_b"
                     android:text="图片  "
                     android:textSize="12sp"/>
 
@@ -212,8 +213,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="@dimen/approval_msg_padding_t_b"
+                android:paddingTop="@dimen/approval_msg_padding_t_b"
                 android:text="备注:审批结束后,图片保留30天"
                 android:textColor="@color/title_color"
                 android:textSize="12dp"/>
@@ -221,17 +222,17 @@
             <huanxing_print.com.cn.printhome.view.ScrollListView
                 android:id="@+id/ll_approval_process"
                 android:layout_width="match_parent"
-                android:layout_height="310dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/approval_member_margin_t"
                 android:divider="@null"
-                android:paddingBottom="10dp"/>
+                android:paddingBottom="@dimen/approval_member_margin_b"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/approval_copy_margin_t"
                 android:background="@color/white"
-                android:padding="15dp"
+                android:padding="@dimen/approval_copy_padding"
                 android:text="抄送人"/>
 
             <huanxing_print.com.cn.printhome.view.ScrollGridView
@@ -240,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:numColumns="5"
-                android:verticalSpacing="5dp">
+                android:verticalSpacing="@dimen/approval_copy_group_vertical">
             </huanxing_print.com.cn.printhome.view.ScrollGridView>
 
 
@@ -273,13 +274,13 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/approval_btn_margin_t"
                 android:background="@color/white">
 
                 <LinearLayout
                     android:id="@+id/ll_revoke"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/approval_btn_ll_h"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
@@ -287,10 +288,10 @@
                         android:id="@+id/btn_revoke"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/approval_btn_margin_t_b"
+                        android:layout_marginLeft="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginRight="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginTop="@dimen/approval_btn_margin_t_b"
                         android:background="@drawable/broder_blue_full"
                         android:text="撤回"
                         android:textColor="@color/white"/>
@@ -298,17 +299,17 @@
                 <LinearLayout
                     android:id="@+id/ll_pass"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/approval_btn_ll_h"
                     android:orientation="horizontal"
                     android:visibility="gone">
                     <Button
                         android:id="@+id/btn_reject"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="6dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/approval_btn_margin_t_b"
+                        android:layout_marginLeft="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginRight="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginTop="@dimen/approval_btn_margin_t_b"
                         android:layout_weight="2"
                         android:background="@drawable/broder_yellow_full"
                         android:text="驳回"
@@ -319,10 +320,10 @@
                         android:id="@+id/btn_pass"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/approval_btn_margin_t_b"
+                        android:layout_marginLeft="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginRight="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginTop="@dimen/approval_btn_margin_t_b"
                         android:layout_weight="1"
                         android:background="@drawable/broder_blue_full"
                         android:text="同意并签字"
@@ -333,7 +334,7 @@
                 <LinearLayout
                     android:id="@+id/ll_print"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/approval_btn_ll_h"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
@@ -341,10 +342,10 @@
                         android:id="@+id/btn_print"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/approval_btn_margin_t_b"
+                        android:layout_marginLeft="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginRight="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginTop="@dimen/approval_btn_margin_t_b"
                         android:background="@drawable/broder_blue_full"
                         android:text="生成凭证"
                         android:textColor="@color/white"/>
@@ -352,7 +353,7 @@
                 <LinearLayout
                     android:id="@+id/ll_look"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/approval_btn_ll_h"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
@@ -360,10 +361,10 @@
                         android:id="@+id/btn_look"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/approval_btn_margin_t_b"
+                        android:layout_marginLeft="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginRight="@dimen/approval_btn_margin_l_r"
+                        android:layout_marginTop="@dimen/approval_btn_margin_t_b"
                         android:background="@drawable/broder_blue_full"
                         android:text="查看凭证"
                         android:textColor="@color/white"/>
