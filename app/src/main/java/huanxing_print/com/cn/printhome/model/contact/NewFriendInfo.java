@@ -11,7 +11,7 @@ public class NewFriendInfo implements Parcelable {
     private int showType;//用于界面显示item
     private String memberId;//会员id
     private String memberName;//名称
-    private String memebrUrl;//头像
+    private String memberUrl;//头像
     private String note;//备注
     private String type;//0显示接受按钮,1已添加,2等待验证
 
@@ -23,7 +23,7 @@ public class NewFriendInfo implements Parcelable {
         showType = in.readInt();
         memberId = in.readString();
         memberName = in.readString();
-        memebrUrl = in.readString();
+        memberUrl = in.readString();
         note = in.readString();
         type = in.readString();
     }
@@ -33,7 +33,7 @@ public class NewFriendInfo implements Parcelable {
         dest.writeInt(showType);
         dest.writeString(memberId);
         dest.writeString(memberName);
-        dest.writeString(memebrUrl);
+        dest.writeString(memberUrl);
         dest.writeString(note);
         dest.writeString(type);
     }
@@ -79,12 +79,12 @@ public class NewFriendInfo implements Parcelable {
         this.memberName = memberName;
     }
 
-    public String getMemebrUrl() {
-        return memebrUrl;
+    public String getMemberUrl() {
+        return memberUrl;
     }
 
-    public void setMemebrUrl(String memebrUrl) {
-        this.memebrUrl = memebrUrl;
+    public void setMemberUrl(String memberUrl) {
+        this.memberUrl = memberUrl;
     }
 
     public String getNote() {
