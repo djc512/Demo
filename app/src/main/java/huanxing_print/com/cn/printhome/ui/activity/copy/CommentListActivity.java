@@ -169,8 +169,6 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
         ll_medium.setOnClickListener(this);
         ll_bad.setOnClickListener(this);
 
-        ll_good.performClick();
-
         vp_comment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
