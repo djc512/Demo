@@ -32,7 +32,6 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.copy.BitmapCorrectUtil;
 import huanxing_print.com.cn.printhome.util.copy.BitmpaUtil;
 import huanxing_print.com.cn.printhome.util.copy.ClipPicUtil;
 import huanxing_print.com.cn.printhome.util.copy.OpenCVCallback;
@@ -415,13 +414,13 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAPTURE && resultCode == RESULT_OK) {
             uri = Uri.fromFile(tempFile);
-            path = BitmapCorrectUtil.uriTopath(ctx, uri);
+//            path = BitmapCorrectUtil.uriTopath(ctx, uri);
         }
         ll.setVisibility(View.VISIBLE);
         ll1.setVisibility(View.GONE);
         try {
             mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-            trunBitmap();
+//            trunBitmap();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -433,13 +432,13 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
     /**
      * 判断是否需要旋转角度
      */
-    private void trunBitmap() {
-        int bitmapDegree = BitmapCorrectUtil.getBitmapDegree(path);
-        if (bitmapDegree == 90) {
-            rotateBitmap = BitmapCorrectUtil.rotateBitmapByDegree(mBitmap, 0);
-            mBitmap = rotateBitmap;
-        }
-    }
+//    private void trunBitmap() {
+//        int bitmapDegree = BitmapCorrectUtil.getBitmapDegree(path);
+//        if (bitmapDegree == 90) {
+//            rotateBitmap = BitmapCorrectUtil.rotateBitmapByDegree(mBitmap, 0);
+//            mBitmap = rotateBitmap;
+//        }
+//    }
 
     /**
      * 拍照
