@@ -108,19 +108,19 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private TextView defaultTv;
     private TextView defTv;
     private LinearLayout scaleLyt;
+    private LinearLayout directionLv;
 
 
     private List<GroupResp.Group> groupList = new ArrayList<>();
     private String printerNo;
     private PrintSetting printSetting;
     private PrintSetting newSetting;
-    private String printType;
+    private int printType;
     private PrintInfoResp.PrinterPrice printerPrice;
     private long orderId;
     private GroupResp.Group group;
     private int scaleRatio = 100;
     private boolean isStandard = true;
-    private boolean isFileCopy = false;
 
     //    colourFlag	彩色打印0-彩色 1-黑白	number
     //    directionFlag	方向标识0-横版  1-竖版	number
@@ -155,10 +155,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     private void initData() {
         Bundle bundle = getIntent().getExtras();
-        printType = bundle.getString(PRINT_TYPE);
+        printType = bundle.getInt(PRINT_TYPE);
         printerNo = bundle.getString(PRINTER_NO);
         printSetting = bundle.getParcelable(PRINT_SETTING);
-        isFileCopy = bundle.getBoolean(COPY_FILE_FLAG);
         newSetting = printSetting.clone();
         newSetting.setScaleRatio(100);
 
@@ -403,6 +402,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initView() {
+        directionLv = (LinearLayout) findViewById(R.id.directionLv);
         scaleLyt = (LinearLayout) findViewById(R.id.scaleLyt);
         defaultTv = (TextView) findViewById(R.id.defaultTv);
         defTv = (TextView) findViewById(R.id.defTv);
@@ -517,13 +517,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             tv_single.setTextColor(getResources().getColor(R.color.black2));
             tv_double.setTextColor(getResources().getColor(R.color.gray8));
         }
-        if (isFileCopy) {
-            printTypeLyt.setVisibility(View.GONE);
-            scaleLyt.setVisibility(View.VISIBLE);
-        } else {
-            printTypeLyt.setVisibility(View.VISIBLE);
-            scaleLyt.setVisibility(View.GONE);
-        }
         if (isStandard) {
             seekLyt.setVisibility(View.GONE);
             defTv.setTextColor(getResources().getColor(R.color.gray8));
@@ -537,6 +530,29 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
             defTv.setTextColor(getResources().getColor(R.color.black2));
             defaultTv.setTextColor(getResources().getColor(R.color.gray8));
+        }
+        if (printType == PrintUtil.PRINT_TYPE_FILE) {
+            printTypeLyt.setVisibility(View.GONE);
+            scaleLyt.setVisibility(View.VISIBLE);
+        }
+        if (printType == PrintUtil.PRINT_TYPE_ID) {
+            printTypeLyt.setVisibility(View.GONE);
+            scaleLyt.setVisibility(View.GONE);
+            directionLv.setVisibility(View.GONE);
+        }
+        if (printType == PrintUtil.PRINT_TYPE_CENSUS) {
+            printTypeLyt.setVisibility(View.GONE);
+            scaleLyt.setVisibility(View.GONE);
+            directionLv.setVisibility(View.GONE);
+        }
+        if (printType == PrintUtil.PRINT_TYPE_PASSFORT) {
+            printTypeLyt.setVisibility(View.GONE);
+            scaleLyt.setVisibility(View.GONE);
+            directionLv.setVisibility(View.GONE);
+        }
+        if (printType == PrintUtil.PRINT_TYPE_PRINT) {
+            printTypeLyt.setVisibility(View.VISIBLE);
+            scaleLyt.setVisibility(View.GONE);
         }
     }
 
