@@ -14,6 +14,10 @@ public class PrintUtil {
     public static final String TYPE_AUTN = "2";//复印
 
     public static final int PRINT_TYPE_FILE = 1;//复印文件
+    public static final int PRINT_TYPE_ID = 2;//复印身份证
+    public static final int PRINT_TYPE_CENSUS = 3;//复印户口本
+    public static final int PRINT_TYPE_PASSFORT = 4;//复印护照
+    public static final int PRINT_TYPE_PRINT = 5;//打印
 
     public static final int SETTING_BLACK = 1;//设置黑白
     public static final int SETTING_COLOR = 0;//设置彩色

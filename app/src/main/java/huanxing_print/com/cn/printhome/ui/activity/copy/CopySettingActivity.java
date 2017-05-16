@@ -119,7 +119,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private long orderId;
     private GroupResp.Group group;
     private int scaleRatio = 100;
-    private boolean isStandard = false;
+    private boolean isStandard = true;
     private boolean isFileCopy = false;
 
     //    colourFlag	彩色打印0-彩色 1-黑白	number
@@ -523,6 +523,20 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         } else {
             printTypeLyt.setVisibility(View.VISIBLE);
             scaleLyt.setVisibility(View.GONE);
+        }
+        if (isStandard) {
+            seekLyt.setVisibility(View.GONE);
+            defTv.setTextColor(getResources().getColor(R.color.gray8));
+            defaultTv.setTextColor(getResources().getColor(R.color.black2));
+            scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+            isStandard = true;
+            scaleRatio = 100;
+            seekBar.setProgress(100);
+        } else {
+            seekLyt.setVisibility(View.VISIBLE);
+            scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+            defTv.setTextColor(getResources().getColor(R.color.black2));
+            defaultTv.setTextColor(getResources().getColor(R.color.gray8));
         }
     }
 

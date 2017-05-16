@@ -113,6 +113,8 @@ public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapte
         viewHolder.nameTv.setText(file.getName());
         if (!FileType.isPrintType(file.getPath())) {
             viewHolder.nameTv.setTextColor(ContextCompat.getColor(context, R.color.text_gray));
+        } else {
+            viewHolder.nameTv.setTextColor(ContextCompat.getColor(context, R.color.text_black));
         }
         viewHolder.timeTv.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(file
                 .lastModified()));
