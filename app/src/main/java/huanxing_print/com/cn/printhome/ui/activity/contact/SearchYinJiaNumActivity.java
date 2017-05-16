@@ -18,6 +18,7 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -70,6 +71,10 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
             case R.id.show_search_content:
 
                 String searchStr = searchEt.getText().toString();
+                if(baseApplication.getPhone().equals(searchStr) || baseApplication.getUniqueId().equals(searchStr)) {
+                    ToastUtil.doToast(SearchYinJiaNumActivity.this,"不能添加自己为联系人");
+                    return;
+                }
                 if(searchStr.length() >= 6 && searchStr.length() <= 14 && (isStartLetter(searchStr) || isStartNum(searchStr))) {
                     String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                             "loginToken");
@@ -127,9 +132,15 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
         public void success(String msg, FriendSearchInfo friendSearchInfo) {
             DialogUtils.closeProgressDialog();
             if(null != friendSearchInfo) {
-                ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
-                infos.add(friendSearchInfo);
-                startActivity(infos);
+                if(1 == friendSearchInfo.getIsFriend()) {
+                    Intent intent = new Intent(SearchYinJiaNumActivity.this, ChatActivity.class);
+                    intent.putExtra("FriendSearchInfo", friendSearchInfo);
+                    startActivity(intent);
+                }else {
+                    ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
+                    infos.add(friendSearchInfo);
+                    startActivity(infos);
+                }
             }
         }
 
