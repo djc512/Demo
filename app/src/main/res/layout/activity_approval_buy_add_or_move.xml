@@ -346,20 +346,21 @@
             </LinearLayout>
 
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/white">
 
                 <LinearLayout
-                    android:id="@+id/ll_remove"
+                    android:id="@+id/ll_revoke"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:orientation="horizontal">
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <Button
-                        android:id="@+id/btn_certificate"
+                        android:id="@+id/btn_revoke"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp"
@@ -367,20 +368,16 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/broder_blue_full"
-                        android:text="生成凭证"
-                        android:textSize="18dp" />
+                        android:text="撤回"/>
                 </LinearLayout>
-
                 <LinearLayout
-
-                    android:id="@+id/bt_reject_agree"
+                    android:id="@+id/ll_pass"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:orientation="horizontal">
-
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
                     <Button
-                        android:id="@+id/btn_bohui"
+                        android:id="@+id/btn_reject"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp"
@@ -390,10 +387,10 @@
                         android:layout_weight="2"
                         android:background="@drawable/broder_yellow_full"
                         android:text="驳回"
-                        android:textSize="18dp" />
+                        android:textSize="18dp"/>
 
                     <Button
-                        android:id="@+id/btn_agree"
+                        android:id="@+id/btn_pass"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="5dp"
@@ -403,10 +400,46 @@
                         android:layout_weight="1"
                         android:background="@drawable/broder_blue_full"
                         android:text="同意并签字"
-                        android:textSize="18dp" />
+                        android:textSize="18dp"/>
 
                 </LinearLayout>
-            </FrameLayout>
+                <LinearLayout
+                    android:id="@+id/ll_print"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btn_print"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/broder_blue_full"
+                        android:text="生成凭证"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_look"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btn_look"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/broder_blue_full"
+                        android:text="查看凭证"/>
+                </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 
