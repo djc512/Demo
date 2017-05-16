@@ -550,7 +550,7 @@ public class HttpUtils {
      * @param callback
      */
     public static void getGroupMsgParam(Object obj, final String url, String loginToken, String groupId,
-                                        final HttpCallBack callback) {
+                                        String easemobGroupId, final HttpCallBack callback) {
         //String paramsStr = new GsonBuilder().serializeNulls().create().toJson(params);
         //Logger.d("http-request:" + url + "----" + "----" + paramsStr);
         TimeUtils.beginTime();
@@ -558,6 +558,7 @@ public class HttpUtils {
                 .addHeader("loginToken", loginToken)
                 .addHeader("platform", ConFig.PHONE_TYPE)
                 .addParams("groupId", groupId)
+                .addParams("easemobGroupId", easemobGroupId)
                 .tag(obj).build().execute(new StringCallback() {
 
             @Override
