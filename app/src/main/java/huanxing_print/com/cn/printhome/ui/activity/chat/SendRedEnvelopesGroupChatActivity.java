@@ -15,6 +15,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.chat.LuckyPackage;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
+import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.chat.SendCommonPackageCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.SendLuckyPackageCallBack;
 import huanxing_print.com.cn.printhome.net.request.chat.ChatRequest;
@@ -42,7 +43,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     private TextView txt_group_bottom;//群红包不可领取说明
     private Button btn_plug_money;
     private boolean isLuck = true;//拼手气
-    private GroupInfo groupInfo;
+    private GroupMessageInfo groupInfo;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -188,7 +189,8 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
             String amount = edt_single_money.getText().toString();
             String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
             int number = Integer.parseInt(edt_red_package_num.getText().toString());
-            String easemobGroupId = null == groupInfo.getEasemobGroupId() ? "" : groupInfo.getEasemobGroupId();
+            String easemobGroupId="";
+            //String easemobGroupId = null == groupInfo.getEasemobGroupId() ? "" : groupInfo.getEasemobGroupId();
             String groupId = null == groupInfo.getGroupId() ? "" : groupInfo.getGroupId();
             if(!easemobGroupId.isEmpty() || !groupId.isEmpty()) {
                 //Todo 执行发红包操作
@@ -200,7 +202,8 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
             //Todo 群红包
             String amount = edt_single_money.getText().toString();
             String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
-            String easemobGroupId = null == groupInfo.getEasemobGroupId() ? "" : groupInfo.getEasemobGroupId();
+            String easemobGroupId="";
+            //String easemobGroupId = null == groupInfo.getEasemobGroupId() ? "" : groupInfo.getEasemobGroupId();
             String groupId = null == groupInfo.getGroupId() ? "" : groupInfo.getGroupId();
             if(!easemobGroupId.isEmpty() || !groupId.isEmpty()) {
                 //Todo 执行发红包操作

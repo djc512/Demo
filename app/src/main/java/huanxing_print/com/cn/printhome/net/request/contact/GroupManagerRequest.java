@@ -22,9 +22,10 @@ import huanxing_print.com.cn.printhome.util.HttpUtils;
  * Created by wanghao on 2017/5/8.
  */
 
-public class GroupManagerRequest extends BaseRequst{
+public class GroupManagerRequest extends BaseRequst {
     /**
      * 查询群列表
+     *
      * @param ctx
      * @param logintoken
      * @param callback
@@ -48,6 +49,7 @@ public class GroupManagerRequest extends BaseRequst{
 
     /**
      * 添加群
+     *
      * @param ctx
      * @param logintoken
      * @param params
@@ -72,6 +74,7 @@ public class GroupManagerRequest extends BaseRequst{
 
     /**
      * 群信息查询
+     *
      * @param ctx
      * @param logintoken
      * @param groupId
@@ -97,6 +100,7 @@ public class GroupManagerRequest extends BaseRequst{
 
     /**
      * 添加群成员
+     *
      * @param ctx
      * @param logintoken
      * @param params
@@ -122,6 +126,7 @@ public class GroupManagerRequest extends BaseRequst{
 
     /**
      * 删除群成员
+     *
      * @param ctx
      * @param logintoken
      * @param params
@@ -147,6 +152,7 @@ public class GroupManagerRequest extends BaseRequst{
 
     /**
      * 退出群
+     *
      * @param ctx
      * @param logintoken
      * @param params
@@ -172,6 +178,7 @@ public class GroupManagerRequest extends BaseRequst{
 
     /**
      * 群转让
+     *
      * @param ctx
      * @param logintoken
      * @param params
@@ -197,6 +204,7 @@ public class GroupManagerRequest extends BaseRequst{
 
     /**
      * 解散群
+     *
      * @param ctx
      * @param logintoken
      * @param params
@@ -219,8 +227,10 @@ public class GroupManagerRequest extends BaseRequst{
             }
         });
     }
+
     /**
      * 修改群
+     *
      * @param ctx
      * @param logintoken
      * @param params

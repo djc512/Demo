@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="true"
     android:background="@color/all_bg_color"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -21,20 +20,29 @@
             android:id="@+id/tv_title"
             style="@style/title"
             android:text="聊天界面" />
+
+        <ImageView
+            android:id="@+id/addImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/group_setting" />
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        ></android.support.v7.widget.RecyclerView>
+        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
 
 
     <android.support.v7.widget.CardView
-        app:cardElevation="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,121 +56,135 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:hint="消息"/>
+                android:hint="消息" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <Button
                     android:id="@+id/btn_send"
-                    android:background="@drawable/btn_send_selector"
                     android:layout_width="65dp"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/btn_send_selector"
                     android:text="发送"
                     android:textColor="#ffffff"
-                    android:visibility="gone"/>
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+
                 <ImageView
                     android:id="@+id/iv_add"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="65dp"
                     android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
-                    android:src="@drawable/add1_chat"/>
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/add1_chat" />
             </FrameLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
     <LinearLayout
         android:id="@+id/ll_add_file"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:padding="20dp"
-            android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:padding="20dp"
         android:visibility="gone">
+
         <LinearLayout
             android:id="@+id/ll_photo"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:padding="10dp"
-                android:layout_gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:src="@drawable/photo_chat"/>
-            <TextView
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="相册"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_camera"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
             <ImageView
                 android:layout_width="wrap_content"
-                android:padding="10dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:src="@drawable/camera_chat"/>
-            <TextView
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="拍摄"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_file"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="wrap_content"
                 android:padding="10dp"
-                android:layout_gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:src="@drawable/file_chat"/>
+                android:src="@drawable/photo_chat" />
+
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="文件"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_red_packet"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:padding="10dp"
-                android:layout_gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:src="@drawable/hongbao_chat"/>
-            <TextView
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="红包"/>
+                android:text="相册" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="10dp"
+                android:src="@drawable/camera_chat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="拍摄" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="10dp"
+                android:src="@drawable/file_chat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="文件" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_red_packet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="10dp"
+                android:src="@drawable/hongbao_chat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="红包" />
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

@@ -35,6 +35,7 @@
     </declare-styleable>
 
     <!--EasyUi-->
+
     <declare-styleable name="EaseChatMessageList">
         <attr name="msgListMyBubbleBackground" format="reference" />
         <attr name="msgListOtherBubbleBackground" format="reference" />

@@ -15,6 +15,7 @@ import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.widget.EaseConversationList;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,7 +31,9 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
+import huanxing_print.com.cn.printhome.ui.activity.contact.ListAddContactActivity;
+import huanxing_print.com.cn.printhome.util.Constant;
 
 public class ChatFragment extends BaseFragment implements OnClickListener {
 
@@ -70,20 +73,22 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
                 //单聊
                 EMMessage message = conversation.getLatestMessageFromOthers();
 
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                Intent intent = new Intent(getActivity(), ChatTestActivity.class);
                 if (EMConversation.EMConversationType.GroupChat ==
                         conversation.getType()) {
-                    intent.putExtra("type", 1);
-                    intent.putExtra("id", conversation.conversationId());
+//                    intent.putExtra("type", EaseConstant.CHATTYPE_GROUP);
+                    intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
+                    intent.putExtra(Constant.EXTRA_USER_ID, conversation.conversationId());
                     intent.putExtra("name", conversation.conversationId());
                 } else if (EMConversation.EMConversationType.ChatRoom ==
                         conversation.getType()) {
-                    intent.putExtra("type", 3);
-                    intent.putExtra("id", conversation.conversationId());
+                    intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_CHATROOM);
+                    intent.putExtra(Constant.EXTRA_USER_ID, conversation.conversationId());
                     intent.putExtra("name", conversation.conversationId());
                 } else {
-                    intent.putExtra("type", 2);
-                    intent.putExtra("id", message.getFrom());
+                    intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+                    intent.putExtra(Constant.EXTRA_USER_ID, message.getFrom());
                     intent.putExtra("name", message.getUserName());
                 }
                 startActivity(intent);
@@ -105,6 +110,8 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addImg:
+                //跳转到联系人界面
+                startActivity(new Intent(getActivity(), ListAddContactActivity.class));
                 break;
             default:
                 break;
