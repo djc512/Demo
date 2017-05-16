@@ -77,10 +77,10 @@ public class GroupManagerRequest extends BaseRequst{
      * @param groupId
      * @param callback
      */
-    public static void queryGroupMessage(Context ctx, String logintoken, String groupId, final GroupMessageCallback callback) {
+    public static void queryGroupMessage(Context ctx, String logintoken, String groupId, String easemobGroupId, final GroupMessageCallback callback) {
         String queryGroupMsgUrl = HTTP_URL + HttpUrl.queryGroupMsg;
 
-        HttpUtils.getGroupMsgParam(ctx, queryGroupMsgUrl, logintoken, groupId, new HttpCallBack() {
+        HttpUtils.getGroupMsgParam(ctx, queryGroupMsgUrl, logintoken, groupId, easemobGroupId, new HttpCallBack() {
             @Override
             public void success(String content) {
                 Log.e("wanghao", "getGroupMsgParam" + content);

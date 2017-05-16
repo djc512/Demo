@@ -150,7 +150,7 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         private void loadPic(NewFriendInfo info) {
-            Glide.with(mContext).load(info.getMemebrUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+            Glide.with(mContext).load(info.getMemberUrl()).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
                 @Override
                 public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                     icon.setImageDrawable(resource);

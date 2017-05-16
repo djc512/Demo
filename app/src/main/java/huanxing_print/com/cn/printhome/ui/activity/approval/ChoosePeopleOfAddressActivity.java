@@ -86,7 +86,7 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
         //请求群数据
         DialogUtils.showProgressDialog(this, "加载中").show();
         GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
-                groupId, groupMessageCallback);
+                groupId, "", groupMessageCallback);
     }
 
     GroupMessageCallback groupMessageCallback = new GroupMessageCallback() {

@@ -56,11 +56,14 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        if (bitMap != null) {
+        if (null != bitMap) {
             iv_head.setImageBitmap(bitMap);
         }
-        if (name != null) {
+        if (!ObjectUtils.isNull(name)) {
             tv_name.setText(name);
+        }
+        if (!ObjectUtils.isNull(uniqueId)) {
+            tv_uniqueid.setText(uniqueId);
         }
     }
 
@@ -75,6 +78,11 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     @Subscriber(tag = "name")
     private void getname(String name) {
         this.name = name;
+    }
+
+    @Subscriber(tag = "uniqueId")
+    private void getuniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 
     @Override
