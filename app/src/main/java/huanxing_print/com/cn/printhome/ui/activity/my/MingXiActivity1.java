@@ -126,7 +126,8 @@ public class MingXiActivity1 extends BaseActivity implements View.OnClickListene
 
                     @Override
                     public void fail(String msg) {
-
+                        xrf_zdmx.stopLoadMore();
+                        xrf_zdmx.stopRefresh();
                     }
 
                     @Override
