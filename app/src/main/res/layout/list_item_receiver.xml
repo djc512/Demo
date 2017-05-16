@@ -19,21 +19,39 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/iv_avatar"
         android:layout_margin="3dp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/a"
         android:layout_width="60dp"
         android:layout_height="60dp"/>
-    
-    <TextView
-        android:gravity="center"
-        android:background="@drawable/receive_msg_normal"
-        android:layout_gravity="center_vertical"
-        android:id="@+id/tv_msg"
-        android:text="你好，今晚一起游泳！"
+    <FrameLayout
+        android:id="@+id/fl_chat"
         android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:layout_toLeftOf="@id/iv_avatar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:background="@drawable/receive_msg_normal"
+            android:id="@+id/tv_msg"
+            android:text="你好，今晚一起游泳！"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/iv_pic"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"
+            android:src="@drawable/msg_state_animation"
+            android:layout_toLeftOf="@id/fl_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
 
 </LinearLayout>
 

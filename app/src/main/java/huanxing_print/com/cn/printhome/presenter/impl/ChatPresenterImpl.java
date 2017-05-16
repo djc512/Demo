@@ -25,33 +25,38 @@ public class ChatPresenterImpl implements ChatPresenter {
     private ChatView mChatView;
     private List<EMMessage> mEMMessageList = new ArrayList<>();
     private int type = 1;
+    private static final int TEXT = 0;//文本
+    private static final int PIC = 1;//图片
 
     public ChatPresenterImpl(ChatView chatView) {
         mChatView = chatView;
     }
 
     @Override
-    public void initChat(String contact) {
+    public void initChat(String contact,int kind) {
 
         /**
          * 1. 如果曾经跟contact有聊天过，那么获取最多最近的20条聊天记录，然后展示到View层
          * 2. 如果没有聊天过，返回一个空的List
          */
-        updateChatData(contact);
+        updateChatData(contact,kind);
         mChatView.onInit(mEMMessageList);
     }
 
     @Override
-    public void updateData(String username) {
-        updateChatData(username);
+    public void updateData(String username,int kind) {
+        updateChatData(username,kind);
         mChatView.onUpdate(mEMMessageList.size());
     }
 
     @Override
-    public void sendMessage(String username, String msg, int chatType) {
+    public void sendMessage(String username, String msg, int chatType,int kind) {
         EMMessage emMessage = EMMessage.createTxtSendMessage(msg, username);
 
         Log.i("CMCC", "chatType:" + chatType);
+        //给发送的消息添加kind属性
+        emMessage.setAttribute("kind",kind);
+
         //如果是群聊，设置chattype，默认是单聊
         if (chatType == type) {
             Log.i("CMCC", "22222222");
@@ -79,13 +84,16 @@ public class ChatPresenterImpl implements ChatPresenter {
     }
 
     @Override
-    public void sendGroupMessage(String username, EMMessage msg) {
-        EMMessage emMessage = EMMessage.createTxtSendMessage(msg.getFrom(), username);
-
+    public void sendImgMessage(String toChatUsername, String url,int chatType,int kind) {
+        //imagePath为图片本地路径，false为不发送原图（默认超过100k的图片会压缩后发给对方），需要发送原图传true
+        EMMessage emMessage =EMMessage.createImageSendMessage(url, false, toChatUsername);
+        //给发送的消息添加kind属性
+        emMessage.setAttribute("kind",kind);
         //如果是群聊，设置chattype，默认是单聊
-        //if (chatType == CHATTYPE_GROUP);
-        //emMessage.setChatType(EMMessage.ChatType.GroupChat);
+        if (chatType == type)
+            emMessage.setChatType(EMMessage.ChatType.GroupChat);
 
+        //emMessage.setChatType(EMMessage.ChatType.GroupChat);
         emMessage.setStatus(EMMessage.Status.INPROGRESS);
         mEMMessageList.add(emMessage);
         mChatView.onUpdate(mEMMessageList.size());
@@ -105,7 +113,7 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     }
 
-    private void updateChatData(String contact) {
+    private void updateChatData(String contact,int kind) {
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(contact);
         if (conversation != null) {
             //需要将所有的未读消息标记为已读
