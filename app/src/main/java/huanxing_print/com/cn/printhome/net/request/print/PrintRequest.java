@@ -261,7 +261,7 @@ public class PrintRequest extends BaseRequst {
     public static final void queryIsOnline(Activity activity, String printerNo, final HttpListener callback) {
         String url = BASE_URL + QUERY_PRINTER_ISONLINE;
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put(PRINT_NO, printerNo);
+        params.put(PRINTER_NO, printerNo);
         Http.get(activity, url, params, getHeaderTokenMap(), callback, false);
     }
 

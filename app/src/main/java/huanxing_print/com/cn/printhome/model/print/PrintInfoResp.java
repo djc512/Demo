@@ -163,6 +163,27 @@ public class PrintInfoResp extends CommonResp {
         }
 
         @Override
+        public String toString() {
+            return "PrinterPrice{" +
+                    "a3Num='" + a3Num + '\'' +
+                    ", a4Num='" + a4Num + '\'' +
+                    ", a3BlackPrice='" + a3BlackPrice + '\'' +
+                    ", a3ColorPrice='" + a3ColorPrice + '\'' +
+                    ", a4BlackPrice='" + a4BlackPrice + '\'' +
+                    ", a4ColorPrice='" + a4ColorPrice + '\'' +
+                    ", capability='" + capability + '\'' +
+                    ", companyName='" + companyName + '\'' +
+                    ", printAddress='" + printAddress + '\'' +
+                    ", printerType='" + printerType + '\'' +
+                    ", telPhone='" + telPhone + '\'' +
+                    ", printName='" + printName + '\'' +
+                    ", resolution='" + resolution + '\'' +
+                    ", technicalType='" + technicalType + '\'' +
+                    ", printerNo='" + printerNo + '\'' +
+                    '}';
+        }
+
+        @Override
         public int describeContents() {
             return 0;
         }

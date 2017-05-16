@@ -66,7 +66,6 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private TabLayout tabLayout;
     private AllFileFragment allFileFragment;
     private int index = 0;
-    private PrintInfoResp.PrinterPrice printPrinterPrice;
 
     private static final int REQUEST_CODE = 1;
     private static final int REQUEST_IMG = 1;
@@ -96,13 +95,10 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     private void initData() {
         Bundle bundle = getIntent().getExtras();
         index = bundle.getInt(INDEX);
-        printPrinterPrice = bundle.getParcelable(PRINTER_PRICE);
         Logger.i(index);
-        Logger.i(printPrinterPrice.toString());
     }
 
     public static final String INDEX = "index";
-    public static final String PRINTER_PRICE = "printer_price";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, AddFileActivity.class);

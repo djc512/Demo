@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="仅支持黑白"
+                android:text=""
                 android:textColor="@color/text_gray"
                 android:textSize="16sp"/>
         </RelativeLayout>
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:text="黑色 A4 ￥0.3   A3 ￥0.6"
+                android:text=""
                 android:textColor="@color/text_gray"
                 android:textSize="16sp"/>
 
@@ -161,7 +161,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/backPriceTv"
                 android:layout_marginTop="5dp"
-                android:text="彩色 A4 ￥0.3   A3 ￥0.6"
+                android:text=""
                 android:textColor="@color/text_gray"
                 android:textSize="16sp"/>
 
@@ -201,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="1200*1200dp"
+                android:text=""
                 android:textColor="@color/text_gray"
                 android:textSize="16sp"/>
         </LinearLayout>
@@ -227,7 +227,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="仅支持激光"
+                android:text=""
                 android:textColor="@color/text_gray"
                 android:textSize="16sp"/>
         </LinearLayout>
@@ -252,7 +252,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="A4 2000张"
+                android:text=""
                 android:textColor="@color/text_gray"
                 android:textSize="16sp"/>
         </LinearLayout>

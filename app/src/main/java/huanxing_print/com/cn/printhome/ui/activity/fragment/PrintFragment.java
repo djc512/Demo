@@ -8,6 +8,8 @@ import android.view.View.OnClickListener;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.log.Logger;
@@ -26,6 +28,11 @@ import static huanxing_print.com.cn.printhome.R.id.iv_notice;
 
 
 public class PrintFragment extends BaseFragment implements OnClickListener {
+
+    @Override
+    public void onCreate( Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     protected void init() {
@@ -142,9 +149,11 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
     }
 
 
-    private void turnPickFile(PrintInfoResp.PrinterPrice printPrinterPrice) {
+    private void turnPickFile(PrintInfoResp.PrinterPrice printerPrice) {
+        EventBus.getDefault().postSticky(printerPrice);
         Bundle bundle = new Bundle();
-//        bundle.putParcelable();
+        bundle.putInt(AddFileActivity.INDEX, 0);
+        AddFileActivity.start(getActivity(), bundle);
     }
 
     @Override
@@ -164,6 +173,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
                         requeryIsOnline(printNo);
                         return;
                     }
+                    ShowUtil.showToast("无效的二维码");
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     ShowUtil.showToast("解析二维码失败");
                 }

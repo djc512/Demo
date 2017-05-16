@@ -9,7 +9,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.WindowManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -41,7 +44,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
 
     private PickPrinterFragment pickPrinterFragment;
     private PrinterDetailFragment printerDetailFragment;
-
+    private PrintInfoResp.PrinterPrice printerPrice;
     private static final int REQUEST_CODE = 1;
     private static final int REQUEST_IMG = 1;
     private PrintSetting printSetting;
@@ -54,9 +57,16 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_printer);
+        EventBus.getDefault().register(context);
         initData();
         initView();
         isPermissionsGranted();
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
+    public void onMessageEventPostThread(PrintInfoResp.PrinterPrice printerPrice) {
+        Logger.i(printerPrice.toString());
+        this.printerPrice = printerPrice;
     }
 
     private void initData() {
@@ -194,24 +204,34 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
     private void initFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        WindowManager wm = getWindowManager();
         printerDetailFragment = new PrinterDetailFragment();
-
         pickPrinterFragment = new PickPrinterFragment();
         fragmentTransaction.add(R.id.content, pickPrinterFragment);
         fragmentTransaction.add(R.id.content, printerDetailFragment);
-        fragmentTransaction.hide(printerDetailFragment)
-                .show(pickPrinterFragment)
-                .commit();
+        fragmentTransaction.commit();
+        if (printerPrice != null) {
+            showScanPrinterDetail(printerPrice);
+        } else {
+            showPick();
+        }
     }
 
-    private void showPrintDetail(PrintInfoResp.PrinterPrice printPrinterPrice) {
-        printerDetailFragment.updateView(printPrinterPrice);
+    private void showScanPrinterDetail(PrintInfoResp.PrinterPrice printPrinterPrice) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.hide(pickPrinterFragment)
                 .show(printerDetailFragment)
                 .commit();
+        printerDetailFragment.setPrintPrinterPrice(printPrinterPrice);
+    }
+
+    private void showPrinterDetail(PrintInfoResp.PrinterPrice printPrinterPrice) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.hide(pickPrinterFragment)
+                .show(printerDetailFragment)
+                .commit();
+        printerDetailFragment.updateView(printPrinterPrice);
     }
 
     public void showPick() {
@@ -256,7 +276,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                 if (printInfoResp != null && printInfoResp.isSuccess()) {
                     PrintInfoResp.PrinterPrice printPrinterPrice = printInfoResp.getData();
                     if (printPrinterPrice != null && isLoading()) {
-                        showPrintDetail(printPrinterPrice);
+                        showPrinterDetail(printPrinterPrice);
                     }
                 }
                 if (printInfoResp != null && !printInfoResp.isSuccess()) {
@@ -326,5 +346,12 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().unregister(context);
     }
 }

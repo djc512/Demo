@@ -19,13 +19,13 @@ import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
-import huanxing_print.com.cn.printhome.view.dialog.Alert;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 public class ImgPreviewActivity extends BasePrintActivity implements View.OnClickListener {
 

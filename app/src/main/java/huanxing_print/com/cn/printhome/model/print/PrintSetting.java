@@ -110,6 +110,23 @@ public class PrintSetting implements  Cloneable, Parcelable {
     }
 
     @Override
+    public String toString() {
+        return "PrintSetting{" +
+                "colourFlag=" + colourFlag +
+                ", directionFlag=" + directionFlag +
+                ", doubleFlag=" + doubleFlag +
+                ", fileName='" + fileName + '\'' +
+                ", filePage=" + filePage +
+                ", fileUrl='" + fileUrl + '\'' +
+                ", id=" + id +
+                ", printCount=" + printCount +
+                ", printerType=" + printerType +
+                ", sizeType=" + sizeType +
+                ", scaleRatio=" + scaleRatio +
+                '}';
+    }
+
+    @Override
     public PrintSetting clone() {
         PrintSetting printSetting = null;
         try {
