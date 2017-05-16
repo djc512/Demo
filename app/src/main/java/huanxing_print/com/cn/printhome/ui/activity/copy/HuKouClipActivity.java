@@ -116,7 +116,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7581));
+        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788* 0.8684), (int) (ivHeight * 0.7581* 0.9101));
         iv_preview.setImageBitmap(mBitmap);
     }
 
@@ -134,8 +134,8 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7851));
-        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7851));
+        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788* 0.8684), (int) (ivHeight * 0.7851* 0.9101));
+        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788* 0.8684), (int) (ivHeight * 0.7851* 0.9101));
 
         mergeBitmap = mergePic(bitmap1, bitmap2, ivWidth, ivHeight);
         iv_preview.setImageBitmap(mergeBitmap);
