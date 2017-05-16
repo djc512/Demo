@@ -118,6 +118,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initData() {
+
+        tv_num.setText("编号:" + orderid);
+
         adapter = new GridAdapter(this);
         adapter.update();
         noScrollgridview.setAdapter(adapter);
@@ -303,6 +306,12 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             public void success(String msg) {
                 DialogUtils.closeProgressDialog();
                 Toast.makeText(ctx, "发表成功", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getSelfActivity(), CommentListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("printer_id", orderid + "");
+                startActivity(intent);
+                finishCurrentActivity();
+
             }
 
             @Override
