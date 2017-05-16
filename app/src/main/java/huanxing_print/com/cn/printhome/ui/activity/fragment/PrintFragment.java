@@ -10,19 +10,29 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.print.IsOnlineResp;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
+import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.contact.SearchAddResultActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.UrlUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 import static huanxing_print.com.cn.printhome.R.id.iv_notice;
 
@@ -173,6 +183,13 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
                         requeryIsOnline(printNo);
                         return;
                     }
+
+                    if(result.startsWith("cardId:")) {
+                        String subResultString = result.replace("cardId:","");
+                        searchFriend(subResultString);
+                        return;
+                    }
+
                     ShowUtil.showToast("无效的二维码");
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     ShowUtil.showToast("解析二维码失败");
@@ -180,4 +197,37 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
             }
         }
     }
+
+    private void searchFriend(String searchContent) {
+        String token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
+                "loginToken");
+        DialogUtils.showProgressDialog(getActivity(), "加载中").show();
+        FriendManagerRequest.friendSearch(getActivity(), token, searchContent, friendSearchCallback);
+    }
+
+    FriendSearchCallback friendSearchCallback = new FriendSearchCallback() {
+        @Override
+        public void success(String msg, FriendSearchInfo friendSearchInfo) {
+            DialogUtils.closeProgressDialog();
+            if(null != friendSearchInfo) {
+                ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
+                infos.add(friendSearchInfo);
+                Intent intent = new Intent(getActivity(), SearchAddResultActivity.class);
+                intent.putParcelableArrayListExtra("search result", infos);
+                startActivity(intent);
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(getActivity(), msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(getActivity(), "网络连接超时");
+        }
+    };
 }
