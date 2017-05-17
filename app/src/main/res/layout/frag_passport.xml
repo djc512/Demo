@@ -58,8 +58,8 @@
                         android:button="@null"
                         android:checked="true"
                         android:gravity="center"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="拍照采集"
                         android:textSize="15sp" />
 
@@ -71,8 +71,8 @@
                         android:background="@drawable/yellow_selector_right_id"
                         android:button="@null"
                         android:gravity="center"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="本地相册"
                         android:textSize="15sp" />
                 </LinearLayout>
