@@ -230,7 +230,7 @@
             android:screenOrientation="portrait" />
         <!-- 明细界面 -->
         <activity
-            android:name=".ui.activity.my.MingXiActivity1"
+            android:name=".ui.activity.my.MingXiActivity"
             android:screenOrientation="portrait" />
         <!-- 打印详情界面 -->
         <activity

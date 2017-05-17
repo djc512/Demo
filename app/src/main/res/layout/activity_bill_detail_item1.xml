@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="打印店:"
+                android:text="打印点:"
                 android:textColor="@color/gray8"
                 android:textSize="13sp" />
 

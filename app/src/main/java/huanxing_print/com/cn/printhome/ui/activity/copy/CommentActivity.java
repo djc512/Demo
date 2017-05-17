@@ -82,6 +82,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private TextView tv_printNum;
     private String printNum;
     private String printLocation;
+    private ArrayList<ImageItem> tempSelectBitmap = Bimp.tempSelectBitmap;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -128,8 +129,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         tv_address = (TextView) findViewById(R.id.tv_address);
         tv_printNum = (TextView) findViewById(R.id.tv_printNum);
     }
-
-    private ArrayList<ImageItem> tempSelectBitmap = Bimp.tempSelectBitmap;
 
     private void initData() {
         tv_printNum.setText("编号:" + printNum);
@@ -512,6 +511,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
+        if (null != tempSelectBitmap && tempSelectBitmap.size() > 0) {
+            tempSelectBitmap.clear();
+        }
         int gvHeight = 0;
         if (adapter.getCount() < 5) {
             gvHeight = dip2px(ctx, 60);

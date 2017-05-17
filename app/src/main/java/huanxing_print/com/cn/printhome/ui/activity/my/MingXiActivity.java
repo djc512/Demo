@@ -31,7 +31,7 @@ import huanxing_print.com.cn.printhome.view.refresh.CustomerFooter;
  * Created by Administrator on 2017/3/17 0017.
  */
 
-public class MingXiActivity1 extends BaseActivity implements View.OnClickListener {
+public class MingXiActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout ll_back;
     private ListView lv_bill_detail;
     private TextView tv_bill_debit;

@@ -85,11 +85,11 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
         }
         String payType = bean.getPayType();//支付类型
         if (payType == "balance") {
-            holder.tv_papertype.setText("余额支付");
+            holder.tv_pay.setText("余额支付");
         } else if (payType == "wxpay") {
-            holder.tv_papertype.setText("微信支付");
+            holder.tv_pay.setText("微信支付");
         } else {
-            holder.tv_papertype.setText("支付宝支付");
+            holder.tv_pay.setText("支付宝支付");
         }
 
         holder.iv_down.setOnClickListener(new View.OnClickListener() {
