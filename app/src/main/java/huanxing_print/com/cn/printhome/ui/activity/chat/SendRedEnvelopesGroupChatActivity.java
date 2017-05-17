@@ -14,7 +14,6 @@ import android.widget.TextView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.chat.LuckyPackage;
-import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.chat.SendCommonPackageCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.SendLuckyPackageCallBack;
@@ -87,11 +86,11 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                 if (!ObjectUtils.isNull(change)) {
                     btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_null);
                     //改变下面的金额 以及按钮的颜色
-                    if(isLuck) {
-                        if(edt_red_package_num.getText().length() > 0) {
+                    if (isLuck) {
+                        if (edt_red_package_num.getText().length() > 0) {
                             btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_red);
                         }
-                    }else{
+                    } else {
                         btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_red);
                     }
                     txt_num.setText(s);
@@ -121,11 +120,11 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                 if (!ObjectUtils.isNull(change)) {
                     btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_null);
                     //改变下面的金额 以及按钮的颜色
-                    if(isLuck) {
-                        if(edt_single_money.getText().length() > 0) {
+                    if (isLuck) {
+                        if (edt_single_money.getText().length() > 0) {
                             btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_red);
                         }
-                    }else{
+                    } else {
                         btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_red);
                     }
                     txt_num.setText(s);
@@ -184,46 +183,46 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     }
 
     private void plugMoney() {
-        if(isLuck){
+        if (isLuck) {
             //Todo 手气红包
             String amount = edt_single_money.getText().toString();
             String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
             int number = Integer.parseInt(edt_red_package_num.getText().toString());
-            String easemobGroupId="";
+            String easemobGroupId = "";
             //String easemobGroupId = null == groupInfo.getEasemobGroupId() ? "" : groupInfo.getEasemobGroupId();
             String groupId = null == groupInfo.getGroupId() ? "" : groupInfo.getGroupId();
-            if(!easemobGroupId.isEmpty() || !groupId.isEmpty()) {
+            if (!easemobGroupId.isEmpty() || !groupId.isEmpty()) {
                 //Todo 执行发红包操作
                 luckRedPackage(amount, remark, easemobGroupId, groupId, number);
-            }else{
-                ToastUtil.doToast(SendRedEnvelopesGroupChatActivity.this,"发送失败，请退出重新进入");
+            } else {
+                ToastUtil.doToast(SendRedEnvelopesGroupChatActivity.this, "发送失败，请退出重新进入");
             }
-        }else{
+        } else {
             //Todo 群红包
             String amount = edt_single_money.getText().toString();
             String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
-            String easemobGroupId="";
+            String easemobGroupId = "";
             //String easemobGroupId = null == groupInfo.getEasemobGroupId() ? "" : groupInfo.getEasemobGroupId();
             String groupId = null == groupInfo.getGroupId() ? "" : groupInfo.getGroupId();
-            if(!easemobGroupId.isEmpty() || !groupId.isEmpty()) {
+            if (!easemobGroupId.isEmpty() || !groupId.isEmpty()) {
                 //Todo 执行发红包操作
                 groupRedPackage(amount, remark, easemobGroupId, groupId);
-            }else{
-                ToastUtil.doToast(SendRedEnvelopesGroupChatActivity.this,"发送失败，请退出重新进入");
+            } else {
+                ToastUtil.doToast(SendRedEnvelopesGroupChatActivity.this, "发送失败，请退出重新进入");
             }
         }
     }
 
-    private void groupRedPackage(String amount,String remark,String easemobGroupId,String groupId) {
-        Log.e("CMCC","amount : " + amount + "\n remark : " + remark + "\n easemobGroupId : " + easemobGroupId + "\n groupId : " + groupId);
-        DialogUtils.showProgressDialog(this,"处理中").show();
+    private void groupRedPackage(String amount, String remark, String easemobGroupId, String groupId) {
+        Log.e("CMCC", "amount : " + amount + "\n remark : " + remark + "\n easemobGroupId : " + easemobGroupId + "\n groupId : " + groupId);
+        DialogUtils.showProgressDialog(this, "处理中").show();
         ChatRequest.sendCommonPackage(SendRedEnvelopesGroupChatActivity.this, baseApplication.getLoginToken(), amount, easemobGroupId, groupId, remark, groupRedPackageCB);
     }
 
-    private void luckRedPackage(String amount,String remark,String easemobGroupId,String groupId, int number) {
-        Log.e("CMCC","amount : " + amount + "\n remark : " + remark + "\n easemobGroupId : " + easemobGroupId + "\n groupId : " + groupId + "\n number : " + number);
-        DialogUtils.showProgressDialog(this,"处理中").show();
-        ChatRequest.sendLuckyPackage(SendRedEnvelopesGroupChatActivity.this,baseApplication.getLoginToken(),amount,easemobGroupId,groupId,number,remark,luckyPackageCallBack);
+    private void luckRedPackage(String amount, String remark, String easemobGroupId, String groupId, int number) {
+        Log.e("CMCC", "amount : " + amount + "\n remark : " + remark + "\n easemobGroupId : " + easemobGroupId + "\n groupId : " + groupId + "\n number : " + number);
+        DialogUtils.showProgressDialog(this, "处理中").show();
+        ChatRequest.sendLuckyPackage(SendRedEnvelopesGroupChatActivity.this, baseApplication.getLoginToken(), amount, easemobGroupId, groupId, number, remark, luckyPackageCallBack);
     }
 
     SendCommonPackageCallBack groupRedPackageCB = new SendCommonPackageCallBack() {
@@ -232,8 +231,8 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
             DialogUtils.closeProgressDialog();
             if (null != id) {
                 Intent intent = new Intent();
-                intent.putExtra("packetId",id);
-                setResult(RESULT_OK,intent);
+                intent.putExtra("packetId", id);
+                setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }
         }
@@ -255,9 +254,10 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         @Override
         public void success(String msg, LuckyPackage luckyPackage) {
             DialogUtils.closeProgressDialog();
-            if(null != luckyPackage) {
+            if (null != luckyPackage) {
                 Intent intent = new Intent();
                 intent.putExtra("packetId", luckyPackage.getPacketId());
+                intent.putExtra("remark", luckyPackage.getRemark());
                 setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }

@@ -18,7 +18,7 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
-import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -28,11 +28,12 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  * Created by wanghao on 2017/5/3.
  */
 
-public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClickListener,TextWatcher{
+public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
     private EditText searchEt;
     private View show_search_content;
     private TextView hint_content;
     private View del_icon;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -64,23 +65,23 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.exit_search:
                 finishCurrentActivity();
                 break;
             case R.id.show_search_content:
 
                 String searchStr = searchEt.getText().toString();
-                if(baseApplication.getPhone().equals(searchStr) || baseApplication.getUniqueId().equals(searchStr)) {
-                    ToastUtil.doToast(SearchYinJiaNumActivity.this,"不能添加自己为联系人");
+                if (baseApplication.getPhone().equals(searchStr) || baseApplication.getUniqueId().equals(searchStr)) {
+                    ToastUtil.doToast(SearchYinJiaNumActivity.this, "不能添加自己为联系人");
                     return;
                 }
-                if(searchStr.length() >= 6 && searchStr.length() <= 14 && (isStartLetter(searchStr) || isStartNum(searchStr))) {
+                if (searchStr.length() >= 6 && searchStr.length() <= 14 && (isStartLetter(searchStr) || isStartNum(searchStr))) {
                     String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                             "loginToken");
                     DialogUtils.showProgressDialog(this, "加载中").show();
                     FriendManagerRequest.friendSearch(this, token, searchStr, friendSearchCallback);
-                }else {
+                } else {
                     ToastUtil.doToast(this, "内容不能小于6,以数字字母开头");
                 }
                 break;
@@ -92,16 +93,16 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
 
     private boolean isStartNum(String str) {
         Pattern pattern = Pattern.compile("^[0-9]*");
-        Matcher isNum = pattern.matcher(str.charAt(0)+"");
-        if(isNum.matches())
+        Matcher isNum = pattern.matcher(str.charAt(0) + "");
+        if (isNum.matches())
             return true;
         return false;
     }
 
     private boolean isStartLetter(String str) {
         Pattern pattern = Pattern.compile("^[A-Za-z]*");
-        Matcher isNum = pattern.matcher(str.charAt(0)+"");
-        if(isNum.matches())
+        Matcher isNum = pattern.matcher(str.charAt(0) + "");
+        if (isNum.matches())
             return true;
         return false;
     }
@@ -112,11 +113,11 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        if(charSequence.length() > 0) {
+        if (charSequence.length() > 0) {
             show_search_content.setVisibility(View.VISIBLE);
             hint_content.setText(charSequence);
             del_icon.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             show_search_content.setVisibility(View.GONE);
             hint_content.setText(null);
             del_icon.setVisibility(View.GONE);
@@ -131,12 +132,12 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
         @Override
         public void success(String msg, FriendSearchInfo friendSearchInfo) {
             DialogUtils.closeProgressDialog();
-            if(null != friendSearchInfo) {
-                if(1 == friendSearchInfo.getIsFriend()) {
-                    Intent intent = new Intent(SearchYinJiaNumActivity.this, ChatActivity.class);
+            if (null != friendSearchInfo) {
+                if (1 == friendSearchInfo.getIsFriend()) {
+                    Intent intent = new Intent(SearchYinJiaNumActivity.this, ChatTestActivity.class);
                     intent.putExtra("FriendSearchInfo", friendSearchInfo);
                     startActivity(intent);
-                }else {
+                } else {
                     ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
                     infos.add(friendSearchInfo);
                     startActivity(infos);

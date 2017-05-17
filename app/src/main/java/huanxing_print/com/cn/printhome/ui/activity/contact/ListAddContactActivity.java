@@ -15,6 +15,7 @@ import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ContactsItemAdapter;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -144,7 +145,7 @@ public class ListAddContactActivity extends BaseActivity implements
 
     @Override
     public void contactClick(FriendInfo info) {
-        Intent intent = new Intent(getSelfActivity(), ChatActivity.class);
+        Intent intent = new Intent(getSelfActivity(), ChatTestActivity.class);
         intent.putExtra("FriendInfo", info);
         startActivity(intent);
         //ToastUtil.doToast(getActivity(), "点击了 --- " + info.getMemberName());

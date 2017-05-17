@@ -15,7 +15,7 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
-import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddByAddressBookActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.GroupActivity;
@@ -144,7 +144,7 @@ public class ContantsFragment extends BaseFragment implements
 
     @Override
     public void contactClick(FriendInfo info) {
-        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        Intent intent = new Intent(getActivity(), ChatTestActivity.class);
         intent.putExtra("FriendInfo", info);
         startActivity(intent);
         //ToastUtil.doToast(getActivity(), "点击了 --- " + info.getMemberName());

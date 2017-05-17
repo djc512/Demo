@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,6 +54,9 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
+import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
+import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupMessageCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
@@ -116,6 +120,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     protected MyItemClickListener extendMenuItemClickListener;
     protected EaseTitleBar titleBar;
     private PicSaveUtil saveUtil;
+    private String nickName;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -129,15 +134,47 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         //聊天类型
         chatType = getIntent().getIntExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         toChatUsername = getIntent().getStringExtra(Constant.EXTRA_USER_ID);
-        //群则去请求群信息
-        if (chatType == EaseConstant.CHATTYPE_GROUP) {
-            GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
-                    "", toChatUsername, callback);
-        }
         saveUtil = new PicSaveUtil(getSelfActivity());
         cameraFile = saveUtil.createCameraTempFile(savedInstanceState);
         // userId you are chat with or group id
         initView();
+
+        //群则去请求群信息
+        if (chatType == EaseConstant.CHATTYPE_GROUP) {
+            GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
+                    "", toChatUsername, callback);
+        } else {
+            //单聊
+            nickName = getIntent().getStringExtra("name");
+            titleBar.setTitle(nickName);
+        }
+
+        GroupInfo groupInfo = getIntent().getParcelableExtra("GroupInfo");
+        FriendInfo friendInfo = getIntent().getParcelableExtra("FriendInfo");
+        FriendSearchInfo friendSearchInfo = getIntent().getParcelableExtra("FriendSearchInfo");
+        if (!ObjectUtils.isNull(groupInfo)) {
+            //群聊
+            chatType = EaseConstant.CHATTYPE_GROUP;
+            toChatUsername = groupInfo.getEasemobGroupId();
+            titleBar.setTitle(groupInfo.getGroupName());
+            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername);
+        }
+
+        if (!ObjectUtils.isNull(friendInfo)) {
+            //私聊
+            chatType = EaseConstant.CHATTYPE_SINGLE;
+            toChatUsername = friendInfo.getEasemobId();
+            titleBar.setTitle(friendInfo.getMemberName());
+            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername);
+        }
+
+        if (!ObjectUtils.isNull(friendSearchInfo)) {
+            //私聊
+            chatType = EaseConstant.CHATTYPE_SINGLE;
+            toChatUsername = friendSearchInfo.getMemberId();
+            titleBar.setTitle(friendSearchInfo.getMemberName());
+            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername);
+        }
         setUpView();
     }
 
@@ -146,6 +183,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         public void success(String msg, GroupMessageInfo groupMessageInfo) {
             if (!ObjectUtils.isNull(groupMessageInfo)) {
                 groupInfo = groupMessageInfo;
+                titleBar.setTitle(groupInfo.getGroupName());
             }
         }
 
@@ -214,7 +252,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     }
 
     protected void setUpView() {
-        titleBar.setTitle(toChatUsername);
+        //titleBar.setTitle(toChatUsername);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             // set title
             if (EaseUserUtils.getUserInfo(toChatUsername) != null) {
@@ -445,11 +483,15 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             //拍照
             if (requestCode == REQUEST_CODE_CAMERA) {
                 // capture new image
-                Uri uri = data.getData();
-                uriToRealPath(getSelfActivity(), uri);
-                if (cameraFile != null && cameraFile.exists()) {
-                    sendImageMessage(cameraFile.getAbsolutePath());
+                if (data != null) {
+                    Uri uri = data.getData();
+                    String path = uriToRealPath(getSelfActivity(), uri);
+                    sendImageMessage(path);
+//                    if (cameraFile != null && cameraFile.exists()) {
+//                        sendImageMessage(cameraFile.getAbsolutePath());
+//                    }
                 }
+
             } else if (requestCode == REQUEST_CODE_LOCAL) { // send local image
                 //图片
                 if (data != null) {
@@ -479,7 +521,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             } else if (requestCode == ITEM_RED_PACKET_CALL) {
                 //红包
                 String packetId = data.getStringExtra("packetId");
-                EMMessage emMessage = EMMessage.createTxtSendMessage(toChatUsername, "一个红包过来了!");
+                String remark = data.getStringExtra("remark");
+                EMMessage emMessage = EMMessage.createTxtSendMessage(remark, toChatUsername);
                 emMessage.setAttribute("packetId", packetId);
                 emMessage.setAttribute("userId", baseApplication.getMemberId());
                 emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
@@ -821,33 +864,81 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
 
 
     protected void sendBigExpressionMessage(String name, String identityCode) {
-        EMMessage message = EaseCommonUtils.createExpressionMessage(toChatUsername, name, identityCode);
-        sendMessage(message);
+        EMMessage emMessage = EaseCommonUtils.createExpressionMessage(toChatUsername, name, identityCode);
+        emMessage.setAttribute("userId", baseApplication.getMemberId());
+        emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
+        emMessage.setAttribute("nickName", baseApplication.getNickName());
+        if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                chatType == EaseConstant.CHATTYPE_CHATROOM) {
+            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
+            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+        }
+        sendMessage(emMessage);
     }
 
     protected void sendVoiceMessage(String filePath, int length) {
-        EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, toChatUsername);
-        sendMessage(message);
+        EMMessage emMessage = EMMessage.createVoiceSendMessage(filePath, length, toChatUsername);
+        emMessage.setAttribute("userId", baseApplication.getMemberId());
+        emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
+        emMessage.setAttribute("nickName", baseApplication.getNickName());
+        if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                chatType == EaseConstant.CHATTYPE_CHATROOM) {
+            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
+            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+        }
+        sendMessage(emMessage);
     }
 
     protected void sendImageMessage(String imagePath) {
-        EMMessage message = EMMessage.createImageSendMessage(imagePath, false, toChatUsername);
-        sendMessage(message);
+        EMMessage emMessage = EMMessage.createImageSendMessage(imagePath, false, toChatUsername);
+        emMessage.setAttribute("userId", baseApplication.getMemberId());
+        emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
+        emMessage.setAttribute("nickName", baseApplication.getNickName());
+        if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                chatType == EaseConstant.CHATTYPE_CHATROOM) {
+            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
+            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+        }
+        sendMessage(emMessage);
     }
 
     protected void sendLocationMessage(double latitude, double longitude, String locationAddress) {
-        EMMessage message = EMMessage.createLocationSendMessage(latitude, longitude, locationAddress, toChatUsername);
-        sendMessage(message);
+        EMMessage emMessage = EMMessage.createLocationSendMessage(latitude, longitude, locationAddress, toChatUsername);
+        emMessage.setAttribute("userId", baseApplication.getMemberId());
+        emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
+        emMessage.setAttribute("nickName", baseApplication.getNickName());
+        if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                chatType == EaseConstant.CHATTYPE_CHATROOM) {
+            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
+            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+        }
+        sendMessage(emMessage);
     }
 
     protected void sendVideoMessage(String videoPath, String thumbPath, int videoLength) {
-        EMMessage message = EMMessage.createVideoSendMessage(videoPath, thumbPath, videoLength, toChatUsername);
-        sendMessage(message);
+        EMMessage emMessage = EMMessage.createVideoSendMessage(videoPath, thumbPath, videoLength, toChatUsername);
+        emMessage.setAttribute("userId", baseApplication.getMemberId());
+        emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
+        emMessage.setAttribute("nickName", baseApplication.getNickName());
+        if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                chatType == EaseConstant.CHATTYPE_CHATROOM) {
+            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
+            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+        }
+        sendMessage(emMessage);
     }
 
     protected void sendFileMessage(String filePath) {
-        EMMessage message = EMMessage.createFileSendMessage(filePath, toChatUsername);
-        sendMessage(message);
+        EMMessage emMessage = EMMessage.createFileSendMessage(filePath, toChatUsername);
+        emMessage.setAttribute("userId", baseApplication.getMemberId());
+        emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
+        emMessage.setAttribute("nickName", baseApplication.getNickName());
+        if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                chatType == EaseConstant.CHATTYPE_CHATROOM) {
+            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
+            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+        }
+        sendMessage(emMessage);
     }
 
 
@@ -982,9 +1073,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
 //        intenCamera_.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
 //        startActivityForResult(intenCamera_, REQUEST_CODE_CAMERA);
 
-        Intent intent = new Intent();
-        intent.setAction("android.media.action.IMAGE_CAPTURE");
-        intent.addCategory("android.intent.category.DEFAULT");
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CODE_CAMERA);
     }
 
