@@ -74,10 +74,10 @@ public class EaseChatRowText extends EaseChatRow {
             inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
                     R.layout.ease_row_received_red_package : R.layout.ease_row_sent_red_package, this);
         }
-        Log.i("CCCC","type======================="+message.getStringAttribute("type",""));
-        Log.i("CCCC","approveId======================="+message.getStringAttribute("approveId",""));
-        Log.i("CCCC","getFrom======================="+message.getFrom());
-        Log.i("CCCC","getto======================="+message.getTo());
+//        Log.i("CCCC","type======================="+message.getStringAttribute("type",""));
+//        Log.i("CCCC","approveId======================="+message.getStringAttribute("approveId",""));
+//        Log.i("CCCC","getFrom======================="+message.getFrom());
+//        Log.i("CCCC","getto======================="+message.getTo());
         type = message.getStringAttribute("type","");
 
     }
@@ -102,7 +102,7 @@ public class EaseChatRowText extends EaseChatRow {
         String nickName = message.getStringAttribute("nickName", "");
 
         //如果是印信就写死名称和头像========================================================================
-        Log.i("CCCC","印家的Username============================================="+message.getUserName());
+        //Log.i("CCCC","印家的Username============================================="+message.getUserName());
         if (message.getUserName().equals("secretary")){
             iv_userhead.setImageResource(R.drawable.king);
         }else {
@@ -171,10 +171,8 @@ public class EaseChatRowText extends EaseChatRow {
     @Override
     protected void onBubbleClick() {
          packetId = message.getStringAttribute("packetId", "");
-        Log.d("packetId", "-------------->" + packetId);
-
-        Log.i("CCCC","======================="+message.getStringAttribute("type",""));
-        Log.i("CCCC","======================="+message.getFrom());
+//        Log.i("CCCC","======================="+message.getStringAttribute("type",""));
+//        Log.i("CCCC","======================="+message.getFrom());
         if (type!=null){
             switch (type){
                 case "101"://采购审核
@@ -244,7 +242,7 @@ public class EaseChatRowText extends EaseChatRow {
                 if (1 == message.getIntAttribute("groupType", -1)){
                     DialogUtils.showProgressDialog(getContext(),"正在加载").show();
                     ChatRequest.getCommonPackageDetail(getContext(), token,
-                            message.getTo(),message.getTo(),packetId,commonCallBack);
+                            message.getTo(),"",packetId,commonCallBack);
                 }//手气红包(直接展示)
                 else if (2 == message.getIntAttribute("groupType", -1)) {
                     DialogUtils.showProgressDialog(getContext(),"正在加载").show();
@@ -437,6 +435,7 @@ public class EaseChatRowText extends EaseChatRow {
 
                     @Override
                     public void look() {
+                        //查看红包
                         Intent intent = new Intent(context, RedPackageRecordActivity.class);
                         intent.putExtra("easemobGroupId", message.getTo());
                         intent.putExtra("type", message.getIntAttribute("groupType", -1));
@@ -645,7 +644,7 @@ GetCommonPackageDetailCallBack commonCallBack = new GetCommonPackageDetailCallBa
     RobPackageCallBack robPackageCallBack = new RobPackageCallBack() {
         @Override
         public void success(String msg, String amount) {
-            Log.d("CMCC", "" + msg + "," + amount);
+           // Log.d("CMCC", "" + msg + "," + amount);
             DialogUtils.closeProgressDialog();
             //发透传消息的
             //跳转到详情页
@@ -654,7 +653,6 @@ GetCommonPackageDetailCallBack commonCallBack = new GetCommonPackageDetailCallBa
             intent.putExtra("type", message.getIntAttribute("type", -1));
             intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
             context.startActivity(intent);
-            singleDialog.dismiss();
         }
 
         @Override

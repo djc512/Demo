@@ -10,6 +10,7 @@ public class GroupLuckyPackageDetail {
     private String amount;
     private String invalid;
     private ArrayList<LuckyPackageObject> list;
+    private String outTime;
     private String packetId;
     private String remark;
     private String sendMemberId;
@@ -43,6 +44,14 @@ public class GroupLuckyPackageDetail {
 
     public void setList(ArrayList<LuckyPackageObject> list) {
         this.list = list;
+    }
+
+    public String getOutTime() {
+        return outTime;
+    }
+
+    public void setOutTime(String outTime) {
+        this.outTime = outTime;
     }
 
     public String getPacketId() {

@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -23,7 +24,7 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
-public class RedPackageRecordActivity extends BaseActivity {
+public class RedPackageRecordActivity extends BaseActivity implements View.OnClickListener  {
 
     private RecyclerView recordRecView;
 
@@ -56,6 +57,7 @@ public class RedPackageRecordActivity extends BaseActivity {
 
     private void initView() {
         recordRecView = (RecyclerView) findViewById(R.id.recordRecView);
+        findViewById(R.id.exitTv).setOnClickListener(this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recordRecView.setLayoutManager(mLayoutManager);
         recordRecView.setHasFixedSize(true);
@@ -78,12 +80,23 @@ public class RedPackageRecordActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.exitTv:
+                finishCurrentActivity();
+                break;
+            default:
+                break;
+        }
+    }
     GetCommonPackageDetailCallBack callBack = new GetCommonPackageDetailCallBack() {
         @Override
         public void success(String msg, CommonPackage detail) {
             DialogUtils.closeProgressDialog();
             Log.d("CMCC", "" + msg);
-            redPackageAdapter = new RedPackageAdapter();
+//            redPackageAdapter = new RedPackageAdapter(getSelfActivity(),detail);
+//            recordRecView.setAdapter(redPackageAdapter);
         }
 
         @Override
@@ -104,6 +117,10 @@ public class RedPackageRecordActivity extends BaseActivity {
         public void success(String msg, GroupLuckyPackageDetail detail) {
             DialogUtils.closeProgressDialog();
             Log.d("CMCC", "" + msg);
+            if (null!=detail) {
+                redPackageAdapter = new RedPackageAdapter(getSelfActivity(), detail);
+                recordRecView.setAdapter(redPackageAdapter);
+            }
         }
 
         @Override
