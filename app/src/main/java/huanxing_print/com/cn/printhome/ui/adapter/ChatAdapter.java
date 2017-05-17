@@ -1,7 +1,10 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,9 +17,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.model.EaseImageCache;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.utils.EaseImageUtils;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.DateUtils;
 
@@ -25,7 +32,6 @@ import java.util.Date;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.constant.ConFig;
 
 /**
  * 作者： itheima
@@ -40,6 +46,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     private List<EMMessage> mEMMessageList;
     private int mKind;
     private Context ctx;
+    EMImageMessageBody body;
 
     public ChatAdapter(Context ctx,List<EMMessage> EMMessageList) {
         mEMMessageList = EMMessageList;
@@ -94,26 +101,36 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             }else if(mKind==PIC){
                 Log.i("CMCC", "kind==========2222222222222222222222");
 
+
                 holder.mPic.setVisibility(View.VISIBLE);
                 holder.mTvMsg.setVisibility(View.GONE);
-                EMImageMessageBody body = (EMImageMessageBody) emMessage.getBody();
-                String url = body.getFileName();
-                File file = new File(ConFig.IMG_SAVE);
-                if(!file.exists()){
-                    file.mkdirs();
-                }
-                body.setThumbnailUrl(ConFig.IMG_SAVE);
-                body.getThumbnailUrl();
-                Log.i("CMCC", "3333333333333333333333333"+url);
+                body = (EMImageMessageBody) emMessage.getBody();
+                //String url = body.getFileName();
+                String filePath = body.getLocalUrl();
+                String thumbPath = EaseImageUtils.getThumbnailImagePath(body.getLocalUrl());
+//                File file = new File(ConFig.IMG_SAVE);
+//                if(!file.exists()){
+//                    file.mkdirs();
+//                }
+                Log.i("CMCC", "kind==========9999999999999999999999999999"+body);
+                Log.i("CMCC", "thumbPath==========88888888888888888888888888888"+thumbPath);
+                //body.get
+//                body.setThumbnailLocalPath(ConFig.IMG_SAVE);
+//                body.getThumbnailUrl();
+//                Log.i("CMCC", "3333333333333333333333333"+url);
+//                Log.i("CMCC", "55555555555555555555555555555"+body.thumbnailLocalPath());
+                //Log.i("CMCC", "66666666666666666666666666666"+body.getLocalUrl());
+                //Log.i("CMCC", "7777777777777777777777777777777"+body.getThumbnailUrl());
                 /*Glide.with(ctx).load(url)
                         .error(R.drawable.error_photo).into(holder.mPic);*/
-                Glide.with(ctx).load(new File(ConFig.IMG_SAVE,url)).error(R.drawable.error_photo).into(holder.mPic);
-
-                // 压缩图片
-                /*Bitmap bitmap = BitmapLoadUtils.decodeSampledBitmapFromFd(url, 400, 500);
-                holder.mPic.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
-                holder.mTvMsg.setVisibility(View.GONE);*/
-                //BitmapFactory.decodeResource(getResources(), R.drawable.add);
+                downImageView(thumbPath,filePath,emMessage);
+                Glide.with(ctx).load(new File(thumbPath)).error(R.drawable.error_photo).into(holder.mPic);
+//                String thumbPath = body.thumbnailLocalPath();
+//                if (!new File(thumbPath).exists()) {
+//                    // to make it compatible with thumbnail received in previous version
+//                    thumbPath = EaseImageUtils.getThumbnailImagePath(body.getLocalUrl());
+//                }
+                //Glide.with(ctx).load(thumbPath).error(R.drawable.error_photo).into(holder.mPic);
             }else{
 
             }
@@ -182,4 +199,61 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         });
     }
 
+    //
+    private void downImageView(final String thumbernailPath, final String localFullSizePath,final EMMessage message) {
+        // first check if the thumbnail image already loaded into cache
+       // EMImageMessageBody body = (EMImageMessageBody)message.getBody();
+        Bitmap bitmap = BitmapFactory.decodeFile(thumbernailPath);
+        if (bitmap == null) {
+            // thumbnail image is already loaded, reuse the drawable
+            //iv.setImageBitmap(bitmap);
+            new AsyncTask<Object, Void, Bitmap>() {
+
+                @Override
+                protected Bitmap doInBackground(Object... args) {
+                    File file = new File(thumbernailPath);
+                    if (file.exists()) {
+                        return EaseImageUtils.decodeScaleImage(thumbernailPath, 160, 160);
+                    } else if (new File(body.thumbnailLocalPath()).exists()) {
+                        return EaseImageUtils.decodeScaleImage(body.thumbnailLocalPath(), 160, 160);
+                    }
+                    else {
+                        if (message.direct() == EMMessage.Direct.SEND) {
+                            if (localFullSizePath != null && new File(localFullSizePath).exists()) {
+                                return EaseImageUtils.decodeScaleImage(localFullSizePath, 160, 160);
+                            } else {
+                                return null;
+                            }
+                        } else {
+                            return null;
+                        }
+                    }
+                }
+
+                protected void onPostExecute(Bitmap image) {
+                    if (image != null) {
+//                        iv.setImageBitmap(image);
+                        EaseImageCache.getInstance().put(thumbernailPath, image);
+                    } else {
+                        if (message.status() == EMMessage.Status.FAIL) {
+                            if (EaseCommonUtils.isNetWorkConnected(ctx)) {
+                                new Thread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        EMClient.getInstance().chatManager().downloadThumbnail(message);
+                                    }
+                                }).start();
+                            }
+                        }
+
+                    }
+                }
+            }.execute();
+        } else {
+
+        }
+    }
+
 }
+

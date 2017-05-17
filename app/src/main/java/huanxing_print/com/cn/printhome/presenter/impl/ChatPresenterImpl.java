@@ -86,6 +86,7 @@ public class ChatPresenterImpl implements ChatPresenter {
     @Override
     public void sendImgMessage(String toChatUsername, String url,int chatType,int kind) {
         //imagePath为图片本地路径，false为不发送原图（默认超过100k的图片会压缩后发给对方），需要发送原图传true
+        Log.i("CMCC","----------------------"+url);
         EMMessage emMessage =EMMessage.createImageSendMessage(url, false, toChatUsername);
         //给发送的消息添加kind属性
         emMessage.setAttribute("kind",kind);
