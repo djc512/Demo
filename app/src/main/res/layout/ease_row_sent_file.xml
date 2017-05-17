@@ -26,7 +26,6 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:background="@drawable/ease_default_avatar"
             android:scaleType="fitXY" />
 
         <TextView
@@ -36,8 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/chat_nick_margin_left"
             android:layout_toLeftOf="@id/iv_userhead"
-            android:textSize="@dimen/chat_nick_text_size"
-            android:visibility="gone" />
+            android:textSize="@dimen/chat_nick_text_size" />
 
         <LinearLayout
             android:id="@+id/bubble"
