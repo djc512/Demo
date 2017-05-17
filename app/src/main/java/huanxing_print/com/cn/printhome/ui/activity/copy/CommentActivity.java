@@ -78,6 +78,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private List<ImageUploadItem> imageitems = new ArrayList<>();
     private List<String> imageUrls = new ArrayList<>();
     private long orderid;
+    private TextView tv_address;
+    private TextView tv_printNum;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -93,11 +95,14 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
         mResults.add(bimap);
         orderid = getIntent().getExtras().getLong("order_id");
+
+        String printNum = getIntent().getExtras().getString("printNum");//获取打印机编号
+        String printLocation = getIntent().getExtras().getString("location");//打印机所在位置
+
         initView();
         initData();
         initListener();
     }
-
 
     private void initView() {
         noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
@@ -115,26 +120,34 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         rb_price = (XLHRatingBar) findViewById(R.id.rb_price);
         tv_submit = (TextView) findViewById(R.id.tv_submit);
         iv_comment = (ImageView) findViewById(R.id.iv_comment);
+
+        tv_address = (TextView) findViewById(R.id.tv_address);
+        tv_printNum = (TextView) findViewById(R.id.tv_printNum);
     }
 
-    private void initData() {
+    private ArrayList<ImageItem> tempSelectBitmap = Bimp.tempSelectBitmap;
 
-        tv_num.setText("编号:" + orderid);
+    private void initData() {
+        tv_printNum.setText("编号:" + orderid);
+//        tv_address.setText();
 
         adapter = new GridAdapter(this);
         adapter.update();
         noScrollgridview.setAdapter(adapter);
+        if (tempSelectBitmap != null && tempSelectBitmap.size() > 0) {
+            tempSelectBitmap.clear();
+        }
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == mResults.size() - 1 || i == Bimp.tempSelectBitmap.size()) {
+                if (i == mResults.size() - 1 || i == tempSelectBitmap.size()) {
                     Intent intent = new Intent(ctx, PhotoPickerActivity.class);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
                     intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, PhotoPickerActivity.DEFAULT_NUM);
                     // 总共选择的图片数量
-                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
+                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, tempSelectBitmap.size());
                     startActivityForResult(intent, PICK_PHOTO);
                 } else {
                     Intent intent = new Intent(ctx,
@@ -240,7 +253,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
             ImageItem takePhoto = new ImageItem();
             takePhoto.setBitmap(bitmap);
-            Bimp.tempSelectBitmap.add(takePhoto);
+            tempSelectBitmap.add(takePhoto);
         }
         mResults.add(BitmapFactory.decodeResource(getResources(), R.drawable.add));
         adapter.notifyDataSetChanged();
@@ -286,20 +299,20 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
      * 添加评论
      */
     private void submitComment() {
-        ArrayList<ImageItem> items = Bimp.tempSelectBitmap;
+        ArrayList<ImageItem> items = tempSelectBitmap;
         getUrl(items);
         uploadPic();
 
         Map<String, Object> params = new HashMap<>();
         params.put("anonymous", anonymous);
-        params.put("convenienceScore", handleStar);
+        params.put("convenienceScore", rb_handle.getCountNum());
         params.put("orderId", orderid);
         params.put("imgList", imageUrls);
-        params.put("priceScore", priceStar);
+        params.put("priceScore", rb_price.getCountNum());
         params.put("remark", content);
-        params.put("speedScore", speedStar);
-        params.put("totalScore", commentStar);
-        params.put("qualityScore", qulityStar);
+        params.put("speedScore", rb_speed.getCountNum());
+        params.put("totalScore", rb_comment.getCountNum());
+        params.put("qualityScore", rb_qulity.getCountNum());
 
         CommentRequest.submit(getSelfActivity(), baseApplication.getLoginToken(), params, new NullCallback() {
             @Override
@@ -311,7 +324,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 bundle.putString("printer_id", orderid + "");
                 startActivity(intent);
                 finishCurrentActivity();
-
             }
 
             @Override
@@ -340,8 +352,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
     private void setPicToView(Bitmap bitmap, String fileid) {
         ImageUploadItem image = new ImageUploadItem();
-        String filename = System.currentTimeMillis() + "";
-        String filePath = FileUtils.savePic(getSelfActivity(), filename + ".jpg", bitmap);
+        String filename = System.currentTimeMillis() + ".jpg";
+        String filePath = FileUtils.savePic(getSelfActivity(), filename, bitmap);
         if (!ObjectUtils.isNull(filePath)) {
             File file = new File(filePath);
             //file转化成二进制
@@ -375,6 +387,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
             @Override
             public void success(List<PicDataBean> bean) {
+                if (null != imageUrls && imageUrls.size() > 0) {
+                    imageUrls.clear();
+                }
                 if (null != bean && bean.size() > 0) {
                     for (int i = 0; i < bean.size(); i++) {
                         String imgUrl = bean.get(i).getImgUrl();
@@ -411,10 +426,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         }
 
         public int getCount() {
-            if (Bimp.tempSelectBitmap.size() == 9) {
+            if (tempSelectBitmap.size() == 9) {
                 return 9;
             }
-            return (Bimp.tempSelectBitmap.size() + 1);
+            return (tempSelectBitmap.size() + 1);
         }
 
         public Object getItem(int arg0) {
@@ -437,14 +452,14 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if (position == Bimp.tempSelectBitmap.size()) {
+            if (position == tempSelectBitmap.size()) {
                 holder.image.setImageBitmap(BitmapFactory.decodeResource(
                         getResources(), R.drawable.add));
                 if (position == 9) {
                     holder.image.setVisibility(View.GONE);
                 }
             } else {
-                holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
+                holder.image.setImageBitmap(tempSelectBitmap.get(position).getBitmap());
             }
             return convertView;
         }
@@ -468,7 +483,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             new Thread(new Runnable() {
                 public void run() {
                     while (true) {
-                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
+                        if (Bimp.max == tempSelectBitmap.size()) {
                             Message message = new Message();
                             message.what = 1;
                             handler.sendMessage(message);
