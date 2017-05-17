@@ -94,7 +94,7 @@ public class ContantsFragment extends BaseFragment implements
     private void initData() {
         token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-//        getData();
+        getData();
     }
 
     private void getData() {
