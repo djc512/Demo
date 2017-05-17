@@ -14,6 +14,8 @@ public class RedPackageDetail {
     private String remark;
     private boolean snatch;
     private String time;
+    private String receiveMemberId;//发给谁的
+    private String sendMemberId;//谁发的
 
     public String getAmount() {
         return amount;
@@ -85,5 +87,21 @@ public class RedPackageDetail {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getReceiveMemberId() {
+        return receiveMemberId;
+    }
+
+    public void setReceiveMemberId(String receiveMemberId) {
+        this.receiveMemberId = receiveMemberId;
+    }
+
+    public String getSendMemberId() {
+        return sendMemberId;
+    }
+
+    public void setSendMemberId(String sendMemberId) {
+        this.sendMemberId = sendMemberId;
     }
 }

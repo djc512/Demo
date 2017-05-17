@@ -73,8 +73,8 @@ public class HttpUrl {
     public static final String sendGroupPackage = "redPackage/group/sendCommon";//发群红包
     public static final String sendLuckyGroupPackage = "redPackage/group/sendLucky";//发拼手气群红包
     public static final String robRedPackage = "redPackage/group/receive";//抢红包
-    public static final String checkGroupPackageDetail = "redPackage/group/queryLuckyDetail";//查看手气群红包记录
-    public static final String checkLuckyGroupPackageDetail = "redPackage/group/queryCommDetail";//查看普通群红包记录
+    public static final String checkLuckyGroupPackageDetail = "redPackage/group/queryLuckyDetail";//查看手气群红包记录
+    public static final String checkGroupPackageDetail = "redPackage/group/queryCommDetail";//查看普通群红包记录
     public static final String getMemberHead = "chat/getMemberHead";//查询用户头像名称
     public static final String getGroupHead = "chat/getGroupHead";//查询群头像名称
     private static String postUrl;

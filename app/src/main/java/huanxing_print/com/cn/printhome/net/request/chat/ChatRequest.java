@@ -297,7 +297,7 @@ public class ChatRequest extends BaseRequst {
                                              String easemobGroupId, String groupId,
                                              String packetId,
                                              final GetLuckyPackageDetailCallBack callBack) {
-        final String url = HTTP_URL + HttpUrl.checkGroupPackageDetail;
+        final String url = HTTP_URL + HttpUrl.checkLuckyGroupPackageDetail;
         HttpUtils.getLuckyPackageDetail(context, url, loginToken, easemobGroupId,
                 groupId, packetId, new HttpCallBack() {
                     @Override
@@ -330,7 +330,7 @@ public class ChatRequest extends BaseRequst {
                                               String easemobGroupId, String groupId,
                                               String packetId,
                                               final GetCommonPackageDetailCallBack callBack) {
-        final String url = HTTP_URL + HttpUrl.checkLuckyGroupPackageDetail;
+        final String url = HTTP_URL + HttpUrl.checkGroupPackageDetail;
         HttpUtils.getLuckyPackageDetail(context, url, loginToken, easemobGroupId,
                 groupId, packetId, new HttpCallBack() {
                     @Override

@@ -551,16 +551,17 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 String packetId = data.getStringExtra("packetId");
                 String remark = data.getStringExtra("remark");
                 int groupType = data.getIntExtra("groupType", -1);
+                Log.d("CMCC", "setResult-红包-groupType--》"+groupType );
                 EMMessage emMessage = EMMessage.createTxtSendMessage(remark, toChatUsername);
                 emMessage.setAttribute("packetId", packetId);
                 emMessage.setAttribute("userId", baseApplication.getMemberId());
                 emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
                 emMessage.setAttribute("nickName", baseApplication.getNickName());
+                emMessage.setAttribute("groupType", groupType);
                 if (chatType == EaseConstant.CHATTYPE_GROUP ||
                         chatType == EaseConstant.CHATTYPE_CHATROOM) {
                     emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
                     emMessage.setAttribute("groupName", groupInfo.getGroupName());
-                    emMessage.setAttribute("groupType", groupType);
                 }
                 sendMessage(emMessage);
             }

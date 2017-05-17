@@ -7,46 +7,50 @@ import java.util.ArrayList;
  */
 
 public class GroupLuckyPackageDetail {
-    private ArrayList<LuckyPackageObject> detail;
-    private String masterMemberUrl;
-    private String masterName;
-    private String outTime;
+    private String amount;
+    private String invalid;
+    private ArrayList<LuckyPackageObject> list;
+    private String packetId;
     private String remark;
+    private String sendMemberId;
+    private String sendMemberName;
+    private String sendMemberUrl;
+    private String snatch;
     private String snatchAmount;
     private String snatchNum;
     private String totalAmount;
     private String totalNumber;
 
-    public ArrayList<LuckyPackageObject> getDetail() {
-        return detail;
+    public String getAmount() {
+        return amount;
     }
 
-    public void setDetail(ArrayList<LuckyPackageObject> detail) {
-        this.detail = detail;
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
-    public String getMasterMemberUrl() {
-        return masterMemberUrl;
+    public String getInvalid() {
+        return invalid;
     }
 
-    public void setMasterMemberUrl(String masterMemberUrl) {
-        this.masterMemberUrl = masterMemberUrl;
+    public void setInvalid(String invalid) {
+        this.invalid = invalid;
     }
 
-    public String getMasterName() {
-        return masterName;
+    public ArrayList<LuckyPackageObject> getList() {
+        return list;
     }
 
-    public void setMasterName(String masterName) {
-        this.masterName = masterName;
+    public void setList(ArrayList<LuckyPackageObject> list) {
+        this.list = list;
     }
 
-    public String getOutTime() {
-        return outTime;
+    public String getPacketId() {
+        return packetId;
     }
 
-    public void setOutTime(String outTime) {
-        this.outTime = outTime;
+    public void setPacketId(String packetId) {
+        this.packetId = packetId;
     }
 
     public String getRemark() {
@@ -55,6 +59,38 @@ public class GroupLuckyPackageDetail {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getSendMemberId() {
+        return sendMemberId;
+    }
+
+    public void setSendMemberId(String sendMemberId) {
+        this.sendMemberId = sendMemberId;
+    }
+
+    public String getSendMemberName() {
+        return sendMemberName;
+    }
+
+    public void setSendMemberName(String sendMemberName) {
+        this.sendMemberName = sendMemberName;
+    }
+
+    public String getSendMemberUrl() {
+        return sendMemberUrl;
+    }
+
+    public void setSendMemberUrl(String sendMemberUrl) {
+        this.sendMemberUrl = sendMemberUrl;
+    }
+
+    public String getSnatch() {
+        return snatch;
+    }
+
+    public void setSnatch(String snatch) {
+        this.snatch = snatch;
     }
 
     public String getSnatchAmount() {

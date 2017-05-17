@@ -21,8 +21,13 @@ import com.hyphenate.exceptions.HyphenateException;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.model.chat.CommonPackage;
+import huanxing_print.com.cn.printhome.model.chat.GroupLuckyPackageDetail;
 import huanxing_print.com.cn.printhome.model.chat.RedPackageDetail;
+import huanxing_print.com.cn.printhome.net.callback.chat.GetCommonPackageDetailCallBack;
+import huanxing_print.com.cn.printhome.net.callback.chat.GetLuckyPackageDetailCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.PackageDetailCallBack;
+import huanxing_print.com.cn.printhome.net.callback.chat.ReceivedPackageCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.RobPackageCallBack;
 import huanxing_print.com.cn.printhome.net.request.chat.ChatRequest;
 import huanxing_print.com.cn.printhome.ui.activity.yinxin.RedPackageRecordActivity;
@@ -50,6 +55,8 @@ public class EaseChatRowText extends EaseChatRow {
     private GoneRedEnvelopesDialog goneDialog;
     private String lingQuRenNickName;//发红包人的昵称
     private String lingQuRenId;//发红包人的id
+
+    private String packetId;
 
     public EaseChatRowText(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -147,31 +154,55 @@ public class EaseChatRowText extends EaseChatRow {
 
     @Override
     protected void onBubbleClick() {
+         packetId = message.getStringAttribute("packetId", "");
+        Log.d("packetId", "-------------->" + packetId);
         // 红包弹出来dialog
-        if (!ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
+        if (!ObjectUtils.isNull(packetId)) {
             lingQuRenId = message.getStringAttribute("userId", "");
             //判断红包状态
             String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
                     "loginToken");
-            ChatRequest.queryPackageDetail(getContext(), token, message.getStringAttribute("packetId", ""),
-                    callBack);
+//            Log.d("CMCC", "--------type------>" + message.getIntAttribute("groupType", -1));
+//            Log.d("CMCC", "--------groupID------>" +  message.getTo());
+            if (ChatType.GroupChat == message.getChatType() ||
+                    ChatType.ChatRoom == message.getChatType()) {
+                //普通红包(直接展示)
+                if (1 == message.getIntAttribute("groupType", -1)){
+                    DialogUtils.showProgressDialog(getContext(),"正在加载").show();
+                    ChatRequest.getCommonPackageDetail(getContext(), token,
+                            message.getTo(),message.getTo(),packetId,commonCallBack);
+                }//手气红包(直接展示)
+                else if (2 == message.getIntAttribute("groupType", -1)) {
+                    DialogUtils.showProgressDialog(getContext(),"正在加载").show();
+                    ChatRequest.getLuckyPackageDetail(getContext(), token,
+                            message.getTo(),"",packetId,luckyCallBack);
+            }
+
+
+//                lingQuRenNickName = detail.getMasterName();
+//                //群聊
+//                handleGroupRedPackage(detail);
+
+
+            } else {
+                //私聊查询红包记录
+                ChatRequest.queryPackageDetail(getContext(), token, packetId,callBack);
+            }
         }
     }
 
     PackageDetailCallBack callBack = new PackageDetailCallBack() {
         @Override
         public void success(String msg, RedPackageDetail detail) {
-            Log.d("CMCC", "" + msg);
+
+            Log.d("detail", "------------->" + detail);
+
             if (!ObjectUtils.isNull(detail)) {
-                if (ChatType.GroupChat == message.getChatType() ||
-                        ChatType.ChatRoom == message.getChatType()) {
-                    lingQuRenNickName = detail.getMasterName();
-                    //群聊
-                    handleGroupRedPackage(detail);
-                } else {
-                    //私聊
-                    handleSingleRedPackage(detail);
-                }
+
+
+                handleSingleRedPackage(detail);
+
+
             }
         }
 
@@ -193,7 +224,7 @@ public class EaseChatRowText extends EaseChatRow {
      */
     private void handleSingleRedPackage(RedPackageDetail detail) {
         //判断状态
-        if (detail.isInvalid()) {
+        if (!detail.isInvalid()) {
 //            //有效(再判断有没有抢过)
 //            if (detail.isSnatch()) {
 //                //已经抢过了
@@ -211,13 +242,43 @@ public class EaseChatRowText extends EaseChatRow {
 //                intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
 //                context.startActivity(intent);
 //            }
-            //直接进入详情
-            Intent intent = new Intent(context, RedPackageRecordActivity.class);
-            intent.putExtra("easemobGroupId", message.getTo());
-            intent.putExtra("type", message.getIntAttribute("type", -1));
-            intent.putExtra("singleType", true);
-            intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
-            context.startActivity(intent);
+            if (detail.getSendMemberId().equals(lingQuRenId)){
+                //直接进入详情
+                Intent intent = new Intent(context, RedPackageRecordActivity.class);
+                intent.putExtra("easemobGroupId", message.getTo());
+                intent.putExtra("type", message.getIntAttribute("groupType", -1));
+                intent.putExtra("singleType", true);
+                intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+                context.startActivity(intent);
+            }else{
+
+                singleDialog = new SingleRedEnvelopesDialog(getContext());
+                singleDialog.setImgUrl(detail.getMasterFaceUrl());
+                singleDialog.setLeaveMsg(detail.getRemark());
+                singleDialog.setRedPackageSender(detail.getMasterName());
+                singleDialog.setClickListener(new NormalRedEnvelopesListener(){
+
+                    @Override
+                    public void open() {
+                        //抢红包
+                        String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
+                                "loginToken");
+
+                        ChatRequest.receivePackage(getContext(),token,packetId,receiveCallBack);
+                    }
+
+                    @Override
+                    public void checkDetail() {
+
+                    }
+
+                    @Override
+                    public void closeDialog() {
+
+                    }
+                });
+            }
+
         } else {
             //失效
             dialog = new FailureRedEnvelopesDialog(getContext());
@@ -229,7 +290,7 @@ public class EaseChatRowText extends EaseChatRow {
                     //查看红包领取详情(区分一下type)
                     Intent intent = new Intent(context, RedPackageRecordActivity.class);
                     intent.putExtra("easemobGroupId", message.getTo());
-                    intent.putExtra("type", message.getIntAttribute("type", -1));
+                    intent.putExtra("type", message.getIntAttribute("groupType", -1));
                     intent.putExtra("singleType", true);
                     intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                     context.startActivity(intent);
@@ -245,13 +306,76 @@ public class EaseChatRowText extends EaseChatRow {
     }
 
     /**
-     * 处理群红包
+     * 处理群手气红包
      *
      * @param detail
      */
+
+    private void handleGroupLuckyRedPackage(GroupLuckyPackageDetail detail) {
+
+//        //手气红包
+//        singleDialog = new SingleRedEnvelopesDialog(getContext());
+//        singleDialog.setLeaveMsg(detail.getRemark());
+//        singleDialog.setRedPackageSender(detail.getSendMemberName());
+//        singleDialog.setImgUrl(detail.getSendMemberUrl());
+//        singleDialog.setClickListener(new NormalRedEnvelopesListener() {
+//            @Override
+//            public void open() {
+//                //抢红包
+//                String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
+//                        "loginToken");
+//                DialogUtils.showProgressDialog(getContext(), "加载中").show();
+//                ChatRequest.robRedPackage(getContext(), token, message.getTo(),
+//                        "", message.getStringAttribute("packetId", ""), robPackageCallBack);
+//            }
+//
+//            @Override
+//            public void checkDetail() {
+//                //查看红包详情
+//                Intent intent = new Intent(context, RedPackageRecordActivity.class);
+//                intent.putExtra("easemobGroupId", message.getTo());
+//                intent.putExtra("type", message.getIntAttribute("groupType", -1));
+//                intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+//                context.startActivity(intent);
+//                singleDialog.dismiss();
+//            }
+//
+//            @Override
+//            public void closeDialog() {
+//                singleDialog.dismiss();
+//            }
+//        });
+//        singleDialog.show();
+
+        DialogUtils.showPackageDialog(getContext(),
+                detail.getSendMemberUrl(),detail.getSendMemberName(),
+                detail.getRemark(),detail.getInvalid(),detail.getSnatch(),
+                new DialogUtils.PackageDialogCallBack(){
+                    @Override
+                    public void open() {
+                        //抢红包
+                        String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
+                                "loginToken");
+                        DialogUtils.showProgressDialog(getContext(), "加载中").show();
+                        ChatRequest.robRedPackage(getContext(), token, message.getTo(),
+                                "", message.getStringAttribute("packetId", ""), robPackageCallBack);
+                    }
+
+                    @Override
+                    public void look() {
+                        Intent intent = new Intent(context, RedPackageRecordActivity.class);
+                        intent.putExtra("easemobGroupId", message.getTo());
+                        intent.putExtra("type", message.getIntAttribute("groupType", -1));
+                        intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+                        context.startActivity(intent);
+                    }
+                }).show();
+
+    }
+
     private void handleGroupRedPackage(RedPackageDetail detail) {
         //判断状态
-        if (detail.isInvalid()) {
+        if (!detail.isInvalid()) {
             //有效(再判断有没有抢过)
             if (detail.isSnatch()) {
                 goneDialog = new GoneRedEnvelopesDialog(getContext());
@@ -263,7 +387,7 @@ public class EaseChatRowText extends EaseChatRow {
                         //已经抢过了直接跳到详情页面
                         Intent intent = new Intent(context, RedPackageRecordActivity.class);
                         intent.putExtra("easemobGroupId", message.getTo());
-                        intent.putExtra("type", message.getIntAttribute("type", -1));
+                        intent.putExtra("type", message.getIntAttribute("groupType", -1));
                         intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                         context.startActivity(intent);
                         goneDialog.dismiss();
@@ -279,7 +403,7 @@ public class EaseChatRowText extends EaseChatRow {
                 //未抢过
                 //这里区分一下群普通红包还是手气红包
                 if (ObjectUtils.isNull(message.getIntAttribute("", -1))) {
-                    if (1 == message.getIntAttribute("type", -1)) {
+                    if (1 == message.getIntAttribute("groupType", -1)) {
                         //普通红包(直接展示)
                         groupDialog = new GroupRedEnvelopesDialog(getContext());
                         groupDialog.setImgUrl(detail.getMasterFaceUrl());
@@ -293,7 +417,7 @@ public class EaseChatRowText extends EaseChatRow {
                             }
                         });
                         groupDialog.show();
-                    } else if (2 == message.getIntAttribute("type", -1)) {
+                    } else if (2 == message.getIntAttribute("groupType", -1)) {
                         //手气红包
                         singleDialog = new SingleRedEnvelopesDialog(getContext());
                         singleDialog.setLeaveMsg(detail.getRemark());
@@ -315,7 +439,7 @@ public class EaseChatRowText extends EaseChatRow {
                                 //查看红包详情
                                 Intent intent = new Intent(context, RedPackageRecordActivity.class);
                                 intent.putExtra("easemobGroupId", message.getTo());
-                                intent.putExtra("type", message.getIntAttribute("type", -1));
+                                intent.putExtra("type", message.getIntAttribute("groupType", -1));
                                 intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                                 context.startActivity(intent);
                                 singleDialog.dismiss();
@@ -341,7 +465,7 @@ public class EaseChatRowText extends EaseChatRow {
                     //群红包才会有记录页面
                     Intent intent = new Intent(context, RedPackageRecordActivity.class);
                     intent.putExtra("easemobGroupId", message.getTo());
-                    intent.putExtra("type", message.getIntAttribute("type", -1));
+                    intent.putExtra("type", message.getIntAttribute("groupType", -1));
                     intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                     context.startActivity(intent);
                     dialog.dismiss();
@@ -355,6 +479,94 @@ public class EaseChatRowText extends EaseChatRow {
             dialog.show();
         }
     }
+     //单人抢红包
+    ReceivedPackageCallBack receiveCallBack = new ReceivedPackageCallBack() {
+        @Override
+        public void success(String msg, String amount) {
+            Log.d("CMCC", "" + msg + "," + amount);
+            //DialogUtils.closeProgressDialog();
+            //发透传消息的
+            //跳转到详情页
+            Intent intent = new Intent(context, RedPackageRecordActivity.class);
+            intent.putExtra("easemobGroupId", message.getTo());
+            intent.putExtra("type", message.getIntAttribute("groupType", -1));
+            intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+            context.startActivity(intent);
+            singleDialog.dismiss();
+        }
+
+        @Override
+        public void fail(String msg) {
+            //DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "" + msg);
+        }
+
+        @Override
+        public void connectFail() {
+            //DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "connectFail");
+        }
+    };
+//群普通红包查询
+GetCommonPackageDetailCallBack commonCallBack = new GetCommonPackageDetailCallBack() {
+
+    @Override
+        public void success(String msg, CommonPackage detail) {
+        Log.d("CMCC", "-------CommonPackage----"+detail);
+            DialogUtils.closeProgressDialog();
+            //发透传消息的
+            //跳转到详情页
+//            Intent intent = new Intent(context, RedPackageRecordActivity.class);
+//            intent.putExtra("easemobGroupId", message.getTo());
+//            intent.putExtra("type", message.getIntAttribute("type", -1));
+//            intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+//            context.startActivity(intent);
+//            singleDialog.dismiss();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "" + msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "connectFail");
+        }
+    };
+
+    //群拼手气红包查询
+    GetLuckyPackageDetailCallBack luckyCallBack = new GetLuckyPackageDetailCallBack() {
+
+        @Override
+        public void success(String msg, GroupLuckyPackageDetail detail) {
+            //Log.d("detail", "---->" + detail);
+            DialogUtils.closeProgressDialog();
+            handleGroupLuckyRedPackage(detail);
+            //发透传消息的
+            //跳转到详情页
+//            Intent intent = new Intent(context, RedPackageRecordActivity.class);
+//            intent.putExtra("easemobGroupId", message.getTo());
+//            intent.putExtra("type", message.getIntAttribute("type", -1));
+//            intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+//            context.startActivity(intent);
+//            singleDialog.dismiss();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "" + msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "connectFail");
+        }
+    };
 
     RobPackageCallBack robPackageCallBack = new RobPackageCallBack() {
         @Override
@@ -365,7 +577,7 @@ public class EaseChatRowText extends EaseChatRow {
             //跳转到详情页
             Intent intent = new Intent(context, RedPackageRecordActivity.class);
             intent.putExtra("easemobGroupId", message.getTo());
-            intent.putExtra("type", message.getIntAttribute("type", -1));
+            intent.putExtra("type", message.getIntAttribute("groupType", -1));
             intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
             context.startActivity(intent);
             singleDialog.dismiss();

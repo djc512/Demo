@@ -19,8 +19,12 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,11 +33,14 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.model.print.GroupResp;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupRecylerAdapter;
+import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.LinePathView;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 
+import static huanxing_print.com.cn.printhome.R.id.img_open;
 import static huanxing_print.com.cn.printhome.R.id.tv_content;
 
 
@@ -48,6 +55,7 @@ public class DialogUtils {
     public static Dialog mVersionDialog;
     public static Dialog mPicChooseDialog;
     public static Dialog mActivityDialog;
+    public static Dialog mPackageDialog;
 
     public interface ShareDialogCallBack {
 
@@ -61,6 +69,11 @@ public class DialogUtils {
 
     public interface TipsDialogCallBack {
         public void ok();
+    }
+
+    public interface PackageDialogCallBack {
+        public void open();
+        public void look();
 
     }
 
@@ -708,6 +721,96 @@ public class DialogUtils {
 
         return mSignatureDialog;
     }
+
+    public static Dialog showPackageDialog(Context context, String imgUrl, String redPackageSender,
+                                           String leaveMsg,String invalid, String snatch,
+                                           final PackageDialogCallBack dialogCallBack) {
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.layout_red_package_dialog, null);
+        mPackageDialog = new Dialog(context, R.style.loading_dialog);
+        mPackageDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mPackageDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mPackageDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mPackageDialog.getWindow().setAttributes(lp);
+        mPackageDialog.setCanceledOnTouchOutside(true);
+
+        RelativeLayout rel_close = (RelativeLayout) view.findViewById(R.id.rel_close);
+        ImageView openBtn = (ImageView) view.findViewById(img_open);
+        TextView txt_look_detail = (TextView) view.findViewById(R.id.txt_look_detail);
+        ImageView img_head_portrait = (ImageView) view.findViewById(R.id.img_head_portrait);
+        TextView txt_name = (TextView) view.findViewById(R.id.txt_name);
+        TextView txt_default_msg = (TextView) view.findViewById(R.id.txt_default_msg);
+        TextView txt_leave_msg = (TextView) view.findViewById(R.id.txt_leave_msg);
+        TextView txt_failure_msg = (TextView) view.findViewById(R.id.txt_failure_msg);
+        Glide.with(context)
+                .load(imgUrl)
+                .centerCrop()
+                .transform(new CircleTransform(context))
+                .crossFade()
+                .placeholder(R.drawable.iv_head)
+                .error(R.drawable.iv_head)
+                .into(img_head_portrait);
+        txt_name.setText(redPackageSender);
+        //invalid  false 有效 true失效    snatch  true 已抢 false 未抢
+         if (!ObjectUtils.isNull(invalid)&&"false".equals(invalid)){
+             if (!ObjectUtils.isNull(snatch)&&"false".equals(snatch)){
+                 txt_default_msg.setVisibility(View.VISIBLE);
+                 txt_leave_msg.setVisibility(View.VISIBLE);
+                 openBtn.setVisibility(View.VISIBLE);
+                 txt_failure_msg.setVisibility(View.GONE);
+                 txt_leave_msg.setText(leaveMsg);
+             }else{
+                 txt_default_msg.setVisibility(View.GONE);
+                 txt_leave_msg.setVisibility(View.GONE);
+                 openBtn.setVisibility(View.GONE);
+                 txt_failure_msg.setVisibility(View.VISIBLE);
+                 txt_failure_msg.setText("手慢了，红包已抢完");
+             }
+
+         }else{
+             txt_default_msg.setVisibility(View.GONE);
+             txt_leave_msg.setVisibility(View.GONE);
+             openBtn.setVisibility(View.GONE);
+             txt_failure_msg.setVisibility(View.VISIBLE);
+             txt_failure_msg.setText("该红包已失效");
+         }
+
+        //contentTv.setText(content);
+        openBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mPackageDialog.dismiss();
+                dialogCallBack.open();
+            }
+        });
+        rel_close.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mPackageDialog.dismiss();
+
+            }
+        });
+        txt_look_detail.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mPackageDialog.dismiss();
+                dialogCallBack.look();
+            }
+        });
+
+        return mPackageDialog;
+    }
+
+
 
     public static void closeProgressDialog() {
         if (null != mProgressDialog) {

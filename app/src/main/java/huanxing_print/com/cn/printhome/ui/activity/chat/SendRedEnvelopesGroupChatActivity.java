@@ -233,15 +233,18 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         @Override
         public void success(String msg, String id) {
             DialogUtils.closeProgressDialog();
+            String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
             if (null != id) {
                 Intent intent = new Intent();
                 intent.putExtra("packetId", id);
+                intent.putExtra("remark", remark);
                 if (isLuck) {
                     //手气
                     intent.putExtra("groupType", 2);
                 } else {
                     intent.putExtra("groupType", 1);
                 }
+                Log.d("CMCC", "setResult--groupType--》"+intent.getIntExtra("groupType", -1) );
                 setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }
@@ -268,6 +271,13 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                 Intent intent = new Intent();
                 intent.putExtra("packetId", luckyPackage.getPacketId());
                 intent.putExtra("remark", luckyPackage.getRemark());
+                if (isLuck) {
+                    //手气
+                    intent.putExtra("groupType", 2);
+                } else {
+                    intent.putExtra("groupType", 1);
+                }
+                Log.d("CMCC", "setResult-手气-groupType--》"+intent.getIntExtra("groupType", -1) );
                 setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }
