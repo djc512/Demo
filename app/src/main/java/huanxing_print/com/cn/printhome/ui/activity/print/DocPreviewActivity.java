@@ -7,6 +7,8 @@ import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.List;
 
@@ -89,6 +91,9 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void turnPrintSetting(PrintSetting printSetting) {
+        if (fileUrlList.size() == 1) {
+            EventBus.getDefault().postSticky(new Integer(1));
+        }
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
         PickPrinterActivity.start(context, bundle);

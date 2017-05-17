@@ -143,7 +143,8 @@ public class PcFileRecylerAdapter extends RecyclerView.Adapter<PcFileRecylerAdap
         if (fileName.endsWith(".pdf")) {
             return R.drawable.ic_pdf;
         }
-        if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png")) {
+        if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png") || fileName.endsWith
+                (".bmp")) {
             return R.drawable.ic_img;
         }
         return R.drawable.ic_defaut_file;
