@@ -83,6 +83,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private void initData() {
+        DialogUtils.showProgressDialog(this, "加载中").show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -98,6 +99,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
         @Override
         public void run() {
+            DialogUtils.closeProgressDialog();
             //更新UI
             adapter.modifyData(contactInfos);
         }
