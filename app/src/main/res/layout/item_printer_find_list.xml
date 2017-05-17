@@ -29,7 +29,7 @@
             android:gravity="center"
             android:maxEms="10"
             android:maxLines="1"
-            android:text="红山创意工厂"
+            android:text="红山创意工厂红山"
             android:textColor="@color/text_black"
             android:textSize="16dp"/>
 
@@ -66,9 +66,9 @@
                 android:layout_height="match_parent"
                 android:ellipsize="end"
                 android:gravity="center"
-                android:maxLength="10"
+                android:maxEms="10"
                 android:maxLines="1"
-                android:text="普天路1号普天路1号普天路1号普天路1号普天路1号普天路1号"
+                android:text="普天路号普天路号普天路号普天路号普天路号普天路号"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"/>
 

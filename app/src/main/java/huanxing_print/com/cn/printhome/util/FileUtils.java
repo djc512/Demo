@@ -43,6 +43,11 @@ public class FileUtils {
                 .separator + "WiFi" + File.separator;
     }
 
+    public static String getDownloadPath() {
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "ecostar" + File
+                .separator + "Download" + File.separator;
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static long getSDCardAllSize() {
         if (isSDCardEnable()) {

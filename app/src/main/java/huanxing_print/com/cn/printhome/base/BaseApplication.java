@@ -82,11 +82,11 @@ public class BaseApplication extends Application {
     private boolean hasLoginEvent = false;
     //微信第三方登录
     //正式
-//	public static final String WX_APPID = "wxb54a2ee8a63993f9";
-//	public static final String WX_APPSecret = "c8c5ed7d1e388e54cb5a1b4c1af35663";
+	public static final String WX_APPID = "wxb54a2ee8a63993f9";
+	public static final String WX_APPSecret = "c8c5ed7d1e388e54cb5a1b4c1af35663";
     //测试
-    public static final String WX_APPID = "wx4c877768d9a9fc08";
-    public static final String WX_APPSecret = "d7ba93d327cfdd1d02b8d5a4b43b1223";
+//    public static final String WX_APPID = "wx4c877768d9a9fc08";
+//    public static final String WX_APPSecret = "d7ba93d327cfdd1d02b8d5a4b43b1223";
     private IWXAPI api;
 
     private static BaseApplication mInstance;

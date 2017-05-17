@@ -8,14 +8,22 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 import com.zhy.http.okhttp.request.RequestCall;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.UrlUtil;
 import huanxing_print.com.cn.printhome.util.time.TimeUtils;
 import huanxing_print.com.cn.printhome.view.dialog.WaitDialog;
 import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 
 /**
@@ -197,6 +205,56 @@ public class Http {
 
                 } else {
                     callback.onFailed(exception.getMessage());
+                }
+            }
+        });
+    }
+
+    public static final void download() {
+        Request request = new Request.Builder().url("http://gdown.baidu" +
+                ".com/data/wisegame/0852f6d39ee2e213/QQ_676.apk").build();
+        new OkHttpClient().newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                InputStream is = null;
+                byte[] buf = new byte[2048];
+                int len = 0;
+                FileOutputStream fos = null;
+                try {
+                    is = response.body().byteStream();
+                    long total = response.body().contentLength();
+                    FileUtils.makeFile(FileUtils.getDownloadPath() + "asp.apk");
+                    File file = new File(FileUtils.getDownloadPath() + "asp.apk");
+                    fos = new FileOutputStream(file);
+                    long sum = 0;
+                    while ((len = is.read(buf)) != -1) {
+                        fos.write(buf, 0, len);
+                        sum += len;
+                        int progress = (int) (sum * 1.0f / total * 100);
+                        Logger.i(progress);
+                    }
+                    fos.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (is != null)
+                            is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        if (fos != null)
+                            fos.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

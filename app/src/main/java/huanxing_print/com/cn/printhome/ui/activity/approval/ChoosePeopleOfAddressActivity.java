@@ -155,14 +155,23 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
     @Override
     public void choose(ArrayList<GroupMember> infos) {
         chooseGroupMembers = infos;
-        if (null != infos) {
-            tv_hint_member.setText(String.format(getString(R.string.hint_choose_members), infos.size()));
-            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), groupMembers.size()));
-            if (infos.size() > 0) {
-                btn_create.setEnabled(true);
-            } else {
-                btn_create.setEnabled(false);
-            }
+//        if (null != infos) {
+//            tv_hint_member.setText(String.format(getString(R.string.hint_choose_members), infos.size()));
+//            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), groupMembers.size()));
+//            if (infos.size() > 0) {
+//                btn_create.setEnabled(true);
+//            } else {
+//                btn_create.setEnabled(false);
+//            }
+//        }
+        //区分两种
+        if ("approvalFriends".equals(type)) {
+            //审批
+            EventBus.getDefault().post(new ChooseMemberEvent(0x11, chooseGroupMembers));
+        } else if ("copyFriends".equals(type)) {
+            //抄送
+            EventBus.getDefault().post(new ChooseMemberEvent(0x12, chooseGroupMembers));
         }
+        finish();
     }
 }
