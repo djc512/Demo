@@ -178,7 +178,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ui.activity.print.AddFileActivity"
@@ -564,6 +563,11 @@
             android:name=".ui.activity.approval.ChooseGroupActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <!-- 红包详情页-->
+        <activity
+            android:name=".ui.activity.yinxin.RedPackageRecordActivity"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".ui.activity.chat.SendRedEnvelopesSingleChatActivity" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for

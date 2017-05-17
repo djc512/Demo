@@ -1053,6 +1053,10 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
             holder.edt_expense_type.addTextChangedListener(watcher);
             holder.edt_expense_type.setTag(watcher);
 
+            //设置金额填框必须只能填写金额数字 EditText要先设置
+            //android:inputType="numberDecimal"或者setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL)
+            InputFilter[] filters={new CashierInputFilter()};
+            holder.edt_expense_num.setFilters(filters);
             //This is important. An EditText just one TextWatcher.
             if (holder.edt_expense_num.getTag() instanceof TextWatcher) {
                 holder.edt_expense_num.removeTextChangedListener((TextWatcher) holder.edt_expense_num.getTag());

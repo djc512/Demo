@@ -152,7 +152,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
                     "", toChatUsername, callback);
         } else {
-            tv_title.setText(toChatUsername);
+//            tv_title.setText(toChatUsername);
         }
 
         setUpView();
@@ -550,6 +550,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 //红包
                 String packetId = data.getStringExtra("packetId");
                 String remark = data.getStringExtra("remark");
+                int groupType = data.getIntExtra("groupType", -1);
                 EMMessage emMessage = EMMessage.createTxtSendMessage(remark, toChatUsername);
                 emMessage.setAttribute("packetId", packetId);
                 emMessage.setAttribute("userId", baseApplication.getMemberId());
@@ -559,6 +560,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                         chatType == EaseConstant.CHATTYPE_CHATROOM) {
                     emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
                     emMessage.setAttribute("groupName", groupInfo.getGroupName());
+                    emMessage.setAttribute("groupType", groupType);
                 }
                 sendMessage(emMessage);
             }
@@ -1192,11 +1194,11 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
      */
     protected void toGroupDetails() {
         if (chatType == EaseConstant.CHATTYPE_GROUP) {
-            EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
-            if (group == null) {
-                Toast.makeText(getSelfActivity(), R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
+//            if (group == null) {
+//                Toast.makeText(getSelfActivity(), R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             Intent intent = new Intent(getSelfActivity(), GroupSettingActivity.class);
             intent.putExtra("groupId", "");
             intent.putExtra("easemobGroupId", toChatUsername);

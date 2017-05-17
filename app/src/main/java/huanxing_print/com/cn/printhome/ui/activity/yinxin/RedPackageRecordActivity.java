@@ -6,15 +6,22 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.chat.CommonPackage;
+import huanxing_print.com.cn.printhome.model.chat.GroupLuckyPackageDetail;
 import huanxing_print.com.cn.printhome.model.yinxin.RedPackageBean;
+import huanxing_print.com.cn.printhome.net.callback.chat.GetCommonPackageDetailCallBack;
+import huanxing_print.com.cn.printhome.net.callback.chat.GetLuckyPackageDetailCallBack;
+import huanxing_print.com.cn.printhome.net.request.chat.ChatRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.RedPackageAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class RedPackageRecordActivity extends BaseActivity {
 
@@ -56,7 +63,59 @@ public class RedPackageRecordActivity extends BaseActivity {
         recordRecView.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.VERTICAL, 1, ContextCompat
                 .getColor(this, R.color.devide_gray)));
         RedPackageBean date = new RedPackageBean();
-        redPackageAdapter = new RedPackageAdapter();
-        recordRecView.setAdapter(redPackageAdapter);
+        String easemobGroupId = getIntent().getStringExtra("easemobGroupId");
+        String packetId = getIntent().getStringExtra("packetId");
+        int type = getIntent().getIntExtra("type", -1);
+        if (1 == type) {
+            //群普通红包
+            ChatRequest.getCommonPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
+                    easemobGroupId, "", packetId, callBack);
+        } else if (2 == type) {
+            //群拼手气红包
+            DialogUtils.showProgressDialog(this, "加载中").show();
+            ChatRequest.getLuckyPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
+                    easemobGroupId, "", packetId, luckyCallBack);
+        }
     }
+
+    GetCommonPackageDetailCallBack callBack = new GetCommonPackageDetailCallBack() {
+        @Override
+        public void success(String msg, CommonPackage detail) {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "" + msg);
+            redPackageAdapter = new RedPackageAdapter();
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "" + msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "connectFail");
+        }
+    };
+
+    GetLuckyPackageDetailCallBack luckyCallBack = new GetLuckyPackageDetailCallBack() {
+        @Override
+        public void success(String msg, GroupLuckyPackageDetail detail) {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "" + msg);
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "" + msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "connectFail");
+        }
+    };
 }
