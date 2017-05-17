@@ -1,6 +1,8 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,10 +50,10 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
         if (orderStatus == 3) {
             holder.tv_state.setText("正在退款");
             holder.tv_state.setBackgroundResource(R.color.orange);
-        }else if(orderStatus == 4){
+        } else if (orderStatus == 4) {
             holder.tv_state.setText("已退款");
             holder.tv_state.setBackgroundResource(R.color.gray4);
-        }else if(orderStatus == 5){
+        } else if (orderStatus == 5) {
             holder.tv_state.setText("打印成功");
             holder.tv_state.setBackgroundResource(R.color.green2);
         }
@@ -94,10 +96,12 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
             @Override
             public void onClick(View v) {
                 if (isShow) {
-                    holder.iv_down.setBackgroundResource(R.drawable.select_no);
+                    Bitmap upBitmap = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.up);
+                    holder.iv_down.setImageBitmap(upBitmap);
                     holder.ll_detail.setVisibility(View.VISIBLE);
                 } else {
-                    holder.iv_down.setBackgroundResource(R.drawable.select);
+                    Bitmap downBitmap = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.down);
+                    holder.iv_down.setImageBitmap(downBitmap);
                     holder.ll_detail.setVisibility(View.GONE);
                 }
                 isShow = !isShow;

@@ -63,7 +63,7 @@
                     android:hint="你所属部门(必填)"
                     android:maxLength="20"
                     android:paddingLeft="2dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="@dimen/text_size_sixteen" />
 
             </LinearLayout>
@@ -147,7 +147,7 @@
                         android:hint="填写你的报销金额(必填)"
                         android:inputType="number"
                         android:paddingLeft="2dp"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:textSize="@dimen/text_size_sixteen" />
 
                 </LinearLayout>
@@ -339,9 +339,9 @@
                     android:digits="@string/edt_digits"
                     android:hint="填写报销金额"
                     android:paddingLeft="2dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="@dimen/text_size_sixteen"
-                    android:inputType="number"/>
+                    android:inputType="numberDecimal"/>
 
 
             </LinearLayout>
