@@ -152,7 +152,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
                     "", toChatUsername, callback);
         } else {
-            tv_title.setText(toChatUsername);
+//            tv_title.setText(toChatUsername);
         }
 
         setUpView();
