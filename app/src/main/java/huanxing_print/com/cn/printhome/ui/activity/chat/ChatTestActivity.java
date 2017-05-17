@@ -351,7 +351,6 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         inputMenu.registerExtendMenuItem(R.string.attach_picture, R.drawable.ease_chat_image_selector, ITEM_PICTURE, extendMenuItemClickListener);
         inputMenu.registerExtendMenuItem(R.string.attach_file, R.drawable.em_chat_file_selector, ITEM_FILE, extendMenuItemClickListener);
         inputMenu.registerExtendMenuItem(R.string.attach_red_packet, R.drawable.em_chat_red_packet_selector, ITEM_RED_PACKET, extendMenuItemClickListener);
-        inputMenu.registerExtendMenuItem(R.string.attach_video, R.drawable.em_chat_video_selector, ITEM_VIDEO, extendMenuItemClickListener);
 //        if (chatType == Constant.CHATTYPE_SINGLE) {
 //            inputMenu.registerExtendMenuItem(R.string.attach_voice_call, R.drawable.em_chat_voice_call_selector, ITEM_VOICE_CALL, extendMenuItemClickListener);
 //            inputMenu.registerExtendMenuItem(R.string.attach_video_call, R.drawable.em_chat_video_call_selector, ITEM_VIDEO_CALL, extendMenuItemClickListener);
@@ -804,9 +803,6 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 case ITEM_FILE:
                     selectFileFromLocal();
                     break;
-                case ITEM_VIDEO:
-                    startVideoCall();
-                    break;
                 case ITEM_RED_PACKET:
                     Intent intent = new Intent();
                     if (chatType == Constant.CHATTYPE_GROUP) {
@@ -827,31 +823,6 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             }
         }
 
-    }
-
-
-    /**
-     * make a video call
-     */
-    protected void startVideoCall() {
-        if (!EMClient.getInstance().isConnected())
-            Toast.makeText(getSelfActivity(), R.string.not_connect_to_server, Toast.LENGTH_SHORT).show();
-        else {
-            Intent intent = new Intent();
-            if (chatType == Constant.CHATTYPE_GROUP) {
-                intent.setClass(getSelfActivity(), SendRedEnvelopesGroupChatActivity.class);
-                intent.putExtra("groupInfo", groupInfo);
-            } else if (chatType == Constant.CHATTYPE_CHATROOM) {
-                intent.setClass(getSelfActivity(), SendRedEnvelopesGroupChatActivity.class);
-                intent.putExtra("groupInfo", groupInfo);
-            } else {
-                intent.setClass(getSelfActivity(), SendRedEnvelopesSingleChatActivity.class);
-                intent.putExtra("memberId", toChatUsername);
-            }
-            startActivityForResult(intent, ITEM_RED_PACKET_CALL);
-            // videoCallBtn.setEnabled(false);
-            inputMenu.hideExtendMenuContainer();
-        }
     }
 
     /**
