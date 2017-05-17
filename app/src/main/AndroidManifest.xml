@@ -458,7 +458,6 @@
         <!-- 转让群主 -->
         <activity
             android:name=".ui.activity.contact.GroupOwnerTransferActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 修改群昵称 -->
         <activity
@@ -485,7 +484,6 @@
         <!-- 群设置 -->
         <activity
             android:name=".ui.activity.contact.GroupMemberAddActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <!-- 采购审批界面 -->
