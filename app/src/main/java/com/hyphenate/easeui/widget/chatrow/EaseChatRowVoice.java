@@ -50,11 +50,11 @@ public class EaseChatRowVoice extends EaseChatRowFile {
         if (EaseChatRowVoicePlayClickListener.playMsgId != null
                 && EaseChatRowVoicePlayClickListener.playMsgId.equals(message.getMsgId()) && EaseChatRowVoicePlayClickListener.isPlaying) {
             AnimationDrawable voiceAnimation;
-            if (message.direct() == EMMessage.Direct.RECEIVE) {
-                voiceImageView.setImageResource(R.anim.voice_from_icon);
-            } else {
-                voiceImageView.setImageResource(R.anim.voice_to_icon);
-            }
+//            if (message.direct() == EMMessage.Direct.RECEIVE) {
+//                voiceImageView.setImageResource(R.anim.voice_from_icon);
+//            } else {
+//                voiceImageView.setImageResource(R.anim.voice_to_icon);
+//            }
             voiceAnimation = (AnimationDrawable) voiceImageView.getDrawable();
             voiceAnimation.start();
         } else {
