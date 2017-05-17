@@ -243,6 +243,7 @@ public class EaseMessageAdapter extends BaseAdapter{
         case VOICE:
             chatRow = new EaseChatRowVoice(context, message, position, this);
             break;
+			//红包========================================================================
         case VIDEO:
             chatRow = new EaseChatRowVideo(context, message, position, this);
             break;

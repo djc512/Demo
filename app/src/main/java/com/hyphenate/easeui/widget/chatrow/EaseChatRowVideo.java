@@ -4,31 +4,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.text.Spannable;
+import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMMessage.ChatType;
-import com.hyphenate.chat.EMVideoMessageBody;
+import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.model.EaseImageCache;
-import com.hyphenate.easeui.ui.EaseShowVideoActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.util.DateUtils;
-import com.hyphenate.util.EMLog;
+import com.hyphenate.easeui.utils.EaseSmileUtils;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.ImageUtils;
-import com.hyphenate.util.TextFormater;
 
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.ui.activity.chat.SendRedEnvelopesGroupChatActivity;
 
 public class EaseChatRowVideo extends EaseChatRowFile {
 
 	private ImageView imageView;
-    private TextView sizeView;
+    private TextView tv_detail;
     private TextView timeLengthView;
 
     public EaseChatRowVideo(Context context, EMMessage message, int position, BaseAdapter adapter) {
@@ -38,79 +37,61 @@ public class EaseChatRowVideo extends EaseChatRowFile {
 	@Override
 	protected void onInflateView() {
 		inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
-				R.layout.ease_row_received_video : R.layout.ease_row_sent_video, this);
+				R.layout.ease_row_received_red_packet : R.layout.ease_row_sent_red_packet, this);
 	}
 
 	@Override
 	protected void onFindViewById() {
-	    imageView = ((ImageView) findViewById(R.id.chatting_content_iv));
-        sizeView = (TextView) findViewById(R.id.chatting_size_iv);
-        timeLengthView = (TextView) findViewById(R.id.chatting_length_iv);
-        ImageView playView = (ImageView) findViewById(R.id.chatting_status_btn);
-        percentageView = (TextView) findViewById(R.id.percentage);
+        tv_detail = (TextView) findViewById(R.id.tv_detail);
 	}
 
 	@Override
 	protected void onSetUpView() {
-	    EMVideoMessageBody videoBody = (EMVideoMessageBody) message.getBody();
-        String localThumb = videoBody.getLocalThumb();
-
-        if (localThumb != null) {
-
-            showVideoThumbView(localThumb, imageView, videoBody.getThumbnailUrl(), message);
-        }
-        if (videoBody.getDuration() > 0) {
-            String time = DateUtils.toTime(videoBody.getDuration());
-            timeLengthView.setText(time);
-        }
-
-        if (message.direct() == EMMessage.Direct.RECEIVE) {
-            if (videoBody.getVideoFileLength() > 0) {
-                String size = TextFormater.getDataSize(videoBody.getVideoFileLength());
-                sizeView.setText(size);
-            }
-        } else {
-            if (videoBody.getLocalUrl() != null && new File(videoBody.getLocalUrl()).exists()) {
-                String size = TextFormater.getDataSize(new File(videoBody.getLocalUrl()).length());
-                sizeView.setText(size);
-            }
-        }
-
-        EMLog.d(TAG,  "video thumbnailStatus:" + videoBody.thumbnailDownloadStatus());
-        if (message.direct() == EMMessage.Direct.RECEIVE) {
-            if (videoBody.thumbnailDownloadStatus() == EMFileMessageBody.EMDownloadStatus.DOWNLOADING ||
-                    videoBody.thumbnailDownloadStatus() == EMFileMessageBody.EMDownloadStatus.PENDING) {
-                imageView.setImageResource(R.drawable.ease_default_image);
-                setMessageReceiveCallback();
-            } else {
-                // System.err.println("!!!! not back receive, show image directly");
-                imageView.setImageResource(R.drawable.ease_default_image);
-                if (localThumb != null) {
-                    showVideoThumbView(localThumb, imageView, videoBody.getThumbnailUrl(), message);
-                }
-
-            }
-
-            return;
-        }
+        EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
+        Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
+        // 设置内容
+        tv_detail.setText(span, TextView.BufferType.SPANNABLE);
         //handle sending message
         handleSendMessage();
 	}
+
+    protected void handleSendMessage() {
+        if (message.direct() == EMMessage.Direct.SEND) {
+            setMessageSendCallback();
+            switch (message.status()) {
+                case CREATE:
+                    progressBar.setVisibility(View.GONE);
+                    statusView.setVisibility(View.VISIBLE);
+                    break;
+                case SUCCESS:
+                    progressBar.setVisibility(View.GONE);
+                    statusView.setVisibility(View.GONE);
+                    break;
+                case FAIL:
+                    progressBar.setVisibility(View.GONE);
+                    statusView.setVisibility(View.VISIBLE);
+                    break;
+                case INPROGRESS:
+                    progressBar.setVisibility(View.VISIBLE);
+                    statusView.setVisibility(View.GONE);
+                    break;
+                default:
+                    break;
+            }
+        }else{
+            if(!message.isAcked() && message.getChatType() == EMMessage.ChatType.Chat){
+                try {
+                    EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 	
 	@Override
 	protected void onBubbleClick() {
-	    EMVideoMessageBody videoBody = (EMVideoMessageBody) message.getBody();
-        EMLog.d(TAG, "video view is on click");
-        Intent intent = new Intent(context, EaseShowVideoActivity.class);
-        intent.putExtra("msg", message);
-        if (message != null && message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked()
-                && message.getChatType() == ChatType.Chat) {
-            try {
-                EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+	    Intent intent = new Intent(context, SendRedEnvelopesGroupChatActivity.class);
         activity.startActivity(intent);
 	}
 	
