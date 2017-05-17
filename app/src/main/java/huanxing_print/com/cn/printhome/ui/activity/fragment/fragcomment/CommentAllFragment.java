@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.andview.refreshview.XRefreshView;
+
 import java.util.List;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.comment.CommentListBean;
 import huanxing_print.com.cn.printhome.net.callback.comment.CommentListCallback;
@@ -31,7 +34,7 @@ public class CommentAllFragment extends Fragment {
     private Context ctx;
     private String printno;
     private XRefreshView xrf_comment;
-    private int pageNum =1;
+    private int pageNum = 1;
     private boolean isLoadMore;
     private List<CommentListBean.DetailBean> detail;
     private CommentListAdapter1 adapter;
@@ -62,7 +65,7 @@ public class CommentAllFragment extends Fragment {
 
     public void getData(int type, String printno) {
         this.type = type;
-        DialogUtils.showProgressDialog(ctx, "正在加载中...");
+        DialogUtils.showProgressDialog(ctx, "正在加载中").show();
         CommentListRequest.request(ctx, 1, printno, type, new MyCommentListCallback());
     }
 
@@ -102,7 +105,7 @@ public class CommentAllFragment extends Fragment {
             if (isLoadMore) {//如果是加载更多
                 if (!ObjectUtils.isNull(bean)) {
                     xrf_comment.stopLoadMore();
-                    if (!ObjectUtils.isNull(bean.getDetail())) {
+                    if (!ObjectUtils.isNull(bean.getDetail()) && bean.getDetail().size() > 0) {
                         detail.addAll(bean.getDetail());
                         adapter.notifyDataSetChanged();
                     } else {
