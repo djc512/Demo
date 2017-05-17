@@ -15,9 +15,12 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.chat.LuckyPackage;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
+import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.chat.SendCommonPackageCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.SendLuckyPackageCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.chat.ChatRequest;
+import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -127,10 +130,8 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                     } else {
                         btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_red);
                     }
-                    txt_num.setText(s);
 
                 } else {
-                    txt_num.setText("0.00");
                     btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_null);
                 }
             }
@@ -155,8 +156,11 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_plug_money:
-                //发红包
-                plugMoney();
+                //网络请求，获取用户信息
+                DialogUtils.showProgressDialog(this,"装红包中").show();
+                MyInfoRequest.getMyInfo(SendRedEnvelopesGroupChatActivity.this, baseApplication.getLoginToken(), new MyMyInfoCallBack());
+
+//                plugMoney();
                 break;
             case R.id.txt_action_change:
                 //改变红包类型
@@ -275,4 +279,45 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
             connectFail();
         }
     };
+
+    public class MyMyInfoCallBack extends MyInfoCallBack {
+
+        @Override
+        public void success(String msg, MyInfoBean bean) {
+            DialogUtils.closeProgressDialog();
+
+            if (!ObjectUtils.isNull(bean)) {
+                String totleBalance = bean.getTotleBalance();
+                String amount = edt_single_money.getText().toString();
+                if(Float.parseFloat(totleBalance) >= Float.parseFloat(amount)) {
+                    //发红包
+                    DialogUtils.showRedPackageConfirmDialog(SendRedEnvelopesGroupChatActivity.this, "红包", "¥ " + Float.parseFloat(amount), new DialogUtils.RedPackageCallback() {
+                        @Override
+                        public void send() {
+                        plugMoney();
+                        }
+                    }).show();
+                }else{
+                    //发红包
+                    DialogUtils.showRedPackageConfirmDialog(SendRedEnvelopesGroupChatActivity.this, "红包", "余额不足", new DialogUtils.RedPackageCallback() {
+                        @Override
+                        public void send() {
+                        }
+                    }).show();
+                }
+
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(SendRedEnvelopesGroupChatActivity.this, msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+        }
+    }
 }

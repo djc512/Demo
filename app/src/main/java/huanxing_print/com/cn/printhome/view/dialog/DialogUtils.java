@@ -111,6 +111,10 @@ public class DialogUtils {
         void exit();
     }
 
+    public interface RedPackageCallback{
+        void send();
+    }
+
     public static Dialog showProgressDialog(Context context, String content) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -552,6 +556,44 @@ public class DialogUtils {
                 tv_confirm.setTextColor(context.getResources().getColor(R.color.yellow2));
                 mProgressDialog.dismiss();
                 callbak.dissolution();
+            }
+        });
+        return mProgressDialog;
+    }
+
+    public static Dialog showRedPackageConfirmDialog(final Context context, String title, String content, final RedPackageCallback callback) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_redpackage, null);
+        if (null == mProgressDialog) {
+            mProgressDialog = new Dialog(context, R.style.loading_dialog);
+        }
+        mProgressDialog.setContentView(v, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mProgressDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mProgressDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mProgressDialog.getWindow().setAttributes(lp);
+        mProgressDialog.setCancelable(false);
+        TextView tv_cancle = (TextView) v.findViewById(R.id.tv_cancle);
+        final TextView tv_confirm = (TextView) v.findViewById(R.id.tv_confirm);
+        TextView tv_dialog_title = (TextView) v.findViewById(R.id.tv_title);
+        TextView tv_content = (TextView) v.findViewById(R.id.tv_content);
+        tv_content.setText(content);
+        tv_dialog_title.setText(title);
+        tv_cancle.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProgressDialog.dismiss();
+            }
+        });
+        tv_confirm.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_confirm.setTextColor(context.getResources().getColor(R.color.yellow2));
+                mProgressDialog.dismiss();
+                callback.send();
             }
         });
         return mProgressDialog;
