@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -18,7 +19,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.EMMessageListener;
@@ -44,14 +47,15 @@ import com.hyphenate.easeui.widget.EaseAlertDialog;
 import com.hyphenate.easeui.widget.EaseChatExtendMenu;
 import com.hyphenate.easeui.widget.EaseChatInputMenu;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
-import com.hyphenate.easeui.widget.EaseTitleBar;
 import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.util.EMLog;
+import com.hyphenate.util.PathUtil;
 
 import java.io.File;
 import java.util.List;
 
+import huanxing_print.com.cn.printhome.BuildConfig;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
@@ -60,8 +64,11 @@ import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupMessageCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
+import huanxing_print.com.cn.printhome.ui.activity.contact.GroupSettingActivity;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.Constant;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
 /**
@@ -110,17 +117,13 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
 
     protected EMMessage contextMenuMessage;
     private GroupMessageInfo groupInfo;
-
-
-    //    protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture, R.string.attach_location};
-//    protected int[] itemdrawables = {R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
-//            R.drawable.ease_chat_location_selector};
-    protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_LOCATION};
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
-    protected EaseTitleBar titleBar;
+    //protected EaseTitleBar titleBar;
     private PicSaveUtil saveUtil;
     private String nickName;
+    private TextView tv_title;
+    private ImageView addImg;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -130,10 +133,15 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 改变状态栏的颜色使其与APP风格一体化
+        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_chat_test);
+
         //聊天类型
         chatType = getIntent().getIntExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         toChatUsername = getIntent().getStringExtra(Constant.EXTRA_USER_ID);
+        nickName = getIntent().getStringExtra("name");
+        Log.i("CMCC", "chatType:" + chatType + ",toChatUsername:" + toChatUsername);
         saveUtil = new PicSaveUtil(getSelfActivity());
         cameraFile = saveUtil.createCameraTempFile(savedInstanceState);
         // userId you are chat with or group id
@@ -144,37 +152,9 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
                     "", toChatUsername, callback);
         } else {
-            //单聊
-            nickName = getIntent().getStringExtra("name");
-            titleBar.setTitle(nickName);
+            tv_title.setText(toChatUsername);
         }
 
-        GroupInfo groupInfo = getIntent().getParcelableExtra("GroupInfo");
-        FriendInfo friendInfo = getIntent().getParcelableExtra("FriendInfo");
-        FriendSearchInfo friendSearchInfo = getIntent().getParcelableExtra("FriendSearchInfo");
-        if (!ObjectUtils.isNull(groupInfo)) {
-            //群聊
-            chatType = EaseConstant.CHATTYPE_GROUP;
-            toChatUsername = groupInfo.getEasemobGroupId();
-            titleBar.setTitle(groupInfo.getGroupName());
-            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername);
-        }
-
-        if (!ObjectUtils.isNull(friendInfo)) {
-            //私聊
-            chatType = EaseConstant.CHATTYPE_SINGLE;
-            toChatUsername = friendInfo.getEasemobId();
-            titleBar.setTitle(friendInfo.getMemberName());
-            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername);
-        }
-
-        if (!ObjectUtils.isNull(friendSearchInfo)) {
-            //私聊
-            chatType = EaseConstant.CHATTYPE_SINGLE;
-            toChatUsername = friendSearchInfo.getMemberId();
-            titleBar.setTitle(friendSearchInfo.getMemberName());
-            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername);
-        }
         setUpView();
     }
 
@@ -183,7 +163,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         public void success(String msg, GroupMessageInfo groupMessageInfo) {
             if (!ObjectUtils.isNull(groupMessageInfo)) {
                 groupInfo = groupMessageInfo;
-                titleBar.setTitle(groupInfo.getGroupName());
+                nickName = groupInfo.getGroupName();
+                tv_title.setText(groupInfo.getGroupName());
             }
         }
 
@@ -204,8 +185,48 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     protected void initView() {
         // hold to record voice
         //noinspection ConstantConditions
-        titleBar = (EaseTitleBar) findViewById(R.id.title_bar);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText(toChatUsername);
+        addImg = (ImageView) findViewById(R.id.addImg);
         voiceRecorderView = (EaseVoiceRecorderView) findViewById(R.id.voice_recorder);
+        View view = findViewById(R.id.back);
+        view.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishCurrentActivity();
+            }
+        });
+
+        GroupInfo groupInfo = getIntent().getParcelableExtra("GroupInfo");
+        FriendInfo friendInfo = getIntent().getParcelableExtra("FriendInfo");
+        FriendSearchInfo friendSearchInfo = getIntent().getParcelableExtra("FriendSearchInfo");
+        if (!ObjectUtils.isNull(groupInfo)) {
+            //群聊
+            chatType = EaseConstant.CHATTYPE_GROUP;
+            toChatUsername = groupInfo.getEasemobGroupId();
+            nickName = groupInfo.getGroupName();
+            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername +
+                    ",nickName:" + nickName);
+        }
+
+        if (!ObjectUtils.isNull(friendInfo)) {
+            //私聊
+            chatType = EaseConstant.CHATTYPE_SINGLE;
+            toChatUsername = friendInfo.getEasemobId();
+            nickName = friendInfo.getMemberName();
+            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername +
+                    ",nickName:" + nickName);
+        }
+
+        if (!ObjectUtils.isNull(friendSearchInfo)) {
+            //私聊
+            chatType = EaseConstant.CHATTYPE_SINGLE;
+            toChatUsername = friendSearchInfo.getMemberId();
+            nickName = friendSearchInfo.getMemberName();
+            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername +
+                    ",nickName:" + nickName);
+        }
+        tv_title.setText(nickName);
 
         // message list layout
         messageList = (EaseChatMessageList) findViewById(R.id.message_list);
@@ -253,22 +274,25 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
 
     protected void setUpView() {
         //titleBar.setTitle(toChatUsername);
+//        titleBar.setLeftImageResource(R.drawable.ic_back);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             // set title
+            addImg.setVisibility(View.GONE);
             if (EaseUserUtils.getUserInfo(toChatUsername) != null) {
                 EaseUser user = EaseUserUtils.getUserInfo(toChatUsername);
                 if (user != null) {
-                    titleBar.setTitle(user.getNick());
+                    tv_title.setText(user.getNick());
                 }
             }
-            titleBar.setRightImageResource(R.drawable.ease_mm_title_remove);
+            //titleBar.setRightImageResource(R.drawable.ease_mm_title_remove);
         } else {
-            titleBar.setRightImageResource(R.drawable.ease_to_group_details_normal);
+            //titleBar.setRightImageResource(R.drawable.group_setting);
+            addImg.setVisibility(View.VISIBLE);
             if (chatType == EaseConstant.CHATTYPE_GROUP) {
                 //group chat
                 EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
                 if (group != null)
-                    titleBar.setTitle(group.getGroupName());
+                    tv_title.setText(group.getGroupName());
                 // listen the event that user moved out group or group is dismissed
                 groupListener = new GroupListener();
                 EMClient.getInstance().groupManager().addGroupChangeListener(groupListener);
@@ -284,22 +308,29 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             onMessageListInit();
         }
 
-        titleBar.setLeftLayoutClickListener(new View.OnClickListener() {
+//        titleBar.setLeftLayoutClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                onBackPressed();
+//            }
+//        });
+//        titleBar.setRightLayoutClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                if (chatType == EaseConstant.CHATTYPE_SINGLE) {
+//                    //emptyHistory();
+//                } else {
+//                    toGroupDetails();
+//                }
+//            }
+//        });
 
+        addImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        titleBar.setRightLayoutClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (chatType == EaseConstant.CHATTYPE_SINGLE) {
-                    emptyHistory();
-                } else {
-                    toGroupDetails();
-                }
+                toGroupDetails();
             }
         });
 
@@ -413,6 +444,9 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 if (chatFragmentHelper == null) {
                     return false;
                 }
+                if (!ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
+                    ToastUtil.doToast(getSelfActivity(), "点击了红包!");
+                }
                 return chatFragmentHelper.onMessageBubbleClick(message);
             }
 
@@ -482,14 +516,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         if (resultCode == Activity.RESULT_OK) {
             //拍照
             if (requestCode == REQUEST_CODE_CAMERA) {
-                // capture new image
-                if (data != null) {
-                    Uri uri = data.getData();
-                    String path = uriToRealPath(getSelfActivity(), uri);
-                    sendImageMessage(path);
-//                    if (cameraFile != null && cameraFile.exists()) {
-//                        sendImageMessage(cameraFile.getAbsolutePath());
-//                    }
+                if (cameraFile != null && cameraFile.exists()) {
+                    sendImageMessage(cameraFile.getAbsolutePath());
                 }
 
             } else if (requestCode == REQUEST_CODE_LOCAL) { // send local image
@@ -607,10 +635,10 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                         pd.dismiss();
                         EMChatRoom room = EMClient.getInstance().chatroomManager().getChatRoom(toChatUsername);
                         if (room != null) {
-                            titleBar.setTitle(room.getName());
+                            tv_title.setText(room.getName());
                             EMLog.d(TAG, "join room success : " + room.getName());
                         } else {
-                            titleBar.setTitle(toChatUsername);
+                            tv_title.setText(toChatUsername);
                         }
                         addChatRoomChangeListenr();
                         onConversationInit();
@@ -835,6 +863,20 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             sendAtMessage(content);
         } else {
             EMMessage message = EMMessage.createTxtSendMessage(content, toChatUsername);
+            message.setAttribute("userId", baseApplication.getMemberId());
+            message.setAttribute("iconUrl", baseApplication.getHeadImg());
+            message.setAttribute("nickName", baseApplication.getNickName());
+            if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                    chatType == EaseConstant.CHATTYPE_CHATROOM) {
+                message.setAttribute("groupUrl", groupInfo.getGroupUrl());
+                message.setAttribute("groupName", groupInfo.getGroupName());
+                Log.d("CMCC", baseApplication.getMemberId() + "," + baseApplication.getHeadImg() +
+                        baseApplication.getNickName() + "," + groupInfo.getGroupUrl() + "," +
+                        groupInfo.getGroupName());
+            }
+            Log.d("CMCC", baseApplication.getMemberId() + "," + baseApplication.getHeadImg() +
+                    baseApplication.getNickName());
+            // TODO: 2017/5/17
             sendMessage(message);
         }
     }
@@ -858,6 +900,19 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             message.setAttribute(EaseConstant.MESSAGE_ATTR_AT_MSG,
                     EaseAtMessageHelper.get().atListToJsonArray(EaseAtMessageHelper.get().getAtMessageUsernames(content)));
         }
+        message.setAttribute("userId", baseApplication.getMemberId());
+        message.setAttribute("iconUrl", baseApplication.getHeadImg());
+        message.setAttribute("nickName", baseApplication.getNickName());
+        if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                chatType == EaseConstant.CHATTYPE_CHATROOM) {
+            message.setAttribute("groupUrl", groupInfo.getGroupUrl());
+            message.setAttribute("groupName", groupInfo.getGroupName());
+            Log.d("CMCC", baseApplication.getMemberId() + "," + baseApplication.getHeadImg() +
+                    "," + baseApplication.getNickName() + "," + groupInfo.getGroupUrl() + "," +
+                    groupInfo.getGroupName());
+        }
+        Log.d("CMCC", baseApplication.getMemberId() + "," + baseApplication.getHeadImg() +
+                baseApplication.getNickName());
         sendMessage(message);
 
     }
@@ -1056,24 +1111,25 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
      * capture new image
      */
     protected void selectPicFromCamera() {
-//        if (!EaseCommonUtils.isSdcardExist()) {
-//            Toast.makeText(getSelfActivity(), R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        if (!EaseCommonUtils.isSdcardExist()) {
+            Toast.makeText(getSelfActivity(), R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-//        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
-//                + System.currentTimeMillis() + ".jpg");
+        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
+                + System.currentTimeMillis() + ".jpg");
         //noinspection ResultOfMethodCallIgnored
-//        cameraFile.getParentFile().mkdirs();
-//        Intent intenCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intenCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
-//        startActivityForResult(intenCamera, REQUEST_CODE_CAMERA);
-
-//        Intent intenCamera_ = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        intenCamera_.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
-//        startActivityForResult(intenCamera_, REQUEST_CODE_CAMERA);
-
+        cameraFile.getParentFile().mkdirs();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //判断是否是AndroidN以及更高的版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri contentUri = FileProvider.getUriForFile(getSelfActivity(), BuildConfig.APPLICATION_ID + ".fileProvider", cameraFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+        } else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+        }
+
         startActivityForResult(intent, REQUEST_CODE_CAMERA);
     }
 
@@ -1141,9 +1197,13 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 Toast.makeText(getSelfActivity(), R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (chatFragmentHelper != null) {
-                chatFragmentHelper.onEnterToChatDetails();
-            }
+            Intent intent = new Intent(getSelfActivity(), GroupSettingActivity.class);
+            //intent.putExtra("groupId", groupInfo.getGroupId());
+            intent.putExtra("easemobGroupId", toChatUsername);
+            startActivity(intent);
+//            if (chatFragmentHelper != null) {
+//                chatFragmentHelper.onEnterToChatDetails();
+//            }
         } else if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
             if (chatFragmentHelper != null) {
                 chatFragmentHelper.onEnterToChatDetails();

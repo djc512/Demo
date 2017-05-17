@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:hyphenate="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#f2f0eb">
+    android:background="@color/all_bg_color"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <com.hyphenate.easeui.widget.EaseTitleBar
+    <RelativeLayout
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        hyphenate:titleBarLeftImage="@drawable/ease_mm_title_back" />
+        android:background="@color/white"
+        android:padding="15dp">
+
+        <include
+            android:id="@+id/back"
+            layout="@layout/ll_title_back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/title"
+            android:text="聊天界面" />
+
+        <ImageView
+            android:id="@+id/addImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:src="@drawable/group_setting"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
