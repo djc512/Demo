@@ -20,7 +20,7 @@ import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentListActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity1;
+import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.WebViewCommunityActivity;
@@ -205,7 +205,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 //                startActivity(new Intent(getActivity(), CommentActivity.class));
 //                break;
             case R.id.ll_printnum:
-                startActivity(new Intent(getActivity(), MingXiActivity1.class));
+                startActivity(new Intent(getActivity(), MingXiActivity.class));
                 break;
 
             default:
