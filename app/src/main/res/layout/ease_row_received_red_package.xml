@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingTop="13dp">
 
@@ -11,7 +10,8 @@
         android:id="@+id/timestamp"
         style="@style/chat_text_date_style"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,47 +36,56 @@
             android:layout_toRightOf="@id/iv_userhead"
             android:textSize="@dimen/chat_nick_text_size" />
 
-
         <RelativeLayout
             android:id="@+id/bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_userid"
-            android:layout_marginLeft="@dimen/margin_chat_activity"
-            android:layout_toRightOf="@id/iv_userhead"
-            android:background="@drawable/ease_chatfrom_bg">
+            android:layout_below="@id/tv_userid"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/iv_userhead">
 
-            <ImageView
-                android:id="@+id/image"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="fitCenter" />
-
-            <LinearLayout
-                android:id="@+id/ll_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ProgressBar
-                    android:id="@+id/progress_bar"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:visibility="visible" />
+                android:background="@drawable/red_package">
 
                 <TextView
-                    android:id="@+id/percentage"
+                    android:id="@+id/tv_chatcontent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0%"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="12dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="恭喜发财,大吉大利"
                     android:textColor="@android:color/white"
                     android:visibility="visible"
                     tools:ignore="HardcodedText" />
-            </LinearLayout>
-        </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/tv_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="35dp"
+                    android:text="查看红包"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/tv_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="68dp"
+                    android:text="印信红包"
+                    android:visibility="visible"
+                    tools:ignore="HardcodedText" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
     </RelativeLayout>
 
 </LinearLayout>

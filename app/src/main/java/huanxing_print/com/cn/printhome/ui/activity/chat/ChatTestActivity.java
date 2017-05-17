@@ -1198,7 +1198,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 return;
             }
             Intent intent = new Intent(getSelfActivity(), GroupSettingActivity.class);
-            //intent.putExtra("groupId", groupInfo.getGroupId());
+            intent.putExtra("groupId", "");
             intent.putExtra("easemobGroupId", toChatUsername);
             startActivity(intent);
 //            if (chatFragmentHelper != null) {

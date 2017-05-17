@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
@@ -41,25 +42,50 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_userid"
             android:layout_marginRight="@dimen/margin_chat_activity"
-            android:layout_toLeftOf="@id/iv_userhead"
-            android:background="@drawable/ease_chatto_bg">
+            android:layout_toLeftOf="@id/iv_userhead">
 
-            <TextView
-                android:id="@+id/tv_chatcontent"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:autoLink="web"
-                android:gravity="center|left"
-                android:lineSpacingExtra="2dp"
-                android:maxWidth="225.0dip"
-                android:minHeight="38dp"
-                android:paddingLeft="1dp"
-                android:paddingRight="6dp"
-                android:textColor="#000000"
-                android:textSize="15sp" />
-        </RelativeLayout>
+                android:background="@drawable/red_package">
 
+                <TextView
+                    android:id="@+id/tv_chatcontent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="12dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="恭喜发财,大吉大利"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/tv_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="35dp"
+                    android:text="查看红包"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/tv_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="68dp"
+                    android:text="印信红包"
+                    android:visibility="visible"
+                    tools:ignore="HardcodedText" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/msg_status"
