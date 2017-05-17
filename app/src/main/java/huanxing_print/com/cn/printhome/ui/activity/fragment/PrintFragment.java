@@ -18,6 +18,7 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.print.IsOnlineResp;
+import huanxing_print.com.cn.printhome.model.print.PcLoginResp;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
@@ -40,7 +41,7 @@ import static huanxing_print.com.cn.printhome.R.id.iv_notice;
 public class PrintFragment extends BaseFragment implements OnClickListener {
 
     @Override
-    public void onCreate( Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
@@ -183,19 +184,44 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
                         requeryIsOnline(printNo);
                         return;
                     }
-
-                    if(result.startsWith("MINE:")) {
-                        String subResultString = result.replace("MINE:","");
+                    String uniqueCode = UrlUtil.getValueByName(result, "uniqueCode");
+                    if (uniqueCode != null) {
+                        pcLogin(uniqueCode);
+                        return;
+                    }
+                    if (result.startsWith("MINE:")) {
+                        String subResultString = result.replace("MINE:", "");
                         searchFriend(subResultString);
                         return;
                     }
-
                     ShowUtil.showToast("无效的二维码");
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     ShowUtil.showToast("解析二维码失败");
                 }
             }
         }
+    }
+
+    private void pcLogin(String uniqueCode) {
+        PrintRequest.pcLogin(getActivity(), uniqueCode, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                PcLoginResp pcLoginResp = GsonUtil.GsonToBean(content, PcLoginResp.class);
+                if (pcLoginResp != null && pcLoginResp.isSuccess()) {
+                    if (pcLoginResp.isSuccess()) {
+                        ShowUtil.showToast("登录成功");
+                    }
+                }
+                if (pcLoginResp != null && !pcLoginResp.isSuccess()) {
+                    ShowUtil.showToast(pcLoginResp.getErrorMsg());
+                }
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
     }
 
     private void searchFriend(String searchContent) {
@@ -209,7 +235,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
         @Override
         public void success(String msg, FriendSearchInfo friendSearchInfo) {
             DialogUtils.closeProgressDialog();
-            if(null != friendSearchInfo) {
+            if (null != friendSearchInfo) {
                 ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
                 infos.add(friendSearchInfo);
                 Intent intent = new Intent(getActivity(), SearchAddResultActivity.class);
