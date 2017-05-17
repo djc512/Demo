@@ -14,8 +14,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import org.opencv.android.LoaderCallbackInterface;
@@ -31,7 +31,6 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
-import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.copy.BitmpaUtil;
 import huanxing_print.com.cn.printhome.util.copy.ClipPicUtil;
@@ -43,6 +42,7 @@ import timber.log.Timber;
 
 import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.perspectiveTransform;
 
+
 /**
  * Created by Administrator on 2017/4/26 0026.
  */
@@ -53,7 +53,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private Bitmap mBitmap;
     private static final int MAX_HEIGHT = 500;
     private Context ctx;
-    //    private ProgressDialog pd;
     private BitmpaUtil bitmpaUtil;
     private Uri uri;
     private SelectionImageView selectionView;
@@ -75,8 +74,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private Bitmap compBitmap;
     private TextView btn_reset1;
     private TextView tv_back;
-    private String path;
-    private Bitmap rotateBitmap;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -86,15 +83,13 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBarBlack(this);
         setContentView(R.layout.activity_preview);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         uri = bundle.getParcelable("uri");
-        bitmpaUtil = new BitmpaUtil();
         ctx = this;
         ClipPicUtil.ctx = ctx;
-        saveUtil = new huanxing_print.com.cn.printhome.util.copy.PicSaveUtil(ctx);
+        saveUtil = new PicSaveUtil(ctx);
         tempFile = saveUtil.createCameraTempFile(savedInstanceState);
 
         initView();
@@ -133,38 +128,34 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Glide.with(getSelfActivity()).load(uri).into(selectionView);
+        if (mBitmap != null) {
+            selectionView.setImageBitmap(mBitmap);
+        }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        pd = new ProgressDialog(ctx);
-//        pd.setProgress(ProgressDialog.STYLE_SPINNER);
-//        pd.setCanceledOnTouchOutside(false);
-//        if (!pd.isShowing()) {
-//            pd.show();
-//        }
+        bitmpaUtil = new BitmpaUtil();
         show();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-//                pd.dismiss();
                 close();
                 btn_adjust.performClick();
             }
         }, 1000);
-        btn_adjust.setVisibility(View.GONE);
     }
 
     private void initListener() {
         btn_adjust.setOnClickListener(this);
+        btn_reset1.setOnClickListener(this);
         btn_confirm.setOnClickListener(this);
         btn_gray.setOnClickListener(this);
         btn_black.setOnClickListener(this);
         btn_original.setOnClickListener(this);
         btn_reset.setOnClickListener(this);
-        btn_reset1.setOnClickListener(this);
         btn_photoconfirm.setOnClickListener(this);
         btn_save.setOnClickListener(this);
         tv_back.setOnClickListener(this);
@@ -199,15 +190,13 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 ll.setVisibility(View.GONE);
                 ll1.setVisibility(View.VISIBLE);
                 iv.setVisibility(View.INVISIBLE);
-//                pd.show();
                 show();
                 new Thread() {
                     @Override
                     public void run() {
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
-                        if (null != mBitmap) {
-                            mBitmap = bitmpaUtil.comp(mBitmap);
+                        if (mBitmap != null) {
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -216,9 +205,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-//                                  pd.dismiss();
                                     close();
-                                    DialogUtils.closeProgressDialog();
                                     iv.setVisibility(View.VISIBLE);
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
@@ -232,7 +219,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 }.start();
                 break;
             case R.id.btn_black:
-//                DialogUtils.showProgressDialog(ctx, "正在加载...");
                 show();
                 new Thread() {
                     @Override
@@ -240,7 +226,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
-                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -249,7 +234,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    pd.dismiss();
                                     close();
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
@@ -263,7 +247,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 }.start();
                 break;
             case R.id.btn_gray:
-//                pd.show();
                 show();
                 new Thread() {
                     @Override
@@ -271,7 +254,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
-                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -280,7 +262,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    pd.dismiss();
                                     close();
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
@@ -294,7 +275,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 }.start();
                 break;
             case R.id.btn_original:
-//                pd.show();
                 show();
                 new Thread() {
                     @Override
@@ -302,7 +282,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                         super.run();
                         List<PointF> pointOriginal = selectionView.getPoints();
                         if (mBitmap != null) {
-                            mBitmap = bitmpaUtil.comp(mBitmap);
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
@@ -311,7 +290,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    pd.dismiss();
                                     close();
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
@@ -325,10 +303,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 }.start();
                 break;
             case R.id.btn_reset://从新拍照
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
-                startActivityForResult(intent, REQUEST_CAPTURE);
-                break;
+                gotoCamera();
             case R.id.btn_photoconfirm://跳转到印家打印
                 if (compBitmap != null) {
                     String nameConfirm = System.currentTimeMillis() + ".jpg";
@@ -345,6 +320,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 if (compBitmap != null) {
                     String nameSave = System.currentTimeMillis() + ".jpg";
                     saveUtil.saveClipPic(compBitmap, nameSave);
+                    Toast.makeText(ctx, "保存成功", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -407,13 +383,11 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAPTURE && resultCode == RESULT_OK) {
             uri = Uri.fromFile(tempFile);
-//            path = BitmapCorrectUtil.uriTopath(ctx,uri);
         }
         ll.setVisibility(View.VISIBLE);
         ll1.setVisibility(View.GONE);
         try {
             mBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-//            trunBitmap();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -421,17 +395,6 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
             selectionView.setImageBitmap(mBitmap);
         }
     }
-
-    /**
-     * 判断是否需要旋转图片
-     */
-//    private void trunBitmap() {
-//        int bitmapDegree = BitmapCorrectUtil.getBitmapDegree(path);
-//        if (bitmapDegree == 90) {
-//            rotateBitmap = BitmapCorrectUtil.rotateBitmapByDegree(mBitmap, 0);
-//            mBitmap = rotateBitmap;
-//        }
-//    }
 
     /**
      * 拍照
@@ -445,15 +408,15 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (null != mResult) {
+        if (mBitmap != null) {
+            mBitmap.recycle();
+            mResult = null;
+        }
+        if (mResult != null) {
             mResult.recycle();
             mResult = null;
         }
-        if (null != mBitmap) {
-            mBitmap.recycle();
-            mBitmap = null;
-        }
-        if (null != compBitmap) {
+        if (compBitmap != null) {
             compBitmap.recycle();
             compBitmap = null;
         }
@@ -464,7 +427,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
      * 显示进度条
      */
     private void show() {
-        DialogUtils.showProgressDialog(ctx, "正在加载...").show();
+        DialogUtils.showProgressDialog(ctx, "正在加载").show();
     }
 
     /**

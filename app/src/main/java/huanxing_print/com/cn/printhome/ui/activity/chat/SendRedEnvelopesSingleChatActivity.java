@@ -49,7 +49,7 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
     }
 
     private void init() {
-        memberId = baseApplication.getMemberId();
+        memberId = getIntent().getStringExtra("memberId");
         edt_single_money = (EditText) findViewById(R.id.edt_single_money);
         edt_leave_word = (EditText) findViewById(R.id.edt_leave_word);
         txt_num = (TextView) findViewById(R.id.txt_num);
@@ -124,8 +124,9 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
                 String packetId = redPackage.getPacketId();
                 String remark = redPackage.getRemark();
                 Intent intent = new Intent();
-                intent.putExtra("packetId",packetId);
-                setResult(0x11,intent);
+                intent.putExtra("packetId", packetId);
+                intent.putExtra("remark", remark);
+                setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }
 

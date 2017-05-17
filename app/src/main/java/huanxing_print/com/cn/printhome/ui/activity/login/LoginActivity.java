@@ -104,6 +104,32 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 //        if (!ObjectUtils.isNull(phone)) {
 //            login_phone.setText(phone);
 //        }
+
+        et_phone.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // 获得焦点
+                if (hasFocus) {
+                    iv_code_detele.setVisibility(View.GONE);
+                    phone = et_phone.getText().toString().trim();
+                    if(!ObjectUtils.isNull(phone)){
+                        iv_phone_detele.setVisibility(View.VISIBLE);
+                    }else{
+                        iv_phone_detele.setVisibility(View.GONE);
+                    }
+                } else {
+
+                    // 失去焦点
+
+                }
+
+            }
+
+
+        });
+
+
         et_phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -112,17 +138,45 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                 if (start > 0) {
                     iv_phone_detele.setVisibility(View.VISIBLE);
+                    tv_login.setBackgroundResource(R.drawable.broder_yellow_full);
+                    tv_login.setTextColor(getResources().getColor(R.color.black2));
                 } else {
                     iv_phone_detele.setVisibility(View.GONE);
+                    tv_login.setBackgroundResource(R.drawable.broder_yellow4_full);
+                    tv_login.setTextColor(getResources().getColor(R.color.white));
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
+
+        et_code.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // 获得焦点
+                if (hasFocus) {
+                    iv_phone_detele.setVisibility(View.GONE);
+                    validCode = et_code.getText().toString().trim();
+                    if(!ObjectUtils.isNull(validCode)){
+                        iv_code_detele.setVisibility(View.VISIBLE);
+                    }else{
+                        iv_code_detele.setVisibility(View.GONE);
+                    }
+                } else {
+
+                    // 失去焦点
+
+                }
 
             }
+
+
         });
         et_code.addTextChangedListener(new TextWatcher() {
             @Override

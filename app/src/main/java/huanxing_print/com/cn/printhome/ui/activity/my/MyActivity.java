@@ -640,6 +640,9 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             toast("绑定成功");
+            if (!ObjectUtils.isNull(wdixinName)) {
+                tv_weixin.setText(wdixinName);
+            }
         }
     };
 

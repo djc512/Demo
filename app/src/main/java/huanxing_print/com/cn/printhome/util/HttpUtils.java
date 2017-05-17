@@ -565,6 +565,7 @@ public class HttpUtils {
             public void onResponse(String result, int arg1) {
                 TimeUtils.endTime();
                 Logger.d("http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
+                Log.d("CMCC", "http-result:" + url + "----" + result + "----" + TimeUtils.subTime() + " ms");
                 callback.success(result);
             }
 

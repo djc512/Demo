@@ -346,10 +346,12 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri uri = data.getData();
             String path = BitmapCorrectUtil.uriTopath(getSelfActivity(),uri);
+            Log.i("CMCC","图片地址--------------------------"+path);
             mChatPresenter.sendImgMessage(mUsername,path,type,PIC);
         }else if (requestCode == REQUEST_CAPTURE && resultCode == RESULT_OK) {
             Uri uri = Uri.fromFile(tempFile);
             String path = BitmapCorrectUtil.uriTopath(getSelfActivity(),uri);
+
             mChatPresenter.sendImgMessage(mUsername,path,type,PIC);
         }else {
             Uri uri = data.getData();
@@ -360,6 +362,44 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
 
     }
 
+   /* protected void sendFileByUri(Uri uri){
+        String filePath = null;
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = null;
+
+            try {
+                cursor = getSelfActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow("_data");
+                if (cursor.moveToFirst()) {
+                    filePath = cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            filePath = uri.getPath();
+        }
+        if (filePath == null) {
+            return;
+        }
+        File file = new File(filePath);
+        if (!file.exists()) {
+            Toast.makeText(getSelfActivity(), R.string.File_does_not_exist, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //limit the size < 10M
+        if (file.length() > 10 * 1024 * 1024) {
+            Toast.makeText(getSelfActivity(), R.string.The_file_is_not_greater_than_10_m, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        sendFileMessage(filePath);
+    }
+*/
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

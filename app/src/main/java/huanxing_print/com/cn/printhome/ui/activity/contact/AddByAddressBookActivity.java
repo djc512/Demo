@@ -7,12 +7,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +28,7 @@ import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.contact.PhoneContactInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.PhoneContactCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
-import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.AddAddressBookAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -46,7 +43,7 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  * Created by wanghao on 2017/5/4.
  */
 
-public class AddByAddressBookActivity extends BaseActivity implements View.OnClickListener, IndexSideBar.OnTouchLetterListener,AddAddressBookAdapter.OnItemBtnListener {
+public class AddByAddressBookActivity extends BaseActivity implements View.OnClickListener, IndexSideBar.OnTouchLetterListener, AddAddressBookAdapter.OnItemBtnListener {
     private IndexSideBar indexSideBar;
     private RecyclerView contactsView;
     private ArrayList<PhoneContactInfo> contactInfos = new ArrayList<PhoneContactInfo>();
@@ -54,6 +51,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private LinearLayoutManager layoutManager;
     private PhoneContactInfo currentClickPhoneContact;
     private String shareAppUrl = "https://www.baidu.com";
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -96,12 +94,10 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private Handler handler = new Handler();
-    Runnable updateThread = new Runnable()
-    {
+    Runnable updateThread = new Runnable() {
 
         @Override
-        public void run()
-        {
+        public void run() {
             //更新UI
             adapter.modifyData(contactInfos);
         }
@@ -137,8 +133,8 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void itemBtn(PhoneContactInfo contactInfo) {
-        if(baseApplication.getPhone().equals(contactInfo.getTelNo())) {
-            ToastUtil.doToast(AddByAddressBookActivity.this,"不能添加自己为联系人");
+        if (baseApplication.getPhone().equals(contactInfo.getTelNo())) {
+            ToastUtil.doToast(AddByAddressBookActivity.this, "不能添加自己为联系人");
             return;
         }
         this.currentClickPhoneContact = contactInfo;
@@ -160,7 +156,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
         @Override
         public void success(String msg, ArrayList<FriendSearchInfo> searchInfos) {
             DialogUtils.closeProgressDialog();
-            if(null != searchInfos) {
+            if (null != searchInfos) {
                 FriendSearchInfo friendSearchInfo = getClickPhoneFriend(searchInfos);
                 checkNextStep(friendSearchInfo);
             }
@@ -180,12 +176,12 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     };
 
     private void checkNextStep(FriendSearchInfo info) {
-        if(null != info) {
+        if (null != info) {
             if (0 == info.getIsMember()) {
                 showInvitation(info);
             } else {
                 if (1 == info.getIsFriend()) {
-                    Intent intent = new Intent(AddByAddressBookActivity.this, ChatActivity.class);
+                    Intent intent = new Intent(AddByAddressBookActivity.this, ChatTestActivity.class);
                     intent.putExtra("FriendSearchInfo", info);
                     startActivity(intent);
                 } else {
@@ -199,7 +195,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
     private FriendSearchInfo getClickPhoneFriend(ArrayList<FriendSearchInfo> searchInfos) {
         for (FriendSearchInfo info : searchInfos) {
-            if(currentClickPhoneContact.getTelNo().equals(info.getTelNo())) {
+            if (currentClickPhoneContact.getTelNo().equals(info.getTelNo())) {
                 return info;
             }
         }
@@ -207,8 +203,9 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private Dialog dialog;
+
     private void showInvitation(final FriendSearchInfo info) {
-        dialog = new Dialog(this,R.style.ActionSheetDialogStyle);
+        dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
         //填充对话框的布局
         View inflate = LayoutInflater.from(this).inflate(R.layout.dialog_invitation, null);
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -227,7 +224,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                invitationWeiXin(info,"印家邀请");
+                invitationWeiXin(info, "印家邀请");
             }
         });
         View btn_message = inflate.findViewById(R.id.btn_message);
@@ -235,7 +232,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                invitationMessage(info,"印家邀请");
+                invitationMessage(info, "印家邀请");
             }
         });
         //将布局设置给Dialog
@@ -256,19 +253,19 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
         dialog.show();//显示对话框
     }
 
-    private void invitationMessage(FriendSearchInfo info,String message) {
-        if(null != info && (!info.getTelNo().isEmpty()) && PhoneNumberUtils.isGlobalPhoneNumber(info.getTelNo())){
-            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"+info.getTelNo()));
-            intent.putExtra("sms_body", String.format("%1$s邀请您使用印家打印App %2$s", baseApplication.getNickName(),shareAppUrl));
+    private void invitationMessage(FriendSearchInfo info, String message) {
+        if (null != info && (!info.getTelNo().isEmpty()) && PhoneNumberUtils.isGlobalPhoneNumber(info.getTelNo())) {
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + info.getTelNo()));
+            intent.putExtra("sms_body", String.format("%1$s邀请您使用印家打印App %2$s", baseApplication.getNickName(), shareAppUrl));
             startActivity(intent);
         }
     }
 
-    private void invitationWeiXin(FriendSearchInfo info,String message) {
+    private void invitationWeiXin(FriendSearchInfo info, String message) {
         WeiXinUtils weiXinUtils = WeiXinUtils.getInstance();
         weiXinUtils.init(this, baseApplication.WX_APPID);
         weiXinUtils.shareToWXSceneSession(message);
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.appicon_print);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
         weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", baseApplication.getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", shareAppUrl, bmp);
     }
 

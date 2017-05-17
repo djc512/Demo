@@ -88,8 +88,8 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
             case SCANQR:
                 if(resultCode == RESULT_OK) {
                     String resultString = data.getStringExtra(CodeUtils.RESULT_STRING);
-                    if(resultString.startsWith("cardId:")) {
-                        String subResultString = resultString.replace("cardId:","");
+                    if(resultString.startsWith("MINE:")) {
+                        String subResultString = resultString.replace("MINE:","");
                         search(subResultString);
                     }
                 }

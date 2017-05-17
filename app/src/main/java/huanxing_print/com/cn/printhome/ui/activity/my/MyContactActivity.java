@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
@@ -63,13 +63,13 @@ public class MyContactActivity extends BaseActivity implements View.OnClickListe
                 //String number = tv_contact_phone.getText().toString().trim();
                 //用intent启动拨打电话
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "400-666-2060"));
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
+//                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                    return;
+//                }
                 startActivity(intent);
                 break;
             case R.id.rl_service:
-                Intent chatIntent = new Intent(getSelfActivity(), ChatActivity.class);
+                Intent chatIntent = new Intent(getSelfActivity(), ChatTestActivity.class);
                 chatIntent.putExtra("type", 2);
                 chatIntent.putExtra("id", "secretary");
                 chatIntent.putExtra("name", "印家小秘书");

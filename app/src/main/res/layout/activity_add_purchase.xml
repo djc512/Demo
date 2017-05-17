@@ -301,9 +301,9 @@
                     android:focusableInTouchMode="false"
                     android:hint="填写请款金额"
                     android:paddingLeft="2dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="@dimen/text_size_sixteen"
-                    android:inputType="number"/>
+                    android:inputType="numberDecimal"/>
 
                 <ToggleButton
                     android:id="@+id/toggleButton"
@@ -345,7 +345,7 @@
                     android:hint="填写单位名称或姓名"
                     android:maxLength="20"
                     android:paddingLeft="2dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="@dimen/text_size_sixteen" />
 
             </LinearLayout>
@@ -378,7 +378,7 @@
                     android:hint="填写开户行"
                     android:maxLength="20"
                     android:paddingLeft="2dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="@dimen/text_size_sixteen" />
 
             </LinearLayout>
@@ -410,7 +410,7 @@
                     android:ellipsize="end"
                     android:hint="填写帐号"
                     android:paddingLeft="2dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="@dimen/text_size_sixteen"
                     android:inputType="number"/>
 

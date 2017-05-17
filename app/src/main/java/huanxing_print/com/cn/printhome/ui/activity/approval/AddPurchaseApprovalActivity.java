@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.InputFilter;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,6 +66,7 @@ import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
 import huanxing_print.com.cn.printhome.net.request.commet.UpLoadPicRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PhotoPickerActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PreviewPhotoActivity;
+import huanxing_print.com.cn.printhome.util.CashierInputFilter;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.FileUtils;
@@ -316,6 +318,10 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         });
 
         button = (ToggleButton) findViewById(R.id.toggleButton);
+        //设置金额填框必须只能填写金额数字 EditText要先设置
+        //android:inputType="numberDecimal"或者setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL)
+        InputFilter[] filters={new CashierInputFilter()};
+        edt_request_num.setFilters(filters);
 
         View include = findViewById(R.id.item_grid);
         noScrollgridview = (GridView) include.findViewById(R.id.noScrollgridview);
@@ -525,7 +531,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         //提交图片获得图片url
         if (mResults.size() > 1) {
             Log.i("CMCC", "图片不为空," + mResults.size());
-            DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...");
+            DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...").show();
             ArrayList<ImageItem> items = Bimp.tempSelectBitmap;
             getUrl(items);
             uploadPic();

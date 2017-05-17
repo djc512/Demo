@@ -35,6 +35,7 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <!-- 相机 -->
     <uses-permission android:name="android.permission.CAMERA" />
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -90,7 +91,7 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity
-            android:name="huanxing_print.com.cn.printhome.ui.activity.welcome.SplashActivity"
+            android:name=".ui.activity.welcome.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -217,11 +218,11 @@
         <activity
             android:name=".ui.activity.print.PrinterLocationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.activity.print.PdfPreviewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 充值界面 -->
         <activity
             android:name=".ui.activity.my.AccountActivity"
@@ -332,12 +333,12 @@
             android:exported="false"
             android:screenOrientation="behind" />
 
-        <!--微信支付-->
+        <!-- 微信支付 -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.Dialog"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog" />
         <!-- 开发票列表界面 -->
         <activity
             android:name=".ui.activity.my.DebitListActivity"
@@ -436,7 +437,7 @@
         <!-- 新的朋友界面 -->
         <activity
             android:name=".ui.activity.contact.NewFriendActivity"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait" />
         <!-- 新的朋友界面 -->
         <activity
@@ -456,23 +457,22 @@
             android:screenOrientation="portrait" />
         <!-- 转让群主 -->
         <activity
-            android:name="huanxing_print.com.cn.printhome.ui.activity.contact.GroupOwnerTransferActivity"
-            android:launchMode="singleTask"
+            android:name=".ui.activity.contact.GroupOwnerTransferActivity"
             android:screenOrientation="portrait" />
-        <!--修改群昵称-->
+        <!-- 修改群昵称 -->
         <activity
-            android:name="huanxing_print.com.cn.printhome.ui.activity.contact.ModifyQunNameActivity"
+            android:name=".ui.activity.contact.ModifyQunNameActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 群聊天文件 -->
         <activity
-            android:name="huanxing_print.com.cn.printhome.ui.activity.contact.ContactFileActivity"
+            android:name=".ui.activity.contact.ContactFileActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 创建群组 -->
         <activity
             android:name=".ui.activity.contact.CreateGroup"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait" />
 
         <!-- 群设置 -->
@@ -484,7 +484,6 @@
         <!-- 群设置 -->
         <activity
             android:name=".ui.activity.contact.GroupMemberAddActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <!-- 采购审批界面 -->
@@ -549,29 +548,59 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
-        <!---->
+        <!--  -->
         <activity
             android:name=".ui.activity.approval.VoucherPreviewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
 
         <!-- 选择审批人、抄送人 -->
         <activity
             android:name=".ui.activity.approval.ChoosePeopleOfAddressActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <!--审批选择群组-->
+        <!-- 审批选择群组 -->
         <activity
             android:name=".ui.activity.approval.ChooseGroupActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.chat.SendRedEnvelopesSingleChatActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <activity android:name=".ui.activity.chat.SendRedEnvelopesGroupChatActivity"></activity>
+        <activity android:name=".ui.activity.chat.SendRedEnvelopesSingleChatActivity" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <activity android:name=".ui.activity.chat.SendRedEnvelopesGroupChatActivity" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <!-- 从印信界面跳转的选择联系人界面 -->
+        <activity
+            android:name=".ui.activity.contact.ListAddContactActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!--聊天界面-->
+        <activity
+            android:name=".ui.activity.chat.ChatTestActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <!--查看图片详情界面-->
+        <activity
+            android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
+        <!--7.0调用相机崩溃-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="huanxing_print.com.cn.printhome.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

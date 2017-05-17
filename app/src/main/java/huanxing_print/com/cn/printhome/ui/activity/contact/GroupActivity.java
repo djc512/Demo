@@ -15,6 +15,7 @@ import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupAdatper;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -104,7 +105,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     public void clickGroup(GroupInfo info) {
         if (null != info) {
             //假设跳入到群设置详情，后续删除
-            Intent intent = new Intent(GroupActivity.this, ChatActivity.class);
+            Intent intent = new Intent(GroupActivity.this, ChatTestActivity.class);
             intent.putExtra("GroupInfo", info);
             startActivity(intent);
 
