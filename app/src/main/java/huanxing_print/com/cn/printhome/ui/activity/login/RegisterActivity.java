@@ -27,6 +27,7 @@ import huanxing_print.com.cn.printhome.util.time.ScheduledTimer;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 import static android.R.attr.password;
+import static huanxing_print.com.cn.printhome.R.id.tv_login;
 
 public class RegisterActivity extends BaseActivity implements OnClickListener {
 	private RelativeLayout rl_title;
@@ -71,6 +72,31 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		registeTv.setOnClickListener(this);
 		findViewById(R.id.tv_login).setOnClickListener(this);
 
+
+
+		registerPhoneEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				// 获得焦点
+				if (hasFocus) {
+					iv_code_detele.setVisibility(View.GONE);
+					phone = registerPhoneEt.getText().toString().trim();
+					if(!ObjectUtils.isNull(phone)){
+						iv_phone_detele.setVisibility(View.VISIBLE);
+					}else{
+						iv_phone_detele.setVisibility(View.GONE);
+					}
+				} else {
+
+					// 失去焦点
+
+				}
+
+			}
+
+
+		});
 		registerPhoneEt.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -79,10 +105,14 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (start>0){
+				if (start > 0) {
 					iv_phone_detele.setVisibility(View.VISIBLE);
-				}else{
+					registeTv.setBackgroundResource(R.drawable.broder_yellow_full);
+					registeTv.setTextColor(getResources().getColor(R.color.black2));
+				} else {
 					iv_phone_detele.setVisibility(View.GONE);
+					registeTv.setBackgroundResource(R.drawable.broder_yellow4_full);
+					registeTv.setTextColor(getResources().getColor(R.color.white));
 				}
 			}
 
@@ -90,6 +120,31 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			public void afterTextChanged(Editable s) {
 
 			}
+		});
+
+
+		registerCodeEt.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				// 获得焦点
+				if (hasFocus) {
+					iv_phone_detele.setVisibility(View.GONE);
+					verCode = registerCodeEt.getText().toString().trim();
+					if(!ObjectUtils.isNull(verCode)){
+						iv_code_detele.setVisibility(View.VISIBLE);
+					}else{
+						iv_code_detele.setVisibility(View.GONE);
+					}
+				} else {
+
+					// 失去焦点
+
+				}
+
+			}
+
+
 		});
 		registerCodeEt.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -123,7 +178,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			Logger.d("注册");
 			register();
 			break;
-		case R.id.tv_login:// 登录
+		case tv_login:// 登录
 			jumpActivity(LoginActivity.class);
 			break;
 		case R.id.iv_phone_detele://
