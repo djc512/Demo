@@ -300,6 +300,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
      * 添加评论
      */
     private void submitComment() {
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中").show();
         ArrayList<ImageItem> items = selectBitmap;
         getUrl(items);
         uploadPic();
@@ -384,13 +385,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private void uploadPic() {
         Map<String, Object> map = new HashMap<>();
         map.put("files", imageitems);
-        DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...");
         UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
             @Override
             public void success(List<PicDataBean> bean) {
-                if (null != imageUrls && imageUrls.size() > 0) {
-                    imageUrls.clear();
-                }
                 if (null != bean && bean.size() > 0) {
                     for (int i = 0; i < bean.size(); i++) {
                         String imgUrl = bean.get(i).getImgUrl();
