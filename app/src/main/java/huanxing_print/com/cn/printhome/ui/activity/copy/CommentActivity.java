@@ -82,7 +82,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private TextView tv_printNum;
     private String printNum;
     private String printLocation;
-    private ArrayList<ImageItem> tempSelectBitmap = Bimp.tempSelectBitmap;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -98,7 +97,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
         mResults.add(bimap);
         orderid = getIntent().getExtras().getLong("order_id");
-
         //获取打印机编号
         printNum = getIntent().getExtras().getString("printNum");
         //打印机所在位置
@@ -137,20 +135,17 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         adapter = new GridAdapter(this);
         adapter.update();
         noScrollgridview.setAdapter(adapter);
-        if (tempSelectBitmap != null && tempSelectBitmap.size() > 0) {
-            tempSelectBitmap.clear();
-        }
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == mResults.size() - 1 || i == tempSelectBitmap.size()) {
+                if (i == mResults.size() - 1 || i == Bimp.tempSelectBitmap.size()) {
                     Intent intent = new Intent(ctx, PhotoPickerActivity.class);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
                     intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, PhotoPickerActivity.DEFAULT_NUM);
                     // 总共选择的图片数量
-                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, tempSelectBitmap.size());
+                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
                     startActivityForResult(intent, PICK_PHOTO);
                 } else {
                     Intent intent = new Intent(ctx,
@@ -256,7 +251,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
             ImageItem takePhoto = new ImageItem();
             takePhoto.setBitmap(bitmap);
-            tempSelectBitmap.add(takePhoto);
+            Bimp.tempSelectBitmap.add(takePhoto);
         }
         mResults.add(BitmapFactory.decodeResource(getResources(), R.drawable.add));
         adapter.notifyDataSetChanged();
@@ -302,7 +297,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
      * 添加评论
      */
     private void submitComment() {
-        ArrayList<ImageItem> items = tempSelectBitmap;
+        ArrayList<ImageItem> items = Bimp.tempSelectBitmap;
         getUrl(items);
         uploadPic();
 
@@ -429,10 +424,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         }
 
         public int getCount() {
-            if (tempSelectBitmap.size() == 9) {
+            if (Bimp.tempSelectBitmap.size() == 9) {
                 return 9;
             }
-            return (tempSelectBitmap.size() + 1);
+            return (Bimp.tempSelectBitmap.size() + 1);
         }
 
         public Object getItem(int arg0) {
@@ -455,14 +450,14 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if (position == tempSelectBitmap.size()) {
+            if (position == Bimp.tempSelectBitmap.size()) {
                 holder.image.setImageBitmap(BitmapFactory.decodeResource(
                         getResources(), R.drawable.add));
                 if (position == 9) {
                     holder.image.setVisibility(View.GONE);
                 }
             } else {
-                holder.image.setImageBitmap(tempSelectBitmap.get(position).getBitmap());
+                holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
             }
             return convertView;
         }
@@ -486,7 +481,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             new Thread(new Runnable() {
                 public void run() {
                     while (true) {
-                        if (Bimp.max == tempSelectBitmap.size()) {
+                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
                             Message message = new Message();
                             message.what = 1;
                             handler.sendMessage(message);
@@ -511,9 +506,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        if (null != tempSelectBitmap && tempSelectBitmap.size() > 0) {
-            tempSelectBitmap.clear();
-        }
         int gvHeight = 0;
         if (adapter.getCount() < 5) {
             gvHeight = dip2px(ctx, 60);
