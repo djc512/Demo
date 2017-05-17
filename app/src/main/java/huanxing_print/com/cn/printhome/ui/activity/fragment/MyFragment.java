@@ -18,7 +18,6 @@ import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
-import huanxing_print.com.cn.printhome.ui.activity.copy.CommentListActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
@@ -184,11 +183,10 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 startActivity(stationIntent);
                 break;
             case R.id.ll_join://打印点加盟
-//                Intent joinIntent=new Intent(getActivity(), WebViewCommunityActivity.class);
-//                joinIntent.putExtra("titleName", "打印点加盟");
-//                joinIntent.putExtra("webUrl", HttpUrl.myEarn);
-//                startActivity(joinIntent);
-                startActivity(new Intent(getActivity(), CommentListActivity.class));
+                Intent joinIntent=new Intent(getActivity(), WebViewCommunityActivity.class);
+                joinIntent.putExtra("titleName", "打印点加盟");
+                joinIntent.putExtra("webUrl", HttpUrl.myEarn);
+                startActivity(joinIntent);
                 break;
             case R.id.ll_my_contact:
                 startActivity(new Intent(getActivity(), MyContactActivity.class));
