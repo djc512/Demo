@@ -60,6 +60,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
         Logger.i("init");
         conversationListView = (EaseConversationList) findViewById(R.id.list);
         errorItemContainer = (FrameLayout) findViewById(R.id.fl_error_item);
+        findViewById(R.id.addImg).setOnClickListener(this);
 
         conversationList.addAll(loadConversationList());
         conversationListView.init(conversationList);
@@ -72,6 +73,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
                 EMConversation conversation = conversationListView.getItem(position);
                 //单聊
                 EMMessage message = conversation.getLatestMessageFromOthers();
+                EMMessage groupMsg = conversation.getLastMessage();
 
 //                Intent intent = new Intent(getActivity(), ChatActivity.class);
                 Intent intent = new Intent(getActivity(), ChatTestActivity.class);
@@ -80,16 +82,20 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
 //                    intent.putExtra("type", EaseConstant.CHATTYPE_GROUP);
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
                     intent.putExtra(Constant.EXTRA_USER_ID, conversation.conversationId());
-                    intent.putExtra("name", conversation.conversationId());
+                    intent.putExtra("name", groupMsg.getStringAttribute("groupName", ""));
                 } else if (EMConversation.EMConversationType.ChatRoom ==
                         conversation.getType()) {
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_CHATROOM);
                     intent.putExtra(Constant.EXTRA_USER_ID, conversation.conversationId());
-                    intent.putExtra("name", conversation.conversationId());
+                    intent.putExtra("name", groupMsg.getStringAttribute("groupName", ""));
                 } else {
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-                    intent.putExtra(Constant.EXTRA_USER_ID, message.getFrom());
-                    intent.putExtra("name", message.getUserName());
+                    if (message != null) {
+                        intent.putExtra(Constant.EXTRA_USER_ID, message.getFrom());
+                        intent.putExtra("name", message.getStringAttribute("nickName", ""));
+                    } else {
+                        intent.putExtra(Constant.EXTRA_USER_ID, groupMsg.getTo());
+                    }
                 }
                 startActivity(intent);
                 //listItemClickListener.onListItemClicked(conversation);
