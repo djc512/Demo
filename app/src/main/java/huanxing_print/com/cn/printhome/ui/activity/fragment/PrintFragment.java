@@ -184,8 +184,8 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
                         return;
                     }
 
-                    if(result.startsWith("cardId:")) {
-                        String subResultString = result.replace("cardId:","");
+                    if(result.startsWith("MINE:")) {
+                        String subResultString = result.replace("MINE:","");
                         searchFriend(subResultString);
                         return;
                     }

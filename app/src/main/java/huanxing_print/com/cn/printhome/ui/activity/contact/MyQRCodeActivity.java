@@ -50,7 +50,7 @@ public class MyQRCodeActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initData() {
-        Bitmap bitmap = QRUtil.createQRImage(this, im_qr, String.format("cardId:%s",baseApplication.getUniqueId()));
+        Bitmap bitmap = QRUtil.createQRImage(this, im_qr, String.format("MINE:%s",baseApplication.getUniqueId()));
         if (bitmap != null && !bitmap.isRecycled()) {
             im_qr.setImageBitmap(bitmap);
         }
