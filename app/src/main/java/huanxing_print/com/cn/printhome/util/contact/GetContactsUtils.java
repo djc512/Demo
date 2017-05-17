@@ -57,7 +57,7 @@ public class GetContactsUtils {
                     null, null);
             int phoneIndex = 0;
             if(null == phones) {
-                break;
+                continue;
             }
             if (phones.getCount() > 0) {
                 phoneIndex = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
@@ -69,6 +69,7 @@ public class GetContactsUtils {
                 phoneContactInfo.setTelNo(phoneNumber.replace(" ",""));
                 infos.add(phoneContactInfo);
             }
+            phones.close();
 
 //            /*
 //             * 查找该联系人的email信息

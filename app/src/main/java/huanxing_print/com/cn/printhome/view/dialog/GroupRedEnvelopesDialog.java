@@ -18,7 +18,7 @@ import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.GroupRedEnvelopesListener;
 
 /**
- * 单个红包Dialog(单聊有效)
+ * 单个红包Dialog(群聊有效)
  * Created by dd on 2017/5/10.
  */
 

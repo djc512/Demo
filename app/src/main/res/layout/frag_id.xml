@@ -6,9 +6,9 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:paddingTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:paddingBottom="10dp">
@@ -58,8 +58,8 @@
                         android:button="@null"
                         android:checked="true"
                         android:gravity="center"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="拍照采集"
                         android:textSize="15sp" />
 
@@ -71,8 +71,8 @@
                         android:background="@drawable/yellow_selector_right_id"
                         android:button="@null"
                         android:gravity="center"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="本地相册"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -85,7 +85,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="5dp">
 
         <TextView
             android:id="@+id/tv_idf"
@@ -132,8 +132,8 @@
                         android:button="@null"
                         android:checked="true"
                         android:gravity="center"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="拍照采集"
                         android:textSize="15sp" />
 
@@ -145,8 +145,8 @@
                         android:background="@drawable/yellow_selector_right_id"
                         android:button="@null"
                         android:gravity="center"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="本地相册"
                         android:textSize="15sp" />
                 </LinearLayout>

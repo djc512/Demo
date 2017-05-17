@@ -34,7 +34,7 @@ public class ImageLoader {
     private final static Executor BITMAP_LOAD_EXECUTOR = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
     private final static Executor BITMAP_CACHE_EXECUTOR = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
-    public static final Bitmap.CompressFormat DEFAULT_COMPRESS_FORMAT = Bitmap.CompressFormat.PNG;
+    public static final Bitmap.CompressFormat DEFAULT_COMPRESS_FORMAT = Bitmap.CompressFormat.JPEG;
 
     public static final int DEFAULT_COMPRESS_QUALITY = 100;
 

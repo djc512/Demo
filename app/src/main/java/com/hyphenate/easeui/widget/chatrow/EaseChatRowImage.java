@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMImageMessageBody;
@@ -23,11 +24,15 @@ import com.hyphenate.easeui.utils.EaseImageUtils;
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.util.CircleTransform;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
-public class EaseChatRowImage extends EaseChatRowFile{
+public class EaseChatRowImage extends EaseChatRowFile {
 
     protected ImageView imageView;
     private EMImageMessageBody imgBody;
+    private ImageView iv_userhead;
+    private TextView tv_userid;
 
     public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -35,18 +40,42 @@ public class EaseChatRowImage extends EaseChatRowFile{
 
     @Override
     protected void onInflateView() {
-        inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ? R.layout.ease_row_received_picture : R.layout.ease_row_sent_picture, this);
+        inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
+                R.layout.ease_row_received_picture : R.layout.ease_row_sent_picture, this);
     }
 
     @Override
     protected void onFindViewById() {
         percentageView = (TextView) findViewById(R.id.percentage);
         imageView = (ImageView) findViewById(R.id.image);
+        iv_userhead = (ImageView) findViewById(R.id.iv_userhead);
+        tv_userid = (TextView) findViewById(R.id.tv_userid);
     }
 
-    
+
     @Override
     protected void onSetUpView() {
+        String iconUrl = message.getStringAttribute("iconUrl", "");
+        String nickName = message.getStringAttribute("nickName", "");
+        //头像
+        if (ObjectUtils.isNull(iconUrl)) {
+            Glide.with(getContext())
+                    .load(R.drawable.iv_head)
+                    .transform(new CircleTransform(getContext()))
+                    .into(iv_userhead);
+        } else {
+            Glide.with(getContext())
+                    .load(iconUrl)
+                    .transform(new CircleTransform(getContext()))
+                    .into(iv_userhead);
+        }
+        //昵称
+        if (ObjectUtils.isNull(nickName)) {
+            tv_userid.setText(message.getFrom());
+        } else {
+            tv_userid.setText(nickName);
+        }
+
         imgBody = (EMImageMessageBody) message.getBody();
         // received messages
         if (message.direct() == EMMessage.Direct.RECEIVE) {
@@ -60,25 +89,25 @@ public class EaseChatRowImage extends EaseChatRowFile{
                 imageView.setImageResource(R.drawable.ease_default_image);
                 String thumbPath = imgBody.thumbnailLocalPath();
                 if (!new File(thumbPath).exists()) {
-                	// to make it compatible with thumbnail received in previous version
+                    // to make it compatible with thumbnail received in previous version
                     thumbPath = EaseImageUtils.getThumbnailImagePath(imgBody.getLocalUrl());
                 }
                 showImageView(thumbPath, imageView, imgBody.getLocalUrl(), message);
             }
             return;
         }
-        
+
         String filePath = imgBody.getLocalUrl();
         String thumbPath = EaseImageUtils.getThumbnailImagePath(imgBody.getLocalUrl());
         showImageView(thumbPath, imageView, filePath, message);
         handleSendMessage();
     }
-    
+
     @Override
     protected void onUpdateView() {
         super.onUpdateView();
     }
-    
+
     @Override
     protected void onBubbleClick() {
         Intent intent = new Intent(context, EaseShowBigImageActivity.class);
@@ -104,16 +133,15 @@ public class EaseChatRowImage extends EaseChatRowFile{
         }
         context.startActivity(intent);
     }
-    
+
     /**
      * load image into image view
-     * 
+     *
      * @param thumbernailPath
      * @param iv
-     * @param position
      * @return the image exists or not
      */
-    private boolean showImageView(final String thumbernailPath, final ImageView iv, final String localFullSizePath,final EMMessage message) {
+    private boolean showImageView(final String thumbernailPath, final ImageView iv, final String localFullSizePath, final EMMessage message) {
         // first check if the thumbnail image already loaded into cache
         Bitmap bitmap = EaseImageCache.getInstance().get(thumbernailPath);
         if (bitmap != null) {
@@ -130,8 +158,7 @@ public class EaseChatRowImage extends EaseChatRowFile{
                         return EaseImageUtils.decodeScaleImage(thumbernailPath, 160, 160);
                     } else if (new File(imgBody.thumbnailLocalPath()).exists()) {
                         return EaseImageUtils.decodeScaleImage(imgBody.thumbnailLocalPath(), 160, 160);
-                    }
-                    else {
+                    } else {
                         if (message.direct() == EMMessage.Direct.SEND) {
                             if (localFullSizePath != null && new File(localFullSizePath).exists()) {
                                 return EaseImageUtils.decodeScaleImage(localFullSizePath, 160, 160);

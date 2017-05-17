@@ -551,7 +551,8 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         public void success(String msg, String data) {
             DialogUtils.closeProgressDialog();
             Log.i("CMCC", "新建采购审批id:" + data);
-            finishCurrentActivity();
+//            finishCurrentActivity();
+            finish();
             ToastUtil.doToast(getSelfActivity(), "新建采购审批成功!");
         }
 

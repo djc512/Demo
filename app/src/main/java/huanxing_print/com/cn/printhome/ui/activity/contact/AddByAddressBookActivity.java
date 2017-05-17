@@ -83,6 +83,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private void initData() {
+        DialogUtils.showProgressDialog(this, "加载中").show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -98,6 +99,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
         @Override
         public void run() {
+            DialogUtils.closeProgressDialog();
             //更新UI
             adapter.modifyData(contactInfos);
         }
@@ -264,7 +266,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private void invitationWeiXin(FriendSearchInfo info, String message) {
         WeiXinUtils weiXinUtils = WeiXinUtils.getInstance();
         weiXinUtils.init(this, baseApplication.WX_APPID);
-        weiXinUtils.shareToWXSceneSession(message);
+//        weiXinUtils.shareToWXSceneSession(message);
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
         weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", baseApplication.getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", shareAppUrl, bmp);
     }

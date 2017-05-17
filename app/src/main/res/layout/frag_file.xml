@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
+        android:padding="25dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="25dp">
+       >
 
         <RelativeLayout
+            android:paddingBottom="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_copy_bg">
@@ -18,14 +20,16 @@
                 android:layout_below="@+id/rl_copy"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:button="@null"
                     android:checked="true"
-                    android:padding="15dp"
-                    android:textSize="15sp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="拍照采集"
@@ -35,8 +39,11 @@
                 <RadioButton
                     android:id="@+id/btn_pic"
                     android:button="@null"
-                    android:padding="15dp"
-                    android:textSize="15sp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:textSize="13sp"
                     android:background="@drawable/yellow_selector_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

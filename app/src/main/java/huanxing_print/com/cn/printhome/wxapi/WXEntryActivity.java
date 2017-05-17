@@ -36,6 +36,10 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//----------- 当分享成功后，返回应用结束当前也 start ---------------
+		finishCurrentActivity();
+		//----------- 当分享成功后，返回应用结束当前也 end ---------------
+
 		api = WXAPIFactory.createWXAPI(this, baseApplication.WX_APPID, false);
 		//将你收到的intent和实现IWXAPIEventHandler接口的对象传递给handleIntent方法
 		api.handleIntent(getIntent(), this);
