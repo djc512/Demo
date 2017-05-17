@@ -69,6 +69,7 @@ public class GetContactsUtils {
                 phoneContactInfo.setTelNo(phoneNumber.replace(" ",""));
                 infos.add(phoneContactInfo);
             }
+            phones.close();
 
 //            /*
 //             * 查找该联系人的email信息
