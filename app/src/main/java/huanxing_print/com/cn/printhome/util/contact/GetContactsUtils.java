@@ -57,7 +57,7 @@ public class GetContactsUtils {
                     null, null);
             int phoneIndex = 0;
             if(null == phones) {
-                break;
+                continue;
             }
             if (phones.getCount() > 0) {
                 phoneIndex = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
