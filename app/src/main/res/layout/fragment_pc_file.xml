@@ -4,14 +4,14 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/white"
-              android:orientation="vertical"
-              android:padding="20dp">
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="20dp">
 
         <ImageView
             android:layout_width="0dp"
@@ -32,16 +32,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/shape_dot"
-                android:maxLines="1"
                 android:text=" 使用浏览器访问:p.oao20.com"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/shape_dot"
-                android:maxLines="1"
                 android:text=" 扫描屏幕中的二维码进行登录"/>
-
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/devide_gray"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRecView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -354,7 +354,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     }
 
     public void onGetPrintList(View view) {
-        PrintRequest.queryPrintList(activity, 1, 100, new HttpListener() {
+        PrintRequest.queryPrintList(activity,  new HttpListener() {
             @Override
             public void onSucceed(String content) {
                 PrintListBean printListBean = GsonUtil.GsonToBean(content, PrintListBean.class);

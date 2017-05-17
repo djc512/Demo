@@ -11,6 +11,7 @@ import android.os.StatFs;
 import android.provider.MediaStore;
 import android.util.Base64;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -372,5 +373,40 @@ public class FileUtils {
             e.printStackTrace();
         }
         return base;
+    }
+
+    /**
+     * base64字符串转文件
+     * @param base64
+     * @return
+     */
+    public static File base64ToFile(String base64,File file) {
+        FileOutputStream out = null;
+        try {
+            if (!file.exists())
+                file.createNewFile();
+            byte[] bytes = Base64.decode(base64, Base64.DEFAULT);// 将字符串转换为byte数组
+            ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+            byte[] buffer = new byte[1024];
+            out = new FileOutputStream(file);
+            int bytesum = 0;
+            int byteread = 0;
+            while ((byteread = in.read(buffer)) != -1) {
+                bytesum += byteread;
+                out.write(buffer, 0, byteread); // 文件写操作
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {
+            try {
+                if (out!= null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return file;
     }
 }

@@ -5,9 +5,6 @@ import android.view.View;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
-import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
-import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
-import huanxing_print.com.cn.printhome.util.ShowUtil;
 
 public class ImgPrintSettingActivity extends BasePrintActivity {
 
@@ -27,17 +24,17 @@ public class ImgPrintSettingActivity extends BasePrintActivity {
     }
 
     private void delFile() {
-        PrintRequest.delFile(activity, printSetting.getId(), new HttpListener() {
-            @Override
-            public void onSucceed(String content) {
-                finish();
-            }
-
-            @Override
-            public void onFailed(String exception) {
-                ShowUtil.showToast(getString(R.string.net_error));
-            }
-        });
+//        PrintRequest.delFile(activity, printSetting.getId(), new HttpListener() {
+//            @Override
+//            public void onSucceed(String content) {
+//                finish();
+//            }
+//
+//            @Override
+//            public void onFailed(String exception) {
+//                ShowUtil.showToast(getString(R.string.net_error));
+//            }
+//        });
     }
 
     public void onDel(View view) {

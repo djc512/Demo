@@ -134,6 +134,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private int printCount = 1;
     private int sizeType = 0;
 
+    private int a3Num = 5;
+    private int a4Num = 8;
+
 
     private int id;
 
@@ -393,6 +396,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private void turnPrintState() {
         Bundle bundle = new Bundle();
         bundle.putLong(PrintStatusActivity.ORDER_ID, orderId);
+        bundle.putParcelable(PrintStatusActivity.PRINTER_PRICE, printerPrice);
         PrintStatusActivity.start(this, bundle);
         finish();
     }
@@ -629,6 +633,14 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 tv_mount.setText(printCount + "");
                 break;
             case R.id.iv_plus://加
+                if (sizeType == 0 && StringUtil.stringToInt(printerPrice.getA4Num()) <= printCount) {
+                    ShowUtil.showToast(getString(R.string.page_out));
+                    return;
+                }
+                if (sizeType == 1 && StringUtil.stringToInt(printerPrice.getA3Num()) <= printCount) {
+                    ShowUtil.showToast(getString(R.string.page_out));
+                    return;
+                }
                 printCount++;
                 tv_mount.setText(printCount + "");
                 break;
@@ -666,11 +678,19 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_a43://纸张
                 if (sizeType == 1) {
+                    if (printCount > StringUtil.stringToInt(printerPrice.getA4Num())) {
+                        printCount = StringUtil.stringToInt(printerPrice.getA4Num());
+                        tv_mount.setText(printCount + "");
+                    }
                     iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                     tv_a3.setTextColor(getResources().getColor(R.color.gray8));
                     tv_a4.setTextColor(getResources().getColor(R.color.black2));
                     sizeType = 0;
                 } else {
+                    if (printCount > StringUtil.stringToInt(printerPrice.getA3Num())) {
+                        printCount = StringUtil.stringToInt(printerPrice.getA3Num());
+                        tv_mount.setText(printCount + "");
+                    }
                     tv_a4.setTextColor(getResources().getColor(R.color.gray8));
                     tv_a3.setTextColor(getResources().getColor(R.color.black2));
                     iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));

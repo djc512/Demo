@@ -19,6 +19,7 @@ import java.util.TimerTask;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.OrderStatusResp;
+import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
@@ -37,6 +38,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private ImageView animImg;
 
     private OrderStatusResp orderStatusResp;
+    private PrintInfoResp.PrinterPrice printerPrice;
     private long orderId;
     private int awakeAccount = 0;
 
@@ -52,6 +54,9 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 
     private void initData() {
         orderId = getIntent().getExtras().getLong(ORDER_ID);
+        printerPrice = getIntent().getExtras().getParcelable(PRINTER_PRICE);
+        Logger.i(printerPrice.toString());
+        Logger.i(orderId);
     }
 
     private void initView() {
@@ -95,6 +100,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
             case R.id.commentTv:
                 Bundle bundle = new Bundle();
                 bundle.putLong("order_id", orderId);
+                bundle.putString("printNum", printerPrice.getPrinterNo());
+                bundle.putString("location", printerPrice.getPrintAddress());
                 Intent intent = new Intent(context, CommentActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -233,7 +240,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         exceptionLyt.setVisibility(View.GONE);
     }
 
-    public static final String ORDER_ID = "order_id";
+    public static final String ORDER_ID = "orderId";
+    public static final String PRINTER_PRICE = "printerPrice";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, PrintStatusActivity.class);

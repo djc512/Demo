@@ -24,6 +24,8 @@ public class PrintRequest extends BaseRequst {
     public static final String PRINTER_NO = "printerNo";
     public static final String PRINT_NO = "printNo";
     public static final String ID = "id";
+    public static final String UNIQUE_CODE = "uniqueCode";
+
     public static final String DOUBLE_FLAG = "doubleFlag";
     public static final String COLOUR_FLAG = "colourFlag";
     public static final String PRINT_COUNT = "printCount";
@@ -47,6 +49,7 @@ public class PrintRequest extends BaseRequst {
     public static final String DOC_PREVIEW = "print/file/preview";
     public static final String SETTING_MODIFY = "print/file/updateToPrint";
     public static final String QUERY_PRINT_LIST = "print/file/queyList";
+    public static final String PC_LOGIN = "member/doPCLogin";
     public static final String QUERY_PRINT_AROUND = "print/printer/around";
     public static final String QUERY_PRINTERS = "print/printer/history";
     public static final String QUERY_PRINTER_PRICE = "print/printer/getDetail";
@@ -79,6 +82,7 @@ public class PrintRequest extends BaseRequst {
         };
         return headerTokenMap;
     }
+
 
     /**
      * 上传文件
@@ -126,10 +130,24 @@ public class PrintRequest extends BaseRequst {
      * @param id
      * @param callback
      */
-    public static final void delFile(Activity activity, int id, final HttpListener callback) {
+    public static final void delFile(Activity activity, long id, final HttpListener callback) {
         String url = BASE_URL + FILE_DEL;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(ID, id);
+        Http.postString(activity, url, params, getHeaderTokenMap(), callback, false);
+    }
+
+    /**
+     * 扫码登录
+     *
+     * @param activity
+     * @param uniqueCode
+     * @param callback
+     */
+    public static final void pcLogin(Activity activity, String uniqueCode, final HttpListener callback) {
+        String url = BASE_URL + PC_LOGIN;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put(UNIQUE_CODE, uniqueCode);
         Http.postString(activity, url, params, getHeaderTokenMap(), callback, true);
     }
 
@@ -178,16 +196,11 @@ public class PrintRequest extends BaseRequst {
      * 获取待打印列表
      *
      * @param activity
-     * @param pageNum
-     * @param pageSize
      * @param callback
      */
-    public static final void queryPrintList(Activity activity, int pageNum, int pageSize, final HttpListener callback) {
+    public static final void queryPrintList(Activity activity,  final HttpListener callback) {
         String url = BASE_URL + QUERY_PRINT_LIST;
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put(PAGE_NUM, pageNum);
-        params.put(PAGE_SIZE, pageSize);
-        Http.get(activity, url, params, getHeaderTokenMap(), callback, true);
+        Http.get(activity, url, null, getHeaderTokenMap(), callback, false);
     }
 
     /**

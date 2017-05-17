@@ -36,17 +36,17 @@ public class DocPrintActivity extends BasePrintActivity {
     }
 
     private void delFile() {
-        PrintRequest.delFile(activity, printSetting.getId(), new HttpListener() {
-            @Override
-            public void onSucceed(String content) {
-                finish();
-            }
-
-            @Override
-            public void onFailed(String exception) {
-                ShowUtil.showToast(getString(R.string.net_error));
-            }
-        });
+//        PrintRequest.delFile(activity, printSetting.getId(), new HttpListener() {
+//            @Override
+//            public void onSucceed(String content) {
+//                finish();
+//            }
+//
+//            @Override
+//            public void onFailed(String exception) {
+//                ShowUtil.showToast(getString(R.string.net_error));
+//            }
+//        });
     }
 
     public void onDel(View view) {

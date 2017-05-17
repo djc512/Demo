@@ -3,6 +3,7 @@ package huanxing_print.com.cn.printhome.util;
 import com.amap.api.maps2d.model.LatLng;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import huanxing_print.com.cn.printhome.log.Logger;
 
@@ -87,5 +88,13 @@ public class StringUtil {
         LatLng latLng = new LatLng(var2, var1);
         Logger.i(latLng.toString());
         return latLng;
+    }
+
+    public static final String stringToTime(String str) {
+        String result = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Long time = new Long(stringToLong(str));
+        result= format.format(time);
+        return result;
     }
 }

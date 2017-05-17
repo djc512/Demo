@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -25,6 +26,7 @@ import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.StorageUtil;
 import huanxing_print.com.cn.printhome.util.WifiUtil;
 import huanxing_print.com.cn.printhome.util.webserver.WebServer;
+import huanxing_print.com.cn.printhome.util.webserver.WebServer1;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 
 /**
@@ -32,6 +34,8 @@ import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
  */
 
 public class WifiImportFragment extends BaseLazyFragment {
+
+    private List<File> fileList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,9 +64,7 @@ public class WifiImportFragment extends BaseLazyFragment {
         ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressBar.setProgress(StorageUtil.getSdUsablePercent(context));
 
-        startWebServer();
-
-        List<File> fileList = FileUtils.getFileList(FileUtils.getWifiUploadPath());
+        fileList = FileUtils.getFileList(FileUtils.getWifiUploadPath());
         Logger.i(FileUtils.getWifiUploadPath());
         if (fileList == null || fileList.size() == 0) {
             View devider = view.findViewById(R.id.devider);
@@ -88,10 +90,14 @@ public class WifiImportFragment extends BaseLazyFragment {
                     public void onItemClick(final View view, int position) {
                     }
                 });
+        startWebServer();
     }
 
     private void startWebServer() {
-        Intent intent = new Intent(context, WebServer.class);
+        Intent intent = new Intent(context, WebServer1.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(WebServer1.FILE_LIST, (Serializable) fileList);
+        intent.putExtras(bundle);
         context.startService(intent);
     }
 
