@@ -156,6 +156,12 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         }
 
         setUpView();
+        Log.i("CCCC","nickName============================================="+nickName);
+        Log.i("CCCC","toChatUsername============================================="+toChatUsername);
+        if (toChatUsername.equals("secretary")){
+            tv_title.setText("印家小秘书");
+
+        }
     }
 
     GroupMessageCallback callback = new GroupMessageCallback() {

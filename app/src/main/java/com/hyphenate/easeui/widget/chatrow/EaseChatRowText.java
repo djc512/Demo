@@ -25,6 +25,8 @@ import huanxing_print.com.cn.printhome.model.chat.RedPackageDetail;
 import huanxing_print.com.cn.printhome.net.callback.chat.PackageDetailCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.RobPackageCallBack;
 import huanxing_print.com.cn.printhome.net.request.chat.ChatRequest;
+import huanxing_print.com.cn.printhome.ui.activity.approval.ApprovalBuyAddOrRemoveActivity;
+import huanxing_print.com.cn.printhome.ui.activity.contact.NewFriendActivity;
 import huanxing_print.com.cn.printhome.ui.activity.yinxin.RedPackageRecordActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.FailureRedEnvelopesListener;
@@ -50,6 +52,7 @@ public class EaseChatRowText extends EaseChatRow {
     private GoneRedEnvelopesDialog goneDialog;
     private String lingQuRenNickName;//发红包人的昵称
     private String lingQuRenId;//发红包人的id
+    private String type;
 
     public EaseChatRowText(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -64,6 +67,11 @@ public class EaseChatRowText extends EaseChatRow {
             inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
                     R.layout.ease_row_received_red_package : R.layout.ease_row_sent_red_package, this);
         }
+        Log.i("CCCC","type======================="+message.getStringAttribute("type",""));
+        Log.i("CCCC","approveId======================="+message.getStringAttribute("approveId",""));
+        Log.i("CCCC","getFrom======================="+message.getFrom());
+        Log.i("CCCC","getto======================="+message.getTo());
+        type = message.getStringAttribute("type","");
 
     }
 
@@ -85,24 +93,32 @@ public class EaseChatRowText extends EaseChatRow {
 
         String iconUrl = message.getStringAttribute("iconUrl", "");
         String nickName = message.getStringAttribute("nickName", "");
-        //头像
-        if (ObjectUtils.isNull(iconUrl)) {
-            Glide.with(getContext())
-                    .load(R.drawable.iv_head)
-                    .transform(new CircleTransform(getContext()))
-                    .into(iv_userhead);
-        } else {
-            Glide.with(getContext())
-                    .load(iconUrl)
-                    .transform(new CircleTransform(getContext()))
-                    .into(iv_userhead);
+
+        //如果是印信就写死名称和头像========================================================================
+        Log.i("CCCC","印家的Username============================================="+message.getUserName());
+        if (message.getUserName().equals("secretary")){
+            iv_userhead.setImageResource(R.drawable.king);
+        }else {
+            //头像
+            if (ObjectUtils.isNull(iconUrl)) {
+                Glide.with(getContext())
+                        .load(R.drawable.iv_head)
+                        .transform(new CircleTransform(getContext()))
+                        .into(iv_userhead);
+            } else {
+                Glide.with(getContext())
+                        .load(iconUrl)
+                        .transform(new CircleTransform(getContext()))
+                        .into(iv_userhead);
+            }
+            //昵称
+            if (ObjectUtils.isNull(nickName)) {
+                tv_userid.setText(message.getFrom());
+            } else {
+                tv_userid.setText(nickName);
+            }
         }
-        //昵称
-        if (ObjectUtils.isNull(nickName)) {
-            tv_userid.setText(message.getFrom());
-        } else {
-            tv_userid.setText(nickName);
-        }
+
         handleTextMessage();
     }
 
@@ -147,6 +163,64 @@ public class EaseChatRowText extends EaseChatRow {
 
     @Override
     protected void onBubbleClick() {
+
+        Log.i("CCCC","======================="+message.getStringAttribute("type",""));
+        Log.i("CCCC","======================="+message.getFrom());
+        if (type!=null){
+            switch (type){
+                case "101"://采购审核
+                    Intent intent1 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent1);
+                    break;
+                case "102"://采购审核结果
+                    Intent intent2 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent2);
+                    break;
+                case "201"://报销审核
+                    Intent intent3 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent3);
+                    break;
+                case "202"://报销审核结果
+                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent4);
+                    break;
+                case "301"://注册通知
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "302"://加好友通知
+                    Intent intent5 = new Intent(context, NewFriendActivity.class);
+                    context.startActivity(intent5);
+                    break;
+                case "401"://普通红包
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "402"://群红包
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "501"://加群审核
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "502"://进群通知
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "503"://退群通知
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "504"://群解散
+                    break;
+                case "601"://普通点对点消息对发
+                    break;
+                default:
+                    break;
+            }
+        }
+
         // 红包弹出来dialog
         if (!ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
             lingQuRenId = message.getStringAttribute("userId", "");
