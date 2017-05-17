@@ -437,7 +437,7 @@
         <!-- 新的朋友界面 -->
         <activity
             android:name=".ui.activity.contact.NewFriendActivity"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait" />
         <!-- 新的朋友界面 -->
         <activity
@@ -473,7 +473,7 @@
         <!-- 创建群组 -->
         <activity
             android:name=".ui.activity.contact.CreateGroup"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="portrait" />
 
         <!-- 群设置 -->
