@@ -80,6 +80,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private long orderid;
     private TextView tv_address;
     private TextView tv_printNum;
+    private String printNum;
+    private String printLocation;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -96,8 +98,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         mResults.add(bimap);
         orderid = getIntent().getExtras().getLong("order_id");
 
-        String printNum = getIntent().getExtras().getString("printNum");//获取打印机编号
-        String printLocation = getIntent().getExtras().getString("location");//打印机所在位置
+        //获取打印机编号
+        printNum = getIntent().getExtras().getString("printNum");
+        //打印机所在位置
+        printLocation = getIntent().getExtras().getString("location");
 
         initView();
         initData();
@@ -128,8 +132,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private ArrayList<ImageItem> tempSelectBitmap = Bimp.tempSelectBitmap;
 
     private void initData() {
-        tv_printNum.setText("编号:" + orderid);
-//        tv_address.setText();
+        tv_printNum.setText("编号:" + printNum);
+        tv_address.setText(printLocation);
 
         adapter = new GridAdapter(this);
         adapter.update();
@@ -321,7 +325,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 Toast.makeText(ctx, "发表成功", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getSelfActivity(), CommentListActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("printer_id", orderid + "");
+                bundle.putString("printer_id", printNum + "");
                 startActivity(intent);
                 finishCurrentActivity();
             }
