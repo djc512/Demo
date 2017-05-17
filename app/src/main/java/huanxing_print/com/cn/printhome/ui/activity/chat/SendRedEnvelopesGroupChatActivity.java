@@ -157,7 +157,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         switch (v.getId()) {
             case R.id.btn_plug_money:
                 //网络请求，获取用户信息
-                DialogUtils.showProgressDialog(this,"装红包中").show();
+                DialogUtils.showProgressDialog(this, "装红包中").show();
                 MyInfoRequest.getMyInfo(SendRedEnvelopesGroupChatActivity.this, baseApplication.getLoginToken(), new MyMyInfoCallBack());
 
 //                plugMoney();
@@ -236,6 +236,12 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
             if (null != id) {
                 Intent intent = new Intent();
                 intent.putExtra("packetId", id);
+                if (isLuck) {
+                    //手气
+                    intent.putExtra("groupType", 2);
+                } else {
+                    intent.putExtra("groupType", 1);
+                }
                 setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }
@@ -289,15 +295,15 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
             if (!ObjectUtils.isNull(bean)) {
                 String totleBalance = bean.getTotleBalance();
                 String amount = edt_single_money.getText().toString();
-                if(Float.parseFloat(totleBalance) >= Float.parseFloat(amount)) {
+                if (Float.parseFloat(totleBalance) >= Float.parseFloat(amount)) {
                     //发红包
                     DialogUtils.showRedPackageConfirmDialog(SendRedEnvelopesGroupChatActivity.this, "红包", "¥ " + Float.parseFloat(amount), new DialogUtils.RedPackageCallback() {
                         @Override
                         public void send() {
-                        plugMoney();
+                            plugMoney();
                         }
                     }).show();
-                }else{
+                } else {
                     //发红包
                     DialogUtils.showRedPackageConfirmDialog(SendRedEnvelopesGroupChatActivity.this, "红包", "余额不足", new DialogUtils.RedPackageCallback() {
                         @Override
