@@ -516,4 +516,15 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gvHeight);
         noScrollgridview.setLayoutParams(lp);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != Bimp.tempSelectBitmap) {
+            Bimp.tempSelectBitmap.clear();
+        }
+        if (null != mResults) {
+            mResults.clear();
+        }
+    }
 }
