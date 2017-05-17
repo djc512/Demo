@@ -2,6 +2,7 @@ package com.hyphenate.easeui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,25 +145,32 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         } else {
             EMMessage emMessage = conversation.getLatestMessageFromOthers();
             if (emMessage != null) {
-                //单聊头像
-                if (ObjectUtils.isNull(emMessage.getStringAttribute("iconUrl", ""))) {
-                    Glide.with(getContext())
-                            .load(R.drawable.iv_head)
-                            .transform(new CircleTransform(getContext()))
-                            .into(holder.avatar);
-                } else {
-                    Glide.with(getContext())
-                            .load(emMessage.getStringAttribute("iconUrl", ""))
-                            .placeholder(R.drawable.iv_head)
-                            .transform(new CircleTransform(getContext()))
-                            .into(holder.avatar);
+                //如果是印信小秘书就自己设置头像和名字
+                if (conversation.getLastMessage().getUserName().equals("secretary")){
+                    holder.avatar.setImageResource(R.drawable.king);
+                    holder.name.setText("印家小秘书");
+                }else {
+                    //单聊头像
+                    if (ObjectUtils.isNull(emMessage.getStringAttribute("iconUrl", ""))) {
+                        Glide.with(getContext())
+                                .load(R.drawable.iv_head)
+                                .transform(new CircleTransform(getContext()))
+                                .into(holder.avatar);
+                    } else {
+                        Glide.with(getContext())
+                                .load(emMessage.getStringAttribute("iconUrl", ""))
+                                .placeholder(R.drawable.iv_head)
+                                .transform(new CircleTransform(getContext()))
+                                .into(holder.avatar);
+                    }
+                    //单聊昵称
+                    if (ObjectUtils.isNull(emMessage.getStringAttribute("nickName", ""))) {
+                        holder.name.setText(username);
+                    } else {
+                        holder.name.setText(emMessage.getStringAttribute("nickName", ""));
+                    }
                 }
-                //单聊昵称
-                if (ObjectUtils.isNull(emMessage.getStringAttribute("nickName", ""))) {
-                    holder.name.setText(username);
-                } else {
-                    holder.name.setText(emMessage.getStringAttribute("nickName", ""));
-                }
+
             } else {
                 Glide.with(getContext())
                         .load(R.drawable.iv_head)
@@ -213,6 +221,14 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             holder.message.setTextSize(TypedValue.COMPLEX_UNIT_PX, secondarySize);
         if (timeSize != 0)
             holder.time.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeSize);
+        //如果是小秘书的消息，直接展示图片
+        Log.i("CCCC","form+++++++++++++++++++++++++++++="+conversation.getLastMessage().getFrom());
+        Log.i("CCCC","usename+++++++++++++++++++++++++++++="+conversation.getLastMessage().getUserName());
+        Log.i("CCCC","msgId+++++++++++++++++++++++++++++="+conversation.getLastMessage().getMsgId());
+//        /*if (conversation.getLastMessage().getUserName().equals("secretary")){
+//            holder.avatar.setImageResource(R.drawable.king);
+//            holder.name.setText("印家小秘书");
+//        }*/
 
         return convertView;
     }

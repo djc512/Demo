@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.DelPcFileResp;
-import huanxing_print.com.cn.printhome.model.print.PcLoginResp;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
@@ -68,6 +66,7 @@ public class PcFileFragment extends BaseLazyFragment {
         mAdapter.setOnItemClickListener(new PcFileRecylerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final View view, int position) {
+//                Http.download();
                 addFile(mAdapter.getFileList().get(position));
             }
         });

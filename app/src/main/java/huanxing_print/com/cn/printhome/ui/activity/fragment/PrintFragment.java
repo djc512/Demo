@@ -159,7 +159,6 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
         Logger.i(printerNo);
     }
 
-
     private void turnPickFile(PrintInfoResp.PrinterPrice printerPrice) {
         EventBus.getDefault().postSticky(printerPrice);
         Bundle bundle = new Bundle();

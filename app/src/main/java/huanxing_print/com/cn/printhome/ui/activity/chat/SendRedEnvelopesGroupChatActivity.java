@@ -277,7 +277,6 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                 } else {
                     intent.putExtra("groupType", 1);
                 }
-                Log.d("CMCC", "setResult-手气-groupType--》"+intent.getIntExtra("groupType", -1) );
                 setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }

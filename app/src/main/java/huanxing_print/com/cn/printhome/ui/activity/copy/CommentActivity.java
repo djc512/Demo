@@ -82,6 +82,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private TextView tv_printNum;
     private String printNum;
     private String printLocation;
+    private ArrayList<ImageItem> selectBitmap;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -94,6 +95,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_comment);
         ctx = this;
+        selectBitmap = Bimp.tempSelectBitmap;
+        selectBitmap.clear();
+        mResults.clear();
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
         mResults.add(bimap);
         orderid = getIntent().getExtras().getLong("order_id");
@@ -133,19 +137,18 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         tv_address.setText(printLocation);
 
         adapter = new GridAdapter(this);
-        adapter.update();
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == mResults.size() - 1 || i == Bimp.tempSelectBitmap.size()) {
+                if (i == mResults.size() - 1 || i == selectBitmap.size()) {
                     Intent intent = new Intent(ctx, PhotoPickerActivity.class);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
                     intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
                     intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, PhotoPickerActivity.DEFAULT_NUM);
                     // 总共选择的图片数量
-                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
+                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, selectBitmap.size());
                     startActivityForResult(intent, PICK_PHOTO);
                 } else {
                     Intent intent = new Intent(ctx,
@@ -251,7 +254,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
             ImageItem takePhoto = new ImageItem();
             takePhoto.setBitmap(bitmap);
-            Bimp.tempSelectBitmap.add(takePhoto);
+            selectBitmap.add(takePhoto);
         }
         mResults.add(BitmapFactory.decodeResource(getResources(), R.drawable.add));
         adapter.notifyDataSetChanged();
@@ -297,7 +300,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
      * 添加评论
      */
     private void submitComment() {
-        ArrayList<ImageItem> items = Bimp.tempSelectBitmap;
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中").show();
+        ArrayList<ImageItem> items = selectBitmap;
         getUrl(items);
         uploadPic();
 
@@ -381,13 +385,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private void uploadPic() {
         Map<String, Object> map = new HashMap<>();
         map.put("files", imageitems);
-        DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...");
         UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
             @Override
             public void success(List<PicDataBean> bean) {
-                if (null != imageUrls && imageUrls.size() > 0) {
-                    imageUrls.clear();
-                }
                 if (null != bean && bean.size() > 0) {
                     for (int i = 0; i < bean.size(); i++) {
                         String imgUrl = bean.get(i).getImgUrl();
@@ -424,10 +424,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         }
 
         public int getCount() {
-            if (Bimp.tempSelectBitmap.size() == 9) {
+            if (selectBitmap.size() == 9) {
                 return 9;
             }
-            return (Bimp.tempSelectBitmap.size() + 1);
+            return (selectBitmap.size() + 1);
         }
 
         public Object getItem(int arg0) {
@@ -450,14 +450,14 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if (position == Bimp.tempSelectBitmap.size()) {
+            if (position == selectBitmap.size()) {
                 holder.image.setImageBitmap(BitmapFactory.decodeResource(
                         getResources(), R.drawable.add));
                 if (position == 9) {
                     holder.image.setVisibility(View.GONE);
                 }
             } else {
-                holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
+                holder.image.setImageBitmap(selectBitmap.get(position).getBitmap());
             }
             return convertView;
         }
@@ -481,7 +481,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             new Thread(new Runnable() {
                 public void run() {
                     while (true) {
-                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
+                        if (Bimp.max == selectBitmap.size()) {
                             Message message = new Message();
                             message.what = 1;
                             handler.sendMessage(message);
@@ -498,11 +498,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    protected void onRestart() {
-        adapter.update();
-        super.onRestart();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -517,5 +512,16 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, gvHeight);
         noScrollgridview.setLayoutParams(lp);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != Bimp.tempSelectBitmap) {
+            Bimp.tempSelectBitmap.clear();
+        }
+        if (null != mResults) {
+            mResults.clear();
+        }
     }
 }

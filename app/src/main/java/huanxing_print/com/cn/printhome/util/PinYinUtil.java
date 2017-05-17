@@ -23,6 +23,8 @@ public class PinYinUtil {
             for (char curchar : input) {
                 if (java.lang.Character.toString(curchar).matches("[\\u4E00-\\u9FA5]+")) {
                     String[] temp = PinyinHelper.toHanyuPinyinStringArray(curchar, format);
+                    if(null ==temp)
+                        continue;
                     output += temp[0];
                 } else {
                     output += java.lang.Character.toString(curchar);

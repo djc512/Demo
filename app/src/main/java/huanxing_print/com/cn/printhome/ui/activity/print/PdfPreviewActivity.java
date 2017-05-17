@@ -12,6 +12,8 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.lang.ref.WeakReference;
 
@@ -179,6 +181,11 @@ public class PdfPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void turnPrintSetting(PrintSetting printSetting) {
+        if (page == 1) {
+            EventBus.getDefault().postSticky(new Integer(1));
+        } else {
+            EventBus.getDefault().postSticky(new Integer(2));
+        }
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
         PickPrinterActivity.start(context, bundle);

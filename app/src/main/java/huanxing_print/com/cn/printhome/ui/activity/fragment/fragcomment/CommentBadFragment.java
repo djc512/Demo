@@ -34,7 +34,7 @@ public class CommentBadFragment extends Fragment {
     private Context ctx;
     private String printno;
     private XRefreshView xrf_comment;
-    private int pageNum =1;
+    private int pageNum = 1;
     private boolean isLoadMore;
     private List<CommentListBean.DetailBean> detail;
     private CommentListAdapter1 adapter;
@@ -105,7 +105,7 @@ public class CommentBadFragment extends Fragment {
             if (isLoadMore) {//如果是加载更多
                 if (!ObjectUtils.isNull(bean)) {
                     xrf_comment.stopLoadMore();
-                    if (!ObjectUtils.isNull(bean.getDetail())) {
+                    if (!ObjectUtils.isNull(bean.getDetail()) && bean.getDetail().size() > 0) {
                         detail.addAll(bean.getDetail());
                         adapter.notifyDataSetChanged();
                     } else {

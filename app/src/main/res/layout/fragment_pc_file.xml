@@ -15,7 +15,7 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_weight="1.5"
             app:srcCompat="@drawable/img_code"/>
 
@@ -24,21 +24,46 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="2"
-            android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/shape_dot"
-                android:text=" 使用浏览器访问:p.oao20.com"/>
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    app:srcCompat="@drawable/shape_dot"/>
+
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="使用浏览器访问p.oao2o.com"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/shape_dot"
-                android:text=" 扫描屏幕中的二维码进行登录"/>
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    app:srcCompat="@drawable/shape_dot"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="扫描屏幕中的二维码进行登录"/>
+            </LinearLayout>
+
+
         </LinearLayout>
     </LinearLayout>
 

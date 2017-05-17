@@ -2,6 +2,8 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.OrderStatusResp;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
@@ -26,6 +29,7 @@ import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.WeiXinUtils;
 
 
 public class PrintStatusActivity extends BasePrintActivity implements View.OnClickListener {
@@ -95,7 +99,11 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 finish();
                 break;
             case R.id.shareTv:
-                ShowUtil.showToast("shareTv");
+                WeiXinUtils weiXinUtils = WeiXinUtils.getInstance();
+                weiXinUtils.init(this, BaseApplication.getInstance().WX_APPID);
+                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
+                weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
+                        .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", "https://www.baidu.com", bmp);
                 break;
             case R.id.commentTv:
                 Bundle bundle = new Bundle();

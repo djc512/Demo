@@ -23,6 +23,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.hyphenate.util.DensityUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +56,7 @@ import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -134,9 +139,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private int printCount = 1;
     private int sizeType = 0;
 
-    private int a3Num = 5;
-    private int a4Num = 8;
-
+    private int pageCount = 2;
 
     private int id;
 
@@ -149,6 +152,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_copy_set);
+        EventBus.getDefault().register(CopySettingActivity.this);
         ctx = this;
         CommonUtils.initSystemBar(this);
         StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PAY);
@@ -698,6 +702,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.iv_print_type://单双面
+                if (pageCount == 1) {
+                    ShowUtil.showToast(getString(R.string.page_limit));
+                    return;
+                }
                 if (doubleFlag == 1) {
                     iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     tv_double.setTextColor(getResources().getColor(R.color.black2));
@@ -853,6 +861,12 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         PayUtil.getInstance(getSelfActivity()).alipay(payInfo);
     }
 
+    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
+    public void onMessageEventPostThread(Integer i) {
+        this.pageCount = i;
+        Logger.i(pageCount);
+    }
+
     public static final String PRINT_SETTING = "setting";
     public static final String PRINT_TYPE = "print_type";
     public static final String PRINTER_NO = "pinter_no";
@@ -914,4 +928,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().unregister(CopySettingActivity.this);
+    }
 }

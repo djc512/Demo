@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.github.chrisbanes.photoview.PhotoView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.lang.ref.WeakReference;
 
@@ -148,7 +150,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                     return;
                 }
                 if (addFileSettingBean.isSuccess()) {
-                    turnPrintSetting(addFileSettingBean.getData());
+                    turnPickPrinter(addFileSettingBean.getData());
                 } else {
                     ShowUtil.showToast(addFileSettingBean.getErrorMsg());
                 }
@@ -162,7 +164,8 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         }, false);
     }
 
-    private void turnPrintSetting(PrintSetting printSetting) {
+    private void turnPickPrinter(PrintSetting printSetting) {
+        EventBus.getDefault().postSticky(new Integer(1));
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
         PickPrinterActivity.start(context, bundle);
