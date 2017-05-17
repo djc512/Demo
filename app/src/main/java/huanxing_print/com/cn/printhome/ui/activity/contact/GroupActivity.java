@@ -4,13 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
@@ -32,6 +38,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     private RecyclerView recyclerView;
     private ArrayList<GroupInfo> groups = new ArrayList<GroupInfo>();
     private GroupAdatper adatper;
+    private String token;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -42,6 +49,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_group);
         initView();
         initData();
@@ -61,7 +69,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void initData() {
-        String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+        token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
         DialogUtils.showProgressDialog(this, "加载中").show();
         GroupManagerRequest.queryGroupList(this, token, groupListCallback);
@@ -85,6 +93,18 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+    //无论产生事件的是否是UI线程，都在新的线程中执行
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onMessageEventAsync(GroupUpdate messageEvent) {
+        Log.e("CMCC", messageEvent.getResultMessage());
+        GroupManagerRequest.queryGroupList(this, token, groupListCallback);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

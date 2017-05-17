@@ -1,17 +1,26 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.contacts.FriendUpdate;
+import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
@@ -36,6 +45,18 @@ public class ContantsFragment extends BaseFragment implements
     private ContactsItemAdapter adapter;
     private LinearLayoutManager layoutManager;
     private String token;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     protected void init() {
@@ -73,7 +94,7 @@ public class ContantsFragment extends BaseFragment implements
     private void initData() {
         token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        getData();
+//        getData();
     }
 
     private void getData() {
@@ -96,6 +117,12 @@ public class ContantsFragment extends BaseFragment implements
         }
     }
 
+    //无论产生事件的是否是UI线程，都在新的线程中执行
+    @Subscribe(threadMode = ThreadMode.ASYNC)
+    public void onMessageEventAsync(FriendUpdate messageEvent) {
+        Log.e("CMCC", messageEvent.getResultMessage());
+        FriendManagerRequest.queryFriendList(getActivity(), token, myFriendListCallback);
+    }
 
     @Override
     public void onDestroy() {
