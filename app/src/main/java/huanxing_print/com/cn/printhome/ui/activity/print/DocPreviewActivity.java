@@ -1,28 +1,38 @@
 package huanxing_print.com.cn.printhome.ui.activity.print;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
+import huanxing_print.com.cn.printhome.model.print.DocPreviewResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
+import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.DocPreViewpageAdapter;
+import huanxing_print.com.cn.printhome.util.FileType;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 
 public class DocPreviewActivity extends BasePrintActivity implements View.OnClickListener {
@@ -41,7 +51,6 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_preview);
         initData();
-        initView();
     }
 
     private void initView() {
@@ -50,18 +59,30 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         if (fileUrlList != null) {
             docPreViewpageAdapter = new DocPreViewpageAdapter(context, fileUrlList);
+            viewpager.setAdapter(docPreViewpageAdapter);
         }
-        viewpager.setAdapter(docPreViewpageAdapter);
     }
 
-
     private void initData() {
-        Bundle bundle = getIntent().getExtras();
-        fileUrl = (String) bundle.getCharSequence(KEY_URL);
-        fileUrlList = bundle.getStringArrayList(KEY_URL_LIST);
-        file = (File) bundle.getSerializable(KEY_FILE);
-        Logger.i(fileUrl);
-        Logger.i(fileUrlList);
+        Uri uri = getIntent().getData();
+        if (uri == null) {
+            Bundle bundle = getIntent().getExtras();
+            fileUrl = (String) bundle.getCharSequence(KEY_URL);
+            fileUrlList = bundle.getStringArrayList(KEY_URL_LIST);
+            file = (File) bundle.getSerializable(KEY_FILE);
+            Logger.i(fileUrl);
+            Logger.i(fileUrlList);
+            initView();
+        } else {
+            String filepath = Uri.decode(getIntent().getDataString()).substring(7);
+            Logger.i(filepath);
+            file = new File(filepath);
+            if (file == null) {
+                ShowUtil.showToast(getString(R.string.file_error));
+                finish();
+            }
+            turnFile(file);
+        }
     }
 
     private void addFile(String fileUrl) {
@@ -99,6 +120,113 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
         PickPrinterActivity.start(context, bundle);
+    }
+
+    static class MyHandler extends Handler {
+        WeakReference<DocPreviewActivity> mActivity;
+
+        MyHandler(DocPreviewActivity activity) {
+            mActivity = new WeakReference<DocPreviewActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            DocPreviewActivity activity = mActivity.get();
+            String base = (String) msg.obj;
+            if (base != null) {
+                activity.uploadFile(base);
+            }
+        }
+    }
+
+    private MyHandler mHandler = new MyHandler(this);
+
+
+    public void turnFile(final File file) {
+        this.file = file;
+        if (file == null || !file.exists()) {
+            return;
+        }
+        if (FileUtils.isOutOfSize(file)) {
+            Alert.show(context, "提示", getString(R.string.size_out), null, new
+                    DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    });
+            return;
+        }
+        showLoading();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                Message msg = new Message();
+                msg.obj = FileUtils.getBase64(file);
+                mHandler.sendMessage(msg);
+            }
+        }.start();
+    }
+
+    private void uploadFile(String base) {
+        PrintRequest.uploadFile(activity, FileType.getType(file.getPath()), base, file.getName(), new
+                HttpListener() {
+                    @Override
+                    public void onSucceed(String content) {
+                        UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
+                        if (uploadFileBean == null) {
+                            dismissLoading();
+                            return;
+                        }
+                        if (uploadFileBean.isSuccess()) {
+                            if (isLoading()) {
+                                 fileUrl = uploadFileBean.getData().getImgUrl();
+                                getPreview(fileUrl);
+                            }
+                        } else {
+                            dismissLoading();
+                            ShowUtil.showToast(getString(R.string.upload_failure));
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(String exception) {
+                        dismissLoading();
+                        ShowUtil.showToast(getString(R.string.net_error));
+                    }
+                }, false);
+    }
+
+    private void getPreview(final String url) {
+        PrintRequest.docPreview(activity, url, new HttpListener() {
+            @Override
+            public void onSucceed(String content) {
+                dismissLoading();
+                DocPreviewResp docPreviewResp = GsonUtil.GsonToBean(content, DocPreviewResp.class);
+                if (docPreviewResp == null) {
+                    dismissLoading();
+                    return;
+                }
+                if (!docPreviewResp.isSuccess()) {
+                    ShowUtil.showToast(docPreviewResp.getErrorMsg());
+                    return;
+                }
+                if (docPreviewResp.getData().getPaperNum() > 200) {
+                    ShowUtil.showToast(getString(R.string.file_outpage));
+                    return;
+                }
+                fileUrlList  = docPreviewResp.getData().getArryList();
+                initView();
+            }
+
+            @Override
+            public void onFailed(String exception) {
+                dismissLoading();
+                ShowUtil.showToast(getString(R.string.net_error));
+            }
+        });
     }
 
     @Override

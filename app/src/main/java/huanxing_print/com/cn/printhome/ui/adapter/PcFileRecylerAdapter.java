@@ -131,6 +131,8 @@ public class PcFileRecylerAdapter extends RecyclerView.Adapter<PcFileRecylerAdap
         viewHolder.nameTv.setTextColor(ContextCompat.getColor(context, R.color.text_black));
         viewHolder.timeTv.setText(StringUtil.stringToTime(file.getAddTime()));
         viewHolder.icImg.setImageResource(getFileImgId(file.getFileName()));
+        viewHolder.sizeTv.setText(FileUtils.prettySize(StringUtil.stringToLong(file.getFileSize())));
+
     }
 
     private int getFileImgId(String fileName) {

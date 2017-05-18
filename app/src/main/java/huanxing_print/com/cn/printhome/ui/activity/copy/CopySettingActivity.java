@@ -425,6 +425,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 iv_paper.getLayoutParams().height = newHeight;
                 iv_paper.setLayoutParams(layout);
                 scaleRatio = progress;
+                Logger.i(scaleRatio);
             }
 
             @Override

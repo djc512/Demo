@@ -192,7 +192,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
                         } else if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
                             bundle.putCharSequence(PdfPreviewActivity.KEY_PDF_PATH, file.getPath());
                             PdfPreviewActivity.start(context, bundle);
-                        }else {
+                        } else {
                             ((AddFileActivity) getActivity()).turnFile(file);
                         }
                     }
@@ -304,7 +304,8 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
         @Override
         protected List<File> doInBackground(String... params) {
             List<File> fileList = new ArrayList<>();
-            FileUtils.searchFileList(params[0], fileList, Environment.getExternalStorageDirectory().getPath());
+            FileUtils.searchFileList(params[0], fileList, new String[]{Environment.getExternalStorageDirectory()
+                    .getPath()});
             HashMap<String, Object> map = new HashMap<>();
             List<HashMap<String, Object>> list = new ArrayList<>();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());

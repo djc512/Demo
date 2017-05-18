@@ -252,10 +252,10 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                         if (isOnlineResp.getData() == true) {
                             requeryPrice(printerNo);
                         } else {
-                            ShowUtil.showToast(isOnlineResp.getErrorMsg());
+                            ShowUtil.showToast(getString(R.string.printer_error));
                         }
                     } else {
-                        ShowUtil.showToast(isOnlineResp.getErrorMsg());
+                        ShowUtil.showToast(getString(R.string.printer_error));
                     }
                 }
             }

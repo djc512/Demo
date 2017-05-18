@@ -46,7 +46,8 @@ import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 public class QQFileFragment extends BaseLazyFragment {
 
-    private final String PATH_QQ_FILE = Environment.getExternalStorageDirectory().getPath() + "/tencent/QQfile_recv/";
+    private final String[] PATH_QQ_FILE = {Environment.getExternalStorageDirectory().getPath() +
+            "/tencent/QQfile_recv/", Environment.getExternalStorageDirectory().getPath() + "/tencent/QQ_Images/"};
     private RecyclerView mRcList;
     private FileRecyclerAdapter mAdapter;
     private ImageView filterBtn;

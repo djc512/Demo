@@ -218,12 +218,12 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
                 break;
             case R.id.qqBtn:
                 if (isPermissionsGranted()) {
-                    getFileList(PATH_QQ_FILE, SOURCE_QQ);
+//                    getFileList(PATH_QQ_FILE, SOURCE_QQ);
                 }
                 break;
             case R.id.wechatBtn:
                 if (isPermissionsGranted()) {
-                    getFileList(PATH_WECHAT_FILE, SOURCE_WECHAT);
+//                    getFileList(PATH_WECHAT_FILE, SOURCE_WECHAT);
                 }
                 break;
             case R.id.titleTv:

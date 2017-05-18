@@ -101,6 +101,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
                                 addFile(url);
                             }
                         } else {
+                            dismissLoading();
                             ShowUtil.showToast(getString(R.string.upload_failure));
                         }
                     }

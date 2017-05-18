@@ -3,6 +3,7 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,7 +11,6 @@ import android.view.View;
 
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
-import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -48,16 +48,27 @@ public class PdfPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void initData() {
-        pdfPath = (String) getIntent().getExtras().get(KEY_PDF_PATH);
-        file = new File(pdfPath);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            pdfPath = (String) bundle.get(KEY_PDF_PATH);
+            file = new File(pdfPath);
+        } else {
+            pdfPath = Uri.decode(getIntent().getDataString()).substring(7);
+            Logger.i(pdfPath);
+            file = new File(pdfPath);
+            if (file == null) {
+                ShowUtil.showToast(getString(R.string.file_error));
+                finish();
+            }
+        }
     }
 
     private void initView() {
         pdfView = (PDFView) findViewById(R.id.pdfView);
         pdfView.fromFile(new File(pdfPath))
                 .enableAnnotationRendering(true)
+                .swipeHorizontal(true)
                 .onLoad(this)
-                .scrollHandle(new DefaultScrollHandle(this))
                 .load();
     }
 

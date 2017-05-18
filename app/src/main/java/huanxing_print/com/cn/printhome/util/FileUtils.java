@@ -269,16 +269,19 @@ public class FileUtils {
      * @param list
      * @param path
      */
-    public static final void searchFileList(String keyword, List list, String path) {
-        File file = new File(path);
-        File[] files = file.listFiles();
-        for (File f : files) {
-            if (f.isDirectory()) {
-                searchFileList(keyword, list, f.getPath());
-            } else if (f.getName().indexOf(keyword) >= 0) {
-                list.add(f);
+    public static final void searchFileList(String keyword, List list, String[] path) {
+        for (String myPath : path) {
+            File file = new File(myPath);
+            File[] files = file.listFiles();
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    searchFileList(keyword, list, new String[]{f.getPath()});
+                } else if (f.getName().indexOf(keyword) >= 0) {
+                    list.add(f);
+                }
             }
         }
+
     }
 
     /**
@@ -316,20 +319,22 @@ public class FileUtils {
      * @param path
      * @return
      */
-    public static final List getAllFileList(String path) {
+    public static final List getAllFileList(String[] path) {
         List<File> fileList = new ArrayList<File>();
         try {
-            File qqFile = new File(path);
-            if (qqFile == null) {
-                return null;
-            }
-            File[] files = qqFile.listFiles();
-            if (files != null) {
-                int fileLength = files.length;
-                for (int i = 0; i < fileLength; i++) {
-                    File file = files[i];
-                    if (file.isFile()) {
-                        fileList.add(file);
+            for (String filePath : path) {
+                File myFile = new File(filePath);
+                if (myFile == null) {
+                    return null;
+                }
+                File[] files = myFile.listFiles();
+                if (files != null) {
+                    int fileLength = files.length;
+                    for (int i = 0; i < fileLength; i++) {
+                        File file = files[i];
+                        if (file.isFile()) {
+                            fileList.add(file);
+                        }
                     }
                 }
             }
@@ -382,10 +387,11 @@ public class FileUtils {
 
     /**
      * base64字符串转文件
+     *
      * @param base64
      * @return
      */
-    public static File base64ToFile(String base64,File file) {
+    public static File base64ToFile(String base64, File file) {
         FileOutputStream out = null;
         try {
             if (!file.exists())
@@ -404,7 +410,7 @@ public class FileUtils {
             ioe.printStackTrace();
         } finally {
             try {
-                if (out!= null) {
+                if (out != null) {
                     out.close();
                 }
             } catch (IOException e) {

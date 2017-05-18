@@ -46,8 +46,11 @@ import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 public class WechatFileFragment extends BaseLazyFragment {
 
-    private static final String PATH_WECHAT_FILE = Environment.getExternalStorageDirectory().getPath() +
-            "/tencent/MicroMsg/Download/";
+    //    private static final String PATH_WECHAT_FILE = Environment.getExternalStorageDirectory().getPath() +
+//            "/tencent/MicroMsg/Download/";
+    private static final String[] PATH_WECHAT_FILE = {Environment.getExternalStorageDirectory().getPath() +
+            "/tencent/MicroMsg/Download/", Environment.getExternalStorageDirectory().getPath() +
+            "/tencent/MicroMsg/WeChat"};
     private RecyclerView mRcList;
     private FileRecyclerAdapter mAdapter;
     private ImageView filterBtn;
