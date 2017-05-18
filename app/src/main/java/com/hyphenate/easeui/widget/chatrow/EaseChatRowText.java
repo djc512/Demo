@@ -3,6 +3,8 @@ package com.hyphenate.easeui.widget.chatrow;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -147,19 +149,25 @@ public class EaseChatRowText extends EaseChatRow {
 
     @Override
     public void onSetUpView() {
+        EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
 
         if ("notice".equals(message.getUserName())){
             approvalName.setText(message.getStringAttribute("title",""));
             approvalTime.setText(message.getMsgTime()+"");
             approvalNumber.setText(message.getStringAttribute("message",""));
         }else{
-
-
-
-            EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
-            Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
-            // 设置内容
-            contentView.setText(span, BufferType.SPANNABLE);
+            if("302".equals(type)) {
+                String content = txtBody.getMessage() + "，立即查看";
+                int fStart = content.indexOf("立即查看");
+                int fEnd = fStart + "立即查看".length();
+                SpannableStringBuilder style = new SpannableStringBuilder(content);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_yellow)), fStart, fEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                contentView.setText(style);
+            }else{
+                Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
+                // 设置内容
+                contentView.setText(span, BufferType.SPANNABLE);
+            }
 
             String iconUrl = message.getStringAttribute("iconUrl", "");
             String nickName = message.getStringAttribute("nickName", "");
