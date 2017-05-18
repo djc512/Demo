@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 
 public class WebServer1 extends NanoHTTPD {
@@ -34,7 +35,6 @@ public class WebServer1 extends NanoHTTPD {
         fileList = (List<File>) intent.getExtras().getSerializable(FILE_LIST);
         return super.onStartCommand(intent, flags, startId);
     }
-
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -71,9 +71,11 @@ public class WebServer1 extends NanoHTTPD {
                 String postData = files.get("postData");
                 result.put("success", true);
                 JSONObject fileParamDto = new JSONObject(postData);
-                Log.i(TAG, "文件上传入参" + fileParamDto.toString());
+                Logger.i(fileParamDto.toString());
                 // TODO 存文件 处理成html要的结果
-                String fileName = Base64Util.stringToString(fileParamDto.getString("fileName"));
+//                String fileName = Base64Util.stringToString(fileParamDto.getString("fileName"));
+                String fileName = fileParamDto.getString("fileName");
+                Logger.i(fileName);
                 String content = fileParamDto.getString("content");
                 FileUtils.makeFile(FileUtils.getWifiUploadPath() + fileName);
                 File target = new File(FileUtils.getWifiUploadPath() + fileName);

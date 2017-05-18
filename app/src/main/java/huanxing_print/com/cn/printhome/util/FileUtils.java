@@ -295,7 +295,7 @@ public class FileUtils {
         try {
             File qqFile = new File(path);
             if (qqFile == null) {
-                return null;
+                return fileList;
             }
             File[] files = qqFile.listFiles();
             if (files != null) {

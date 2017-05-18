@@ -18,6 +18,9 @@ import java.util.Locale;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.ImgIconUtil;
+
+import static com.baidu.location.b.g.I;
 
 public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapter.ViewHolder> {
 
@@ -121,28 +124,7 @@ public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapte
         if (!file.isDirectory()) {
             viewHolder.sizeTv.setText(FileUtils.prettySize(file.length()));
         }
-        viewHolder.icImg.setImageResource(getFileImgId(file));
-    }
-
-    private int getFileImgId(File file) {
-        if (file.isDirectory()) {
-            return R.drawable.ic_folder;
-        }
-        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_DOC || FileType.getPrintType(file.getPath()) ==
-                FileType.TYPE_DOCX) {
-            return R.drawable.ic_word;
-        }
-        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PPT || FileType.getPrintType(file.getPath()) ==
-                FileType.TYPE_PPTX) {
-            return R.drawable.ic_ppt;
-        }
-        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
-            return R.drawable.ic_pdf;
-        }
-        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
-            return R.drawable.ic_img;
-        }
-        return R.drawable.ic_defaut_file;
+        viewHolder.icImg.setImageResource(ImgIconUtil.getDrawable(file));
     }
 
     @Override

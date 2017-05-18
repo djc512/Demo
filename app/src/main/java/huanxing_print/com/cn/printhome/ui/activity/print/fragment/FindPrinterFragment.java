@@ -294,16 +294,15 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
         }
     }
 
-    //province=江苏省#city=南京市#district=秦淮区#cityCode=025#adCode=320104#address=江苏省南京市秦淮区养虎仓靠近普天科技园#country=中国#road
-    // =养虎仓#poiName=普天科技园#street=养虎仓#streetNum=34号#aoiName=普天科技园#poiid=#floor=#errorCode=0#errorInfo=success
-    // #locationDetail=-5 #csid:94fcc35f079b4035af001dbc30ebd05f#locationType=5
+
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (null != aMapLocation) {
             if (aMapLocation.getErrorCode() == 0) {
                 initSpinner();
                 center = aMapLocation.getLongitude() + "," + aMapLocation.getLatitude();
-                addressTv.setText(aMapLocation.getAddress());
+                Logger.i(aMapLocation.toString());
+                addressTv.setText(getAddress(aMapLocation));
                 xRefreshView.setVisibility(View.VISIBLE);
                 xRefreshView.startRefresh();
             } else {
@@ -320,5 +319,13 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
         EventBus.getDefault().unregister(this);
     }
 
+    // latitude=31.999238#longitude=118.7909#province=江苏省#city=南京市#district=秦淮区#cityCode=025#adCode=320104#address
+    // =江苏省南京市秦淮区养虎仓靠近普天科技园#country=中国#road=养虎仓#poiName=普天科技园#street=养虎仓#streetNum=34号#aoiName=普天科技园#poiid=#floor
+    // =#errorCode=0#errorInfo=success#locationDetail=-5 #csid:cb39c0ecc94f4c46a2c21945cdb53bbd-5
+    // #csid:2516c70b42f345dd90b7fc59344d4313#locationType=4
+    private String getAddress(AMapLocation aMapLocation) {
+        return aMapLocation.getCity() + aMapLocation.getDistrict() + aMapLocation.getStreet() + aMapLocation
+                .getStreetNum() + aMapLocation.getAoiName();
+    }
 }
 

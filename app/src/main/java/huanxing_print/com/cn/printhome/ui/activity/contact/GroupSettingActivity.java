@@ -224,7 +224,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确定清空群记录", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
                     @Override
                     public void dissolution() {
-                        clearChatHistory("11");
+                        clearChatHistory(easemobGroupId);
                     }
                 }).show();
                 break;

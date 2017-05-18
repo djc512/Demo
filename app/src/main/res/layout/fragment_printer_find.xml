@@ -60,7 +60,7 @@
             android:layout_toRightOf="@+id/imageView6"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:ellipsize="end"
+            android:ellipsize="middle"
             android:maxEms="10"
             android:maxLines="1"
             android:text="正在定位..."

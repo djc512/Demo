@@ -16,6 +16,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.FileType;
+import huanxing_print.com.cn.printhome.util.ImgIconUtil;
 
 /**
  * Created by LGH on 16/11/19.
@@ -106,7 +107,7 @@ public class AllFileListAdapter extends BaseAdapter {
         holder.fileSize.setText((CharSequence) data.get(FILE_SIZE));
         holder.fileUpdateTime.setText((CharSequence) data.get(FILE_UPDATE_TIME));
         File file = (File) data.get(FILE_OBJ);
-        int fileImgId = getFileImgId(file);
+        int fileImgId = ImgIconUtil.getDrawable(file);
         holder.fileImg.setImageResource(fileImgId);
         if (!file.isDirectory() && !FileType.isPrintType(file.getPath())) {
             holder.fileName.setTextColor(ContextCompat.getColor(context, R.color.text_gray));
@@ -114,27 +115,6 @@ public class AllFileListAdapter extends BaseAdapter {
             holder.fileName.setTextColor(ContextCompat.getColor(context, R.color.text_black));
         }
         return convertView;
-    }
-
-    private int getFileImgId(File file) {
-        if (file.isDirectory()) {
-            return R.drawable.ic_folder;
-        }
-        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_DOC || FileType.getPrintType(file.getPath()) ==
-                FileType.TYPE_DOCX) {
-            return R.drawable.ic_word;
-        }
-        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PPT || FileType.getPrintType(file.getPath()) ==
-                FileType.TYPE_PPTX) {
-            return R.drawable.ic_ppt;
-        }
-        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
-            return R.drawable.ic_pdf;
-        }
-        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
-            return R.drawable.ic_img;
-        }
-        return R.drawable.ic_defaut_file;
     }
 
     static class ViewHolder {

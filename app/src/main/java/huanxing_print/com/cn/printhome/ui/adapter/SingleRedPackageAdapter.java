@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -56,8 +57,8 @@ public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int i) {
+        boolean snatch = detail.isSnatch();
         if (viewHolder instanceof HeaderViewHolder) {
-            boolean snatch = detail.isSnatch();
             String amount = detail.getAmount();
             String sendNameUrl = detail.getMasterFaceUrl();
             String sendName = detail.getMasterName();
@@ -87,31 +88,29 @@ public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
 
         } else if (viewHolder instanceof NormalViewHolder) {
+            if (snatch) {
+                ((NormalViewHolder) viewHolder).ryt.setVisibility(View.VISIBLE);
+                String listamount = detail.getAmount();
+                String listsendNameUrl = detail.getFaceUrl();
+                String listsendName = detail.getName();
+                String listtime = detail.getTime();
 
-            String listamount = detail.getAmount();
-            String listsendNameUrl = detail.getFaceUrl();
-            String listsendName = detail.getName();
-            String listtime = detail.getTime();
+                if (!ObjectUtils.isNull(listsendNameUrl)) {
+                    setImg(listsendNameUrl, ((NormalViewHolder) viewHolder).circleImageView);
+                }
+                if (!ObjectUtils.isNull(listsendName)) {
+                    ((NormalViewHolder) viewHolder).nameTv.setText(listsendName);
+                }
+                if (!ObjectUtils.isNull(listamount)) {
+                    ((NormalViewHolder) viewHolder).amountTv.setText(listamount + "元");
+                }
+                if (!ObjectUtils.isNull(listtime)) {
+                    ((NormalViewHolder) viewHolder).timeTv.setText(listtime);
+                }
 
-            if (!ObjectUtils.isNull(listsendNameUrl)) {
-                setImg(listsendNameUrl, ((NormalViewHolder) viewHolder).circleImageView);
+            }else{
+                ((NormalViewHolder) viewHolder).ryt.setVisibility(View.GONE);
             }
-            if (!ObjectUtils.isNull(listsendName)) {
-                ((NormalViewHolder) viewHolder).nameTv.setText(listsendName);
-            }
-            if (!ObjectUtils.isNull(listamount)) {
-                ((NormalViewHolder) viewHolder).amountTv.setText(listamount + "元");
-            }
-            if (!ObjectUtils.isNull(listtime)) {
-                ((NormalViewHolder) viewHolder).timeTv.setText(listtime);
-            }
-//            if ("1".equals(listtype)) {
-//                ((NormalViewHolder) viewHolder).luckLyt.setVisibility(View.VISIBLE);
-//            } else {
-//                ((NormalViewHolder) viewHolder).luckLyt.setVisibility(View.GONE);
-//            }
-
-
         }
     }
 
@@ -127,7 +126,7 @@ public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public class NormalViewHolder extends RecyclerView.ViewHolder {
-
+        public RelativeLayout ryt;
         public LinearLayout luckLyt;
         public CircleImageView circleImageView;
         public TextView nameTv;
@@ -136,6 +135,7 @@ public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         public NormalViewHolder(View itemView) {
             super(itemView);
+            ryt = (RelativeLayout) itemView.findViewById(R.id.ryt);
             luckLyt = (LinearLayout) itemView.findViewById(R.id.luckLyt);
             circleImageView = (CircleImageView) itemView.findViewById(R.id.circleImageView);
             nameTv = (TextView) itemView.findViewById(R.id.nameTv);
