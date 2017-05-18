@@ -107,7 +107,18 @@ public class GroupLuckyRedPackageAdapter extends RecyclerView.Adapter<RecyclerVi
 
             } else {
                 ((HeaderViewHolder) viewHolder).ll_money.setVisibility(View.GONE);
-                ((HeaderViewHolder) viewHolder).detailTv.setText(totalNumber + "个红包，" + outTime + "被抢光");
+                if (snatchNum.equals(totalNumber)) {
+                    ((HeaderViewHolder) viewHolder).detailTv.setText(totalNumber + "个红包，" + outTime + "被抢光");
+                } else {
+                    if ("0".equals(snatchNum)) {
+                        ((HeaderViewHolder) viewHolder).detailTv.setText(totalNumber + "个红包，未被领取");
+                    } else {
+
+                        ((HeaderViewHolder) viewHolder).detailTv.setText("已领取" + snatchNum + "/"
+                                + totalNumber + "个，" + "共" + snatchAmount + "/" + totalAmount);
+                    }
+                }
+
             }
 
         } else if (viewHolder instanceof NormalViewHolder) {

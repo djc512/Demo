@@ -34,6 +34,7 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
     private SingleRedPackageAdapter singleAdapter;
     private GroupCommonRedPackageAdapter commonAdapter;
     private GroupLuckyRedPackageAdapter groupLuckyRedPackageAdapter;
+    private boolean singleType;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -73,20 +74,23 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
         String easemobGroupId = getIntent().getStringExtra("easemobGroupId");
         String packetId = getIntent().getStringExtra("packetId");
         int type = getIntent().getIntExtra("type", -1);
-        Log.d("CMCC", "type:" + type);
-        if (1 == type) {
-            //群普通红包
-            ChatRequest.getCommonPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
-                    easemobGroupId, "", packetId, callBack);
-        } else if (2 == type) {
-            //群拼手气红包
-            DialogUtils.showProgressDialog(this, "加载中").show();
-            ChatRequest.getLuckyPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
-                    easemobGroupId, "", packetId, luckyCallBack);
-        } else if (1001 == type) {
+        singleType = getIntent().getBooleanExtra("singleType",false);
+
+        if (singleType){
             //单聊红包
             ChatRequest.queryPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
                     packetId, detailCallBack);
+        }else{
+            if (1 == type) {
+                //群普通红包
+                ChatRequest.getCommonPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
+                        easemobGroupId, "", packetId, callBack);
+            } else if (2 == type) {
+                //群拼手气红包
+                DialogUtils.showProgressDialog(this, "加载中").show();
+                ChatRequest.getLuckyPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
+                        easemobGroupId, "", packetId, luckyCallBack);
+            }
         }
     }
 

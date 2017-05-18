@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="波比"
-                android:textColor="@color/white"
+                android:textColor="@color/yellow"
                 android:textSize="@dimen/text_size_sixteen" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/red_package_default_msg"
-                android:textColor="@color/white"
+                android:textColor="@color/yellow"
                 android:textSize="@dimen/text_size_fourteen" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="恭喜发财,大吉大利"
-                android:textColor="@color/white"
+                android:textColor="@color/yellow"
                 android:textSize="@dimen/text_size_twenty_five" />
 
 
@@ -76,8 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="188.88"
-                    android:textColor="@color/white"
+                    android:textColor="@color/yellow"
                     android:textSize="@dimen/text_size_twenty_five" />
 
                 <TextView
@@ -87,7 +86,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_toRightOf="@id/txt_num"
                     android:text="元"
-                    android:textColor="@color/white"
+                    android:textColor="@color/yellow"
                     android:textSize="@dimen/text_size_twelve" />
             </RelativeLayout>
 
@@ -103,7 +102,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/red_package_group_bottom_1"
-            android:textColor="@color/gray"
+            android:textColor="@color/yellow"
             android:textSize="@dimen/text_size_fifteen" />
 
         <TextView
@@ -112,7 +111,7 @@
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
             android:text="@string/red_package_group_bottom_2"
-            android:textColor="@color/gray"
+            android:textColor="@color/yellow"
             android:textSize="@dimen/text_size_fifteen" />
 
     </LinearLayout>
