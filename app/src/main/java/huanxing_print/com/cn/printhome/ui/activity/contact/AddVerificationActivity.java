@@ -86,7 +86,7 @@ public class AddVerificationActivity extends BaseActivity implements View.OnClic
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(AddVerificationActivity.this, "添加成功");
+//            ToastUtil.doToast(AddVerificationActivity.this, "添加成功");
             finishCurrentActivity();
         }
 
