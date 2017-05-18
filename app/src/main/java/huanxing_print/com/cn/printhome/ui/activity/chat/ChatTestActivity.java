@@ -62,6 +62,7 @@ import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
+import huanxing_print.com.cn.printhome.model.contact.NewFriendInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupMessageCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.ui.activity.contact.GroupSettingActivity;
@@ -206,6 +207,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         GroupInfo groupInfo = getIntent().getParcelableExtra("GroupInfo");
         FriendInfo friendInfo = getIntent().getParcelableExtra("FriendInfo");
         FriendSearchInfo friendSearchInfo = getIntent().getParcelableExtra("FriendSearchInfo");
+        NewFriendInfo newFriendInfo = getIntent().getParcelableExtra("NewFriendInfo");
         if (!ObjectUtils.isNull(groupInfo)) {
             //群聊
             chatType = EaseConstant.CHATTYPE_GROUP;
@@ -232,6 +234,16 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername +
                     ",nickName:" + nickName);
         }
+
+        if (!ObjectUtils.isNull(newFriendInfo)) {
+            //私聊
+            chatType = EaseConstant.CHATTYPE_SINGLE;
+            toChatUsername = newFriendInfo.getMemberId();
+            nickName = newFriendInfo.getMemberName();
+            Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername +
+                    ",nickName:" + nickName);
+        }
+
         tv_title.setText(nickName);
 
         // message list layout
