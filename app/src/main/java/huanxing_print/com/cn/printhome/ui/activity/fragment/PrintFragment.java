@@ -24,6 +24,7 @@ import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.SearchAddResultActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
@@ -235,11 +236,17 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
         public void success(String msg, FriendSearchInfo friendSearchInfo) {
             DialogUtils.closeProgressDialog();
             if (null != friendSearchInfo) {
-                ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
-                infos.add(friendSearchInfo);
-                Intent intent = new Intent(getActivity(), SearchAddResultActivity.class);
-                intent.putParcelableArrayListExtra("search result", infos);
-                startActivity(intent);
+                if (1 == friendSearchInfo.getIsFriend()) {
+                    Intent intent = new Intent(getActivity(), ChatTestActivity.class);
+                    intent.putExtra("FriendSearchInfo", friendSearchInfo);
+                    startActivity(intent);
+                } else {
+                    ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
+                    infos.add(friendSearchInfo);
+                    Intent intent = new Intent(getActivity(), SearchAddResultActivity.class);
+                    intent.putParcelableArrayListExtra("search result", infos);
+                    startActivity(intent);
+                }
             }
         }
 

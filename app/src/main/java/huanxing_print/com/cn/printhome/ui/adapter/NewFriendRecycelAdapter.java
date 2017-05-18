@@ -126,6 +126,14 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
             agreeBtn = (Button) itemView.findViewById(R.id.btn_agree);
             stateTv = (TextView) itemView.findViewById(R.id.friend_state);
             agreeBtn.setOnClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(null != onAddItemClickListener) {
+                        onAddItemClickListener.onItemFriendClick(info);
+                    }
+                }
+            });
         }
 
         public void bind(int position) {
@@ -194,6 +202,7 @@ public class NewFriendRecycelAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public interface OnAddItemClickListener{
         void onAddressBookClick();
+        void onItemFriendClick(NewFriendInfo newFriendInfo);
         void onItemNewFriendPassClick(NewFriendInfo newFriendInfo);
     }
 

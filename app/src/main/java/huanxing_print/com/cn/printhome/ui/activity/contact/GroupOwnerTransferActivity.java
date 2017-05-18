@@ -32,7 +32,7 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
     private LinearLayout ll_back;
     private RecyclerView recyclerView;
     private QunMemberListAdapter adapter;
-    private ArrayList<GroupMember> groupMembers;
+    private ArrayList<GroupMember> groupMembers = new ArrayList<GroupMember>();
     private GroupMessageInfo messageInfo;
 
     @Override
@@ -46,8 +46,8 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_groupowner_transfer);
         EventBus.getDefault().register(getSelfActivity());
-        initData();
         initView();
+        initData();
         setListener();
     }
 
@@ -66,6 +66,16 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
     private void initData() {
         messageInfo = getIntent().getParcelableExtra("qunlist");
         groupMembers = messageInfo.getGroupMembers();
+        GroupMember mainMember = null;
+        for (GroupMember member : groupMembers) {
+            if("1".equals(member.getType())) {
+                mainMember = member;
+            }
+        }
+        if (null != mainMember) {
+            groupMembers.remove(mainMember);
+        }
+        adapter.modifyData(groupMembers);
     }
 
     private void setListener() {

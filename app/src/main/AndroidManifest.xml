@@ -458,7 +458,6 @@
         <!-- 修改群昵称 -->
         <activity
             android:name=".ui.activity.contact.ModifyQunNameActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <!-- 群聊天文件 -->
         <activity

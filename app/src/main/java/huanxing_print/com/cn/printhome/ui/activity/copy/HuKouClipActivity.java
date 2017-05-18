@@ -65,7 +65,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     private void initView() {
         iv_preview = (ImageView) findViewById(R.id.iv_preview);
         btn_reset = (TextView) findViewById(R.id.btn_reset);
-        btn_preview = (TextView) findViewById(R.id.btn_confirm);
+        btn_preview = (TextView) findViewById(R.id.btn_preview);
     }
 
     private void initData() {

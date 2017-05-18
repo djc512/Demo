@@ -34,9 +34,7 @@ import huanxing_print.com.cn.printhome.ui.activity.approval.ApprovalBuyAddOrRemo
 import huanxing_print.com.cn.printhome.ui.activity.contact.NewFriendActivity;
 import huanxing_print.com.cn.printhome.ui.activity.yinxin.RedPackageRecordActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
-import huanxing_print.com.cn.printhome.util.FailureRedEnvelopesListener;
 import huanxing_print.com.cn.printhome.util.GroupRedEnvelopesListener;
-import huanxing_print.com.cn.printhome.util.NormalRedEnvelopesListener;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -230,30 +228,21 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
             //判断红包状态
             String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
                     "loginToken");
-//            Log.d("CMCC", "--------type------>" + message.getIntAttribute("groupType", -1));
-//            Log.d("CMCC", "--------groupID------>" +  message.getTo());
             if (ChatType.GroupChat == message.getChatType() ||
                     ChatType.ChatRoom == message.getChatType()) {
                 //普通红包(直接展示)
                 if (1 == message.getIntAttribute("groupType", -1)) {
-                    Log.d("CMCC", "普通红包!!");
+                    //Log.d("CMCC", "普通红包!!");
                     DialogUtils.showProgressDialog(getContext(), "正在加载").show();
                     ChatRequest.getCommonPackageDetail(getContext(), token,
                             message.getTo(), "", packetId, commonCallBack);
                 }//手气红包(直接展示)
                 else if (2 == message.getIntAttribute("groupType", -1)) {
-                    Log.d("CMCC", "手气红包!!");
+                    //Log.d("CMCC", "手气红包!!");
                     DialogUtils.showProgressDialog(getContext(), "正在加载").show();
                     ChatRequest.getLuckyPackageDetail(getContext(), token,
                             message.getTo(), "", packetId, luckyCallBack);
                 }
-
-
-//                lingQuRenNickName = detail.getMasterName();
-//                //群聊
-//                handleGroupRedPackage(detail);
-
-
             } else {
                 //私聊查询红包记录
                 ChatRequest.queryPackageDetail(getContext(), token, packetId, callBack);
@@ -293,25 +282,10 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
      * @param detail
      */
     private void handleSingleRedPackage(RedPackageDetail detail) {
-        //判断状态
-        if (!detail.isInvalid()) {
-//            //有效(再判断有没有抢过)
-//            if (detail.isSnatch()) {
-//                //已经抢过了
-//                //查看红包领取详情(区分一下type)
-//                Intent intent = new Intent(context, RedPackageRecordActivity.class);
-//                intent.putExtra("easemobGroupId", message.getTo());
-//                intent.putExtra("type", message.getIntAttribute("type", -1));
-//                intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
-//                context.startActivity(intent);
-//            } else {
-//                //直接进入详情
-//                Intent intent = new Intent(context, RedPackageRecordActivity.class);
-//                intent.putExtra("easemobGroupId", message.getTo());
-//                intent.putExtra("type", message.getIntAttribute("type", -1));
-//                intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
-//                context.startActivity(intent);
-//            }
+
+//        Log.d("CMCC", "detail.getSendMemberId()---" + detail.getSendMemberId());
+//        Log.d("CMCC", "lingQuRenId---" + detail.getSendMemberId());
+
             if (detail.getSendMemberId().equals(lingQuRenId)) {
                 //直接进入详情
                 Intent intent = new Intent(context, RedPackageRecordActivity.class);
@@ -321,58 +295,33 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                 intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                 context.startActivity(intent);
             } else {
+                if(!ObjectUtils.isNull(detail.isSnatch())&&"true".equals(detail.isSnatch())){
 
-                singleDialog = new SingleRedEnvelopesDialog(getContext(), R.style.MyDialog);
-                singleDialog.setImgUrl(detail.getMasterFaceUrl());
-                singleDialog.setLeaveMsg(detail.getRemark());
-                singleDialog.setRedPackageSender(detail.getMasterName());
-                singleDialog.setClickListener(new NormalRedEnvelopesListener() {
-
-                    @Override
-                    public void open() {
-                        //抢红包
-                        String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
-                                "loginToken");
-
-                        ChatRequest.receivePackage(getContext(), token, packetId, receiveCallBack);
-                    }
-
-                    @Override
-                    public void checkDetail() {
-
-                    }
-
-                    @Override
-                    public void closeDialog() {
-
-                    }
-                });
-            }
-
-        } else {
-            //失效
-            dialog = new FailureRedEnvelopesDialog(getContext(), R.style.MyDialog);
-            dialog.setImgUrl(detail.getFaceUrl());
-            dialog.setRedPackageSender(detail.getMasterName());
-            dialog.setClickListener(new FailureRedEnvelopesListener() {
-                @Override
-                public void checkDetail() {
-                    //查看红包领取详情(区分一下type)
+                    // snatch  true 已抢  false 未抢   //查看红包
                     Intent intent = new Intent(context, RedPackageRecordActivity.class);
                     intent.putExtra("easemobGroupId", message.getTo());
-                    intent.putExtra("type", message.getIntAttribute("type", -1));
+                    intent.putExtra("type", message.getIntAttribute("groupType", -1));
                     intent.putExtra("singleType", true);
                     intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                     context.startActivity(intent);
-                    dialog.dismiss();
-                }
+                }else {
+                    DialogUtils.showSinglePackageDialog(getContext(),
+                            detail.getMasterFaceUrl(), detail.getMasterName(),
+                            detail.getRemark(), detail.isInvalid(), detail.isSnatch(),
+                            new DialogUtils.SinglePackageDialogCallBack() {
+                                @Override
+                                public void open() {
+                                    //抢红包
+                                    String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
+                                            "loginToken");
+                                    DialogUtils.showProgressDialog(getContext(), "加载中").show();
+                                    ChatRequest.receivePackage(getContext(), token,
+                                            message.getStringAttribute("packetId", ""), receiveCallBack);
+                                }
 
-                @Override
-                public void closeDialog() {
-                    dialog.dismiss();
+                            }).show();
                 }
-            });
-        }
+            }
     }
 
     /**
@@ -383,199 +332,67 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
 
     private void handleGroupLuckyRedPackage(GroupLuckyPackageDetail detail) {
 
-//        //手气红包
-//        singleDialog = new SingleRedEnvelopesDialog(getContext(),R.style.MyDialog);
-//        singleDialog.setLeaveMsg(detail.getRemark());
-//        singleDialog.setRedPackageSender(detail.getSendMemberName());
-//        singleDialog.setImgUrl(detail.getSendMemberUrl());
-//        singleDialog.setClickListener(new NormalRedEnvelopesListener() {
-//            @Override
-//            public void open() {
-//                //抢红包
-//                String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
-//                        "loginToken");
-//                DialogUtils.showProgressDialog(getContext(), "加载中").show();
-//                ChatRequest.robRedPackage(getContext(), token, message.getTo(),
-//                        "", message.getStringAttribute("packetId", ""), robPackageCallBack);
-//            }
-//
-//            @Override
-//            public void checkDetail() {
-//                //查看红包详情
-//                Intent intent = new Intent(context, RedPackageRecordActivity.class);
-//                intent.putExtra("easemobGroupId", message.getTo());
-//                intent.putExtra("type", message.getIntAttribute("groupType", -1));
-//                intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
-//                context.startActivity(intent);
-//                singleDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void closeDialog() {
-//                singleDialog.dismiss();
-//            }
-//        });
-//        singleDialog.show();
+        if(!ObjectUtils.isNull(detail.getSnatch())&&"true".equals(detail.getSnatch())){
+            // snatch  true 已抢  false 未抢   //查看红包
+            Intent intent = new Intent(context, RedPackageRecordActivity.class);
+            intent.putExtra("easemobGroupId", message.getTo());
+            intent.putExtra("type", message.getIntAttribute("groupType", -1));
+            intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+            context.startActivity(intent);
+        }else {
+            DialogUtils.showGroupLuckyPackageDialog(getContext(),
+                    detail.getSendMemberUrl(), detail.getSendMemberName(),
+                    detail.getRemark(), detail.getInvalid(), detail.getSnatch(),
+                    new DialogUtils.PackageDialogCallBack() {
+                        @Override
+                        public void open() {
+                            //抢红包
+                            String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
+                                    "loginToken");
+                            DialogUtils.showProgressDialog(getContext(), "加载中").show();
+                            ChatRequest.robRedPackage(getContext(), token, message.getTo(),
+                                    "", message.getStringAttribute("packetId", ""), robPackageCallBack);
+                        }
 
-        DialogUtils.showPackageDialog(getContext(),
-                detail.getSendMemberUrl(), detail.getSendMemberName(),
-                detail.getRemark(), detail.getInvalid(), detail.getSnatch(),
-                new DialogUtils.PackageDialogCallBack() {
-                    @Override
-                    public void open() {
-                        //抢红包
-                        String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
-                                "loginToken");
-                        DialogUtils.showProgressDialog(getContext(), "加载中").show();
-                        ChatRequest.robRedPackage(getContext(), token, message.getTo(),
-                                "", message.getStringAttribute("packetId", ""), robPackageCallBack);
-                    }
-
-                    @Override
-                    public void look() {
-                        //查看红包
-                        Intent intent = new Intent(context, RedPackageRecordActivity.class);
-                        intent.putExtra("easemobGroupId", message.getTo());
-                        intent.putExtra("type", message.getIntAttribute("groupType", -1));
-                        intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
-                        context.startActivity(intent);
-                    }
-                }).show();
-
-    }
-
-    private void handleGroupRedPackage(RedPackageDetail detail) {
-        //判断状态
-        if (!detail.isInvalid()) {
-            //有效(再判断有没有抢过)
-            if (detail.isSnatch()) {
-                goneDialog = new GoneRedEnvelopesDialog(getContext(), R.style.MyDialog);
-                goneDialog.setImgUrl(detail.getMasterFaceUrl());
-                goneDialog.setRedPackageSender(detail.getMasterName());
-                goneDialog.setClickListener(new FailureRedEnvelopesListener() {
-                    @Override
-                    public void checkDetail() {
-                        //已经抢过了直接跳到详情页面
-                        Intent intent = new Intent(context, RedPackageRecordActivity.class);
-                        intent.putExtra("easemobGroupId", message.getTo());
-                        intent.putExtra("type", message.getIntAttribute("groupType", -1));
-                        intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
-                        context.startActivity(intent);
-                        goneDialog.dismiss();
-                    }
-
-                    @Override
-                    public void closeDialog() {
-                        goneDialog.dismiss();
-                    }
-                });
-                goneDialog.show();
-            } else {
-                //未抢过
-                //这里区分一下群普通红包还是手气红包
-                if (ObjectUtils.isNull(message.getIntAttribute("", -1))) {
-                    if (1 == message.getIntAttribute("groupType", -1)) {
-                        //普通红包(直接展示)
-                        groupDialog = new GroupRedEnvelopesDialog(getContext(), R.style.MyDialog);
-                        groupDialog.setImgUrl(detail.getMasterFaceUrl());
-                        groupDialog.setLeaveMsg(detail.getRemark());
-                        groupDialog.setRedPackageSender(detail.getMasterName());
-                        groupDialog.setMoneryNum(Double.parseDouble(detail.getAmount()));
-                        groupDialog.setClickListener(new GroupRedEnvelopesListener() {
-                            @Override
-                            public void closeDialog() {
-                                groupDialog.dismiss();
-                            }
-                        });
-                        groupDialog.show();
-                    } else if (2 == message.getIntAttribute("groupType", -1)) {
-                        //手气红包
-                        singleDialog = new SingleRedEnvelopesDialog(getContext(), R.style.MyDialog);
-                        singleDialog.setLeaveMsg(detail.getRemark());
-                        singleDialog.setRedPackageSender(detail.getMasterName());
-                        singleDialog.setImgUrl(detail.getMasterFaceUrl());
-                        singleDialog.setClickListener(new NormalRedEnvelopesListener() {
-                            @Override
-                            public void open() {
-                                //抢红包
-                                String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
-                                        "loginToken");
-                                DialogUtils.showProgressDialog(getContext(), "加载中").show();
-                                ChatRequest.robRedPackage(getContext(), token, message.getTo(),
-                                        "", message.getStringAttribute("packetId", ""), robPackageCallBack);
-                            }
-
-                            @Override
-                            public void checkDetail() {
-                                //查看红包详情
-                                Intent intent = new Intent(context, RedPackageRecordActivity.class);
-                                intent.putExtra("easemobGroupId", message.getTo());
-                                intent.putExtra("type", message.getIntAttribute("groupType", -1));
-                                intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
-                                context.startActivity(intent);
-                                singleDialog.dismiss();
-                            }
-
-                            @Override
-                            public void closeDialog() {
-                                singleDialog.dismiss();
-                            }
-                        });
-                        singleDialog.show();
-                    }
-                }
-            }
-        } else {
-            //失效
-            dialog = new FailureRedEnvelopesDialog(getContext(), R.style.MyDialog);
-            dialog.setImgUrl(detail.getMasterFaceUrl());
-            dialog.setRedPackageSender(detail.getMasterName());
-            dialog.setClickListener(new FailureRedEnvelopesListener() {
-                @Override
-                public void checkDetail() {
-                    //群红包才会有记录页面
-                    Intent intent = new Intent(context, RedPackageRecordActivity.class);
-                    intent.putExtra("easemobGroupId", message.getTo());
-                    intent.putExtra("type", message.getIntAttribute("groupType", -1));
-                    intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
-                    context.startActivity(intent);
-                    dialog.dismiss();
-                }
-
-                @Override
-                public void closeDialog() {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
+                        @Override
+                        public void look() {
+                            //查看红包
+                            Intent intent = new Intent(context, RedPackageRecordActivity.class);
+                            intent.putExtra("easemobGroupId", message.getTo());
+                            intent.putExtra("type", message.getIntAttribute("groupType", -1));
+                            intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+                            context.startActivity(intent);
+                        }
+                    }).show();
         }
     }
+
 
     //单人抢红包
     ReceivedPackageCallBack receiveCallBack = new ReceivedPackageCallBack() {
         @Override
         public void success(String msg, String amount) {
             Log.d("CMCC", "" + msg + "," + amount);
-            //DialogUtils.closeProgressDialog();
+            DialogUtils.closeProgressDialog();
             //发透传消息的
             //跳转到详情页
             Intent intent = new Intent(context, RedPackageRecordActivity.class);
             intent.putExtra("easemobGroupId", message.getTo());
             intent.putExtra("type", message.getIntAttribute("groupType", -1));
+            intent.putExtra("singleType", true);
             intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
             context.startActivity(intent);
-            singleDialog.dismiss();
         }
 
         @Override
         public void fail(String msg) {
-            //DialogUtils.closeProgressDialog();
+            DialogUtils.closeProgressDialog();
             Log.d("CMCC", "" + msg);
         }
 
         @Override
         public void connectFail() {
-            //DialogUtils.closeProgressDialog();
+            DialogUtils.closeProgressDialog();
             Log.d("CMCC", "connectFail");
         }
     };

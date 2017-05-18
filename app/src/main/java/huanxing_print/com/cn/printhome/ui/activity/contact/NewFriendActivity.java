@@ -17,6 +17,7 @@ import huanxing_print.com.cn.printhome.model.contact.NewFriendInfo;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.NewFriendCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.NewFriendRecycelAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -100,7 +101,18 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
+    public void onItemFriendClick(NewFriendInfo newFriendInfo) {
+
+        if("1".equals(newFriendInfo.getType())) {
+            Intent intent = new Intent(NewFriendActivity.this, ChatTestActivity.class);
+            intent.putExtra("NewFriendInfo", newFriendInfo);
+            startActivity(intent);
+        }
+    }
+
+    @Override
     public void onItemNewFriendPassClick(NewFriendInfo newFriendInfo) {
+        clickOperationInfo = null;
         clickOperationInfo = newFriendInfo;
         DialogUtils.showProgressDialog(this, "操作中").show();
         Map<String, Object> params = new HashMap<String, Object>();
@@ -143,8 +155,12 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
             DialogUtils.closeProgressDialog();
             clickOperationInfo.setType("1");
             adapter.updateData(friendInfos);
-            clickOperationInfo = null;
+//            clickOperationInfo = null;
             isAgreeFriend = true;
+            // TODO: 2017/5/18  跳转聊天
+            Intent intent = new Intent(NewFriendActivity.this, ChatTestActivity.class);
+            intent.putExtra("NewFriendInfo", clickOperationInfo);
+            startActivity(intent);
         }
 
         @Override

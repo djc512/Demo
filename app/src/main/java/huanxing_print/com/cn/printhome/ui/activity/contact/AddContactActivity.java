@@ -16,6 +16,7 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.FriendSearchCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -108,10 +109,16 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
         @Override
         public void success(String msg, FriendSearchInfo friendSearchInfo) {
             DialogUtils.closeProgressDialog();
-            if(null != friendSearchInfo) {
-                ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
-                infos.add(friendSearchInfo);
-                startActivity(infos);
+            if (null != friendSearchInfo) {
+                if (1 == friendSearchInfo.getIsFriend()) {
+                    Intent intent = new Intent(AddContactActivity.this, ChatTestActivity.class);
+                    intent.putExtra("FriendSearchInfo", friendSearchInfo);
+                    startActivity(intent);
+                } else {
+                    ArrayList<FriendSearchInfo> infos = new ArrayList<FriendSearchInfo>();
+                    infos.add(friendSearchInfo);
+                    startActivity(infos);
+                }
             }
         }
 

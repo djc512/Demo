@@ -52,6 +52,11 @@ public class QunMemberListAdapter extends RecyclerView.Adapter<RecyclerView.View
         addFriend(infos);
     }
 
+    public void modifyData(List<GroupMember> infos) {
+        updateData(infos);
+        notifyDataSetChanged();
+    }
+
     private void addFriend(List<GroupMember> infos) {
         Map<String, GroupMember> map = new HashMap<String, GroupMember>();
         ArrayList<GroupMember> newInfos = new ArrayList<GroupMember>();
