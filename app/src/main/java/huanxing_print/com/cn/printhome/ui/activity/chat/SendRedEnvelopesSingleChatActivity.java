@@ -127,6 +127,7 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
                 intent.putExtra("packetId", packetId);
                 intent.putExtra("remark", remark);
                 intent.putExtra("groupType", 1001);
+                intent.putExtra("packetType", R.string.single_Red_package);
                 setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }

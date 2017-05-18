@@ -74,6 +74,23 @@ public class EaseCommonUtils {
     }
 
     /**
+     * 发送红包
+     *
+     * @param toChatUsername
+     * @param remark
+     * @param packetId
+     * @return
+     */
+    public static EMMessage createRedPackageMessage(String remark, String toChatUsername, String packetId) {
+        EMMessage message = EMMessage.createTxtSendMessage(remark, toChatUsername);
+        if (packetId != null) {
+            message.setAttribute(EaseConstant.MESSAGE_RED_PACKAGE_ID, packetId);
+        }
+        message.setAttribute(EaseConstant.MESSAGE_IS_RED_PACKAGE, true);
+        return message;
+    }
+
+    /**
      * Get digest according message type and content
      *
      * @param message
@@ -113,6 +130,12 @@ public class EaseCommonUtils {
                     } else {
                         digest = getString(context, R.string.dynamic_expression);
                     }
+                } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_IS_RED_PACKAGE, false)) {
+                    if (!TextUtils.isEmpty(txtBody.getMessage())) {
+                        digest = txtBody.getMessage();
+                    } else {
+                        digest = getString(context, R.string.red_package__call);
+                    }
                 } else {
                     digest = txtBody.getMessage();
                 }
@@ -134,6 +157,7 @@ public class EaseCommonUtils {
 
     /**
      * get top activity
+     *
      * @param context
      * @return
      */
@@ -192,6 +216,7 @@ public class EaseCommonUtils {
 
     /**
      * change the chat type to EMConversationType
+     *
      * @param chatType
      * @return
      */
@@ -208,12 +233,11 @@ public class EaseCommonUtils {
     /**
      * \~chinese
      * 判断是否是免打扰的消息,如果是app中应该不要给用户提示新消息
-     * @param message
-     * return
      *
-     * \~english
-     * check if the message is kind of slient message, if that's it, app should not play tone or vibrate
-     *
+     * @param message return
+     *                <p>
+     *                \~english
+     *                check if the message is kind of slient message, if that's it, app should not play tone or vibrate
      * @param message
      * @return
      */

@@ -191,6 +191,7 @@
     <string name="voice_prefix">[语音]</string>
     <string name="voice_call">[语音通话]</string>
     <string name="video_call">[视频通话]</string>
+    <string name="red_package__call">[发红包]</string>
     <string name="dynamic_expression">[动态表情]</string>
     <string name="button_cancel">取消</string>
     <string name="button_save">保存</string>
@@ -455,5 +456,9 @@
     <string name="attach_red_packet">红包</string>
     <string name="red_packet_record">红包记录</string>
     <string name="exclusive_red_packet">专属红包</string>
+
+    <string name="single_Red_package">单聊红包</string>
+    <string name="group_common_Red_package">群红包</string>
+    <string name="group_lucky_Red_package">拼手气红包</string>
 
 </resources>
