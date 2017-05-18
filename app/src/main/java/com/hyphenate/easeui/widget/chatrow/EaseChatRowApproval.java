@@ -2,24 +2,13 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
-import android.view.View;
+import android.util.Log;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TextView.BufferType;
 
-import com.bumptech.glide.Glide;
-import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
-import com.hyphenate.chat.EMTextMessageBody;
-import com.hyphenate.easeui.utils.EaseSmileUtils;
-import com.hyphenate.exceptions.HyphenateException;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
@@ -31,7 +20,6 @@ import huanxing_print.com.cn.printhome.ui.activity.approval.ApprovalApplyDetails
 import huanxing_print.com.cn.printhome.ui.activity.approval.ApprovalBuyAddOrRemoveActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.NewFriendActivity;
 import huanxing_print.com.cn.printhome.ui.activity.yinxin.RedPackageRecordActivity;
-import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.FailureRedEnvelopesListener;
 import huanxing_print.com.cn.printhome.util.GroupRedEnvelopesListener;
 import huanxing_print.com.cn.printhome.util.NormalRedEnvelopesListener;
@@ -43,11 +31,11 @@ import huanxing_print.com.cn.printhome.view.dialog.GoneRedEnvelopesDialog;
 import huanxing_print.com.cn.printhome.view.dialog.GroupRedEnvelopesDialog;
 import huanxing_print.com.cn.printhome.view.dialog.SingleRedEnvelopesDialog;
 
-public class EaseChatRowText extends EaseChatRow {
+public class EaseChatRowApproval extends EaseChatRowText {
 
-    private TextView contentView;
-    private ImageView iv_userhead;
-    private TextView tv_userid;
+    private TextView approvalName;
+    private TextView approvalTime;
+    private TextView approvalNumber;
     private RelativeLayout bubble;
     private FailureRedEnvelopesDialog dialog;
     private SingleRedEnvelopesDialog singleDialog;
@@ -58,145 +46,51 @@ public class EaseChatRowText extends EaseChatRow {
     private String type;
     private String approveId;
     private Intent intent;
-    private LinearLayout approval_notify;
-    private TextView approvalName;
-    private TextView approvalTime;
-    private TextView approvalNumber;
-    private RelativeLayout textAll;
 
-    public EaseChatRowText(Context context, EMMessage message, int position, BaseAdapter adapter) {
+    public EaseChatRowApproval(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
     }
 
     @Override
     protected void onInflateView() {
-        if (ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
-            inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
-                    R.layout.ease_row_received_message : R.layout.ease_row_sent_message, this);
-        } else {
-            inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
-                    R.layout.ease_row_received_red_package : R.layout.ease_row_sent_red_package, this);
-        }
-        Log.i("CCCC","type======================="+message.getStringAttribute("type",""));
-        Log.i("CCCC","approveId======================="+message.getStringAttribute("approveId",""));
-        Log.i("CCCC","getFrom======================="+message.getFrom());
-        Log.i("CCCC","getto======================="+message.getTo());
-        type = message.getStringAttribute("type","");
+        String type = message.getStringAttribute("type","");
+        inflater.inflate(R.layout.raw_approval_chat,this);
 
     }
 
     @Override
     protected void onFindViewById() {
-        if ("notice".equals(message.getUserName())){
-            approval_notify = (LinearLayout) findViewById(R.id.ll_approval_notify);//审批的布局
-            approvalName = (TextView) findViewById(R.id.tv_approval_name);
-            approvalTime = (TextView) findViewById(R.id.tv_apporva_time);
-            approvalNumber = (TextView) findViewById(R.id.tv_approva_number);
-            textAll = (RelativeLayout) findViewById(R.id.rl_text_all);//原text的总布局
-
-            approval_notify.setVisibility(VISIBLE);
-            approval_notify.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (type!=null){
-                        switch (type) {
-                            case "101"://采购审核
-                                intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-                                intent.putExtra("approveId", approveId);
-                                context.startActivity(intent);
-                                break;
-                            case "102"://采购审核结果
-                                intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-                                intent.putExtra("approveId", approveId);
-                                context.startActivity(intent);
-                                break;
-                            case "201"://报销审核
-                                intent = new Intent(context, ApprovalApplyDetailsActivity.class);
-                                intent.putExtra("approveId", approveId);
-                                context.startActivity(intent);
-                                break;
-                            case "202"://报销审核结果
-                                intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-                                context.startActivity(intent);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-            });
-            textAll.setVisibility(GONE);
-        }else {
-            contentView = (TextView) findViewById(R.id.tv_chatcontent);
-            iv_userhead = (ImageView) findViewById(R.id.iv_userhead);
-            tv_userid = (TextView) findViewById(R.id.tv_userid);
-            bubble = (RelativeLayout) findViewById(R.id.bubble);
-            approval_notify.setVisibility(GONE);
-            textAll.setVisibility(VISIBLE);
-        }
-
+        approvalName = (TextView) findViewById(R.id.tv_approval_name);
+        approvalTime = (TextView) findViewById(R.id.tv_apporva_time);
+        approvalNumber = (TextView) findViewById(R.id.tv_approva_number);
+        bubble = (RelativeLayout) findViewById(R.id.bubble);
     }
 
     @Override
     public void onSetUpView() {
 
-        if ("notice".equals(message.getUserName())){
-            approvalName.setText(message.getStringAttribute("title",""));
-            approvalTime.setText(message.getMsgTime()+"");
-            approvalNumber.setText(message.getStringAttribute("message",""));
-        }else{
-
-
-
-        EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
-
-        if ("302".equals(type)) {
-            String content = txtBody.getMessage() + "，立即查看";
-            int fStart = content.indexOf("立即查看");
-            int fEnd = fStart + "立即查看".length();
-            SpannableStringBuilder style = new SpannableStringBuilder(content);
-            style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_yellow)), fStart, fEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-            contentView.setText(style);
-        } else {
-            Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
-            // 设置内容
-            contentView.setText(span, BufferType.SPANNABLE);
-        }
+        /*EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
+        Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
+        // 设置内容
+        contentView.setText(span, BufferType.SPANNABLE);
 
         String iconUrl = message.getStringAttribute("iconUrl", "");
-        String nickName = message.getStringAttribute("nickName", "");
+        String nickName = message.getStringAttribute("nickName", "");*/
 
         //如果是印信就写死名称和头像========================================================================
         Log.i("CCCC","印家的Username============================================="+message.getUserName());
-        if (message.getUserName().equals("secretary")){
-            iv_userhead.setImageResource(R.drawable.king);
-        }else {
-            //头像
-            if (ObjectUtils.isNull(iconUrl)) {
-                Glide.with(getContext())
-                        .load(R.drawable.iv_head)
-                        .transform(new CircleTransform(getContext()))
-                        .into(iv_userhead);
-            } else {
-                Glide.with(getContext())
-                        .load(iconUrl)
-                        .transform(new CircleTransform(getContext()))
-                        .into(iv_userhead);
-            }
-            //昵称
-            if (ObjectUtils.isNull(nickName)) {
-                tv_userid.setText(message.getFrom());
-            } else {
-                tv_userid.setText(nickName);
-            }
-        }
-            handleTextMessage();
-        }
+        approvalName.setText(message.getStringAttribute("title",""));
+        approvalNumber.setText(message.getStringAttribute("message",""));
+        //approvalName.setText(message.getStringAttribute("",""));
 
+
+
+        handleTextMessage();
     }
 
     protected void handleTextMessage() {
-        if (message.direct() == EMMessage.Direct.SEND) {
+
+        /*if (message.direct() == EMMessage.Direct.SEND) {
             setMessageSendCallback();
             switch (message.status()) {
                 case CREATE:
@@ -226,7 +120,7 @@ public class EaseChatRowText extends EaseChatRow {
                     e.printStackTrace();
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -257,7 +151,7 @@ public class EaseChatRowText extends EaseChatRow {
                     context.startActivity(intent);
                     break;
                 case "202"://报销审核结果
-                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    intent = new Intent(context, ApprovalApplyDetailsActivity.class);
                     context.startActivity(intent);
                     break;
                 case "301"://注册通知

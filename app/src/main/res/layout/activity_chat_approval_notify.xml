@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:background="@color/gray5"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout style="@style/Re_title">
+
+        <include layout="@layout/ll_title_back"></include>
+
+        <TextView
+            style="@style/title"
+            android:text="审批通知" />
+    </RelativeLayout>
+    <com.hyphenate.easeui.widget.EaseChatMessageList
+        android:id="@+id/message_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
