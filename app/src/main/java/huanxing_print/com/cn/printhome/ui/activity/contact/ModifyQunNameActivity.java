@@ -86,7 +86,7 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    private void modifyName(String name) {
+    private void modifyName(final String name) {
         DialogUtils.showProgressDialog(getSelfActivity(), "努力上传中...");
         Map<String, Object> params = new HashMap<>();
         params.put("groupName", name);
@@ -97,6 +97,7 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
             public void success(String msg) {
                 DialogUtils.closeProgressDialog();
                 Toast.makeText(getSelfActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
             }
 
             @Override

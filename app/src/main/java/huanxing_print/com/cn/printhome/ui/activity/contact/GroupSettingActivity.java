@@ -305,6 +305,10 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 if (resultCode == RESULT_OK)
                     queryGroupMsg();
                 break;
+            case modifynameRequsetCoder:
+                if (resultCode == RESULT_OK)
+                    queryGroupMsg();
+                break;
         }
     }
 
