@@ -73,6 +73,7 @@ public class EaseCommonUtils {
         return message;
     }
 
+
     /**
      * 发送红包
      *

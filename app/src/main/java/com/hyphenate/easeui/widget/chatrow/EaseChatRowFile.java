@@ -94,6 +94,8 @@ public class EaseChatRowFile extends EaseChatRow {
         } else {
             tv_userid.setText(nickName);
         }
+        //隐藏发送文件的用户名
+        tv_userid.setVisibility(GONE);
         // until here, to sending message
         handleSendMessage();
     }

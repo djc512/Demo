@@ -373,7 +373,6 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
         @Override
         public void success(String msg) {
-            toast("驳回成功");
             DialogUtils.closeProgressDialog();
             finishCurrentActivity();
         }

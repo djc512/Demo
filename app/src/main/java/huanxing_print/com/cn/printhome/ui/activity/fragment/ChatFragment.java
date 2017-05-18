@@ -3,6 +3,7 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +32,7 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatApprovalActivity;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.ListAddContactActivity;
 import huanxing_print.com.cn.printhome.util.Constant;
@@ -74,7 +76,17 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
                 //单聊
                 EMMessage message = conversation.getLatestMessageFromOthers();
                 EMMessage groupMsg = conversation.getLastMessage();
-
+                if("notice".equals(conversation.getLastMessage().getUserName())) {
+                    Log.e("CMCC","notice");
+                    Intent intent = new Intent(getActivity(), ChatApprovalActivity.class);
+                    intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+                    if (message != null) {
+                        intent.putExtra(Constant.EXTRA_USER_ID, message.getFrom());
+                        intent.putExtra("name", message.getStringAttribute("nickName", ""));
+                    }
+                    startActivity(intent);
+                    return;
+                }
 //                Intent intent = new Intent(getActivity(), ChatActivity.class);
                 Intent intent = new Intent(getActivity(), ChatTestActivity.class);
                 if (EMConversation.EMConversationType.GroupChat ==

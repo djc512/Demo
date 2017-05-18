@@ -365,10 +365,10 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
      * register extend menu, item id need > 3 if you override this method and keep exist item
      */
     protected void registerExtendMenuItem() {
-        inputMenu.registerExtendMenuItem(R.string.attach_take_pic, R.drawable.ease_chat_takepic_selector, ITEM_TAKE_PICTURE, extendMenuItemClickListener);
-        inputMenu.registerExtendMenuItem(R.string.attach_picture, R.drawable.ease_chat_image_selector, ITEM_PICTURE, extendMenuItemClickListener);
-        inputMenu.registerExtendMenuItem(R.string.attach_file, R.drawable.em_chat_file_selector, ITEM_FILE, extendMenuItemClickListener);
-        inputMenu.registerExtendMenuItem(R.string.attach_red_packet, R.drawable.em_chat_red_packet_selector, ITEM_RED_PACKET, extendMenuItemClickListener);
+        inputMenu.registerExtendMenuItem(R.string.attach_take_pic, R.drawable.camera_chat, ITEM_TAKE_PICTURE, extendMenuItemClickListener);
+        inputMenu.registerExtendMenuItem(R.string.attach_picture, R.drawable.photo_chat, ITEM_PICTURE, extendMenuItemClickListener);
+        inputMenu.registerExtendMenuItem(R.string.attach_file, R.drawable.file_chat, ITEM_FILE, extendMenuItemClickListener);
+        inputMenu.registerExtendMenuItem(R.string.attach_red_packet, R.drawable.hongbao_chat, ITEM_RED_PACKET, extendMenuItemClickListener);
 //        if (chatType == Constant.CHATTYPE_SINGLE) {
 //            inputMenu.registerExtendMenuItem(R.string.attach_voice_call, R.drawable.em_chat_voice_call_selector, ITEM_VOICE_CALL, extendMenuItemClickListener);
 //            inputMenu.registerExtendMenuItem(R.string.attach_video_call, R.drawable.em_chat_video_call_selector, ITEM_VIDEO_CALL, extendMenuItemClickListener);

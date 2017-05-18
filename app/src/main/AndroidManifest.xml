@@ -590,6 +590,11 @@
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.chat.ChatApprovalActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
 
         <!--7.0调用相机崩溃-->
         <provider
