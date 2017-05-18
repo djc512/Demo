@@ -27,6 +27,7 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.model.print.GroupResp;
@@ -745,7 +746,7 @@ public class DialogUtils {
         RelativeLayout rel_close = (RelativeLayout) view.findViewById(R.id.rel_close);
         ImageView openBtn = (ImageView) view.findViewById(R.id.img_open);
         TextView txt_look_detail = (TextView) view.findViewById(R.id.txt_look_detail);
-        ImageView img_head_portrait = (ImageView) view.findViewById(R.id.img_head_portrait);
+        CircleImageView img_head_portrait = (CircleImageView) view.findViewById(R.id.img_head_portrait);
         TextView txt_name = (TextView) view.findViewById(R.id.txt_name);
         TextView txt_default_msg = (TextView) view.findViewById(R.id.txt_default_msg);
         TextView txt_leave_msg = (TextView) view.findViewById(R.id.txt_leave_msg);
@@ -827,7 +828,7 @@ public class DialogUtils {
 
         RelativeLayout rel_close = (RelativeLayout) view.findViewById(R.id.rel_close);
         ImageView openBtn = (ImageView) view.findViewById(img_open);
-        ImageView img_head_portrait = (ImageView) view.findViewById(R.id.img_head_portrait);
+        CircleImageView img_head_portrait = (CircleImageView) view.findViewById(R.id.img_head_portrait);
         TextView txt_name = (TextView) view.findViewById(R.id.txt_name);
         TextView txt_default_msg = (TextView) view.findViewById(R.id.txt_default_msg);
         TextView txt_leave_msg = (TextView) view.findViewById(R.id.txt_leave_msg);
