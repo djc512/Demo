@@ -39,7 +39,7 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
         return holder;
     }
 
-    private boolean isShow;
+    private boolean isShow = false;
 
     @Override
     public void onBindViewHolder(final MyHolder holder, final int position) {
@@ -84,11 +84,12 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
             holder.tv_papertype.setText("A3");
         }
         String payType = bean.getPayType();//支付类型
-        if (payType == "balance") {
+
+        if ("balance".equals(payType)) {
             holder.tv_pay.setText("余额支付");
-        } else if (payType == "wxpay") {
+        } else if ("wxpay".equals(payType)) {
             holder.tv_pay.setText("微信支付");
-        } else {
+        } else if ("zfb".equals(payType)){
             holder.tv_pay.setText("支付宝支付");
         }
 
@@ -103,6 +104,7 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
                     Bitmap downBitmap = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.down);
                     holder.iv_down.setImageBitmap(downBitmap);
                     holder.ll_detail.setVisibility(View.GONE);
+
                 }
                 isShow = !isShow;
             }

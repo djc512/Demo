@@ -89,7 +89,7 @@ public class EaseChatRowText extends EaseChatRow {
         Log.i("CCCP","message======================="+message.getStringAttribute("message",""));
         Log.i("CCCP","message.getStringAttribute(\"title\",\"\")======================="+message.getStringAttribute("title",""));
         type = message.getStringAttribute("type","");
-       approveId = message.getStringAttribute("approveId","");
+        approveId = message.getStringAttribute("approveId","");
 
     }
 

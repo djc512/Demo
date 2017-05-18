@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class MyBillAdapter extends BaseAdapter {
             holder = new MyViewHolder();
             holder.tv_bill_time = (TextView) convertView.findViewById(R.id.tv_bill_time);
             holder.rv_item_bill = (RecyclerView) convertView.findViewById(R.id.rv_item_bill);
-
+            holder.rl_bill_time= (RelativeLayout) convertView.findViewById(R.id.rl_bill_time);
             convertView.setTag(holder);
         } else {
             holder = (MyViewHolder) convertView.getTag();
@@ -60,7 +61,13 @@ public class MyBillAdapter extends BaseAdapter {
         OrderListBean dataBean = list.get(position);
         String month = dataBean.getMonth();
         holder.tv_bill_time.setText(month);
-
+        if (position>0) {
+            if (month.equals(list.get(position - 1).getMonth())) {
+                holder.rl_bill_time.setVisibility(View.GONE);
+            } else {
+                holder.rl_bill_time.setVisibility(View.VISIBLE);
+            }
+        }
         List<OrderListBean.PrintListBean> printList = dataBean.getPrintList();
         MyBillItemAdapter adapter = new MyBillItemAdapter(ctx, printList);
         holder.rv_item_bill.setLayoutManager(new LinearLayoutManager(ctx));
@@ -72,5 +79,6 @@ public class MyBillAdapter extends BaseAdapter {
     public class MyViewHolder {
         TextView tv_bill_time;
         RecyclerView rv_item_bill;
+        RelativeLayout rl_bill_time;
     }
 }

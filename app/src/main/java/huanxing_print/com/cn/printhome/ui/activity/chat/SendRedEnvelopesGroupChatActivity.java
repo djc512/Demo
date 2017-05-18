@@ -3,6 +3,7 @@ package huanxing_print.com.cn.printhome.ui.activity.chat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,7 @@ import huanxing_print.com.cn.printhome.net.callback.chat.SendLuckyPackageCallBac
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.chat.ChatRequest;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
+import huanxing_print.com.cn.printhome.util.CashierInputFilter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -76,6 +78,10 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         rel_group_description = (RelativeLayout) findViewById(R.id.rel_group_description);
         btn_plug_money.setOnClickListener(this);
         txt_action_change.setOnClickListener(this);
+        //设置金额填框必须只能填写金额数字 EditText要先设置
+        //android:inputType="numberDecimal"或者setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL)
+        InputFilter[] filters={new CashierInputFilter()};
+        edt_single_money.setFilters(filters);
         //输入的监听
         edt_single_money.addTextChangedListener(new TextWatcher() {
             @Override
