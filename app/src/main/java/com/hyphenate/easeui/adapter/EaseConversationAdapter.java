@@ -147,7 +147,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             if (emMessage != null) {
                 //如果是印信小秘书就自己设置头像和名字
                 if (conversation.getLastMessage().getUserName().equals("secretary")){
-                    holder.avatar.setImageResource(R.drawable.king);
+                    holder.avatar.setImageResource(R.drawable.secretary);
                     holder.name.setText("印家小秘书");
                 }else {
                     //单聊头像
