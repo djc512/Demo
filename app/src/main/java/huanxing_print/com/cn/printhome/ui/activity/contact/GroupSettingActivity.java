@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.contact;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -180,6 +181,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
 
     public void setData() {
         if (groupMessageInfo != null) {
+            currentGroupId = groupMessageInfo.getGroupId();
             title_group_name.setText(String.format("群管理(%s)", String.valueOf(groupMessageInfo.getGroupMembers().size())));
             tv_groupName.setText(groupMessageInfo.getGroupName());
             tv_balance.setText(String.format("%s元", groupMessageInfo.getBalance() == null ? "0" : groupMessageInfo.getBalance()));
