@@ -72,15 +72,7 @@ public class EaseCommonUtils {
         message.setAttribute(EaseConstant.MESSAGE_ATTR_IS_BIG_EXPRESSION, true);
         return message;
     }
-//审批
-   /* public static EMMessage createApprovalMessage(String toChatUsername, String approvalName, String identityCode) {
-        EMMessage message = EMMessage.createTxtSendMessage("[" + expressioName + "]", toChatUsername);
-        if (identityCode != null) {
-            message.setAttribute(EaseConstant.MESSAGE_ATTR_EXPRESSION_ID, identityCode);
-        }
-        message.setAttribute(EaseConstant.MESSAGE_ATTR_IS_BIG_EXPRESSION, true);
-        return message;
-    }*/
+
 
     /**
      * 发送红包
@@ -146,13 +138,6 @@ public class EaseCommonUtils {
                         digest = getString(context, R.string.red_package__call);
                     }
                 } else {
-                }else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_APPROVAL, false)){
-                    if (!TextUtils.isEmpty(txtBody.getMessage())) {
-                        digest = txtBody.getMessage();
-                    } else {
-                        digest = getString(context, R.string.approval);
-                    }
-                }else {
                     digest = txtBody.getMessage();
                 }
                 break;
@@ -173,6 +158,7 @@ public class EaseCommonUtils {
 
     /**
      * get top activity
+     *
      * @param context
      * @return
      */
@@ -231,6 +217,7 @@ public class EaseCommonUtils {
 
     /**
      * change the chat type to EMConversationType
+     *
      * @param chatType
      * @return
      */
@@ -247,12 +234,11 @@ public class EaseCommonUtils {
     /**
      * \~chinese
      * 判断是否是免打扰的消息,如果是app中应该不要给用户提示新消息
-     * @param message
-     * return
      *
-     * \~english
-     * check if the message is kind of slient message, if that's it, app should not play tone or vibrate
-     *
+     * @param message return
+     *                <p>
+     *                \~english
+     *                check if the message is kind of slient message, if that's it, app should not play tone or vibrate
      * @param message
      * @return
      */

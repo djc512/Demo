@@ -3,8 +3,7 @@ package com.hyphenate.easeui.widget.chatrow;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -45,8 +44,13 @@ import huanxing_print.com.cn.printhome.view.dialog.SingleRedEnvelopesDialog;
 
 public class EaseChatRowText extends EaseChatRow {
 
+    private TextView approvalName;
+    private TextView approvalTime;
+    private TextView approvalNumber;
     private TextView contentView;
     private ImageView iv_userhead;
+    private LinearLayout approval_notify;
+    private RelativeLayout textAll;
     private TextView tv_userid;
     private RelativeLayout bubble;
     private FailureRedEnvelopesDialog dialog;
@@ -56,13 +60,8 @@ public class EaseChatRowText extends EaseChatRow {
     private String lingQuRenNickName;//发红包人的昵称
     private String lingQuRenId;//发红包人的id
     private String type;
-    private String approveId;
     private Intent intent;
-    private LinearLayout approval_notify;
-    private TextView approvalName;
-    private TextView approvalTime;
-    private TextView approvalNumber;
-    private RelativeLayout textAll;
+    private String approveId;
 
     public EaseChatRowText(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -70,18 +69,25 @@ public class EaseChatRowText extends EaseChatRow {
 
     @Override
     protected void onInflateView() {
-        if (ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
-            inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
-                    R.layout.ease_row_received_message : R.layout.ease_row_sent_message, this);
-        } else {
-            inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
-                    R.layout.ease_row_received_red_package : R.layout.ease_row_sent_red_package, this);
+        if ("notice".equals(message.getUserName())){
+            inflater.inflate(R.layout.ease_row_received_message,this);
+        }else {
+            if (ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
+                inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
+                        R.layout.ease_row_received_message : R.layout.ease_row_sent_message, this);
+            } else {
+                inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
+                        R.layout.ease_row_received_red_package : R.layout.ease_row_sent_red_package, this);
+            }
         }
+
         Log.i("CCCC","type======================="+message.getStringAttribute("type",""));
         Log.i("CCCC","approveId======================="+message.getStringAttribute("approveId",""));
         Log.i("CCCC","getFrom======================="+message.getFrom());
-        Log.i("CCCC","getto======================="+message.getTo());
+        Log.i("CCCP","message======================="+message.getStringAttribute("message",""));
+        Log.i("CCCP","message.getStringAttribute(\"title\",\"\")======================="+message.getStringAttribute("title",""));
         type = message.getStringAttribute("type","");
+       approveId = message.getStringAttribute("approveId","");
 
     }
 
@@ -127,12 +133,14 @@ public class EaseChatRowText extends EaseChatRow {
             });
             textAll.setVisibility(GONE);
         }else {
+            textAll = (RelativeLayout) findViewById(R.id.rl_text_all);//原text的总布局
+            //approval_notify = (LinearLayout) findViewById(R.id.ll_approval_notify);//审批的布局
             contentView = (TextView) findViewById(R.id.tv_chatcontent);
             iv_userhead = (ImageView) findViewById(R.id.iv_userhead);
             tv_userid = (TextView) findViewById(R.id.tv_userid);
             bubble = (RelativeLayout) findViewById(R.id.bubble);
-            approval_notify.setVisibility(GONE);
-            textAll.setVisibility(VISIBLE);
+            //approval_notify.setVisibility(GONE);
+            //textAll.setVisibility(VISIBLE);
         }
 
     }
@@ -148,51 +156,40 @@ public class EaseChatRowText extends EaseChatRow {
 
 
 
-        EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
-
-        if ("302".equals(type)) {
-            String content = txtBody.getMessage() + "，立即查看";
-            int fStart = content.indexOf("立即查看");
-            int fEnd = fStart + "立即查看".length();
-            SpannableStringBuilder style = new SpannableStringBuilder(content);
-            style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_yellow)), fStart, fEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-            contentView.setText(style);
-        } else {
+            EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
             Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
             // 设置内容
             contentView.setText(span, BufferType.SPANNABLE);
-        }
 
-        String iconUrl = message.getStringAttribute("iconUrl", "");
-        String nickName = message.getStringAttribute("nickName", "");
+            String iconUrl = message.getStringAttribute("iconUrl", "");
+            String nickName = message.getStringAttribute("nickName", "");
 
-        //如果是印信就写死名称和头像========================================================================
-        Log.i("CCCC","印家的Username============================================="+message.getUserName());
-        if (message.getUserName().equals("secretary")){
-            iv_userhead.setImageResource(R.drawable.king);
-        }else {
-            //头像
-            if (ObjectUtils.isNull(iconUrl)) {
-                Glide.with(getContext())
-                        .load(R.drawable.iv_head)
-                        .transform(new CircleTransform(getContext()))
-                        .into(iv_userhead);
-            } else {
-                Glide.with(getContext())
-                        .load(iconUrl)
-                        .transform(new CircleTransform(getContext()))
-                        .into(iv_userhead);
+            //如果是印信就写死名称和头像========================================================================
+            Log.i("CCCC","印家的Username============================================="+message.getUserName());
+            if (message.getUserName().equals("secretary")){
+                iv_userhead.setImageResource(R.drawable.secretary);
+            }else {
+                //头像
+                if (ObjectUtils.isNull(iconUrl)) {
+                    Glide.with(getContext())
+                            .load(R.drawable.iv_head)
+                            .transform(new CircleTransform(getContext()))
+                            .into(iv_userhead);
+                } else {
+                    Glide.with(getContext())
+                            .load(iconUrl)
+                            .transform(new CircleTransform(getContext()))
+                            .into(iv_userhead);
+                }
+                //昵称
+                if (ObjectUtils.isNull(nickName)) {
+                    tv_userid.setText(message.getFrom());
+                } else {
+                    tv_userid.setText(nickName);
+                }
             }
-            //昵称
-            if (ObjectUtils.isNull(nickName)) {
-                tv_userid.setText(message.getFrom());
-            } else {
-                tv_userid.setText(nickName);
-            }
         }
-            handleTextMessage();
-        }
-
+        handleTextMessage();
     }
 
     protected void handleTextMessage() {
@@ -242,51 +239,48 @@ public class EaseChatRowText extends EaseChatRow {
         if (type!=null){
             switch (type){
                 case "101"://采购审核
-                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-                    intent.putExtra("approveId",approveId);
-                    context.startActivity(intent);
+                    Intent intent1 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent1);
                     break;
                 case "102"://采购审核结果
-                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-                    intent.putExtra("approveId",approveId);
-                    context.startActivity(intent);
+                    Intent intent2 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent2);
                     break;
                 case "201"://报销审核
-                    intent = new Intent(context, ApprovalApplyDetailsActivity.class);
-                    intent.putExtra("approveId",approveId);
-                    context.startActivity(intent);
+                    Intent intent3 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent3);
                     break;
                 case "202"://报销审核结果
-                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-                    context.startActivity(intent);
+                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent4);
                     break;
                 case "301"://注册通知
-//                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-//                    context.startActivity(intent);
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
                     break;
                 case "302"://加好友通知
-                    intent = new Intent(context, NewFriendActivity.class);
-                    context.startActivity(intent);
+                    Intent intent5 = new Intent(context, NewFriendActivity.class);
+                    context.startActivity(intent5);
                     break;
                 case "401"://普通红包
-//                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-//                    context.startActivity(intent);
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
                     break;
                 case "402"://群红包
-//                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-//                    context.startActivity(intent);
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
                     break;
                 case "501"://加群审核
-//                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-//                    context.startActivity(intent);
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
                     break;
                 case "502"://进群通知
-//                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-//                    context.startActivity(intent);
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
                     break;
                 case "503"://退群通知
-//                    intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-//                    context.startActivity(intent);
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
                     break;
                 case "504"://群解散
                     break;
