@@ -207,7 +207,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 startActivityForResult(transferIntent, transferRequsetCoder);
                 break;
             case R.id.ll_dissolution:
-                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "即将解散该群", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
+                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确认解散此群吗？", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
                     @Override
                     public void dissolution() {
                         DialogUtils.showProgressDialog(getSelfActivity(),"努力解散...");
