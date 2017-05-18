@@ -97,6 +97,10 @@ public class ContantsFragment extends BaseFragment implements
         getData();
     }
 
+    public void reload() {
+        getData();
+    }
+
     private void getData() {
         DialogUtils.showProgressDialog(getActivity(), "加载中").show();
         FriendManagerRequest.queryFriendList(getActivity(), token, myFriendListCallback);

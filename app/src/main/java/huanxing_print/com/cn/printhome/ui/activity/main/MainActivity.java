@@ -123,6 +123,9 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 
         }
         if (fragTemp.isAdded()) {
+            if (fragTemp instanceof ContantsFragment) {
+                ((ContantsFragment)fragTemp).reload();
+            }
             tran.show(fragTemp);
         } else {
             tran.add(R.id.fl_main_context, fragTemp);
