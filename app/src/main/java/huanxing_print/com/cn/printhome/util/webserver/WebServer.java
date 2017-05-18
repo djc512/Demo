@@ -4,33 +4,38 @@ import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
-import java.io.BufferedOutputStream;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Collections;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.encrypt.Base64;
 
 public class WebServer extends NanoHTTPD {
+
     private final String TAG = "imWebService";
 
     public static final int PORT = 8899;
     public static String rootDir = Environment.getExternalStorageDirectory().getPath();
     private static Boolean serverState = false;
-    private static String uploadFileHTML =
-            " <html>  <head> <meta http-equiv=\\\"content-type\\\" content=\\\"text/html; charset=UTF-8\\\"></head>\n" +
-                    "<form method='post' enctype='multipart/form-data' action='/u'>" +
-                    "    Step 1. Choose a file: <input type='file' name='upload' /><br />" +
-                    "    Step 2. Click Send to upload file: <input type='submit' value='Send' /><br />" +
-                    "</form></html>";
+    private List<File> fileList;
+
+    public static final String FILE_LIST = "file_list";
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        fileList = (List<File>) intent.getExtras().getSerializable(FILE_LIST);
+        return super.onStartCommand(intent, flags, startId);
+    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -43,59 +48,84 @@ public class WebServer extends NanoHTTPD {
         }
     }
 
-    private Response respondUpload(IHTTPSession session) {
+    @Override
+    public Response serve(IHTTPSession session) {
+        Log.i(TAG, "页面请求后台：" + session.getUri());
         if (session.getMethod() == Method.GET) {
-            return newFixedLengthResponse(Response.Status.OK, NanoHTTPD.MIME_HTML, uploadFileHTML);
+            // 处理静态资源 js
+            if (WebUtil.isJsFile(session.getUri())) {
+                return showJsFile(session.getUri());
+            }
+            // 获取文件列表
+            if (session.getUri().contains("getfileList")) {
+                return getfileList();
+            }
+            // 处理静态资源
+            return newFixedLengthResponse(Response.Status.OK, NanoHTTPD.MIME_HTML, WebUtil.readHtml("index.html",
+                    getAssets()));
         } else {
-            String msg = "upload failure";
+            // POST 处理文件上传
             Map<String, String> files = new HashMap<String, String>();
+            JSONObject result = new JSONObject();
             try {
                 session.parseBody(files);
-                Logger.i(session);
-                Map<String, String> parms = session.getParms();
-                Set<String> keys = files.keySet();
-                for (String str : keys) {
-                    Logger.i("SetKey:" + str);
-                }
-                for (String key : keys) {
-                    String location = files.get(key);
-                    File temp = new File(location);
-//                    String afileName = new String(session.getParms().get("upload").getBytes("ISO-8859-1"), "UTF-8");
-                    String afileName = new String(session.getParms().get("upload").toString());
-                    FileUtils.makeFile(FileUtils.getWifiUploadPath() + afileName);
-                    File target = new File(FileUtils.getWifiUploadPath() + afileName);
-                    msg += "upload success to " + target.getPath();
-                    InputStream in = new FileInputStream(temp);
-                    OutputStream out = new FileOutputStream(target);
-                    byte[] buf = new byte[1024 * 8];
-                    int len;
-                    BufferedOutputStream outb = new BufferedOutputStream(out);
-                    while ((len = in.read(buf)) > 0) {
-                        out.write(buf, 0, len);
-                    }
-                    in.close();
-                    out.close();
-                    outb.close();
-                }
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (ResponseException e1) {
-                e1.printStackTrace();
+                String postData = files.get("postData");
+                result.put("success", true);
+                JSONObject fileParamDto = new JSONObject(postData);
+                Logger.i(fileParamDto.toString());
+                // TODO 存文件 处理成html要的结果
+                Logger.i(fileParamDto.getString("fileName"));
+                String fileName =new String(Base64.decode(fileParamDto.getString("fileName")));
+                Logger.i(fileName);
+                String content = fileParamDto.getString("content");
+                FileUtils.makeFile(FileUtils.getWifiUploadPath() + fileName);
+                File target = new File(FileUtils.getWifiUploadPath() + fileName);
+                FileUtils.base64ToFile(content, target);
+                JSONObject fileResult = new JSONObject();
+                fileResult.put("fileName", target.getName());
+                fileResult.put("fileSize", FileUtils.prettySize(target.length()));
+                fileResult.put("updateTime", new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault()).format(target
+                        .lastModified()));
+                result.put("fileInfo", fileResult);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return newFixedLengthResponse(Response.Status.OK, NanoHTTPD.MIME_HTML, msg);
+            return newFixedLengthResponse(Response.Status.OK, NanoHTTPD.MIME_HTML, result.toString());
         }
     }
 
-    private Response respond(Map<String, String> headers, IHTTPSession session, String uri) {
-        Response r;
-        Log.i(TAG, "WebServer.respond(" + rootDir + "," + uri + ") without cors");
-        return respondUpload(session);
+    /**
+     * 处理静态资源js
+     *
+     * @param uri
+     * @return
+     */
+    private Response showJsFile(String uri) {
+        return newFixedLengthResponse(WebUtil.readHtml(uri.substring(1), getAssets()));
     }
 
-    @Override
-    public Response serve(IHTTPSession session) {
-        String uri = session.getUri();
-        Map<String, String> headers = session.getHeaders();
-        return respond(Collections.unmodifiableMap(headers), session, uri);
+    /**
+     * TODO
+     * 处理获取文件列表接口
+     *
+     * @return
+     */
+    private Response getfileList() {
+        JSONArray param = new JSONArray();
+        if (fileList != null) {
+            try {
+                for (File file : fileList) {
+                    JSONObject ob = new JSONObject();
+                    ob.put("fileName", file.getName());
+                    ob.put("fileSize", FileUtils.prettySize(file.length()));
+                    ob.put("updateTime", new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault()).format(file
+                            .lastModified()));
+                    param.put(ob);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return newFixedLengthResponse(param.toString());
     }
 }

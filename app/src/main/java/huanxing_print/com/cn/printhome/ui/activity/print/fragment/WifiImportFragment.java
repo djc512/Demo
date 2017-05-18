@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import huanxing_print.com.cn.printhome.R;
@@ -29,7 +30,6 @@ import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PdfPreviewActivity;
-import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
@@ -37,7 +37,6 @@ import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StorageUtil;
 import huanxing_print.com.cn.printhome.util.WifiUtil;
 import huanxing_print.com.cn.printhome.util.webserver.WebServer;
-import huanxing_print.com.cn.printhome.util.webserver.WebServer1;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
@@ -69,7 +68,7 @@ public class WifiImportFragment extends BaseLazyFragment {
             return;
         }
         isLoaded = true;
-
+        timer.schedule(task, 1000 * 3, 1000 * 5);
         TextView wifiTv = (TextView) view.findViewById(R.id.wifiTv);
         wifiTv.setText(WifiUtil.getWifiInfo(context));
         TextView sdTv = (TextView) view.findViewById(R.id.sdTv);
@@ -140,7 +139,7 @@ public class WifiImportFragment extends BaseLazyFragment {
     private void update(List<File> newFileList) {
         mAdapter.setFileList(newFileList);
         mAdapter.notifyDataSetChanged();
-        if (fileList.size() == 0) {
+        if (newFileList.size() == 0) {
             View devider = view.findViewById(R.id.devider);
             devider.setVisibility(View.GONE);
         } else {
@@ -162,26 +161,40 @@ public class WifiImportFragment extends BaseLazyFragment {
             switch (msg.what) {
                 case 1:
                     if (fragment != null) {
-                        theFragment.update(null);
+                        theFragment.update((List<File>) msg.obj);
                     }
                     break;
             }
         }
     }
 
+    MyHandler handler = new MyHandler(this);
+    Timer timer = new Timer();
     TimerTask task = new TimerTask() {
         public void run() {
-
+            Logger.i("TimerTask");
+            List<File> newFileList = FileUtils.getFileList(FileUtils.getWifiUploadPath());
+            Message msg = new Message();
+            msg.what = 1;
+            msg.obj = newFileList;
+            handler.sendMessage(msg);
         }
     };
 
     private void startWebServer() {
-        Intent intent = new Intent(context, WebServer1.class);
+        Intent intent = new Intent(context, WebServer.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(WebServer1.FILE_LIST, (Serializable) fileList);
+        bundle.putSerializable(WebServer.FILE_LIST, (Serializable) fileList);
         intent.putExtras(bundle);
         context.startService(intent);
         Logger.i("startWebServer");
+    }
+
+    private void stopTimerTask() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
     }
 
     @Override
@@ -189,5 +202,12 @@ public class WifiImportFragment extends BaseLazyFragment {
             flagsMask, int flagsValues, int extraFlags, Bundle options) throws IntentSender.SendIntentException {
         super.startIntentSenderForResult(intent, requestCode, fillInIntent, flagsMask, flagsValues, extraFlags,
                 options);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopTimerTask();
+
     }
 }

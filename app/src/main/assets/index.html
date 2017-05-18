@@ -64,7 +64,7 @@
                     $("#loading").show();
                     var fr = new FileReader();
                     var fileNameOrigin = this.value.substr(this.value.lastIndexOf("\\")+1).toLowerCase();
-                    var fileExt = fileName.substr(fileName.lastIndexOf(".")+1).toLowerCase();
+                    var fileExt = fileNameOrigin.substr(fileNameOrigin.lastIndexOf(".")+1).toLowerCase();
                     var fileSize = formFileSize(this.files[0].size);
                     var fileName = new Base64().encode(fileNameOrigin);
                     fr.readAsDataURL(this.files[0]);
@@ -161,7 +161,7 @@
     }
 
     function Base64(){
-        _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";   
+        var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";   
         this.encode = function (input) {
               var output = "";
               var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
@@ -176,18 +176,16 @@
                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
                enc4 = chr3 & 63;
                if (isNaN(chr2)) {
-                enc3 = enc4 = 64;
+                    enc3 = enc4 = 64;
                } else if (isNaN(chr3)) {
-                enc4 = 64;
+                    enc4 = 64;
                }
-               output = output +
-               _keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
-               _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
+               output = output + _keyStr.charAt(enc1) + _keyStr.charAt(enc2) + _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
               }
               return output;
-         }
+         };
 
-         _utf8_encode = function (string) {
+         var _utf8_encode = function (string) {
               string = string.replace(/\r\n/g,"\n");
               var utftext = "";
               for (var n = 0; n < string.length; n++) {

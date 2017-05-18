@@ -345,7 +345,7 @@
             android:screenOrientation="portrait"/>
 
         <service
-            android:name=".util.webserver.WebServer1"
+            android:name=".util.webserver.WebServer"
             android:enabled="true"
             android:exported="true"/>
         <!-- 复印的相关界面 -->
