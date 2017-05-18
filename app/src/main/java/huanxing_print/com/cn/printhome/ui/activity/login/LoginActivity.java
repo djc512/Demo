@@ -267,7 +267,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 public void onMainSuccess() {
                     EMClient.getInstance().chatManager().loadAllConversations();
                     EMClient.getInstance().groupManager().loadAllGroups();
-
+                    Log.i("CCCP","getMemberInfo()==========================================="+loginBean.getMemberInfo().getEasemobId());
                     baseApplication.setHasLoginEvent(true);
                     DialogUtils.closeProgressDialog();
                     if (!ObjectUtils.isNull(loginBean)) {
