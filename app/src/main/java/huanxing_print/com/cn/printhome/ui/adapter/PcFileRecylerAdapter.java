@@ -10,19 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
-import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
+import huanxing_print.com.cn.printhome.util.ImgIconUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
-
-import static huanxing_print.com.cn.printhome.R.string.file;
-import static huanxing_print.com.cn.printhome.R.string.finish;
 
 /**
  * Created by LGH on 2017/5/17.
@@ -130,26 +124,9 @@ public class PcFileRecylerAdapter extends RecyclerView.Adapter<PcFileRecylerAdap
         viewHolder.nameTv.setText(file.getFileName());
         viewHolder.nameTv.setTextColor(ContextCompat.getColor(context, R.color.text_black));
         viewHolder.timeTv.setText(StringUtil.stringToTime(file.getAddTime()));
-        viewHolder.icImg.setImageResource(getFileImgId(file.getFileName()));
+        viewHolder.icImg.setImageResource(ImgIconUtil.getDrawable(file.getFileName()));
         viewHolder.sizeTv.setText(FileUtils.prettySize(StringUtil.stringToLong(file.getFileSize())));
 
-    }
-
-    private int getFileImgId(String fileName) {
-        if (fileName.endsWith(".doc") || fileName.endsWith(".docx")) {
-            return R.drawable.ic_word;
-        }
-        if (fileName.endsWith(".ppt") || fileName.endsWith(".pptx")) {
-            return R.drawable.ic_ppt;
-        }
-        if (fileName.endsWith(".pdf")) {
-            return R.drawable.ic_pdf;
-        }
-        if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png") || fileName.endsWith
-                (".bmp")) {
-            return R.drawable.ic_img;
-        }
-        return R.drawable.ic_defaut_file;
     }
 
     @Override

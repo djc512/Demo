@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,13 +20,16 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.TimerTask;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PdfPreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
@@ -46,7 +51,6 @@ public class WifiImportFragment extends BaseLazyFragment {
     private RecyclerView fileRecView;
     private FileRecyclerAdapter mAdapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (view == null) {
@@ -65,6 +69,7 @@ public class WifiImportFragment extends BaseLazyFragment {
             return;
         }
         isLoaded = true;
+
         TextView wifiTv = (TextView) view.findViewById(R.id.wifiTv);
         wifiTv.setText(WifiUtil.getWifiInfo(context));
         TextView sdTv = (TextView) view.findViewById(R.id.sdTv);
@@ -75,15 +80,15 @@ public class WifiImportFragment extends BaseLazyFragment {
         progressBar.setProgress(StorageUtil.getSdUsablePercent(context));
 
         fileList = FileUtils.getFileList(FileUtils.getWifiUploadPath());
+        startWebServer();
         Logger.i(FileUtils.getWifiUploadPath());
-        if (fileList == null || fileList.size() == 0) {
+        if (fileList.size() == 0) {
             View devider = view.findViewById(R.id.devider);
             devider.setVisibility(View.GONE);
-            return;
+        } else {
+            LinearLayout lv = (LinearLayout) view.findViewById(R.id.lv);
+            lv.setVisibility(View.GONE);
         }
-
-        LinearLayout lv = (LinearLayout) view.findViewById(R.id.lv);
-        lv.setVisibility(View.GONE);
 
         fileRecView = (RecyclerView) view.findViewById(R.id.fileRecView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
@@ -130,8 +135,45 @@ public class WifiImportFragment extends BaseLazyFragment {
                 });
             }
         });
-        startWebServer();
     }
+
+    private void update(List<File> newFileList) {
+        mAdapter.setFileList(newFileList);
+        mAdapter.notifyDataSetChanged();
+        if (fileList.size() == 0) {
+            View devider = view.findViewById(R.id.devider);
+            devider.setVisibility(View.GONE);
+        } else {
+            LinearLayout lv = (LinearLayout) view.findViewById(R.id.lv);
+            lv.setVisibility(View.GONE);
+        }
+    }
+
+    static class MyHandler extends Handler {
+        WeakReference fragment;
+
+        MyHandler(WifiImportFragment fragment) {
+            this.fragment = new WeakReference(fragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            WifiImportFragment theFragment = (WifiImportFragment) fragment.get();
+            switch (msg.what) {
+                case 1:
+                    if (fragment != null) {
+                        theFragment.update(null);
+                    }
+                    break;
+            }
+        }
+    }
+
+    TimerTask task = new TimerTask() {
+        public void run() {
+
+        }
+    };
 
     private void startWebServer() {
         Intent intent = new Intent(context, WebServer1.class);
@@ -139,6 +181,7 @@ public class WifiImportFragment extends BaseLazyFragment {
         bundle.putSerializable(WebServer1.FILE_LIST, (Serializable) fileList);
         intent.putExtras(bundle);
         context.startService(intent);
+        Logger.i("startWebServer");
     }
 
     @Override

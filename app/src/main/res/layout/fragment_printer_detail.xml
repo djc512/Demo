@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:text=""
+                android:text="黑白价格"
                 android:textColor="@color/text_gray"
                 android:textSize="16sp"/>
 
@@ -161,7 +161,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/backPriceTv"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="彩色价格"
                 android:textColor="@color/text_gray"
                 android:textSize="16sp"/>
 
