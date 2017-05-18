@@ -1,6 +1,7 @@
 package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -20,6 +21,8 @@ import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.exceptions.HyphenateException;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.ui.activity.approval.ApprovalBuyAddOrRemoveActivity;
+import huanxing_print.com.cn.printhome.ui.activity.contact.NewFriendActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
@@ -145,6 +148,59 @@ public class EaseChatRowText extends EaseChatRow {
 
     @Override
     protected void onBubbleClick() {
-
+        if (type != null) {
+            switch (type) {
+                case "101"://采购审核
+                    Intent intent1 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent1);
+                    break;
+                case "102"://采购审核结果
+                    Intent intent2 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent2);
+                    break;
+                case "201"://报销审核
+                    Intent intent3 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent3);
+                    break;
+                case "202"://报销审核结果
+                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                    context.startActivity(intent4);
+                    break;
+                case "301"://注册通知
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "302"://加好友通知
+                    Intent intent5 = new Intent(context, NewFriendActivity.class);
+                    context.startActivity(intent5);
+                    break;
+                case "401"://普通红包
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "402"://群红包
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "501"://加群审核
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "502"://进群通知
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "503"://退群通知
+//                    Intent intent4 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+//                    context.startActivity(intent4);
+                    break;
+                case "504"://群解散
+                    break;
+                case "601"://普通点对点消息对发
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
