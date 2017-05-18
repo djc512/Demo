@@ -156,9 +156,9 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         }
 
         setUpView();
-        Log.i("CCCC","nickName============================================="+nickName);
-        Log.i("CCCC","toChatUsername============================================="+toChatUsername);
-        if (toChatUsername.equals("secretary")){
+        Log.i("CCCC", "nickName=============================================" + nickName);
+        Log.i("CCCC", "toChatUsername=============================================" + toChatUsername);
+        if (toChatUsername.equals("secretary")) {
             tv_title.setText("印家小秘书");
 
         }
@@ -556,20 +556,10 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 //红包
                 String packetId = data.getStringExtra("packetId");
                 String remark = data.getStringExtra("remark");
+                String packetType = data.getStringExtra("packetType");
                 int groupType = data.getIntExtra("groupType", -1);
-                Log.d("CMCC", "setResult-红包-groupType--》"+groupType );
-                EMMessage emMessage = EMMessage.createTxtSendMessage(remark, toChatUsername);
-                emMessage.setAttribute("packetId", packetId);
-                emMessage.setAttribute("userId", baseApplication.getMemberId());
-                emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
-                emMessage.setAttribute("nickName", baseApplication.getNickName());
-                emMessage.setAttribute("groupType", groupType);
-                if (chatType == EaseConstant.CHATTYPE_GROUP ||
-                        chatType == EaseConstant.CHATTYPE_CHATROOM) {
-                    emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
-                    emMessage.setAttribute("groupName", groupInfo.getGroupName());
-                }
-                sendMessage(emMessage);
+                Log.d("CMCC", "setResult-红包-groupType--》" + groupType + ",packetId:" + packetId);
+                sendRedPackageMessage(remark, packetId, groupType, packetType);
             }
         }
     }
@@ -865,6 +855,26 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         inputAtUsername(username, true);
     }
 
+
+    protected void sendRedPackageMessage(String remark, String packetId, int groupType, String packetType) {
+        if (EaseAtMessageHelper.get().containsAtUsername(remark)) {
+            sendAtMessage(remark);
+        } else {
+            EMMessage emMessage = EaseCommonUtils.createRedPackageMessage(remark, toChatUsername, packetId);
+            //emMessage.setAttribute("packetId", packetId);
+            emMessage.setAttribute("userId", baseApplication.getMemberId());
+            emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
+            emMessage.setAttribute("nickName", baseApplication.getNickName());
+            emMessage.setAttribute("groupType", groupType);
+            emMessage.setAttribute("packetType", packetType);
+            if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                    chatType == EaseConstant.CHATTYPE_CHATROOM) {
+                emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
+                emMessage.setAttribute("groupName", groupInfo.getGroupName());
+            }
+            sendMessage(emMessage);
+        }
+    }
 
     //send message
     protected void sendTextMessage(String content) {

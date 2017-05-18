@@ -5,19 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.chat.GroupLuckyPackageDetail;
-import huanxing_print.com.cn.printhome.model.chat.LuckyPackageObject;
-import huanxing_print.com.cn.printhome.model.yinxin.RedPackageBean;
+import huanxing_print.com.cn.printhome.model.chat.RedPackageDetail;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
@@ -25,24 +24,16 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
  * Created by LGH on 2017/5/8.
  */
 
-public class RedPackageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private final int TYPE_HEADER = 1;
     private final int TYPE_NORMAL = 2;
+    private RedPackageDetail detail;
 
-    private RedPackageBean date;
-    private GroupLuckyPackageDetail detail;
-    private List<LuckyPackageObject> list = new ArrayList<>();
-    public RedPackageAdapter(RedPackageBean date) {
-        this.date = date;
-    }
-
-    public RedPackageAdapter(Context context,GroupLuckyPackageDetail detail) {
+    public SingleRedPackageAdapter(Context context, RedPackageDetail detail) {
         this.context = context;
         this.detail = detail;
-        this.list = detail.getList();
     }
-
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
@@ -64,28 +55,18 @@ public class RedPackageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int i) {
         if (viewHolder instanceof HeaderViewHolder) {
-            String snatch = detail.getSnatch();
+            boolean snatch = detail.isSnatch();
             String amount = detail.getAmount();
-            String sendNameUrl =detail.getSendMemberUrl();
-            String sendName =detail.getSendMemberName();
-            String remark =detail.getRemark();//
-            String outTime =detail.getOutTime();//多久被抢光
-            String snatchAmount=detail.getSnatchAmount();//已被抢红包金额
-            String snatchNum=detail.getSnatchNum();//已被抢红包个数
-            String totalNumber =detail.getTotalNumber();//红包总数
-            String totalAmount =detail.getTotalAmount();//红包总额
+            String sendNameUrl = detail.getMasterFaceUrl();
+            String sendName = detail.getMasterName();
+            String remark = detail.getRemark();//
+            String outTime = detail.getTime();//多久被抢光
+            String snatchAmount = detail.getAmount();//已被抢红包金额
 
             if (!ObjectUtils.isNull(sendNameUrl)) {
-                Glide.with(context)
-                        .load(sendNameUrl)
-                        .centerCrop()
-                        .transform(new CircleTransform(context))
-                        .crossFade()
-                        .placeholder(R.drawable.iv_head)
-                        .error(R.drawable.iv_head)
-                        .into(((HeaderViewHolder) viewHolder).circleImageView);
+                setImg(sendNameUrl, ((HeaderViewHolder) viewHolder).circleImageView);
             }
             if (!ObjectUtils.isNull(sendName)) {
                 ((HeaderViewHolder) viewHolder).nameTv.setText(sendName + "的红包");
@@ -95,53 +76,40 @@ public class RedPackageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 ((HeaderViewHolder) viewHolder).remarkTv.setText(remark);
             }
 
-            if ("true".equals(snatch)) {
-                ((HeaderViewHolder) viewHolder).ll_money.setVisibility(View.VISIBLE);
+            if (!snatch) {
                 ((HeaderViewHolder) viewHolder).moneyTv.setText(amount);
-                if(snatchNum.equals(totalNumber)){
-                 ((HeaderViewHolder) viewHolder).detailTv.setText(totalNumber+"个红包，"+outTime+"被抢光");
-                }else{
-                 ((HeaderViewHolder) viewHolder).detailTv.setText("已领取"+snatchNum+"/"
-                         +totalNumber+"个，"+"共"+snatchAmount+"/"+totalAmount);
-                }
-
-            }else{
                 ((HeaderViewHolder) viewHolder).ll_money.setVisibility(View.GONE);
-                ((HeaderViewHolder) viewHolder).detailTv.setText(totalNumber+"个红包，"+outTime+"被抢光");
+                ((HeaderViewHolder) viewHolder).detailTv.setText("红包金额" + amount + "元等待对方领取");
+
+            } else {
+                ((HeaderViewHolder) viewHolder).ll_money.setVisibility(View.GONE);
+                ((HeaderViewHolder) viewHolder).detailTv.setText("1个红包共" + amount + "元");
             }
 
         } else if (viewHolder instanceof NormalViewHolder) {
 
-            String listamount = list.get(i).getAmount();
-            String listsendNameUrl =list.get(i).getFaceUrl();
-            String listsendName =list.get(i).getName();
-            String listtime =list.get(i).getAddTime();
-            String listtype =list.get(i).getType();
+            String listamount = detail.getAmount();
+            String listsendNameUrl = detail.getFaceUrl();
+            String listsendName = detail.getName();
+            String listtime = detail.getTime();
 
             if (!ObjectUtils.isNull(listsendNameUrl)) {
-                Glide.with(context)
-                        .load(listsendNameUrl)
-                        .centerCrop()
-                        .transform(new CircleTransform(context))
-                        .crossFade()
-                        .placeholder(R.drawable.iv_head)
-                        .error(R.drawable.iv_head)
-                        .into(((NormalViewHolder) viewHolder).circleImageView);
+                setImg(listsendNameUrl, ((NormalViewHolder) viewHolder).circleImageView);
             }
             if (!ObjectUtils.isNull(listsendName)) {
                 ((NormalViewHolder) viewHolder).nameTv.setText(listsendName);
             }
             if (!ObjectUtils.isNull(listamount)) {
-                ((NormalViewHolder) viewHolder).amountTv.setText(listamount+"元");
+                ((NormalViewHolder) viewHolder).amountTv.setText(listamount + "元");
             }
             if (!ObjectUtils.isNull(listtime)) {
                 ((NormalViewHolder) viewHolder).timeTv.setText(listtime);
             }
-            if ("1".equals(listtype)) {
-                ((NormalViewHolder) viewHolder).luckLyt.setVisibility(View.VISIBLE);
-            }else{
-                ((NormalViewHolder) viewHolder).luckLyt.setVisibility(View.GONE);
-            }
+//            if ("1".equals(listtype)) {
+//                ((NormalViewHolder) viewHolder).luckLyt.setVisibility(View.VISIBLE);
+//            } else {
+//                ((NormalViewHolder) viewHolder).luckLyt.setVisibility(View.GONE);
+//            }
 
 
         }
@@ -149,7 +117,7 @@ public class RedPackageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return 2;
     }
 
     @Override
@@ -186,12 +154,28 @@ public class RedPackageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
-            ll_money= (LinearLayout) itemView.findViewById(R.id.ll_money);
+            ll_money = (LinearLayout) itemView.findViewById(R.id.ll_money);
             circleImageView = (CircleImageView) itemView.findViewById(R.id.circleImageView);
             nameTv = (TextView) itemView.findViewById(R.id.nameTv);
             remarkTv = (TextView) itemView.findViewById(R.id.remarkTv);
             detailTv = (TextView) itemView.findViewById(R.id.detailTv);
             moneyTv = (TextView) itemView.findViewById(R.id.moneyTv);
         }
+    }
+
+    public void setImg(String imgUrl, final ImageView imageView) {
+        Glide.with(context)
+                .load(imgUrl)
+                .centerCrop()
+                .transform(new CircleTransform(context))
+                .crossFade()
+                .placeholder(R.drawable.iv_head)
+                .error(R.drawable.iv_head)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        imageView.setImageDrawable(resource);
+                    }
+                });
     }
 }

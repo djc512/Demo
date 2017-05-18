@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.net.callback.chat;
 
+import huanxing_print.com.cn.printhome.model.chat.RedPackageObject;
 import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
 
 /**
@@ -7,5 +8,5 @@ import huanxing_print.com.cn.printhome.net.callback.BaseCallback;
  */
 
 public interface SendCommonPackageCallBack extends BaseCallback {
-    void success(String msg, String id);
+    void success(String msg, RedPackageObject id);
 }

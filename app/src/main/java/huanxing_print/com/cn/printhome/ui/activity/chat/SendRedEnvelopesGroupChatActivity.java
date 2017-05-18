@@ -14,6 +14,7 @@ import android.widget.TextView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.chat.LuckyPackage;
+import huanxing_print.com.cn.printhome.model.chat.RedPackageObject;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.chat.SendCommonPackageCallBack;
@@ -231,20 +232,22 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
 
     SendCommonPackageCallBack groupRedPackageCB = new SendCommonPackageCallBack() {
         @Override
-        public void success(String msg, String id) {
+        public void success(String msg, RedPackageObject id) {
             DialogUtils.closeProgressDialog();
             String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
             if (null != id) {
                 Intent intent = new Intent();
-                intent.putExtra("packetId", id);
+                intent.putExtra("packetId", id.getPacketId());
                 intent.putExtra("remark", remark);
                 if (isLuck) {
                     //手气
                     intent.putExtra("groupType", 2);
+                    intent.putExtra("packetType", R.string.group_lucky_Red_package);
                 } else {
                     intent.putExtra("groupType", 1);
+                    intent.putExtra("packetType", R.string.group_common_Red_package);
                 }
-                Log.d("CMCC", "setResult--groupType--》"+intent.getIntExtra("groupType", -1) );
+                Log.d("CMCC", "setResult--groupType--》" + intent.getIntExtra("groupType", -1) + ",packetId:" + id.getPacketId());
                 setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }

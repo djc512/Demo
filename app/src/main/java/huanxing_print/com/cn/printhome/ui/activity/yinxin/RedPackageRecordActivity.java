@@ -15,20 +15,25 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.chat.CommonPackage;
 import huanxing_print.com.cn.printhome.model.chat.GroupLuckyPackageDetail;
+import huanxing_print.com.cn.printhome.model.chat.RedPackageDetail;
 import huanxing_print.com.cn.printhome.model.yinxin.RedPackageBean;
 import huanxing_print.com.cn.printhome.net.callback.chat.GetCommonPackageDetailCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.GetLuckyPackageDetailCallBack;
+import huanxing_print.com.cn.printhome.net.callback.chat.PackageDetailCallBack;
 import huanxing_print.com.cn.printhome.net.request.chat.ChatRequest;
-import huanxing_print.com.cn.printhome.ui.adapter.RedPackageAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.GroupCommonRedPackageAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.GroupLuckyRedPackageAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.SingleRedPackageAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
-public class RedPackageRecordActivity extends BaseActivity implements View.OnClickListener  {
+public class RedPackageRecordActivity extends BaseActivity implements View.OnClickListener {
 
     private RecyclerView recordRecView;
-
-    private RedPackageAdapter redPackageAdapter;
+    private SingleRedPackageAdapter singleAdapter;
+    private GroupCommonRedPackageAdapter commonAdapter;
+    private GroupLuckyRedPackageAdapter groupLuckyRedPackageAdapter;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -68,6 +73,7 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
         String easemobGroupId = getIntent().getStringExtra("easemobGroupId");
         String packetId = getIntent().getStringExtra("packetId");
         int type = getIntent().getIntExtra("type", -1);
+        Log.d("CMCC", "type:" + type);
         if (1 == type) {
             //群普通红包
             ChatRequest.getCommonPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
@@ -77,6 +83,10 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
             DialogUtils.showProgressDialog(this, "加载中").show();
             ChatRequest.getLuckyPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
                     easemobGroupId, "", packetId, luckyCallBack);
+        } else if (1001 == type) {
+            //单聊红包
+            ChatRequest.queryPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
+                    packetId, detailCallBack);
         }
     }
 
@@ -90,13 +100,14 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
                 break;
         }
     }
+
     GetCommonPackageDetailCallBack callBack = new GetCommonPackageDetailCallBack() {
         @Override
         public void success(String msg, CommonPackage detail) {
             DialogUtils.closeProgressDialog();
             Log.d("CMCC", "" + msg);
-//            redPackageAdapter = new RedPackageAdapter(getSelfActivity(),detail);
-//            recordRecView.setAdapter(redPackageAdapter);
+            commonAdapter = new GroupCommonRedPackageAdapter(getSelfActivity(), detail);
+            recordRecView.setAdapter(commonAdapter);
         }
 
         @Override
@@ -117,9 +128,34 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
         public void success(String msg, GroupLuckyPackageDetail detail) {
             DialogUtils.closeProgressDialog();
             Log.d("CMCC", "" + msg);
-            if (null!=detail) {
-                redPackageAdapter = new RedPackageAdapter(getSelfActivity(), detail);
-                recordRecView.setAdapter(redPackageAdapter);
+            if (null != detail) {
+                Log.d("CMCC", "解析成功:" + detail.getList().size());
+                groupLuckyRedPackageAdapter = new GroupLuckyRedPackageAdapter(getSelfActivity(), detail);
+                recordRecView.setAdapter(groupLuckyRedPackageAdapter);
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "" + msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "connectFail");
+        }
+    };
+
+    PackageDetailCallBack detailCallBack = new PackageDetailCallBack() {
+        @Override
+        public void success(String msg, RedPackageDetail detail) {
+            DialogUtils.closeProgressDialog();
+            Log.d("CMCC", "" + msg);
+            if (null != detail) {
+                singleAdapter = new SingleRedPackageAdapter(getSelfActivity(), detail);
+                recordRecView.setAdapter(singleAdapter);
             }
         }
 
