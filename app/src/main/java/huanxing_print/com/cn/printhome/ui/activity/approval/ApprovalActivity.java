@@ -35,7 +35,7 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
     private Context ctx;
     private List<Fragment> fragments;
     private ViewPagerAdapter adapter;
-    private String approverNum;
+    private int approverNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
     }
 
     private void initData() {
-        approverNum = getIntent().getStringExtra("approverNum");
+        approverNum = getIntent().getIntExtra("approverNum", 0);
         fragments = new ArrayList<>();
         ApprovalFragment approvalFragment = new ApprovalFragment();
         ApprovalNoFragment approvalnoFragment = new ApprovalNoFragment();
