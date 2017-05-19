@@ -125,6 +125,7 @@ public class EaseChatRowText extends EaseChatRow {
                                 break;
                             case "202"://报销审核结果
                                 intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                                intent.putExtra("approveId", approveId);
                                 context.startActivity(intent);
                                 break;
                             default:
