@@ -423,7 +423,14 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
 
                     @Override
                     public void onTimeSelect(Date date) {
-                        edt_finish_time.setText(getTime(date));
+                        Date curDate = new Date(System.currentTimeMillis());
+                        String curDateString = getTime(curDate);
+                        String chooseDateString = getTime(date);
+                        if(curDateString.compareTo(chooseDateString) > 0) {
+                            ToastUtil.doToast(AddPurchaseApprovalActivity.this,"不可以选择今日之前的日期");
+                        }else{
+                            edt_finish_time.setText(chooseDateString);
+                        }
                     }
                 });
                 pvTime.show();

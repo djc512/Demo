@@ -1,5 +1,7 @@
 package huanxing_print.com.cn.printhome.net.resolve;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.simple.eventbus.EventBus;
@@ -38,7 +40,7 @@ public abstract class BaseResolve<T> {
 	}
 
 	public void resolve(String result) {
-
+        Log.d("CMCC","result======"+result);
 		success = Boolean.parseBoolean(JsonUtils.getValueString("success", result));
 		errorMsg = JsonUtils.getValueString("errorMsg", result);
         successMsg= JsonUtils.getValueString("message", result);

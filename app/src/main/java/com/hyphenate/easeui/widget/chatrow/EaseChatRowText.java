@@ -89,7 +89,7 @@ public class EaseChatRowText extends EaseChatRow {
         Log.i("CCCP","message======================="+message.getStringAttribute("message",""));
         Log.i("CCCP","message.getStringAttribute(\"title\",\"\")======================="+message.getStringAttribute("title",""));
         type = message.getStringAttribute("type","");
-       approveId = message.getStringAttribute("approveId","");
+        approveId = message.getStringAttribute("approveId","");
 
     }
 
@@ -125,6 +125,7 @@ public class EaseChatRowText extends EaseChatRow {
                                 break;
                             case "202"://报销审核结果
                                 intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
+                                intent.putExtra("approveId", approveId);
                                 context.startActivity(intent);
                                 break;
                             default:
@@ -242,8 +243,8 @@ public class EaseChatRowText extends EaseChatRow {
     @Override
     protected void onBubbleClick() {
 
-        Log.i("CCCC","======================="+message.getStringAttribute("type",""));
-        Log.i("CCCC","======================="+message.getFrom());
+        Log.i("CMCC","======================="+message.getStringAttribute("type",""));
+        Log.i("CMCC","======================="+message.getFrom());
         if (type!=null){
             switch (type){
                 case "101"://采购审核
@@ -300,14 +301,14 @@ public class EaseChatRowText extends EaseChatRow {
         }
 
         // 红包弹出来dialog
-        if (!ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
-            lingQuRenId = message.getStringAttribute("userId", "");
-            //判断红包状态
-            String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
-                    "loginToken");
-            ChatRequest.queryPackageDetail(getContext(), token, message.getStringAttribute("packetId", ""),
-                    callBack);
-        }
+//        if (!ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
+//            lingQuRenId = message.getStringAttribute("userId", "");
+//            //判断红包状态
+//            String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
+//                    "loginToken");
+//            ChatRequest.queryPackageDetail(getContext(), token, message.getStringAttribute("packetId", ""),
+//                    callBack);
+//        }
     }
 
     PackageDetailCallBack callBack = new PackageDetailCallBack() {

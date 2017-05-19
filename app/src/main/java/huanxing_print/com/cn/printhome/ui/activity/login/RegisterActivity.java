@@ -3,6 +3,7 @@ package huanxing_print.com.cn.printhome.ui.activity.login;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -10,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.listener.EmsCallBackListener;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.login.LoginBean;
 import huanxing_print.com.cn.printhome.model.login.LoginBeanItem;
@@ -294,26 +298,48 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		}
 
 		public void success(final LoginBean registerBean) {
-			DialogUtils.closeProgressDialog();
-			    toast("注册成功");
-				if (!ObjectUtils.isNull(registerBean)) {
-					String loginToken = registerBean.getLoginToken();
-					baseApplication.setLoginToken(loginToken);
-					LoginBeanItem userInfo = registerBean.getMemberInfo();
-					if (!ObjectUtils.isNull(userInfo)) {
-						baseApplication.setPhone(userInfo.getMobileNumber());
-						baseApplication.setNickName(userInfo.getNickName());
-						baseApplication.setHeadImg(userInfo.getFaceUrl());
-						baseApplication.setEasemobId(userInfo.getEasemobId());
-						baseApplication.setUniqueId(userInfo.getUniqueId());
-						baseApplication.setMemberId(userInfo.getMemberId());
-						if (!ObjectUtils.isNull(userInfo.getWechatId())) {
-							baseApplication.setWechatId(userInfo.getWechatId());
+			//判断环信是否登录成功
+			EMClient.getInstance().login(registerBean.getMemberInfo().getMemberId(), registerBean.getMemberInfo().getMemberId(), new EmsCallBackListener() {
+				@Override
+				public void onMainSuccess() {
+					EMClient.getInstance().chatManager().loadAllConversations();
+					EMClient.getInstance().groupManager().loadAllGroups();
+
+					baseApplication.setHasLoginEvent(true);
+					DialogUtils.closeProgressDialog();
+					toast("注册成功");
+					if (!ObjectUtils.isNull(registerBean)) {
+						String loginToken = registerBean.getLoginToken();
+						baseApplication.setLoginToken(loginToken);
+						LoginBeanItem userInfo = registerBean.getMemberInfo();
+						if (!ObjectUtils.isNull(userInfo)) {
+							baseApplication.setPhone(userInfo.getMobileNumber());
+							baseApplication.setNickName(userInfo.getNickName());
+							baseApplication.setHeadImg(userInfo.getFaceUrl());
+							baseApplication.setEasemobId(userInfo.getEasemobId());
+							baseApplication.setMemberId(userInfo.getMemberId());
+							baseApplication.setUniqueId(userInfo.getUniqueId());
+							if (!ObjectUtils.isNull(userInfo.getWechatId())) {
+								baseApplication.setWechatId(userInfo.getWechatId());
+							}
+							if (!ObjectUtils.isNull(userInfo.getWechatName())) {
+								baseApplication.setWeixinName(userInfo.getWechatName());
+							}
+							jumpActivity(MainActivity.class);
+							finishCurrentActivity();
 						}
-						jumpActivity(MainActivity.class);
-						finishCurrentActivity();
 					}
+
 				}
+
+				@Override
+				public void onMainError(int i, String s) {
+					DialogUtils.closeProgressDialog();
+					toast("环信登录失败");
+
+				}
+			});
+			Log.d("CMCC", "登陆人环信号:" + registerBean.getMemberInfo().getEasemobId());
 
 	    }
 	};

@@ -404,7 +404,6 @@
         <!-- 评论列表界面 -->
         <activity
             android:name=".ui.activity.copy.CommentListActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <!-- 上传图片 -->
         <activity

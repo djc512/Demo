@@ -75,6 +75,20 @@ public class EaseCommonUtils {
 
 
     /**
+     * 红包提示
+     *
+     * @param toChatUsername
+     * @param msg
+     * @return
+     */
+    public static EMMessage createHintMessage(String toChatUsername, String msg) {
+        EMMessage message = EMMessage.createTxtSendMessage(msg, toChatUsername);
+        message.setAttribute(EaseConstant.MESSAGE_ATTR_IS_HINT, true);
+        return message;
+    }
+
+
+    /**
      * 发送红包
      *
      * @param toChatUsername
@@ -137,6 +151,8 @@ public class EaseCommonUtils {
                     } else {
                         digest = getString(context, R.string.red_package__call);
                     }
+                } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_HINT, false)) {
+                    digest = txtBody.getMessage();
                 } else {
                     digest = txtBody.getMessage();
                 }
