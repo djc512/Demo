@@ -72,24 +72,25 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
                 .getColor(this, R.color.devide_gray)));
         RedPackageBean date = new RedPackageBean();
         String easemobGroupId = getIntent().getStringExtra("easemobGroupId");
+        String groupId = getIntent().getStringExtra("groupId");
         String packetId = getIntent().getStringExtra("packetId");
         int type = getIntent().getIntExtra("type", -1);
-        singleType = getIntent().getBooleanExtra("singleType",false);
+        singleType = getIntent().getBooleanExtra("singleType", false);
 
-        if (singleType){
+        if (singleType) {
             //单聊红包
             ChatRequest.queryPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
                     packetId, detailCallBack);
-        }else{
+        } else {
             if (1 == type) {
                 //群普通红包
                 ChatRequest.getCommonPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
-                        easemobGroupId, "", packetId, callBack);
+                        easemobGroupId, groupId, packetId, callBack);
             } else if (2 == type) {
                 //群拼手气红包
                 DialogUtils.showProgressDialog(this, "加载中").show();
                 ChatRequest.getLuckyPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
-                        easemobGroupId, "", packetId, luckyCallBack);
+                        easemobGroupId, groupId, packetId, luckyCallBack);
             }
         }
     }

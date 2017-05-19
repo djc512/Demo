@@ -15,7 +15,6 @@ import huanxing_print.com.cn.printhome.R;
 
 /**
  * big emoji icons
- *
  */
 public class EaseChatRowBigExpression extends EaseChatRowText {
 
@@ -25,7 +24,7 @@ public class EaseChatRowBigExpression extends EaseChatRowText {
     public EaseChatRowBigExpression(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
     }
-    
+
     @Override
     protected void onInflateView() {
         inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
@@ -43,19 +42,19 @@ public class EaseChatRowBigExpression extends EaseChatRowText {
     public void onSetUpView() {
         String emojiconId = message.getStringAttribute(EaseConstant.MESSAGE_ATTR_EXPRESSION_ID, null);
         EaseEmojicon emojicon = null;
-        if(EaseUI.getInstance().getEmojiconInfoProvider() != null){
-            emojicon =  EaseUI.getInstance().getEmojiconInfoProvider().getEmojiconInfo(emojiconId);
+        if (EaseUI.getInstance().getEmojiconInfoProvider() != null) {
+            emojicon = EaseUI.getInstance().getEmojiconInfoProvider().getEmojiconInfo(emojiconId);
         }
-        if(emojicon != null){
-            if(emojicon.getBigIcon() != 0){
+        if (emojicon != null) {
+            if (emojicon.getBigIcon() != 0) {
                 Glide.with(activity).load(emojicon.getBigIcon()).placeholder(R.drawable.ease_default_expression).into(imageView);
-            }else if(emojicon.getBigIconPath() != null){
+            } else if (emojicon.getBigIconPath() != null) {
                 Glide.with(activity).load(emojicon.getBigIconPath()).placeholder(R.drawable.ease_default_expression).into(imageView);
-            }else{
+            } else {
                 imageView.setImageResource(R.drawable.ease_default_expression);
             }
         }
-        
+
         handleTextMessage();
     }
 }

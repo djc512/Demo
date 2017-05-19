@@ -24,10 +24,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMImageMessageBody;
@@ -58,6 +60,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.BuildConfig;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.chat.RedPacketHint;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
@@ -138,6 +141,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_chat_test);
 
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
         //聊天类型
         chatType = getIntent().getIntExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         toChatUsername = getIntent().getStringExtra(Constant.EXTRA_USER_ID);
@@ -617,6 +621,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         if (chatType == EaseConstant.CHATTYPE_CHATROOM) {
             EMClient.getInstance().chatroomManager().leaveChatRoom(toChatUsername);
         }
+
+        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
     }
 
     public void onBackPressed() {
@@ -1447,5 +1453,75 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
          * @return
          */
         EaseCustomChatRowProvider onSetCustomChatRowProvider();
+    }
+
+
+    EMMessageListener msgListener = new EMMessageListener() {
+
+        @Override
+        public void onMessageReceived(List<EMMessage> messages) {
+            //收到消息
+        }
+
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> messages) {
+            //收到透传消息
+            Log.i("CMCC", "收到透传消息!" + messages.size());
+            for (EMMessage emMessage : messages) {
+                EMCmdMessageBody body = (EMCmdMessageBody) emMessage.getBody();
+                Gson gson = new Gson();
+                RedPacketHint hint = gson.fromJson(body.action(), RedPacketHint.class);
+                Log.d("CMCC", "action:" + body.action());
+                //想聊天里面插入消息
+                if ("401".equals(hint.getType()) ||
+                        "402".equals(hint.getType())) {
+                    Log.d("CMCC", "1111111");
+                    //群红包和普通红包
+                    if (baseApplication.getMemberId().equals(hint.getMemberId())) {
+                        //让你看到
+                        Log.d("CMCC", "2222222");
+                        createHintMessage(hint);
+                    }
+
+                }
+            }
+        }
+
+        @Override
+        public void onMessageRead(List<EMMessage> messages) {
+            //收到已读回执
+        }
+
+        @Override
+        public void onMessageDelivered(List<EMMessage> message) {
+            //收到已送达回执
+        }
+
+        @Override
+        public void onMessageChanged(EMMessage message, Object change) {
+            //消息状态变动
+        }
+    };
+
+
+    /**
+     * 向本地会话列表插入消息红包消息提示
+     */
+    public void createHintMessage(RedPacketHint hint) {
+
+        Log.d("CMCC", "message:" + hint.getMessage());
+        EMMessage message = EaseCommonUtils.createHintMessage(toChatUsername, hint.getMessage());
+        message.setAttribute("groupId ", hint.getGroupId());
+        message.setAttribute("memberId  ", hint.getMemberId());
+        message.setAttribute("message ", hint.getMessage());
+        message.setAttribute("packetId  ", hint.getPacketId());
+        message.setAttribute("type  ", hint.getType());
+        message.setAttribute("easemobGroupId  ", toChatUsername);
+
+        EMClient.getInstance().chatManager()
+                .getConversation(toChatUsername)
+                .appendMessage(message);
+        //刷新
+        messageList.refresh();
     }
 }
