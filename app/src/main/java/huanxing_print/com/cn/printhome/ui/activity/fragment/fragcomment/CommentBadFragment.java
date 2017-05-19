@@ -47,15 +47,9 @@ public class CommentBadFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_comment, null);
         initView(view);
         initListener();
+        getData(3, printno);
         return view;
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getData(3, printno);
-    }
-
     private void initView(View view) {
         rv_comment_list = (ListView) view.findViewById(R.id.rv_comment_list);
         xrf_comment = (XRefreshView) view.findViewById(R.id.xrf_comment);

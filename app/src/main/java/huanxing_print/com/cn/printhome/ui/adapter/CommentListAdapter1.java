@@ -75,15 +75,18 @@ public class CommentListAdapter1 extends BaseAdapter {
         List<String> imageList = bean.getImageList();
         if (imageList.size() == 0) {
             holder.rv_iv.setVisibility(View.GONE);
-        } else if (imageList.size() < 4) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx, 100));
-            holder.rv_iv.setLayoutParams(lp);
-        } else if (imageList.size() < 8) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx, 200));
-            holder.rv_iv.setLayoutParams(lp);
         } else {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx, 300));
-            holder.rv_iv.setLayoutParams(lp);
+            holder.rv_iv.setVisibility(View.VISIBLE);
+            if (imageList.size() < 4) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx, 100));
+                holder.rv_iv.setLayoutParams(lp);
+            } else if (imageList.size() < 8) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx, 200));
+                holder.rv_iv.setLayoutParams(lp);
+            } else {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtils.dip2px(ctx, 300));
+                holder.rv_iv.setLayoutParams(lp);
+            }
         }
         CommentPicAdapter adapter = new CommentPicAdapter(ctx, imageList);
         GridLayoutManager manager = new GridLayoutManager(ctx, 3);
