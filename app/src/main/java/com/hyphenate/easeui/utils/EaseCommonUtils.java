@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.chat.GroupHint;
 import huanxing_print.com.cn.printhome.model.chat.RedPacketHint;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
@@ -93,6 +94,19 @@ public class EaseCommonUtils {
             message.setAttribute(EaseConstant.MESSAGE_HINT_PACKET_ID, hint.getPacketId());
         }
         message.setAttribute(EaseConstant.MESSAGE_ATTR_IS_HINT, true);
+        return message;
+    }
+
+    //创建群提示信息
+    public static EMMessage createGroupHintMessage(String toChatUsername, String msg, String id, GroupHint groupHint) {
+        EMMessage message = EMMessage.createTxtSendMessage(msg, toChatUsername);
+        if (!ObjectUtils.isNull(id)) {
+            message.setAttribute(EaseConstant.MESSAGE_ATTR_GROUP_HINT_ID, id);
+            message.setAttribute(EaseConstant.MESSAGE_ATTR_GROUP_HINT_APPLY_ID, groupHint.getApplyMemberld());
+            message.setAttribute(EaseConstant.MESSAGE_HINT_GROUP_MESSAGE, groupHint.getMessage());
+            message.setAttribute(EaseConstant.MESSAGE_HINT_GROUP_MESSAGE_TYPE, groupHint.getType());
+        }
+        message.setAttribute(EaseConstant.MESSAGE_ATTR_IS_GROUP_HINT, true);
         return message;
     }
 
@@ -161,6 +175,8 @@ public class EaseCommonUtils {
                         digest = getString(context, R.string.red_package__call);
                     }
                 } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_HINT, false)) {
+                    digest = txtBody.getMessage();
+                } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_GROUP_HINT, false)) {
                     digest = txtBody.getMessage();
                 } else {
                     digest = txtBody.getMessage();
