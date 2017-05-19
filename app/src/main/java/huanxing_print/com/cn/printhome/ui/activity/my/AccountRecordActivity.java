@@ -178,6 +178,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
             }
+            xrf_czrecord.setAutoRefresh(true);//自动刷新
             xrf_czrecord.setPullLoadEnable(true);
             xrf_czrecord.setAutoLoadMore(false);
             //设置在上拉加载被禁用的情况下，是否允许界面被上拉
