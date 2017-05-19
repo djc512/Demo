@@ -83,7 +83,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         txt_action_change.setOnClickListener(this);
         //设置金额填框必须只能填写金额数字 EditText要先设置
         //android:inputType="numberDecimal"或者setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL)
-        InputFilter[] filters={new CashierInputFilter()};
+        InputFilter[] filters = {new CashierInputFilter()};
         edt_single_money.setFilters(filters);
         //输入的监听
         edt_single_money.addTextChangedListener(new TextWatcher() {
@@ -166,10 +166,10 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
 
 
     private void inData() {
-            if (null!=groupInfo) {
-                int groupMemberNum = groupInfo.getGroupMembers().size();
-                txt_group_num.setText(groupMemberNum+"");
-            }
+        if (null != groupInfo) {
+            int groupMemberNum = groupInfo.getGroupMembers().size();
+            txt_group_num.setText(groupMemberNum + "");
+        }
 
     }
 
@@ -262,10 +262,10 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                 if (isLuck) {
                     //手气
                     intent.putExtra("groupType", 2);
-                    intent.putExtra("packetType", R.string.group_lucky_Red_package);
+                    intent.putExtra("packetType", getString(R.string.group_lucky_Red_package));
                 } else {
                     intent.putExtra("groupType", 1);
-                    intent.putExtra("packetType", R.string.group_common_Red_package);
+                    intent.putExtra("packetType", getString(R.string.group_common_Red_package));
                 }
                 Log.d("CMCC", "setResult--groupType--》" + intent.getIntExtra("groupType", -1) + ",packetId:" + id.getPacketId());
                 setResult(RESULT_OK, intent);
