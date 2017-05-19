@@ -19,10 +19,6 @@ import huanxing_print.com.cn.printhome.ui.adapter.MySponsorListAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
-import huanxing_print.com.cn.printhome.view.dialog.FailureRedEnvelopesDialog;
-import huanxing_print.com.cn.printhome.view.dialog.GoneRedEnvelopesDialog;
-import huanxing_print.com.cn.printhome.view.dialog.GroupRedEnvelopesDialog;
-import huanxing_print.com.cn.printhome.view.dialog.SingleRedEnvelopesDialog;
 import huanxing_print.com.cn.printhome.view.refresh.CustomerFooter;
 
 /**
@@ -40,10 +36,6 @@ public class MySponsorListActivity extends BaseActivity implements View.OnClickL
     private int pageNum = 1;
     private int pageSize = 10;
     private boolean isLoadMore = false;
-    private SingleRedEnvelopesDialog dialog;
-    private FailureRedEnvelopesDialog failureDialog;
-    private GoneRedEnvelopesDialog goneRedEnvelopesDialog;
-    private GroupRedEnvelopesDialog groupRedEnvelopesDialog;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -75,7 +67,6 @@ public class MySponsorListActivity extends BaseActivity implements View.OnClickL
             case R.id.ll_back://返回
                 finishCurrentActivity();
                 break;
-
             default:
                 break;
         }
