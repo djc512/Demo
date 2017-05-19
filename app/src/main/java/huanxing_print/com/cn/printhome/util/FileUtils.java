@@ -170,7 +170,7 @@ public class FileUtils {
         if (!new File(fullFilename).exists()) {
             return fullFilename;
         }
-        filename = filename + "-";
+        filename = filename + "_";
         int sequence = 1;
         for (int magnitude = 1; magnitude < 1000000000; magnitude *= 10) {
             for (int iteration = 0; iteration < 9; ++iteration) {

@@ -29,6 +29,7 @@
             android:id="@+id/successRyt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="invisible"
             >
 
             <LinearLayout
@@ -84,13 +85,13 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:visibility="invisible"
                 android:background="@drawable/shape_preview_finish_bg"
                 android:gravity="center"
                 android:padding="15dp"
                 android:text="继续打印"
                 android:textColor="@color/text_black"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:visibility="invisible"/>
 
             <TextView
                 android:id="@+id/exitTv"
@@ -131,8 +132,7 @@
         <RelativeLayout
             android:id="@+id/stateRyt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/stateTv"
@@ -153,6 +153,17 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
                 android:text="前面有3个打印任务，请耐心等待"
+                android:textColor="@color/text_gray"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/countTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/stateTv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text=""
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"/>
 
@@ -213,6 +224,39 @@
 
         </RelativeLayout>
     </FrameLayout>
+
+<!--    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onAWake"
+        android:text="onAWake"/>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onSuccess"
+        android:text="onSuccess"/>
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onQueue"
+        android:text="onQueue"/>
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onException"
+        android:text="onException"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onUpload"
+        android:text="onUpload"/>-->
 
 
 </LinearLayout>
