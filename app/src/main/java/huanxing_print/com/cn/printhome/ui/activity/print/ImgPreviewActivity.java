@@ -43,7 +43,6 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         initData();
         initTitleBar("图片预览");
         initView();
-        setRightTvVisible();
     }
 
     private void initData() {
@@ -53,6 +52,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     private void initView() {
         photoView = (PhotoView) findViewById(R.id.photoView);
         ImageUtil.showImageView(context, imgPath, photoView);
+        setRightTvVisible();
     }
 
     @Override

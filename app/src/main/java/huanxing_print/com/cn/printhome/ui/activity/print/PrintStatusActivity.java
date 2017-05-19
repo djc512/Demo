@@ -14,18 +14,24 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.lang.ref.WeakReference;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseApplication;
+import huanxing_print.com.cn.printhome.event.print.PrintTypeEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.OrderStatusResp;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
+import huanxing_print.com.cn.printhome.ui.activity.copy.CopyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
@@ -46,10 +52,13 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private long orderId;
     private int awakeAccount = 0;
 
+    private PrintTypeEvent printTypeEvent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_status);
+        EventBus.getDefault().register(context);
         initData();
         initView();
         setUpload();
@@ -80,20 +89,24 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         findViewById(R.id.backImg).setOnClickListener(this);
     }
 
+    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
+    public void onMessageEventPostThread(PrintTypeEvent printTypeEvent) {
+        this.printTypeEvent = printTypeEvent;
+        Logger.i(printTypeEvent.toString());
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.backImg:
-                startActivity(new Intent(context, MainActivity.class));
-                finish();
+                finishThis();
                 break;
             case R.id.errorExitTv:
                 finish();
                 break;
             case R.id.exitTv:
-                startActivity(new Intent(context, MainActivity.class));
-                finish();
+                finishThis();
                 break;
             case R.id.printTv:
                 finish();
@@ -114,6 +127,14 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
+        }
+    }
+
+    private void finishThis() {
+        if (PrintTypeEvent.TYPE_COPY == printTypeEvent.getType()) {
+            startActivity(new Intent(context, CopyActivity.class));
+        } else {
+            startActivity(new Intent(context, MainActivity.class));
         }
     }
 
@@ -261,5 +282,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     protected void onDestroy() {
         stopTimerTask();
         super.onDestroy();
+        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().unregister(context);
     }
 }

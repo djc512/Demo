@@ -47,13 +47,8 @@ public class CommentAllFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_comment, null);
         initView(view);
         initListener();
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         getData(0, printno);
+        return view;
     }
 
     private void initView(View view) {
@@ -64,8 +59,8 @@ public class CommentAllFragment extends Fragment {
     private int type;
 
     public void getData(int type, String printno) {
+        DialogUtils.showProgressDialog(ctx,"正在加载");
         this.type = type;
-        DialogUtils.showProgressDialog(ctx, "正在加载中").show();
         CommentListRequest.request(ctx, 1, printno, type, new MyCommentListCallback());
     }
 

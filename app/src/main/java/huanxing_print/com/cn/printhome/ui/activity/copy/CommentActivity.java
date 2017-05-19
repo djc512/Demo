@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -277,10 +276,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_submit:
                 //打印感受
                 content = et_comment_content.getText().toString().trim();
-                if (TextUtils.isEmpty(content)) {
-                    Toast.makeText(ctx, "请先填写评论", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 submitComment();
                 break;
             case R.id.iv_comment:
@@ -302,8 +297,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private void submitComment() {
         DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中").show();
         ArrayList<ImageItem> items = selectBitmap;
-        getUrl(items);
-        uploadPic();
+        if (items.size() > 0) {
+            getUrl(items);
+            uploadPic();
+        }
 
         Map<String, Object> params = new HashMap<>();
         params.put("anonymous", anonymous);

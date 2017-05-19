@@ -2,6 +2,8 @@ package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,21 +12,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
-import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.DelPcFileResp;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
-import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
-import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.PcFilePreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.PcFileRecylerAdapter;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
-import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
@@ -66,8 +70,10 @@ public class PcFileFragment extends BaseLazyFragment {
         mAdapter.setOnItemClickListener(new PcFileRecylerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final View view, int position) {
-//                Http.download();
-                addFile(mAdapter.getFileList().get(position));
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(PcFilePreviewActivity.PC_FILE, mAdapter.getFileList().get(position));
+                PcFilePreviewActivity.start(mActivity, bundle);
+//                addFile(mAdapter.getFileList().get(position));
             }
         });
         mAdapter.setItemLongClickListener(new PcFileRecylerAdapter.OnItemLongClickListener() {
@@ -91,7 +97,7 @@ public class PcFileFragment extends BaseLazyFragment {
         if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
-        queryFile();
+        timer.schedule(task, 1000 * 1, 1000 * 2);
         isLoaded = true;
     }
 
@@ -99,6 +105,35 @@ public class PcFileFragment extends BaseLazyFragment {
         mAdapter.setFileList(fileList);
         mAdapter.notifyDataSetChanged();
     }
+
+    static class MyHandler extends Handler {
+        WeakReference fragment;
+
+        MyHandler(PcFileFragment fragment) {
+            this.fragment = new WeakReference(fragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            PcFileFragment theFragment = (PcFileFragment) fragment.get();
+            switch (msg.what) {
+                case 1:
+                    if (fragment != null) {
+                        theFragment.updateView((List<PrintListBean.FileInfo>) msg.obj);
+                    }
+                    break;
+            }
+        }
+    }
+
+    MyHandler handler = new MyHandler(this);
+    Timer timer = new Timer();
+    TimerTask task = new TimerTask() {
+        public void run() {
+            Logger.i("TimerTask");
+            queryFile();
+        }
+    };
 
     private void deleteFile(PrintListBean.FileInfo fileInfo) {
         PrintRequest.delFile(mActivity, StringUtil.stringToLong(fileInfo.getId()), new HttpListener() {
@@ -142,34 +177,5 @@ public class PcFileFragment extends BaseLazyFragment {
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         });
-    }
-
-    private void addFile(PrintListBean.FileInfo fileInfo) {
-        PrintRequest.addFile(mActivity, fileInfo.getFileName(), fileInfo.getFileUrl(), PrintUtil.TYPE_COPY, new
-                HttpListener() {
-                    @Override
-                    public void onSucceed(String content) {
-                        AddFileSettingBean addFileSettingBean = GsonUtil.GsonToBean(content, AddFileSettingBean.class);
-                        if (addFileSettingBean == null) {
-                            return;
-                        }
-                        if (addFileSettingBean.isSuccess()) {
-                            turnPrintSetting(addFileSettingBean.getData());
-                        } else {
-                            ShowUtil.showToast(addFileSettingBean.getErrorMsg());
-                        }
-                    }
-
-                    @Override
-                    public void onFailed(String exception) {
-                        ShowUtil.showToast(getString(R.string.net_error));
-                    }
-                }, false);
-    }
-
-    private void turnPrintSetting(PrintSetting printSetting) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
-        PickPrinterActivity.start(context, bundle);
     }
 }

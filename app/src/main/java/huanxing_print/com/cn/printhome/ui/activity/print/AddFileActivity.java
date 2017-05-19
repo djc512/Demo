@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -27,9 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.event.print.PrintTypeEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.DocPreviewResp;
-import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
@@ -57,7 +59,6 @@ import static huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivi
 public class AddFileActivity extends BasePrintActivity implements EasyPermissions.PermissionCallbacks, View
         .OnClickListener {
 
-    private TextView titleTv;
     private Button imageBtn;
     private Button qqBtn;
     private Button wechatBtn;
@@ -85,7 +86,6 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pickfile);
         Logger.i(IMG_CACHE_PATH);
-//        setContentView(R.layout.activity_add_file);
         initStepLine();
         initData();
         initView1();
@@ -93,6 +93,7 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
     }
 
     private void initData() {
+        EventBus.getDefault().postSticky(new PrintTypeEvent(PrintTypeEvent.TYPE_PRINT));
         Bundle bundle = getIntent().getExtras();
         index = bundle.getInt(INDEX);
         Logger.i(index);
@@ -195,40 +196,12 @@ public class AddFileActivity extends BasePrintActivity implements EasyPermission
         return view;
     }
 
-    private void initView() {
-        imageBtn = (Button) findViewById(R.id.imageBtn);
-        qqBtn = (Button) findViewById(R.id.qqBtn);
-        wechatBtn = (Button) findViewById(R.id.wechatBtn);
-        pcBtn = (Button) findViewById(R.id.pcBtn);
-
-        imageBtn.setOnClickListener(this);
-        qqBtn.setOnClickListener(this);
-        wechatBtn.setOnClickListener(this);
-        pcBtn.setOnClickListener(this);
-    }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.imageBtn:
-                if (isPermissionsGranted()) {
-                    getImage();
-                }
-                break;
-            case R.id.qqBtn:
-                if (isPermissionsGranted()) {
-//                    getFileList(PATH_QQ_FILE, SOURCE_QQ);
-                }
-                break;
-            case R.id.wechatBtn:
-                if (isPermissionsGranted()) {
-//                    getFileList(PATH_WECHAT_FILE, SOURCE_WECHAT);
-                }
-                break;
             case R.id.titleTv:
-                break;
-            case R.id.pcBtn:
                 break;
         }
     }
