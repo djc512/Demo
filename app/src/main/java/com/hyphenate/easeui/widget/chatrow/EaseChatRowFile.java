@@ -76,14 +76,17 @@ public class EaseChatRowFile extends EaseChatRow {
         String iconUrl = message.getStringAttribute("iconUrl", "");
         String nickName = message.getStringAttribute("nickName", "");
         Log.i("CCCC", "iconUrl=============================================" + iconUrl);
+        Log.i("PPPP","iconUrl============================================="+iconUrl);
         //头像
         if (ObjectUtils.isNull(iconUrl)) {
+            Log.i("PPPP","=============================================我走了为空的");
             Log.i("CCCC", "=============================================我走了为空的");
             Glide.with(getContext())
                     .load(R.drawable.iv_head)
                     .transform(new CircleTransform(getContext()))
                     .into(iv_userhead);
         } else {
+            Log.i("PPPP","=============================================我走了不为空，网络的");
             Log.i("CCCC", "=============================================我走了不为空，网络的");
             Glide.with(getContext())
                     .load(iconUrl)
