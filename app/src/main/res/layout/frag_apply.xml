@@ -1,119 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray5"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray5"
+              android:orientation="vertical">
+
     <RelativeLayout
-        android:padding="10dp"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="50dp"
+        android:background="@color/white">
+
         <TextView
-            android:textColor="@color/text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="应用"
-            android:textSize="20sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/text_black"
+            android:textSize="18sp"/>
 
     </RelativeLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:padding="10dp"
         android:text="文件制作"
-        android:textSize="18sp"
         android:textColor="@color/text_color"
-        android:padding="10dp"/>
+        android:textSize="16sp"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray5" />
-    <LinearLayout
+        android:background="@color/gray5"/>
+
+    <RelativeLayout
         android:id="@+id/ll_copy"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="15dp">
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/iv_apply_copy"
             android:id="@+id/imageView5"
-            android:layout_marginLeft="10dp"/>
+            android:layout_width="18dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/iv_apply_copy"/>
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="1"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imageView5"
             android:text="扫描复印"
-            android:textSize="18sp"
-            android:textColor="@color/text_color"/>
+            android:textColor="@color/text_color"
+            android:textSize="16sp"/>
 
         <ImageView
             android:id="@+id/iv_dayin"
-            style="@style/arrow_go" />
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/arrow_go"/>
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/tv_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:padding="10dp"
         android:text="办公应用"
-        android:textSize="18sp"
         android:textColor="@color/text_color"
-        android:padding="10dp"/>
+        android:textSize="16sp"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray5" />
+        android:background="@color/gray5"/>
 
     <RelativeLayout
         android:id="@+id/ll_approve"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="@color/white"
-        android:gravity="center_vertical"
-        android:padding="15dp">
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp">
 
         <ImageView
             android:id="@+id/iv_approve"
-            android:layout_width="wrap_content"
+            android:layout_width="18dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/iv_apply_approve"
-            android:layout_marginLeft="10dp"/>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/iv_apply_approve"/>
 
         <TextView
             android:id="@+id/tv_approve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/iv_approve"
-            android:layout_marginLeft="15dp"
             android:text="审批"
-            android:textSize="18sp"
-            android:textColor="@color/text_color"/>
+            android:textColor="@color/text_color"
+            android:textSize="16sp"/>
+
         <TextView
             android:id="@+id/tv_approve_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_circle"
-            android:layout_toRightOf="@+id/tv_approve"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dip"
+            android:layout_toRightOf="@+id/tv_approve"
+            android:background="@drawable/shape_circle"
             android:gravity="center"
             android:text="8"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"/>
+
         <ImageView
             android:id="@+id/iv_mingxi"
-            style="@style/arrow_go"
-            android:layout_alignParentRight="true"/>
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/arrow_go"/>
     </RelativeLayout>
-
 
 
 </LinearLayout>

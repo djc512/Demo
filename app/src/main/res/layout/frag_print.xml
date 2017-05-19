@@ -329,7 +329,7 @@
                     android:layout_marginTop="20dp"
                     android:text="这是一个文件浏览器，请选中一个通道快速找到您需要打印的文件资源。"
                     android:textColor="@color/gray3"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -342,28 +342,28 @@
                         android:layout_height="wrap_content"
                         android:text="可打印类型："
                         android:textColor="@color/gray3"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="图片类：JPG/PNG/BMP"
                         android:textColor="@color/gray3"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="文档类：WORD/PPT/PDF"
                         android:textColor="@color/gray3"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="每张图片不超过20M，每个文档不超过200页。"
                         android:textColor="@color/gray3"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
