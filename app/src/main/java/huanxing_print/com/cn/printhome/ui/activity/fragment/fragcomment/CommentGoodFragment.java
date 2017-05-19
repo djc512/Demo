@@ -18,7 +18,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.comment.CommentListBean;
 import huanxing_print.com.cn.printhome.net.callback.comment.CommentListCallback;
 import huanxing_print.com.cn.printhome.net.request.commet.CommentListRequest;
-import huanxing_print.com.cn.printhome.ui.adapter.CommentListAdapter1;
+import huanxing_print.com.cn.printhome.ui.adapter.CommentListAdapter;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -37,7 +37,7 @@ public class CommentGoodFragment extends Fragment {
     private int pageNum = 1;
     private boolean isLoadMore;
     private List<CommentListBean.DetailBean> detail;
-    private CommentListAdapter1 adapter;
+    private CommentListAdapter adapter;
 
     @Nullable
     @Override
@@ -72,7 +72,7 @@ public class CommentGoodFragment extends Fragment {
                 super.onRefresh();
                 isLoadMore = false;
                 if (null == detail) {
-                    Toast.makeText(getActivity(), "没有充值记录", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "没有更多数据", Toast.LENGTH_SHORT).show();
                     xrf_comment.stopRefresh();
                     return;
                 }
@@ -116,7 +116,7 @@ public class CommentGoodFragment extends Fragment {
                 if (bean != null) {
                     detail = bean.getDetail();
                     if (null != detail && detail.size() > 0) {
-                        adapter = new CommentListAdapter1(ctx, detail);
+                        adapter = new CommentListAdapter(ctx, detail);
                         rv_comment_list.setAdapter(adapter);
                     }
                 } else {
