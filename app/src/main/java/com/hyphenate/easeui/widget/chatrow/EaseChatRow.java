@@ -26,6 +26,8 @@ import java.util.Date;
 
 import huanxing_print.com.cn.printhome.R;
 
+import static huanxing_print.com.cn.printhome.R.id.iv_userhead;
+
 public abstract class EaseChatRow extends LinearLayout {
     protected static final String TAG = EaseChatRow.class.getSimpleName();
 
@@ -68,7 +70,7 @@ public abstract class EaseChatRow extends LinearLayout {
     private void initView() {
         onInflateView();
         timeStampView = (TextView) findViewById(R.id.timestamp);
-        userAvatarView = (ImageView) findViewById(R.id.iv_userhead);
+        userAvatarView = (ImageView) findViewById(iv_userhead);
         bubbleLayout = findViewById(R.id.bubble);
         usernickView = (TextView) findViewById(R.id.tv_userid);
 
@@ -82,7 +84,7 @@ public abstract class EaseChatRow extends LinearLayout {
 
     /**
      * set property according message and postion
-     * 
+     *
      * @param message
      * @param position
      */
@@ -119,10 +121,15 @@ public abstract class EaseChatRow extends LinearLayout {
         if(message.direct() == Direct.SEND){
             EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
         }else{
-            EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
-            EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+            if (message.getUserName().equals("secretary")){
+                userAvatarView.setImageResource(R.drawable.secretary);
+            }else{
+                EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
+                EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+            }
+
         }
-        
+
         if(deliveredView != null){
             if (message.isDelivered()) {
                 deliveredView.setVisibility(View.VISIBLE);
@@ -130,7 +137,7 @@ public abstract class EaseChatRow extends LinearLayout {
                 deliveredView.setVisibility(View.INVISIBLE);
             }
         }
-        
+
         if(ackedView != null){
             if (message.isAcked()) {
                 if (deliveredView != null) {
@@ -141,7 +148,7 @@ public abstract class EaseChatRow extends LinearLayout {
                 ackedView.setVisibility(View.INVISIBLE);
             }
         }
-        
+
 
         if (adapter instanceof EaseMessageAdapter) {
             if (((EaseMessageAdapter) adapter).isShowAvatar())
@@ -172,12 +179,12 @@ public abstract class EaseChatRow extends LinearLayout {
     protected void setMessageSendCallback(){
         if(messageSendCallback == null){
             messageSendCallback = new EMCallBack() {
-                
+
                 @Override
                 public void onSuccess() {
                     updateView();
                 }
-                
+
                 @Override
                 public void onProgress(final int progress, String status) {
                     activity.runOnUiThread(new Runnable() {
@@ -189,7 +196,7 @@ public abstract class EaseChatRow extends LinearLayout {
                         }
                     });
                 }
-                
+
                 @Override
                 public void onError(int code, String error) {
                     updateView(code, error);
@@ -198,19 +205,19 @@ public abstract class EaseChatRow extends LinearLayout {
         }
         message.setMessageStatusCallback(messageSendCallback);
     }
-    
+
     /**
      * set callback for receiving message
      */
     protected void setMessageReceiveCallback(){
         if(messageReceiveCallback == null){
             messageReceiveCallback = new EMCallBack() {
-                
+
                 @Override
                 public void onSuccess() {
                     updateView();
                 }
-                
+
                 @Override
                 public void onProgress(final int progress, String status) {
                     activity.runOnUiThread(new Runnable() {
@@ -221,7 +228,7 @@ public abstract class EaseChatRow extends LinearLayout {
                         }
                     });
                 }
-                
+
                 @Override
                 public void onError(int code, String error) {
                     updateView();
@@ -230,12 +237,12 @@ public abstract class EaseChatRow extends LinearLayout {
         }
         message.setMessageStatusCallback(messageReceiveCallback);
     }
-    
-    
+
+
     private void setClickListener() {
         if(bubbleLayout != null){
             bubbleLayout.setOnClickListener(new OnClickListener() {
-    
+
                 @Override
                 public void onClick(View v) {
                     if (itemClickListener != null){
@@ -246,9 +253,9 @@ public abstract class EaseChatRow extends LinearLayout {
                     }
                 }
             });
-    
+
             bubbleLayout.setOnLongClickListener(new OnLongClickListener() {
-    
+
                 @Override
                 public boolean onLongClick(View v) {
                     if (itemClickListener != null) {
@@ -273,7 +280,7 @@ public abstract class EaseChatRow extends LinearLayout {
 
         if(userAvatarView != null){
             userAvatarView.setOnClickListener(new OnClickListener() {
-    
+
                 @Override
                 public void onClick(View v) {
                     if (itemClickListener != null) {
@@ -286,7 +293,7 @@ public abstract class EaseChatRow extends LinearLayout {
                 }
             });
             userAvatarView.setOnLongClickListener(new OnLongClickListener() {
-                
+
                 @Override
                 public boolean onLongClick(View v) {
                     if(itemClickListener != null){
@@ -345,10 +352,10 @@ public abstract class EaseChatRow extends LinearLayout {
 
     /**
      * setup view
-     * 
+     *
      */
     protected abstract void onSetUpView();
-    
+
     /**
      * on bubble clicked
      */
