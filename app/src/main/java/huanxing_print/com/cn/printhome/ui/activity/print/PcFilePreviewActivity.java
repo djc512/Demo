@@ -59,7 +59,7 @@ public class PcFilePreviewActivity extends BasePrintActivity implements View.OnC
     }
 
     private void addFile(PrintListBean.FileInfo fileInfo) {
-        PrintRequest.addFile(activity, fileInfo.getFileName(), fileInfo.getFileUrl(), PrintUtil.TYPE_COPY, new
+        PrintRequest.addFile(activity, fileInfo.getFileName(), fileInfo.getFileUrl(), PrintUtil.TYPE_PRINT, new
                 HttpListener() {
                     @Override
                     public void onSucceed(String content) {

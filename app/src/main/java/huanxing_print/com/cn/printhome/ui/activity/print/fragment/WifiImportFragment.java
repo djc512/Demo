@@ -208,6 +208,5 @@ public class WifiImportFragment extends BaseLazyFragment {
     public void onDestroy() {
         super.onDestroy();
         stopTimerTask();
-
     }
 }

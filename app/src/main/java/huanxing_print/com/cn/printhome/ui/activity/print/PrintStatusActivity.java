@@ -84,12 +84,11 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         stateDetailTv = (TextView) findViewById(R.id.stateDetailTv);
         countTv = (TextView) findViewById(R.id.countTv);
 
-        findViewById(R.id.exitTv).setOnClickListener(this);
         findViewById(R.id.errorExitTv).setOnClickListener(this);
         findViewById(R.id.printTv).setOnClickListener(this);
-        findViewById(R.id.shareTv).setOnClickListener(this);
-        findViewById(R.id.commentTv).setOnClickListener(this);
-        findViewById(R.id.backImg).setOnClickListener(this);
+        findViewById(R.id.shareRyt).setOnClickListener(this);
+        findViewById(R.id.commentRyt).setOnClickListener(this);
+        findViewById(R.id.closeTv).setOnClickListener(this);
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
@@ -102,26 +101,23 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.backImg:
+            case R.id.closeTv:
                 finishThis();
                 break;
             case R.id.errorExitTv:
                 finish();
                 break;
-            case R.id.exitTv:
-                finishThis();
-                break;
             case R.id.printTv:
                 finish();
                 break;
-            case R.id.shareTv:
+            case R.id.shareRyt:
                 WeiXinUtils weiXinUtils = WeiXinUtils.getInstance();
                 weiXinUtils.init(this, BaseApplication.getInstance().WX_APPID);
                 Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
                 weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
                         .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", "https://www.baidu.com", bmp);
                 break;
-            case R.id.commentTv:
+            case R.id.commentRyt:
                 Bundle bundle = new Bundle();
                 bundle.putLong("order_id", orderId);
                 bundle.putString("printNum", printerPrice.getPrinterNo());
@@ -134,6 +130,10 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void finishThis() {
+        if (printTypeEvent == null) {
+            startActivity(new Intent(context, MainActivity.class));
+            return;
+        }
         if (PrintTypeEvent.TYPE_COPY == printTypeEvent.getType()) {
             startActivity(new Intent(context, CopyActivity.class));
         } else {
@@ -280,7 +280,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         AnimationDrawable queueAnum = (AnimationDrawable) animImg.getDrawable();
         queueAnum.start();
         stateTv.setText("文件发送中");
-        stateDetailTv.setText("");
+        stateDetailTv.setText("打印机正在接受文件，请耐心等待~");
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
         exceptionLyt.setVisibility(View.GONE);
@@ -314,7 +314,13 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         EventBus.getDefault().removeAllStickyEvents();
         EventBus.getDefault().unregister(context);
     }
-//    public void onSuccess(View view) {
+
+    @Override
+    public void onBackPressed() {
+        finishThis();
+    }
+
+    //    public void onSuccess(View view) {
 //        setSuccessView();
 //    }
 //    public void onException(View view) {

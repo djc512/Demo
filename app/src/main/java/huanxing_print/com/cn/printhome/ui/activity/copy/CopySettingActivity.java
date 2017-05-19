@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -32,6 +33,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.event.print.WechatPayEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.CommonResp;
 import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
@@ -56,7 +58,6 @@ import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
-import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -833,17 +834,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void wechatPay(WeChatPayBean bean) {
-        PayUtil.getInstance(getSelfActivity()).setCallBack(new PayUtil.PayCallBack() {
-            @Override
-            public void paySuccess() {
-                showLoading();
-                print();
-            }
-
-            @Override
-            public void payFailed() {
-            }
-        });
         PayUtil.getInstance(getSelfActivity()).weChatPay(bean);
     }
 
@@ -866,6 +856,15 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     public void onMessageEventPostThread(Integer i) {
         this.pageCount = i;
         Logger.i(pageCount);
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onMessageEventPostThread(WechatPayEvent wechatPayEvent) {
+        if (wechatPayEvent.isResult()) {
+            print();
+        } else {
+            ShowUtil.showToast("支付失败");
+        }
     }
 
     public static final String PRINT_SETTING = "setting";

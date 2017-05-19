@@ -54,7 +54,9 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
     protected void initTitleBar(String title) {
         TextView titleTv = (TextView) findViewById(R.id.titleTv);
         titleTv.setText(title);
-        findViewById(R.id.backImg).setOnClickListener(this);
+        if (findViewById(R.id.backImg) != null) {
+            findViewById(R.id.backImg).setOnClickListener(this);
+        }
     }
 
     @Override

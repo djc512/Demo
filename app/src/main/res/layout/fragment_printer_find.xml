@@ -30,7 +30,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/shape_rectangle_yellow"
+            android:background="@drawable/shape_rectangle_rounded_h_yellow"
             android:entries="@array/distance"/>
 
         <ImageView

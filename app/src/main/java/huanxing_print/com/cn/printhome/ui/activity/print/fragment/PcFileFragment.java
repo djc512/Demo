@@ -106,27 +106,6 @@ public class PcFileFragment extends BaseLazyFragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    static class MyHandler extends Handler {
-        WeakReference fragment;
-
-        MyHandler(PcFileFragment fragment) {
-            this.fragment = new WeakReference(fragment);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            PcFileFragment theFragment = (PcFileFragment) fragment.get();
-            switch (msg.what) {
-                case 1:
-                    if (fragment != null) {
-                        theFragment.updateView((List<PrintListBean.FileInfo>) msg.obj);
-                    }
-                    break;
-            }
-        }
-    }
-
-    MyHandler handler = new MyHandler(this);
     Timer timer = new Timer();
     TimerTask task = new TimerTask() {
         public void run() {
@@ -177,5 +156,18 @@ public class PcFileFragment extends BaseLazyFragment {
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         });
+    }
+
+    private void stopTimerTask() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopTimerTask();
     }
 }

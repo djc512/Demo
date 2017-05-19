@@ -10,7 +10,10 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.greenrobot.eventbus.EventBus;
+
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.event.print.WechatPayEvent;
 
 import static huanxing_print.com.cn.printhome.base.BaseApplication.WX_APPID;
 
@@ -29,7 +32,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         api = WXAPIFactory.createWXAPI(this, WX_APPID);
         api.handleIntent(getIntent(), this);
     }
@@ -47,9 +49,11 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     public void onResp(BaseResp resp) {
-
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             finishCurrentActivity();
+            EventBus.getDefault().post(new WechatPayEvent(true));
+        } else {
+            EventBus.getDefault().post(new WechatPayEvent(true));
         }
     }
 }
