@@ -8,6 +8,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Base64;
 
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
@@ -147,6 +149,39 @@ public class FileUtils {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static String getFileName(String filePath, String name) {
+        File file = new File(filePath);
+        String newName = name;
+        if (file != null && file.exists()) {
+            String fileNamePath = file.getAbsolutePath();
+            String filename = fileNamePath.substring(0, fileNamePath.lastIndexOf("."));
+            String extension = fileNamePath.substring(fileNamePath.lastIndexOf("."), fileNamePath.length());
+            newName = chooseUniqueFilename(filename, extension);
+        }
+        return newName;
+    }
+
+    private static Random sRandom = new Random(SystemClock.uptimeMillis());
+
+    private static String chooseUniqueFilename(String filename, String extension) {
+        String fullFilename = filename + extension;
+        if (!new File(fullFilename).exists()) {
+            return fullFilename;
+        }
+        filename = filename + "-";
+        int sequence = 1;
+        for (int magnitude = 1; magnitude < 1000000000; magnitude *= 10) {
+            for (int iteration = 0; iteration < 9; ++iteration) {
+                fullFilename = filename + sequence + extension;
+                if (!new File(fullFilename).exists()) {
+                    return fullFilename;
+                }
+                sequence += sRandom.nextInt(magnitude) + 1;
+            }
+        }
+        return fullFilename;
     }
 
     public static boolean makeDir(String path) {

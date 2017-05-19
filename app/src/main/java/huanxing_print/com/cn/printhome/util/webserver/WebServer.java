@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.util.webserver;
 
 import android.content.Intent;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.util.FileUtils;
@@ -52,6 +54,7 @@ public class WebServer extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         Log.i(TAG, "页面请求后台：" + session.getUri());
         if (session.getMethod() == Method.GET) {
+            fileList = FileUtils.getFileList(FileUtils.getWifiUploadPath());
             // 处理静态资源 js
             if (WebUtil.isJsFile(session.getUri())) {
                 return showJsFile(session.getUri());
@@ -75,11 +78,14 @@ public class WebServer extends NanoHTTPD {
                 Logger.i(fileParamDto.toString());
                 // TODO 存文件 处理成html要的结果
                 Logger.i(fileParamDto.getString("fileName"));
-                String fileName =new String(Base64.decode(fileParamDto.getString("fileName")));
-                Logger.i(fileName);
+                String name = new String(Base64.decode(fileParamDto.getString("fileName")));
+                Logger.i("name=" + name);
+                String newName = FileUtils.getFileName(FileUtils.getWifiUploadPath() + name, name);
+                Logger.i("newName=" + newName);
+                String filePath = FileUtils.getWifiUploadPath() + newName;
                 String content = fileParamDto.getString("content");
-                FileUtils.makeFile(FileUtils.getWifiUploadPath() + fileName);
-                File target = new File(FileUtils.getWifiUploadPath() + fileName);
+                FileUtils.makeFile(filePath);
+                File target = new File(filePath);
                 FileUtils.base64ToFile(content, target);
                 JSONObject fileResult = new JSONObject();
                 fileResult.put("fileName", target.getName());
@@ -103,6 +109,27 @@ public class WebServer extends NanoHTTPD {
     private Response showJsFile(String uri) {
         return newFixedLengthResponse(WebUtil.readHtml(uri.substring(1), getAssets()));
     }
+
+    private String chooseUniqueFilename(String filename, String extension) {
+        String fullFilename = filename + extension;
+        if (!new File(fullFilename).exists()) {
+            return fullFilename;
+        }
+        filename = filename + "-";
+        int sequence = 1;
+        for (int magnitude = 1; magnitude < 1000000000; magnitude *= 10) {
+            for (int iteration = 0; iteration < 9; ++iteration) {
+                fullFilename = filename + sequence + extension;
+                if (!new File(fullFilename).exists()) {
+                    return fullFilename;
+                }
+                sequence += sRandom.nextInt(magnitude) + 1;
+            }
+        }
+        return fullFilename;
+    }
+
+    private static Random sRandom = new Random(SystemClock.uptimeMillis());
 
     /**
      * TODO

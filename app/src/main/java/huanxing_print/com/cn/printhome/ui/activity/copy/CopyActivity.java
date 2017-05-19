@@ -9,10 +9,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.event.print.PrintTypeEvent;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.FileFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.HuKouFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy.IDFragment;
@@ -86,6 +89,7 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void initData() {
+        EventBus.getDefault().postSticky(new PrintTypeEvent(PrintTypeEvent.TYPE_COPY));
         int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         tv_file.measure(w, h);

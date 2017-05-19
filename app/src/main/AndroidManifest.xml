@@ -99,7 +99,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
         <!-- 引导页 -->
         <activity
@@ -188,6 +187,11 @@
             android:name=".ui.activity.print.ImgPreviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.activity.print.PcFilePreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
         <activity
             android:name=".ui.activity.print.PrintStatusActivity"
             android:screenOrientation="portrait"
@@ -348,11 +352,13 @@
             android:name=".util.webserver.WebServer"
             android:enabled="true"
             android:exported="true"/>
+
         <!-- 复印的相关界面 -->
         <activity
             android:name=".ui.activity.copy.CopyActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
+            android:launchMode="singleTask"
             android:screenOrientation="behind"/>
         <!-- 文件矫正 -->
         <activity
@@ -559,11 +565,10 @@
             android:name=".ui.activity.approval.ChooseGroupActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-        <!-- 红包详情页-->
+        <!-- 红包详情页 -->
         <activity
             android:name=".ui.activity.yinxin.RedPackageRecordActivity"
             android:screenOrientation="portrait"/>
-
         <activity android:name=".ui.activity.chat.SendRedEnvelopesSingleChatActivity"/>
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -580,12 +585,12 @@
             android:name=".ui.activity.contact.ListAddContactActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-        <!--聊天界面-->
+        <!-- 聊天界面 -->
         <activity
             android:name=".ui.activity.chat.ChatTestActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-        <!--查看图片详情界面-->
+        <!-- 查看图片详情界面 -->
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:launchMode="singleTask"
@@ -595,8 +600,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
 
-
-        <!--7.0调用相机崩溃-->
+        <!-- 7.0调用相机崩溃 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="huanxing_print.com.cn.printhome.fileProvider"
@@ -606,6 +610,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
+
     </application>
 
 </manifest>
