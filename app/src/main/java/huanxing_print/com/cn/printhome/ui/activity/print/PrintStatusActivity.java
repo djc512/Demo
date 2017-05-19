@@ -42,6 +42,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 
     private TextView stateTv;
     private TextView stateDetailTv;
+    private TextView countTv;
     private RelativeLayout successRyt;
     private RelativeLayout stateRyt;
     private LinearLayout exceptionLyt;
@@ -81,6 +82,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         animImg = (ImageView) findViewById(R.id.animImg);
         stateTv = (TextView) findViewById(R.id.stateTv);
         stateDetailTv = (TextView) findViewById(R.id.stateDetailTv);
+        countTv = (TextView) findViewById(R.id.countTv);
+
         findViewById(R.id.exitTv).setOnClickListener(this);
         findViewById(R.id.errorExitTv).setOnClickListener(this);
         findViewById(R.id.printTv).setOnClickListener(this);
@@ -230,7 +233,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
         exceptionLyt.setVisibility(View.VISIBLE);
-
+        countTv.setVisibility(View.GONE);
         animImg.setImageResource(R.drawable.ic_exception);
         stateTv.setText("打印异常");
         stateDetailTv.setText("很抱歉打印机发生了故障，暂停服务");
@@ -242,10 +245,35 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         queueAnum.start();
         stateTv.setText("文件发送成功，打印机预热中...");
         stateDetailTv.setText("");
+        countTv.setVisibility(View.VISIBLE);
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
         exceptionLyt.setVisibility(View.GONE);
+        if (count == 60) {
+            countTimer.schedule(countTask, 0, 1000);
+        }
     }
+
+    private Timer countTimer = new Timer();
+
+    private int count = 60;
+
+    TimerTask countTask = new TimerTask() {
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {   // UI thread
+                @Override
+                public void run() {
+                    count--;
+                    countTv.setText("预计还有" + count + "S…");
+                    if (count < 0) {
+                        timer.cancel();
+                        countTv.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+    };
 
     private void setUpload() {
         animImg.setImageResource(R.drawable.anim_upload);
@@ -267,6 +295,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
         exceptionLyt.setVisibility(View.GONE);
+        countTv.setVisibility(View.GONE);
     }
 
     public static final String ORDER_ID = "orderId";
@@ -285,4 +314,20 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         EventBus.getDefault().removeAllStickyEvents();
         EventBus.getDefault().unregister(context);
     }
+//    public void onSuccess(View view) {
+//        setSuccessView();
+//    }
+//    public void onException(View view) {
+//        setExceptionView();
+//    }
+//    public void onQueue(View view) {
+//        setQueueView(10);
+//
+//    }
+//    public void onAWake(View view) {
+//        setAwake();
+//    }
+//    public void onUpload(View view) {
+//        setUpload();
+//    }
 }

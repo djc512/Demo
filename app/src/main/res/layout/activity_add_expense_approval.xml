@@ -335,6 +335,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:enabled="false"
                     android:background="@null"
                     android:digits="@string/edt_digits"
                     android:hint="填写报销金额"

@@ -574,10 +574,12 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 String remark = data.getStringExtra("remark");
                 String packetType = data.getStringExtra("packetType");
                 int groupType = data.getIntExtra("groupType", -1);
-                Log.d("CMCC", "setResult-红包-groupType--》" + groupType + ",packetId:" + packetId);
+                Log.d("CMCC", "setResult-红包-groupType--》" + groupType + ",packetId:" + packetId + ",packetType:" + packetType);
                 sendRedPackageMessage(remark, packetId, groupType, packetType);
             }
         }
+        //拿到结果返回时关闭底部布局
+        inputMenu.hideExtendMenuContainer();
     }
 
 
