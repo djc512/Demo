@@ -61,6 +61,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
     private String lingQuRenId;//发红包人的id
     private String type;
     private String packetId;
+    private TextView tv_from;
 
     public EaseChatRowRedPackage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -79,6 +80,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
         iv_userhead = (ImageView) findViewById(R.id.iv_userhead);
         tv_userid = (TextView) findViewById(R.id.tv_userid);
         bubble = (RelativeLayout) findViewById(R.id.bubble);
+        tv_from = (TextView) findViewById(R.id.tv_from);
     }
 
     @Override
@@ -86,8 +88,12 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
 
         EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
         Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
+        String packetType = message.getStringAttribute("packetType", "");
         // 设置内容
         contentView.setText(span, BufferType.SPANNABLE);
+        if (!ObjectUtils.isNull(packetType)) {
+            tv_from.setText(packetType);
+        }
 
         String iconUrl = message.getStringAttribute("iconUrl", "");
         String nickName = message.getStringAttribute("nickName", "");
@@ -228,8 +234,18 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
 //        Log.d("CMCC", "detail.getSendMemberId()---" + detail.getSendMemberId());
 //        Log.d("CMCC", "lingQuRenId---" + detail.getSendMemberId());
 
-            if (detail.getSendMemberId().equals(lingQuRenId)) {
-                //直接进入详情
+        if (detail.getSendMemberId().equals(lingQuRenId)) {
+            //直接进入详情
+            Intent intent = new Intent(context, RedPackageRecordActivity.class);
+            intent.putExtra("easemobGroupId", message.getTo());
+            intent.putExtra("type", message.getIntAttribute("groupType", -1));
+            intent.putExtra("singleType", true);
+            intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+            context.startActivity(intent);
+        } else {
+            if (!ObjectUtils.isNull(detail.isSnatch()) && "true".equals(detail.isSnatch())) {
+
+                // snatch  true 已抢  false 未抢   //查看红包
                 Intent intent = new Intent(context, RedPackageRecordActivity.class);
                 intent.putExtra("easemobGroupId", message.getTo());
                 intent.putExtra("type", message.getIntAttribute("groupType", -1));
@@ -237,33 +253,23 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                 intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                 context.startActivity(intent);
             } else {
-                if(!ObjectUtils.isNull(detail.isSnatch())&&"true".equals(detail.isSnatch())){
+                DialogUtils.showSinglePackageDialog(getContext(),
+                        detail.getMasterFaceUrl(), detail.getMasterName(),
+                        detail.getRemark(), detail.isInvalid(), detail.isSnatch(),
+                        new DialogUtils.SinglePackageDialogCallBack() {
+                            @Override
+                            public void open() {
+                                //抢红包
+                                String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
+                                        "loginToken");
+                                DialogUtils.showProgressDialog(getContext(), "加载中").show();
+                                ChatRequest.receivePackage(getContext(), token,
+                                        message.getStringAttribute("packetId", ""), receiveCallBack);
+                            }
 
-                    // snatch  true 已抢  false 未抢   //查看红包
-                    Intent intent = new Intent(context, RedPackageRecordActivity.class);
-                    intent.putExtra("easemobGroupId", message.getTo());
-                    intent.putExtra("type", message.getIntAttribute("groupType", -1));
-                    intent.putExtra("singleType", true);
-                    intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
-                    context.startActivity(intent);
-                }else {
-                    DialogUtils.showSinglePackageDialog(getContext(),
-                            detail.getMasterFaceUrl(), detail.getMasterName(),
-                            detail.getRemark(), detail.isInvalid(), detail.isSnatch(),
-                            new DialogUtils.SinglePackageDialogCallBack() {
-                                @Override
-                                public void open() {
-                                    //抢红包
-                                    String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
-                                            "loginToken");
-                                    DialogUtils.showProgressDialog(getContext(), "加载中").show();
-                                    ChatRequest.receivePackage(getContext(), token,
-                                            message.getStringAttribute("packetId", ""), receiveCallBack);
-                                }
-
-                            }).show();
-                }
+                        }).show();
             }
+        }
     }
 
     /**
@@ -274,14 +280,14 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
 
     private void handleGroupLuckyRedPackage(GroupLuckyPackageDetail detail) {
 
-        if(!ObjectUtils.isNull(detail.getSnatch())&&"true".equals(detail.getSnatch())){
+        if (!ObjectUtils.isNull(detail.getSnatch()) && "true".equals(detail.getSnatch())) {
             // snatch  true 已抢  false 未抢   //查看红包
             Intent intent = new Intent(context, RedPackageRecordActivity.class);
             intent.putExtra("easemobGroupId", message.getTo());
             intent.putExtra("type", message.getIntAttribute("groupType", -1));
             intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
             context.startActivity(intent);
-        }else {
+        } else {
             DialogUtils.showGroupLuckyPackageDialog(getContext(),
                     detail.getSendMemberUrl(), detail.getSendMemberName(),
                     detail.getRemark(), detail.getInvalid(), detail.getSnatch(),

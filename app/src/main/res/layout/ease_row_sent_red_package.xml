@@ -34,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/iv_userhead"
-            android:text="xxx" />
+            android:text="xxx"
+            android:textSize="12sp" />
 
         <RelativeLayout
             android:id="@+id/bubble"
@@ -78,8 +79,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="68dp"
+                    android:layout_marginTop="66dp"
                     android:text="印信红包"
+                    android:textSize="12sp"
                     android:visibility="visible"
                     tools:ignore="HardcodedText" />
 
@@ -106,7 +108,7 @@
             android:layout_toLeftOf="@id/bubble"
             android:text="@string/text_ack_msg"
             android:textSize="12sp"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_delivered"
