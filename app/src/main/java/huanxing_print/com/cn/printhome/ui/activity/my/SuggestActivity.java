@@ -73,7 +73,7 @@ public class SuggestActivity extends BaseActivity implements View.OnClickListene
      */
     private void sendFeedBack() {
 
-        DialogUtils.showProgressDialog(getSelfActivity(),"提交中");
+        DialogUtils.showProgressDialog(getSelfActivity(),"提交中").show();
         FeedBackRequest.sendFeedBack(getSelfActivity(), feedBack, new FeedBackCallBack() {
             @Override
             public void success(String msg, FeedBackBean bean) {

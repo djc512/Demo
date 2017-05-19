@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.contact;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -210,7 +209,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确认解散此群吗？", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
                     @Override
                     public void dissolution() {
-                        DialogUtils.showProgressDialog(getSelfActivity(),"努力解散...");
+                        DialogUtils.showProgressDialog(getSelfActivity(),"努力解散").show();
                         Map<String, Object> params = new HashMap<String, Object>();
                         params.put("groupId", currentGroupId);
                         GroupManagerRequest.dissolution(getSelfActivity(), baseApplication.getLoginToken(), params, dissolutinQunCallBack);

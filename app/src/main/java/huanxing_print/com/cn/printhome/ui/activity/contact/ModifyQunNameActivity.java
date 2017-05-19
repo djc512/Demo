@@ -87,7 +87,7 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
     }
 
     private void modifyName(final String name) {
-        DialogUtils.showProgressDialog(getSelfActivity(), "努力上传中...");
+        DialogUtils.showProgressDialog(getSelfActivity(), "努力上传中").show();
         Map<String, Object> params = new HashMap<>();
         params.put("groupName", name);
         params.put("groupId", groupid);

@@ -96,7 +96,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 "loginToken");
         uniqueId= SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "uniqueId");
-        DialogUtils.showProgressDialog(getActivity(), "加载中");
+        DialogUtils.showProgressDialog(getActivity(), "加载中").show();
         //网络请求，获取用户信息
         MyInfoRequest.getMyInfo(getActivity(), token, new MyMyInfoCallBack());
     }

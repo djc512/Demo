@@ -83,7 +83,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         }else{
             tv_money.setText("￥0");
         }
-        DialogUtils.showProgressDialog(getSelfActivity(), "加载中");
+        DialogUtils.showProgressDialog(getSelfActivity(), "加载中").show();
         //充值接口
         ChongzhiRequest.getChongZhi(getSelfActivity(), new MyChongzhiCallBack());
     }
@@ -121,7 +121,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
      * 获取商品id
      */
     private void getOrderId() {
-        DialogUtils.showProgressDialog(getSelfActivity(), "正在加载...");
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
         OrderIdRequest.getOrderId(getSelfActivity(), rechargeAmout, new OrderIdCallBack() {
             @Override
             public void success(String msg, String data) {
