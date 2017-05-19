@@ -46,8 +46,8 @@
     <dimen name="recycler_group_tv_size">15dp</dimen>
     <dimen name="recycler_character_h">25dp</dimen>
     <dimen name="recycler_character_margin_l">15dp</dimen>
-    <dimen name="recycler_friend_h">50dp</dimen>
-    <dimen name="recycler_friend_tv_size">15dp</dimen>
+    <dimen name="recycler_friend_h">59dp</dimen>
+    <dimen name="recycler_friend_tv_size">17dp</dimen>
 
     <!--添加联系人-->
     <dimen name="add_contact_margin_top">15dp</dimen>
