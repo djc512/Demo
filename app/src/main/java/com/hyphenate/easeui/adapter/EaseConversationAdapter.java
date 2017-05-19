@@ -149,7 +149,10 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                 if (conversation.getLastMessage().getUserName().equals("secretary")){
                     holder.avatar.setImageResource(R.drawable.secretary);
                     holder.name.setText("印家小秘书");
-                }else {
+                } else if(conversation.getLastMessage().getUserName().equals("notice")) {
+                    holder.avatar.setImageResource(R.drawable.ic_chat_approval);
+                    holder.name.setText("审批通知");
+                } else {
                     //单聊头像
                     if (ObjectUtils.isNull(emMessage.getStringAttribute("iconUrl", ""))) {
                         Glide.with(getContext())
