@@ -226,9 +226,14 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
     private void handleSingleRedPackage(RedPackageDetail detail) {
 
 //        Log.d("CMCC", "detail.getSendMemberId()---" + detail.getSendMemberId());
-//        Log.d("CMCC", "lingQuRenId---" + detail.getSendMemberId());
+//          Log.d("CMCC", "detail.isSnatch()---" + detail.isSnatch());
+//          Log.d("CMCC", "detail.getSendMemberId()---" + detail.getSendMemberId());
+//          Log.d("CMCC", "lingQuRenId--" + lingQuRenId);
 
-            if (detail.getSendMemberId().equals(lingQuRenId)) {
+           String  memberId = SharedPreferencesUtils.getShareString(context,
+                   ConFig.SHAREDPREFERENCES_NAME, "memberId");
+
+            if (detail.getSendMemberId().equals(memberId)) {
                 //直接进入详情
                 Intent intent = new Intent(context, RedPackageRecordActivity.class);
                 intent.putExtra("easemobGroupId", message.getTo());

@@ -17,9 +17,6 @@ import huanxing_print.com.cn.printhome.net.callback.approval.QueryApprovalListCa
 import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.MySponsorListAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.FailureRedEnvelopesListener;
-import huanxing_print.com.cn.printhome.util.GroupRedEnvelopesListener;
-import huanxing_print.com.cn.printhome.util.NormalRedEnvelopesListener;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.FailureRedEnvelopesDialog;
@@ -34,7 +31,7 @@ import huanxing_print.com.cn.printhome.view.refresh.CustomerFooter;
  * date 2017/5/6 11:21
  * update 2017/5/6
  */
-public class MySponsorListActivity extends BaseActivity {
+public class MySponsorListActivity extends BaseActivity implements View.OnClickListener{
 
     private ListView lv_my_list;
     private XRefreshView xrf_czrecord;
@@ -68,114 +65,22 @@ public class MySponsorListActivity extends BaseActivity {
     private void init() {
         lv_my_list = (ListView) findViewById(R.id.lv_my_list);
         xrf_czrecord = (XRefreshView) findViewById(R.id.xrf_czrecord);
-
-        //展示假的红包
-//        View view = getLayoutInflater().inflate(R.layout.layout_red_package_dialog, null);
-//        AlertDialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(getSelfActivity(),
-//                R.style.CustomProgressDialog))
-//                .create();
-//        dialog.setView(view, 0, 0, 0, 0);
-//        dialog.show();
-
-        //展示假的红包(正常的红包)
-        dialog = new SingleRedEnvelopesDialog(getSelfActivity(),
-                R.style.MyDialog);
-        dialog.setCancelable(false);
-        dialog.setImgUrl("http://www.baidu.com");
-        dialog.setRedPackageSender("张国立");
-        dialog.setLeaveMsg("赶快做完这一版!!!");
-        dialog.setClickListener(new NormalRedEnvelopesListener() {
-            @Override
-            public void open() {
-                //拆红包
-                ToastUtil.doToast(getSelfActivity(), "点击了拆红包!");
-            }
-
-            @Override
-            public void checkDetail() {
-                //查看详情
-                ToastUtil.doToast(getSelfActivity(), "点击了查看详情!");
-            }
-
-            @Override
-            public void closeDialog() {
-                //关闭红包
-                dialog.dismiss();
-            }
-        });
-        //dialog.show();
-
-        //失效的红包
-        failureDialog = new FailureRedEnvelopesDialog(getSelfActivity(),
-                R.style.MyDialog);
-        failureDialog.setCancelable(false);
-        failureDialog.setImgUrl("http://www.baidu.com");
-        failureDialog.setRedPackageSender("张国立");
-        failureDialog.setClickListener(new FailureRedEnvelopesListener() {
-            @Override
-            public void checkDetail() {
-                //查看详情
-                ToastUtil.doToast(getSelfActivity(), "点击了查看详情!");
-            }
-
-            @Override
-            public void closeDialog() {
-                //关闭红包
-                failureDialog.dismiss();
-            }
-        });
-        //failureDialog.show();
-
-        //展示假的红包(抢光的红包)
-        goneRedEnvelopesDialog = new GoneRedEnvelopesDialog(getSelfActivity(),
-                R.style.MyDialog);
-        goneRedEnvelopesDialog.setCancelable(false);
-        goneRedEnvelopesDialog.setImgUrl("http://www.baidu.com");
-        goneRedEnvelopesDialog.setRedPackageSender("张国立");
-        goneRedEnvelopesDialog.setClickListener(new FailureRedEnvelopesListener() {
-
-            @Override
-            public void checkDetail() {
-                //查看详情
-                ToastUtil.doToast(getSelfActivity(), "点击了查看详情!");
-            }
-
-            @Override
-            public void closeDialog() {
-                //关闭红包
-                goneRedEnvelopesDialog.dismiss();
-            }
-        });
-        //goneRedEnvelopesDialog.show();
-
-        //群红包
-        groupRedEnvelopesDialog = new GroupRedEnvelopesDialog(getSelfActivity(),
-                R.style.MyDialog);
-        groupRedEnvelopesDialog.setCancelable(false);
-        groupRedEnvelopesDialog.setImgUrl("http://www.baidu.com");
-        groupRedEnvelopesDialog.setRedPackageSender("张国立");
-        groupRedEnvelopesDialog.setLeaveMsg("恭喜发财,大吉大利");
-        groupRedEnvelopesDialog.setMoneryNum(188.88);
-        groupRedEnvelopesDialog.setClickListener(new GroupRedEnvelopesListener() {
-            @Override
-            public void closeDialog() {
-                //关闭红包
-                groupRedEnvelopesDialog.dismiss();
-            }
-        });
+        findViewById(R.id.ll_back).setOnClickListener(this);
         //groupRedEnvelopesDialog.show();
     }
 
-    private void functionModule() {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_back://返回
+                finishCurrentActivity();
+                break;
 
-        //返回
-        View view = findViewById(R.id.back);
-        view.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+            default:
+                break;
+        }
+    }
+    private void functionModule() {
 
         xrf_czrecord.startRefresh();
         xrf_czrecord.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
