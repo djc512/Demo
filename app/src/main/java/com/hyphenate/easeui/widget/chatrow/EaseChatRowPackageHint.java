@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 
 import huanxing_print.com.cn.printhome.R;
@@ -57,14 +58,16 @@ public class EaseChatRowPackageHint extends EaseChatRowText {
     @Override
     protected void onBubbleClick() {
         Intent intent = new Intent(context, RedPackageRecordActivity.class);
-        intent.putExtra("groupId", message.getStringAttribute("groupId", ""));
+        intent.putExtra("groupId", message.getStringAttribute(EaseConstant.MESSAGE_HINT_GROUP_ID,
+                ""));
         intent.putExtra("type", 2);
         if (message.getChatType() == EMMessage.ChatType.GroupChat) {
             intent.putExtra("singleType", false);
         } else {
             intent.putExtra("singleType", true);
         }
-        intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+        intent.putExtra("packetId", message.getStringAttribute(EaseConstant.MESSAGE_HINT_PACKET_ID,
+                ""));
         context.startActivity(intent);
     }
 }

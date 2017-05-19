@@ -76,6 +76,8 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
         String packetId = getIntent().getStringExtra("packetId");
         int type = getIntent().getIntExtra("type", -1);
         singleType = getIntent().getBooleanExtra("singleType", false);
+        Log.d("CMCC", "easemobGroupId:" + easemobGroupId + ",groupId:" + groupId + ",packetId:" + packetId +
+                ",type:" + type + "," + singleType);
 
         if (singleType) {
             //单聊红包

@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.chat.RedPacketHint;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 public class EaseCommonUtils {
     private static final String TAG = "CommonUtils";
@@ -79,10 +81,17 @@ public class EaseCommonUtils {
      *
      * @param toChatUsername
      * @param msg
+     * @param hint
      * @return
      */
-    public static EMMessage createHintMessage(String toChatUsername, String msg) {
+    public static EMMessage createHintMessage(String toChatUsername, String msg, String id, RedPacketHint hint) {
         EMMessage message = EMMessage.createTxtSendMessage(msg, toChatUsername);
+        if (!ObjectUtils.isNull(id)) {
+            message.setAttribute(EaseConstant.MESSAGE_HINT_ID, id);
+            message.setAttribute(EaseConstant.MESSAGE_HINT_GROUP_ID, hint.getGroupId());
+            message.setAttribute(EaseConstant.MESSAGE_HINT_MESSAGE, hint.getMessage());
+            message.setAttribute(EaseConstant.MESSAGE_HINT_PACKET_ID, hint.getPacketId());
+        }
         message.setAttribute(EaseConstant.MESSAGE_ATTR_IS_HINT, true);
         return message;
     }

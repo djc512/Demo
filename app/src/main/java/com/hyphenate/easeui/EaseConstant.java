@@ -34,6 +34,10 @@ public class EaseConstant {
 
     //抢红包通知
     public static final String MESSAGE_ATTR_IS_HINT = "em_is_hint";
+    public static final String MESSAGE_HINT_ID = "hintId";//红包提示id
+    public static final String MESSAGE_HINT_GROUP_ID = "groupId";//红包提示群组id
+    public static final String MESSAGE_HINT_MESSAGE = "message";
+    public static final String MESSAGE_HINT_PACKET_ID = "packetId";
 
     public static final String MESSAGE_ATTR_AT_MSG = "em_at_list";
     public static final String MESSAGE_ATTR_VALUE_AT_MSG_ALL = "ALL";

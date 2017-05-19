@@ -60,7 +60,7 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
 
         //设置金额填框必须只能填写金额数字 EditText要先设置
         //android:inputType="numberDecimal"或者setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL)
-        InputFilter[] filters={new CashierInputFilter()};
+        InputFilter[] filters = {new CashierInputFilter()};
         edt_single_money.setFilters(filters);
         edt_single_money.addTextChangedListener(new TextWatcher() {
             @Override
@@ -134,7 +134,7 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
                 intent.putExtra("packetId", packetId);
                 intent.putExtra("remark", remark);
                 intent.putExtra("groupType", 1001);
-                intent.putExtra("packetType", R.string.single_Red_package);
+                intent.putExtra("packetType", getString(R.string.single_Red_package));
                 setResult(RESULT_OK, intent);
                 finishCurrentActivity();
             }

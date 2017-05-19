@@ -1508,16 +1508,13 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
      * 向本地会话列表插入消息红包消息提示
      */
     public void createHintMessage(RedPacketHint hint) {
-
-        Log.d("CMCC", "message:" + hint.getMessage());
-        EMMessage message = EaseCommonUtils.createHintMessage(toChatUsername, hint.getMessage());
-        message.setAttribute("groupId ", hint.getGroupId());
-        message.setAttribute("memberId  ", hint.getMemberId());
-        message.setAttribute("message ", hint.getMessage());
-        message.setAttribute("packetId  ", hint.getPacketId());
-        message.setAttribute("type  ", hint.getType());
-        message.setAttribute("easemobGroupId  ", toChatUsername);
-
+        Log.d("CMCC", "message:" + hint.getMessage() + ",groupId:" + hint.getGroupId() +
+                ",packetId:" + hint.getPacketId() + ",type:" + hint.getType() +
+                ",easemobGroupId:" + toChatUsername);
+        EMMessage message = EaseCommonUtils.createHintMessage(toChatUsername, hint.getMessage(), System.currentTimeMillis() + "", hint);
+        if ("402".equals(hint.getType())) {
+            message.setChatType(EMMessage.ChatType.GroupChat);
+        }
         EMClient.getInstance().chatManager()
                 .getConversation(toChatUsername)
                 .appendMessage(message);
