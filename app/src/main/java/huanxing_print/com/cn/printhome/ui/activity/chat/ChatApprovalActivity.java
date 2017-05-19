@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.andview.refreshview.XRefreshView;
@@ -27,11 +28,13 @@ import huanxing_print.com.cn.printhome.util.Constant;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 
+import static huanxing_print.com.cn.printhome.R.id.ll_back;
+
 /**
  * Created by htj on 2017/5/18.
  */
 
-public class ChatApprovalActivity extends BaseActivity{
+public class ChatApprovalActivity extends BaseActivity implements View.OnClickListener {
     private Context ctx;
     private ApprovalListAdapter lvAdapter;
     private XRefreshView xrf_czrecord;
@@ -62,13 +65,14 @@ public class ChatApprovalActivity extends BaseActivity{
         ctx = this;
         chatType = getIntent().getIntExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         toChatUsername = getIntent().getStringExtra(Constant.EXTRA_USER_ID);
-        Log.i("CMCC", "chatType:" + chatType + ",toChatUsername:" + toChatUsername);
+        //Log.i("CMCC", "chatType:" + chatType + ",toChatUsername:" + toChatUsername);
         initView();
         initData();
     }
 
     private void initView() {
         // message list layout
+        findViewById(R.id.ll_back).setOnClickListener(this);
         messageList = (EaseChatMessageList) findViewById(R.id.message_list);
         listView = messageList.getListView();
 
@@ -133,6 +137,14 @@ public class ChatApprovalActivity extends BaseActivity{
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case ll_back:
+              finishCurrentActivity();
+                break;
 
+        }
+    }
 
 }
