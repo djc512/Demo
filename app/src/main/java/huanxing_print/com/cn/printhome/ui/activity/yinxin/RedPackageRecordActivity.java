@@ -65,7 +65,7 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
 
     private void initView() {
         recordRecView = (RecyclerView) findViewById(R.id.recordRecView);
-        tv_instructions= (TextView) findViewById(R.id.recordRecView);
+        tv_instructions= (TextView) findViewById(R.id.tv_instructions);
         findViewById(R.id.exitTv).setOnClickListener(this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recordRecView.setLayoutManager(mLayoutManager);
