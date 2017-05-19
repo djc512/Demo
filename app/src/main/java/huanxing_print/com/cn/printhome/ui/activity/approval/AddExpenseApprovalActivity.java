@@ -147,6 +147,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                             PreviewPhotoActivity.class);
                     intent.putExtra("position", "1");
                     intent.putExtra("ID", i);
+                    intent.putExtra("isApproval", true);
                     startActivity(intent);
                 }
             }

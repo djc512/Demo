@@ -104,6 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+
             android:text="0.00"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_twenty_five" />
@@ -115,6 +116,7 @@
             android:layout_toRightOf="@id/txt_num"
             android:text="元"
             android:textColor="@color/black"
+            android:layout_marginBottom="4dp"
             android:textSize="@dimen/text_size_sixteen" />
     </RelativeLayout>
 
