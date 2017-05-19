@@ -82,7 +82,7 @@ import huanxing_print.com.cn.printhome.view.imageview.RoundImageView;
  * update 2017/5/6
  */
 public class AddExpenseApprovalActivity extends BaseActivity implements View.OnClickListener {
-
+    private static final int CHOOSE_PIC_MAX = 5;
     private List<Bitmap> mResults = new ArrayList<>();
     private GridView noScrollgridview;
     private GridAdapter adapter;
@@ -633,14 +633,20 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                 createPurchaseApproval();
                 break;
             case R.id.rel_choose_image:
-                //选择图片
-                Intent intent = new Intent(ctx, PhotoPickerActivity.class);
-                intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
-                intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
-                intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5);
-                // 总共选择的图片数量
-                intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
-                startActivityForResult(intent, PICK_PHOTO);
+                int havePicSize = mResults.size() - 1;
+                if (CHOOSE_PIC_MAX > havePicSize) {
+                    int chooseNum = CHOOSE_PIC_MAX - havePicSize;
+                    //选择图片
+                    Intent intent = new Intent(ctx, PhotoPickerActivity.class);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, chooseNum);
+                    // 总共选择的图片数量
+                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
+                    startActivityForResult(intent, PICK_PHOTO);
+                } else {
+                    ToastUtil.doToast(AddExpenseApprovalActivity.this,"选择已经达到上限");
+                }
                 break;
             case R.id.rel_add_expense:
                 //添加报销条目(检查上次添加的item是否为空)
