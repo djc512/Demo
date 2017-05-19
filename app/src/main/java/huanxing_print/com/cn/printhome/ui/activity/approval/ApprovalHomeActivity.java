@@ -73,18 +73,18 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
         }else{
             tv_approver_num.setVisibility(View.GONE);
         }
-        if (copyerNum>0){
-            tv_copyer_num.setVisibility(View.VISIBLE);
-            tv_copyer_num.setText(copyerNum+"");
-        }else{
-            tv_copyer_num.setVisibility(View.GONE);
-        }
-        if (initiatorNum>0){
-            tv_initiator_num.setVisibility(View.VISIBLE);
-            tv_initiator_num.setText(initiatorNum+"");
-        }else{
-            tv_initiator_num.setVisibility(View.GONE);
-        }
+//        if (copyerNum>0){
+//            tv_copyer_num.setVisibility(View.VISIBLE);
+//            tv_copyer_num.setText(copyerNum+"");
+//        }else{
+//            tv_copyer_num.setVisibility(View.GONE);
+//        }
+//        if (initiatorNum>0){
+//            tv_initiator_num.setVisibility(View.VISIBLE);
+//            tv_initiator_num.setText(initiatorNum+"");
+//        }else{
+//            tv_initiator_num.setVisibility(View.GONE);
+//        }
     }
     @Override
     public void onClick(View v) {

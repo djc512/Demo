@@ -132,7 +132,6 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_add_purchase);
         ctx = this;
-
         EventBus.getDefault().register(this);
         initData();
         //getData();
@@ -308,14 +307,7 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
         findViewById(R.id.rel_choose_image).setOnClickListener(this);
         findViewById(R.id.rel_choose_time).setOnClickListener(this);
         findViewById(R.id.btn_submit_purchase_approval).setOnClickListener(this);
-        //返回
-        View view = findViewById(R.id.back);
-        view.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        findViewById(R.id.ll_back).setOnClickListener(this);
 
         button = (ToggleButton) findViewById(R.id.toggleButton);
         //设置金额填框必须只能填写金额数字 EditText要先设置
@@ -399,6 +391,9 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_back:
+                finishCurrentActivity();
+                break;
             case R.id.rel_choose_image:
                 int havePicSize = mResults.size() - 1;
                 if(CHOOSE_PIC_MAX > havePicSize) {
@@ -444,6 +439,8 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             case R.id.btn_submit_purchase_approval:
                 //新建采购审批
                 createPurchaseApproval();
+                break;
+            default:
                 break;
         }
     }
