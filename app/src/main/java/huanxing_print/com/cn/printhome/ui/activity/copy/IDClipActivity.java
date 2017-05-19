@@ -120,7 +120,12 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
         mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
-        iv_preview.setImageBitmap(mBitmap);
+
+        Bitmap result = Bitmap.createBitmap((int) ivWidth, (int) ivHeight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(mBitmap, 0, 0, null);
+
+        iv_preview.setImageBitmap(result);
     }
 
     private String picName;

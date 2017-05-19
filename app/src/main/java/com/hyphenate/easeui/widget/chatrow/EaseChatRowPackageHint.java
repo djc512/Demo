@@ -2,17 +2,15 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Spannable;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
-import com.hyphenate.easeui.utils.EaseSmileUtils;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.ui.activity.yinxin.RedPackageRecordActivity;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 /**
  * 红包提醒布局
@@ -42,11 +40,14 @@ public class EaseChatRowPackageHint extends EaseChatRowText {
     public void onSetUpView() {
         timestamp.setVisibility(GONE);
         // 设置内容
-        //txt_message.setText(message.getStringAttribute("message", ""));
-        EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
-        Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
-        // 设置内容
-        txt_message.setText(span, TextView.BufferType.SPANNABLE);
+        String msg = message.getStringAttribute(EaseConstant.MESSAGE_HINT_MESSAGE, "");
+        if (!ObjectUtils.isNull(msg)) {
+            txt_message.setText(msg.substring(0, msg.length() - 2));
+        }
+//        EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
+//        Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
+//        // 设置内容
+//        txt_message.setText(span, TextView.BufferType.SPANNABLE);
         handleTextMessage();
     }
 

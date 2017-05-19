@@ -36,7 +36,7 @@ public class EaseShowNormalFileActivity extends EaseBaseActivity {
             public void onSuccess() {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        FileUtils.openFile(file, EaseShowNormalFileActivity.this);
+                        //FileUtils.openFile(file, EaseShowNormalFileActivity.this);
                         finish();
                     }
                 });

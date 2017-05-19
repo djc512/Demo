@@ -15,14 +15,18 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
+import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.OrderIdCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
+import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.net.request.my.OrderIdRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -85,7 +89,8 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         if (!ObjectUtils.isNull(totleBalance)) {
             tv_money.setText("￥" + totleBalance);
         } else {
-            tv_money.setText("￥0");
+            //网络请求，获取用户信息
+            MyInfoRequest.getMyInfo(getSelfActivity(), BaseApplication.getInstance().getLoginToken(), new MyMyInfoCallBack());
         }
         DialogUtils.showProgressDialog(getSelfActivity(), "加载中").show();
         //充值接口
@@ -223,6 +228,27 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         public void connectFail() {
             DialogUtils.closeProgressDialog();
             toastConnectFail();
+        }
+    }
+
+    public class MyMyInfoCallBack extends MyInfoCallBack {
+
+        @Override
+        public void success(String msg, MyInfoBean bean) {
+            if (!ObjectUtils.isNull(bean)) {
+                String totleBalanceStr = bean.getTotleBalance();
+                tv_money.setText("￥" + totleBalanceStr);
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
         }
     }
 }

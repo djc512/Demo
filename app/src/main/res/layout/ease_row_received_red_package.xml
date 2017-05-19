@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/chat_nick_margin_left"
             android:layout_toRightOf="@id/iv_userhead"
-            android:textSize="@dimen/chat_nick_text_size" />
+            android:textSize="12sp" />
 
         <RelativeLayout
             android:id="@+id/bubble"
@@ -78,8 +78,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="68dp"
+                    android:layout_marginTop="66dp"
                     android:text="印信红包"
+                    android:textSize="12sp"
                     android:visibility="visible"
                     tools:ignore="HardcodedText" />
 

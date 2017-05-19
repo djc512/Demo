@@ -1,6 +1,5 @@
 package com.hyphenate.easeui.widget.chatrow;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -17,7 +16,6 @@ import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.chat.EMNormalFileMessageBody;
 import com.hyphenate.easeui.ui.EaseShowNormalFileActivity;
 import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.util.FileUtils;
 import com.hyphenate.util.TextFormater;
 
 import java.io.File;
@@ -77,16 +75,16 @@ public class EaseChatRowFile extends EaseChatRow {
         }
         String iconUrl = message.getStringAttribute("iconUrl", "");
         String nickName = message.getStringAttribute("nickName", "");
-        Log.i("CCCC","iconUrl============================================="+iconUrl);
+        Log.i("CCCC", "iconUrl=============================================" + iconUrl);
         //头像
         if (ObjectUtils.isNull(iconUrl)) {
-            Log.i("CCCC","=============================================我走了为空的");
+            Log.i("CCCC", "=============================================我走了为空的");
             Glide.with(getContext())
                     .load(R.drawable.iv_head)
                     .transform(new CircleTransform(getContext()))
                     .into(iv_userhead);
         } else {
-            Log.i("CCCC","=============================================我走了不为空，网络的");
+            Log.i("CCCC", "=============================================我走了不为空，网络的");
             Glide.with(getContext())
                     .load(iconUrl)
                     .transform(new CircleTransform(getContext()))
@@ -151,7 +149,9 @@ public class EaseChatRowFile extends EaseChatRow {
         File file = new File(filePath);
         if (file.exists()) {
             // open files if it exist
-            FileUtils.openFile(file, (Activity) context);
+            //FileUtils.openFile(file, (Activity) context);
+//            Intent intent = FileUtil.openFile(file.getAbsolutePath());
+//            context.startActivity();
         } else {
             // download the file
             context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
