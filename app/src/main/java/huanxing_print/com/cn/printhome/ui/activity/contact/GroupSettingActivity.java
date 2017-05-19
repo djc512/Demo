@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,7 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.contact.GroupMember;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
@@ -379,6 +382,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             ToastUtil.doToast(GroupSettingActivity.this, "退群成功");
+            EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
             finish();
         }
 
@@ -400,6 +404,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             Toast.makeText(getSelfActivity(), "解散成功", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
         }
 
         @Override
