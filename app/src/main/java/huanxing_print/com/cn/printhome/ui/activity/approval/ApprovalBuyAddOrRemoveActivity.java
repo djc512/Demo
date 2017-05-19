@@ -246,7 +246,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
         tv_number.setText(details.getApproveId().isEmpty() ? "" : details.getApproveId());
         tv_section.setText(details.getDepartment().isEmpty() ? "" : details.getDepartment());
-        tv_use.setText(details.getRemark().isEmpty() ? "" : details.getRemark());
+        tv_use.setText(details.getTitle().isEmpty() ? "" : details.getTitle());
         tv_detail.setText(details.getPurchaseList().isEmpty() ? "" : details.getPurchaseList());
         tv_money.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
         tv_overtime.setText(details.getAddTime().isEmpty() ? "" : details.getAddTime());

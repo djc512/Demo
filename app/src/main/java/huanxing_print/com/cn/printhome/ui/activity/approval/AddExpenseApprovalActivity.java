@@ -147,6 +147,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                             PreviewPhotoActivity.class);
                     intent.putExtra("position", "1");
                     intent.putExtra("ID", i);
+                    intent.putExtra("isApproval", true);
                     startActivity(intent);
                 }
             }
@@ -1084,6 +1085,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                     } else {
                         item.setAmount(s.toString());
                     }
+                    updateRequestNum();
                 }
             };
             holder.edt_expense_num.addTextChangedListener(watcher1);
@@ -1094,6 +1096,20 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
         class ViewHolder {
             EditText edt_expense_type;
             EditText edt_expense_num;
+        }
+    }
+
+    private void updateRequestNum(){
+        double requestNum = 0;
+        for (SubFormItem item : subFormItems) {
+            if(item.getAmount().length() > 0) {
+                requestNum += Double.parseDouble(item.getAmount());
+            }
+        }
+        if (requestNum == 0) {
+            edt_request_num.setText("");
+        }else {
+            edt_request_num.setText(String.valueOf(requestNum));
         }
     }
 

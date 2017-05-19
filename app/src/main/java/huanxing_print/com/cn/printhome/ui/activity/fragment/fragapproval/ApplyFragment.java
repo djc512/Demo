@@ -93,9 +93,9 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 				copyerNum= bean.getCopyerNum();
 				initiatorNum= bean.getInitiatorNum();
 				total= bean.getTotal();
-				if (total>0){
+				if (approverNum>0){
 					tv_approve_count.setVisibility(View.VISIBLE);
-					tv_approve_count.setText(total+"");
+					tv_approve_count.setText(approverNum+"");
 				}else{
 					tv_approve_count.setVisibility(View.GONE);
 				}

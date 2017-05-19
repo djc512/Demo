@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -38,28 +39,42 @@ public class CommentAllFragment extends Fragment {
     private boolean isLoadMore;
     private List<CommentListBean.DetailBean> detail;
     private CommentListAdapter adapter;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ctx = getActivity();
         printno = getArguments().getString("printno");
-        View view = inflater.inflate(R.layout.frag_comment, null);
+        if (null == view) {
+            view = inflater.inflate(R.layout.frag_comment, null);
+        }
         initView(view);
+        initData();
         initListener();
-        getData(0, printno);
         return view;
+    }
+
+    /**
+     * 获取数据
+     */
+    private void initData() {
+        DialogUtils.showProgressDialog(ctx, "正在加载");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getData(0, printno);
+            }
+        },500);
     }
 
     private void initView(View view) {
         rv_comment_list = (ListView) view.findViewById(R.id.rv_comment_list);
         xrf_comment = (XRefreshView) view.findViewById(R.id.xrf_comment);
     }
-
     private int type;
 
     public void getData(int type, String printno) {
-        DialogUtils.showProgressDialog(ctx,"正在加载");
         this.type = type;
         CommentListRequest.request(ctx, 1, printno, type, new MyCommentListCallback());
     }
@@ -72,7 +87,7 @@ public class CommentAllFragment extends Fragment {
                 super.onRefresh();
                 isLoadMore = false;
                 if (null == detail) {
-                    Toast.makeText(getActivity(), "没有充值记录", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
                     xrf_comment.stopRefresh();
                     return;
                 }

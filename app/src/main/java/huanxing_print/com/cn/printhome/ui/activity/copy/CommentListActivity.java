@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.copy;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -68,6 +69,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
         initListener();
     }
 
+
     private void initView() {
         tv_address = (TextView) findViewById(R.id.tv_address);
         tv_printno = (TextView) findViewById(R.id.tv_printno);
@@ -131,8 +133,6 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         vp_comment.setAdapter(adapter);
-
-        getData();
     }
 
     /**
@@ -209,6 +209,17 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
 
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getData();
+            }
+        }, 500);
     }
 
     @Override

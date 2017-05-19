@@ -73,7 +73,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         edt_leave_word = (EditText) findViewById(R.id.edt_leave_word);
         txt_num = (TextView) findViewById(R.id.txt_num);
         txt_left = (TextView) findViewById(R.id.txt_left);
-        txt_group_num = (TextView) findViewById(R.id.txt_left);
+        txt_group_num = (TextView) findViewById(R.id.txt_group_num);
         txt_group_bottom = (TextView) findViewById(R.id.txt_group_bottom);
         txt_action_change = (TextView) findViewById(R.id.txt_action_change);
         btn_plug_money = (Button) findViewById(R.id.btn_plug_money);

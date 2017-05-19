@@ -91,7 +91,8 @@
                     android:background="@drawable/shape_circle"
                     android:gravity="center"
                     android:text="8"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
             <TextView
@@ -129,7 +130,8 @@
                     android:background="@drawable/shape_circle"
                     android:gravity="center"
                     android:text="8"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
             <TextView

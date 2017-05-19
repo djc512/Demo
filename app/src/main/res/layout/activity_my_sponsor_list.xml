@@ -12,7 +12,6 @@
         style="@style/Re_title">
 
         <include
-            android:id="@+id/back"
             layout="@layout/ll_title_back"></include>
 
         <TextView
