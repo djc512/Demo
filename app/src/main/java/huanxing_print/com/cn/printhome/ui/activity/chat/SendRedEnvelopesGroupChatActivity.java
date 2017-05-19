@@ -297,8 +297,10 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                 if (isLuck) {
                     //手气
                     intent.putExtra("groupType", 2);
+                    intent.putExtra("packetType", getString(R.string.group_lucky_Red_package));
                 } else {
                     intent.putExtra("groupType", 1);
+                    intent.putExtra("packetType", getString(R.string.group_common_Red_package));
                 }
                 setResult(RESULT_OK, intent);
                 finishCurrentActivity();
