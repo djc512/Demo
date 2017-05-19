@@ -21,6 +21,7 @@ import huanxing_print.com.cn.printhome.net.callback.contact.CreateGroupCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ChooseGroupContactAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -40,6 +41,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
     private ArrayList<FriendInfo> chooseMembers;
     private String token;
+    private boolean isGoChat = false;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -70,6 +72,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     }
 
     private void initData() {
+        isGoChat = getIntent().getBooleanExtra("goChat", false);
         token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
         DialogUtils.showProgressDialog(this,"加载中").show();
@@ -143,7 +146,14 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         public void success(String msg, GroupInfo groupInfo) {
             DialogUtils.closeProgressDialog();
             if(null != groupInfo) {
-                createSuccess(groupInfo);
+                if (isGoChat) {
+                    Intent intent = new Intent(CreateGroup.this, ChatTestActivity.class);
+                    intent.putExtra("GroupInfo", groupInfo);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    createSuccess(groupInfo);
+                }
             }
         }
 

@@ -83,7 +83,7 @@ import huanxing_print.com.cn.printhome.view.imageview.RoundImageView;
  * 新增采购审批
  */
 public class AddPurchaseApprovalActivity extends BaseActivity implements View.OnClickListener {
-
+    private static final int CHOOSE_PIC_MAX = 5;
     private EditText edt_borrow_department;//请款部门
     private EditText edt_buy_reason;//采购事由
     private EditText edt_purchasing_list;//采购清单
@@ -400,14 +400,20 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_choose_image:
-                //选择图片
-                Intent intent = new Intent(ctx, PhotoPickerActivity.class);
-                intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
-                intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
-                intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, 5);
-                // 总共选择的图片数量
-                intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
-                startActivityForResult(intent, PICK_PHOTO);
+                int havePicSize = mResults.size() - 1;
+                if(CHOOSE_PIC_MAX > havePicSize) {
+                    int chooseNum = CHOOSE_PIC_MAX - havePicSize;
+                    //选择图片
+                    Intent intent = new Intent(ctx, PhotoPickerActivity.class);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
+                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, chooseNum);
+                    // 总共选择的图片数量
+                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
+                    startActivityForResult(intent, PICK_PHOTO);
+                }else{
+                    ToastUtil.doToast(AddPurchaseApprovalActivity.this,"选择已经达到上限");
+                }
                 break;
             case R.id.rel_choose_time:
                 //时间选择器

@@ -34,6 +34,7 @@ import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatApprovalActivity;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
+import huanxing_print.com.cn.printhome.ui.activity.contact.CreateGroup;
 import huanxing_print.com.cn.printhome.ui.activity.contact.ListAddContactActivity;
 import huanxing_print.com.cn.printhome.util.Constant;
 
@@ -128,8 +129,11 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addImg:
-                //跳转到联系人界面
-                startActivity(new Intent(getActivity(), ListAddContactActivity.class));
+////                跳转到联系人界面
+//                startActivity(new Intent(getActivity(), ListAddContactActivity.class));
+                Intent goCreateGroup = new Intent(getActivity(), CreateGroup.class);
+                goCreateGroup.putExtra("goChat", true);
+                startActivity(goCreateGroup);
                 break;
             default:
                 break;

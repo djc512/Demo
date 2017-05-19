@@ -3,6 +3,7 @@ package com.hyphenate.easeui.widget.chatrow;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -76,13 +77,16 @@ public class EaseChatRowFile extends EaseChatRow {
         }
         String iconUrl = message.getStringAttribute("iconUrl", "");
         String nickName = message.getStringAttribute("nickName", "");
+        Log.i("CCCC","iconUrl============================================="+iconUrl);
         //头像
         if (ObjectUtils.isNull(iconUrl)) {
+            Log.i("CCCC","=============================================我走了为空的");
             Glide.with(getContext())
                     .load(R.drawable.iv_head)
                     .transform(new CircleTransform(getContext()))
                     .into(iv_userhead);
         } else {
+            Log.i("CCCC","=============================================我走了不为空，网络的");
             Glide.with(getContext())
                     .load(iconUrl)
                     .transform(new CircleTransform(getContext()))
@@ -95,7 +99,7 @@ public class EaseChatRowFile extends EaseChatRow {
             tv_userid.setText(nickName);
         }
         //隐藏发送文件的用户名
-        tv_userid.setVisibility(GONE);
+        //tv_userid.setVisibility(GONE);
         // until here, to sending message
         handleSendMessage();
     }

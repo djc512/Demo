@@ -34,7 +34,7 @@ public class CommentPicAdapter extends RecyclerView.Adapter<CommentPicAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Glide.with(ctx).load(imageList.get(position)).into(holder.iv_comment);
+        Glide.with(ctx).load(imageList.get(position)).placeholder(R.drawable.ic_photo_loading).into(holder.iv_comment);
     }
 
     @Override

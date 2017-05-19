@@ -71,9 +71,9 @@ public class EaseChatRowText extends EaseChatRow {
 
     @Override
     protected void onInflateView() {
-        if ("notice".equals(message.getUserName())) {
-            inflater.inflate(R.layout.ease_row_received_message, this);
-        } else {
+        if ("notice".equals(message.getUserName())){
+            inflater.inflate(R.layout.ease_row_received_message,this);
+        }else {
             if (ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
                 inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
                         R.layout.ease_row_received_message : R.layout.ease_row_sent_message, this);
@@ -83,19 +83,19 @@ public class EaseChatRowText extends EaseChatRow {
             }
         }
 
-        Log.i("CCCC", "type=======================" + message.getStringAttribute("type", ""));
-        Log.i("CCCC", "approveId=======================" + message.getStringAttribute("approveId", ""));
-        Log.i("CCCC", "getFrom=======================" + message.getFrom());
-        Log.i("CCCP", "message=======================" + message.getStringAttribute("message", ""));
-        Log.i("CCCP", "message.getStringAttribute(\"title\",\"\")=======================" + message.getStringAttribute("title", ""));
-        type = message.getStringAttribute("type", "");
-        approveId = message.getStringAttribute("approveId", "");
+        Log.i("CCCC","type======================="+message.getStringAttribute("type",""));
+        Log.i("CCCC","approveId======================="+message.getStringAttribute("approveId",""));
+        Log.i("CCCC","getFrom======================="+message.getFrom());
+        Log.i("CCCP","message======================="+message.getStringAttribute("message",""));
+        Log.i("CCCP","message.getStringAttribute(\"title\",\"\")======================="+message.getStringAttribute("title",""));
+        type = message.getStringAttribute("type","");
+        approveId = message.getStringAttribute("approveId","");
 
     }
 
     @Override
     protected void onFindViewById() {
-        if ("notice".equals(message.getUserName())) {
+        if ("notice".equals(message.getUserName())){
             approval_notify = (LinearLayout) findViewById(R.id.ll_approval_notify);//审批的布局
             approvalName = (TextView) findViewById(R.id.tv_approval_name);
             approvalTime = (TextView) findViewById(R.id.tv_apporva_time);
@@ -106,7 +106,7 @@ public class EaseChatRowText extends EaseChatRow {
             approval_notify.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (type != null) {
+                    if (type!=null){
                         switch (type) {
                             case "101"://采购审核
                                 intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
@@ -125,7 +125,6 @@ public class EaseChatRowText extends EaseChatRow {
                                 break;
                             case "202"://报销审核结果
                                 intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-                                intent.putExtra("approveId", approveId);
                                 context.startActivity(intent);
                                 break;
                             default:
@@ -135,7 +134,7 @@ public class EaseChatRowText extends EaseChatRow {
                 }
             });
             textAll.setVisibility(GONE);
-        } else {
+        }else {
             textAll = (RelativeLayout) findViewById(R.id.rl_text_all);//原text的总布局
             //approval_notify = (LinearLayout) findViewById(R.id.ll_approval_notify);//审批的布局
             contentView = (TextView) findViewById(R.id.tv_chatcontent);
@@ -152,19 +151,19 @@ public class EaseChatRowText extends EaseChatRow {
     public void onSetUpView() {
         EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
 
-        if ("notice".equals(message.getUserName())) {
-            approvalName.setText(message.getStringAttribute("title", ""));
-            approvalTime.setText(message.getMsgTime() + "");
-            approvalNumber.setText(message.getStringAttribute("message", ""));
-        } else {
-            if ("302".equals(type)) {
+        if ("notice".equals(message.getUserName())){
+            approvalName.setText(message.getStringAttribute("title",""));
+            approvalTime.setText(message.getMsgTime()+"");
+            approvalNumber.setText(message.getStringAttribute("message",""));
+        }else{
+            if("302".equals(type)) {
                 String content = txtBody.getMessage() + "，立即查看";
                 int fStart = content.indexOf("立即查看");
                 int fEnd = fStart + "立即查看".length();
                 SpannableStringBuilder style = new SpannableStringBuilder(content);
                 style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.text_yellow)), fStart, fEnd, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                 contentView.setText(style);
-            } else {
+            }else{
                 Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
                 // 设置内容
                 contentView.setText(span, BufferType.SPANNABLE);
@@ -173,35 +172,41 @@ public class EaseChatRowText extends EaseChatRow {
             String iconUrl = message.getStringAttribute("iconUrl", "");
             String nickName = message.getStringAttribute("nickName", "");
 
+            Log.i("CCCC","iconUrl============================================="+iconUrl);
+            Log.i("CCCC","nickName============================================="+nickName);
+
             //如果是印信就写死名称和头像========================================================================
-            Log.i("CCMM", "印家的Username=============================================" + message.getUserName());
-            /*if (message.getUserName().equals("secretary")){
-                iv_userhead.setImageResource(R.drawable.secretary);
-                Log.i("CCMM","印家的头像============================================="+message.getUserName());
-            }else {*/
-            if (ObjectUtils.isNull(iconUrl)) {
-                if (message.getUserName().equals("secretary")) {
+            Log.i("CCCC","印家的Username============================================="+message.getUserName());
+            if (message.getUserName().equals("secretary")){
+                if (message.direct() == EMMessage.Direct.SEND){
+                    Glide.with(getContext())
+                            .load(iconUrl)
+                            .transform(new CircleTransform(getContext()))
+                            .into(iv_userhead);
+                }else {
                     iv_userhead.setImageResource(R.drawable.secretary);
-                } else {
+                }
+            }else {
+                //头像
+                if (ObjectUtils.isNull(iconUrl)) {
                     Glide.with(getContext())
                             .load(R.drawable.iv_head)
                             .transform(new CircleTransform(getContext()))
                             .into(iv_userhead);
+                } else {
+                    Glide.with(getContext())
+                            .load(iconUrl)
+                            .transform(new CircleTransform(getContext()))
+                            .into(iv_userhead);
                 }
-            } else {
-                Glide.with(getContext())
-                        .load(iconUrl)
-                        .transform(new CircleTransform(getContext()))
-                        .into(iv_userhead);
-            }
-            //昵称
-            if (ObjectUtils.isNull(nickName)) {
-                tv_userid.setText(message.getFrom());
-            } else {
-                tv_userid.setText(nickName);
+                //昵称
+                if (ObjectUtils.isNull(nickName)) {
+                    tv_userid.setText(message.getFrom());
+                } else {
+                    tv_userid.setText(nickName);
+                }
             }
         }
-//        }
         handleTextMessage();
     }
 
@@ -247,10 +252,10 @@ public class EaseChatRowText extends EaseChatRow {
     @Override
     protected void onBubbleClick() {
 
-        Log.i("CMCC", "=======================" + message.getStringAttribute("type", ""));
-        Log.i("CMCC", "=======================" + message.getFrom());
-        if (type != null) {
-            switch (type) {
+        Log.i("CMCC","======================="+message.getStringAttribute("type",""));
+        Log.i("CMCC","======================="+message.getFrom());
+        if (type!=null){
+            switch (type){
                 case "101"://采购审核
                     Intent intent1 = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
                     context.startActivity(intent1);

@@ -41,6 +41,7 @@
             android:id="@+id/bubble"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_userid"
             android:layout_marginRight="@dimen/margin_chat_activity"
             android:layout_toLeftOf="@id/iv_userhead"
             android:layout_toRightOf="@+id/ll_loading"
