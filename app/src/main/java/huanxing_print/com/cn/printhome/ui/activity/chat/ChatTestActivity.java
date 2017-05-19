@@ -60,6 +60,8 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.BuildConfig;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.model.chat.GroupHint;
+import huanxing_print.com.cn.printhome.model.chat.MessageTypeObject;
 import huanxing_print.com.cn.printhome.model.chat.RedPacketHint;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
@@ -1471,12 +1473,15 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             Log.i("CMCC", "收到透传消息!" + messages.size());
             for (EMMessage emMessage : messages) {
                 EMCmdMessageBody body = (EMCmdMessageBody) emMessage.getBody();
-                Gson gson = new Gson();
-                RedPacketHint hint = gson.fromJson(body.action(), RedPacketHint.class);
                 Log.d("CMCC", "action:" + body.action());
+                //先用基类解析出type
+                Gson gson = new Gson();
+                MessageTypeObject typeObject = gson.fromJson(body.action(), MessageTypeObject.class);
                 //想聊天里面插入消息
-                if ("401".equals(hint.getType()) ||
-                        "402".equals(hint.getType())) {
+                if ("401".equals(typeObject.getType()) ||
+                        "402".equals(typeObject.getType())) {
+                    //解析
+                    RedPacketHint hint = gson.fromJson(body.action(), RedPacketHint.class);
                     Log.d("CMCC", "1111111");
                     //群红包和普通红包
                     if (baseApplication.getMemberId().equals(hint.getMemberId())) {
@@ -1486,6 +1491,30 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                     }
 
                 }
+
+                if ("501".equals(typeObject.getType()) ||
+                        "502".equals(typeObject.getType()) ||
+                        "503".equals(typeObject.getType()) ||
+                        "504".equals(typeObject.getType())) {
+                    //501 加群审核   502 进群通知   503 退群通知   504  群解散
+                    Log.d("CMCC", "群聊type:" + emMessage.getStringAttribute("type", ""));
+                    if (chatType == EaseConstant.CHATTYPE_GROUP) {
+                        GroupHint groupHint = gson.fromJson(body.action(), GroupHint.class);
+                        //501 特殊处理有点击事件
+                        if ("501".equals(groupHint.getType())) {
+                            Log.d("CMCC", "501:加群审核");
+                            //判断是否相等
+                            if (baseApplication.getMemberId().equals(groupHint.getMemberId())) {
+                                Log.d("CMCC", "333333");
+                                createGroupHintMessage(groupHint);
+                            }
+                        } else {
+                            Log.d("CMCC", "44444444 groupHint:" + groupHint.getMessage());
+                            createGroupHintMessage(groupHint);
+                        }
+                    }
+                }
+
             }
         }
 
@@ -1504,6 +1533,22 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             //消息状态变动
         }
     };
+
+    /**
+     * 创建群通知
+     *
+     * @param groupHint
+     */
+    private void createGroupHintMessage(GroupHint groupHint) {
+        EMMessage message = EaseCommonUtils.createGroupHintMessage(toChatUsername, groupHint.getMessage(),
+                System.currentTimeMillis() + "", groupHint);
+        message.setChatType(EMMessage.ChatType.GroupChat);
+        EMClient.getInstance().chatManager()
+                .getConversation(toChatUsername)
+                .appendMessage(message);
+        //刷新
+        messageList.refresh();
+    }
 
 
     /**

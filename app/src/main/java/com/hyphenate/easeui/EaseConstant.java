@@ -39,6 +39,13 @@ public class EaseConstant {
     public static final String MESSAGE_HINT_MESSAGE = "message";
     public static final String MESSAGE_HINT_PACKET_ID = "packetId";
 
+    //群通知
+    public static final String MESSAGE_ATTR_IS_GROUP_HINT = "is_group_hint";
+    public static final String MESSAGE_ATTR_GROUP_HINT_ID = "group_hint_id";
+    public static final String MESSAGE_ATTR_GROUP_HINT_APPLY_ID = "group_apply_id";
+    public static final String MESSAGE_HINT_GROUP_MESSAGE = "group_message";
+    public static final String MESSAGE_HINT_GROUP_MESSAGE_TYPE = "group_message_hint_type";
+
     public static final String MESSAGE_ATTR_AT_MSG = "em_at_list";
     public static final String MESSAGE_ATTR_VALUE_AT_MSG_ALL = "ALL";
 

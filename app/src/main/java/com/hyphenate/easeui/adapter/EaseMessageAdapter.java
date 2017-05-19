@@ -32,6 +32,7 @@ import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowApproval;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowBigExpression;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowFile;
+import com.hyphenate.easeui.widget.chatrow.EaseChatRowGroupHint;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowImage;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowLocation;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowPackageHint;
@@ -69,6 +70,7 @@ public class EaseMessageAdapter extends BaseAdapter {
     private static final int MESSAGE_TYPE_RECV_PACKAGE = 15;
     private static final int MESSAGE_TYPE_APPROVAL = 16;
     private static final int MESSAGE_TYPE_HINT = 17;
+    private static final int MESSAGE_TYPE_GROUP_HINT = 18;
 
 
     public int itemTypeCount;
@@ -180,9 +182,9 @@ public class EaseMessageAdapter extends BaseAdapter {
      */
     public int getViewTypeCount() {
         if (customRowProvider != null && customRowProvider.getCustomChatRowTypeCount() > 0) {
-            return customRowProvider.getCustomChatRowTypeCount() + 18;
+            return customRowProvider.getCustomChatRowTypeCount() + 19;
         }
-        return 18;
+        return 19;
     }
 
 
@@ -196,7 +198,7 @@ public class EaseMessageAdapter extends BaseAdapter {
         }
 
         if (customRowProvider != null && customRowProvider.getCustomChatRowType(message) > 0) {
-            return customRowProvider.getCustomChatRowType(message) + 18;
+            return customRowProvider.getCustomChatRowType(message) + 19;
         }
 
         if (message.getType() == EMMessage.Type.TXT) {
@@ -208,6 +210,8 @@ public class EaseMessageAdapter extends BaseAdapter {
                 return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_PACKAGE : MESSAGE_TYPE_SENT_PACKAGE;
             } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_HINT, false)) {
                 return MESSAGE_TYPE_HINT;
+            } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_GROUP_HINT, false)) {
+                return MESSAGE_TYPE_GROUP_HINT;
             }
             return message.direct() == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
         }
@@ -246,6 +250,8 @@ public class EaseMessageAdapter extends BaseAdapter {
                     chatRow = new EaseChatRowRedPackage(context, message, position, this);//审批通知的布局
                 } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_HINT, false)) {
                     chatRow = new EaseChatRowPackageHint(context, message, position, this);//审批通知的布局
+                } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_GROUP_HINT, false)) {
+                    chatRow = new EaseChatRowGroupHint(context, message, position, this);//审批通知的布局
                 } else {
                     chatRow = new EaseChatRowText(context, message, position, this);
                 }
