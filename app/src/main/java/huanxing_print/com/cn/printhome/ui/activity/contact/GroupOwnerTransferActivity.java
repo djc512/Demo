@@ -93,7 +93,7 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
                         GroupManagerRequest.transfer(getSelfActivity(), baseApplication.getLoginToken(), params, new NullCallback() {
                             @Override
                             public void success(String msg) {
-                                toast("发送成功:"+msg);
+                                toast("转让成功");
                                 setResult(RESULT_OK);
                                 finishCurrentActivity();
                             }
