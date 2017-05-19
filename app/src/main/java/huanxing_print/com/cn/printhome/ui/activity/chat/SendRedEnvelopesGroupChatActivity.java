@@ -46,6 +46,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     private TextView txt_action_change;//改变红包类型
     private TextView txt_left;//当前红包描述
     private TextView txt_group_bottom;//群红包不可领取说明
+    private TextView txt_group_num;//群人数
     private Button btn_plug_money;
     private boolean isLuck = true;//拼手气
     private GroupMessageInfo groupInfo;
@@ -63,6 +64,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         setContentView(R.layout.activity_send_red_envelopes_group_chat);
         groupInfo = getIntent().getParcelableExtra("groupInfo");
         init();
+        inData();
     }
 
     private void init() {
@@ -71,6 +73,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         edt_leave_word = (EditText) findViewById(R.id.edt_leave_word);
         txt_num = (TextView) findViewById(R.id.txt_num);
         txt_left = (TextView) findViewById(R.id.txt_left);
+        txt_group_num = (TextView) findViewById(R.id.txt_left);
         txt_group_bottom = (TextView) findViewById(R.id.txt_group_bottom);
         txt_action_change = (TextView) findViewById(R.id.txt_action_change);
         btn_plug_money = (Button) findViewById(R.id.btn_plug_money);
@@ -157,6 +160,17 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                 finishCurrentActivity();
             }
         });
+
+
+    }
+
+
+    private void inData() {
+            if (null!=groupInfo) {
+                int groupMemberNum = groupInfo.getGroupMembers().size();
+                txt_group_num.setText(groupMemberNum+"");
+            }
+
     }
 
     @Override
