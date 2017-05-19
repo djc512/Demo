@@ -23,6 +23,7 @@ import java.io.File;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.file.FileUtil;
 
 public class EaseChatRowFile extends EaseChatRow {
 
@@ -153,8 +154,8 @@ public class EaseChatRowFile extends EaseChatRow {
         if (file.exists()) {
             // open files if it exist
             //FileUtils.openFile(file, (Activity) context);
-//            Intent intent = FileUtil.openFile(file.getAbsolutePath());
-//            context.startActivity();
+            Intent intent = FileUtil.openFile(file.getAbsolutePath());
+            context.startActivity(intent);
         } else {
             // download the file
             context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
