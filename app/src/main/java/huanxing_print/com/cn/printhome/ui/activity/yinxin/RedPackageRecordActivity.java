@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
@@ -35,6 +36,7 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
     private GroupCommonRedPackageAdapter commonAdapter;
     private GroupLuckyRedPackageAdapter groupLuckyRedPackageAdapter;
     private boolean singleType;
+    private TextView tv_instructions;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -63,6 +65,7 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
 
     private void initView() {
         recordRecView = (RecyclerView) findViewById(R.id.recordRecView);
+        tv_instructions= (TextView) findViewById(R.id.tv_instructions);
         findViewById(R.id.exitTv).setOnClickListener(this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recordRecView.setLayoutManager(mLayoutManager);
@@ -80,10 +83,12 @@ public class RedPackageRecordActivity extends BaseActivity implements View.OnCli
                 ",type:" + type + "," + singleType);
 
         if (singleType) {
+            tv_instructions.setVisibility(View.VISIBLE);
             //单聊红包
             ChatRequest.queryPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),
                     packetId, detailCallBack);
         } else {
+            tv_instructions.setVisibility(View.GONE);
             if (1 == type) {
                 //群普通红包
                 ChatRequest.getCommonPackageDetail(getSelfActivity(), baseApplication.getLoginToken(),

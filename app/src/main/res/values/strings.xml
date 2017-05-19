@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">印家云打印</string>
+    <string name="app_name">印家打印</string>
     <string name="hello_world">Hello 妹子!</string>
     <string name="action_settings">Settings</string>
     <string name="text_back">返回</string>
@@ -123,6 +123,7 @@
     <string name="red_group_bottom_hint_no">未使用的红包,将于群解散后退至各人账户</string>
     <string name="red_group_bottom_hint_no_get">群红包不可领取,群成员打印时可选择群红包支付</string>
     <string name="red_package_default_msg">给你发了一个红包</string>
+    <string name="red_package_group_msg">发了一个群红包</string>
     <string name="red_package_check_detail">查看领取详情</string>
     <string name="red_package_check_detail_out">看看大家的手气</string>
     <string name="red_package_detail_failure">该红包已失效</string>

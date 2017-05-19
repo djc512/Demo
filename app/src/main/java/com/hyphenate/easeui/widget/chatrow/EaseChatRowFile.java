@@ -23,6 +23,7 @@ import java.io.File;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.file.FileUtil;
 
 public class EaseChatRowFile extends EaseChatRow {
 
@@ -76,14 +77,17 @@ public class EaseChatRowFile extends EaseChatRow {
         String iconUrl = message.getStringAttribute("iconUrl", "");
         String nickName = message.getStringAttribute("nickName", "");
         Log.i("CCCC", "iconUrl=============================================" + iconUrl);
+        Log.i("PPPP","iconUrl============================================="+iconUrl);
         //头像
         if (ObjectUtils.isNull(iconUrl)) {
+            Log.i("PPPP","=============================================我走了为空的");
             Log.i("CCCC", "=============================================我走了为空的");
             Glide.with(getContext())
                     .load(R.drawable.iv_head)
                     .transform(new CircleTransform(getContext()))
                     .into(iv_userhead);
         } else {
+            Log.i("PPPP","=============================================我走了不为空，网络的");
             Log.i("CCCC", "=============================================我走了不为空，网络的");
             Glide.with(getContext())
                     .load(iconUrl)
@@ -150,8 +154,8 @@ public class EaseChatRowFile extends EaseChatRow {
         if (file.exists()) {
             // open files if it exist
             //FileUtils.openFile(file, (Activity) context);
-//            Intent intent = FileUtil.openFile(file.getAbsolutePath());
-//            context.startActivity();
+            Intent intent = FileUtil.openFile(file.getAbsolutePath());
+            context.startActivity(intent);
         } else {
             // download the file
             context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
