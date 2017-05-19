@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,8 +20,6 @@ import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
-
-import static huanxing_print.com.cn.printhome.R.id.btn_confirm;
 
 /**
  * Created by Administrator on 2017/4/27 0027.
@@ -65,11 +64,18 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
         btn_reset = (TextView) findViewById(R.id.btn_reset);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
     }
+//    Bitmap result = Bitmap.createBitmap(picwidth, picheight, Bitmap.Config.ARGB_8888);
+//    Canvas canvas = new Canvas(result);
+//    canvas.drawBitmap(first, 0, 0, null);
 
     private void initData() {
         Display display = getWindowManager().getDefaultDisplay();
         screenWidth = display.getWidth();
         screenHeight = display.getHeight();
+
+        Intent intent = getIntent();
+        byte[] bytes = intent.getByteArrayExtra("bytes");
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
         //a4纸与身份证面积比
         sqrtRatio = (a4Width * a4Height) / (passportWidth * passportHeight);
@@ -79,15 +85,22 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        Intent intent = getIntent();
-        byte[] bytes = intent.getByteArrayExtra("bytes");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
         thumbnail = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788*0.8684), (int) (ivHeight * 0.7851* 0.9101));
-
-        iv_preview.setImageBitmap(thumbnail);
+        Bitmap mergePic = mergePic(thumbnail, ivWidth, ivHeight);
+        iv_preview.setImageBitmap(mergePic);
     }
 
+    /**
+     * 合并图片
+     */
+    private Bitmap mergePic(Bitmap first, double ivWidth, double ivHeight) {
+        int picwidth = (int) ivWidth;
+        int picheight = (int) (ivHeight);
+        Bitmap result = Bitmap.createBitmap(picwidth, picheight, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(first, 0, 0, null);
+        return result;
+    }
     private void initListener() {
         btn_reset.setOnClickListener(this);
         btn_preview.setOnClickListener(this);
@@ -99,7 +112,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
             case R.id.btn_reset:
                 finishCurrentActivity();
                 break;
-            case btn_confirm:
+            case R.id.btn_preview:
                 picName = System.currentTimeMillis() + ".jpg";
                 saveUtil.saveClipPic(thumbnail, picName);
                 String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
