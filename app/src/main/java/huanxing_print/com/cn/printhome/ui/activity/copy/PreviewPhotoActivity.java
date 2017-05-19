@@ -49,6 +49,7 @@ public class PreviewPhotoActivity extends BaseActivity {
     private MyPageAdapter adapter;
 
     private Context mContext;
+    private boolean isApproval = false;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -60,6 +61,7 @@ public class PreviewPhotoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.plugin_camera_gallery);// 切屏到主界面
         mContext = this;
+        isApproval = getIntent().getBooleanExtra("isApproval", false);
         back_bt = (TextView) findViewById(R.id.gallery_back);
         send_bt = (Button) findViewById(R.id.send_button);
         del_bt = (ImageView) findViewById(R.id.gallery_del);
@@ -143,8 +145,10 @@ public class PreviewPhotoActivity extends BaseActivity {
     private class GallerySendListener implements OnClickListener {
         public void onClick(View v) {
             finish();
-            intent.setClass(mContext, CommentActivity.class);
-            startActivity(intent);
+            if(!isApproval) {
+                intent.setClass(mContext, CommentActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
