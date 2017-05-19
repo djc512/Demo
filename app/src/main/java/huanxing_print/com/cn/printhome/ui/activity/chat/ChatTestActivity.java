@@ -578,6 +578,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 sendRedPackageMessage(remark, packetId, groupType, packetType);
             }
         }
+        //拿到结果返回时关闭底部布局
+        inputMenu.hideExtendMenuContainer();
     }
 
 
