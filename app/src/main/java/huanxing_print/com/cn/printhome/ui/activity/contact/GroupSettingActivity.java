@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.contact;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +10,8 @@ import android.widget.Toast;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.contact.GroupMember;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
@@ -210,7 +212,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确认解散此群吗？", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
                     @Override
                     public void dissolution() {
-                        DialogUtils.showProgressDialog(getSelfActivity(),"努力解散...");
+                        DialogUtils.showProgressDialog(getSelfActivity(),"努力解散").show();
                         Map<String, Object> params = new HashMap<String, Object>();
                         params.put("groupId", currentGroupId);
                         GroupManagerRequest.dissolution(getSelfActivity(), baseApplication.getLoginToken(), params, dissolutinQunCallBack);
@@ -380,6 +382,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             ToastUtil.doToast(GroupSettingActivity.this, "退群成功");
+            EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
             finish();
         }
 
@@ -401,6 +404,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             Toast.makeText(getSelfActivity(), "解散成功", Toast.LENGTH_SHORT).show();
+            EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
         }
 
         @Override

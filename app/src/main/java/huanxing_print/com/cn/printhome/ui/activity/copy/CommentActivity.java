@@ -324,6 +324,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 Intent intent = new Intent(getSelfActivity(), CommentListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("printer_id", printNum + "");
+                intent.putExtras(bundle);
                 startActivity(intent);
                 finishCurrentActivity();
             }

@@ -45,6 +45,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private String totleBalance;
     private String rechargeAmout;
     private LinearLayout ll_xieyi;
+    private String sendAmount;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -64,12 +65,15 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
+        if (null != sendAmount && null != rechargeAmout) {
+            double allCount = Double.parseDouble(totleBalance) + Double.parseDouble(sendAmount) + Double.parseDouble(rechargeAmout);
+            tv_money.setText("￥" + allCount);
+        }
     }
 
     private void initView() {
         tv_money = (TextView) findViewById(R.id.tv_money);
         btn_chongzhi = (Button) findViewById(R.id.btn_chongzhi);
-
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         tv_account_record = (TextView) findViewById(R.id.tv_account_record);
         rv_account = (RecyclerView) findViewById(R.id.rv_account);
@@ -80,10 +84,10 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         totleBalance = getIntent().getStringExtra("totleBalance");
         if (!ObjectUtils.isNull(totleBalance)) {
             tv_money.setText("￥" + totleBalance);
-        }else{
+        } else {
             tv_money.setText("￥0");
         }
-        DialogUtils.showProgressDialog(getSelfActivity(), "加载中");
+        DialogUtils.showProgressDialog(getSelfActivity(), "加载中").show();
         //充值接口
         ChongzhiRequest.getChongZhi(getSelfActivity(), new MyChongzhiCallBack());
     }
@@ -112,7 +116,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 finishCurrentActivity();
                 break;
             case R.id.ll_xieyi:
-                startActivity(new Intent(getSelfActivity(),XieYiActivity.class));
+                startActivity(new Intent(getSelfActivity(), XieYiActivity.class));
                 break;
         }
     }
@@ -121,7 +125,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
      * 获取商品id
      */
     private void getOrderId() {
-        DialogUtils.showProgressDialog(getSelfActivity(), "正在加载...");
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
         OrderIdRequest.getOrderId(getSelfActivity(), rechargeAmout, new OrderIdCallBack() {
             @Override
             public void success(String msg, String data) {
@@ -169,7 +173,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void alipay() {
-                Go2PayRequest.go2Pay(getSelfActivity(), orderid+"", "CZ", new Go2PayCallBack() {
+                Go2PayRequest.go2Pay(getSelfActivity(), orderid + "", "CZ", new Go2PayCallBack() {
                     @Override
                     public void success(String msg, String s) {
                         PayUtil.getInstance(getSelfActivity()).alipay(s);
@@ -204,6 +208,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                     adapter.notifyDataSetChanged();
                     ChongZhiBean chongZhiBean = list.get(position);
                     rechargeAmout = chongZhiBean.getRechargeAmout();
+                    sendAmount = chongZhiBean.getSendAmount();
                 }
             });
         }

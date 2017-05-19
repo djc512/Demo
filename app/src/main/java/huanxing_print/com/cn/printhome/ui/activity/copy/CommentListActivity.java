@@ -139,7 +139,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
      * 获取数据
      */
     private void getData() {
-        DialogUtils.showProgressDialog(ctx, "正在加载中...");
+        DialogUtils.showProgressDialog(ctx, "正在加载中").show();
         CommentListRequest.request(ctx, 1, printno, 0, new CommentListCallback() {
             @Override
             public void success(CommentListBean bean) {

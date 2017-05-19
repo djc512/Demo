@@ -57,7 +57,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initData() {
-        DialogUtils.showProgressDialog(getSelfActivity(), "正在加载...");
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
         //获取充值记录
         ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
     }
@@ -108,7 +108,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                 finishCurrentActivity();
                 break;
             case R.id.tv_receipt://开票
-                DialogUtils.showProgressDialog(getSelfActivity(), "加载中...");
+                DialogUtils.showProgressDialog(getSelfActivity(), "加载中").show();
                 getReceiptAccount();
                 break;
         }
@@ -178,6 +178,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
             }
+            xrf_czrecord.setAutoRefresh(true);//自动刷新
             xrf_czrecord.setPullLoadEnable(true);
             xrf_czrecord.setAutoLoadMore(false);
             //设置在上拉加载被禁用的情况下，是否允许界面被上拉

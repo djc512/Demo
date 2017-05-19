@@ -64,7 +64,7 @@ public class CommentMediumFragment extends Fragment {
 
     public void getData(int type, String printno) {
         this.type = type;
-        DialogUtils.showProgressDialog(ctx, "正在加载中...");
+        DialogUtils.showProgressDialog(ctx, "正在加载中").show();
         CommentListRequest.request(ctx, 1, printno, type, new MyCommentListCallback());
     }
 
