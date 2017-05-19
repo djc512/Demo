@@ -67,8 +67,6 @@ public class EaseChatRowText extends EaseChatRow {
     private String type;
     private Intent intent;
     private String approveId;
-    private String packetId;
-    private String packetType;
     private TextView tv_from;
     private TextView tv_chatcontent;
 
@@ -78,8 +76,8 @@ public class EaseChatRowText extends EaseChatRow {
 
     @Override
     protected void onInflateView() {
-        packetId = message.getStringAttribute("packetId", "");
-        packetType = message.getStringAttribute("packetType", "");
+        String packetId = message.getStringAttribute("packetId", "");
+        String packetType = message.getStringAttribute("packetType", "");
         if ("notice".equals(message.getUserName())) {
             inflater.inflate(R.layout.ease_row_received_message, this);
         } else if ((!ObjectUtils.isNull(packetId)) &&
@@ -109,6 +107,9 @@ public class EaseChatRowText extends EaseChatRow {
 
     @Override
     protected void onFindViewById() {
+        String packetId = message.getStringAttribute("packetId", "");
+        String packetType = message.getStringAttribute("packetType", "");
+
         if ("notice".equals(message.getUserName())) {
             contentView = (TextView) findViewById(R.id.tv_chatcontent);
             iv_userhead = (ImageView) findViewById(R.id.iv_userhead);
@@ -173,6 +174,8 @@ public class EaseChatRowText extends EaseChatRow {
 
     @Override
     public void onSetUpView() {
+        String packetId = message.getStringAttribute("packetId", "");
+        String packetType = message.getStringAttribute("packetType", "");
         EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
 
         if ("notice".equals(message.getUserName())) {
@@ -311,6 +314,9 @@ public class EaseChatRowText extends EaseChatRow {
 
         Log.i("CMCC", "=======================" + message.getStringAttribute("type", ""));
         Log.i("CMCC", "=======================" + message.getFrom());
+        String packetId = message.getStringAttribute("packetId", "");
+        String packetType = message.getStringAttribute("packetType", "");
+
         if ((!ObjectUtils.isNull(packetId)) &&
                 (!ObjectUtils.isNull(packetType))) {
             Log.d("CMCC", "点击了红包packetId:" + packetId + ",packetType:" + packetType);
