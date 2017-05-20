@@ -3,8 +3,10 @@ package com.hyphenate.easeui.widget.chatrow;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -19,6 +21,7 @@ import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
+import com.hyphenate.chat.EMMessageBody;
 import com.hyphenate.easeui.model.EaseImageCache;
 import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
@@ -234,6 +237,32 @@ public class EaseChatRowImage extends EaseChatRowFile {
             @Override
             public void onPopupListClick(View contextView, int contextPosition, int position) {
                 Log.d("CMCC", "点击了:" + popupMenuItemList.get(position));
+                switch (contextPosition) {
+                    case 0:
+                        //打印
+                        break;
+                    case 1:
+                        //转发
+                        break;
+                    case 2:
+                        //保存
+                        EMMessageBody body = message.getBody();
+                        Bitmap bitmap = BitmapFactory.decodeFile(body.toString());
+                        MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, System.currentTimeMillis() + ".png", "description");
+                        break;
+                    case 3:
+                        //删除记录
+                        if (message.getChatType() == ChatType.GroupChat) {
+                            EMClient.getInstance().chatManager()
+                                    .getConversation(message.getTo())
+                                    .removeMessage(message.getMsgId());
+                        } else {
+                            EMClient.getInstance().chatManager()
+                                    .getConversation(message.getFrom())
+                                    .removeMessage(message.getMsgId());
+                        }
+                        break;
+                }
             }
         });
     }

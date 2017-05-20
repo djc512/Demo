@@ -326,7 +326,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 //group chat
                 EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
                 if (group != null)
-                    tv_title.setText(toChatUsername );
+                    tv_title.setText(toChatUsername);
                 // listen the event that user moved out group or group is dismissed
                 groupListener = new GroupListener();
                 EMClient.getInstance().groupManager().addGroupChangeListener(groupListener);
