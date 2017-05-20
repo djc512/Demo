@@ -12,10 +12,13 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.chat.LuckyPackage;
 import huanxing_print.com.cn.printhome.model.chat.RedPackageObject;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.chat.SendCommonPackageCallBack;
@@ -49,7 +52,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     private TextView txt_group_num;//群人数
     private TextView txt_red_packge_money;//红包
     private Button btn_plug_money;
-    private boolean isLuck = false;//拼手气
+    private boolean isLuck = false;//群红包
     private GroupMessageInfo groupInfo;
 
     @Override
@@ -260,6 +263,12 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
             DialogUtils.closeProgressDialog();
             String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
             if (null != id) {
+
+                //EvenBus发个消息更新余额
+                RefreshEvent event = new RefreshEvent();
+                event.setCode(0x11);
+                EventBus.getDefault().postSticky(event);
+
                 Intent intent = new Intent();
                 intent.putExtra("packetId", id.getPacketId());
                 intent.putExtra("remark", remark);
@@ -295,6 +304,11 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         public void success(String msg, LuckyPackage luckyPackage) {
             DialogUtils.closeProgressDialog();
             if (null != luckyPackage) {
+                //EvenBus发个消息更新余额
+                RefreshEvent event = new RefreshEvent();
+                event.setCode(0x11);
+                EventBus.getDefault().postSticky(event);
+
                 Intent intent = new Intent();
                 intent.putExtra("packetId", luckyPackage.getPacketId());
                 intent.putExtra("remark", luckyPackage.getRemark());

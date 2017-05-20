@@ -460,11 +460,9 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             }
 
             @Override
-            public void onBubbleLongClick(EMMessage message) {
-                contextMenuMessage = message;
-                if (chatFragmentHelper != null) {
-                    chatFragmentHelper.onMessageBubbleLongClick(message);
-                }
+            public boolean onBubbleLongClick(EMMessage message) {
+                Log.d("CMCC", "chattestactivity:");
+                return false;
             }
 
             @Override

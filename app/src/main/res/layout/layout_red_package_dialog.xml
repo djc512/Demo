@@ -14,10 +14,10 @@
             android:id="@+id/rel_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingLeft="@dimen/distance_twenty"
             android:paddingRight="@dimen/distance_twenty"
-            android:paddingTop="@dimen/distance_twenty"
-            android:gravity="center">
+            android:paddingTop="@dimen/distance_twenty">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -55,8 +55,7 @@
                 android:layout_marginTop="@dimen/distance_ten"
                 android:text="@string/red_package_default_msg"
                 android:textColor="@color/yellow"
-                android:textSize="@dimen/text_size_fourteen"
-                />
+                android:textSize="@dimen/text_size_fourteen" />
 
             <TextView
                 android:id="@+id/txt_leave_msg"
@@ -65,27 +64,25 @@
                 android:layout_marginTop="@dimen/distance_twenty"
                 android:text="恭喜发财,大吉大利"
                 android:textColor="@color/yellow"
-                android:textSize="@dimen/text_size_twenty_five"
-                />
+                android:textSize="@dimen/text_size_twenty_five" />
 
             <TextView
                 android:id="@+id/txt_failure_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/distance_sixty"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/distance_sixty"
                 android:text="该红包已失效"
                 android:textColor="@color/yellow"
                 android:textSize="@dimen/text_size_twenty"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/img_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/distance_sixty"
-                android:src="@drawable/open_red_package"
-                />
+                android:src="@drawable/open_red_package" />
 
         </LinearLayout>
 
@@ -103,7 +100,8 @@
             android:gravity="center_horizontal"
             android:text="@string/red_package_check_detail"
             android:textColor="@color/yellow"
-            android:textSize="@dimen/text_size_fifteen" />
+            android:textSize="@dimen/text_size_fifteen"
+            android:visibility="gone" />
 
     </LinearLayout>
 </LinearLayout>

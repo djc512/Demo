@@ -211,4 +211,9 @@ public class EaseChatRowFile extends EaseChatRow {
         }
 
     }
+
+    @Override
+    protected void onBubbleLongClick() {
+
+    }
 }

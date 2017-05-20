@@ -426,6 +426,11 @@ public class EaseChatRowText extends EaseChatRow {
         }
     }
 
+    @Override
+    protected void onBubbleLongClick() {
+
+    }
+
     PackageDetailCallBack callBack = new PackageDetailCallBack() {
         @Override
         public void success(String msg, RedPackageDetail detail) {

@@ -45,7 +45,7 @@ public class ChatApprovalActivity extends BaseActivity implements View.OnClickLi
     private boolean isLoadMore = false;
     private String token;
     protected EaseChatMessageList messageList;
-    private  ListView listView;
+    private ListView listView;
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected int chatType;
     protected String toChatUsername;
@@ -119,12 +119,13 @@ public class ChatApprovalActivity extends BaseActivity implements View.OnClickLi
             }
 
             @Override
-            public void onBubbleLongClick(EMMessage message) {
+            public boolean onBubbleLongClick(EMMessage message) {
+                return false;
             }
 
             @Override
             public boolean onBubbleClick(EMMessage message) {
-                Log.i("CCCP","chatFragmentHelper+++++++++++++++++++"+chatFragmentHelper);
+                Log.i("CCCP", "chatFragmentHelper+++++++++++++++++++" + chatFragmentHelper);
                 if (chatFragmentHelper == null) {
                     return false;
                 }
@@ -141,7 +142,7 @@ public class ChatApprovalActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case ll_back:
-              finishCurrentActivity();
+                finishCurrentActivity();
                 break;
 
         }

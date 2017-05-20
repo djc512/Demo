@@ -89,7 +89,12 @@ public class EaseChatRowLocation extends EaseChatRow {
         intent.putExtra("address", locBody.getAddress());
         activity.startActivity(intent);
     }
-    
+
+    @Override
+    protected void onBubbleLongClick() {
+
+    }
+
     /*
 	 * listener for map clicked
 	 */
