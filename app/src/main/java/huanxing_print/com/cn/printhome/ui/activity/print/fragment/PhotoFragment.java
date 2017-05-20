@@ -3,7 +3,6 @@ package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +51,6 @@ public class PhotoFragment extends BaseLazyFragment {
             return;
         }
         mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
         mRcList.setLayoutManager(new GridLayoutManager(context, 4));
         mRcList.setHasFixedSize(true);
         mRcList.setItemAnimator(new DefaultItemAnimator());

@@ -13,6 +13,7 @@ import android.text.InputFilter;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -329,6 +330,20 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
 
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
         mResults.add(bimap);
+
+        edt_purchasing_list.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // 解决scrollView中嵌套EditText导致不能上下滑动的问题
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+                return false;
+            }
+        });
 
         //请求上次的审批人和联系人
         ApprovalRequest.queryLast(getSelfActivity(), baseApplication.getLoginToken(),

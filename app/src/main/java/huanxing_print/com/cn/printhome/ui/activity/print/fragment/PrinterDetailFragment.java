@@ -101,7 +101,7 @@ public class PrinterDetailFragment extends Fragment {
         } else {
             typeImg.setImageResource(R.drawable.ic_black);
         }
-        nameTv.setText(printPrinterPrice.getCompanyName());
+        nameTv.setText(printPrinterPrice.getPrintName());
         addressTv.setText("地址：" + printPrinterPrice.getPrintAddress());
         if (PrintUtil.PRINTER_TYPE_COLOR.equals(printPrinterPrice.getPrinterType())) {
             colorPriceTv.setVisibility(View.VISIBLE);

@@ -44,6 +44,7 @@ public class EaseConstant {
     public static final String MESSAGE_ATTR_GROUP_HINT_ID = "group_hint_id";
     public static final String MESSAGE_ATTR_GROUP_HINT_APPLY_ID = "group_apply_id";
     public static final String MESSAGE_HINT_GROUP_MESSAGE = "group_message";
+    public static final String MESSAGE_HINT_GROUP_ID_MANAGER = "group_id";
     public static final String MESSAGE_HINT_GROUP_MESSAGE_TYPE = "group_message_hint_type";
 
     public static final String MESSAGE_ATTR_AT_MSG = "em_at_list";
