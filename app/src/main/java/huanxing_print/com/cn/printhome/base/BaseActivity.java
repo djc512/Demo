@@ -106,7 +106,7 @@ public abstract class BaseActivity extends Activity {
 		baseApplication = (BaseApplication) getApplication();
 		ActivityHelper.getInstance().addActivity(getSelfActivity());
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
 				| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
