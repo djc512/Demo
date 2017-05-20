@@ -616,7 +616,8 @@
 
         <activity
             android:name=".ui.activity.contact.ChatFilesActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
     </application>
 

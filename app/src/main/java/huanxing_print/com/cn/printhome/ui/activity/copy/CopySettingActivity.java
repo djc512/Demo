@@ -253,7 +253,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                         }
                     } else {
                         groupPay();
-                        ShowUtil.showToast("请使用群支付");
+                        Logger.i("使用群支付");
                     }
                 } else {
                     dismissLoading();
@@ -362,6 +362,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void queryGroup() {
+        updateSetting();
         if (printerPrice == null) {
             ShowUtil.showToast(getString(R.string.price_error));
             return;
@@ -372,6 +373,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         showLoading();
         PrintRequest.queryGroup(this, price + "", new HttpListener() {
             @Override
+
             public void onSucceed(String content) {
                 dismissLoading();
                 Logger.i(content);

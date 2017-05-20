@@ -35,24 +35,35 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
 
     private String imgPath;
     private File file;
+    private boolean previewFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_img_priview);
         initData();
-        initTitleBar("图片预览");
+
+
         initView();
     }
 
     private void initData() {
-        imgPath = (String) getIntent().getExtras().get(KEY_IMG_URI);
+        Bundle bundle = getIntent().getExtras();
+        previewFlag = bundle.getBoolean(PREVIEW_FLAG, false);
+        imgPath = (String) bundle.get(KEY_IMG_URI);
+        file = new File(imgPath);
     }
 
     private void initView() {
+        if (previewFlag) {
+            setRightTvInvisible();
+            initTitleBar(file.getName());
+        } else {
+            setRightTvVisible();
+            initTitleBar("图片预览");
+        }
         photoView = (PhotoView) findViewById(R.id.photoView);
         ImageUtil.showImageView(context, imgPath, photoView);
-        setRightTvVisible();
     }
 
     @Override
@@ -115,7 +126,6 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void turnFile() {
-        file = new File(imgPath);
         if (file == null || !file.exists()) {
             return;
         }
@@ -177,7 +187,12 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         findViewById(R.id.rightTv).setOnClickListener(this);
     }
 
+    private void setRightTvInvisible() {
+        findViewById(R.id.rightTv).setVisibility(View.INVISIBLE);
+    }
+
     public static final String KEY_IMG_URI = "image_path";
+    public static final String PREVIEW_FLAG = "previewFlag";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, ImgPreviewActivity.class);

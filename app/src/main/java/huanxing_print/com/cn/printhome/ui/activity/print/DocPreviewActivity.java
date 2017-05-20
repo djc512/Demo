@@ -40,7 +40,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
     private final int timeCount = 10 * 60 * 1000;
     private boolean isTimeout = false;
     private ViewPager viewpager;
-
+    private boolean previewFlag;
     private List<String> fileUrlList;
     private String fileUrl;
     private File file;
@@ -55,7 +55,11 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
 
     private void initView() {
         initTitleBar(file.getName());
-        setRightTvVisible();
+        if (previewFlag) {
+            setRightTvInvisible();
+        } else {
+            setRightTvVisible();
+        }
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         if (fileUrlList != null) {
             docPreViewpageAdapter = new DocPreViewpageAdapter(context, fileUrlList);
@@ -70,6 +74,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
             fileUrl = (String) bundle.getCharSequence(KEY_URL);
             fileUrlList = bundle.getStringArrayList(KEY_URL_LIST);
             file = (File) bundle.getSerializable(KEY_FILE);
+            previewFlag = bundle.getBoolean(PREVIEW_FLAG, false);
             Logger.i(fileUrl);
             Logger.i(fileUrlList);
             initView();
@@ -182,7 +187,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                         }
                         if (uploadFileBean.isSuccess()) {
                             if (isLoading()) {
-                                 fileUrl = uploadFileBean.getData().getImgUrl();
+                                fileUrl = uploadFileBean.getData().getImgUrl();
                                 getPreview(fileUrl);
                             }
                         } else {
@@ -217,7 +222,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                     ShowUtil.showToast(getString(R.string.file_outpage));
                     return;
                 }
-                fileUrlList  = docPreviewResp.getData().getArryList();
+                fileUrlList = docPreviewResp.getData().getArryList();
                 initView();
             }
 
@@ -227,6 +232,10 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         });
+    }
+
+    private void setRightTvInvisible() {
+        findViewById(R.id.rightTv).setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -253,6 +262,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
     public final static String KEY_URL_LIST = "url_list";
     public final static String KEY_URL = "file_url";
     public final static String KEY_FILE = "file";
+    public static final String PREVIEW_FLAG = "previewFlag";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, DocPreviewActivity.class);

@@ -18,8 +18,10 @@ import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
+import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.contact.GroupMember;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
@@ -36,7 +38,8 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
  * Created by wanghao on 2017/5/10.
  */
 
-public class GroupSettingActivity extends BaseActivity implements View.OnClickListener, GroupMembersAdapter.OnGroupMemberClickListener {
+public class GroupSettingActivity extends BaseActivity implements View.OnClickListener, GroupMembersAdapter
+        .OnGroupMemberClickListener {
     private static final int ADD_MEMBER = 10000;
     private GroupMembersAdapter adapter;
     private ScrollGridView memberGridView;
@@ -96,6 +99,10 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private void initData() {
         currentGroupId = getIntent().getStringExtra("groupId");
         easemobGroupId = getIntent().getStringExtra("easemobGroupId");
+        Logger.i(currentGroupId);
+        Logger.i(easemobGroupId);
+        Logger.i(BaseApplication.getInstance().getEasemobId());
+
         token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
         queryGroupMsg();
@@ -103,58 +110,98 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
 //        ArrayList<GroupMember> groupMembers = new ArrayList<GroupMember>();
 //        GroupMember member01 = new GroupMember();
 //        member01.setType("1");
-//        member01.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
+//        member01.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1
+// &src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115
+// %2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
 //        GroupMember member02 = new GroupMember();
 //        member02.setType("0");
-//        member02.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+//        member02.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src
+// =http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 //        GroupMember member03 = new GroupMember();
 //        member03.setType("0");
-//        member03.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
+//        member03.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1
+// &src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115
+// %2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
 //        GroupMember member04 = new GroupMember();
 //        member04.setType("0");
-//        member04.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+//        member04.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src
+// =http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 //
 //        GroupMember member05 = new GroupMember();
 //        member05.setType("0");
-//        member05.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
+//        member05.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1
+// &src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115
+// %2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
 //        GroupMember member06 = new GroupMember();
 //        member06.setType("0");
-//        member06.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+//        member06.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src
+// =http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 //
 //        GroupMember member07 = new GroupMember();
 //        member07.setType("0");
-//        member07.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
+//        member07.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1
+// &src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115
+// %2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
 //        GroupMember member08 = new GroupMember();
 //        member08.setType("0");
-//        member08.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+//        member08.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src
+// =http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 //
 //        GroupMember member09 = new GroupMember();
 //        member09.setType("0");
-//        member09.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
+//        member09.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1
+// &src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115
+// %2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
 //        GroupMember member10 = new GroupMember();
 //        member10.setType("0");
-//        member10.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+//        member10.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src
+// =http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 //
 //        GroupMember member11 = new GroupMember();
 //        member11.setType("0");
-//        member11.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
+//        member11.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1
+// &src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115
+// %2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
 //        GroupMember member12 = new GroupMember();
 //        member12.setType("0");
-//        member12.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+//        member12.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src
+// =http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 //
 //        GroupMember member13 = new GroupMember();
 //        member13.setType("0");
-//        member13.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
+//        member13.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1
+// &src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115
+// %2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
 //        GroupMember member14 = new GroupMember();
 //        member14.setType("0");
-//        member14.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+//        member14.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src
+// =http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 //
 //        GroupMember member15 = new GroupMember();
 //        member15.setType("0");
-//        member15.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115%2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
+//        member15.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494660151&di=fc28cd4cd681bb1d70df6ff6654791ff&imgtype=jpg&er=1
+// &src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3D8c03c118ca8065387beaa41ba7dda115
+// %2Fc17fc0bf6c81800a06c8cd58b13533fa828b4759.jpg");
 //        GroupMember member16 = new GroupMember();
 //        member16.setType("0");
-//        member16.setMemberUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src=http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
+//        member16.setMemberUrl("https://timgsa.baidu
+// .com/timg?image&quality=80&size=b9999_10000&sec=1494065546496&di=a861d2debdefd088f50efa05393043dc&imgtype=jpg&src
+// =http%3A%2F%2Fimg3.imgtn.bdimg.com%2Fit%2Fu%3D893187487%2C386198762%26fm%3D214%26gp%3D0.jpg");
 //
 //        groupMembers.add(member01);
 //        groupMembers.add(member02);
@@ -184,16 +231,19 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     public void setData() {
         if (groupMessageInfo != null) {
             currentGroupId = groupMessageInfo.getGroupId();
-            title_group_name.setText(String.format("群管理(%s)", String.valueOf(groupMessageInfo.getGroupMembers().size())));
+            title_group_name.setText(String.format("群管理(%s)", String.valueOf(groupMessageInfo.getGroupMembers().size
+                    ())));
             tv_groupName.setText(groupMessageInfo.getGroupName());
-            tv_balance.setText(String.format("%s元", groupMessageInfo.getBalance() == null ? "0" : groupMessageInfo.getBalance()));
+            tv_balance.setText(String.format("%s元", groupMessageInfo.getBalance() == null ? "0" : groupMessageInfo
+                    .getBalance()));
             if ("1".equals(groupMessageInfo.getIsManage())) {
                 findViewById(R.id.part_show_manager).setVisibility(View.VISIBLE);
             } else {
                 findViewById(R.id.part_show_manager).setVisibility(View.GONE);
             }
 
-            adapter.modify(groupMessageInfo.getGroupMembers(), "1".equals(groupMessageInfo.getIsManage()) ? true : false);
+            adapter.modify(groupMessageInfo.getGroupMembers(), "1".equals(groupMessageInfo.getIsManage()) ? true :
+                    false);
         }
     }
 
@@ -209,21 +259,26 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 startActivityForResult(transferIntent, transferRequsetCoder);
                 break;
             case R.id.ll_dissolution:
-                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确认解散此群吗？", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
+                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确认解散此群吗？", new DialogUtils
+                        .QunOwnerDissolutionDialogCallBack() {
                     @Override
                     public void dissolution() {
-                        DialogUtils.showProgressDialog(getSelfActivity(),"努力解散").show();
+                        DialogUtils.showProgressDialog(getSelfActivity(), "努力解散").show();
                         Map<String, Object> params = new HashMap<String, Object>();
                         params.put("groupId", currentGroupId);
-                        GroupManagerRequest.dissolution(getSelfActivity(), baseApplication.getLoginToken(), params, dissolutinQunCallBack);
+                        GroupManagerRequest.dissolution(getSelfActivity(), baseApplication.getLoginToken(), params,
+                                dissolutinQunCallBack);
                     }
                 }).show();
                 break;
             case R.id.ll_contactfile:
-                startActivity(new Intent(getSelfActivity(), ContactFileActivity.class));
+                Bundle bundle = new Bundle();
+                bundle.putString(ChatFilesActivity.GROUP_ID, easemobGroupId);
+                ChatFilesActivity.start(GroupSettingActivity.this, bundle);
                 break;
             case R.id.ll_clear:
-                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确定清空群记录", new DialogUtils.QunOwnerDissolutionDialogCallBack() {
+                DialogUtils.showQunDissolutionDialog(getSelfActivity(), "确定清空群记录", new DialogUtils
+                        .QunOwnerDissolutionDialogCallBack() {
                     @Override
                     public void dissolution() {
                         clearChatHistory(easemobGroupId);
@@ -231,22 +286,23 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 }).show();
                 break;
             case R.id.ll_modifyname:
-                Intent modifyIntent = new Intent(getSelfActivity(),ModifyQunNameActivity.class);
-                modifyIntent.putExtra("groupid",currentGroupId);
+                Intent modifyIntent = new Intent(getSelfActivity(), ModifyQunNameActivity.class);
+                modifyIntent.putExtra("groupid", currentGroupId);
                 modifyIntent.putExtra("groupurl", groupMessageInfo.getGroupUrl());
                 startActivityForResult(modifyIntent, modifynameRequsetCoder);
                 break;
             case R.id.btn_exit:
-                DialogUtils.showexitGroupDialog(getSelfActivity(), "您确定要退群吗?", new DialogUtils.ExitGroupDialogCallback() {
+                DialogUtils.showexitGroupDialog(getSelfActivity(), "您确定要退群吗?", new DialogUtils
+                        .ExitGroupDialogCallback() {
                     @Override
                     public void exit() {
                         exitGroupReq();
                     }
                 }).show();
-
                 break;
         }
     }
+
 
     private void exitGroupReq() {
         DialogUtils.showProgressDialog(this, "退群中").show();
@@ -262,7 +318,8 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
      */
     private void clearChatHistory(String groupId) {
 
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(groupId, EMConversation.EMConversationType.GroupChat);
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(groupId, EMConversation
+                .EMConversationType.GroupChat);
         if (conversation != null) {
             conversation.clearAllMessages();
         }
@@ -329,13 +386,14 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private void delMemberSuccess() {
         if (null != delGroupMember) {
             groupMessageInfo.getGroupMembers().remove(delGroupMember);
-            adapter.modify(groupMessageInfo.getGroupMembers(), "1".equals(groupMessageInfo.getIsManage()) ? true : false);
+            adapter.modify(groupMessageInfo.getGroupMembers(), "1".equals(groupMessageInfo.getIsManage()) ? true :
+                    false);
         }
     }
 
     private void queryGroupMsg() {
         DialogUtils.showProgressDialog(this, "加载中").show();
-        GroupManagerRequest.queryGroupMessage(this, token, currentGroupId,easemobGroupId, groupMessageCallback);
+        GroupManagerRequest.queryGroupMessage(this, token, currentGroupId, easemobGroupId, groupMessageCallback);
     }
 
     GroupMessageCallback groupMessageCallback = new GroupMessageCallback() {

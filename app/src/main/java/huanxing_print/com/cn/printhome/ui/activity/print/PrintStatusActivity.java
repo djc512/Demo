@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.print;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,7 +9,12 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -111,11 +117,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 finish();
                 break;
             case R.id.shareRyt:
-                WeiXinUtils weiXinUtils = WeiXinUtils.getInstance();
-                weiXinUtils.init(this, BaseApplication.getInstance().WX_APPID);
-                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
-                weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
-                        .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", "https://www.baidu.com", bmp);
+                showInvitation();
                 break;
             case R.id.commentRyt:
                 Bundle bundle = new Bundle();
@@ -230,13 +232,14 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void setExceptionView() {
+        findViewById(R.id.errorExitTv).setVisibility(View.INVISIBLE);
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
         exceptionLyt.setVisibility(View.VISIBLE);
         countTv.setVisibility(View.GONE);
         animImg.setImageResource(R.drawable.ic_exception);
         stateTv.setText("打印异常");
-        stateDetailTv.setText("很抱歉打印机发生了故障，暂停服务");
+        stateDetailTv.setText("很抱歉打印机发生了故障，未能正常打印，\n     系统会在两个小时后完成自动退款");
     }
 
     private void setAwake() {
@@ -320,19 +323,78 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         finishThis();
     }
 
-    //    public void onSuccess(View view) {
+    private void showInvitation() {
+        final Dialog dialog = new Dialog(this, R.style.ActionSheetDialogStyle);
+        View inflate = LayoutInflater.from(this).inflate(R.layout.dialog_third_share, null);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        inflate.setLayoutParams(layoutParams);
+        View btn_cancel = inflate.findViewById(R.id.btn_cancel);
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        View btn_weiXin = inflate.findViewById(R.id.btn_weiXin);
+        btn_weiXin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                wechatShare();
+            }
+        });
+        View friendLyt = inflate.findViewById(R.id.friendLyt);
+        friendLyt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                shareToWxFriend();
+            }
+        });
+        dialog.setContentView(inflate);
+        Window dialogWindow = dialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialogWindow.setAttributes(lp);
+        dialog.show();
+    }
+
+    private void wechatShare() {
+        WeiXinUtils weiXinUtils = WeiXinUtils.getInstance();
+        weiXinUtils.init(this, BaseApplication.getInstance().WX_APPID);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
+        weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
+                .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", "https://www.baidu.com", bmp);
+    }
+
+    private void shareToWxFriend() {
+        WeiXinUtils weiXinUtils = WeiXinUtils.getInstance();
+        weiXinUtils.init(this, BaseApplication.getInstance().WX_APPID);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
+        weiXinUtils.shareToWxFriend(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
+                .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", "https://www.baidu.com", bmp);
+    }
+
+//    public void onSuccess(View view) {
 //        setSuccessView();
 //    }
+//
 //    public void onException(View view) {
 //        setExceptionView();
 //    }
+//
 //    public void onQueue(View view) {
 //        setQueueView(10);
 //
 //    }
+//
 //    public void onAWake(View view) {
 //        setAwake();
 //    }
+//
 //    public void onUpload(View view) {
 //        setUpload();
 //    }

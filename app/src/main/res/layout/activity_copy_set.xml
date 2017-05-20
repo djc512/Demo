@@ -441,10 +441,11 @@
                         android:textColor="@color/black2"
                         android:textSize="16sp"/>
 
-                    <TextView
+
+                    <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="充值最高5折优惠"/>
+                        android:layout_height="20dp"
+                        android:src="@drawable/img_privilege"/>
 
                     <ImageView
                         android:id="@+id/iv_cz_persion"

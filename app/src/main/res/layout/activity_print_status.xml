@@ -56,7 +56,8 @@
         <RelativeLayout
             android:id="@+id/successRyt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="invisible">
 
             <LinearLayout
                 android:id="@+id/linearLayout5"
@@ -195,8 +196,8 @@
                         android:id="@+id/shareTv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:layout_marginLeft="10dp"
+                        android:gravity="center"
                         android:text="评价本次打印"
                         android:textColor="@color/text_black"
                         android:textSize="16sp"/>
@@ -208,7 +209,7 @@
             android:id="@+id/stateRyt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/stateTv"
@@ -228,7 +229,7 @@
                 android:layout_below="@+id/stateTv"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:text="前面有3个打印任务，请耐心等待"
+                android:text="很抱歉打印机发生了故障，未能正常打印，\n     系统会在两个小时后完成自动退款"
                 android:textColor="@color/text_gray"
                 android:textSize="14sp"/>
 
@@ -300,8 +301,8 @@
 
         </RelativeLayout>
     </FrameLayout>
-
-    <!--    <Button
+    <!--
+        <Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -328,6 +329,7 @@
             android:layout_height="wrap_content"
             android:onClick="onException"
             android:text="onException"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

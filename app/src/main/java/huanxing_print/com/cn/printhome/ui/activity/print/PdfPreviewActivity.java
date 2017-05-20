@@ -37,6 +37,7 @@ public class PdfPreviewActivity extends BasePrintActivity implements View.OnClic
     private String pdfPath;
     private File file;
     private int page;
+    private boolean previewFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class PdfPreviewActivity extends BasePrintActivity implements View.OnClic
     private void initData() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+            previewFlag = bundle.getBoolean(PREVIEW_FLAG, false);
             pdfPath = (String) bundle.get(KEY_PDF_PATH);
             file = new File(pdfPath);
         } else {
@@ -91,7 +93,11 @@ public class PdfPreviewActivity extends BasePrintActivity implements View.OnClic
     public void loadComplete(int nbPages) {
         Logger.i(nbPages);
         page = nbPages;
-        setRightTvVisible();
+        if (previewFlag) {
+            setRightTvInvisible();
+        } else {
+            setRightTvVisible();
+        }
     }
 
     static class MyHandler extends Handler {
@@ -207,7 +213,12 @@ public class PdfPreviewActivity extends BasePrintActivity implements View.OnClic
         findViewById(R.id.rightTv).setOnClickListener(this);
     }
 
+    private void setRightTvInvisible() {
+        findViewById(R.id.rightTv).setVisibility(View.INVISIBLE);
+    }
+
     public static final String KEY_PDF_PATH = "pdf_path";
+    public static final String PREVIEW_FLAG = "previewFlag";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, PdfPreviewActivity.class);

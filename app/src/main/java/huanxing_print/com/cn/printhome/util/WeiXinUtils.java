@@ -2,9 +2,7 @@ package huanxing_print.com.cn.printhome.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -114,6 +112,30 @@ public class WeiXinUtils {
         req.transaction = buildTransaction("webpage");
         req.message = msg;
         req.scene = SendMessageToWX.Req.WXSceneSession;
+        api.sendReq(req);
+    }
+
+    /**
+     * 分享图文到朋友圈
+     * @param title
+     * @param content
+     * @param webUrl
+     * @param bitmap
+     */
+    public void shareToWxFriend(String title,String content,String webUrl,Bitmap bitmap) {
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = webUrl;
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = title;
+        msg.description = content;
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
+        bitmap.recycle();
+        msg.thumbData = bmpToByteArray(thumbBmp, true);
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("webpage");
+        req.message = msg;
+        req.scene = SendMessageToWX.Req.WXSceneTimeline;
         api.sendReq(req);
     }
 
