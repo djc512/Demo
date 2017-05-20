@@ -177,7 +177,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             if (!ObjectUtils.isNull(groupMessageInfo)) {
                 groupInfo = groupMessageInfo;
                 nickName = groupInfo.getGroupName();
-                tv_title.setText(groupInfo.getGroupName());
+                tv_title.setText(groupInfo.getGroupName() + "(" + groupInfo.getGroupMembers().size() + ")");
             }
         }
 
@@ -200,6 +200,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         //noinspection ConstantConditions
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_title.setText(toChatUsername);
+
+
         addImg = (ImageView) findViewById(R.id.addImg);
         voiceRecorderView = (EaseVoiceRecorderView) findViewById(R.id.voice_recorder);
         View view = findViewById(R.id.back);
@@ -318,7 +320,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 //group chat
                 EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
                 if (group != null)
-                    tv_title.setText(group.getGroupName());
+                    //tv_title.setText(toChatUsername + "(" + groupInfo.getGroupMembers().size() + ")");
                 // listen the event that user moved out group or group is dismissed
                 groupListener = new GroupListener();
                 EMClient.getInstance().groupManager().addGroupChangeListener(groupListener);
