@@ -150,7 +150,8 @@ public abstract class EaseChatRow extends LinearLayout {
 
         }
 
-        if(deliveredView != null){
+        //消息已读和送达全都隐藏
+        /*if(deliveredView != null){
             if (message.isDelivered()) {
                 deliveredView.setVisibility(View.VISIBLE);
             } else {
@@ -167,7 +168,7 @@ public abstract class EaseChatRow extends LinearLayout {
             } else {
                 ackedView.setVisibility(View.INVISIBLE);
             }
-        }
+        }*/
 
 
         if (adapter instanceof EaseMessageAdapter) {
