@@ -92,7 +92,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rel_red_package_num"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -138,7 +137,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rel_group_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

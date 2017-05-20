@@ -38,7 +38,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private TextView tv_uniqueid, tv_name, tv_print_count, tv_totle_balance;
     private String token;
     private String headUrl;
-    private String nickName,wechatName;
+    private String nickName, wechatName;
     private String phone;
     private String totleBalance;
     private String printCount;
@@ -50,6 +50,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     @Override
     protected void init() {
         EventBus.getDefault().register(this);
+        org.greenrobot.eventbus.EventBus.getDefault().register(this);
         initViews();
         initData();
         setListener();
@@ -98,7 +99,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private void initData() {
         token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        uniqueId= SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
+        uniqueId = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "uniqueId");
         DialogUtils.showProgressDialog(getActivity(), "加载中").show();
         //网络请求，获取用户信息
@@ -114,7 +115,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
             if (!ObjectUtils.isNull(bean)) {
                 headUrl = bean.getFaceUrl();
                 nickName = bean.getNickName();
-                wechatName=bean.getWechatName();
+                wechatName = bean.getWechatName();
                 phone = bean.getMobileNumber();
                 printCount = bean.getTotlePrintCount();
                 totleBalance = bean.getTotleBalance();
@@ -129,7 +130,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                             "uniqueModifyFlag", uniqueModifyFlag);
                 }
                 tv_name.setText(nickName);
-                tv_uniqueid.setText("印家号:"+uniqueId);
+                tv_uniqueid.setText("印家号:" + uniqueId);
                 tv_print_count.setText(printCount);
                 tv_totle_balance.setText(totleBalance);
                 //设置用户头像
@@ -190,17 +191,17 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 break;
             case R.id.ll_my_account:
                 Intent accIntent = new Intent(getActivity(), AccountActivity.class);
-                accIntent.putExtra("totleBalance",totleBalance);
+                accIntent.putExtra("totleBalance", totleBalance);
                 startActivity(accIntent);
                 break;
             case R.id.ll_station://布点建议
-                Intent stationIntent=new Intent(getActivity(), WebViewCommunityActivity.class);
+                Intent stationIntent = new Intent(getActivity(), WebViewCommunityActivity.class);
                 stationIntent.putExtra("titleName", "布点建议");
                 stationIntent.putExtra("webUrl", HttpUrl.myLay);
                 startActivity(stationIntent);
                 break;
             case R.id.ll_join://打印点加盟
-                Intent joinIntent=new Intent(getActivity(), WebViewCommunityActivity.class);
+                Intent joinIntent = new Intent(getActivity(), WebViewCommunityActivity.class);
                 joinIntent.putExtra("titleName", "打印点加盟");
                 joinIntent.putExtra("webUrl", HttpUrl.myEarn);
                 startActivity(joinIntent);
@@ -210,7 +211,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 break;
             case R.id.ll_my_community:
                 //startActivity(new Intent(getActivity(), CommunityListActivity.class));
-                Intent communityIntent=new Intent(getActivity(), WebViewCommunityActivity.class);
+                Intent communityIntent = new Intent(getActivity(), WebViewCommunityActivity.class);
                 communityIntent.putExtra("webUrl", HttpUrl.community);
                 startActivity(communityIntent);
                 break;
@@ -232,5 +233,6 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        org.greenrobot.eventbus.EventBus.getDefault().unregister(this);
     }
 }
