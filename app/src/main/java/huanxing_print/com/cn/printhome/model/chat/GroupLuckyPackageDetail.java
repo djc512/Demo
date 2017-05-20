@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class GroupLuckyPackageDetail {
     private String amount;
-    private String invalid;
+    private boolean invalid;
     private ArrayList<LuckyPackageObject> list;
     private String outTime;
     private String packetId;
@@ -16,7 +16,7 @@ public class GroupLuckyPackageDetail {
     private String sendMemberId;
     private String sendMemberName;
     private String sendMemberUrl;
-    private String snatch;
+    private boolean snatch;
     private String snatchAmount;
     private String snatchNum;
     private String totalAmount;
@@ -30,12 +30,20 @@ public class GroupLuckyPackageDetail {
         this.amount = amount;
     }
 
-    public String getInvalid() {
+    public boolean isInvalid() {
         return invalid;
     }
 
-    public void setInvalid(String invalid) {
+    public void setInvalid(boolean invalid) {
         this.invalid = invalid;
+    }
+
+    public boolean isSnatch() {
+        return snatch;
+    }
+
+    public void setSnatch(boolean snatch) {
+        this.snatch = snatch;
     }
 
     public ArrayList<LuckyPackageObject> getList() {
@@ -94,13 +102,6 @@ public class GroupLuckyPackageDetail {
         this.sendMemberUrl = sendMemberUrl;
     }
 
-    public String getSnatch() {
-        return snatch;
-    }
-
-    public void setSnatch(String snatch) {
-        this.snatch = snatch;
-    }
 
     public String getSnatchAmount() {
         return snatchAmount;
