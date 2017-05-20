@@ -46,6 +46,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private PicSaveUtil saveUtil;
     private Bitmap mBitmap;
     private TextView btn_reset;
+    private Bitmap mergePic;
 
     //  1毫米 约等于 3.78像素
     @Override
@@ -117,9 +118,9 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         double idRatio = idWidth / idHeight;//获取身份证的宽高比
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
-
-        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788), (int) (ivHeight * 0.7581));
-        iv_preview.setImageBitmap(mBitmap);
+        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788 * 0.8684 * 0.6196), (int) (ivHeight * 0.7581 * 0.9101 * 0.6136));
+        mergePic = mergePic(bitmap1, null, ivWidth, ivHeight);
+        iv_preview.setImageBitmap(mergePic);
     }
 
     private String picName;
@@ -136,11 +137,12 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth), (int) (ivHeight));
-        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth), (int) (ivHeight));
+        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788 * 0.8684 * 0.6196), (int) (ivHeight * 0.7581 * 0.9101 * 0.6136));
+        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788 * 0.8684 * 0.6196), (int) (ivHeight * 0.7581 * 0.9101 * 0.6136));
 
         mergeBitmap = mergePic(bitmap1, bitmap2, ivWidth, ivHeight);
         iv_preview.setImageBitmap(mergeBitmap);
+
     }
 
     @Override
@@ -160,7 +162,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
                     startActivity(printIntent);
                     finishCurrentActivity();
                 } else {
-                    saveUtil.saveClipPic(mBitmap, picName);
+                    saveUtil.saveClipPic(mergePic, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
@@ -182,12 +184,18 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
      */
     private Bitmap mergePic(Bitmap first, Bitmap second, double ivWidth, double ivHeight) {
         int picwidth = (int) ivWidth;
-        int picheight = (int) (ivHeight * 2);
+        int picheight;
+        if (null == second) {
+            picheight = (int) (ivHeight);
+        } else {
+            picheight = (int) (ivHeight * 2);
+        }
         Bitmap result = Bitmap.createBitmap(picwidth, picheight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
-        canvas.drawBitmap(first, 0, 0, null);
-
-        canvas.drawBitmap(second, 0, first.getHeight() + 50, null);
+        canvas.drawBitmap(first, dip2px(50), dip2px(50), null);
+        if (null != second) {
+            canvas.drawBitmap(second, dip2px(50), first.getHeight() + dip2px(80), null);
+        }
         return result;
     }
 
