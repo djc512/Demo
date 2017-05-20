@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import org.simple.eventbus.EventBus;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.constant.ConFig;
@@ -105,7 +107,11 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 		@Override
 		public void fail(String msg) {
 			DialogUtils.closeProgressDialog();
-			showToast(msg);
+			if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
+				EventBus.getDefault().post("hasLoginEvent");
+			}else{
+				showToast(msg);
+			}
 		}
 
 		@Override

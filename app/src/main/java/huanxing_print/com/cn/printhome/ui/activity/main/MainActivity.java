@@ -8,11 +8,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -21,9 +28,9 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ChatFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ContantsFragment;
+import huanxing_print.com.cn.printhome.ui.activity.fragment.MyFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.PrintFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragapproval.ApplyFragment;
-import huanxing_print.com.cn.printhome.ui.activity.fragment.MyFragment;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -32,7 +39,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  *
  * @author Administrator
  */
-public class MainActivity extends BaseActivity implements OnCheckedChangeListener, EasyPermissions.PermissionCallbacks {
+public class MainActivity extends BaseActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
     private Context mContext;
     private LinearLayout ll_bg;
     private RadioGroup rgp;
@@ -55,7 +62,19 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 
     private long exitTime;
 
-    private String url;
+    private TextView tv_count;
+    private ImageView iv_chat;
+    private TextView tv_chat;
+    private ImageView iv_apply;
+    private TextView tv_apply;
+    private ImageView iv_print;
+    private TextView tv_print;
+    private ImageView iv_contacts;
+    private TextView tv_contacts;
+    private ImageView iv_my;
+    private TextView tv_my;
+    private List<ImageView> imageViewList;
+    private List<TextView> textViewList;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -69,15 +88,47 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
-
-        init();
+        initView();
+        initListener();
+        inData();
         initPermission();
     }
 
-    private void init() {
+    private void initView() {
+        iv_chat = (ImageView) findViewById(R.id.iv_chat);
+        tv_chat = (TextView) findViewById(R.id.tv_chat);
+        iv_apply = (ImageView) findViewById(R.id.iv_apply);
+        tv_apply = (TextView) findViewById(R.id.tv_apply);
+        iv_print = (ImageView) findViewById(R.id.iv_print);
+        tv_print = (TextView) findViewById(R.id.tv_print);
+        iv_contacts = (ImageView) findViewById(R.id.iv_contacts);
+        tv_contacts = (TextView) findViewById(R.id.tv_contacts);
+        iv_my = (ImageView) findViewById(R.id.iv_my);
+        tv_my = (TextView) findViewById(R.id.tv_my);
+        tv_count= (TextView) findViewById(R.id.tv_count);
+
+        textViewList = new ArrayList<>();
+        textViewList.add(tv_chat);
+        textViewList.add(tv_apply);
+        textViewList.add(tv_print);
+        textViewList.add(tv_contacts);
+        textViewList.add(tv_my);
+    }
+    private void initListener() {
+
+        findViewById(R.id.ll_chat).setOnClickListener(this);
+        findViewById(R.id.ll_apply).setOnClickListener(this);
+        findViewById(R.id.ll_print).setOnClickListener(this);
+        findViewById(R.id.ll_contacts).setOnClickListener(this);
+        findViewById(R.id.ll_my).setOnClickListener(this);
+    }
+
+    private void inData() {
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
+
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
-        rgp = (RadioGroup) findViewById(R.id.rgp_option);
+
         fragMananger = getFragmentManager();
 
         fragPrint = new PrintFragment();
@@ -85,38 +136,100 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         fragContants = new ContantsFragment();
         fragChat = new ChatFragment();
         fragApply = new ApplyFragment();
-
         ll_bg.setBackgroundResource(R.color.white);
-        rgp.setOnCheckedChangeListener(this);
-        onCheckedChanged(rgp, R.id.rgb_print);
+
+        findViewById(R.id.ll_print).performClick();
 
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
+    EMMessageListener msgListener = new EMMessageListener() {
+
+        @Override
+        public void onMessageReceived(List<EMMessage> list) {
+           int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
+            if (num>0){
+                tv_count.setVisibility(View.VISIBLE);
+                tv_count.setText(num+"");
+            }else {
+                tv_count.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> list) {
+
+        }
+
+        @Override
+        public void onMessageRead(List<EMMessage> list) {
+
+        }
+
+        @Override
+        public void onMessageDelivered(List<EMMessage> list) {
+
+        }
+
+        @Override
+        public void onMessageChanged(EMMessage emMessage, Object o) {
+
+        }
+    };
+
+    public void onClick(View v) {
         FragmentTransaction tran = fragMananger.beginTransaction();
         if (fragTemp != null && !fragTemp.isHidden()) {
             tran.hide(fragTemp);
         }
-        switch (checkedId) {
-            case R.id.rgb_chat:
+        switch (v.getId()) {
+            case R.id.ll_chat:
                 ll_bg.setBackgroundResource(R.color.gray5);
+                iv_chat.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_chat_on));
+                iv_apply.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_apply_off));
+                iv_print.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_print_off));
+                iv_contacts.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_contacts_off));
+                iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_off));
+                setColor(0);//yixin
                 fragTemp = fragChat;
                 break;
-            case R.id.rgb_apply:
+            case R.id.ll_apply:
                 ll_bg.setBackgroundResource(R.color.gray5);
+                iv_chat.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_chat_off));
+                iv_apply.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_apply_on));
+                iv_print.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_print_off));
+                iv_contacts.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_contacts_off));
+                iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_off));
+                setColor(1);//yixin
                 fragTemp = fragApply;
                 break;
-            case R.id.rgb_print:
+            case R.id.ll_print:
                 ll_bg.setBackgroundResource(R.color.white);
+                iv_chat.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_chat_off));
+                iv_apply.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_apply_off));
+                iv_print.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_print_on));
+                iv_contacts.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_contacts_off));
+                iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_off));
+                setColor(2);//yixin
                 fragTemp = fragPrint;
                 break;
-            case R.id.rgb_contacts:
+            case R.id.ll_contacts:
                 ll_bg.setBackgroundResource(R.color.gray5);
+                iv_chat.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_chat_off));
+                iv_apply.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_apply_off));
+                iv_print.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_print_off));
+                iv_contacts.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_contacts_on));
+                iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_off));
+                setColor(3);//yixin
                 fragTemp = fragContants;
                 break;
-            case R.id.rgb_my:
+            case R.id.ll_my:
                 ll_bg.setBackgroundResource(R.color.gray5);
+                iv_chat.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_chat_off));
+                iv_apply.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_apply_off));
+                iv_print.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_print_off));
+                iv_contacts.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_contacts_off));
+                iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_on));
+                setColor(4);//yixin
                 fragTemp = fragMy;
                 break;
 
@@ -124,7 +237,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
         }
         if (fragTemp.isAdded()) {
             if (fragTemp instanceof ContantsFragment) {
-                ((ContantsFragment)fragTemp).reload();
+                ((ContantsFragment) fragTemp).reload();
             }
             tran.show(fragTemp);
         } else {
@@ -135,9 +248,9 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 
     @Override
     protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-        if(fragTemp instanceof PrintFragment) {
+        if (fragTemp instanceof PrintFragment) {
             fragPrint.onActivityResult(arg0, arg1, arg2);
-        }else if(fragTemp instanceof ContantsFragment) {
+        } else if (fragTemp instanceof ContantsFragment) {
             fragContants.onActivityResult(arg0, arg1, arg2);
         }
     }
@@ -158,6 +271,7 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
 
     @Override
     protected void onDestroy() {
+        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
         super.onDestroy();
     }
 
@@ -201,5 +315,21 @@ public class MainActivity extends BaseActivity implements OnCheckedChangeListene
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+
+    /**
+     * gaibianzhaungtai
+     */
+    private void setColor(int index){
+        for (int i = 0; i < textViewList.size(); i++) {
+            if(index == i){
+                //imageViewList.get(index).setImageBitmap(bitmap);
+                textViewList.get(index).setTextColor(getResources().getColor(R.color.text_color));
+            }else {
+                //imageViewList.get(i).setImageBitmap(bitmap1);
+                textViewList.get(i).setTextColor(getResources().getColor(R.color.gray2));
+            }
+        }
     }
 }

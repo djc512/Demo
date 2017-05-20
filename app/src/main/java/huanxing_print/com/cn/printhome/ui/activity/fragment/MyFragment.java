@@ -136,7 +136,11 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-             showToast(msg);
+            if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
+                EventBus.getDefault().post("hasLoginEvent");
+            }else{
+                showToast(msg);
+            }
         }
 
         @Override
