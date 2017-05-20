@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:text="拼手气红包金额"
+            android:text="群红包金额"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_sixteen" />
 
@@ -77,7 +77,7 @@
             android:id="@+id/txt_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/red_package_type_description_luck"
+            android:text="@string/red_package_type_description_group"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_twelve" />
 
@@ -86,12 +86,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/txt_left"
-            android:text="@string/red_package_other_name_group"
+            android:text="@string/red_package_other_name_luck"
             android:textColor="@color/stepline_red"
             android:textSize="@dimen/text_size_twelve" />
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rel_red_package_num"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -136,6 +137,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rel_group_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -49,7 +49,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     private TextView txt_group_num;//群人数
     private TextView txt_red_packge_money;//红包
     private Button btn_plug_money;
-    private boolean isLuck = true;//拼手气
+    private boolean isLuck = false;//拼手气
     private GroupMessageInfo groupInfo;
 
     @Override
