@@ -7,12 +7,12 @@ package huanxing_print.com.cn.printhome.model.chat;
 public class RedPackageDetail {
     private String amount;
     private String faceUrl;
-    private boolean invalid;
+    private String invalid;
     private String masterFaceUrl;
     private String masterName;
     private String name;
     private String remark;
-    private boolean snatch;
+    private String snatch;
     private String time;
     private String receiveMemberId;//发给谁的
     private String sendMemberId;//谁发的
@@ -33,13 +33,6 @@ public class RedPackageDetail {
         this.faceUrl = faceUrl;
     }
 
-    public boolean isInvalid() {
-        return invalid;
-    }
-
-    public void setInvalid(boolean invalid) {
-        this.invalid = invalid;
-    }
 
     public String getMasterFaceUrl() {
         return masterFaceUrl;
@@ -73,11 +66,19 @@ public class RedPackageDetail {
         this.remark = remark;
     }
 
-    public boolean isSnatch() {
+    public String getInvalid() {
+        return invalid;
+    }
+
+    public void setInvalid(String invalid) {
+        this.invalid = invalid;
+    }
+
+    public String getSnatch() {
         return snatch;
     }
 
-    public void setSnatch(boolean snatch) {
+    public void setSnatch(String snatch) {
         this.snatch = snatch;
     }
 
