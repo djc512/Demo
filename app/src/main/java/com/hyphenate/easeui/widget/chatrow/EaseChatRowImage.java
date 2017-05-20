@@ -175,13 +175,13 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 protected Bitmap doInBackground(Object... args) {
                     File file = new File(thumbernailPath);
                     if (file.exists()) {
-                        return EaseImageUtils.decodeScaleImage(thumbernailPath, 160, 160);
+                        return EaseImageUtils.decodeScaleImage(thumbernailPath, 265, 265);
                     } else if (new File(imgBody.thumbnailLocalPath()).exists()) {
-                        return EaseImageUtils.decodeScaleImage(imgBody.thumbnailLocalPath(), 160, 160);
+                        return EaseImageUtils.decodeScaleImage(imgBody.thumbnailLocalPath(), 265, 265);
                     } else {
                         if (message.direct() == EMMessage.Direct.SEND) {
                             if (localFullSizePath != null && new File(localFullSizePath).exists()) {
-                                return EaseImageUtils.decodeScaleImage(localFullSizePath, 160, 160);
+                                return EaseImageUtils.decodeScaleImage(localFullSizePath, 265, 265);
                             } else {
                                 return null;
                             }
