@@ -159,7 +159,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
                     "", toChatUsername, callback);
         } else {
-//            tv_title.setText(toChatUsername);
+            tv_title.setText(toChatUsername);
         }
 
         setUpView();
@@ -320,7 +320,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 //group chat
                 EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
                 if (group != null)
-                    //tv_title.setText(toChatUsername + "(" + groupInfo.getGroupMembers().size() + ")");
+                    tv_title.setText(toChatUsername );
                 // listen the event that user moved out group or group is dismissed
                 groupListener = new GroupListener();
                 EMClient.getInstance().groupManager().addGroupChangeListener(groupListener);
@@ -460,11 +460,9 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             }
 
             @Override
-            public void onBubbleLongClick(EMMessage message) {
-                contextMenuMessage = message;
-                if (chatFragmentHelper != null) {
-                    chatFragmentHelper.onMessageBubbleLongClick(message);
-                }
+            public boolean onBubbleLongClick(EMMessage message) {
+                Log.d("CMCC", "chattestactivity:");
+                return false;
             }
 
             @Override

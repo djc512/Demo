@@ -322,11 +322,12 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             }
 
             @Override
-            public void onBubbleLongClick(EMMessage message) {
-                contextMenuMessage = message;
-                if (chatFragmentHelper != null) {
-                    chatFragmentHelper.onMessageBubbleLongClick(message);
-                }
+            public boolean onBubbleLongClick(EMMessage message) {
+//                contextMenuMessage = message;
+//                if (chatFragmentHelper != null) {
+//                    chatFragmentHelper.onMessageBubbleLongClick(message);
+//                }
+                return false;
             }
 
             @Override

@@ -10,14 +10,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.chat.RedPackage;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
+import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.chat.SendPackageCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.chat.ChatRequest;
+import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.util.CashierInputFilter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -108,8 +115,9 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
                 if (ObjectUtils.isNull(str_word)) {
                     str_word = "恭喜发财，大吉大利";
                 }
-                ChatRequest.sendRedPackage(getSelfActivity(), baseApplication.getLoginToken()
-                        , str_money, str_word, memberId, callBack);
+                //网络请求，获取用户信息
+                DialogUtils.showProgressDialog(this, "装红包中").show();
+                MyInfoRequest.getMyInfo(getSelfActivity(), baseApplication.getLoginToken(), new MyMyInfoCallBack());
                 //发红包
                 //展示假的红包
 //                Dialog dialog = new SingleRedEnvelopesDialog(getSelfActivity(),
@@ -126,6 +134,11 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
         public void success(String msg, RedPackage redPackage) {
             DialogUtils.closeProgressDialog();
             if (null != redPackage) {
+                //EvenBus发个消息更新余额
+                RefreshEvent event = new RefreshEvent();
+                event.setCode(0x11);
+                EventBus.getDefault().postSticky(event);
+
                 String amount = redPackage.getAmount();
                 String masterName = redPackage.getMasterName();
                 String packetId = redPackage.getPacketId();
@@ -154,4 +167,46 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
         }
 
     };
+
+    public class MyMyInfoCallBack extends MyInfoCallBack {
+
+        @Override
+        public void success(String msg, MyInfoBean bean) {
+            DialogUtils.closeProgressDialog();
+
+            if (!ObjectUtils.isNull(bean)) {
+                String totleBalance = bean.getTotleBalance();
+                String amount = edt_single_money.getText().toString();
+                if (Float.parseFloat(totleBalance) >= Float.parseFloat(amount)) {
+                    //发红包
+                    DialogUtils.showRedPackageConfirmDialog(getSelfActivity(), "红包", "¥ " + Float.parseFloat(amount), new DialogUtils.RedPackageCallback() {
+                        @Override
+                        public void send() {
+                            ChatRequest.sendRedPackage(getSelfActivity(), baseApplication.getLoginToken()
+                                    , str_money, str_word, memberId, callBack);
+                        }
+                    }).show();
+                } else {
+                    //发红包
+                    DialogUtils.showRedPackageConfirmDialog(getSelfActivity(), "红包", "余额不足", new DialogUtils.RedPackageCallback() {
+                        @Override
+                        public void send() {
+                        }
+                    }).show();
+                }
+
+            }
+        }
+
+        @Override
+        public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(getSelfActivity(), msg);
+        }
+
+        @Override
+        public void connectFail() {
+            DialogUtils.closeProgressDialog();
+        }
+    }
 }

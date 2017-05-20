@@ -3,10 +3,13 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
@@ -15,6 +18,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
@@ -146,6 +150,15 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void refreshMyInfo(RefreshEvent event) {
+        if (0x11 == event.getCode()) {
+            //网络请求，获取用户信息  更新UI
+            Log.d("CMCC", "接收到了消息!");
+            MyInfoRequest.getMyInfo(getActivity(), token, new MyMyInfoCallBack());
         }
     }
 

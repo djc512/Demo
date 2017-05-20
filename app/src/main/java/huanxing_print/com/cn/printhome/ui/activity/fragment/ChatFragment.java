@@ -59,6 +59,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
 
     @Override
     protected void init() {
+
         EventBus.getDefault().register(this);
         Logger.i("init");
         conversationListView = (EaseConversationList) findViewById(R.id.list);

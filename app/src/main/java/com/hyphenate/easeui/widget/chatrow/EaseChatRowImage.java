@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,10 +25,12 @@ import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseImageUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
 
 public class EaseChatRowImage extends EaseChatRowFile {
 
@@ -33,6 +38,9 @@ public class EaseChatRowImage extends EaseChatRowFile {
     private EMImageMessageBody imgBody;
     private ImageView iv_userhead;
     private TextView tv_userid;
+    private RelativeLayout bubble;
+    private LinearLayout lin_group;
+    private ArrayList<String> popupMenuItemList;
 
     public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -50,6 +58,8 @@ public class EaseChatRowImage extends EaseChatRowFile {
         imageView = (ImageView) findViewById(R.id.image);
         iv_userhead = (ImageView) findViewById(R.id.iv_userhead);
         tv_userid = (TextView) findViewById(R.id.tv_userid);
+        bubble = (RelativeLayout) findViewById(R.id.bubble);
+        lin_group = (LinearLayout) findViewById(R.id.lin_group);
     }
 
 
@@ -100,6 +110,16 @@ public class EaseChatRowImage extends EaseChatRowFile {
         String filePath = imgBody.getLocalUrl();
         String thumbPath = EaseImageUtils.getThumbnailImagePath(imgBody.getLocalUrl());
         showImageView(thumbPath, imageView, filePath, message);
+//        //给图片设置长按事件
+//        bubble.setOnLongClickListener(new OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//
+//
+//                return true;
+//            }
+//        });
+
         handleSendMessage();
     }
 
@@ -196,4 +216,25 @@ public class EaseChatRowImage extends EaseChatRowFile {
         }
     }
 
+    @Override
+    protected void onBubbleLongClick() {
+        Log.d("CMCC", "onBubbleLongClick触发了");
+        popupMenuItemList = new ArrayList<>();
+        popupMenuItemList.add("打印");
+        popupMenuItemList.add("转发");
+        popupMenuItemList.add("保存");
+        popupMenuItemList.add("删除");
+        PopupList popupList = new PopupList(context);
+        popupList.bind(bubble, popupMenuItemList, new PopupList.PopupListListener() {
+            @Override
+            public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
+                return true;
+            }
+
+            @Override
+            public void onPopupListClick(View contextView, int contextPosition, int position) {
+                Log.d("CMCC", "点击了:" + popupMenuItemList.get(position));
+            }
+        });
+    }
 }
