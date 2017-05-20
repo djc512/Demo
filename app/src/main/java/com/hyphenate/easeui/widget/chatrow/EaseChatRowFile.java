@@ -129,11 +129,20 @@ public class EaseChatRowFile extends EaseChatRow {
         //昵称
         if (ObjectUtils.isNull(nickName)) {
             tv_userid.setText(message.getFrom());
+            Log.i("DDDD","=============================================我走了空");
         } else {
             tv_userid.setText(nickName);
+            Log.i("DDDD","=============================================我走了不为空，网络的");
         }
+        Log.i("DDDD", "message.getFrom()============================================="+message.getFrom());
+        Log.i("DDDD", "nickName============================================="+nickName);
         //隐藏发送文件的用户名
-        //tv_userid.setVisibility(GONE);
+        if (message.getChatType().equals(ChatType.Chat)){
+            tv_userid.setVisibility(GONE);
+        }else{
+            tv_userid.setVisibility(VISIBLE);
+        }
+
         // until here, to sending message
         handleSendMessage();
     }

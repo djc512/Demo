@@ -176,11 +176,15 @@ public abstract class EaseChatRow extends LinearLayout {
                 userAvatarView.setVisibility(View.VISIBLE);
             else
                 userAvatarView.setVisibility(View.GONE);
-            if (usernickView != null) {
-                if (((EaseMessageAdapter) adapter).isShowUserNick())
-                    usernickView.setVisibility(View.VISIBLE);
-                else
-                    usernickView.setVisibility(View.GONE);
+            if (message.getType() == EMMessage.Type.FILE&&message.getChatType().equals(EMMessage.ChatType.GroupChat)&&message.getChatType().equals(EMMessage.ChatType.ChatRoom)){
+                usernickView.setVisibility(View.VISIBLE);
+            } else {
+                if (usernickView != null) {
+                    if (((EaseMessageAdapter) adapter).isShowUserNick())
+                        usernickView.setVisibility(View.VISIBLE);
+                    else
+                        usernickView.setVisibility(View.GONE);
+                }
             }
             if (message.direct() == Direct.SEND) {
                 if (((EaseMessageAdapter) adapter).getMyBubbleBg() != null) {

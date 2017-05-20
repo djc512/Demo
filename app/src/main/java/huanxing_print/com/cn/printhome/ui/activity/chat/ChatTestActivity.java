@@ -251,6 +251,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         }
 
         tv_title.setText(nickName);
+        //取消声音按钮
+        voiceRecorderView.setVisibility(View.GONE);
 
         // message list layout
         messageList = (EaseChatMessageList) findViewById(R.id.message_list);
