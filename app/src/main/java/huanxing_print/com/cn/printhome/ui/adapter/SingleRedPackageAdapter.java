@@ -57,7 +57,7 @@ public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int i) {
-        boolean snatch = detail.isSnatch();
+        String snatch = detail.getSnatch();
         if (viewHolder instanceof HeaderViewHolder) {
             String amount = detail.getAmount();
             String sendNameUrl = detail.getMasterFaceUrl();
@@ -77,7 +77,7 @@ public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ((HeaderViewHolder) viewHolder).remarkTv.setText(remark);
             }
 
-            if (!snatch) {
+            if ("false".equals(detail.getSnatch())) {
                 ((HeaderViewHolder) viewHolder).moneyTv.setText(amount);
                 ((HeaderViewHolder) viewHolder).ll_money.setVisibility(View.GONE);
                 ((HeaderViewHolder) viewHolder).detailTv.setText("红包金额" + amount + "元等待对方领取");
@@ -88,7 +88,7 @@ public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
 
         } else if (viewHolder instanceof NormalViewHolder) {
-            if (snatch) {
+            if ("true".equals(detail.getSnatch())) {
                 ((NormalViewHolder) viewHolder).ryt.setVisibility(View.VISIBLE);
                 String listamount = detail.getAmount();
                 String listsendNameUrl = detail.getFaceUrl();
@@ -108,7 +108,7 @@ public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.V
                     ((NormalViewHolder) viewHolder).timeTv.setText(listtime);
                 }
 
-            }else{
+            } else {
                 ((NormalViewHolder) viewHolder).ryt.setVisibility(View.GONE);
             }
         }

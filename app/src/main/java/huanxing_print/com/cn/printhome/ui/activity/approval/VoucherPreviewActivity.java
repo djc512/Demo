@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -118,6 +120,7 @@ public class VoucherPreviewActivity extends BaseActivity implements View.OnClick
                 finishCurrentActivity();
                 break;
             case R.id.btn_print_proof:
+                EventBus.getDefault().postSticky(new Integer(1));
                 Intent intent = new Intent(VoucherPreviewActivity.this, PickPrinterActivity.class);
                 intent.putExtra("imagepath", picPath);
                 intent.putExtra("authflag", true);

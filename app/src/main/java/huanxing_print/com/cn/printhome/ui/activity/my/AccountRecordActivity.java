@@ -123,7 +123,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             @Override
             public void success(String msg, String s) {
                 DialogUtils.closeProgressDialog();
-                if ("0".equals(s)) {
+                if ("0.00".equals(s)) {
                     ToastUtil.doToast(getSelfActivity(), "可开发票金额为0");
                     return;
                 } else {

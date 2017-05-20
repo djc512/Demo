@@ -80,7 +80,7 @@ public class PhotoPickerActivity extends BaseActivity implements PhotoAdapter.Ph
     /**
      * 默认最大选择数量
      */
-    public final static int DEFAULT_NUM = 9;
+    public final static int DEFAULT_NUM = 3;
 
     private final static String ALL_PHOTO = "所有图片";
     /**

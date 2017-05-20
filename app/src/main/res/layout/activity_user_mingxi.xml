@@ -13,7 +13,7 @@
 
         <TextView
             style="@style/title"
-            android:text="账单明细" />
+            android:text="打印记录" />
 
         <TextView
             android:id="@+id/tv_bill_debit"

@@ -73,13 +73,16 @@ public class DialogUtils {
 
     public interface PackageDialogCallBack {
         public void open();
+
         public void look();
 
     }
+
     public interface SinglePackageDialogCallBack {
         public void open();
 
     }
+
     public interface AuditStatusDialogCallBack {
         public void ok();
 
@@ -127,7 +130,7 @@ public class DialogUtils {
         void exit();
     }
 
-    public interface RedPackageCallback{
+    public interface RedPackageCallback {
         void send();
     }
 
@@ -726,8 +729,8 @@ public class DialogUtils {
     }
 
     public static Dialog showGroupLuckyPackageDialog(Context context, String imgUrl, String redPackageSender,
-                                           String leaveMsg,String invalid, String snatch,
-                                           final PackageDialogCallBack dialogCallBack) {
+                                                     String leaveMsg, String invalid, String snatch,
+                                                     final PackageDialogCallBack dialogCallBack) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.layout_red_package_dialog, null);
@@ -752,32 +755,32 @@ public class DialogUtils {
         TextView txt_leave_msg = (TextView) view.findViewById(R.id.txt_leave_msg);
         TextView txt_failure_msg = (TextView) view.findViewById(R.id.txt_failure_msg);
         //头像展示
-        BitmapUtils.displayImage(context, imgUrl,R.drawable.iv_head, img_head_portrait);
+        BitmapUtils.displayImage(context, imgUrl, R.drawable.iv_head, img_head_portrait);
 
         txt_name.setText(redPackageSender);
         //invalid  false 有效 true失效    snatch  true 已抢 false 未抢
-         if (!ObjectUtils.isNull(invalid)&&"false".equals(invalid)){
-             if (!ObjectUtils.isNull(snatch)&&"false".equals(snatch)){
-                 txt_default_msg.setVisibility(View.VISIBLE);
-                 txt_leave_msg.setVisibility(View.VISIBLE);
-                 openBtn.setVisibility(View.VISIBLE);
-                 txt_failure_msg.setVisibility(View.GONE);
-                 txt_leave_msg.setText(leaveMsg);
-             }else{
-                 txt_default_msg.setVisibility(View.GONE);
-                 txt_leave_msg.setVisibility(View.GONE);
-                 openBtn.setVisibility(View.GONE);
-                 txt_failure_msg.setVisibility(View.VISIBLE);
-                 txt_failure_msg.setText("手慢了，红包已抢完");
-             }
+        if (!ObjectUtils.isNull(invalid) && "false".equals(invalid)) {
+            if (!ObjectUtils.isNull(snatch) && "false".equals(snatch)) {
+                txt_default_msg.setVisibility(View.VISIBLE);
+                txt_leave_msg.setVisibility(View.VISIBLE);
+                openBtn.setVisibility(View.VISIBLE);
+                txt_failure_msg.setVisibility(View.GONE);
+                txt_leave_msg.setText(leaveMsg);
+            } else {
+                txt_default_msg.setVisibility(View.GONE);
+                txt_leave_msg.setVisibility(View.GONE);
+                openBtn.setVisibility(View.GONE);
+                txt_failure_msg.setVisibility(View.VISIBLE);
+                txt_failure_msg.setText("手慢了，红包已抢完");
+            }
 
-         }else{
-             txt_default_msg.setVisibility(View.GONE);
-             txt_leave_msg.setVisibility(View.GONE);
-             openBtn.setVisibility(View.GONE);
-             txt_failure_msg.setVisibility(View.VISIBLE);
-             txt_failure_msg.setText("该红包已失效");
-         }
+        } else {
+            txt_default_msg.setVisibility(View.GONE);
+            txt_leave_msg.setVisibility(View.GONE);
+            openBtn.setVisibility(View.GONE);
+            txt_failure_msg.setVisibility(View.VISIBLE);
+            txt_failure_msg.setText("该红包已失效");
+        }
 
         //contentTv.setText(content);
         openBtn.setOnClickListener(new OnClickListener() {
@@ -809,7 +812,7 @@ public class DialogUtils {
     }
 
     public static Dialog showSinglePackageDialog(Context context, String imgUrl, String redPackageSender,
-                                                 String leaveMsg,boolean invalid, boolean snatch,
+                                                 String leaveMsg, String invalid, String snatch,
                                                  final SinglePackageDialogCallBack dialogCallBack) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -834,13 +837,13 @@ public class DialogUtils {
         TextView txt_leave_msg = (TextView) view.findViewById(R.id.txt_leave_msg);
         TextView txt_failure_msg = (TextView) view.findViewById(R.id.txt_failure_msg);
 
-        BitmapUtils.displayImage(context, imgUrl,R.drawable.iv_head, img_head_portrait);
+        BitmapUtils.displayImage(context, imgUrl, R.drawable.iv_head, img_head_portrait);
 
         txt_name.setText(redPackageSender);
         //invalid  false 有效 true失效    snatch  true 已抢 false 未抢
-        if (!ObjectUtils.isNull(invalid)&&"false".equals(invalid)){
+        if (!ObjectUtils.isNull(invalid) && "false".equals(invalid)) {
 
-            if (!ObjectUtils.isNull(snatch)&&"false".equals(snatch)){
+            if (!ObjectUtils.isNull(snatch) && "false".equals(snatch)) {
                 txt_default_msg.setVisibility(View.VISIBLE);
                 txt_leave_msg.setVisibility(View.VISIBLE);
                 openBtn.setVisibility(View.VISIBLE);
@@ -848,7 +851,7 @@ public class DialogUtils {
                 txt_leave_msg.setText(leaveMsg);
             }
 
-        }else{
+        } else {
             txt_default_msg.setVisibility(View.GONE);
             txt_leave_msg.setVisibility(View.GONE);
             openBtn.setVisibility(View.GONE);
@@ -877,8 +880,6 @@ public class DialogUtils {
 
         return mSinglePackageDialog;
     }
-
-
 
 
     public static void closeProgressDialog() {

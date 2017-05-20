@@ -73,7 +73,7 @@ public class GroupLuckyRedPackageAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
         if (viewHolder instanceof HeaderViewHolder) {
-            String snatch = detail.getSnatch();
+            boolean snatch = detail.isSnatch();
             String amount = detail.getAmount();
             String sendNameUrl = detail.getSendMemberUrl();
             String sendName = detail.getSendMemberName();
@@ -95,7 +95,7 @@ public class GroupLuckyRedPackageAdapter extends RecyclerView.Adapter<RecyclerVi
                 ((HeaderViewHolder) viewHolder).remarkTv.setText(remark);
             }
 
-            if ("true".equals(snatch)) {
+            if (snatch) {
                 ((HeaderViewHolder) viewHolder).ll_money.setVisibility(View.VISIBLE);
                 ((HeaderViewHolder) viewHolder).moneyTv.setText(amount);
                 if (snatchNum.equals(totalNumber)) {

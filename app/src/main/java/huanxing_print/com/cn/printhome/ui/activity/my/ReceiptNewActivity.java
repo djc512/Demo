@@ -107,7 +107,26 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
                 showLocation();
                 break;
             case R.id.tv_confirm:
-                submit();
+                companyName = et_companyName.getText().toString().trim();
+                if (TextUtils.isEmpty(companyName)) {
+                    Toast.makeText(this, "填写公司名称或个人", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                receiver = et_receiver.getText().toString().trim();
+                if (TextUtils.isEmpty(receiver)) {
+                    Toast.makeText(this, "填写收件人", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                phone = et_phone.getText().toString().trim();
+                if (TextUtils.isEmpty(phone)) {
+                    Toast.makeText(this, "填写联系方式", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (!CommonUtils.isPhone(phone)) {
+                    Toast.makeText(ctx, "手机号码不正确", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 go2Receipt();
                 break;
         }
@@ -140,7 +159,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
         DebitNormalRequest.sendNormalBack(getSelfActivity(),
                 "",
                 billValue,
-                "打印费",
+                "0",
                 city,
                 companyName,
                 "",
@@ -169,26 +188,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
     }
 
     private void submit() {
-        companyName = et_companyName.getText().toString().trim();
-        if (TextUtils.isEmpty(companyName)) {
-            Toast.makeText(this, "填写公司名称或个人", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        receiver = et_receiver.getText().toString().trim();
-        if (TextUtils.isEmpty(receiver)) {
-            Toast.makeText(this, "填写收件人", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        phone = et_phone.getText().toString().trim();
-        if (TextUtils.isEmpty(phone)) {
-            Toast.makeText(this, "填写联系方式", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (!CommonUtils.isPhone(phone)) {
-            Toast.makeText(ctx, "手机号码不正确", Toast.LENGTH_SHORT).show();
-            return;
-        }
     }
 
     //查询接口返回

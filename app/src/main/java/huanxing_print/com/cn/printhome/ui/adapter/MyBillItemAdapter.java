@@ -60,7 +60,7 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
         String date = bean.getAddTime();//日期
         holder.tv_bill_time.setText(date);
         String amount = bean.getAmount();//金额
-        holder.tv_bill_money.setText("+" + amount);
+        holder.tv_bill_money.setText("￥" + amount);
         String orderId = bean.getOrderId();//订单号
         holder.tv_bill_orderid.setText("订单编号:" + orderId);
         String printAddress = bean.getPrintAddress();//打印店

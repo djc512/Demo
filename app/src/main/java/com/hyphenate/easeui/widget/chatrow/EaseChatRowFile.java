@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.widget.chatrow;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.chat.EMNormalFileMessageBody;
 import com.hyphenate.easeui.ui.EaseShowNormalFileActivity;
 import com.hyphenate.exceptions.HyphenateException;
+import com.hyphenate.util.FileUtils;
 import com.hyphenate.util.TextFormater;
 
 import java.io.File;
@@ -25,12 +27,15 @@ import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.file.FileUtil;
 
+import static huanxing_print.com.cn.printhome.util.webserver.ChatFileType.getExtensionName;
+
 public class EaseChatRowFile extends EaseChatRow {
 
     protected TextView fileNameView;
     protected TextView fileSizeView;
     protected TextView fileStateView;
     private ImageView iv_userhead;
+    private ImageView iv_file_type;
     private TextView tv_userid;
 
     protected EMCallBack sendfileCallBack;
@@ -55,6 +60,7 @@ public class EaseChatRowFile extends EaseChatRow {
         fileStateView = (TextView) findViewById(R.id.tv_file_state);
         percentageView = (TextView) findViewById(R.id.percentage);
         iv_userhead = (ImageView) findViewById(R.id.iv_userhead);
+        iv_file_type = (ImageView) findViewById(R.id.iv_file_type);
         tv_userid = (TextView) findViewById(R.id.tv_userid);
     }
 
@@ -64,6 +70,32 @@ public class EaseChatRowFile extends EaseChatRow {
         fileMessageBody = (EMNormalFileMessageBody) message.getBody();
         String filePath = fileMessageBody.getLocalUrl();
         fileNameView.setText(fileMessageBody.getFileName());
+        if (message.getType() == EMMessage.Type.FILE) {
+            //设置不同文件类型的图标
+            String fileType = getExtensionName(filePath);
+            if (!ObjectUtils.isNull(fileType)) {
+                switch (fileType) {
+                    case "pdf":
+                        iv_file_type.setImageResource(R.drawable.file_pdf);
+                        break;
+                    case "doc":
+                        iv_file_type.setImageResource(R.drawable.file_doc);
+                        break;
+                    case "docx":
+                        iv_file_type.setImageResource(R.drawable.file_docx);
+                        break;
+                    case "ppt":
+                        iv_file_type.setImageResource(R.drawable.file_ppt);
+                        break;
+                    case "pptx":
+                        iv_file_type.setImageResource(R.drawable.file_pptx);
+                        break;
+                    default:
+                        iv_file_type.setImageResource(R.drawable.file_doc);
+                        break;
+                }
+            }
+        }
         fileSizeView.setText(TextFormater.getDataSize(fileMessageBody.getFileSize()));
         if (message.direct() == EMMessage.Direct.RECEIVE) {
             File file = new File(filePath);
@@ -153,7 +185,7 @@ public class EaseChatRowFile extends EaseChatRow {
         File file = new File(filePath);
         if (file.exists()) {
             // open files if it exist
-            //FileUtils.openFile(file, (Activity) context);
+            FileUtils.openFile(file, (Activity) context);
             Intent intent = FileUtil.openFile(file.getAbsolutePath());
             context.startActivity(intent);
         } else {

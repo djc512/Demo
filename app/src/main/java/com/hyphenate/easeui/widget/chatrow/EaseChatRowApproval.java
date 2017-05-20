@@ -53,8 +53,8 @@ public class EaseChatRowApproval extends EaseChatRowText {
 
     @Override
     protected void onInflateView() {
-        String type = message.getStringAttribute("type","");
-        inflater.inflate(R.layout.raw_approval_chat,this);
+        String type = message.getStringAttribute("type", "");
+        inflater.inflate(R.layout.raw_approval_chat, this);
 
     }
 
@@ -78,11 +78,10 @@ public class EaseChatRowApproval extends EaseChatRowText {
         String nickName = message.getStringAttribute("nickName", "");*/
 
         //如果是印信就写死名称和头像========================================================================
-        Log.i("CCCC","印家的Username============================================="+message.getUserName());
-        approvalName.setText(message.getStringAttribute("title",""));
-        approvalNumber.setText(message.getStringAttribute("message",""));
+        Log.i("CCCC", "印家的Username=============================================" + message.getUserName());
+        approvalName.setText(message.getStringAttribute("title", ""));
+        approvalNumber.setText(message.getStringAttribute("message", ""));
         //approvalName.setText(message.getStringAttribute("",""));
-
 
 
         handleTextMessage();
@@ -131,23 +130,23 @@ public class EaseChatRowApproval extends EaseChatRowText {
     @Override
     protected void onBubbleClick() {
 
-        Log.i("CCCC","======================="+message.getStringAttribute("type",""));
-        Log.i("CCCC","======================="+message.getFrom());
-        if (type!=null){
-            switch (type){
+        Log.i("CCCC", "=======================" + message.getStringAttribute("type", ""));
+        Log.i("CCCC", "=======================" + message.getFrom());
+        if (type != null) {
+            switch (type) {
                 case "101"://采购审核
                     intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-                    intent.putExtra("approveId",approveId);
+                    intent.putExtra("approveId", approveId);
                     context.startActivity(intent);
                     break;
                 case "102"://采购审核结果
                     intent = new Intent(context, ApprovalBuyAddOrRemoveActivity.class);
-                    intent.putExtra("approveId",approveId);
+                    intent.putExtra("approveId", approveId);
                     context.startActivity(intent);
                     break;
                 case "201"://报销审核
                     intent = new Intent(context, ApprovalApplyDetailsActivity.class);
-                    intent.putExtra("approveId",approveId);
+                    intent.putExtra("approveId", approveId);
                     context.startActivity(intent);
                     break;
                 case "202"://报销审核结果
@@ -237,7 +236,7 @@ public class EaseChatRowApproval extends EaseChatRowText {
      */
     private void handleSingleRedPackage(RedPackageDetail detail) {
         //判断状态
-        if (detail.isInvalid()) {
+        if ("true".equals(detail.getInvalid())) {
 //            //有效(再判断有没有抢过)
 //            if (detail.isSnatch()) {
 //                //已经抢过了
@@ -295,9 +294,9 @@ public class EaseChatRowApproval extends EaseChatRowText {
      */
     private void handleGroupRedPackage(RedPackageDetail detail) {
         //判断状态
-        if (detail.isInvalid()) {
+        if ("true".equals(detail.getInvalid())) {
             //有效(再判断有没有抢过)
-            if (detail.isSnatch()) {
+            if ("true".equals(detail.getSnatch())) {
                 goneDialog = new GoneRedEnvelopesDialog(getContext());
                 goneDialog.setImgUrl(detail.getMasterFaceUrl());
                 goneDialog.setRedPackageSender(detail.getMasterName());

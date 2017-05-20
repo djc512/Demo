@@ -5,19 +5,19 @@ package huanxing_print.com.cn.printhome.model.chat;
  */
 
 public class GroupHint {
-    private String applyMemberld;
+    private String applyMemberId;
     private String groupId;
     private String memberId;
     private String message;
     private boolean isAll;
     private String type;
 
-    public String getApplyMemberld() {
-        return applyMemberld;
+    public String getApplyMemberId() {
+        return applyMemberId;
     }
 
-    public void setApplyMemberld(String applyMemberld) {
-        this.applyMemberld = applyMemberld;
+    public void setApplyMemberId(String applyMemberId) {
+        this.applyMemberId = applyMemberId;
     }
 
     public String getGroupId() {

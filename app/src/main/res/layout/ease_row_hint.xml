@@ -20,7 +20,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/broder_gray_full"
                 android:gravity="center_vertical"
-                android:padding="5dp">
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="2dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -34,14 +37,14 @@
                     android:layout_marginLeft="5dp"
                     android:text="红包提示"
                     android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="红包"
-                    android:textColor="@color/red_package_red"
-                    android:textSize="12dp" />
+                    android:textColor="@color/yellow3"
+                    android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>
 

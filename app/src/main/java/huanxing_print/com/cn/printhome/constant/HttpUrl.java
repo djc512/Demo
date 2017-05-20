@@ -77,6 +77,7 @@ public class HttpUrl {
     public static final String checkGroupPackageDetail = "redPackage/group/queryCommDetail";//查看普通群红包记录
     public static final String getMemberHead = "chat/getMemberHead";//查询用户头像名称
     public static final String getGroupHead = "chat/getGroupHead";//查询群头像名称
+    public static final String groupManagerApproval = "group/adult";//查询群头像名称
     private static String postUrl;
 
     private static HttpUrl httpUrl;
