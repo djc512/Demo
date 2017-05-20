@@ -140,6 +140,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:background="@null"
+                        android:maxLength="200"
                         android:hint="填写你的采购清单(必填)"
                         android:paddingLeft="2dp"
                         android:textSize="@dimen/text_size_sixteen" />
