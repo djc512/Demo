@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
@@ -25,6 +26,8 @@ import com.hyphenate.util.DateUtils;
 import java.util.Date;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.util.CircleTransform;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 import static huanxing_print.com.cn.printhome.R.id.iv_userhead;
 
@@ -121,16 +124,34 @@ public abstract class EaseChatRow extends LinearLayout {
         if(message.direct() == Direct.SEND){
             EaseUserUtils.setUserAvatar(context, EMClient.getInstance().getCurrentUser(), userAvatarView);
         }else{
-            if (message.getUserName().equals("secretary")){
-                userAvatarView.setImageResource(R.drawable.secretary);
-            }else{
-                EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
-                EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+            //如果是文件
+            if (message.getType() == EMMessage.Type.FILE){
+                String iconUrl = message.getStringAttribute("iconUrl", "");
+                if (ObjectUtils.isNull(iconUrl)) {
+                    Glide.with(getContext())
+                            .load(iconUrl)
+                            .transform(new CircleTransform(getContext()))
+                            .into(userAvatarView);
+                }else {
+                    Glide.with(getContext())
+                            .load(iconUrl)
+                            .transform(new CircleTransform(getContext()))
+                            .into(userAvatarView);
+                }
+            }else {
+                if (message.getUserName().equals("secretary")){
+                    userAvatarView.setImageResource(R.drawable.secretary);
+                }else{
+                    EaseUserUtils.setUserAvatar(context, message.getFrom(), userAvatarView);
+                    EaseUserUtils.setUserNick(message.getFrom(), usernickView);
+                }
             }
+
 
         }
 
-        if(deliveredView != null){
+        //消息已读和送达全都隐藏
+        /*if(deliveredView != null){
             if (message.isDelivered()) {
                 deliveredView.setVisibility(View.VISIBLE);
             } else {
@@ -147,7 +168,7 @@ public abstract class EaseChatRow extends LinearLayout {
             } else {
                 ackedView.setVisibility(View.INVISIBLE);
             }
-        }
+        }*/
 
 
         if (adapter instanceof EaseMessageAdapter) {

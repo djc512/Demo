@@ -47,6 +47,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     private TextView txt_left;//当前红包描述
     private TextView txt_group_bottom;//群红包不可领取说明
     private TextView txt_group_num;//群人数
+    private TextView txt_red_packge_money;//红包
     private Button btn_plug_money;
     private boolean isLuck = true;//拼手气
     private GroupMessageInfo groupInfo;
@@ -73,6 +74,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         edt_leave_word = (EditText) findViewById(R.id.edt_leave_word);
         txt_num = (TextView) findViewById(R.id.txt_num);
         txt_left = (TextView) findViewById(R.id.txt_left);
+        txt_red_packge_money = (TextView) findViewById(R.id.tv_red_packge_money);
         txt_group_num = (TextView) findViewById(R.id.txt_group_num);
         txt_group_bottom = (TextView) findViewById(R.id.txt_group_bottom);
         txt_action_change = (TextView) findViewById(R.id.txt_action_change);
@@ -193,6 +195,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                     txt_group_bottom.setVisibility(View.INVISIBLE);
                     //切换类别说明
                     txt_left.setText(getString(R.string.red_package_type_description_luck));
+                    txt_red_packge_money.setText("拼手气红包金额");
                     txt_action_change.setText(getString(R.string.red_package_other_name_group));
                 } else {
                     //隐藏红包个数和群描述 显示群红包不可领取说明
@@ -201,6 +204,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                     txt_group_bottom.setVisibility(View.VISIBLE);
                     //切换类别说明
                     txt_left.setText(getString(R.string.red_package_type_description_group));
+                    txt_red_packge_money.setText("群红包金额");
                     txt_action_change.setText(getString(R.string.red_package_other_name_luck));
                 }
                 break;
