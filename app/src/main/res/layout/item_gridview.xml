@@ -9,16 +9,4 @@
         android:layout_height="60dp"
         android:scaleType="centerCrop"
         android:src="@drawable/icon_addpic_focused" />
-    <TextView
-        android:id="@+id/tv_tip"
-        android:padding="3dp"
-        android:layout_centerInParent="true"
-        android:textSize="10sp"
-        android:textColor="@color/gray8"
-        android:text="最多上传3张"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView1"
-        />
-
 </RelativeLayout>
