@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.my;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
@@ -19,14 +20,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.util.StringTokenizer;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
@@ -65,8 +63,11 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    @SuppressLint("JavascriptInterface")
     private void initViews() {
         url = getIntent().getStringExtra("webUrl");
+
+
         titleName = getIntent().getStringExtra("titleName");
         loginToken = baseApplication.getLoginToken();
 
@@ -84,13 +85,12 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         s.setSaveFormData(true);
         // 设置android下容许执行js的脚本,前端 window.javaObject.callWechatPay(name)
         s.setJavaScriptEnabled(true);     // enable navigator.geolocation
-        webview.addJavascriptInterface(new JsCallJava(this), "javaObject");
         s.setGeolocationEnabled(true);
         s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
         s.setDomStorageEnabled(true);
         webview.requestFocus();
         webview.setScrollBarStyle(0);
-
+        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()),"pay");
         synCookies(getSelfActivity(), url);
         webview.loadUrl(url);
         webview.setWebViewClient(new WebViewClient() {
