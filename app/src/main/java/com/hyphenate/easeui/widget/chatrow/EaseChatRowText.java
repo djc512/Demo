@@ -187,7 +187,7 @@ public class EaseChatRowText extends EaseChatRow {
             approvalName.setText(message.getStringAttribute("title", ""));
 
             Date date = new Date(message.getMsgTime());
-            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");//24小时制
             String LgTime = sdformat.format(date);
             approvalTime.setText(LgTime + "");
             approvalNumber.setText(message.getStringAttribute("message", ""));
