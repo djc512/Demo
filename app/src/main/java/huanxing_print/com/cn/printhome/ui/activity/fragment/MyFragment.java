@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.simple.eventbus.EventBus;
@@ -15,6 +17,7 @@ import org.simple.eventbus.Subscriber;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
@@ -22,6 +25,7 @@ import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
+import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
@@ -142,7 +146,11 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
             if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
-                EventBus.getDefault().post("hasLoginEvent");
+                // 这里实现你的逻辑即可
+                ActivityHelper.getInstance().finishAllActivity();
+                EMClient.getInstance().logout(true);//环信退出
+               // activityExitAnim();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }else{
                 showToast(msg);
             }
@@ -228,6 +236,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 break;
         }
     }
+
 
     @Override
     public void onDestroy() {

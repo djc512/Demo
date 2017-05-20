@@ -65,6 +65,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
         initView();
         initData();
         setListener();
+
     }
 
     private void initView() {

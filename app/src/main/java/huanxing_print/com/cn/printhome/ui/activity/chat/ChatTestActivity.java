@@ -54,6 +54,8 @@ import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.util.List;
 
@@ -63,6 +65,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.chat.GroupHint;
 import huanxing_print.com.cn.printhome.model.chat.MessageTypeObject;
 import huanxing_print.com.cn.printhome.model.chat.RedPacketHint;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
@@ -161,10 +164,13 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         } else {
             tv_title.setText(toChatUsername);
         }
-
         setUpView();
-        Log.i("CCCC", "nickName=============================================" + nickName);
-        Log.i("CCCC", "toChatUsername=============================================" + toChatUsername);
+
+        RefreshEvent refreshEvent = new RefreshEvent();
+        refreshEvent.setCode(0x12);
+        EventBus.getDefault().post(refreshEvent);
+//        Log.i("CCCC", "nickName=============================================" + nickName);
+//        Log.i("CCCC", "toChatUsername=============================================" + toChatUsername);
         if (toChatUsername.equals("secretary")) {
             tv_title.setText("印家小秘书");
 

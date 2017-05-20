@@ -19,6 +19,10 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +30,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ChatFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ContantsFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.MyFragment;
@@ -88,6 +93,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
+        EventBus.getDefault().register(mContext);
         initView();
         initListener();
         inData();
@@ -125,7 +131,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void inData() {
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
-
+        //显示印信聊天未读消息数
+        getChatNum();
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
 
@@ -146,13 +153,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         @Override
         public void onMessageReceived(List<EMMessage> list) {
-           int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-            if (num>0){
-                tv_count.setVisibility(View.VISIBLE);
-                tv_count.setText(num+"");
-            }else {
-                tv_count.setVisibility(View.GONE);
-            }
+            //显示印信聊天未读消息数
+            getChatNum();
         }
 
         @Override
@@ -268,10 +270,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         return super.onKeyDown(keyCode, event);
     }
-
+   @Subscribe(threadMode = ThreadMode.MAIN)
+    public  void msgNum(RefreshEvent event){
+        //显示印信聊天未读消息数
+        if (event.getCode()==0x12){
+            getChatNum();
+        }
+    }
     @Override
     protected void onDestroy() {
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+        EventBus.getDefault().unregister(mContext);
         super.onDestroy();
     }
 
@@ -330,6 +339,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 //imageViewList.get(i).setImageBitmap(bitmap1);
                 textViewList.get(i).setTextColor(getResources().getColor(R.color.gray2));
             }
+        }
+    }
+
+    /**
+     * 显示印信聊天未读消息数
+     */
+    private void getChatNum(){
+        int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        //Log.d("CMCC","msgNum------------->"+num);
+        if (num>0){
+            tv_count.setVisibility(View.VISIBLE);
+            if (num<99){
+                tv_count.setText(num+"");
+            }else{
+                tv_count.setText("99+");
+            }
+        }else {
+            tv_count.setVisibility(View.GONE);
         }
     }
 }
