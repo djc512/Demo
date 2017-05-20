@@ -154,7 +154,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="横版"
-                        android:textColor="@color/gray2"
+                        android:textColor="@color/black2"
                         android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -199,7 +199,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="彩色"
-                        android:textColor="@color/gray2"
+                        android:textColor="@color/black2"
                         android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -247,7 +247,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="5dp"
                         android:text="A3"
-                        android:textColor="@color/gray2"
+                        android:textColor="@color/black2"
                         android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -294,7 +294,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="双面"
-                        android:textColor="@color/gray2"
+                        android:textColor="@color/black2"
                         android:textSize="16sp"/>
                 </LinearLayout>
 
@@ -344,7 +344,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="自定"
-                            android:textColor="@color/gray2"
+                            android:textColor="@color/black2"
                             android:textSize="16sp"/>
                     </LinearLayout>
 
@@ -416,7 +416,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="共印群"
-                        android:textColor="@color/gray8"
+                        android:textColor="@color/black2"
                         android:textSize="16sp"/>
                 </LinearLayout>
 

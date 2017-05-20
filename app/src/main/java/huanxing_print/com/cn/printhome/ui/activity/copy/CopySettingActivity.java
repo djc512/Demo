@@ -485,52 +485,32 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         if (directionFlag == 0) {
             iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
             iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.orientation));
-            tv_orientation.setTextColor(getResources().getColor(R.color.black2));
-            tv_vertical.setTextColor(getResources().getColor(R.color.gray8));
         } else {
             iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.vertical));
-            tv_orientation.setTextColor(getResources().getColor(R.color.gray8));
-            tv_vertical.setTextColor(getResources().getColor(R.color.black2));
             iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
         }
         if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
-            tv_black.setTextColor(getResources().getColor(R.color.black2));
-            tv_color.setTextColor(getResources().getColor(R.color.gray8));
             iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
             colourFlag = 1;
         } else {
             if (colourFlag == 0) {
-                tv_black.setTextColor(getResources().getColor(R.color.gray8));
-                tv_color.setTextColor(getResources().getColor(R.color.black2));
                 iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
             } else {
-                tv_black.setTextColor(getResources().getColor(R.color.black2));
-                tv_color.setTextColor(getResources().getColor(R.color.gray8));
                 iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
             }
         }
         if (sizeType == 0) {
             iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-            tv_a3.setTextColor(getResources().getColor(R.color.gray8));
-            tv_a4.setTextColor(getResources().getColor(R.color.black2));
         } else {
-            tv_a4.setTextColor(getResources().getColor(R.color.gray8));
-            tv_a3.setTextColor(getResources().getColor(R.color.black2));
             iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
         }
         if (doubleFlag == 0) {
             iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
-            tv_double.setTextColor(getResources().getColor(R.color.black2));
-            tv_single.setTextColor(getResources().getColor(R.color.gray8));
         } else {
             iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-            tv_single.setTextColor(getResources().getColor(R.color.black2));
-            tv_double.setTextColor(getResources().getColor(R.color.gray8));
         }
         if (isStandard) {
             seekLyt.setVisibility(View.GONE);
-            defTv.setTextColor(getResources().getColor(R.color.gray8));
-            defaultTv.setTextColor(getResources().getColor(R.color.black2));
             scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
             isStandard = true;
             scaleRatio = 100;
@@ -538,8 +518,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         } else {
             seekLyt.setVisibility(View.VISIBLE);
             scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
-            defTv.setTextColor(getResources().getColor(R.color.black2));
-            defaultTv.setTextColor(getResources().getColor(R.color.gray8));
         }
         if (printType == PrintUtil.PRINT_TYPE_FILE) {
             printTypeLyt.setVisibility(View.GONE);
@@ -590,8 +568,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         this.group = group;
         groupTv.setText(group.getGroupName());
         iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
-        tv_qun.setTextColor(getResources().getColor(R.color.black2));
-        tv_persion.setTextColor(getResources().getColor(R.color.gray8));
         ll_cz_persion.setVisibility(View.GONE);
         ll_cz_qun.setVisibility(View.VISIBLE);
         isPersion = false;
@@ -599,8 +575,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     private void setGroupViewGone() {
         iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-        tv_qun.setTextColor(getResources().getColor(R.color.gray8));
-        tv_persion.setTextColor(getResources().getColor(R.color.black2));
         ll_cz_persion.setVisibility(View.VISIBLE);
         ll_cz_qun.setVisibility(View.GONE);
         isPersion = true;
@@ -613,13 +587,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 if (isStandard) {
                     seekLyt.setVisibility(View.VISIBLE);
                     scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
-                    defTv.setTextColor(getResources().getColor(R.color.black2));
-                    defaultTv.setTextColor(getResources().getColor(R.color.gray8));
                     isStandard = false;
                 } else {
                     seekLyt.setVisibility(View.GONE);
-                    defTv.setTextColor(getResources().getColor(R.color.gray8));
-                    defaultTv.setTextColor(getResources().getColor(R.color.black2));
                     scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                     isStandard = true;
                     scaleRatio = 100;
@@ -654,13 +624,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 if (directionFlag == 1) {
                     iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.orientation));
-                    tv_orientation.setTextColor(getResources().getColor(R.color.black2));
-                    tv_vertical.setTextColor(getResources().getColor(R.color.gray8));
                     directionFlag = 0;
                 } else {
                     iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.vertical));
-                    tv_orientation.setTextColor(getResources().getColor(R.color.gray8));
-                    tv_vertical.setTextColor(getResources().getColor(R.color.black2));
                     iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                     directionFlag = 1;
                 }
@@ -670,13 +636,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     ShowUtil.showToast("黑白机不可选色彩");
                 } else {
                     if (colourFlag == 1) {
-                        tv_black.setTextColor(getResources().getColor(R.color.gray8));
-                        tv_color.setTextColor(getResources().getColor(R.color.black2));
                         iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                         colourFlag = 0;
                     } else {//黑白
-                        tv_black.setTextColor(getResources().getColor(R.color.black2));
-                        tv_color.setTextColor(getResources().getColor(R.color.gray8));
                         iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                         colourFlag = 1;
                     }
@@ -689,16 +651,12 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                         tv_mount.setText(printCount + "");
                     }
                     iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-                    tv_a3.setTextColor(getResources().getColor(R.color.gray8));
-                    tv_a4.setTextColor(getResources().getColor(R.color.black2));
                     sizeType = 0;
                 } else {
                     if (printCount > StringUtil.stringToInt(printerPrice.getA3Num())) {
                         printCount = StringUtil.stringToInt(printerPrice.getA3Num());
                         tv_mount.setText(printCount + "");
                     }
-                    tv_a4.setTextColor(getResources().getColor(R.color.gray8));
-                    tv_a3.setTextColor(getResources().getColor(R.color.black2));
                     iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                     sizeType = 1;
                 }
@@ -710,13 +668,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 if (doubleFlag == 1) {
                     iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
-                    tv_double.setTextColor(getResources().getColor(R.color.black2));
-                    tv_single.setTextColor(getResources().getColor(R.color.gray8));
                     doubleFlag = 0;
                 } else {
                     iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-                    tv_single.setTextColor(getResources().getColor(R.color.black2));
-                    tv_double.setTextColor(getResources().getColor(R.color.gray8));
                     doubleFlag = 1;
                 }
                 break;

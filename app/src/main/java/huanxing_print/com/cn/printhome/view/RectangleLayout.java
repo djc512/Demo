@@ -22,12 +22,6 @@ public class RectangleLayout extends android.widget.FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        int width = getMeasuredWidth();
-//        setMeasuredDimension(width, width);
-//        ViewGroup.LayoutParams lp = getLayoutParams();
-//        lp.height = width;
-//        setLayoutParams(lp);
         setMeasuredDimension(getDefaultSize(0, widthMeasureSpec), getDefaultSize(0, heightMeasureSpec));
         int childWidthSize = getMeasuredWidth();
         heightMeasureSpec = widthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidthSize, MeasureSpec.EXACTLY);

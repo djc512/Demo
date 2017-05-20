@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +35,7 @@ import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.UrlUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
+import huanxing_print.com.cn.printhome.view.dialog.Alert;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 import static huanxing_print.com.cn.printhome.R.id.iv_notice;
@@ -144,7 +146,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
                 if (printInfoResp != null && printInfoResp.isSuccess()) {
                     PrintInfoResp.PrinterPrice printPrinterPrice = printInfoResp.getData();
                     if (printPrinterPrice != null) {
-                        turnPickFile(printPrinterPrice);
+                        showConnectedDialog(printPrinterPrice);
                     }
                 }
                 if (printInfoResp != null && !printInfoResp.isSuccess()) {
@@ -159,6 +161,17 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
         });
         Logger.i(printerNo);
     }
+
+    private void showConnectedDialog(final PrintInfoResp.PrinterPrice printPrinterPrice) {
+        Alert.show(getActivity(), "提示", "已连接" + printPrinterPrice.getPrintName(), null, new DialogInterface
+                .OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                turnPickFile(printPrinterPrice);
+            }
+        });
+    }
+
 
     private void turnPickFile(PrintInfoResp.PrinterPrice printerPrice) {
         EventBus.getDefault().postSticky(printerPrice);
