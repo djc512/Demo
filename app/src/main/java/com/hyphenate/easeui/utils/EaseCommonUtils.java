@@ -102,9 +102,10 @@ public class EaseCommonUtils {
         EMMessage message = EMMessage.createTxtSendMessage(msg, toChatUsername);
         if (!ObjectUtils.isNull(id)) {
             message.setAttribute(EaseConstant.MESSAGE_ATTR_GROUP_HINT_ID, id);
-            message.setAttribute(EaseConstant.MESSAGE_ATTR_GROUP_HINT_APPLY_ID, groupHint.getApplyMemberld());
+            message.setAttribute(EaseConstant.MESSAGE_ATTR_GROUP_HINT_APPLY_ID, groupHint.getApplyMemberId());
             message.setAttribute(EaseConstant.MESSAGE_HINT_GROUP_MESSAGE, groupHint.getMessage());
             message.setAttribute(EaseConstant.MESSAGE_HINT_GROUP_MESSAGE_TYPE, groupHint.getType());
+            message.setAttribute(EaseConstant.MESSAGE_HINT_GROUP_ID_MANAGER, groupHint.getGroupId());
         }
         message.setAttribute(EaseConstant.MESSAGE_ATTR_IS_GROUP_HINT, true);
         return message;
