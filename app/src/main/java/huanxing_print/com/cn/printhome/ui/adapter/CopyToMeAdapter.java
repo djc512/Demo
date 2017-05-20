@@ -62,14 +62,14 @@ public class CopyToMeAdapter extends BaseAdapter {
             holder = (DefaultViewHolder) convertView.getTag();
         }
         int type = objects.get(position).getType();
-        if (0 == type) {
+        if (1 == type) {
             //采购
             holder.lin_middle.setVisibility(View.VISIBLE);
             holder.lin_bottom.setVisibility(View.VISIBLE);
             holder.txt_name_type.setText(objects.get(position).getApproveTitle());
             holder.txt_name.setText("用途说明:");
             holder.txt_use_type.setText(objects.get(position).getTitle());
-        } else if (1 == type) {
+        } else if (2 == type) {
             //报销
             holder.lin_middle.setVisibility(View.VISIBLE);
             holder.lin_bottom.setVisibility(View.INVISIBLE);
