@@ -153,6 +153,14 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
+            /*//发送第一句话
+            EMMessage message = EMMessage.createTxtSendMessage("我们已经是好友了", clickOperationInfo.getMemberId());
+            message.setAttribute("userId",baseApplication.getMemberId());
+            message.setAttribute("iconUrl",baseApplication.getHeadImg());
+            message.setAttribute("nickName",baseApplication.getNickName());
+            EMClient.getInstance().chatManager().sendMessage(message);
+            ToastUtil.doToast(getSelfActivity(), "添加成功");*/
+
             clickOperationInfo.setType("1");
             adapter.updateData(friendInfos);
 //            clickOperationInfo = null;
