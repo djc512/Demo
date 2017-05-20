@@ -6,9 +6,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import org.simple.eventbus.EventBus;
+import com.hyphenate.chat.EMClient;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.approval.UnreadMessage;
@@ -16,6 +17,7 @@ import huanxing_print.com.cn.printhome.net.callback.approval.QueryMessageCallBac
 import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
 import huanxing_print.com.cn.printhome.ui.activity.approval.ApprovalHomeActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CopyActivity;
+import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -108,7 +110,9 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 		public void fail(String msg) {
 			DialogUtils.closeProgressDialog();
 			if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
-				EventBus.getDefault().post("hasLoginEvent");
+				ActivityHelper.getInstance().finishAllActivity();
+				EMClient.getInstance().logout(true);//环信退出
+				startActivity(new Intent(getActivity(), LoginActivity.class));
 			}else{
 				showToast(msg);
 			}

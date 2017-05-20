@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.hyphenate.chat.EMClient;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -16,6 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.event.contacts.FriendUpdate;
@@ -27,6 +30,7 @@ import huanxing_print.com.cn.printhome.ui.activity.contact.AddByAddressBookActiv
 import huanxing_print.com.cn.printhome.ui.activity.contact.AddContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.GroupActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.NewFriendActivity;
+import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ContactsItemAdapter;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -199,7 +203,9 @@ public class ContantsFragment extends BaseFragment implements
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
             if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
-                EventBus.getDefault().post("hasLoginEvent");
+                ActivityHelper.getInstance().finishAllActivity();
+                EMClient.getInstance().logout(true);//环信退出
+                startActivity(new Intent(getActivity(), LoginActivity.class));
             }else{
                 showToast(msg);
             }
