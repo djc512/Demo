@@ -22,6 +22,9 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.exceptions.HyphenateException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.chat.CommonPackage;
@@ -181,7 +184,11 @@ public class EaseChatRowText extends EaseChatRow {
 
         if ("notice".equals(message.getUserName())) {
             approvalName.setText(message.getStringAttribute("title", ""));
-            approvalTime.setText(message.getMsgTime() + "");
+
+            Date date = new Date(message.getMsgTime());
+            SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
+            String LgTime = sdformat.format(date);
+            approvalTime.setText(LgTime + "");
             approvalNumber.setText(message.getStringAttribute("message", ""));
         } else if ((!ObjectUtils.isNull(packetId)) &&
                 (!ObjectUtils.isNull(packetType))) {
