@@ -168,13 +168,14 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == mResults.size() - 1 || i == Bimp.tempSelectBitmap.size()) {
-                    Intent intent = new Intent(ctx, PhotoPickerActivity.class);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, PhotoPickerActivity.DEFAULT_NUM);
-                    // 总共选择的图片数量
-                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
-                    startActivityForResult(intent, PICK_PHOTO);
+//                    Intent intent = new Intent(ctx, PhotoPickerActivity.class);
+//                    intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
+//                    intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
+//                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, PhotoPickerActivity.DEFAULT_NUM);
+//                    // 总共选择的图片数量
+//                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
+//                    startActivityForResult(intent, PICK_PHOTO);
+                    choosePic();
                 } else {
                     Intent intent = new Intent(ctx,
                             PreviewPhotoActivity.class);
@@ -411,20 +412,21 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 finishCurrentActivity();
                 break;
             case R.id.rel_choose_image:
-                int havePicSize = mResults.size() - 1;
-                if(CHOOSE_PIC_MAX > havePicSize) {
-                    int chooseNum = CHOOSE_PIC_MAX - havePicSize;
-                    //选择图片
-                    Intent intent = new Intent(ctx, PhotoPickerActivity.class);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
-                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, chooseNum);
-                    // 总共选择的图片数量
-                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
-                    startActivityForResult(intent, PICK_PHOTO);
-                }else{
-                    ToastUtil.doToast(AddPurchaseApprovalActivity.this,"选择已经达到上限");
-                }
+                choosePic();
+//                int havePicSize = mResults.size() - 1;
+//                if(CHOOSE_PIC_MAX > havePicSize) {
+//                    int chooseNum = CHOOSE_PIC_MAX - havePicSize;
+//                    //选择图片
+//                    Intent intent = new Intent(ctx, PhotoPickerActivity.class);
+//                    intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
+//                    intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
+//                    intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, chooseNum);
+//                    // 总共选择的图片数量
+//                    intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
+//                    startActivityForResult(intent, PICK_PHOTO);
+//                }else{
+//                    ToastUtil.doToast(AddPurchaseApprovalActivity.this,"选择已经达到上限");
+//                }
                 break;
             case R.id.rel_choose_time:
                 //时间选择器
@@ -458,6 +460,23 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
                 break;
             default:
                 break;
+        }
+    }
+
+    private void choosePic() {
+        int havePicSize = mResults.size() - 1;
+        if(CHOOSE_PIC_MAX > havePicSize) {
+            int chooseNum = CHOOSE_PIC_MAX - havePicSize;
+            //选择图片
+            Intent intent = new Intent(ctx, PhotoPickerActivity.class);
+            intent.putExtra(PhotoPickerActivity.EXTRA_SHOW_CAMERA, true);
+            intent.putExtra(PhotoPickerActivity.EXTRA_SELECT_MODE, PhotoPickerActivity.MODE_MULTI);
+            intent.putExtra(PhotoPickerActivity.EXTRA_MAX_MUN, chooseNum);
+            // 总共选择的图片数量
+            intent.putExtra(PhotoPickerActivity.TOTAL_MAX_MUN, Bimp.tempSelectBitmap.size());
+            startActivityForResult(intent, PICK_PHOTO);
+        }else{
+            ToastUtil.doToast(AddPurchaseApprovalActivity.this,"选择已经达到上限");
         }
     }
 
