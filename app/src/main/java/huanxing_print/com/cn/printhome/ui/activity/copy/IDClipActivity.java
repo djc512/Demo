@@ -195,6 +195,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         canvas.drawBitmap(first, dip2px(50), dip2px(50), null);
         if (null != second) {
             canvas.drawBitmap(second, dip2px(50), first.getHeight() + dip2px(80), null);
+
         }
         return result;
     }
