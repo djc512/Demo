@@ -29,6 +29,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -115,12 +116,19 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        if (!ObjectUtils.isNull(uniqueId)) {
+            tv_uniqueid.setText(uniqueId);
+        }
         receiveBroadCast = new ReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
         filter.addAction("authlogin");
         registerReceiver(receiveBroadCast, filter);
     }
 
+    @Subscriber(tag = "uniqueId")
+    private void getuniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
+    }
     /**
      * 获取用户信息
      */

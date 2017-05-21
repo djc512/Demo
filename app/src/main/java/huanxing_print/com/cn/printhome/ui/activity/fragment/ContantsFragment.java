@@ -203,6 +203,7 @@ public class ContantsFragment extends BaseFragment implements
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
             if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
+                SharedPreferencesUtils.clearAllShareValue(getActivity());
                 ActivityHelper.getInstance().finishAllActivity();
                 EMClient.getInstance().logout(true);//环信退出
                 startActivity(new Intent(getActivity(), LoginActivity.class));

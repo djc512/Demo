@@ -11,12 +11,11 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.media.SoundPool;
 import android.os.Build;
-import android.os.Environment;
+import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
-import com.dreamlive.cn.clog.CollectLog;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
@@ -31,7 +30,6 @@ import com.zhy.http.okhttp.OkHttpUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -329,12 +327,17 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        // 置入一个不设防的VmPolicy（不设置的话 7.0以上一调用拍照功能就崩溃了）
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
         EaseUI.getInstance().init(this, null);
-        CollectLog clog = CollectLog.getInstance();
-        clog.init(this, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "YinJia");
+//        CollectLog clog = CollectLog.getInstance();
+//        clog.init(this, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "YinJia");
         api = WXAPIFactory.createWXAPI(this, WX_APPID, true);
         api.registerApp(WX_APPID);
-        initJPush();
+        //initJPush();
         initHttpConnection();
         ZXingLibrary.initDisplayOpinion(this);
         initHuanxin();
