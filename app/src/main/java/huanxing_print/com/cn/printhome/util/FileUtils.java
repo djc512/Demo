@@ -151,16 +151,16 @@ public class FileUtils {
         }
     }
 
-    public static String getFileName(String filePath, String name) {
+    public static String getFileName(String filePath) {
         File file = new File(filePath);
-        String newName = name;
         if (file != null && file.exists()) {
             String fileNamePath = file.getAbsolutePath();
             String filename = fileNamePath.substring(0, fileNamePath.lastIndexOf("."));
             String extension = fileNamePath.substring(fileNamePath.lastIndexOf("."), fileNamePath.length());
-            newName = chooseUniqueFilename(filename, extension);
+            String newName = chooseUniqueFilename(filename, extension);
+            return newName;
         }
-        return newName;
+        return filePath;
     }
 
     private static Random sRandom = new Random(SystemClock.uptimeMillis());

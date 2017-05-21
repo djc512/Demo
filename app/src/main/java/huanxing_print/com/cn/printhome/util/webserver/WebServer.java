@@ -80,9 +80,9 @@ public class WebServer extends NanoHTTPD {
                 Logger.i(fileParamDto.getString("fileName"));
                 String name = new String(Base64.decode(fileParamDto.getString("fileName")));
                 Logger.i("name=" + name);
-                String newName = FileUtils.getFileName(FileUtils.getWifiUploadPath() + name, name);
-                Logger.i("newName=" + newName);
-                String filePath = FileUtils.getWifiUploadPath() + newName;
+                String newPath = FileUtils.getFileName(FileUtils.getWifiUploadPath() + name);
+                Logger.i("newPath=" + newPath);
+                String filePath = newPath;
                 String content = fileParamDto.getString("content");
                 FileUtils.makeFile(filePath);
                 File target = new File(filePath);
