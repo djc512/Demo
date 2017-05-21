@@ -80,7 +80,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView tv_my;
     private List<ImageView> imageViewList;
     private List<TextView> textViewList;
-
     @Override
     protected BaseActivity getSelfActivity() {
         return this;

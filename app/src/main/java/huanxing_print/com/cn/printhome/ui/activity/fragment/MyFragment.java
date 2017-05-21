@@ -147,6 +147,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
             DialogUtils.closeProgressDialog();
             if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
                 // 这里实现你的逻辑即可
+                SharedPreferencesUtils.clearAllShareValue(getActivity());
                 ActivityHelper.getInstance().finishAllActivity();
                 EMClient.getInstance().logout(true);//环信退出
                // activityExitAnim();
