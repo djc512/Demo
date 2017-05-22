@@ -53,6 +53,8 @@
     <color name="btn_normal">#00ACFF</color>
     <color name="btn_pressed">#00A1DB</color>
     <color name="navpage">#FFE1E8EB</color>
+    <color name="clear">#00000000</color>
+    <color name="block">#00000000</color>
 
 
     <color name="file_blue">#5392c8</color>
