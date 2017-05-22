@@ -88,8 +88,7 @@ public class EaseChatRowText extends EaseChatRow {
         } else if ((!ObjectUtils.isNull(packetId)) &&
                 (!ObjectUtils.isNull(packetType))) {
             //红包消息
-            inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
-                    R.layout.ease_row_received_red_package : R.layout.ease_row_sent_red_package, this);
+            inflater.inflate(R.layout.ease_row_received_red_package, this);
         } else {
             if (ObjectUtils.isNull(message.getStringAttribute("packetId", ""))) {
                 inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
@@ -193,6 +192,8 @@ public class EaseChatRowText extends EaseChatRow {
             approvalNumber.setText(message.getStringAttribute("message", ""));
         } else if ((!ObjectUtils.isNull(packetId)) &&
                 (!ObjectUtils.isNull(packetType))) {
+            //先刷新一下
+            updateView();
             String iconUrl = message.getStringAttribute("iconUrl", "");
             String nickName = message.getStringAttribute("nickName", "");
             //头像

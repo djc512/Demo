@@ -22,7 +22,6 @@ import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
-import com.hyphenate.chat.EMMessageBody;
 import com.hyphenate.easeui.model.EaseImageCache;
 import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
@@ -237,43 +236,61 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
             @Override
             public void onPopupListClick(View contextView, int contextPosition, int position) {
-                Log.d("CMCC", "点击了:" + popupMenuItemList.get(position));
-                switch (contextPosition) {
+                switch (position) {
                     case 0:
                         //打印
+                        Log.d("CMCC", "打印");
                         break;
                     case 1:
                         //转发
+                        Log.d("CMCC", "转发");
                         break;
                     case 2:
                         //保存
-                        EMMessageBody body = message.getBody();
-                        Bitmap bitmap = BitmapFactory.decodeFile(body.toString());
-                        MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, System.currentTimeMillis() + ".png", "description");
+                        Log.d("CMCC", "保存");
+                        final String imgUrl = message.getStringAttribute("imagePath", "");
+                        Log.d("CMCC", "imgUrl:" + imgUrl);
+                        Bitmap bitmap = BitmapFactory.decodeFile(imgUrl);
+                        MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, System.currentTimeMillis() + "", "description");
+                        //刷新相册
+                        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(imgUrl))));
                         break;
                     case 3:
                         //删除记录
+                        Log.d("CMCC", "删除");
                         //发送透传消息代码如下：
-                        String action = "REMOVE_FLAG";
+                        String action = context.getString(R.string.REMOVE);
                         EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
 
                         EMCmdMessageBody cmdBody = new EMCmdMessageBody(action);
+                        Log.d("CMCC", "111111");
                         if (message.getChatType() == ChatType.GroupChat ||
                                 message.getChatType() == ChatType.ChatRoom) {
                             cmdMessage.setChatType(ChatType.GroupChat);
                             String toChatUserName = message.getTo();
-                            Log.i(TAG, "toChatUserName------>" + toChatUserName);
+                            Log.d("CMCC", "toChatUserName------>" + toChatUserName);
                             cmdMessage.setTo(toChatUserName);
+                            //删除掉本地消息
+                            EMClient.getInstance().chatManager()
+                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            //刷新一下
+                            updateView();
                         } else {
                             String toChatUserName = message.getFrom();
-                            Log.i(TAG, "toChatUserName------>" + toChatUserName);
+                            Log.d("CMCC", "toChatUserName------>" + toChatUserName);
                             cmdMessage.setFrom(toChatUserName);
+                            //删除掉本地消息
+                            EMClient.getInstance().chatManager()
+                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            //刷新一下
+                            updateView();
                         }
                         String msgId = message.getMsgId();
-                        Log.i(TAG, "msgIdsend-------->" + msgId);
+                        Log.d("CMCC", "msgIdsend-------->" + msgId);
                         cmdMessage.setAttribute("msgid", msgId);
                         cmdMessage.addBody(cmdBody);
                         EMClient.getInstance().chatManager().sendMessage(cmdMessage);
+                        Log.d("CMCC", "发送透传success");
                         break;
                 }
             }
