@@ -31,11 +31,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start|bottom"
-            android:layout_marginBottom="10dp"
             android:gravity="start|bottom"
             android:text="Alarms"
             android:textColor="@color/text_black"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textStyle="normal"/>
 
         <LinearLayout
@@ -50,15 +49,16 @@
                 android:layout_height="wrap_content"
                 android:text="2016年11月06日 22:55:31"
                 android:textColor="@color/text_gray"
-                android:textSize="10sp"/>
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/file_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:text="1项"
                 android:textColor="@color/text_gray"
-                android:textSize="10sp"/>
+                android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

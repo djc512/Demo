@@ -171,7 +171,8 @@ public class EaseChatExtendMenu extends GridView{
         }
 
         public void setImage(int resid) {
-            imageView.setBackgroundResource(resid);
+            imageView.setImageResource(resid);
+            //imageView.setBackgroundResource(resid);
         }
 
         public void setText(int resid) {

@@ -136,6 +136,7 @@
             android:padding="15dp">
 
             <TextView
+                android:id="@+id/priceTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -144,36 +145,84 @@
                 android:textColor="@color/text_black"
                 android:textSize="16sp"/>
 
-            <TextView
-                android:id="@+id/backPriceTv"
+            <LinearLayout
+                android:id="@+id/blackLyt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:text="黑白价格"
-                android:textColor="@color/text_gray"
-                android:textSize="16sp"/>
+                android:layout_marginLeft="10dp"
+                android:gravity="right"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/colorPriceTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/backPriceTv"
-                android:layout_marginTop="5dp"
-                android:text="彩色价格"
-                android:textColor="@color/text_gray"
-                android:textSize="16sp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/colorPriceTv"
-                android:layout_marginTop="5dp"
-                android:text="双面打印=单面打印*1.5"
-                android:textColor="@color/text_yellow"
-                android:textSize="15sp"/>
+                    <TextView
+                        android:id="@+id/backPriceTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="黑白价格黑白价格黑白价格"
+                        android:textColor="@color/text_gray"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="5dp"
+                        android:gravity="right"
+                        android:text="双面打印=单面打印*1.5"
+                        android:textColor="@color/text_yellow"
+                        android:textSize="15sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/colorPriceTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="彩色价格彩色价格彩色价格"
+                        android:textColor="@color/text_gray"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/colorPriceTv"
+                        android:layout_marginTop="5dp"
+                        android:gravity="right"
+                        android:text="双面打印=单面打印*2.0"
+                        android:textColor="@color/text_yellow"
+                        android:textSize="15sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/photoPriceTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="相片纸"
+                        android:textColor="@color/text_gray"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
         </RelativeLayout>
 
         <View
@@ -247,15 +296,33 @@
                 android:textColor="@color/text_black"
                 android:textSize="16sp"/>
 
-            <TextView
-                android:id="@+id/remainTv"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text=""
-                android:textColor="@color/text_gray"
-                android:textSize="16sp"/>
+                android:layout_gravity="right"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/remainTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="A4 500张 A3 1000张"
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/photoRemainTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="right"
+                    android:text="相片 200张"
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp"/>
+            </LinearLayout>
         </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"

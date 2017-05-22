@@ -47,10 +47,10 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
         ll_send.setOnClickListener(this);
         ll_purchase.setOnClickListener(this);
         ll_reimburse.setOnClickListener(this);
+        findViewById(R.id.ll_back).setOnClickListener(this);
     }
 
     private void initView() {
-        ll_back = findViewById(R.id.ll_back);
         ll_approval = (LinearLayout) findViewById(R.id.ll_approval);
         ll_submit = (LinearLayout) findViewById(R.id.ll_submit);
         ll_send = (LinearLayout) findViewById(R.id.ll_send);
@@ -104,7 +104,8 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
                 startActivity(new Intent(this, CopyToMeActivity.class));
                 break;
             case R.id.ll_purchase://采购
-                startActivity(new Intent(this, AddPurchaseApprovalActivity.class));
+//                startActivity(new Intent(this, AddPurchaseApprovalActivity.class));
+                startActivity(new Intent(this, AddPurchaseApprovalActivity2.class));
                 break;
             case R.id.ll_reimburse://报销
                 startActivity(new Intent(this, AddExpenseApprovalActivity.class));

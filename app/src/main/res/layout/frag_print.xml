@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_centerInParent="true"
             android:text="共享打印"
             android:textColor="@color/text_color"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
         <ImageView
             android:id="@+id/iv_notice"
@@ -26,7 +26,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="10dp"
             android:padding="5dp"
-            android:src="@drawable/btn_scan" />
+            android:src="@drawable/btn_scan"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -34,21 +34,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray5"
-        android:paddingBottom="10dp">
+        android:paddingBottom="5dp">
 
         <include
             android:id="@+id/step"
             layout="@layout/step_lineview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="5dp"/>
     </RelativeLayout>
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#e5e5e5" />
+        android:background="#e5e5e5"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/iv_print_file" />
+                        android:src="@drawable/iv_print_file"/>
 
                     <TextView
 
@@ -88,7 +88,7 @@
                         android:layout_marginTop="15dp"
                         android:text="全部文件"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
 
 
                 </LinearLayout>
@@ -96,7 +96,7 @@
                 <View
                     android:layout_width="0.1dp"
                     android:layout_height="match_parent"
-                    android:background="#e5e5e5" />
+                    android:background="#e5e5e5"/>
 
                 <LinearLayout
                     android:id="@+id/ll_weixin"
@@ -112,7 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/iv_print_weixin" />
+                        android:src="@drawable/iv_print_weixin"/>
 
                     <TextView
 
@@ -122,14 +122,14 @@
                         android:layout_marginTop="15dp"
                         android:text="微信"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="0.1dp"
                     android:layout_height="match_parent"
-                    android:background="#e5e5e5" />
+                    android:background="#e5e5e5"/>
 
                 <LinearLayout
                     android:id="@+id/ll_qq"
@@ -145,7 +145,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/iv_print_qq" />
+                        android:src="@drawable/iv_print_qq"/>
 
                     <TextView
 
@@ -155,7 +155,7 @@
                         android:layout_marginTop="15dp"
                         android:text="QQ"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -163,7 +163,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e5e5e5" />
+                android:background="#e5e5e5"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -184,7 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/iv_print_photo" />
+                        android:src="@drawable/iv_print_photo"/>
 
                     <TextView
 
@@ -194,14 +194,14 @@
                         android:layout_marginTop="15dp"
                         android:text="手机相册"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="0.1dp"
                     android:layout_height="match_parent"
-                    android:background="#e5e5e5" />
+                    android:background="#e5e5e5"/>
 
                 <LinearLayout
                     android:id="@+id/ll_computer"
@@ -217,7 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/iv_print_computer" />
+                        android:src="@drawable/iv_print_computer"/>
 
                     <TextView
 
@@ -227,14 +227,14 @@
                         android:layout_marginTop="15dp"
                         android:text="电脑上传"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="0.1dp"
                     android:layout_height="match_parent"
-                    android:background="#e5e5e5" />
+                    android:background="#e5e5e5"/>
 
                 <LinearLayout
                     android:id="@+id/ll_wifi"
@@ -250,7 +250,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/iv_print_wifi" />
+                        android:src="@drawable/iv_print_wifi"/>
 
                     <TextView
 
@@ -260,7 +260,7 @@
                         android:layout_marginTop="15dp"
                         android:text="Wi-Fi上传"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -268,7 +268,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e5e5e5" />
+                android:background="#e5e5e5"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -287,7 +287,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/ll_help"
-                        android:background="#e5e5e5" />
+                        android:background="#e5e5e5"/>
 
                     <LinearLayout
                         android:id="@+id/ll_help"
@@ -302,7 +302,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:src="@drawable/iv_print_help" />
+                            android:src="@drawable/iv_print_help"/>
 
                         <TextView
 
@@ -311,7 +311,7 @@
                             android:layout_marginLeft="5dp"
                             android:text="引导帮助"
                             android:textColor="@color/gray3"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"/>
                     </LinearLayout>
 
                     <View
@@ -320,7 +320,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/ll_help"
-                        android:background="#e5e5e5" />
+                        android:background="#e5e5e5"/>
                 </RelativeLayout>
 
                 <TextView
@@ -329,7 +329,7 @@
                     android:layout_marginTop="20dp"
                     android:text="这是一个文件浏览器，请选中一个通道快速找到您需要打印的文件资源。"
                     android:textColor="@color/gray3"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -342,28 +342,28 @@
                         android:layout_height="wrap_content"
                         android:text="可打印类型："
                         android:textColor="@color/gray3"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="图片类：JPG/PNG/BMP"
                         android:textColor="@color/gray3"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="文档类：WORD/PPT/PDF"
                         android:textColor="@color/gray3"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="每张图片不超过20M，每个文档不超过200页。"
                         android:textColor="@color/gray3"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

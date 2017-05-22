@@ -52,9 +52,9 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_copy);
         ctx = this;
-        CommonUtils.initSystemBar(this);
         StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
         initView();
         initData();
