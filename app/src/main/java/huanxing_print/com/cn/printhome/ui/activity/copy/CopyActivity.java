@@ -196,4 +196,16 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
             }
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != fragments && fragments.size() > 0) {
+            fragments.clear();
+        }
+        if (null != tvList && tvList.size() > 0) {
+            tvList.clear();
+        }
+        System.gc();
+    }
 }

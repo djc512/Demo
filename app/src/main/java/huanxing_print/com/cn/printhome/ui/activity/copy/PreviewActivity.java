@@ -25,6 +25,7 @@ import org.opencv.core.Mat;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,14 +34,14 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.copy.BitmpaUtil;
-import huanxing_print.com.cn.printhome.util.copy.ClipPicUtil;
+import huanxing_print.com.cn.printhome.util.copy.ClipPicFileUtil;
 import huanxing_print.com.cn.printhome.util.copy.OpenCVCallback;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 import huanxing_print.com.cn.printhome.view.SelectionImageView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import timber.log.Timber;
 
-import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.perspectiveTransform;
+import static huanxing_print.com.cn.printhome.util.copy.ClipPicFileUtil.perspectiveTransform;
 
 
 /**
@@ -88,7 +89,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         Bundle bundle = intent.getExtras();
         uri = bundle.getParcelable("uri");
         ctx = this;
-        ClipPicUtil.ctx = ctx;
+        ClipPicFileUtil.ctx = ctx;
         saveUtil = new PicSaveUtil(ctx);
         tempFile = saveUtil.createCameraTempFile(savedInstanceState);
 
@@ -200,8 +201,9 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
-                            mResult = ClipPicUtil.applyThresholdOriginal(transformed);
-                            compBitmap = bitmpaUtil.comp(mResult);
+                            mResult = ClipPicFileUtil.applyThresholdOriginal(transformed);
+//                            compBitmap = bitmpaUtil.comp(mResult);
+                            compBitmap = mResult;
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -229,8 +231,9 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
-                            mResult = ClipPicUtil.applyThresholdBlack(transformed);
-                            compBitmap = bitmpaUtil.comp(mResult);
+                            mResult = ClipPicFileUtil.applyThresholdBlack(transformed);
+                            //compBitmap = bitmpaUtil.comp(mResult);
+                            compBitmap = mResult;
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -257,8 +260,9 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
-                            mResult = ClipPicUtil.applyThresholdGray(transformed);
-                            compBitmap = bitmpaUtil.comp(mResult);
+                            mResult = ClipPicFileUtil.applyThresholdGray(transformed);
+//                            compBitmap = bitmpaUtil.comp(mResult);
+                            compBitmap = mResult;
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -285,8 +289,9 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                             Mat orig = new Mat();
                             Utils.bitmapToMat(mBitmap, orig);
                             Mat transformed = perspectiveTransform(orig, pointOriginal);
-                            mResult = ClipPicUtil.applyThresholdOriginal(transformed);
-                            compBitmap = bitmpaUtil.comp(mResult);
+                            mResult = ClipPicFileUtil.applyThresholdOriginal(transformed);
+//                            compBitmap = bitmpaUtil.comp(mResult);
+                            compBitmap = mResult;
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -306,6 +311,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 gotoCamera();
             case R.id.btn_photoconfirm://跳转到印家打印
                 if (compBitmap != null) {
+                    show();
                     String nameConfirm = System.currentTimeMillis() + ".jpg";
                     saveUtil.saveClipPic(compBitmap, nameConfirm);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + nameConfirm;
@@ -313,6 +319,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                     printIntent.putExtra("imagepath", path);
                     printIntent.putExtra("print_type", PrintUtil.PRINT_TYPE_FILE);
                     startActivity(printIntent);
+                    close();
                     finishCurrentActivity();
                 }
                 break;
@@ -332,16 +339,30 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
      * @throws IOException
      */
     private void clipPic() throws IOException {
-        if (null!=mBitmap) {
-            selectionView.setImageBitmap(getResizedBitmap(mBitmap, MAX_HEIGHT));
+        if (null != mBitmap) {
+            //selectionView.setImageBitmap(getResizedBitmap(mBitmap, MAX_HEIGHT));
+            selectionView.setImageBitmap(mBitmap);
             Mat images = new Mat();
             Utils.bitmapToMat(mBitmap, images);
-            PointF[] point = ClipPicUtil.getPoints(images);
+            PointF[] point = ClipPicFileUtil.getPoints(images);
             List<PointF> points = Arrays.asList(point);
-            selectionView.setPoints(points);
+            selectionView.setPoints(resizePioints(points,images));
+            images.release();
         }
     }
 
+    private List<PointF> resizePioints(List<PointF> points, Mat orig) {
+            double ratio = orig.size().height / MAX_HEIGHT;
+            List<PointF> resutl = new ArrayList<>();
+            for (PointF point : points) {
+                PointF obj = new PointF();
+                Float x =Float.parseFloat(String.valueOf(point.x*ratio));
+                Float y =Float.parseFloat(String.valueOf(point.y*ratio));
+                obj.set(x, y);
+                resutl.add(obj);
+            }
+            return resutl;
+        }
     /**
      * 比例缩放图片
      *
