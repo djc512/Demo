@@ -10,6 +10,7 @@
 
         <TextView
             android:id="@+id/nameTv"
+            android:textColor="@color/item_character_text_color"
             android:layout_marginLeft="@dimen/recycler_character_margin_l"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

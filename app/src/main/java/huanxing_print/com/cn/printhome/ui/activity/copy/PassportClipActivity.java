@@ -32,7 +32,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
     private double a4Width = 220;
     private double a4Height = 307;
     private double passportWidth = 125;
-    private double passportHeight = 88;
+    private double passportHeight = 173;
     private int screenWidth;
     private int screenHeight;
     private double sqrtRatio;
@@ -41,6 +41,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
     private String picName;
     private PicSaveUtil saveUtil;
     private Context ctx;
+    private Bitmap mergePic;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -64,9 +65,6 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
         btn_reset = (TextView) findViewById(R.id.btn_reset);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
     }
-//    Bitmap result = Bitmap.createBitmap(picwidth, picheight, Bitmap.Config.ARGB_8888);
-//    Canvas canvas = new Canvas(result);
-//    canvas.drawBitmap(first, 0, 0, null);
 
     private void initData() {
         Display display = getWindowManager().getDefaultDisplay();
@@ -85,22 +83,36 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        thumbnail = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788*0.8684), (int) (ivHeight * 0.7851* 0.9101));
-        Bitmap mergePic = mergePic(thumbnail, ivWidth, ivHeight);
+        thumbnail = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788 * 0.8684 * 0.9124), (int) (ivHeight * 0.7581 * 0.9101 * 0.9010));
+        mergePic = mergePic(thumbnail, null, ivWidth, ivHeight);
         iv_preview.setImageBitmap(mergePic);
     }
 
     /**
      * 合并图片
+     *
+     * @param first
+     * @param second
+     * @param ivWidth
+     * @param ivHeight @return
      */
-    private Bitmap mergePic(Bitmap first, double ivWidth, double ivHeight) {
+    private Bitmap mergePic(Bitmap first, Bitmap second, double ivWidth, double ivHeight) {
         int picwidth = (int) ivWidth;
-        int picheight = (int) (ivHeight);
+        int picheight;
+        if (null == second) {
+            picheight = (int) (ivHeight);
+        } else {
+            picheight = (int) (ivHeight * 2);
+        }
         Bitmap result = Bitmap.createBitmap(picwidth, picheight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
-        canvas.drawBitmap(first, 0, 0, null);
+        canvas.drawBitmap(first, dip2px(50), dip2px(50), null);
+        if (null != second) {
+            canvas.drawBitmap(second, dip2px(50), first.getHeight() + dip2px(80), null);
+        }
         return result;
     }
+
     private void initListener() {
         btn_reset.setOnClickListener(this);
         btn_preview.setOnClickListener(this);
@@ -114,7 +126,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.btn_preview:
                 picName = System.currentTimeMillis() + ".jpg";
-                saveUtil.saveClipPic(thumbnail, picName);
+                saveUtil.saveClipPic(mergePic, picName);
                 String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                 Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                 printIntent.putExtra("imagepath", path);

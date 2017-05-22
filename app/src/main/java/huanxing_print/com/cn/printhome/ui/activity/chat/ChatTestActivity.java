@@ -80,6 +80,7 @@ import huanxing_print.com.cn.printhome.util.Constant;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
+import huanxing_print.com.cn.printhome.util.webserver.ChatFileType;
 
 /**
  * 聊天测试activity
@@ -579,8 +580,15 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 //send the file 文件
                 if (data != null) {
                     Uri uri = data.getData();
+                    //判断发送的文件是图片还是其他文件
+                    /*String filePath = getRealFilePath(getSelfActivity(),uri);
+                    String fileType = getExtensionName(filePath);*/
                     if (uri != null) {
-                        sendFileByUri(uri);
+                        if (ChatFileType.isImage(getSelfActivity(),uri)){
+                            sendPicByUri(uri);
+                        }else {
+                            sendFileByUri(uri);
+                        }
                     }
                 }
             } else if (requestCode == ITEM_RED_PACKET_CALL) {
@@ -992,6 +1000,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         emMessage.setAttribute("userId", baseApplication.getMemberId());
         emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
         emMessage.setAttribute("nickName", baseApplication.getNickName());
+        emMessage.setAttribute("imagePath", imagePath);
         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             emMessage.setAttribute("groupUrl", groupUrl);
@@ -1482,18 +1491,20 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                     String msgId;
                     try {
                         msgId = emMessage.getStringAttribute("msgid");
-                        Log.i(TAG, "msgIdreceive-------->" + msgId);
+                        Log.d("CMCC", "msgIdreceive-------->" + msgId);
                         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
                             EMConversation conversation = EMClient.getInstance()
                                     .chatManager().getConversation(emMessage.getTo());
                             //--删除消息来表示撤回--
                             conversation.removeMessage(msgId);
+                            Log.d("CMCC", "群消息撤回成功-------->");
                         } else {
                             EMConversation conversation = EMClient.getInstance()
                                     .chatManager().getConversation(emMessage.getFrom());
                             //--删除消息来表示撤回--
                             conversation.removeMessage(msgId);
+                            Log.d("CMCC", "单聊消息撤回成功-------->");
                         }
                         messageList.refresh();
                         // 如果需要，可以插入一条“XXX回撤一条消息”

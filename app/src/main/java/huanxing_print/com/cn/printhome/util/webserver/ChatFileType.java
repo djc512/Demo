@@ -1,8 +1,16 @@
 package huanxing_print.com.cn.printhome.util.webserver;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 /**
  * Created by htj on 2017/5/20.
@@ -73,6 +81,69 @@ public class ChatFileType {
             }
         }
         return value;
+    }
+
+
+
+    /**
+     * Try to return the absolute file path from the given Uri
+     *
+     * @param context
+     * @param uri
+     * @return the file path or null
+     * 将uri转化为路径String
+     */
+    public static String getRealFilePath(final Context context, final Uri uri ) {
+        if ( null == uri ) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if ( scheme == null )
+            data = uri.getPath();
+        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+            data = uri.getPath();
+        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+            Cursor cursor = context.getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
+            if ( null != cursor ) {
+                if ( cursor.moveToFirst() ) {
+                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
+                    if ( index > -1 ) {
+                        data = cursor.getString( index );
+                    }
+                }
+                cursor.close();
+            }
+        }
+        return data;
+    }
+    //判断是文件还是图片
+    public static boolean isImage(Context cot,Uri uri) {
+        Boolean isFile = false;
+        //判断发送的文件是图片还是其他文件
+        String filePath = getRealFilePath(cot,uri);
+        String fileType = getExtensionName(filePath);
+        if (!ObjectUtils.isNull(fileType)) {
+            switch (fileType){
+                case "jpg":
+                    isFile = true;
+                    break;
+                case "png":
+                    isFile = true;
+                    break;
+                case "gif":
+                    isFile = true;
+                    break;
+                case "tif":
+                    isFile = true;
+                    break;
+                case "bmp":
+                    isFile = true;
+                    break;
+                default:
+                    break;
+            }
+
+        }
+        return isFile;
     }
     private static String bytesToHexString(byte[] src){
         StringBuilder builder = new StringBuilder();
