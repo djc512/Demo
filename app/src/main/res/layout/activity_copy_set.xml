@@ -160,7 +160,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="30dp"
                         android:src="@drawable/off"/>
 
                     <TextView
@@ -210,7 +210,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="30dp"
                         android:src="@drawable/off"/>
 
                     <TextView
@@ -262,7 +262,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="30dp"
                         android:src="@drawable/off"/>
 
                     <TextView
@@ -306,7 +306,7 @@
                         android:id="@+id/commonTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="普通"
+                        android:text="普通纸"
                         android:textColor="@color/black2"
                         android:textSize="16sp"/>
 
@@ -322,7 +322,7 @@
                         android:id="@+id/photoTv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="相片"
+                        android:text="相片纸"
                         android:textColor="@color/black2"
                         android:textSize="16sp"/>
                 </LinearLayout>
@@ -367,7 +367,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="30dp"
                         android:src="@drawable/off"/>
 
                     <TextView
@@ -417,7 +417,7 @@
                             android:layout_width="40dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginRight="30dp"
                             android:src="@drawable/off"/>
 
                         <TextView
