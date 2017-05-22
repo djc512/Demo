@@ -84,6 +84,7 @@ public class PcFilePreviewActivity extends BasePrintActivity implements View.OnC
     private void turnPrintSetting(PrintSetting printSetting) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
+        bundle.putString(PickPrinterActivity.IMAGE_PATH, fileInfo.getPreviewUrl());
         PickPrinterActivity.start(context, bundle);
     }
 

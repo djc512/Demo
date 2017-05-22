@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -51,7 +50,9 @@ import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupRecylerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.DisplayUtil;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.util.PriceUtil;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
@@ -64,6 +65,7 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 import static huanxing_print.com.cn.printhome.R.drawable.on;
+
 
 /**
  * Created by Administrator on 2017/5/3 0003.
@@ -111,11 +113,16 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private SeekBar seekBar;
     private LinearLayout seekLyt;
     private ImageView scaleImg;
+    private ImageView paperImg;
     private TextView defaultTv;
     private TextView defTv;
     private LinearLayout scaleLyt;
     private LinearLayout directionLv;
+    private LinearLayout paperTypeLyt;
+    private LinearLayout paperSizeLyt;
+    private RelativeLayout imgBcRyt;
 
+    private String previewPath;
 
     private List<GroupResp.Group> groupList = new ArrayList<>();
     private String printerNo;
@@ -139,7 +146,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private int doubleFlag = 1;
     private int printCount = 1;
     private int sizeType = 0;
-
+    private int paperType = PrintUtil.SETTING_COMMON;
     private int pageCount = 2;
 
     private int id;
@@ -163,18 +170,19 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     private void initData() {
         Bundle bundle = getIntent().getExtras();
+        previewPath = bundle.getString(PREVIEW_PATH);
         printType = bundle.getInt(PRINT_TYPE);
         printerNo = bundle.getString(PRINTER_NO);
         printSetting = bundle.getParcelable(PRINT_SETTING);
         newSetting = printSetting.clone();
         newSetting.setScaleRatio(100);
-
+        newSetting.setPaperType(PrintUtil.SETTING_COMMON);
         colourFlag = newSetting.getColourFlag();
         directionFlag = newSetting.getDirectionFlag();
         doubleFlag = newSetting.getDoubleFlag();
         printCount = newSetting.getPrintCount();
         sizeType = newSetting.getSizeType();
-
+        Logger.i(previewPath);
         Logger.i(printerNo);
         Logger.i(printSetting.toString());
         requeryPrice(printerNo);
@@ -195,6 +203,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         newSetting.setSizeType(sizeType);
         newSetting.setPrintCount(printCount);
         newSetting.setScaleRatio(scaleRatio);
+        newSetting.setPaperType(paperType);
     }
 
     public void requeryPrice(String printerNo) {
@@ -413,6 +422,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initView() {
+        imgBcRyt = (RelativeLayout) findViewById(R.id.imgBcRyt);
+        paperSizeLyt = (LinearLayout) findViewById(R.id.paperSizeLyt);
+        paperTypeLyt = (LinearLayout) findViewById(R.id.paperTypeLyt);
+        paperImg = (ImageView) findViewById(R.id.paperImg);
         directionLv = (LinearLayout) findViewById(R.id.directionLv);
         scaleLyt = (LinearLayout) findViewById(R.id.scaleLyt);
         defaultTv = (TextView) findViewById(R.id.defaultTv);
@@ -423,12 +436,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int newHeight = DensityUtil.dip2px(CopySettingActivity.this, 60) * progress / 100;
-                RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) iv_paper.getLayoutParams();
-                iv_paper.getLayoutParams().height = newHeight;
-                iv_paper.setLayoutParams(layout);
-                scaleRatio = progress;
-                Logger.i(scaleRatio);
+                setPreviewScale(progress);
             }
 
             @Override
@@ -451,6 +459,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
         groupTv = (TextView) findViewById(R.id.groupTv);
         iv_paper = (ImageView) findViewById(R.id.iv_paper);
+        ImageUtil.showImageView(ctx, previewPath, iv_paper);
         iv_minus = (ImageView) findViewById(R.id.iv_minus);
         tv_mount = (TextView) findViewById(R.id.tv_mount);
         iv_plus = (ImageView) findViewById(R.id.iv_plus);
@@ -486,10 +495,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         tv_mount.setText(newSetting.getPrintCount() + "");
         if (directionFlag == 0) {
             iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
-            iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.orientation));
+            setPreviewHorizontal();
         } else {
-            iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.vertical));
             iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+            setPreviewVertical();
         }
         if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
             iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
@@ -519,7 +528,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             seekBar.setProgress(100);
         } else {
             seekLyt.setVisibility(View.VISIBLE);
-            scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+            scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
         }
         if (printType == PrintUtil.PRINT_TYPE_FILE) {
             printTypeLyt.setVisibility(View.GONE);
@@ -529,16 +538,19 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             printTypeLyt.setVisibility(View.GONE);
             scaleLyt.setVisibility(View.GONE);
             directionLv.setVisibility(View.GONE);
+            paperSizeLyt.setVisibility(View.GONE);
         }
         if (printType == PrintUtil.PRINT_TYPE_CENSUS) {
             printTypeLyt.setVisibility(View.GONE);
             scaleLyt.setVisibility(View.GONE);
             directionLv.setVisibility(View.GONE);
+            paperSizeLyt.setVisibility(View.GONE);
         }
         if (printType == PrintUtil.PRINT_TYPE_PASSFORT) {
             printTypeLyt.setVisibility(View.GONE);
             scaleLyt.setVisibility(View.GONE);
             directionLv.setVisibility(View.GONE);
+            paperSizeLyt.setVisibility(View.GONE);
         }
         if (printType == PrintUtil.PRINT_TYPE_PRINT) {
             printTypeLyt.setVisibility(View.VISIBLE);
@@ -562,14 +574,35 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         ll_cz_qun.setOnClickListener(this);
         btn_preview.setOnClickListener(this);
         scaleImg.setOnClickListener(this);
+        paperImg.setOnClickListener(this);
     }
 
     private boolean isPersion = true;
 
+    private void setPreviewScale(int progress) {
+        Logger.i(progress);
+        scaleRatio = (int) (25 + (progress / 100) * 0.75);
+        Logger.i(scaleRatio);
+        int newWidth;
+        int vWidth = DensityUtil.dip2px(ctx, 43);
+        int hWidth = DensityUtil.dip2px(ctx, 84);
+        int height = DensityUtil.dip2px(ctx, 60);
+        int newHeight = (int) (height * 0.25 + (height * 0.75 * progress / 100));
+        RelativeLayout.LayoutParams layout = (RelativeLayout.LayoutParams) iv_paper.getLayoutParams();
+        if (directionFlag == 0) {
+            newWidth = (int) (hWidth * 0.25 + (hWidth * 0.75 * progress / 100));
+        } else {
+            newWidth = (int) (vWidth * 0.25 + (vWidth * 0.75 * progress / 100));
+        }
+        iv_paper.getLayoutParams().height = newHeight;
+        iv_paper.getLayoutParams().width = newWidth;
+        iv_paper.setLayoutParams(layout);
+    }
+
     private void setGroupViewVisible(GroupResp.Group group) {
         this.group = group;
         groupTv.setText(group.getGroupName());
-        iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
+        iv_copy_cz.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
         ll_cz_persion.setVisibility(View.GONE);
         ll_cz_qun.setVisibility(View.VISIBLE);
         isPersion = false;
@@ -582,13 +615,41 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         isPersion = true;
     }
 
+    /**
+     * 预览竖版
+     */
+    private void setPreviewVertical() {
+        directionFlag = 1;
+        iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+        int height = DisplayUtil.dip2px(ctx, 60);
+        int width = DisplayUtil.dip2px(ctx, 43);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imgBcRyt.getLayoutParams();
+        imgBcRyt.getLayoutParams().height = height;
+        imgBcRyt.getLayoutParams().width = width;
+        imgBcRyt.setLayoutParams(layoutParams);
+    }
+
+    /**
+     * 预览横版
+     */
+    private void setPreviewHorizontal() {
+        directionFlag = 0;
+        iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
+        int height = DisplayUtil.dip2px(ctx, 60);
+        int width = DisplayUtil.dip2px(ctx, 84);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imgBcRyt.getLayoutParams();
+        imgBcRyt.getLayoutParams().height = height;
+        imgBcRyt.getLayoutParams().width = width;
+        imgBcRyt.setLayoutParams(layoutParams);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.scaleImg://缩放
                 if (isStandard) {
                     seekLyt.setVisibility(View.VISIBLE);
-                    scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
                     isStandard = false;
                 } else {
                     seekLyt.setVisibility(View.GONE);
@@ -603,7 +664,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_minus://减
                 if (printCount == 1) {
-                    Toast.makeText(ctx, "页数不能小于1", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, "数量不能小于1", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     printCount--;
@@ -624,14 +685,13 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_orientation://方向
                 if (directionFlag == 1) {
-                    iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
-                    iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.orientation));
-                    directionFlag = 0;
+                    setPreviewHorizontal();
                 } else {
-                    iv_paper.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.vertical));
-                    iv_orientation.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
-                    directionFlag = 1;
+                    setPreviewVertical();
                 }
+                setPreviewScale(100);
+                scaleRatio = 100;
+                seekBar.setProgress(100);
                 break;
             case R.id.iv_color://色彩
                 if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
@@ -646,7 +706,24 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     }
                 }
                 break;
-            case R.id.iv_a43://纸张
+            case R.id.paperImg://纸张类型
+                if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
+                    ShowUtil.showToast("黑白机不可选照片纸");
+                } else {
+                    if (paperType == PrintUtil.SETTING_COMMON) {
+                        paperImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
+                        paperType = PrintUtil.SETTING_PHOTO;
+                        iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                        doubleFlag = 1;
+                        iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                        sizeType = 0;
+                    } else {
+                        paperImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                        paperType = PrintUtil.SETTING_COMMON;
+                    }
+                }
+                break;
+            case R.id.iv_a43://纸张大小
                 if (sizeType == 1) {
                     if (printCount > StringUtil.stringToInt(printerPrice.getA4Num())) {
                         printCount = StringUtil.stringToInt(printerPrice.getA4Num());
@@ -659,17 +736,19 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                         printCount = StringUtil.stringToInt(printerPrice.getA3Num());
                         tv_mount.setText(printCount + "");
                     }
-                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
                     sizeType = 1;
+                    paperImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
+                    paperType = PrintUtil.SETTING_COMMON;
                 }
                 break;
             case R.id.iv_print_type://单双面
-                if (pageCount == 1) {
+                if (pageCount == 1 || paperType == PrintUtil.SETTING_PHOTO) {
                     ShowUtil.showToast(getString(R.string.page_limit));
                     return;
                 }
                 if (doubleFlag == 1) {
-                    iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                    iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
                     doubleFlag = 0;
                 } else {
                     iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
@@ -827,6 +906,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     public static final String PRINT_TYPE = "print_type";
     public static final String PRINTER_NO = "pinter_no";
     public static final String COPY_FILE_FLAG = "copy_file_flag";
+    public static final String PREVIEW_PATH = "previewPath";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, CopySettingActivity.class);

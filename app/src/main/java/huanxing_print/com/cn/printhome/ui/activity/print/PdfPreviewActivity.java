@@ -205,6 +205,7 @@ public class PdfPreviewActivity extends BasePrintActivity implements View.OnClic
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
+        bundle.putString(PickPrinterActivity.IMAGE_PATH, "");
         PickPrinterActivity.start(context, bundle);
     }
 

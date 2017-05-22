@@ -50,7 +50,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
 
     @Override
     protected void init() {
-        StepViewUtil.init(getActivity(), findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
+        StepViewUtil.init(getActivity(), findViewById(R.id.step), StepLineView.STEP_DEFAULT);
         findViewById(R.id.ll_file).setOnClickListener(this);
         findViewById(R.id.ll_weixin).setOnClickListener(this);
         findViewById(R.id.ll_qq).setOnClickListener(this);

@@ -41,6 +41,8 @@ public class PrintInfoResp extends CommonResp {
         private String resolution;
         private String technicalType;
         private String printerNo;
+        private String photoNum;
+        private int paperType;
 
         public String getA3Num() {
             return a3Num;
@@ -162,6 +164,22 @@ public class PrintInfoResp extends CommonResp {
             this.printerNo = printerNo;
         }
 
+        public String getPhotoNum() {
+            return photoNum;
+        }
+
+        public void setPhotoNum(String photoNum) {
+            this.photoNum = photoNum;
+        }
+
+        public int getPaperType() {
+            return paperType;
+        }
+
+        public void setPaperType(int paperType) {
+            this.paperType = paperType;
+        }
+
         @Override
         public String toString() {
             return "PrinterPrice{" +
@@ -180,6 +198,8 @@ public class PrintInfoResp extends CommonResp {
                     ", resolution='" + resolution + '\'' +
                     ", technicalType='" + technicalType + '\'' +
                     ", printerNo='" + printerNo + '\'' +
+                    ", photoNum='" + photoNum + '\'' +
+                    ", paperType=" + paperType +
                     '}';
         }
 
@@ -205,6 +225,8 @@ public class PrintInfoResp extends CommonResp {
             dest.writeString(this.resolution);
             dest.writeString(this.technicalType);
             dest.writeString(this.printerNo);
+            dest.writeString(this.photoNum);
+            dest.writeInt(this.paperType);
         }
 
         public PrinterPrice() {
@@ -226,6 +248,8 @@ public class PrintInfoResp extends CommonResp {
             this.resolution = in.readString();
             this.technicalType = in.readString();
             this.printerNo = in.readString();
+            this.photoNum = in.readString();
+            this.paperType = in.readInt();
         }
 
         public static final Parcelable.Creator<PrinterPrice> CREATOR = new Parcelable.Creator<PrinterPrice>() {

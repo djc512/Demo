@@ -45,6 +45,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
     private String fileUrl;
     private File file;
     private DocPreViewpageAdapter docPreViewpageAdapter;
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
     }
 
     private void initData() {
-        Uri uri = getIntent().getData();
+        uri = getIntent().getData();
         if (uri == null) {
             Bundle bundle = getIntent().getExtras();
             fileUrl = (String) bundle.getCharSequence(KEY_URL);
@@ -90,7 +91,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         }
     }
 
-    private void addFile(String fileUrl) {
+    private void addFile(final String fileUrl) {
         showLoading();
         PrintRequest.addFile(activity, file.getName(), fileUrl, PrintUtil.TYPE_PRINT, new HttpListener() {
             @Override
@@ -101,7 +102,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                     return;
                 }
                 if (addFileSettingBean.isSuccess()) {
-                    turnPrintSetting(addFileSettingBean.getData());
+                    turnPickPrinter(addFileSettingBean.getData());
                 } else {
                     Logger.i("net error");
                     ToastUtil.doToast(context, getString(R.string.upload_failure));
@@ -111,12 +112,15 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
             @Override
             public void onFailed(String exception) {
                 dismissLoading();
+                if (uri != null) {
+                    finish();
+                }
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         }, false);
     }
 
-    private void turnPrintSetting(PrintSetting printSetting) {
+    private void turnPickPrinter(PrintSetting printSetting) {
         if (fileUrlList.size() == 1) {
             EventBus.getDefault().postSticky(new Integer(1));
         } else {
@@ -124,6 +128,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
+        bundle.putString(PickPrinterActivity.IMAGE_PATH, fileUrlList.get(0));
         PickPrinterActivity.start(context, bundle);
     }
 
@@ -220,7 +225,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                     finish();
                     return;
                 }
-                if (docPreviewResp.getData().getPaperNum() > 200) {
+                if (docPreviewResp.getData() == null || docPreviewResp.getData().getPaperNum() > 200) {
                     ShowUtil.showToast(getString(R.string.file_outpage));
                     finish();
                     return;

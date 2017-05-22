@@ -27,7 +27,6 @@ import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.print.BasePrintActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.DocPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
-import huanxing_print.com.cn.printhome.ui.activity.print.PdfPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ChatFilesRecylerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
@@ -100,10 +99,6 @@ public class ChatFilesActivity extends BasePrintActivity implements View.OnClick
                     bundle.putBoolean(ImgPreviewActivity.PREVIEW_FLAG, true);
                     bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, file.getPath());
                     ImgPreviewActivity.start(ChatFilesActivity.this, bundle);
-                } else if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
-                    bundle.putBoolean(PdfPreviewActivity.PREVIEW_FLAG, true);
-                    bundle.putCharSequence(PdfPreviewActivity.KEY_PDF_PATH, file.getPath());
-                    PdfPreviewActivity.start(ChatFilesActivity.this, bundle);
                 } else {
                     turnFile(file);
                 }

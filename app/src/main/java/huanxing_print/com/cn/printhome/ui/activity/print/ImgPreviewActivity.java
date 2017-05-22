@@ -42,8 +42,6 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_img_priview);
         initData();
-
-
         initView();
     }
 
@@ -179,6 +177,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         EventBus.getDefault().postSticky(new Integer(1));
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
+        bundle.putString(PickPrinterActivity.IMAGE_PATH, imgPath);
         PickPrinterActivity.start(context, bundle);
     }
 

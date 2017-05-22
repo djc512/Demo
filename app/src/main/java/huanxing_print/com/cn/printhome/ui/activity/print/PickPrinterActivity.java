@@ -84,6 +84,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
             turnFile();
         } else {
             Logger.i(printSetting.toString());
+            imagePath = getIntent().getStringExtra(IMAGE_PATH);
             printType = PrintUtil.PRINT_TYPE_PRINT;
             isFileCopy = false;
             initFragment();
@@ -300,6 +301,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
         bundle.putInt(CopySettingActivity.PRINT_TYPE, printType);
         bundle.putParcelable(CopySettingActivity.PRINT_SETTING, printSetting);
         bundle.putBoolean(CopySettingActivity.COPY_FILE_FLAG, isFileCopy);
+        bundle.putString(CopySettingActivity.PREVIEW_PATH, imagePath);
         CopySettingActivity.start(context, bundle);
     }
 

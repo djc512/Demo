@@ -21,6 +21,8 @@ public class PrintUtil {
 
     public static final int SETTING_BLACK = 1;//设置黑白
     public static final int SETTING_COLOR = 0;//设置彩色
+    public static final int SETTING_COMMON = 0;//普通纸
+    public static final int SETTING_PHOTO = 1;//照片纸
 
     public static final int SETTING_SIZE_A4 = 0;
     public static final int SETTING_SIZE_A3 = 1;
