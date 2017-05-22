@@ -24,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/recycler_new_friend_tv_size"
+            android:textColor="@color/item_contact_msg_color"
             android:text="@string/title_new_friend"/>
     </LinearLayout>
 </LinearLayout>

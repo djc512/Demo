@@ -21,6 +21,7 @@
         <TextView
             android:id="@+id/nameTv"
             android:textSize="@dimen/recycler_friend_tv_size"
+            android:textColor="@color/item_contact_msg_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
