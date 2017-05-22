@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
@@ -252,15 +253,27 @@ public class EaseChatRowImage extends EaseChatRowFile {
                         break;
                     case 3:
                         //删除记录
-                        if (message.getChatType() == ChatType.GroupChat) {
-                            EMClient.getInstance().chatManager()
-                                    .getConversation(message.getTo())
-                                    .removeMessage(message.getMsgId());
+                        //发送透传消息代码如下：
+                        String action = "REMOVE_FLAG";
+                        EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
+
+                        EMCmdMessageBody cmdBody = new EMCmdMessageBody(action);
+                        if (message.getChatType() == ChatType.GroupChat ||
+                                message.getChatType() == ChatType.ChatRoom) {
+                            cmdMessage.setChatType(ChatType.GroupChat);
+                            String toChatUserName = message.getTo();
+                            Log.i(TAG, "toChatUserName------>" + toChatUserName);
+                            cmdMessage.setTo(toChatUserName);
                         } else {
-                            EMClient.getInstance().chatManager()
-                                    .getConversation(message.getFrom())
-                                    .removeMessage(message.getMsgId());
+                            String toChatUserName = message.getFrom();
+                            Log.i(TAG, "toChatUserName------>" + toChatUserName);
+                            cmdMessage.setFrom(toChatUserName);
                         }
+                        String msgId = message.getMsgId();
+                        Log.i(TAG, "msgIdsend-------->" + msgId);
+                        cmdMessage.setAttribute("msgid", msgId);
+                        cmdMessage.addBody(cmdBody);
+                        EMClient.getInstance().chatManager().sendMessage(cmdMessage);
                         break;
                 }
             }
