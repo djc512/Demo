@@ -34,7 +34,7 @@ import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
-public class ChatFilesActivity extends BasePrintActivity {
+public class ChatFilesActivity extends BasePrintActivity implements View.OnClickListener{
 
     private String path;
     private RecyclerView mRcList;
@@ -55,8 +55,6 @@ public class ChatFilesActivity extends BasePrintActivity {
         initView();
     }
 
-
-
     private void initData() {
         groupId = getIntent().getExtras().getString(GROUP_ID);
         path = PathUtil.getInstance().getFilePath().toString().replace(easemobId + "/file", "files/" + easemobId +
@@ -74,6 +72,7 @@ public class ChatFilesActivity extends BasePrintActivity {
     }
 
     private void initView() {
+        findViewById(R.id.backImg).setOnClickListener(this);
         final List<File> fileList = FileUtils.getAllFileList(new String[]{path});
         if (fileList == null || fileList.size() == 0) {
             ShowUtil.showToast("没有相关文件");
@@ -110,6 +109,17 @@ public class ChatFilesActivity extends BasePrintActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        int id = v.getId();
+        switch (id) {
+            case R.id.backImg:
+                finish();
+                break;
+        }
     }
 
     static class MyHandler extends Handler {
