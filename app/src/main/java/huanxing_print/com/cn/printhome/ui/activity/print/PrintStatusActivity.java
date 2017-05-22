@@ -268,7 +268,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 @Override
                 public void run() {
                     count--;
-                    countTv.setText("预计还有" + count + "S…");
+                    countTv.setText("预计还有" + count + "s…");
                     if (count < 0) {
                         timer.cancel();
                         countTv.setVisibility(View.GONE);
