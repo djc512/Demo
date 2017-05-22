@@ -409,7 +409,6 @@
         <!-- 上传图片 -->
         <activity
             android:name=".ui.activity.copy.PhotoPickerActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.copy.PreviewPhotoActivity"
@@ -517,6 +516,11 @@
         <!-- 新建报销审批 -->
         <activity
             android:name=".ui.activity.approval.AddExpenseApprovalActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <!-- 新建报销审批 -->
+        <activity
+            android:name=".ui.activity.approval.AddExpenseApprovalActivity2"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.approval.MySponsorListActivity"/>
