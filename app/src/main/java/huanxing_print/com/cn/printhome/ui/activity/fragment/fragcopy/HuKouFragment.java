@@ -125,6 +125,7 @@ public class HuKouFragment extends Fragment implements View.OnClickListener{
                     intent.putExtra("bytes",bytes);
                     intent.putExtra("bytesf",bytesf);
                     startActivity(intent);
+                    getActivity().finish();
                 }
                 break;
         }
