@@ -82,7 +82,6 @@ public class FileFragment extends Fragment implements View.OnClickListener {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-        getActivity().finish();
     }
     /**
      * 拍照
