@@ -19,7 +19,6 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
 import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
@@ -30,12 +29,13 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
 
 public class HuKouClipActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_preview;
-    private TextView btn_reset;
     private TextView btn_preview;
+    //    private double a4Width = 210;
+//    private double a4Height = 297;
     private double a4Width = 220;
     private double a4Height = 307;
-    private double idWidth = 105;
-    private double idHeight = 143;
+    private double idWidth = 139;
+    private double idHeight = 105;
     private int screenWidth;
     private int screenHeight;
     private double sqrtRatio;
@@ -45,7 +45,10 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     private Bitmap bitmapf;
     private PicSaveUtil saveUtil;
     private Bitmap mBitmap;
+    private TextView btn_reset;
+    private Bitmap mergePic;
 
+    //  1毫米 约等于 3.78像素
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -64,8 +67,8 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
 
     private void initView() {
         iv_preview = (ImageView) findViewById(R.id.iv_preview);
-        btn_reset = (TextView) findViewById(R.id.btn_reset);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
+        btn_reset = (TextView) findViewById(R.id.btn_reset);
     }
 
     private void initData() {
@@ -75,7 +78,6 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
         screenHeight = display.getHeight();
 
         Intent intent = getIntent();
-
         byte[] bytes = intent.getByteArrayExtra("bytes");
         byte[] bytesf = intent.getByteArrayExtra("bytesf");
         if (null != bytes) {
@@ -89,8 +91,8 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initListener() {
-        btn_reset.setOnClickListener(this);
         btn_preview.setOnClickListener(this);
+        btn_reset.setOnClickListener(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -112,13 +114,13 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     private void scaleID(Bitmap mBitmap) {
         sqrtRatio = (a4Width * a4Height) / (idWidth * idHeight);//a4纸与身份证面积比
         //计算图片在屏幕中应占的比例面积
-        ivSqrt = (screenHeight * screenWidth) / sqrtRatio;
+        ivSqrt = ((screenHeight) * (screenWidth)) / sqrtRatio;
         double idRatio = idWidth / idHeight;//获取身份证的宽高比
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
-
-        mBitmap = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788* 0.8684), (int) (ivHeight * 0.7581* 0.9101));
-        iv_preview.setImageBitmap(mBitmap);
+        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
+        mergePic = mergePic(bitmap1, null, ivWidth, ivHeight);
+        iv_preview.setImageBitmap(mergePic);
     }
 
     private String picName;
@@ -130,16 +132,17 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     private void initMergePic() {
         sqrtRatio = (a4Width * a4Height) / (idWidth * idHeight);//a4纸与身份证面积比
         //计算图片在屏幕中应占的比例面积
-        ivSqrt = (screenHeight * screenWidth) / sqrtRatio;
+        ivSqrt = ((screenHeight) * (screenWidth)) / sqrtRatio;
         double idRatio = idWidth / idHeight;//获取身份证的宽高比
         double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
         double ivWidth = ivHeight * idRatio;//获取图片的高
 
-        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788* 0.8684), (int) (ivHeight * 0.7851* 0.9101));
-        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788* 0.8684), (int) (ivHeight * 0.7851* 0.9101));
+        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
+        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
 
         mergeBitmap = mergePic(bitmap1, bitmap2, ivWidth, ivHeight);
         iv_preview.setImageBitmap(mergeBitmap);
+
     }
 
     @Override
@@ -155,15 +158,15 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("print_type", PrintUtil.PRINT_TYPE_CENSUS);
+                    printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
                     finishCurrentActivity();
                 } else {
-                    saveUtil.saveClipPic(mBitmap, picName);
+                    saveUtil.saveClipPic(mergePic, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("print_type", PrintUtil.PRINT_TYPE_CENSUS);
+                    printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
                     finishCurrentActivity();
                 }
@@ -181,12 +184,19 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
      */
     private Bitmap mergePic(Bitmap first, Bitmap second, double ivWidth, double ivHeight) {
         int picwidth = (int) ivWidth;
-        int picheight = (int) (ivHeight * 2);
+        int picheight;
+        if (null == second) {
+            picheight = (int) (ivHeight);
+        } else {
+            picheight = (int) (ivHeight * 2);
+        }
         Bitmap result = Bitmap.createBitmap(picwidth, picheight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
-        canvas.drawBitmap(first, 0, 0, null);
+        canvas.drawBitmap(first, dip2px(50), dip2px(50), null);
+        if (null != second) {
+            canvas.drawBitmap(second, dip2px(50), first.getHeight() + dip2px(80), null);
 
-        canvas.drawBitmap(second, 0, first.getHeight() + 50, null);
+        }
         return result;
     }
 
