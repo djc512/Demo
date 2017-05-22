@@ -466,6 +466,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
             DialogUtils.closeProgressDialog();
             Toast.makeText(getSelfActivity(), "解散成功", Toast.LENGTH_SHORT).show();
             EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
+            finishCurrentActivity();
         }
 
         @Override
