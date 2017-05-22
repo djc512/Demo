@@ -49,6 +49,7 @@ public class WifiImportFragment extends BaseLazyFragment {
     private List<File> fileList;
     private RecyclerView fileRecView;
     private FileRecyclerAdapter mAdapter;
+    private Timer timer = new Timer();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,6 +69,9 @@ public class WifiImportFragment extends BaseLazyFragment {
             return;
         }
         isLoaded = true;
+        if (timer == null) {
+            timer = new Timer();
+        }
         timer.schedule(task, 1000 * 3, 1000 * 5);
         TextView wifiTv = (TextView) view.findViewById(R.id.wifiTv);
         wifiTv.setText(WifiUtil.getWifiInfo(context));
@@ -169,7 +173,6 @@ public class WifiImportFragment extends BaseLazyFragment {
     }
 
     MyHandler handler = new MyHandler(this);
-    Timer timer = new Timer();
     TimerTask task = new TimerTask() {
         public void run() {
             Logger.i("TimerTask");

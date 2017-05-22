@@ -212,14 +212,17 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                 DocPreviewResp docPreviewResp = GsonUtil.GsonToBean(content, DocPreviewResp.class);
                 if (docPreviewResp == null) {
                     dismissLoading();
+                    finish();
                     return;
                 }
                 if (!docPreviewResp.isSuccess()) {
                     ShowUtil.showToast(docPreviewResp.getErrorMsg());
+                    finish();
                     return;
                 }
                 if (docPreviewResp.getData().getPaperNum() > 200) {
                     ShowUtil.showToast(getString(R.string.file_outpage));
+                    finish();
                     return;
                 }
                 fileUrlList = docPreviewResp.getData().getArryList();

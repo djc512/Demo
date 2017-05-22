@@ -332,12 +332,14 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
      * @throws IOException
      */
     private void clipPic() throws IOException {
-        selectionView.setImageBitmap(getResizedBitmap(mBitmap, MAX_HEIGHT));
-        Mat images = new Mat();
-        Utils.bitmapToMat(mBitmap, images);
-        PointF[] point = ClipPicUtil.getPoints(images);
-        List<PointF> points = Arrays.asList(point);
-        selectionView.setPoints(points);
+        if (null!=mBitmap) {
+            selectionView.setImageBitmap(getResizedBitmap(mBitmap, MAX_HEIGHT));
+            Mat images = new Mat();
+            Utils.bitmapToMat(mBitmap, images);
+            PointF[] point = ClipPicUtil.getPoints(images);
+            List<PointF> points = Arrays.asList(point);
+            selectionView.setPoints(points);
+        }
     }
 
     /**

@@ -43,6 +43,7 @@ public class PcFileFragment extends BaseLazyFragment {
     private RecyclerView mRcList;
     private PcFileRecylerAdapter mAdapter;
     private List<PrintListBean.FileInfo> fileList = new ArrayList<>();
+    private Timer timer = new Timer();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,6 +98,9 @@ public class PcFileFragment extends BaseLazyFragment {
         if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
+        if (timer == null) {
+            timer = new Timer();
+        }
         timer.schedule(task, 1000 * 1, 1000 * 2);
         isLoaded = true;
     }
@@ -106,7 +110,6 @@ public class PcFileFragment extends BaseLazyFragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    Timer timer = new Timer();
     TimerTask task = new TimerTask() {
         public void run() {
             Logger.i("TimerTask");

@@ -24,10 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:text="文件制作"
-        android:textColor="@color/text_color"
-        android:textSize="16sp"/>
+        android:textColor="#989898"
+        android:textSize="14sp"/>
 
     <View
         android:layout_width="match_parent"
@@ -39,8 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <ImageView
             android:id="@+id/imageView5"
@@ -59,15 +59,15 @@
             android:layout_toRightOf="@+id/imageView5"
             android:text="扫描复印"
             android:textColor="@color/text_color"
-            android:textSize="16sp"/>
+            android:textSize="17sp"/>
 
         <ImageView
             android:id="@+id/iv_dayin"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/arrow_go"/>
     </RelativeLayout>
 
@@ -76,10 +76,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:padding="10dp"
+        android:padding="15dp"
         android:text="办公应用"
-        android:textColor="@color/text_color"
-        android:textSize="16sp"/>
+        android:textColor="#989898"
+        android:textSize="14sp"/>
 
     <View
         android:layout_width="match_parent"
@@ -91,8 +91,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <ImageView
             android:id="@+id/iv_approve"
@@ -112,7 +112,7 @@
             android:layout_toRightOf="@+id/iv_approve"
             android:text="审批"
             android:textColor="@color/text_color"
-            android:textSize="16sp"/>
+            android:textSize="17sp"/>
 
         <TextView
             android:id="@+id/tv_approve_count"

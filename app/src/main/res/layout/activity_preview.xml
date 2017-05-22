@@ -133,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:drawableLeft="@drawable/power"
-                android:text="增强"
+                android:text="黑白"
                 android:textColor="@color/white" />
 
 
