@@ -388,6 +388,8 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
             groupMessageInfo.getGroupMembers().remove(delGroupMember);
             adapter.modify(groupMessageInfo.getGroupMembers(), "1".equals(groupMessageInfo.getIsManage()) ? true :
                     false);
+            title_group_name.setText(String.format("群管理(%s)", String.valueOf(groupMessageInfo.getGroupMembers().size
+                    ())));
         }
     }
 
@@ -419,6 +421,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
+            EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
             delMemberSuccess();
         }
 

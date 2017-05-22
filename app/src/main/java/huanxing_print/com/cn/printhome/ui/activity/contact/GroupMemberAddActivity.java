@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,7 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
@@ -144,6 +147,7 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
+            EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
             addMemberSuccess();
         }
 
