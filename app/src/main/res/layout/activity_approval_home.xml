@@ -9,7 +9,6 @@
     <RelativeLayout style="@style/Re_title">
 
         <include
-            android:id="@+id/ll_back"
             layout="@layout/ll_title_back"></include>
 
         <TextView
