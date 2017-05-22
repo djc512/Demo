@@ -51,6 +51,7 @@ import com.hyphenate.easeui.widget.EaseChatInputMenu;
 import com.hyphenate.easeui.widget.EaseChatMessageList;
 import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
+import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 
@@ -133,6 +134,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     private String nickName;
     private TextView tv_title;
     private ImageView addImg;
+    private String groupName;//群昵称
+    private String groupUrl;//群头像地址
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -183,6 +186,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             if (!ObjectUtils.isNull(groupMessageInfo)) {
                 groupInfo = groupMessageInfo;
                 nickName = groupInfo.getGroupName();
+                groupName = groupInfo.getGroupName();
+                groupUrl = groupInfo.getGroupUrl();
                 tv_title.setText(groupInfo.getGroupName() + "(" + groupInfo.getGroupMembers().size() + ")");
             }
         }
@@ -326,7 +331,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 //group chat
                 EMGroup group = EMClient.getInstance().groupManager().getGroup(toChatUsername);
                 if (group != null)
-                    tv_title.setText(toChatUsername );
+                    tv_title.setText(toChatUsername);
                 // listen the event that user moved out group or group is dismissed
                 groupListener = new GroupListener();
                 EMClient.getInstance().groupManager().addGroupChangeListener(groupListener);
@@ -899,8 +904,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             emMessage.setAttribute("packetType", packetType);
             if (chatType == EaseConstant.CHATTYPE_GROUP ||
                     chatType == EaseConstant.CHATTYPE_CHATROOM) {
-                emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
-                emMessage.setAttribute("groupName", groupInfo.getGroupName());
+                emMessage.setAttribute("groupUrl", groupUrl);
+                emMessage.setAttribute("groupName", groupName);
             }
             sendMessage(emMessage);
         }
@@ -917,15 +922,9 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             message.setAttribute("nickName", baseApplication.getNickName());
             if (chatType == EaseConstant.CHATTYPE_GROUP ||
                     chatType == EaseConstant.CHATTYPE_CHATROOM) {
-                message.setAttribute("groupUrl", groupInfo.getGroupUrl());
-                message.setAttribute("groupName", groupInfo.getGroupName());
-                Log.d("CMCC", baseApplication.getMemberId() + "," + baseApplication.getHeadImg() +
-                        baseApplication.getNickName() + "," + groupInfo.getGroupUrl() + "," +
-                        groupInfo.getGroupName());
+                message.setAttribute("groupUrl", groupUrl);
+                message.setAttribute("groupName", groupName);
             }
-            Log.d("CMCC", baseApplication.getMemberId() + "," + baseApplication.getHeadImg() +
-                    baseApplication.getNickName());
-            // TODO: 2017/5/17
             sendMessage(message);
         }
     }
@@ -954,14 +953,9 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         message.setAttribute("nickName", baseApplication.getNickName());
         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
-            message.setAttribute("groupUrl", groupInfo.getGroupUrl());
-            message.setAttribute("groupName", groupInfo.getGroupName());
-            Log.d("CMCC", baseApplication.getMemberId() + "," + baseApplication.getHeadImg() +
-                    "," + baseApplication.getNickName() + "," + groupInfo.getGroupUrl() + "," +
-                    groupInfo.getGroupName());
+            message.setAttribute("groupUrl", groupUrl);
+            message.setAttribute("groupName", groupName);
         }
-        Log.d("CMCC", baseApplication.getMemberId() + "," + baseApplication.getHeadImg() +
-                baseApplication.getNickName());
         sendMessage(message);
 
     }
@@ -974,8 +968,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         emMessage.setAttribute("nickName", baseApplication.getNickName());
         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
-            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
-            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+            emMessage.setAttribute("groupUrl", groupUrl);
+            emMessage.setAttribute("groupName", groupName);
         }
         sendMessage(emMessage);
     }
@@ -987,8 +981,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         emMessage.setAttribute("nickName", baseApplication.getNickName());
         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
-            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
-            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+            emMessage.setAttribute("groupUrl", groupUrl);
+            emMessage.setAttribute("groupName", groupName);
         }
         sendMessage(emMessage);
     }
@@ -1000,8 +994,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         emMessage.setAttribute("nickName", baseApplication.getNickName());
         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
-            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
-            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+            emMessage.setAttribute("groupUrl", groupUrl);
+            emMessage.setAttribute("groupName", groupName);
         }
         sendMessage(emMessage);
     }
@@ -1013,8 +1007,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         emMessage.setAttribute("nickName", baseApplication.getNickName());
         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
-            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
-            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+            emMessage.setAttribute("groupUrl", groupUrl);
+            emMessage.setAttribute("groupName", groupName);
         }
         sendMessage(emMessage);
     }
@@ -1026,8 +1020,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         emMessage.setAttribute("nickName", baseApplication.getNickName());
         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
-            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
-            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+            emMessage.setAttribute("groupUrl", groupUrl);
+            emMessage.setAttribute("groupName", groupName);
         }
         sendMessage(emMessage);
     }
@@ -1039,8 +1033,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         emMessage.setAttribute("nickName", baseApplication.getNickName());
         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
-            emMessage.setAttribute("groupUrl", groupInfo.getGroupUrl());
-            emMessage.setAttribute("groupName", groupInfo.getGroupName());
+            emMessage.setAttribute("groupUrl", groupUrl);
+            emMessage.setAttribute("groupName", groupName);
         }
         sendMessage(emMessage);
     }
@@ -1481,47 +1475,75 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             Log.i("CMCC", "收到透传消息!" + messages.size());
             for (EMMessage emMessage : messages) {
                 EMCmdMessageBody body = (EMCmdMessageBody) emMessage.getBody();
-                Log.d("CMCC", "action:" + body.action());
-                //先用基类解析出type
-                Gson gson = new Gson();
-                MessageTypeObject typeObject = gson.fromJson(body.action(), MessageTypeObject.class);
-                //想聊天里面插入消息
-                if ("401".equals(typeObject.getType()) ||
-                        "402".equals(typeObject.getType())) {
-                    //解析
-                    RedPacketHint hint = gson.fromJson(body.action(), RedPacketHint.class);
-                    Log.d("CMCC", "1111111");
-                    //群红包和普通红包
-                    if (baseApplication.getMemberId().equals(hint.getMemberId())) {
-                        //让你看到
-                        Log.d("CMCC", "2222222");
-                        createHintMessage(hint);
+                String action = body.action();
+                Log.d("CMCC", "action:" + action);
+                if (getString(R.string.REMOVE).equals(action)) {
+                    //撤回消息的action
+                    String msgId;
+                    try {
+                        msgId = emMessage.getStringAttribute("msgid");
+                        Log.i(TAG, "msgIdreceive-------->" + msgId);
+                        if (chatType == EaseConstant.CHATTYPE_GROUP ||
+                                chatType == EaseConstant.CHATTYPE_CHATROOM) {
+                            EMConversation conversation = EMClient.getInstance()
+                                    .chatManager().getConversation(emMessage.getTo());
+                            //--删除消息来表示撤回--
+                            conversation.removeMessage(msgId);
+                        } else {
+                            EMConversation conversation = EMClient.getInstance()
+                                    .chatManager().getConversation(emMessage.getFrom());
+                            //--删除消息来表示撤回--
+                            conversation.removeMessage(msgId);
+                        }
+                        messageList.refresh();
+                        // 如果需要，可以插入一条“XXX回撤一条消息”
+                    } catch (HyphenateException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                } else {
+                    //先用基类解析出type
+                    Gson gson = new Gson();
+                    MessageTypeObject typeObject = gson.fromJson(action, MessageTypeObject.class);
+                    //想聊天里面插入消息
+                    if ("401".equals(typeObject.getType()) ||
+                            "402".equals(typeObject.getType())) {
+                        //解析
+                        RedPacketHint hint = gson.fromJson(body.action(), RedPacketHint.class);
+                        Log.d("CMCC", "1111111");
+                        //群红包和普通红包
+                        if (baseApplication.getMemberId().equals(hint.getMemberId())) {
+                            //让你看到
+                            Log.d("CMCC", "2222222");
+                            createHintMessage(hint);
+                        }
+
                     }
 
-                }
-
-                if ("501".equals(typeObject.getType()) ||
-                        "502".equals(typeObject.getType()) ||
-                        "503".equals(typeObject.getType()) ||
-                        "504".equals(typeObject.getType())) {
-                    //501 加群审核   502 进群通知   503 退群通知   504  群解散
-                    Log.d("CMCC", "群聊type:" + emMessage.getStringAttribute("type", ""));
-                    if (chatType == EaseConstant.CHATTYPE_GROUP) {
-                        GroupHint groupHint = gson.fromJson(body.action(), GroupHint.class);
-                        //501 特殊处理有点击事件
-                        if ("501".equals(groupHint.getType())) {
-                            Log.d("CMCC", "501:加群审核");
-                            //判断是否相等
-                            if (baseApplication.getMemberId().equals(groupHint.getMemberId())) {
-                                Log.d("CMCC", "333333");
+                    if ("501".equals(typeObject.getType()) ||
+                            "502".equals(typeObject.getType()) ||
+                            "503".equals(typeObject.getType()) ||
+                            "504".equals(typeObject.getType())) {
+                        //501 加群审核   502 进群通知   503 退群通知   504  群解散
+                        Log.d("CMCC", "群聊type:" + emMessage.getStringAttribute("type", ""));
+                        if (chatType == EaseConstant.CHATTYPE_GROUP) {
+                            GroupHint groupHint = gson.fromJson(body.action(), GroupHint.class);
+                            //501 特殊处理有点击事件
+                            if ("501".equals(groupHint.getType())) {
+                                Log.d("CMCC", "501:加群审核");
+                                //判断是否相等
+                                if (baseApplication.getMemberId().equals(groupHint.getMemberId())) {
+                                    Log.d("CMCC", "333333");
+                                    createGroupHintMessage(groupHint);
+                                }
+                            } else {
+                                Log.d("CMCC", "44444444 groupHint:" + groupHint.getMessage());
                                 createGroupHintMessage(groupHint);
                             }
-                        } else {
-                            Log.d("CMCC", "44444444 groupHint:" + groupHint.getMessage());
-                            createGroupHintMessage(groupHint);
                         }
                     }
                 }
+
 
             }
         }

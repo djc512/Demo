@@ -463,4 +463,7 @@
     <string name="group_common_Red_package">群红包</string>
     <string name="group_lucky_Red_package">拼手气红包</string>
 
+    <!--移除透传消息action-->
+    <string name="REMOVE">REMOVE_FLAG</string>
+
 </resources>
