@@ -188,14 +188,14 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         findViewById(R.id.ll_station).setOnClickListener(this);
         findViewById(R.id.ll_join).setOnClickListener(this);
         findViewById(R.id.ll_my_community).setOnClickListener(this);
-        findViewById(R.id.iv_set).setOnClickListener(this);
+        findViewById(R.id.rl_userMsg).setOnClickListener(this);
         findViewById(R.id.ll_printnum).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_set:
+            case R.id.rl_userMsg:
                 startActivity(new Intent(getActivity(), MyActivity.class));
                 break;
             case R.id.ll_my_account:
