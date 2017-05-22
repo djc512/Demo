@@ -16,7 +16,9 @@ import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.event.contacts.GroupMessageUpdate;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
+import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -32,6 +34,7 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
     private ImageView iv_delete;
     private String groupid;
     private String groupurl;
+    private GroupMessageInfo groupMessageInfo;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -49,8 +52,11 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
 
     private void initData() {
         Intent intent = getIntent();
-        groupid = intent.getStringExtra("groupid");
-        groupurl = intent.getStringExtra("groupurl");
+        groupMessageInfo = intent.getParcelableExtra("groupMessageInfo");
+//        groupid = intent.getStringExtra("groupid");
+//        groupurl = intent.getStringExtra("groupurl");
+        groupid = groupMessageInfo.getGroupId();
+        groupurl = groupMessageInfo.getGroupUrl();
     }
 
     private void initListener() {
@@ -82,9 +88,9 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 modifyName(name);
-                Intent saveIntent = new Intent();
-                setResult(RESULT_OK, saveIntent);
-                finishCurrentActivity();
+//                Intent saveIntent = new Intent();
+//                setResult(RESULT_OK, saveIntent);
+//                finishCurrentActivity();
                 break;
         }
     }
@@ -101,8 +107,10 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
                 DialogUtils.closeProgressDialog();
                 Toast.makeText(getSelfActivity(), "修改成功", Toast.LENGTH_SHORT).show();
                 EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
-
+                groupMessageInfo.setGroupName(name);
+                EventBus.getDefault().post(new GroupMessageUpdate("updateName", groupMessageInfo));
                 setResult(RESULT_OK);
+                finishCurrentActivity();
             }
 
             @Override

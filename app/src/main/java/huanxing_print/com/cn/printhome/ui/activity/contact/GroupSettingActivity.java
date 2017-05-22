@@ -11,6 +11,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.contacts.GroupMessageUpdate;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.contact.GroupMember;
@@ -286,10 +288,15 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 }).show();
                 break;
             case R.id.ll_modifyname:
-                Intent modifyIntent = new Intent(getSelfActivity(), ModifyQunNameActivity.class);
-                modifyIntent.putExtra("groupid", currentGroupId);
-                modifyIntent.putExtra("groupurl", groupMessageInfo.getGroupUrl());
-                startActivityForResult(modifyIntent, modifynameRequsetCoder);
+                if(null != groupMessageInfo) {
+                    Intent modifyIntent = new Intent(getSelfActivity(), ModifyQunNameActivity.class);
+                    modifyIntent.putExtra("groupMessageInfo", groupMessageInfo);
+                    modifyIntent.putExtra("groupid", currentGroupId);
+                    modifyIntent.putExtra("groupurl", groupMessageInfo.getGroupUrl());
+                    startActivityForResult(modifyIntent, modifynameRequsetCoder);
+                }else {
+                    ToastUtil.doToast(GroupSettingActivity.this,"还没有查到群信息");
+                }
                 break;
             case R.id.btn_exit:
                 DialogUtils.showexitGroupDialog(getSelfActivity(), "您确定要退群吗?", new DialogUtils
@@ -479,4 +486,11 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
 
         }
     };
+
+    @Subscribe
+    public void onUpdateGroupMessage(GroupMessageUpdate messageUpdate) {
+        if ("updateName".equals(messageUpdate.getTag())) {
+            tv_groupName.setText(messageUpdate.getGroupMessageInfo().getGroupName());
+        }
+    }
 }

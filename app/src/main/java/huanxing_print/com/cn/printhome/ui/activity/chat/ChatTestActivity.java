@@ -65,6 +65,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.BuildConfig;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.event.contacts.GroupMessageUpdate;
 import huanxing_print.com.cn.printhome.model.chat.GroupHint;
 import huanxing_print.com.cn.printhome.model.chat.MessageTypeObject;
 import huanxing_print.com.cn.printhome.model.chat.RedPacketHint;
@@ -1608,6 +1609,13 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     public void onReceivedMsg(RefreshEvent event) {
         if (0x13 == event.getCode()) {
             messageList.refresh();
+        }
+    }
+
+    @Subscribe
+    public void onUpdateGroupMessage(GroupMessageUpdate messageUpdate) {
+        if ("updateName".equals(messageUpdate.getTag())) {
+            tv_title.setText(messageUpdate.getGroupMessageInfo().getGroupName() + String.format("(%s)", messageUpdate.getGroupMessageInfo().getGroupMembers().size()));
         }
     }
 }
