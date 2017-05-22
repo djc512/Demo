@@ -56,6 +56,8 @@ import com.hyphenate.util.EMLog;
 import com.hyphenate.util.PathUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.List;
@@ -63,6 +65,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.BuildConfig;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.event.contacts.GroupMessageUpdate;
 import huanxing_print.com.cn.printhome.model.chat.GroupHint;
 import huanxing_print.com.cn.printhome.model.chat.MessageTypeObject;
 import huanxing_print.com.cn.printhome.model.chat.RedPacketHint;
@@ -179,6 +182,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             tv_title.setText("印家小秘书");
 
         }
+
+        EventBus.getDefault().register(this);
     }
 
     GroupMessageCallback callback = new GroupMessageCallback() {
@@ -536,17 +541,6 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         });
     }
 
-    //uri转换为String地址
-    public static String uriToRealPath(Context context, Uri uri) {
-        Cursor cursor = context.getContentResolver().query(uri,
-                new String[]{MediaStore.Images.Media.DATA},
-                null,
-                null,
-                null);
-        cursor.moveToFirst();
-        String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
-        return path;
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -647,6 +641,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             EMClient.getInstance().chatroomManager().leaveChatRoom(toChatUsername);
         }
 
+        EventBus.getDefault().unregister(this);
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
     }
 
@@ -1000,7 +995,6 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         emMessage.setAttribute("userId", baseApplication.getMemberId());
         emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
         emMessage.setAttribute("nickName", baseApplication.getNickName());
-        emMessage.setAttribute("imagePath", imagePath);
         if (chatType == EaseConstant.CHATTYPE_GROUP ||
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             emMessage.setAttribute("groupUrl", groupUrl);
@@ -1608,5 +1602,20 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 .appendMessage(message);
         //刷新
         messageList.refresh();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceivedMsg(RefreshEvent event) {
+        if (0x13 == event.getCode()) {
+            messageList.refresh();
+        }
+    }
+
+    @Subscribe
+    public void onUpdateGroupMessage(GroupMessageUpdate messageUpdate) {
+        if ("updateName".equals(messageUpdate.getTag())) {
+            tv_title.setText(messageUpdate.getGroupMessageInfo().getGroupName() + String.format("(%s)", messageUpdate.getGroupMessageInfo().getGroupMembers().size()));
+        }
     }
 }

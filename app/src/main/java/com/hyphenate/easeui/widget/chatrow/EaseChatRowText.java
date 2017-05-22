@@ -22,6 +22,8 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.exceptions.HyphenateException;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,6 +32,7 @@ import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.chat.CommonPackage;
 import huanxing_print.com.cn.printhome.model.chat.GroupLuckyPackageDetail;
 import huanxing_print.com.cn.printhome.model.chat.RedPackageDetail;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.net.callback.chat.GetCommonPackageDetailCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.GetLuckyPackageDetailCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.PackageDetailCallBack;
@@ -193,7 +196,11 @@ public class EaseChatRowText extends EaseChatRow {
         } else if ((!ObjectUtils.isNull(packetId)) &&
                 (!ObjectUtils.isNull(packetType))) {
             //先刷新一下
-            updateView();
+            //发消息刷新
+            RefreshEvent event = new RefreshEvent();
+            event.setCode(0x13);
+            EventBus.getDefault().post(event);
+
             String iconUrl = message.getStringAttribute("iconUrl", "");
             String nickName = message.getStringAttribute("nickName", "");
             //头像

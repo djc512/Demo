@@ -11,6 +11,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.contacts.GroupMessageUpdate;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.contact.GroupMember;
@@ -286,10 +288,15 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                 }).show();
                 break;
             case R.id.ll_modifyname:
-                Intent modifyIntent = new Intent(getSelfActivity(), ModifyQunNameActivity.class);
-                modifyIntent.putExtra("groupid", currentGroupId);
-                modifyIntent.putExtra("groupurl", groupMessageInfo.getGroupUrl());
-                startActivityForResult(modifyIntent, modifynameRequsetCoder);
+                if(null != groupMessageInfo) {
+                    Intent modifyIntent = new Intent(getSelfActivity(), ModifyQunNameActivity.class);
+                    modifyIntent.putExtra("groupMessageInfo", groupMessageInfo);
+                    modifyIntent.putExtra("groupid", currentGroupId);
+                    modifyIntent.putExtra("groupurl", groupMessageInfo.getGroupUrl());
+                    startActivityForResult(modifyIntent, modifynameRequsetCoder);
+                }else {
+                    ToastUtil.doToast(GroupSettingActivity.this,"还没有查到群信息");
+                }
                 break;
             case R.id.btn_exit:
                 DialogUtils.showexitGroupDialog(getSelfActivity(), "您确定要退群吗?", new DialogUtils
@@ -386,8 +393,11 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     private void delMemberSuccess() {
         if (null != delGroupMember) {
             groupMessageInfo.getGroupMembers().remove(delGroupMember);
+            EventBus.getDefault().post(new GroupMessageUpdate("updateName", groupMessageInfo));
             adapter.modify(groupMessageInfo.getGroupMembers(), "1".equals(groupMessageInfo.getIsManage()) ? true :
                     false);
+            title_group_name.setText(String.format("群管理(%s)", String.valueOf(groupMessageInfo.getGroupMembers().size
+                    ())));
         }
     }
 
@@ -402,6 +412,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
             DialogUtils.closeProgressDialog();
             GroupSettingActivity.this.groupMessageInfo = groupMessageInfo;
             setData();
+            EventBus.getDefault().post(new GroupMessageUpdate("updateName", groupMessageInfo));
         }
 
         @Override
@@ -419,6 +430,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
+            EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
             delMemberSuccess();
         }
 
@@ -463,6 +475,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
             DialogUtils.closeProgressDialog();
             Toast.makeText(getSelfActivity(), "解散成功", Toast.LENGTH_SHORT).show();
             EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
+            finishCurrentActivity();
         }
 
         @Override
@@ -475,4 +488,11 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
 
         }
     };
+
+    @Subscribe
+    public void onUpdateGroupMessage(GroupMessageUpdate messageUpdate) {
+        if ("updateName".equals(messageUpdate.getTag())) {
+            tv_groupName.setText(messageUpdate.getGroupMessageInfo().getGroupName());
+        }
+    }
 }

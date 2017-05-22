@@ -1,9 +1,9 @@
 package com.hyphenate.easeui.widget.chatrow;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMFileMessageBody;
@@ -26,13 +27,20 @@ import com.hyphenate.easeui.model.EaseImageCache;
 import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseImageUtils;
+import com.hyphenate.util.EMLog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
+import huanxing_print.com.cn.printhome.ui.activity.chat.CreateGroupChatActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtils;
 import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
 
 public class EaseChatRowImage extends EaseChatRowFile {
@@ -44,6 +52,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
     private RelativeLayout bubble;
     private LinearLayout lin_group;
     private ArrayList<String> popupMenuItemList;
+    private String localFilePath;
 
     public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -68,6 +77,9 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
     @Override
     protected void onSetUpView() {
+        EMImageMessageBody body = (EMImageMessageBody) message.getBody();
+        localFilePath = body.getLocalUrl();
+
         String iconUrl = message.getStringAttribute("iconUrl", "");
         String nickName = message.getStringAttribute("nickName", "");
         //头像
@@ -113,16 +125,6 @@ public class EaseChatRowImage extends EaseChatRowFile {
         String filePath = imgBody.getLocalUrl();
         String thumbPath = EaseImageUtils.getThumbnailImagePath(imgBody.getLocalUrl());
         showImageView(thumbPath, imageView, filePath, message);
-//        //给图片设置长按事件
-//        bubble.setOnLongClickListener(new OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//
-//
-//                return true;
-//            }
-//        });
-
         handleSendMessage();
     }
 
@@ -222,6 +224,9 @@ public class EaseChatRowImage extends EaseChatRowFile {
     @Override
     protected void onBubbleLongClick() {
         Log.d("CMCC", "onBubbleLongClick触发了");
+        //下载原图片
+        downloadImage(message.getMsgId());
+
         popupMenuItemList = new ArrayList<>();
         popupMenuItemList.add("打印");
         popupMenuItemList.add("转发");
@@ -244,18 +249,33 @@ public class EaseChatRowImage extends EaseChatRowFile {
                     case 1:
                         //转发
                         Log.d("CMCC", "转发");
+                        Log.d("CMCC", "localFilePath:" + localFilePath);
+                        //跳转到选择联系人界面只能单选
+                        Intent intent = new Intent(context, CreateGroupChatActivity.class);
+                        intent.putExtra("imgUrl", localFilePath);
+                        context.startActivity(intent);
                         break;
                     case 2:
+                        EMImageMessageBody body = (EMImageMessageBody) message.getBody();
                         //保存
                         Log.d("CMCC", "保存");
-                        final String imgUrl = message.getStringAttribute("imagePath", "");
-                        Log.d("CMCC", "imgUrl:" + imgUrl);
-                        Bitmap bitmap = BitmapFactory.decodeFile(imgUrl);
-                        MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, System.currentTimeMillis() + "", "description");
-                        //刷新相册
-                        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(imgUrl))));
+                        // 其次把文件插入到系统图库
+                        try {
+                            String url = MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                                    localFilePath, body.getFileName(), null);
+                            Log.d("CMCC", "url:" + url);
+                            // 最后通知图库更新
+                            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(url)));
+                            ToastUtils.showToast(context, "保存成功了...");
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
                         break;
                     case 3:
+//                        if (message.direct() == EMMessage.Direct.SEND) {
+//                            //只能删除本人发出的消息
+//                        }
                         //删除记录
                         Log.d("CMCC", "删除");
                         //发送透传消息代码如下：
@@ -273,8 +293,6 @@ public class EaseChatRowImage extends EaseChatRowFile {
                             //删除掉本地消息
                             EMClient.getInstance().chatManager()
                                     .getConversation(toChatUserName).removeMessage(message.getMsgId());
-                            //刷新一下
-                            updateView();
                         } else {
                             String toChatUserName = message.getFrom();
                             Log.d("CMCC", "toChatUserName------>" + toChatUserName);
@@ -282,9 +300,12 @@ public class EaseChatRowImage extends EaseChatRowFile {
                             //删除掉本地消息
                             EMClient.getInstance().chatManager()
                                     .getConversation(toChatUserName).removeMessage(message.getMsgId());
-                            //刷新一下
-                            updateView();
                         }
+                        //发消息刷新
+                        RefreshEvent event = new RefreshEvent();
+                        event.setCode(0x13);
+                        EventBus.getDefault().post(event);
+
                         String msgId = message.getMsgId();
                         Log.d("CMCC", "msgIdsend-------->" + msgId);
                         cmdMessage.setAttribute("msgid", msgId);
@@ -295,5 +316,43 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 }
             }
         });
+    }
+
+    /**
+     * download image
+     */
+    @SuppressLint("NewApi")
+    private void downloadImage(final String msgId) {
+        Log.d("CMCC", "download with messageId: " + msgId);
+        File temp = new File(localFilePath);
+        if (temp != null && temp.exists()) {
+            //存在就不要下载
+            Log.d("CMCC", "存在就不要下载");
+            return;
+        }
+        final String tempPath = temp.getParent() + "/temp_" + temp.getName();
+        final EMCallBack callback = new EMCallBack() {
+            public void onSuccess() {
+                EMLog.e(TAG, "onSuccess");
+            }
+
+            public void onError(int error, String msg) {
+                EMLog.e(TAG, "offline file transfer error:" + msg);
+                File file = new File(tempPath);
+                if (file.exists() && file.isFile()) {
+                    file.delete();
+                }
+            }
+
+            public void onProgress(final int progress, String status) {
+                EMLog.d(TAG, "Progress: " + progress);
+            }
+        };
+
+        EMMessage msg = EMClient.getInstance().chatManager().getMessage(msgId);
+        msg.setMessageStatusCallback(callback);
+
+        EMLog.e(TAG, "downloadAttachement");
+        EMClient.getInstance().chatManager().downloadAttachment(msg);
     }
 }

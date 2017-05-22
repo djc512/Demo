@@ -20,6 +20,7 @@ import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.util.UrlUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -89,10 +90,14 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
             case SCANQR:
                 if(resultCode == RESULT_OK) {
                     String resultString = data.getStringExtra(CodeUtils.RESULT_STRING);
-                    if(resultString.startsWith("MINE:")) {
-                        String subResultString = resultString.replace("MINE:","");
-                        search(subResultString);
+                    String id = UrlUtil.getValueByName(resultString, "id");
+                    if (id != null) {
+                        search(id);
                     }
+//                    if(resultString.startsWith("MINE:")) {
+//                        String subResultString = resultString.replace("MINE:","");
+//                        search(subResultString);
+//                    }
                 }
                 break;
         }

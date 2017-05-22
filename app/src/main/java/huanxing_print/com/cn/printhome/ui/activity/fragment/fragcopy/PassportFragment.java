@@ -106,6 +106,7 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(ctx, PassportClipActivity.class);
                 intent.putExtra("bytes",bytes);
                 startActivity(intent);
+                getActivity().finish();
                 break;
         }
     }

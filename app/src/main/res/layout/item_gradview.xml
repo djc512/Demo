@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <GridView
+    <huanxing_print.com.cn.printhome.view.ScrollGridView
         android:id="@+id/noScrollgridview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,5 +12,5 @@
         android:numColumns="4"
         android:scrollbars="none"
         android:verticalSpacing="5dp" >
-    </GridView>
+    </huanxing_print.com.cn.printhome.view.ScrollGridView>
 </LinearLayout>

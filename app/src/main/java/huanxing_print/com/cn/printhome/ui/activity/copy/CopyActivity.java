@@ -52,9 +52,9 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_copy);
         ctx = this;
-        CommonUtils.initSystemBar(this);
         StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
         initView();
         initData();
@@ -195,5 +195,17 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
                 tvList.get(i).setTextColor(getResources().getColor(R.color.gray6));
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != fragments && fragments.size() > 0) {
+            fragments.clear();
+        }
+        if (null != tvList && tvList.size() > 0) {
+            tvList.clear();
+        }
+        System.gc();
     }
 }

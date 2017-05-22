@@ -360,7 +360,7 @@ public abstract class BaseActivity extends Activity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			finishCurrentActivity();
 			activityExitAnim();
-			return false;
+//			return false;
 
 		}
 

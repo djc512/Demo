@@ -5,20 +5,34 @@
     android:background="@color/all_bg_color"
     android:orientation="vertical">
 
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:padding="5dp"-->
+        <!--android:visibility="gone">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_set"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:padding="5dp"-->
+            <!--android:src="@drawable/iv_my_set" />-->
+    <!--</RelativeLayout>-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="5dp">
+        android:layout_height="50dp"
+        android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/iv_set"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:padding="5dp"
-            android:src="@drawable/iv_my_set" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/text_black"
+            android:textSize="20sp"/>
+
     </RelativeLayout>
 
     <ScrollView
@@ -73,13 +87,16 @@
                         android:textColor="@color/gray8"
                         android:textSize="13sp" />
                 </LinearLayout>
-
+                <ImageView
+                    style="@style/arrow_right"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="60dp"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
                 android:background="@color/gray6" />
 
             <LinearLayout
@@ -199,7 +216,7 @@
             <!--</RelativeLayout>-->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.1dp"
                 android:layout_marginLeft="20dp"
                 android:background="@color/gray6" />
 

@@ -202,9 +202,10 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
                         pcLogin(uniqueCode);
                         return;
                     }
-                    if (result.startsWith("MINE:")) {
-                        String subResultString = result.replace("MINE:", "");
-                        searchFriend(subResultString);
+
+                    String id = UrlUtil.getValueByName(result, "id");
+                    if (id != null) {
+                        searchFriend(id);
                         return;
                     }
                     ShowUtil.showToast("无效的二维码");

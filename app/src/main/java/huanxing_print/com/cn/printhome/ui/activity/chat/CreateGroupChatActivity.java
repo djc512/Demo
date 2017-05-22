@@ -1,4 +1,4 @@
-package huanxing_print.com.cn.printhome.ui.activity.contact;
+package huanxing_print.com.cn.printhome.ui.activity.chat;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,40 +8,42 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.greenrobot.eventbus.EventBus;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
-import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
-import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
-import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.ChooseGroupContactAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
- * Created by wanghao on 2017/5/10.
+ * Created by wanghao on 2017/5/5.
  */
 
-public class GroupMemberAddActivity extends BaseActivity implements View.OnClickListener, ChooseGroupContactAdapter.OnClickGroupInListener, ChooseGroupContactAdapter.OnChooseMemberListener{
+public class CreateGroupChatActivity extends BaseActivity implements View.OnClickListener, ChooseGroupContactAdapter.OnClickGroupInListener, ChooseGroupContactAdapter.OnChooseMemberListener {
     private Button btn_create;
     private RecyclerView recyclerView;
     private TextView tv_hint_member;
     private ChooseGroupContactAdapter adapter;
     private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
     private ArrayList<FriendInfo> chooseMembers;
-    private String currentGroupId;
+    private String token;
+    private boolean isGoChat = false;
+    private String imgUrl;
+    private String fileUrl;
+    private String toChatUsername;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -69,14 +71,17 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
 
         adapter = new ChooseGroupContactAdapter(this, friends);
         recyclerView.setAdapter(adapter);
+
+        imgUrl = getIntent().getStringExtra("imgUrl");
+        fileUrl = getIntent().getStringExtra("fileUrl");
     }
 
     private void initData() {
-        currentGroupId = getIntent().getStringExtra("groupId");
-        String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
+        isGoChat = getIntent().getBooleanExtra("goChat", false);
+        token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(this,"加载中").show();
-        FriendManagerRequest.queryFriendList(this,token,myFriendListCallback);
+        DialogUtils.showProgressDialog(this, "加载中").show();
+        FriendManagerRequest.queryFriendList(this, token, myFriendListCallback);
     }
 
     private void setListener() {
@@ -93,36 +98,26 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
                 finishCurrentActivity();
                 break;
             case R.id.btn_create:
-                addMemberToGroup();
+                createGroup();
                 break;
         }
     }
 
-    private void addMemberToGroup() {
-        if(null != chooseMembers && chooseMembers.size() > 0) {
-            String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
-                    "loginToken");
-            DialogUtils.showProgressDialog(this, "添加中").show();
-
-            ArrayList<String> arrayList = new ArrayList<String>();
-            for (FriendInfo info : chooseMembers) {
-                arrayList.add(info.getMemberId());
+    private void createGroup() {
+        if (null != chooseMembers && chooseMembers.size() > 0) {
+            DialogUtils.showProgressDialog(this, "创建中").show();
+            if (!ObjectUtils.isNull(fileUrl)) {
+                //发送图片
+                toChatUsername = chooseMembers.get(0).getMemberId();
+                sendFileMessage(fileUrl);
+            } else if (!ObjectUtils.isNull(imgUrl)) {
+                //发送图片
+                toChatUsername = chooseMembers.get(0).getMemberId();
+                sendImageMessage(imgUrl);
             }
-
-            Map<String, Object> params = new HashMap<String, Object>();
-            Log.e("wanghao",currentGroupId);
-            params.put("groupId", currentGroupId);
-            params.put("memberIds", arrayList);
-            GroupManagerRequest.addMemberToGroup(this, token, params, addMemberCallback);
-        }else{
-            ToastUtil.doToast(this,"请选择群成员");
         }
     }
 
-    private void addMemberSuccess() {
-        setResult(RESULT_OK);
-        finish();
-    }
 
     @Override
     public void clickGroup() {
@@ -134,7 +129,7 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
         chooseMembers = infos;
         if (null != infos) {
             tv_hint_member.setText(String.format(getString(R.string.hint_choose_members), infos.size()));
-            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(),friends.size()));
+            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), 1));
             if (infos.size() > 0) {
                 btn_create.setEnabled(true);
             } else {
@@ -143,48 +138,28 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
         }
     }
 
-    NullCallback addMemberCallback = new NullCallback() {
-        @Override
-        public void success(String msg) {
-            DialogUtils.closeProgressDialog();
-            EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
-            addMemberSuccess();
-        }
-
-        @Override
-        public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(GroupMemberAddActivity.this, msg);
-        }
-
-        @Override
-        public void connectFail() {
-            DialogUtils.closeProgressDialog();
-            toastConnectFail();
-        }
-    };
 
     MyFriendListCallback myFriendListCallback = new MyFriendListCallback() {
         @Override
         public void success(String msg, ArrayList<FriendInfo> friendInfos) {
             DialogUtils.closeProgressDialog();
-            if(null !=  friendInfos) {
-                for(FriendInfo info : friendInfos) {
-                    if(null == info.getMemberName()) {
+            if (null != friendInfos) {
+                for (FriendInfo info : friendInfos) {
+                    if (null == info.getMemberName()) {
                         info.setMemberName("Null");
                     }
                 }
                 friends = friendInfos;
-                btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, friends.size()));
+                btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, 1));
 
-                adapter.modify(friendInfos);
+                adapter.modify(friends);
             }
         }
 
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(GroupMemberAddActivity.this, msg);
+            ToastUtil.doToast(CreateGroupChatActivity.this, msg);
         }
 
         @Override
@@ -193,4 +168,30 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
             toastConnectFail();
         }
     };
+
+
+    protected void sendImageMessage(String imagePath) {
+        Log.d("CMCC", "imagePath:" + imagePath + ",toChatUsername:" + toChatUsername);
+        EMMessage emMessage = EMMessage.createImageSendMessage(imagePath, false, toChatUsername);
+        emMessage.setAttribute("userId", baseApplication.getMemberId());
+        emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
+        emMessage.setAttribute("nickName", baseApplication.getNickName());
+        sendMessage(emMessage);
+    }
+
+    protected void sendFileMessage(String filePath) {
+        EMMessage emMessage = EMMessage.createFileSendMessage(filePath, toChatUsername);
+        emMessage.setAttribute("userId", baseApplication.getMemberId());
+        emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
+        emMessage.setAttribute("nickName", baseApplication.getNickName());
+        sendMessage(emMessage);
+    }
+
+
+    protected void sendMessage(EMMessage message) {
+        //send message
+        EMClient.getInstance().chatManager().sendMessage(message);
+        //直接跳到聊天界面
+        finish();
+    }
 }

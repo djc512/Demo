@@ -14,6 +14,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.QRUtil;
 
@@ -50,7 +51,8 @@ public class MyQRCodeActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initData() {
-        Bitmap bitmap = QRUtil.createQRImage(this, im_qr, String.format("MINE:%s",baseApplication.getUniqueId()));
+        String qrString = String.format(HttpUrl.getInstance().getPostUrl() + "common/my/qrcode?id=%s",baseApplication.getUniqueId());
+        Bitmap bitmap = QRUtil.createQRImage(this, im_qr, qrString);
         if (bitmap != null && !bitmap.isRecycled()) {
             im_qr.setImageBitmap(bitmap);
         }

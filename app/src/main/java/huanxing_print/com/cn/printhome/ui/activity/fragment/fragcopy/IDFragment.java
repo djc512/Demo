@@ -123,6 +123,7 @@ public class IDFragment extends Fragment implements View.OnClickListener {
                     intent.putExtra("bytes", bytes);
                     intent.putExtra("bytesf", bytesf);
                     startActivity(intent);
+                    getActivity().finish();
                 } else {
                     Toast.makeText(ctx, "请先上传图片", Toast.LENGTH_SHORT).show();
                 }

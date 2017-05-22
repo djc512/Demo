@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/gray5"
-                android:clipToPadding="true"
-                android:fitsSystemWindows="true">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray5"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
 
     <RelativeLayout
         android:id="@+id/titleBar"
@@ -22,13 +22,13 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/btn_cancel"
-                android:textColor="@color/text_yellow"/>
+                android:textColor="@color/text_yellow" />
         </LinearLayout>
 
 
         <TextView
             style="@style/title"
-            android:text="@string/title_add_member"/>
+            android:text="@string/title_add_member" />
 
 
     </RelativeLayout>
@@ -40,7 +40,7 @@
         android:layout_above="@+id/click_bottom"
         android:layout_below="@+id/titleBar"
         android:layout_marginBottom="@dimen/recycler_margin_top"
-        android:layout_marginTop="@dimen/recycler_margin_bottom"/>
+        android:layout_marginTop="@dimen/recycler_margin_bottom" />
 
     <LinearLayout
         android:id="@+id/click_bottom"
@@ -59,7 +59,7 @@
             android:layout_marginRight="@dimen/tv_group_choose_hint_margin"
             android:layout_weight="1"
             android:text="已选择:0人"
-            android:textColor="@color/text_yellow"/>
+            android:textColor="@color/text_yellow" />
 
         <Button
             android:id="@+id/btn_create"
@@ -69,6 +69,6 @@
             android:background="@drawable/btn_contact_add_selector"
             android:enabled="false"
             android:padding="@dimen/btn_group_ok_padding"
-            android:text="确定(0/4)"/>
+            android:text="确定(0/4)" />
     </LinearLayout>
 </RelativeLayout>
