@@ -16,6 +16,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.my.OrderListBean;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 /**
  * Created by Administrator on 2017/3/24 0024.
@@ -84,13 +85,8 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
             holder.tv_papertype.setText("A3");
         }
         String payType = bean.getPayType();//支付类型
-
-        if ("balance".equals(payType)) {
-            holder.tv_pay.setText("余额支付");
-        } else if ("wxpay".equals(payType)) {
-            holder.tv_pay.setText("微信支付");
-        } else if ("zfb".equals(payType)){
-            holder.tv_pay.setText("支付宝支付");
+        if (!ObjectUtils.isNull(payType)){
+            holder.tv_pay.setText(payType);
         }
 
         holder.iv_down.setOnClickListener(new View.OnClickListener() {

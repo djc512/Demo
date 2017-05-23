@@ -121,6 +121,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         @Override
         public void success(String msg, ApprovalDetail approvalDetail) {
             DialogUtils.closeProgressDialog();
+            if(null != attachments && attachments.size() > 0) {
+                attachments.clear();
+            }
             details = approvalDetail;
             if(null != details) {
                 showData();
@@ -261,6 +264,12 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             copyMembers = copyMemberList;
             copyMembersAdapter.modifyData(copyMembers);
         }
+        attachments = details.getAttachmentList();
+        if(null != attachments && attachments.size() > 0) {
+            attachmentAdatper = new AttachmentAdatper(this, attachments);
+            noScrollgridview.setAdapter(attachmentAdatper);
+        }
+
     }
 
     private void initView() {
@@ -288,7 +297,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_back:
+            case R.id.ll_back:
                 finishCurrentActivity();
                 break;
             case R.id.btn_revoke:
