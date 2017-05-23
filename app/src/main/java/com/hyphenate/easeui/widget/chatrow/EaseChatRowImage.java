@@ -137,7 +137,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
         float dimensWidth, dimensHeight;
         float density = activity.getResources().getDisplayMetrics().density;
 
-        if (em.getWidth() > em.getHeight()) {
+        /*if (em.getWidth() > em.getHeight()) {
             dimensWidth = 140f;
             dimensHeight = dimensWidth * (em.getHeight() / em.getWidth());
             int finalDimensWidth = (int) (dimensWidth * density + 0.5f);
@@ -153,8 +153,14 @@ public class EaseChatRowImage extends EaseChatRowFile {
             LinearLayout.LayoutParams imgvwDimens =
                     new LinearLayout.LayoutParams(finalDimensHeight, finalDimensHeight);
             imageView.setLayoutParams(imgvwDimens);
-        }
+        }*/
         // SET SCALETYPE
+        dimensWidth = 140f;
+        int finalDimensWidth = (int) (dimensWidth * density + 0.5f);
+        LinearLayout.LayoutParams imgvwDimens =
+                new LinearLayout.LayoutParams(finalDimensWidth, finalDimensWidth);
+        imageView.setLayoutParams(imgvwDimens);
+
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
     }
 
