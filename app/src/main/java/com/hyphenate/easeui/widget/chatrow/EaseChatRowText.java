@@ -285,6 +285,10 @@ public class EaseChatRowText extends EaseChatRow {
             }
         }
         handleTextMessage();
+        //发消息刷新
+        RefreshEvent event = new RefreshEvent();
+        event.setCode(0x13);
+        EventBus.getDefault().post(event);
     }
 
     protected void handleTextMessage() {
