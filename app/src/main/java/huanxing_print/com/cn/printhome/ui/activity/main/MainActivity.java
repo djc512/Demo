@@ -131,7 +131,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void inData() {
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
         //显示印信聊天未读消息数
-        getChatNum();
+        int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        if (num>0){
+            tv_count.setVisibility(View.VISIBLE);
+            tv_count.setText(num+"");
+        }else {
+            tv_count.setVisibility(View.GONE);
+        }
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
 
@@ -153,7 +159,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         @Override
         public void onMessageReceived(List<EMMessage> list) {
             //显示印信聊天未读消息数
-            getChatNum();
+            int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
+            if (num>0){
+                tv_count.setVisibility(View.VISIBLE);
+                tv_count.setText(num+"");
+            }else {
+                tv_count.setVisibility(View.GONE);
+            }
         }
 
         @Override
@@ -273,7 +285,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public  void msgNum(RefreshEvent event){
         //显示印信聊天未读消息数
         if (event.getCode()==0x12){
-            getChatNum();
+            int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        if (num>0){
+            tv_count.setVisibility(View.VISIBLE);
+            tv_count.setText(num+"");
+        }else {
+            tv_count.setVisibility(View.GONE);
+        }
+            //getChatNum();
         }
     }
     @Override
@@ -344,18 +363,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     /**
      * 显示印信聊天未读消息数
      */
-    private void getChatNum(){
-        int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-        //Log.d("CMCC","msgNum------------->"+num);
-        if (num>0){
-            tv_count.setVisibility(View.VISIBLE);
-            if (num<99){
-                tv_count.setText(num+"");
-            }else{
-                tv_count.setText("99+");
-            }
-        }else {
-            tv_count.setVisibility(View.GONE);
-        }
-    }
+//    private void getChatNum(){
+//        int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
+//        if (num>0){
+//            tv_count.setVisibility(View.VISIBLE);
+//            if (num<99){
+//                tv_count.setText(num+"");
+//            }else{
+//                tv_count.setText("99+");
+//            }
+//        }else {
+//            tv_count.setVisibility(View.GONE);
+//        }
+//    }
 }

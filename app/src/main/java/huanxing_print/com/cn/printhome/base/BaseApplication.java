@@ -59,9 +59,10 @@ public class BaseApplication extends Application {
     private String uniqueId;//印家号
     private String memberId;//会员id
     private String nickName;
-    private String weixinName;
+    private String wechatName;
     private String comId;
     private String uniqueModifyFlag;//能否修改印家号
+    private String totleBalance;//能否修改印家号
     private SoundPool mSoundPool;
     private int mDuanSound;
     private int mYuluSound;
@@ -221,16 +222,28 @@ public class BaseApplication extends Application {
         this.memberId = memberId;
     }
 
-    public String getWeixinName() {
-        if (ObjectUtils.isNull(weixinName)) {
-            weixinName = SharedPreferencesUtils.getShareString(this, "weixinName");
+    public String getTotleBalance() {
+        if (ObjectUtils.isNull(totleBalance)) {
+            totleBalance = SharedPreferencesUtils.getShareString(this, "totleBalance");
         }
-        return weixinName;
+        return totleBalance;
     }
 
-    public void setWeixinName(String weixinName) {
-        SharedPreferencesUtils.putShareValue(this, "weixinName", weixinName);
-        this.weixinName = weixinName;
+    public void setTotleBalance(String totleBalance) {
+        SharedPreferencesUtils.putShareValue(this, "totleBalance", totleBalance);
+        this.totleBalance = totleBalance;
+    }
+
+    public String getWechatName() {
+        if (ObjectUtils.isNull(wechatName)) {
+            wechatName = SharedPreferencesUtils.getShareString(this, "wechatName");
+        }
+        return wechatName;
+    }
+
+    public void setWechatName(String wechatName) {
+        SharedPreferencesUtils.putShareValue(this, "wechatName", wechatName);
+        this.wechatName = wechatName;
     }
 
     public String getNickName() {

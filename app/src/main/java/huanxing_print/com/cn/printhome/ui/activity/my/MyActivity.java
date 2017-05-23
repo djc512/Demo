@@ -135,7 +135,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     private void initData() {
         uniqueId = baseApplication.getUniqueId();
         nickName = baseApplication.getNickName();
-        wdixinName = baseApplication.getWeixinName();
+        wdixinName = baseApplication.getWechatName();
         phone = baseApplication.getPhone();
         weixin = baseApplication.getWechatId();
         //uniqueModifyFlag = baseApplication.getUniqueModifyFlag();
@@ -605,7 +605,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                     JSONObject jsonObject = new JSONObject(response);
                     Log.d(TAG, "------获取到的个人信息------" + jsonObject.toString());
                     String nickName = jsonObject.getString("nickname");
-                    baseApplication.setWeixinName(nickName);
+                    baseApplication.setWechatName(nickName);
                     String sex = jsonObject.getString("sex");
                     String province = jsonObject.getString("province");
                     String city = jsonObject.getString("city");

@@ -418,7 +418,7 @@ public abstract class BaseActivity extends Activity {
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "nickName");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "uniqueId");
 		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "memberId");
-		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "weixinName");
+		SharedPreferencesUtils.removeShareValue(getSelfActivity(), "weichatName");
 		baseApplication.setPhone("");
 		baseApplication.setPassWord("");
 		baseApplication.setSex("");
@@ -427,7 +427,7 @@ public abstract class BaseActivity extends Activity {
 		baseApplication.setLoginToken("");
 		baseApplication.setUniqueId("");
 		baseApplication.setMemberId("");
-		baseApplication.setWeixinName("");
+		baseApplication.setWechatName("");
 	}
 
 	protected void initJPush(String alias) {
