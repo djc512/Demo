@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView tv_my;
     private List<ImageView> imageViewList;
     private List<TextView> textViewList;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -110,7 +111,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         tv_contacts = (TextView) findViewById(R.id.tv_contacts);
         iv_my = (ImageView) findViewById(R.id.iv_my);
         tv_my = (TextView) findViewById(R.id.tv_my);
-        tv_count= (TextView) findViewById(R.id.tv_count);
+        tv_count = (TextView) findViewById(R.id.tv_count);
 
         textViewList = new ArrayList<>();
         textViewList.add(tv_chat);
@@ -119,6 +120,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         textViewList.add(tv_contacts);
         textViewList.add(tv_my);
     }
+
     private void initListener() {
 
         findViewById(R.id.ll_chat).setOnClickListener(this);
@@ -132,10 +134,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
         //显示印信聊天未读消息数
         int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-        if (num>0){
+        if (num > 0) {
             tv_count.setVisibility(View.VISIBLE);
-            tv_count.setText(num+"");
-        }else {
+            tv_count.setText(num + "");
+        } else {
             tv_count.setVisibility(View.GONE);
         }
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -158,12 +160,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         @Override
         public void onMessageReceived(List<EMMessage> list) {
+            //发消息去刷新会话列表界面
+            RefreshEvent event = new RefreshEvent();
+            event.setCode(0x14);
+            EventBus.getDefault().post(event);
+
             //显示印信聊天未读消息数
             int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-            if (num>0){
+            if (num > 0) {
                 tv_count.setVisibility(View.VISIBLE);
-                tv_count.setText(num+"");
-            }else {
+                tv_count.setText(num + "");
+            } else {
                 tv_count.setVisibility(View.GONE);
             }
         }
@@ -281,20 +288,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         return super.onKeyDown(keyCode, event);
     }
-   @Subscribe(threadMode = ThreadMode.MAIN)
-    public  void msgNum(RefreshEvent event){
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void msgNum(RefreshEvent event) {
         //显示印信聊天未读消息数
-        if (event.getCode()==0x12){
+        if (event.getCode() == 0x12) {
             int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-        if (num>0){
-            tv_count.setVisibility(View.VISIBLE);
-            tv_count.setText(num+"");
-        }else {
-            tv_count.setVisibility(View.GONE);
-        }
+            if (num > 0) {
+                tv_count.setVisibility(View.VISIBLE);
+                tv_count.setText(num + "");
+            } else {
+                tv_count.setVisibility(View.GONE);
+            }
             //getChatNum();
         }
     }
+
     @Override
     protected void onDestroy() {
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
@@ -348,12 +357,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     /**
      * gaibianzhaungtai
      */
-    private void setColor(int index){
+    private void setColor(int index) {
         for (int i = 0; i < textViewList.size(); i++) {
-            if(index == i){
+            if (index == i) {
                 //imageViewList.get(index).setImageBitmap(bitmap);
                 textViewList.get(index).setTextColor(getResources().getColor(R.color.text_color));
-            }else {
+            } else {
                 //imageViewList.get(i).setImageBitmap(bitmap1);
                 textViewList.get(i).setTextColor(getResources().getColor(R.color.gray2));
             }

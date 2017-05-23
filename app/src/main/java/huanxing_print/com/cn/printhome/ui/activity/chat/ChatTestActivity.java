@@ -1360,6 +1360,10 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
 //        intent.setType("*/*");
 //        intent.addCategory(Intent.CATEGORY_OPENABLE);
         Intent intent = new Intent(getSelfActivity(), AddFileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("index", 0);
+        bundle.putInt("pickType", 2);
+        intent.putExtras(bundle);
         startActivityForResult(intent, REQUEST_CODE_SELECT_FILE);
     }
 

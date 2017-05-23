@@ -32,6 +32,7 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatApprovalActivity;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.CreateGroup;
@@ -313,11 +314,11 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void receiveMessage(EMMessage message) {
-        Log.d("CMCC", "接收到消息传过来了!!");
-        conversationList.clear();
-        conversationList.addAll(loadConversationList());
-        conversationListView.refresh();
+    public void receiveMessage(RefreshEvent event) {
+        if (0x14 == event.getCode()) {
+            Log.d("CMCC", "接收到消息传过来了!!");
+            refresh();
+        }
     }
 
 

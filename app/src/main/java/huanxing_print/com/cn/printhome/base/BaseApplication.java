@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -43,7 +42,6 @@ import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
-import huanxing_print.com.cn.printhome.ui.adapter.MessageListenerAdapter;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ThreadUtils;
@@ -83,8 +81,8 @@ public class BaseApplication extends Application {
     private boolean hasLoginEvent = false;
     //微信第三方登录
     //正式
-	public static final String WX_APPID = "wxb54a2ee8a63993f9";
-	public static final String WX_APPSecret = "c8c5ed7d1e388e54cb5a1b4c1af35663";
+    public static final String WX_APPID = "wxb54a2ee8a63993f9";
+    public static final String WX_APPSecret = "c8c5ed7d1e388e54cb5a1b4c1af35663";
     //测试
 //    public static final String WX_APPID = "wx4c877768d9a9fc08";
 //    public static final String WX_APPSecret = "d7ba93d327cfdd1d02b8d5a4b43b1223";
@@ -199,6 +197,7 @@ public class BaseApplication extends Application {
         SharedPreferencesUtils.putShareValue(this, "uniqueId", uniqueId);
         this.uniqueId = uniqueId;
     }
+
     public String getUniqueModifyFlag() {
         if (ObjectUtils.isNull(uniqueModifyFlag)) {
             uniqueModifyFlag = SharedPreferencesUtils.getShareString(this, "uniqueModifyFlag");
@@ -210,6 +209,7 @@ public class BaseApplication extends Application {
         SharedPreferencesUtils.putShareValue(this, "uniqueModifyFlag", uniqueModifyFlag);
         this.uniqueModifyFlag = uniqueModifyFlag;
     }
+
     public String getMemberId() {
         if (ObjectUtils.isNull(memberId)) {
             memberId = SharedPreferencesUtils.getShareString(this, "memberId");
@@ -415,34 +415,34 @@ public class BaseApplication extends Application {
     }
 
     private void initMessageListener() {
-        EMClient.getInstance().chatManager().addMessageListener(new MessageListenerAdapter() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onMessageReceived(List<EMMessage> list) {
-                super.onMessageReceived(list);
-                if (list != null && list.size() > 0) {
-                    /**
-                     * 1. 判断当前应用是否在后台运行
-                     * 2. 如果是在后台运行，则发出通知栏
-                     * 3. 如果是在后台发出长声音
-                     * 4. 如果在前台发出短声音
-                     */
-                    Log.i("CMCC", "收到消息了666666666666666666666666666666");
-
-                    EventBus.getDefault().post(list.get(0));
-                    /*if (isRuninBackground()) {
-						sendNotification(list.get(0));
-						//发出长声音
-						//参数2/3：左右喇叭声音的大小
-						mSoundPool.play(mYuluSound,1,1,0,0,1);
-					} else {
-						//发出短声音
-						mSoundPool.play(mDuanSound,1,1,0,0,1);
-					}*/
-
-                }
-            }
-        });
+//        EMClient.getInstance().chatManager().addMessageListener(new MessageListenerAdapter() {
+//            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+//            @Override
+//            public void onMessageReceived(List<EMMessage> list) {
+//                super.onMessageReceived(list);
+//                if (list != null && list.size() > 0) {
+//                    /**
+//                     * 1. 判断当前应用是否在后台运行
+//                     * 2. 如果是在后台运行，则发出通知栏
+//                     * 3. 如果是在后台发出长声音
+//                     * 4. 如果在前台发出短声音
+//                     */
+//                    Log.i("CMCC", "收到消息了666666666666666666666666666666");
+//
+//                    EventBus.getDefault().post(list.get(0));
+//                    /*if (isRuninBackground()) {
+//						sendNotification(list.get(0));
+//						//发出长声音
+//						//参数2/3：左右喇叭声音的大小
+//						mSoundPool.play(mYuluSound,1,1,0,0,1);
+//					} else {
+//						//发出短声音
+//						mSoundPool.play(mDuanSound,1,1,0,0,1);
+//					}*/
+//
+//                }
+//            }
+//        });
 
         EMClient.getInstance().groupManager().addGroupChangeListener(new EMGroupChangeListener() {
             @Override
@@ -515,10 +515,12 @@ public class BaseApplication extends Application {
             public void onOwnerChanged(String groupId, String newOwner, String oldOwner) {
                 //群所有者变动通知
             }
+
             @Override
-            public void onMemberJoined(final String groupId,  final String member){
+            public void onMemberJoined(final String groupId, final String member) {
                 //群组加入新成员通知
             }
+
             @Override
             public void onMemberExited(final String groupId, final String member) {
                 //群成员退出通知
