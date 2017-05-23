@@ -267,7 +267,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 public void onMainSuccess() {
                     EMClient.getInstance().chatManager().loadAllConversations();
                     EMClient.getInstance().groupManager().loadAllGroups();
-                    Log.d("CMCC","getMemberInfo()==========================================="+loginBean.getMemberInfo().getWechatName());
+                    //Log.d("CMCC","getMemberInfo()==========================================="+loginBean.getMemberInfo().getWechatName());
                     baseApplication.setHasLoginEvent(true);
                     DialogUtils.closeProgressDialog();
                     if (!ObjectUtils.isNull(loginBean)) {

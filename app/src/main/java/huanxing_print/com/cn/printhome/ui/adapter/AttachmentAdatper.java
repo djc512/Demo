@@ -1,22 +1,17 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-
 import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.approval.Attachment;
+import huanxing_print.com.cn.printhome.util.BitmapUtils;
 
 /**
  * Created by wanghao on 2017/5/14.
@@ -68,12 +63,13 @@ public class AttachmentAdatper extends BaseAdapter{
     }
 
     private void loadPic(final ImageView iv_user_head, String picPath) {
-        Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                iv_user_head.setImageDrawable(resource);
-            }
-        });
+//        Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+//            @Override
+//            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                iv_user_head.setImageDrawable(resource);
+//            }
+//        });
+        BitmapUtils.displayImage(mContext, picPath,R.drawable.icon_error, iv_user_head);
     }
 
     class ViewHolder{

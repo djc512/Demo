@@ -3,7 +3,6 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -133,7 +132,6 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 wechatId = bean.getWechatId();
                 if (!ObjectUtils.isNull(wechatName)) {
                     SharedPreferencesUtils.putShareValue(getActivity(), "wechatName", wechatName);
-
                 }
                 if (!ObjectUtils.isNull(uniqueModifyFlag)) {
                     SharedPreferencesUtils.putShareValue(getActivity(),
@@ -175,7 +173,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     public void refreshMyInfo(RefreshEvent event) {
         if (0x11 == event.getCode()) {
             //网络请求，获取用户信息  更新UI
-            Log.d("CMCC", "接收到了消息!");
+            //Log.d("CMCC", "接收到了消息!");
             MyInfoRequest.getMyInfo(getActivity(), token, new MyMyInfoCallBack());
         }
     }

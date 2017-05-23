@@ -85,7 +85,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView tv_uniqueid, tv_userInfo_nickname, tv_phone, tv_version, tv_weixin, tv_cache;
     private String cropImagePath;
-    private String uniqueId, nickName, wdixinName, phone, weixin, uniqueModifyFlag;
+    private String uniqueId, nickName, wechatName, phone, weixin, uniqueModifyFlag;
     private Bitmap bitMap;
     private String version;
     private String ApkUrl;
@@ -135,7 +135,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     private void initData() {
         uniqueId = baseApplication.getUniqueId();
         nickName = baseApplication.getNickName();
-        wdixinName = baseApplication.getWechatName();
+        wechatName = baseApplication.getWechatName();
         phone = baseApplication.getPhone();
         weixin = baseApplication.getWechatId();
         //uniqueModifyFlag = baseApplication.getUniqueModifyFlag();
@@ -151,8 +151,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         if (!ObjectUtils.isNull(phone)) {
             tv_phone.setText(phone);
         }
-        if (!ObjectUtils.isNull(wdixinName)) {
-            tv_weixin.setText(wdixinName);
+        if (!ObjectUtils.isNull(wechatName)) {
+            tv_weixin.setText(wechatName);
         }
         tv_version.setText("当前V" + version + "版本");
 
@@ -648,8 +648,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             toast("绑定成功");
-            if (!ObjectUtils.isNull(wdixinName)) {
-                tv_weixin.setText(wdixinName);
+            if (!ObjectUtils.isNull(wechatName)) {
+                tv_weixin.setText(wechatName);
             }
         }
     };

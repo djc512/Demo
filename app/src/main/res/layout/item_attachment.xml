@@ -8,5 +8,5 @@
         android:id="@+id/attachement_pic"
         android:layout_width="@dimen/approval_attachment_pic_w"
         android:layout_height="@dimen/approval_attachment_pic_h"
-        android:background="@color/bc_gray"/>
+        android:src="@drawable/icon_error"/>
 </LinearLayout>
