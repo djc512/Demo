@@ -753,6 +753,7 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
     AddApprovalCallBack addCallBack = new AddApprovalCallBack() {
         @Override
         public void success(String msg, String data) {
+            FileUtils.deleteDir();
             DialogUtils.closeProgressDialog();
             toast("新建报销审批成功" );
             finish();

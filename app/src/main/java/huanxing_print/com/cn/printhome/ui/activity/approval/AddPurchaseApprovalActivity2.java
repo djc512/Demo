@@ -735,6 +735,7 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
     AddApprovalCallBack addCallBack = new AddApprovalCallBack() {
         @Override
         public void success(String msg, String data) {
+            FileUtils.deleteDir();
             DialogUtils.closeProgressDialog();
             toast("新建采购审批成功!");
             finish();
