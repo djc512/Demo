@@ -920,7 +920,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             sendAtMessage(remark);
         } else {
             EMMessage emMessage = EaseCommonUtils.createRedPackageMessage(remark, toChatUsername, packetId);
-            //emMessage.setAttribute("packetId", packetId);
+            emMessage.setAttribute("packetId", packetId);
             emMessage.setAttribute("userId", baseApplication.getMemberId());
             emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
             emMessage.setAttribute("nickName", baseApplication.getNickName());
