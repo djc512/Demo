@@ -304,12 +304,6 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                     Intent intentsave = new Intent();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     compBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    int options = 100;
-                    while (baos.toByteArray().length / 1024 > 100) {
-                        baos.reset();
-                        compBitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
-                        options -= 10;
-                    }
                     byte[] bytes = baos.toByteArray();
                     intentsave.putExtra("bytes", bytes);
                     intentsave.setAction("bitmap");
