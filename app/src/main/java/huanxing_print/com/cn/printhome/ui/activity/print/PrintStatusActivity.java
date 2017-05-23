@@ -370,9 +370,9 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         weiXinUtils.init(this, BaseApplication.getInstance().WX_APPID);
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
         weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
-                .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧",
-                HttpUrl.appDownLoad+ "?memberId="+BaseApplication.getInstance().getMemberId()
-                , bmp);
+                .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", HttpUrl.getInstance().getPostUrl() + HttpUrl
+                .appDownLoad + "?memberId=" + BaseApplication.getInstance
+                ().getMemberId(), bmp);
         BaseApplication.getInstance().getApkUrl();
     }
 
@@ -381,9 +381,9 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         weiXinUtils.init(this, BaseApplication.getInstance().WX_APPID);
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
         weiXinUtils.shareToWxFriend(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
-                .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧",
-                HttpUrl.appDownLoad+ "?memberId="+BaseApplication.getInstance().getMemberId()
-                , bmp);
+                        .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧",
+                HttpUrl.getInstance().getPostUrl() + HttpUrl.appDownLoad + "?memberId=" + BaseApplication.getInstance
+                        ().getMemberId(), bmp);
     }
 
 //    public void onSuccess(View view) {
