@@ -29,7 +29,6 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
-import huanxing_print.com.cn.printhome.ui.activity.print.PdfPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
@@ -39,6 +38,8 @@ import huanxing_print.com.cn.printhome.util.WifiUtil;
 import huanxing_print.com.cn.printhome.util.webserver.WebServer;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 import huanxing_print.com.cn.printhome.view.dialog.Alert;
+
+import static huanxing_print.com.cn.printhome.R.id.devider;
 
 /**
  * Created by LGH on 2017/4/27.
@@ -115,9 +116,6 @@ public class WifiImportFragment extends BaseLazyFragment {
                         if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
                             bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, file.getPath());
                             ImgPreviewActivity.start(context, bundle);
-                        } else if (FileType.getPrintType(file.getPath()) == FileType.TYPE_PDF) {
-                            bundle.putCharSequence(PdfPreviewActivity.KEY_PDF_PATH, file.getPath());
-                            PdfPreviewActivity.start(context, bundle);
                         } else {
                             ((AddFileActivity) getActivity()).turnFile(file);
                         }
@@ -143,10 +141,11 @@ public class WifiImportFragment extends BaseLazyFragment {
     private void update(List<File> newFileList) {
         mAdapter.setFileList(newFileList);
         mAdapter.notifyDataSetChanged();
+        View devider = view.findViewById(R.id.devider);
         if (newFileList.size() == 0) {
-            View devider = view.findViewById(R.id.devider);
             devider.setVisibility(View.GONE);
         } else {
+            devider.setVisibility(View.VISIBLE);
             LinearLayout lv = (LinearLayout) view.findViewById(R.id.lv);
             lv.setVisibility(View.GONE);
         }

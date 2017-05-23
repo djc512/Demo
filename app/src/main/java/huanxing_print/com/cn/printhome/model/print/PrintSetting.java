@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by LGH on 2017/3/21.
  */
 
-public class PrintSetting implements  Cloneable, Parcelable {
+public class PrintSetting implements Cloneable, Parcelable {
 
     private int colourFlag;
     private int directionFlag;
@@ -20,6 +20,7 @@ public class PrintSetting implements  Cloneable, Parcelable {
     private int printerType;
     private int sizeType;
     private int scaleRatio;
+    private int paperType;
 
     public int getColourFlag() {
         return colourFlag;
@@ -109,21 +110,12 @@ public class PrintSetting implements  Cloneable, Parcelable {
         this.scaleRatio = scaleRatio;
     }
 
-    @Override
-    public String toString() {
-        return "PrintSetting{" +
-                "colourFlag=" + colourFlag +
-                ", directionFlag=" + directionFlag +
-                ", doubleFlag=" + doubleFlag +
-                ", fileName='" + fileName + '\'' +
-                ", filePage=" + filePage +
-                ", fileUrl='" + fileUrl + '\'' +
-                ", id=" + id +
-                ", printCount=" + printCount +
-                ", printerType=" + printerType +
-                ", sizeType=" + sizeType +
-                ", scaleRatio=" + scaleRatio +
-                '}';
+    public int getPaperType() {
+        return paperType;
+    }
+
+    public void setPaperType(int paperType) {
+        this.paperType = paperType;
     }
 
     @Override
@@ -155,6 +147,7 @@ public class PrintSetting implements  Cloneable, Parcelable {
         dest.writeInt(this.printerType);
         dest.writeInt(this.sizeType);
         dest.writeInt(this.scaleRatio);
+        dest.writeInt(this.paperType);
     }
 
     public PrintSetting() {
@@ -172,6 +165,7 @@ public class PrintSetting implements  Cloneable, Parcelable {
         this.printerType = in.readInt();
         this.sizeType = in.readInt();
         this.scaleRatio = in.readInt();
+        this.paperType = in.readInt();
     }
 
     public static final Parcelable.Creator<PrintSetting> CREATOR = new Parcelable.Creator<PrintSetting>() {

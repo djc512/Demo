@@ -54,12 +54,21 @@
             android:layout_height="80dp"
             android:background="@color/white">
 
-            <ImageView
-                android:id="@+id/iv_paper"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:id="@+id/imgBcRyt"
+                android:layout_width="43dp"
                 android:layout_height="60dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/vertical"/>
+                android:gravity="center"
+                android:background="@drawable/shape_rectangle_gray"
+                android:padding="1dp">
+
+                <ImageView
+                    android:id="@+id/iv_paper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </RelativeLayout>
+
         </RelativeLayout>
 
         <ScrollView
@@ -112,7 +121,12 @@
                         android:src="@drawable/plus"/>
                 </LinearLayout>
 
-                <include layout="@layout/viewline1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/devide_gray"/>
 
                 <LinearLayout
                     android:id="@+id/directionLv"
@@ -146,7 +160,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="30dp"
                         android:src="@drawable/off"/>
 
                     <TextView
@@ -158,7 +172,12 @@
                         android:textSize="16sp"/>
                 </LinearLayout>
 
-                <include layout="@layout/viewline1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/devide_gray"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -191,7 +210,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="30dp"
                         android:src="@drawable/off"/>
 
                     <TextView
@@ -203,9 +222,15 @@
                         android:textSize="16sp"/>
                 </LinearLayout>
 
-                <include layout="@layout/viewline1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/devide_gray"/>
 
                 <LinearLayout
+                    android:id="@+id/paperSizeLyt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -237,7 +262,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="30dp"
                         android:src="@drawable/off"/>
 
                     <TextView
@@ -251,7 +276,63 @@
                         android:textSize="16sp"/>
                 </LinearLayout>
 
-                <include layout="@layout/viewline1"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/devide_gray"/>
+
+                <LinearLayout
+                    android:id="@+id/paperTypeLyt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="纸张类型"
+                        android:textColor="@color/black2"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/commonTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="普通纸"
+                        android:textColor="@color/black2"
+                        android:textSize="16sp"/>
+
+                    <ImageView
+                        android:id="@+id/paperImg"
+                        android:layout_width="40dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/off"/>
+
+                    <TextView
+                        android:id="@+id/photoTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="相片纸"
+                        android:textColor="@color/black2"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/devide_gray"/>
 
                 <LinearLayout
                     android:id="@+id/printTypeLyt"
@@ -286,7 +367,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="30dp"
                         android:src="@drawable/off"/>
 
                     <TextView
@@ -302,8 +383,8 @@
                     android:id="@+id/scaleLyt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -336,7 +417,7 @@
                             android:layout_width="40dp"
                             android:layout_height="30dp"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginRight="30dp"
                             android:src="@drawable/off"/>
 
                         <TextView
@@ -349,7 +430,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-
                         android:id="@+id/seekLyt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -441,7 +521,6 @@
                         android:textColor="@color/black2"
                         android:textSize="16sp"/>
 
-
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
@@ -485,8 +564,6 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-
-
     </LinearLayout>
 
     <LinearLayout

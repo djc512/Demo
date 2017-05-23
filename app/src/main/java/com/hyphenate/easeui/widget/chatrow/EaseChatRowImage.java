@@ -79,6 +79,8 @@ public class EaseChatRowImage extends EaseChatRowFile {
     protected void onSetUpView() {
         EMImageMessageBody body = (EMImageMessageBody) message.getBody();
         localFilePath = body.getLocalUrl();
+        //设置图片的宽高
+        setImgSize();
 
         String iconUrl = message.getStringAttribute("iconUrl", "");
         String nickName = message.getStringAttribute("nickName", "");
@@ -126,6 +128,32 @@ public class EaseChatRowImage extends EaseChatRowFile {
         String thumbPath = EaseImageUtils.getThumbnailImagePath(imgBody.getLocalUrl());
         showImageView(thumbPath, imageView, filePath, message);
         handleSendMessage();
+    }
+
+    private void setImgSize() {
+        EMImageMessageBody em = (EMImageMessageBody)message.getBody();
+        float dimensWidth,dimensHeight;
+        float density = activity.getResources().getDisplayMetrics().density;
+
+        if (em.getWidth()>em.getHeight()){
+            dimensWidth = 140f;
+            dimensHeight = dimensWidth*(em.getHeight()/em.getWidth());
+            int finalDimensWidth = (int)(dimensWidth * density+0.5f);
+            int finalDimensHeight = (int)(dimensHeight * density+0.5f);
+            LinearLayout.LayoutParams imgvwDimens =
+                    new LinearLayout.LayoutParams(finalDimensWidth, finalDimensWidth);
+            imageView.setLayoutParams(imgvwDimens);
+        } else {
+            dimensHeight = 140f;
+            dimensWidth = dimensHeight*(em.getWidth()/em.getHeight());
+            int finalDimensWidth = (int)(dimensWidth * density+0.5f);
+            int finalDimensHeight = (int)(dimensHeight * density+0.5f);
+            LinearLayout.LayoutParams imgvwDimens =
+                    new LinearLayout.LayoutParams(finalDimensHeight, finalDimensHeight);
+            imageView.setLayoutParams(imgvwDimens);
+        }
+        // SET SCALETYPE
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
     }
 
     @Override
@@ -293,6 +321,8 @@ public class EaseChatRowImage extends EaseChatRowFile {
                             //删除掉本地消息
                             EMClient.getInstance().chatManager()
                                     .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            //刷新一下
+                            updateView();
                         } else {
                             String toChatUserName = message.getFrom();
                             Log.d("CMCC", "toChatUserName------>" + toChatUserName);

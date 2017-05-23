@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="支付打印"
+            android:text="设置输出"
             android:textSize="14sp"/>
     </LinearLayout>
 

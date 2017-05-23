@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
@@ -34,6 +35,8 @@ public class PrinterDetailFragment extends Fragment {
     private TextView resolutionTv;
     private TextView technicalTypeTv;
     private TextView remainTv;
+    private TextView photoRemainTv;
+    private LinearLayout colorLyt;
 
     public PrintInfoResp.PrinterPrice getPrintPrinterPrice() {
         return printPrinterPrice;
@@ -55,6 +58,8 @@ public class PrinterDetailFragment extends Fragment {
     }
 
     private void initView(View view) {
+        colorLyt = (LinearLayout)view.    findViewById(R.id.colorLyt);
+        photoRemainTv = (TextView) view.findViewById(R.id.photoRemainTv);
         remainTv = (TextView) view.findViewById(R.id.remainTv);
         typeImg = (ImageView) view.findViewById(R.id.typeImg);
         technicalTypeTv = (TextView) view.findViewById(R.id.technicalTypeTv);
@@ -104,11 +109,11 @@ public class PrinterDetailFragment extends Fragment {
         nameTv.setText(printPrinterPrice.getPrintName());
         addressTv.setText("地址：" + printPrinterPrice.getPrintAddress());
         if (PrintUtil.PRINTER_TYPE_COLOR.equals(printPrinterPrice.getPrinterType())) {
-            colorPriceTv.setVisibility(View.VISIBLE);
+            colorLyt.setVisibility(View.VISIBLE);
             colorPriceTv.setText("彩色 A4 ￥" + printPrinterPrice.getA4ColorPrice() + "   A3 ￥" + printPrinterPrice
                     .getA3ColorPrice());
         } else {
-            colorPriceTv.setVisibility(View.GONE);
+            colorLyt.setVisibility(View.GONE);
         }
         backPriceTv.setText("黑色 A4 ￥" + printPrinterPrice.getA4BlackPrice() + "   A3 ￥" + printPrinterPrice
                 .getA3BlackPrice());
@@ -116,6 +121,7 @@ public class PrinterDetailFragment extends Fragment {
         resolutionTv.setText(printPrinterPrice.getResolution());
         technicalTypeTv.setText(printPrinterPrice.getTechnicalType());
         remainTv.setText("A4 " + printPrinterPrice.getA4Num() + "张 A3 " + printPrinterPrice.getA3Num() + "张");
+        photoRemainTv.setText("相片纸 " + printPrinterPrice.getPhotoNum() + "张");
     }
 
 }
