@@ -19,11 +19,14 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.exceptions.HyphenateException;
 
+import org.greenrobot.eventbus.EventBus;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.chat.CommonPackage;
 import huanxing_print.com.cn.printhome.model.chat.GroupLuckyPackageDetail;
 import huanxing_print.com.cn.printhome.model.chat.RedPackageDetail;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.net.callback.chat.GetCommonPackageDetailCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.GetLuckyPackageDetailCallBack;
 import huanxing_print.com.cn.printhome.net.callback.chat.PackageDetailCallBack;
@@ -428,7 +431,10 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
         public void success(String msg, String amount) {
             Log.d("CMCC", "" + msg + "," + amount);
             DialogUtils.closeProgressDialog();
-            //发透传消息的
+            //更新余额
+            RefreshEvent event = new RefreshEvent();
+            event.setCode(0x11);
+            EventBus.getDefault().post(event);
             //跳转到详情页
             Intent intent = new Intent(context, RedPackageRecordActivity.class);
             intent.putExtra("easemobGroupId", message.getTo());
@@ -533,7 +539,11 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
         public void success(String msg, String amount) {
             // Log.d("CMCC", "" + msg + "," + amount);
             DialogUtils.closeProgressDialog();
-            //发透传消息的
+            //更新余额
+            RefreshEvent event = new RefreshEvent();
+            event.setCode(0x11);
+            EventBus.getDefault().post(event);
+
             //跳转到详情页
             Intent intent = new Intent(context, RedPackageRecordActivity.class);
             intent.putExtra("easemobGroupId", message.getTo());

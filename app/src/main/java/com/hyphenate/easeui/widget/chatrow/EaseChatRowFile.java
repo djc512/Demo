@@ -1,6 +1,5 @@
 package com.hyphenate.easeui.widget.chatrow;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -19,7 +18,6 @@ import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.chat.EMNormalFileMessageBody;
 import com.hyphenate.easeui.ui.EaseShowNormalFileActivity;
 import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.util.FileUtils;
 import com.hyphenate.util.TextFormater;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,7 +30,6 @@ import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.CreateGroupChatActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
-import huanxing_print.com.cn.printhome.util.file.FileUtil;
 import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
 
 import static huanxing_print.com.cn.printhome.util.webserver.ChatFileType.getExtensionName;
@@ -204,10 +201,11 @@ public class EaseChatRowFile extends EaseChatRow {
         String filePath = fileMessageBody.getLocalUrl();
         File file = new File(filePath);
         if (file.exists()) {
+            //文件预览页
             // open files if it exist
-            FileUtils.openFile(file, (Activity) context);
-            Intent intent = FileUtil.openFile(file.getAbsolutePath());
-            context.startActivity(intent);
+//            FileUtils.openFile(file, (Activity) context);
+//            Intent intent = FileUtil.openFile(file.getAbsolutePath());
+//            context.startActivity(intent);
         } else {
             // download the file
             context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
