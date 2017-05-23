@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="头像"
-            android:textSize="20sp"
+            android:textSize="17sp"
             android:textColor="@color/text_color"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -53,7 +53,7 @@
             android:id="@+id/iv_right"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            style="@style/arrow_go" />
+            style="@style/arrow_right" />
     </RelativeLayout>
 
     <include layout="@layout/viewline" />
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="印家号"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/text_color"/>
 
         <TextView
@@ -86,7 +86,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:layout_marginLeft="15dp"
         android:background="#e5e5e5" />
     <LinearLayout
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="昵称"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/text_color"/>
 
         <TextView
@@ -115,12 +115,12 @@
 
         <ImageView
             android:id="@+id/iv_userinfo_nickname"
-            style="@style/arrow_go" />
+            style="@style/arrow_right" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:layout_marginLeft="15dp"
         android:background="#e5e5e5" />
 
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="我的二维码"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/text_color"/>
 
         <ImageView
@@ -148,11 +148,11 @@
              />
 
         <ImageView
-            style="@style/arrow_go" />
+            style="@style/arrow_right" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:layout_marginLeft="15dp"
         android:background="#e5e5e5" />
 
@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="绑定手机号"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/text_color"/>
 
         <TextView
@@ -181,11 +181,11 @@
             android:textSize="18sp" />
 
         <ImageView
-            style="@style/arrow_go" />
+            style="@style/arrow_right" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:layout_marginLeft="15dp"
         android:background="#e5e5e5" />
 
@@ -203,7 +203,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="绑定微信号"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/text_color"/>
 
         <TextView
@@ -217,11 +217,11 @@
             android:maxLines="1" />
 
         <ImageView
-            style="@style/arrow_go" />
+            style="@style/arrow_right" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:background="#e5e5e5" />
     <View
         android:layout_width="match_parent"
@@ -243,7 +243,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="检查更新"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/text_color"/>
 
         <TextView
@@ -254,12 +254,11 @@
             android:textSize="18sp" />
 
         <ImageView
-            style="@style/arrow_go"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_right" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:background="#e5e5e5" />
 
     <LinearLayout
@@ -276,7 +275,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="缓存清理"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/text_color"/>
 
         <TextView
@@ -287,12 +286,11 @@
             android:textSize="18sp" />
 
         <ImageView
-            style="@style/arrow_go"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_right" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.1dp"
         android:background="#e5e5e5" />
 
     <LinearLayout
@@ -308,12 +306,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="给“印家打印”打分"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/text_color"/>
 
         <ImageView
-            style="@style/arrow_go"
-            android:src="@drawable/arrow_go" />
+            style="@style/arrow_right" />
     </LinearLayout>
     <include layout="@layout/viewline"/>
 
@@ -321,7 +318,7 @@
                 android:layout_width="match_parent"
                 android:background="#e5e5e5"
                 android:layout_height="1dp"
-                android:layout_marginTop="30dip"/>
+                android:layout_marginTop="15dip"/>
 
             <RelativeLayout
                 android:id="@+id/ll_loginout"
@@ -343,7 +340,7 @@
             <View
                 android:layout_width="match_parent"
                 android:background="#e5e5e5"
-                android:layout_height="1dp"
+                android:layout_height="0.1dp"
                 android:layout_marginBottom="30dp"/>
         </LinearLayout>
     </ScrollView>
