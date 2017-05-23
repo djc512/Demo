@@ -24,7 +24,6 @@ import com.hyphenate.chat.EMImageMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.easeui.model.EaseImageCache;
-import com.hyphenate.easeui.ui.EaseShowBigImageActivity;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseImageUtils;
 import com.hyphenate.util.EMLog;
@@ -40,6 +39,7 @@ import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.CreateGroupChatActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.PreViewUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtils;
 import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
 
@@ -127,27 +127,29 @@ public class EaseChatRowImage extends EaseChatRowFile {
         String filePath = imgBody.getLocalUrl();
         String thumbPath = EaseImageUtils.getThumbnailImagePath(imgBody.getLocalUrl());
         showImageView(thumbPath, imageView, filePath, message);
+        //下载原图片
+        downloadImage(message.getMsgId());
         handleSendMessage();
     }
 
     private void setImgSize() {
-        EMImageMessageBody em = (EMImageMessageBody)message.getBody();
-        float dimensWidth,dimensHeight;
+        EMImageMessageBody em = (EMImageMessageBody) message.getBody();
+        float dimensWidth, dimensHeight;
         float density = activity.getResources().getDisplayMetrics().density;
 
-        if (em.getWidth()>em.getHeight()){
+        if (em.getWidth() > em.getHeight()) {
             dimensWidth = 140f;
-            dimensHeight = dimensWidth*(em.getHeight()/em.getWidth());
-            int finalDimensWidth = (int)(dimensWidth * density+0.5f);
-            int finalDimensHeight = (int)(dimensHeight * density+0.5f);
+            dimensHeight = dimensWidth * (em.getHeight() / em.getWidth());
+            int finalDimensWidth = (int) (dimensWidth * density + 0.5f);
+            int finalDimensHeight = (int) (dimensHeight * density + 0.5f);
             LinearLayout.LayoutParams imgvwDimens =
                     new LinearLayout.LayoutParams(finalDimensWidth, finalDimensWidth);
             imageView.setLayoutParams(imgvwDimens);
         } else {
             dimensHeight = 140f;
-            dimensWidth = dimensHeight*(em.getWidth()/em.getHeight());
-            int finalDimensWidth = (int)(dimensWidth * density+0.5f);
-            int finalDimensHeight = (int)(dimensHeight * density+0.5f);
+            dimensWidth = dimensHeight * (em.getWidth() / em.getHeight());
+            int finalDimensWidth = (int) (dimensWidth * density + 0.5f);
+            int finalDimensHeight = (int) (dimensHeight * density + 0.5f);
             LinearLayout.LayoutParams imgvwDimens =
                     new LinearLayout.LayoutParams(finalDimensHeight, finalDimensHeight);
             imageView.setLayoutParams(imgvwDimens);
@@ -163,28 +165,30 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
     @Override
     protected void onBubbleClick() {
-        Intent intent = new Intent(context, EaseShowBigImageActivity.class);
-        File file = new File(imgBody.getLocalUrl());
-        if (file.exists()) {
-            Uri uri = Uri.fromFile(file);
-            intent.putExtra("uri", uri);
-        } else {
-            // The local full size pic does not exist yet.
-            // ShowBigImage needs to download it from the server
-            // first
-            String msgId = message.getMsgId();
-            intent.putExtra("messageId", msgId);
-            intent.putExtra("localUrl", imgBody.getLocalUrl());
-        }
-        if (message != null && message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked()
-                && message.getChatType() == ChatType.Chat) {
-            try {
-                EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        context.startActivity(intent);
+        //预览
+        PreViewUtil.preview(context, localFilePath);
+//        Intent intent = new Intent(context, EaseShowBigImageActivity.class);
+//        File file = new File(imgBody.getLocalUrl());
+//        if (file.exists()) {
+//            Uri uri = Uri.fromFile(file);
+//            intent.putExtra("uri", uri);
+//        } else {
+//            // The local full size pic does not exist yet.
+//            // ShowBigImage needs to download it from the server
+//            // first
+//            String msgId = message.getMsgId();
+//            intent.putExtra("messageId", msgId);
+//            intent.putExtra("localUrl", imgBody.getLocalUrl());
+//        }
+//        if (message != null && message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked()
+//                && message.getChatType() == ChatType.Chat) {
+//            try {
+//                EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        context.startActivity(intent);
     }
 
     /**
@@ -252,8 +256,6 @@ public class EaseChatRowImage extends EaseChatRowFile {
     @Override
     protected void onBubbleLongClick() {
         Log.d("CMCC", "onBubbleLongClick触发了");
-        //下载原图片
-        downloadImage(message.getMsgId());
 
         popupMenuItemList = new ArrayList<>();
         popupMenuItemList.add("打印");
@@ -273,6 +275,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
                     case 0:
                         //打印
                         Log.d("CMCC", "打印");
+                        PreViewUtil.preview(context, localFilePath);
                         break;
                     case 1:
                         //转发
@@ -301,47 +304,63 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
                         break;
                     case 3:
-//                        if (message.direct() == EMMessage.Direct.SEND) {
-//                            //只能删除本人发出的消息
-//                        }
                         //删除记录
                         Log.d("CMCC", "删除");
-                        //发送透传消息代码如下：
-                        String action = context.getString(R.string.REMOVE);
-                        EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
+                        if (message.direct() == EMMessage.Direct.SEND) {
+                            //只能删除本人发出的消息
+                            //发送透传消息代码如下：
+                            String action = context.getString(R.string.REMOVE);
+                            EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
 
-                        EMCmdMessageBody cmdBody = new EMCmdMessageBody(action);
-                        Log.d("CMCC", "111111");
-                        if (message.getChatType() == ChatType.GroupChat ||
-                                message.getChatType() == ChatType.ChatRoom) {
-                            cmdMessage.setChatType(ChatType.GroupChat);
-                            String toChatUserName = message.getTo();
-                            Log.d("CMCC", "toChatUserName------>" + toChatUserName);
-                            cmdMessage.setTo(toChatUserName);
-                            //删除掉本地消息
-                            EMClient.getInstance().chatManager()
-                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
-                            //刷新一下
-                            updateView();
+                            EMCmdMessageBody cmdBody = new EMCmdMessageBody(action);
+                            Log.d("CMCC", "111111");
+                            if (message.getChatType() == ChatType.GroupChat ||
+                                    message.getChatType() == ChatType.ChatRoom) {
+                                cmdMessage.setChatType(ChatType.GroupChat);
+                                String toChatUserName = message.getTo();
+                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+                                cmdMessage.setTo(toChatUserName);
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                                //刷新一下
+                                updateView();
+                            } else {
+                                String toChatUserName = message.getFrom();
+                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+                                cmdMessage.setFrom(toChatUserName);
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            }
+                            //发消息刷新
+                            RefreshEvent event = new RefreshEvent();
+                            event.setCode(0x13);
+                            EventBus.getDefault().post(event);
+
+                            String msgId = message.getMsgId();
+                            Log.d("CMCC", "msgIdsend-------->" + msgId);
+                            cmdMessage.setAttribute("msgid", msgId);
+                            cmdMessage.addBody(cmdBody);
+                            EMClient.getInstance().chatManager().sendMessage(cmdMessage);
+                            Log.d("CMCC", "发送透传success");
                         } else {
-                            String toChatUserName = message.getFrom();
-                            Log.d("CMCC", "toChatUserName------>" + toChatUserName);
-                            cmdMessage.setFrom(toChatUserName);
-                            //删除掉本地消息
-                            EMClient.getInstance().chatManager()
-                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            //删除本地
+                            if (message.getChatType() == ChatType.GroupChat ||
+                                    message.getChatType() == ChatType.ChatRoom) {
+                                String toChatUserName = message.getTo();
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                                //刷新一下
+                                updateView();
+                            } else {
+                                String toChatUserName = message.getFrom();
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            }
                         }
-                        //发消息刷新
-                        RefreshEvent event = new RefreshEvent();
-                        event.setCode(0x13);
-                        EventBus.getDefault().post(event);
-
-                        String msgId = message.getMsgId();
-                        Log.d("CMCC", "msgIdsend-------->" + msgId);
-                        cmdMessage.setAttribute("msgid", msgId);
-                        cmdMessage.addBody(cmdBody);
-                        EMClient.getInstance().chatManager().sendMessage(cmdMessage);
-                        Log.d("CMCC", "发送透传success");
                         break;
                 }
             }

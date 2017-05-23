@@ -267,7 +267,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 public void onMainSuccess() {
                     EMClient.getInstance().chatManager().loadAllConversations();
                     EMClient.getInstance().groupManager().loadAllGroups();
-                    Log.i("CCCP","getMemberInfo()==========================================="+loginBean.getMemberInfo().getEasemobId());
+                    Log.d("CMCC","getMemberInfo()==========================================="+loginBean.getMemberInfo().getWechatName());
                     baseApplication.setHasLoginEvent(true);
                     DialogUtils.closeProgressDialog();
                     if (!ObjectUtils.isNull(loginBean)) {
@@ -285,7 +285,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                                 baseApplication.setWechatId(userInfo.getWechatId());
                             }
                             if (!ObjectUtils.isNull(userInfo.getWechatName())) {
-                                baseApplication.setWeixinName(userInfo.getWechatName());
+                                baseApplication.setWechatName(userInfo.getWechatName());
                             }
                             jumpActivity(MainActivity.class);
                             finishCurrentActivity();
@@ -462,7 +462,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     JSONObject jsonObject = new JSONObject(response);
                     Log.d(TAG, "------获取到的个人信息------" + jsonObject.toString());
                     String nickName = jsonObject.getString("nickname");
-                    baseApplication.setWeixinName(nickName);
+                    baseApplication.setWechatName(nickName);
                     String sex = jsonObject.getString("sex");
                     String province = jsonObject.getString("province");
                     String city = jsonObject.getString("city");

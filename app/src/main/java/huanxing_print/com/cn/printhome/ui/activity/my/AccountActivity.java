@@ -15,22 +15,20 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
-import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
+import huanxing_print.com.cn.printhome.model.my.TotleBalanceBean;
 import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongzhiCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
-import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.OrderIdCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.TotleBalanceCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.ChongzhiRequest;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
-import huanxing_print.com.cn.printhome.net.request.my.MyInfoRequest;
 import huanxing_print.com.cn.printhome.net.request.my.OrderIdRequest;
+import huanxing_print.com.cn.printhome.net.request.my.TotleBalanceRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
@@ -46,7 +44,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     private TextView tv_account_record;
     private RecyclerView rv_account;
     private AccountCZAdapter adapter;
-    private String totleBalance;
     private String rechargeAmout;
     private LinearLayout ll_xieyi;
     private String sendAmount;
@@ -69,10 +66,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onResume() {
         super.onResume();
-        if (null != sendAmount && null != rechargeAmout) {
-            double allCount = Double.parseDouble(totleBalance) + Double.parseDouble(sendAmount) + Double.parseDouble(rechargeAmout);
-            tv_money.setText("￥" + allCount);
-        }
+        TotleBalanceRequest.request(getSelfActivity(), new MyTotleBalanceCallBack());
     }
 
     private void initView() {
@@ -85,13 +79,6 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initData() {
-        totleBalance = getIntent().getStringExtra("totleBalance");
-        if (!ObjectUtils.isNull(totleBalance)) {
-            tv_money.setText("￥" + totleBalance);
-        } else {
-            //网络请求，获取用户信息
-            MyInfoRequest.getMyInfo(getSelfActivity(), BaseApplication.getInstance().getLoginToken(), new MyMyInfoCallBack());
-        }
         DialogUtils.showProgressDialog(getSelfActivity(), "加载中").show();
         //充值接口
         ChongzhiRequest.getChongZhi(getSelfActivity(), new MyChongzhiCallBack());
@@ -230,16 +217,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
             toastConnectFail();
         }
     }
-
-    public class MyMyInfoCallBack extends MyInfoCallBack {
-
-        @Override
-        public void success(String msg, MyInfoBean bean) {
-            if (!ObjectUtils.isNull(bean)) {
-                String totleBalanceStr = bean.getTotleBalance();
-                tv_money.setText("￥" + totleBalanceStr);
-            }
-        }
+    public class MyTotleBalanceCallBack extends TotleBalanceCallBack {
 
         @Override
         public void fail(String msg) {
@@ -249,6 +227,12 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
         @Override
         public void connectFail() {
 
+        }
+
+        @Override
+        public void success(String msg, TotleBalanceBean bean) {
+            String totleBalance = bean.getTotleBalance();
+            tv_money.setText("￥" + totleBalance);
         }
     }
 }

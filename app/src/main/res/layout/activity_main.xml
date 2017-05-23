@@ -29,18 +29,7 @@
             android:layout_weight="1.0"
             android:orientation="vertical"
             android:gravity="bottom">
-            <TextView
-                android:id="@+id/tv_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="-8dip"
-                android:layout_marginTop="-10dp"
-                android:background="@drawable/shape_circle"
-                android:gravity="center"
-                android:layout_toRightOf="@+id/iv_chat"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                android:visibility="gone"/>
+
             <ImageView
                 android:id="@+id/iv_chat"
                 android:layout_width="wrap_content"
@@ -58,6 +47,18 @@
                 android:layout_marginTop="5dp"
                 android:text="印信"
                 android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-4dip"
+                android:layout_marginTop="-5dp"
+                android:background="@drawable/shape_circle_chat"
+                android:gravity="center"
+                android:layout_toRightOf="@+id/iv_chat"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <LinearLayout

@@ -323,7 +323,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 								baseApplication.setWechatId(userInfo.getWechatId());
 							}
 							if (!ObjectUtils.isNull(userInfo.getWechatName())) {
-								baseApplication.setWeixinName(userInfo.getWechatName());
+								baseApplication.setWechatName(userInfo.getWechatName());
 							}
 							jumpActivity(MainActivity.class);
 							finishCurrentActivity();

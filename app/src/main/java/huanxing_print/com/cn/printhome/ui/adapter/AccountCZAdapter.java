@@ -56,7 +56,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         ChongZhiBean bean = data.get(position);
-        holder.tv_chong.setText("冲" + bean.getRechargeAmout() + "元");
+        holder.tv_chong.setText("充" + bean.getRechargeAmout() + "元");
         holder.tv_song.setText("送" + bean.getSendAmount() + "元");
 
         double rechargeAmout = Double.parseDouble(bean.getRechargeAmout());

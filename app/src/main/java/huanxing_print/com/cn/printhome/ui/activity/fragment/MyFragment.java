@@ -128,11 +128,14 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 wechatId = bean.getWechatId();
                 if (!ObjectUtils.isNull(wechatName)) {
                     SharedPreferencesUtils.putShareValue(getActivity(), "wechatName", wechatName);
+
                 }
                 if (!ObjectUtils.isNull(uniqueModifyFlag)) {
                     SharedPreferencesUtils.putShareValue(getActivity(),
                             "uniqueModifyFlag", uniqueModifyFlag);
                 }
+                SharedPreferencesUtils.putShareValue(getActivity(),
+                        "totleBalance", totleBalance);
                 tv_name.setText(nickName);
                 tv_uniqueid.setText("印家号:" + uniqueId);
                 tv_print_count.setText(printCount);

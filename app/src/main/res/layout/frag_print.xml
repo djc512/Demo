@@ -17,7 +17,8 @@
             android:layout_centerInParent="true"
             android:text="共享打印"
             android:textColor="@color/text_color"
-            android:textSize="20sp"/>
+            android:textSize="18sp"
+            />
 
         <ImageView
             android:id="@+id/iv_notice"

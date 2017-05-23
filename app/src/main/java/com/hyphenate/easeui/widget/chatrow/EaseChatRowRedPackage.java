@@ -262,6 +262,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                         intent.putExtra("singleType", true);
                         intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                         context.startActivity(intent);
+                        goneDialog.dismiss();
                     }
 
                     @Override
@@ -442,6 +443,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
             intent.putExtra("singleType", true);
             intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
             context.startActivity(intent);
+
         }
 
         @Override
