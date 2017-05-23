@@ -168,9 +168,10 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         if (chatType == EaseConstant.CHATTYPE_GROUP) {
             GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
                     "", toChatUsername, callback);
-        } else {
-            tv_title.setText(toChatUsername);
         }
+//        else {
+//            tv_title.setText(toChatUsername);
+//        }
         setUpView();
 
         RefreshEvent refreshEvent = new RefreshEvent();
@@ -216,8 +217,6 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         // hold to record voice
         //noinspection ConstantConditions
         tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_title.setText(toChatUsername);
-
 
         addImg = (ImageView) findViewById(R.id.addImg);
         voiceRecorderView = (EaseVoiceRecorderView) findViewById(R.id.voice_recorder);
@@ -270,6 +269,10 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         }
 
         tv_title.setText(nickName);
+        if (ObjectUtils.isNull(tv_title.getText().toString())) {
+            tv_title.setText(toChatUsername);
+        }
+
         //取消声音按钮
         voiceRecorderView.setVisibility(View.GONE);
 
@@ -578,9 +581,9 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                     /*String filePath = getRealFilePath(getSelfActivity(),uri);
                     String fileType = getExtensionName(filePath);*/
                     if (uri != null) {
-                        if (ChatFileType.isImage(getSelfActivity(),uri)){
+                        if (ChatFileType.isImage(getSelfActivity(), uri)) {
                             sendPicByUri(uri);
-                        }else {
+                        } else {
                             sendFileByUri(uri);
                         }
                     }

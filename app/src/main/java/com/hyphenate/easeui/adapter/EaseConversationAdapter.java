@@ -146,10 +146,10 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             EMMessage emMessage = conversation.getLatestMessageFromOthers();
             if (emMessage != null) {
                 //如果是印信小秘书就自己设置头像和名字
-                if (conversation.getLastMessage().getUserName().equals("secretary")){
+                if (conversation.getLastMessage().getUserName().equals("secretary")) {
                     holder.avatar.setImageResource(R.drawable.secretary);
                     holder.name.setText("印家小秘书");
-                } else if(conversation.getLastMessage().getUserName().equals("notice")) {
+                } else if (conversation.getLastMessage().getUserName().equals("notice")) {
                     holder.avatar.setImageResource(R.drawable.ic_chat_approval);
                     holder.name.setText("审批通知");
                 } else {
@@ -197,14 +197,44 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         if (conversation.getAllMsgCount() != 0) {
             // show the content of latest message
             EMMessage lastMessage = conversation.getLastMessage();
+            String nickName = lastMessage.getStringAttribute("nickName", "");
+            String packetId = lastMessage.getStringAttribute("packetId", "");
+            String packetType = lastMessage.getStringAttribute("packetType", "");
+            Log.d("CMCC", "nickName:" + nickName);
             String content = null;
             if (cvsListHelper != null) {
                 content = cvsListHelper.onSetItemSecondaryText(lastMessage);
             }
-            holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
-                    BufferType.SPANNABLE);
-            if (content != null) {
-                holder.message.setText(content);
+            if (conversation.getType() == EMConversationType.GroupChat ||
+                    conversation.getType() == EMConversationType.ChatRoom) {
+                if (!ObjectUtils.isNull(nickName)) {
+                    holder.message.setText(nickName + ":" + EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
+                            BufferType.SPANNABLE);
+                } else {
+                    holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
+                            BufferType.SPANNABLE);
+                }
+                if (!ObjectUtils.isNull(packetId) && !ObjectUtils.isNull(packetType)) {
+                    //红包
+                    holder.message.setText(nickName + ":" + "[" + packetType + "]" + EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
+                            BufferType.SPANNABLE);
+                }
+
+                if (content != null) {
+                    holder.message.setText(content);
+                }
+            } else {
+                if (!ObjectUtils.isNull(packetId) && !ObjectUtils.isNull(packetType)) {
+                    //红包
+                    holder.message.setText(nickName + ":" + "[" + packetType + "]" + EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
+                            BufferType.SPANNABLE);
+                }else{
+                    holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
+                            BufferType.SPANNABLE);
+                }
+                if (content != null) {
+                    holder.message.setText(content);
+                }
             }
             holder.time.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
             if (lastMessage.direct() == EMMessage.Direct.SEND && lastMessage.status() == EMMessage.Status.FAIL) {
@@ -225,9 +255,9 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         if (timeSize != 0)
             holder.time.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeSize);
         //如果是小秘书的消息，直接展示图片
-        Log.i("CCCC","form+++++++++++++++++++++++++++++="+conversation.getLastMessage().getFrom());
-        Log.i("CCCC","usename+++++++++++++++++++++++++++++="+conversation.getLastMessage().getUserName());
-        Log.i("CCCC","msgId+++++++++++++++++++++++++++++="+conversation.getLastMessage().getMsgId());
+        Log.i("CCCC", "form+++++++++++++++++++++++++++++=" + conversation.getLastMessage().getFrom());
+        Log.i("CCCC", "usename+++++++++++++++++++++++++++++=" + conversation.getLastMessage().getUserName());
+        Log.i("CCCC", "msgId+++++++++++++++++++++++++++++=" + conversation.getLastMessage().getMsgId());
 //        /*if (conversation.getLastMessage().getUserName().equals("secretary")){
 //            holder.avatar.setImageResource(R.drawable.king);
 //            holder.name.setText("印家小秘书");
