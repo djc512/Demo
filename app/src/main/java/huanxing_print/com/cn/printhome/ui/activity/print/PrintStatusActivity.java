@@ -30,6 +30,8 @@ import java.util.TimerTask;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseApplication;
+import huanxing_print.com.cn.printhome.constant.HttpUrl;
+import huanxing_print.com.cn.printhome.event.print.FinishEvent;
 import huanxing_print.com.cn.printhome.event.print.PrintTypeEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.OrderStatusResp;
@@ -37,8 +39,6 @@ import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
-import huanxing_print.com.cn.printhome.ui.activity.copy.CopyActivity;
-import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.WeiXinUtils;
@@ -132,16 +132,17 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void finishThis() {
-        if (printTypeEvent == null) {
-            startActivity(new Intent(context, MainActivity.class));
-            finish();
-            return;
-        }
-        if (PrintTypeEvent.TYPE_COPY == printTypeEvent.getType()) {
-            startActivity(new Intent(context, CopyActivity.class));
-        } else {
-            startActivity(new Intent(context, MainActivity.class));
-        }
+        EventBus.getDefault().post(new FinishEvent(true));
+//        if (printTypeEvent == null) {
+//            startActivity(new Intent(context, MainActivity.class));
+//            finish();
+//            return;
+//        }
+//        if (PrintTypeEvent.TYPE_COPY == printTypeEvent.getType()) {
+//            startActivity(new Intent(context, CopyActivity.class));
+//        } else {
+//            startActivity(new Intent(context, MainActivity.class));
+//        }
         finish();
     }
 
@@ -370,7 +371,9 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
         weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
                 .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧",
-                "http://106.14.77.102:22012/common/app/download?memberId=100010103", bmp);
+                HttpUrl.appDownLoad+ "?memberId="+BaseApplication.getInstance().getMemberId()
+                , bmp);
+        BaseApplication.getInstance().getApkUrl();
     }
 
     private void shareToWxFriend() {
@@ -379,7 +382,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
         weiXinUtils.shareToWxFriend(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
                 .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧",
-                "http://106.14.77.102:22012/common/app/download?memberId=100010103", bmp);
+                HttpUrl.appDownLoad+ "?memberId="+BaseApplication.getInstance().getMemberId()
+                , bmp);
     }
 
 //    public void onSuccess(View view) {

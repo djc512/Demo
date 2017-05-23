@@ -19,6 +19,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.event.print.FinishEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.IsOnlineResp;
@@ -67,6 +68,13 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
     public void onMessageEventPostThread(PrintInfoResp.PrinterPrice printerPrice) {
         Logger.i(printerPrice.toString());
         this.printerPrice = printerPrice;
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onMessageEventPostThread(FinishEvent event) {
+        if (event != null && event.isFinishFlag()) {
+            finish();
+        }
     }
 
     private void initData() {

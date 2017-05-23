@@ -12,12 +12,15 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.event.print.FinishEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.DocPreviewResp;
@@ -51,6 +54,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_preview);
+        EventBus.getDefault().register(context);
         initData();
     }
 
@@ -90,6 +94,13 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
             Logger.i(fileUrl);
             Logger.i(fileUrlList);
             initView();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onMessageEventPostThread(FinishEvent event) {
+        if (event != null && event.isFinishFlag()) {
+            finish();
         }
     }
 
@@ -309,5 +320,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
     protected void onDestroy() {
         super.onDestroy();
         timer.cancel();
+        Logger.i("onDestroy");
+        EventBus.getDefault().unregister(context);
     }
 }

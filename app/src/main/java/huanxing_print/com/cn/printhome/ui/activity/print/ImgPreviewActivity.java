@@ -11,11 +11,14 @@ import android.view.View;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.event.print.FinishEvent;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
@@ -41,6 +44,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_img_priview);
+        EventBus.getDefault().register(context);
         initData();
         initView();
     }
@@ -62,6 +66,13 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         }
         photoView = (PhotoView) findViewById(R.id.photoView);
         ImageUtil.showImageView(context, imgPath, photoView);
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onMessageEventPostThread(FinishEvent event) {
+        if (event != null && event.isFinishFlag()) {
+            finish();
+        }
     }
 
     @Override
@@ -197,5 +208,11 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         Intent intent = new Intent(context, ImgPreviewActivity.class);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(context);
     }
 }
