@@ -99,12 +99,17 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         return R.layout.frag_usercenter;
 
     }
-
+    public void reload() {
+        getData();
+    }
     private void initData() {
         token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
         uniqueId = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
                 "uniqueId");
+        getData();
+    }
+    private void getData() {
         DialogUtils.showProgressDialog(getActivity(), "加载中").show();
         //网络请求，获取用户信息
         MyInfoRequest.getMyInfo(getActivity(), token, new MyMyInfoCallBack());

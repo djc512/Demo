@@ -248,7 +248,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 setColor(4);//yixin
                 fragTemp = fragMy;
                 break;
-
+            default:
+                break;
 
         }
         if (fragTemp.isAdded()) {
@@ -256,7 +257,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 ((ContantsFragment) fragTemp).reload();
             }
             tran.show(fragTemp);
-        } else {
+        } else if(fragTemp instanceof MyFragment){
+            ((MyFragment) fragTemp).reload();
+        }else {
             tran.add(R.id.fl_main_context, fragTemp);
         }
         tran.commitAllowingStateLoss();

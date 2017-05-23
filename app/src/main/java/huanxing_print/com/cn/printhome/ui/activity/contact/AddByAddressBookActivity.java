@@ -24,6 +24,7 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.model.contact.FriendSearchInfo;
 import huanxing_print.com.cn.printhome.model.contact.PhoneContactInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.PhoneContactCallback;
@@ -50,7 +51,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private AddAddressBookAdapter adapter;
     private LinearLayoutManager layoutManager;
     private PhoneContactInfo currentClickPhoneContact;
-    private String shareAppUrl = "https://www.baidu.com";
+    private String shareAppUrl;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -84,6 +85,8 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private void initData() {
+        shareAppUrl = String.format(HttpUrl.getInstance().getPostUrl()+HttpUrl.appDownLoad+
+                "?memberId="+baseApplication.getMemberId()+"&platform="+ConFig.PHONE_TYPE);
         DialogUtils.showProgressDialog(this, "加载中").show();
         new Thread(new Runnable() {
             @Override
