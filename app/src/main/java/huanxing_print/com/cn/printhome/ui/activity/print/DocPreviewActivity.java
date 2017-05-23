@@ -70,16 +70,9 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
 
     private void initData() {
         uri = getIntent().getData();
-        if (uri == null) {
-            Bundle bundle = getIntent().getExtras();
-            fileUrl = (String) bundle.getCharSequence(KEY_URL);
-            fileUrlList = bundle.getStringArrayList(KEY_URL_LIST);
-            file = (File) bundle.getSerializable(KEY_FILE);
-            previewFlag = bundle.getBoolean(PREVIEW_FLAG, false);
-            Logger.i(fileUrl);
-            Logger.i(fileUrlList);
-            initView();
-        } else {
+        if (uri != null) {
+            // file:///storage/emulated/0/tencent/MicroMsg/Download/201%E9%A1%B5%E6%96%87%E6%A1%A3.docx
+            Logger.i(uri.toString());
             String filepath = Uri.decode(getIntent().getDataString()).substring(7);
             Logger.i(filepath);
             file = new File(filepath);
@@ -88,6 +81,15 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                 finish();
             }
             turnFile(file);
+        } else {
+            Bundle bundle = getIntent().getExtras();
+            fileUrl = (String) bundle.getCharSequence(KEY_URL);
+            fileUrlList = bundle.getStringArrayList(KEY_URL_LIST);
+            file = (File) bundle.getSerializable(KEY_FILE);
+            previewFlag = bundle.getBoolean(PREVIEW_FLAG, false);
+            Logger.i(fileUrl);
+            Logger.i(fileUrlList);
+            initView();
         }
     }
 
@@ -166,6 +168,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                             finish();
                         }
                     });
+            finish();
             return;
         }
         showLoading();
@@ -188,6 +191,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                         UploadFileBean uploadFileBean = GsonUtil.GsonToBean(content, UploadFileBean.class);
                         if (uploadFileBean == null) {
                             dismissLoading();
+                            finish();
                             return;
                         }
                         if (uploadFileBean.isSuccess()) {
@@ -198,6 +202,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                         } else {
                             dismissLoading();
                             ShowUtil.showToast(getString(R.string.upload_failure));
+                            finish();
                         }
                     }
 
@@ -205,6 +210,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                     public void onFailed(String exception) {
                         dismissLoading();
                         ShowUtil.showToast(getString(R.string.net_error));
+                        finish();
                     }
                 }, false);
     }
@@ -238,6 +244,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
             public void onFailed(String exception) {
                 dismissLoading();
                 ShowUtil.showToast(getString(R.string.net_error));
+                finish();
             }
         });
     }
@@ -277,6 +284,13 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
+
+    public static void start(Context context, Uri uri) {
+        Intent intent = new Intent(context, DocPreviewActivity.class);
+        intent.setData(uri);
+        context.startActivity(intent);
+    }
+
 
     private CountDownTimer timer = new CountDownTimer(timeCount, 1000) {
 
