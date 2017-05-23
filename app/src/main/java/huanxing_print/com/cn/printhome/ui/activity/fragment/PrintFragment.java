@@ -110,6 +110,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
         }
         Bundle bundle = new Bundle();
         bundle.putInt(AddFileActivity.INDEX, index);
+        bundle.putInt(AddFileActivity.PICK_TYPE, AddFileActivity.TYPE_PRINT);
         AddFileActivity.start(getActivity(), bundle);
     }
 
@@ -177,6 +178,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
         EventBus.getDefault().postSticky(printerPrice);
         Bundle bundle = new Bundle();
         bundle.putInt(AddFileActivity.INDEX, 0);
+        bundle.putInt(AddFileActivity.PICK_TYPE, AddFileActivity.TYPE_PRINT);
         AddFileActivity.start(getActivity(), bundle);
     }
 

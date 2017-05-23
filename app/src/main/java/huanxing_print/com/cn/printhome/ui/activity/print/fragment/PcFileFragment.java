@@ -2,8 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.print.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -25,9 +21,9 @@ import huanxing_print.com.cn.printhome.model.print.DelPcFileResp;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
+import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PcFilePreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.PcFileRecylerAdapter;
-import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
@@ -71,10 +67,13 @@ public class PcFileFragment extends BaseLazyFragment {
         mAdapter.setOnItemClickListener(new PcFileRecylerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final View view, int position) {
+                if (((AddFileActivity) getActivity()).getPickType() == AddFileActivity.TYPE_CHAT) {
+                    ShowUtil.showToast("云端文件不可发送");
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(PcFilePreviewActivity.PC_FILE, mAdapter.getFileList().get(position));
                 PcFilePreviewActivity.start(mActivity, bundle);
-//                addFile(mAdapter.getFileList().get(position));
             }
         });
         mAdapter.setItemLongClickListener(new PcFileRecylerAdapter.OnItemLongClickListener() {

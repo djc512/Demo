@@ -12,12 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.PhotoRecylerAdapter;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
-
-import static huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity.KEY_IMG_URI;
 
 
 /**
@@ -57,9 +55,10 @@ public class PhotoFragment extends BaseLazyFragment {
         mAdapter.setOnItemClickListener(new PhotoRecylerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final View view, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putCharSequence(KEY_IMG_URI, photoList.get(position));
-                ImgPreviewActivity.start(context, bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putCharSequence(KEY_IMG_URI, photoList.get(position));
+//                ImgPreviewActivity.start(context, bundle);
+                ((AddFileActivity) getActivity()).pickFile(photoList.get(position));
             }
         });
         getImgFile();

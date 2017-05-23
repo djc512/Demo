@@ -108,17 +108,7 @@ public class WifiImportFragment extends BaseLazyFragment {
                     @Override
                     public void onItemClick(final View view, int position) {
                         File file = mAdapter.getFileList().get(position);
-                        if (!FileType.isPrintType(file.getPath())) {
-                            ShowUtil.showToast("文件不可打印");
-                            return;
-                        }
-                        Bundle bundle = new Bundle();
-                        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
-                            bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, file.getPath());
-                            ImgPreviewActivity.start(context, bundle);
-                        } else {
-                            ((AddFileActivity) getActivity()).turnFile(file);
-                        }
+                        ((AddFileActivity) getActivity()).pickFile(file);
                     }
                 });
         mAdapter.setItemLongClickListener(new FileRecyclerAdapter.OnItemLongClickListener() {
