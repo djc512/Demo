@@ -87,7 +87,7 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
                 printCountTv = (TextView) itemView.findViewById(R.id.printCountTv);
                 commentTv = (TextView) itemView.findViewById(R.id.commentTv);
                 printerLyt.setOnClickListener(this);
-                navLty.setOnClickListener(this);
+//                navLty.setOnClickListener(this);
                 nameTv.setOnClickListener(this);
                 detailTv.setOnClickListener(this);
                 commentTv.setOnClickListener(this);

@@ -102,7 +102,7 @@ public class StepLineView extends View {
         Paint p = new Paint();
         p.setStrokeWidth(STROKE_WHITH);
         if (step == STEP_DEFAULT) {
-            p.setColor(Color.BLACK);
+            p.setColor(ContextCompat.getColor(context, R.color.text_black));
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);
             canvas.drawLine(pointX1, pointY1, pointX5, pointY5, p);
