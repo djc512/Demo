@@ -40,6 +40,7 @@ import cn.jpush.android.api.JPushInterface;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
@@ -83,8 +84,8 @@ public class BaseApplication extends Application {
     private boolean hasLoginEvent = false;
     //微信第三方登录
     //正式
-	public static final String WX_APPID = "wxb54a2ee8a63993f9";
-	public static final String WX_APPSecret = "c8c5ed7d1e388e54cb5a1b4c1af35663";
+    public static final String WX_APPID = "wxb54a2ee8a63993f9";
+    public static final String WX_APPSecret = "c8c5ed7d1e388e54cb5a1b4c1af35663";
     //测试
 //    public static final String WX_APPID = "wx4c877768d9a9fc08";
 //    public static final String WX_APPSecret = "d7ba93d327cfdd1d02b8d5a4b43b1223";
@@ -199,6 +200,7 @@ public class BaseApplication extends Application {
         SharedPreferencesUtils.putShareValue(this, "uniqueId", uniqueId);
         this.uniqueId = uniqueId;
     }
+
     public String getUniqueModifyFlag() {
         if (ObjectUtils.isNull(uniqueModifyFlag)) {
             uniqueModifyFlag = SharedPreferencesUtils.getShareString(this, "uniqueModifyFlag");
@@ -210,6 +212,7 @@ public class BaseApplication extends Application {
         SharedPreferencesUtils.putShareValue(this, "uniqueModifyFlag", uniqueModifyFlag);
         this.uniqueModifyFlag = uniqueModifyFlag;
     }
+
     public String getMemberId() {
         if (ObjectUtils.isNull(memberId)) {
             memberId = SharedPreferencesUtils.getShareString(this, "memberId");
@@ -427,18 +430,22 @@ public class BaseApplication extends Application {
                      * 3. 如果是在后台发出长声音
                      * 4. 如果在前台发出短声音
                      */
-                    Log.i("CMCC", "收到消息了666666666666666666666666666666");
+                    Log.d("CMCC", "收到消息了666666666666666666666666666666");
 
-                    EventBus.getDefault().post(list.get(0));
-                    /*if (isRuninBackground()) {
-						sendNotification(list.get(0));
-						//发出长声音
-						//参数2/3：左右喇叭声音的大小
-						mSoundPool.play(mYuluSound,1,1,0,0,1);
-					} else {
-						//发出短声音
-						mSoundPool.play(mDuanSound,1,1,0,0,1);
-					}*/
+                    //发消息去刷新会话列表界面
+                    RefreshEvent event = new RefreshEvent();
+                    event.setCode(0x14);
+                    EventBus.getDefault().post(event);
+
+                    if (isRuninBackground()) {
+                        sendNotification(list.get(0));
+                        //发出长声音
+                        //参数2/3：左右喇叭声音的大小
+                        mSoundPool.play(mYuluSound, 1, 1, 0, 0, 1);
+                    } else {
+                        //发出短声音
+                        mSoundPool.play(mDuanSound, 1, 1, 0, 0, 1);
+                    }
 
                 }
             }
@@ -515,10 +522,12 @@ public class BaseApplication extends Application {
             public void onOwnerChanged(String groupId, String newOwner, String oldOwner) {
                 //群所有者变动通知
             }
+
             @Override
-            public void onMemberJoined(final String groupId,  final String member){
+            public void onMemberJoined(final String groupId, final String member) {
                 //群组加入新成员通知
             }
+
             @Override
             public void onMemberExited(final String groupId, final String member) {
                 //群成员退出通知

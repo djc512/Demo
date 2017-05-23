@@ -109,8 +109,6 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
 
         if (conversation.getType() == EMConversationType.GroupChat) {
             //群聊
-
-
             if (ObjectUtils.isNull(message)) {
                 //没有收到别人的消息
                 String groupName = realMessage.getStringAttribute("otherName", "");
@@ -136,6 +134,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                     holder.name.setText(groupName);
                 }
             } else {
+
                 String groupId = conversation.conversationId();
                 if (EaseAtMessageHelper.get().hasAtMeMsg(groupId)) {
                     holder.motioned.setVisibility(View.VISIBLE);
@@ -164,6 +163,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                     holder.name.setText(conversation.getLastMessage().getStringAttribute("groupName", ""));
                 }
             }
+
 //            holder.avatar.setImageResource(R.drawable.ease_group_icon);
 //            EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
 //            holder.name.setText(group != null ? group.getGroupName() : username);
@@ -248,7 +248,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             String nickName = lastMessage.getStringAttribute("nickName", "");
             String packetId = lastMessage.getStringAttribute("packetId", "");
             String packetType = lastMessage.getStringAttribute("packetType", "");
-            Log.d("CMCC", "nickName:" + nickName);
+            //Log.d("CMCC", "nickName:" + nickName);
             String content = null;
             if (cvsListHelper != null) {
                 content = cvsListHelper.onSetItemSecondaryText(lastMessage);
@@ -303,9 +303,9 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         if (timeSize != 0)
             holder.time.setTextSize(TypedValue.COMPLEX_UNIT_PX, timeSize);
         //如果是小秘书的消息，直接展示图片
-        Log.i("CCCC", "form+++++++++++++++++++++++++++++=" + conversation.getLastMessage().getFrom());
-        Log.i("CCCC", "usename+++++++++++++++++++++++++++++=" + conversation.getLastMessage().getUserName());
-        Log.i("CCCC", "msgId+++++++++++++++++++++++++++++=" + conversation.getLastMessage().getMsgId());
+//        Log.i("CCCC", "form+++++++++++++++++++++++++++++=" + conversation.getLastMessage().getFrom());
+//        Log.i("CCCC", "usename+++++++++++++++++++++++++++++=" + conversation.getLastMessage().getUserName());
+//        Log.i("CCCC", "msgId+++++++++++++++++++++++++++++=" + conversation.getLastMessage().getMsgId());
 //        /*if (conversation.getLastMessage().getUserName().equals("secretary")){
 //            holder.avatar.setImageResource(R.drawable.king);
 //            holder.name.setText("印家小秘书");
