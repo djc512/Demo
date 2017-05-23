@@ -301,6 +301,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
+    protected void onResume() {
+        //显示印信聊天未读消息数
+        int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        if (num > 0) {
+            tv_count.setVisibility(View.VISIBLE);
+            tv_count.setText(num + "");
+        } else {
+            tv_count.setVisibility(View.GONE);
+        }
+        super.onResume();
+    }
+
+    @Override
     protected void onDestroy() {
         //EMClient.getInstance().chatManager().removeMessageListener(msgListener);
         EventBus.getDefault().unregister(mContext);
@@ -364,6 +377,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         }
     }
+
 
     /**
      * 显示印信聊天未读消息数
