@@ -35,8 +35,8 @@ import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatApprovalActivity;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.CreateGroup;
-import huanxing_print.com.cn.printhome.ui.activity.contact.ListAddContactActivity;
 import huanxing_print.com.cn.printhome.util.Constant;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 public class ChatFragment extends BaseFragment implements OnClickListener {
 
@@ -78,8 +78,8 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
                 //单聊
                 EMMessage message = conversation.getLatestMessageFromOthers();
                 EMMessage groupMsg = conversation.getLastMessage();
-                if("notice".equals(conversation.getLastMessage().getUserName())) {
-                    Log.e("CMCC","notice");
+                if ("notice".equals(conversation.getLastMessage().getUserName())) {
+                    Log.e("CMCC", "notice");
                     Intent intent = new Intent(getActivity(), ChatApprovalActivity.class);
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
                     if (message != null) {
@@ -96,19 +96,36 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
 //                    intent.putExtra("type", EaseConstant.CHATTYPE_GROUP);
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
                     intent.putExtra(Constant.EXTRA_USER_ID, conversation.conversationId());
-                    intent.putExtra("name", groupMsg.getStringAttribute("groupName", ""));
+                    if (ObjectUtils.isNull(message)) {
+                        //别人没有说话
+                        intent.putExtra("nickName", groupMsg.getStringAttribute("otherName", ""));
+                        intent.putExtra("iconUrl", groupMsg.getStringAttribute("otherUrl", ""));
+                    } else {
+                        intent.putExtra("nickName", message.getStringAttribute("groupName", ""));
+                        intent.putExtra("iconUrl", message.getStringAttribute("groupUrl", ""));
+                    }
                 } else if (EMConversation.EMConversationType.ChatRoom ==
                         conversation.getType()) {
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_CHATROOM);
                     intent.putExtra(Constant.EXTRA_USER_ID, conversation.conversationId());
-                    intent.putExtra("name", groupMsg.getStringAttribute("groupName", ""));
-                } else {
-                    intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-                    if (message != null) {
-                        intent.putExtra(Constant.EXTRA_USER_ID, message.getFrom());
-                        intent.putExtra("name", message.getStringAttribute("nickName", ""));
+                    if (ObjectUtils.isNull(message)) {
+                        //别人没有说话
+                        intent.putExtra("nickName", groupMsg.getStringAttribute("otherName", ""));
+                        intent.putExtra("iconUrl", groupMsg.getStringAttribute("otherUrl", ""));
                     } else {
-                        intent.putExtra(Constant.EXTRA_USER_ID, groupMsg.getTo());
+                        intent.putExtra("nickName", message.getStringAttribute("groupName", ""));
+                        intent.putExtra("iconUrl", message.getStringAttribute("groupUrl", ""));
+                    }
+                } else {
+                    intent.putExtra(Constant.EXTRA_USER_ID, conversation.conversationId());
+                    intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+                    if (ObjectUtils.isNull(message)) {
+                        //别人没有说话
+                        intent.putExtra("nickName", groupMsg.getStringAttribute("otherName", ""));
+                        intent.putExtra("iconUrl", groupMsg.getStringAttribute("otherUrl", ""));
+                    } else {
+                        intent.putExtra("nickName", message.getStringAttribute("nickName", ""));
+                        intent.putExtra("iconUrl", message.getStringAttribute("iconUrl", ""));
                     }
                 }
                 startActivity(intent);

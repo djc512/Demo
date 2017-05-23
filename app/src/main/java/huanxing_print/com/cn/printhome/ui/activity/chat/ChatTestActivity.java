@@ -136,6 +136,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     //protected EaseTitleBar titleBar;
     private PicSaveUtil saveUtil;
     private String nickName;
+    private String iconUrl;
     private TextView tv_title;
     private ImageView addImg;
     private String groupName;//群昵称
@@ -157,7 +158,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         //聊天类型
         chatType = getIntent().getIntExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         toChatUsername = getIntent().getStringExtra(Constant.EXTRA_USER_ID);
-        nickName = getIntent().getStringExtra("name");
+        nickName = getIntent().getStringExtra("nickName");
+        iconUrl = getIntent().getStringExtra("iconUrl");
         Log.i("CMCC", "chatType:" + chatType + ",toChatUsername:" + toChatUsername);
         saveUtil = new PicSaveUtil(getSelfActivity());
         cameraFile = saveUtil.createCameraTempFile(savedInstanceState);
@@ -237,6 +239,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             chatType = EaseConstant.CHATTYPE_GROUP;
             toChatUsername = groupInfo.getEasemobGroupId();
             nickName = groupInfo.getGroupName();
+            iconUrl = groupInfo.getGroupUrl();
             Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername +
                     ",nickName:" + nickName);
         }
@@ -246,6 +249,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             chatType = EaseConstant.CHATTYPE_SINGLE;
             toChatUsername = friendInfo.getEasemobId();
             nickName = friendInfo.getMemberName();
+            iconUrl = friendInfo.getMemberUrl();
             Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername +
                     ",nickName:" + nickName);
         }
@@ -255,6 +259,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             chatType = EaseConstant.CHATTYPE_SINGLE;
             toChatUsername = friendSearchInfo.getMemberId();
             nickName = friendSearchInfo.getMemberName();
+            iconUrl = friendSearchInfo.getMemberUrl();
             Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername +
                     ",nickName:" + nickName);
         }
@@ -264,13 +269,15 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
             chatType = EaseConstant.CHATTYPE_SINGLE;
             toChatUsername = newFriendInfo.getMemberId();
             nickName = newFriendInfo.getMemberName();
+            iconUrl = newFriendInfo.getMemberUrl();
             Log.i("CMCC", "type:" + chatType + ",mUsername:" + toChatUsername +
                     ",nickName:" + nickName);
         }
 
-        tv_title.setText(nickName);
-        if (ObjectUtils.isNull(tv_title.getText().toString())) {
+        if (ObjectUtils.isNull(nickName)) {
             tv_title.setText(toChatUsername);
+        } else {
+            tv_title.setText(nickName);
         }
 
         //取消声音按钮
@@ -912,7 +919,21 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                     chatType == EaseConstant.CHATTYPE_CHATROOM) {
                 emMessage.setAttribute("groupUrl", groupUrl);
                 emMessage.setAttribute("groupName", groupName);
+                //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+                EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+                if (ObjectUtils.isNull(emMessage1)) {
+                    emMessage.setAttribute("otherName", groupName);
+                    emMessage.setAttribute("otherUrl", groupUrl);
+                }
+            } else {
+                //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+                EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+                if (ObjectUtils.isNull(emMessage1)) {
+                    emMessage.setAttribute("otherName", nickName);
+                    emMessage.setAttribute("otherUrl", iconUrl);
+                }
             }
+
             sendMessage(emMessage);
         }
     }
@@ -930,7 +951,23 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                     chatType == EaseConstant.CHATTYPE_CHATROOM) {
                 message.setAttribute("groupUrl", groupUrl);
                 message.setAttribute("groupName", groupName);
+                //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+                EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+                if (ObjectUtils.isNull(emMessage1)) {
+                    Log.d("CMCC", "TestMessage:1111111");
+                    message.setAttribute("otherName", groupName);
+                    message.setAttribute("otherUrl", groupUrl);
+                }
+            } else {
+                //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+                EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+                if (ObjectUtils.isNull(emMessage1)) {
+                    Log.d("CMCC", "TestMessage:222222");
+                    message.setAttribute("otherName", nickName);
+                    message.setAttribute("otherUrl", iconUrl);
+                }
             }
+
             sendMessage(message);
         }
     }
@@ -961,7 +998,21 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             message.setAttribute("groupUrl", groupUrl);
             message.setAttribute("groupName", groupName);
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                message.setAttribute("otherName", groupName);
+                message.setAttribute("otherUrl", groupUrl);
+            }
+        } else {
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                message.setAttribute("otherName", nickName);
+                message.setAttribute("otherUrl", iconUrl);
+            }
         }
+
         sendMessage(message);
 
     }
@@ -976,7 +1027,21 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             emMessage.setAttribute("groupUrl", groupUrl);
             emMessage.setAttribute("groupName", groupName);
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", groupName);
+                emMessage.setAttribute("otherUrl", groupUrl);
+            }
+        } else {
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", nickName);
+                emMessage.setAttribute("otherUrl", iconUrl);
+            }
         }
+
         sendMessage(emMessage);
     }
 
@@ -989,7 +1054,21 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             emMessage.setAttribute("groupUrl", groupUrl);
             emMessage.setAttribute("groupName", groupName);
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", groupName);
+                emMessage.setAttribute("otherUrl", groupUrl);
+            }
+        } else {
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", nickName);
+                emMessage.setAttribute("otherUrl", iconUrl);
+            }
         }
+
         sendMessage(emMessage);
     }
 
@@ -1002,7 +1081,21 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             emMessage.setAttribute("groupUrl", groupUrl);
             emMessage.setAttribute("groupName", groupName);
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", groupName);
+                emMessage.setAttribute("otherUrl", groupUrl);
+            }
+        } else {
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", nickName);
+                emMessage.setAttribute("otherUrl", iconUrl);
+            }
         }
+
         sendMessage(emMessage);
     }
 
@@ -1015,7 +1108,21 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             emMessage.setAttribute("groupUrl", groupUrl);
             emMessage.setAttribute("groupName", groupName);
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", groupName);
+                emMessage.setAttribute("otherUrl", groupUrl);
+            }
+        } else {
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", nickName);
+                emMessage.setAttribute("otherUrl", iconUrl);
+            }
         }
+
         sendMessage(emMessage);
     }
 
@@ -1028,7 +1135,21 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             emMessage.setAttribute("groupUrl", groupUrl);
             emMessage.setAttribute("groupName", groupName);
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", groupName);
+                emMessage.setAttribute("otherUrl", groupUrl);
+            }
+        } else {
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", nickName);
+                emMessage.setAttribute("otherUrl", iconUrl);
+            }
         }
+
         sendMessage(emMessage);
     }
 
@@ -1041,7 +1162,21 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             emMessage.setAttribute("groupUrl", groupUrl);
             emMessage.setAttribute("groupName", groupName);
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", groupName);
+                emMessage.setAttribute("otherUrl", groupUrl);
+            }
+        } else {
+            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
+            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
+            if (ObjectUtils.isNull(emMessage1)) {
+                emMessage.setAttribute("otherName", nickName);
+                emMessage.setAttribute("otherUrl", iconUrl);
+            }
         }
+
         sendMessage(emMessage);
     }
 
