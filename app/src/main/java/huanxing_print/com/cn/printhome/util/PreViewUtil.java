@@ -14,8 +14,13 @@ import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 public class PreViewUtil {
 
     public static void preview(Context context, String path) {
+        if (path == null) {
+            ShowUtil.showToast("文件错误");
+            return;
+        }
         if (!FileType.isPrintType(path)) {
             ShowUtil.showToast("文件不可打印");
+            return;
         }
         if (FileType.getPrintType(path) == FileType.TYPE_IMG) {
             Bundle bundle = new Bundle();
