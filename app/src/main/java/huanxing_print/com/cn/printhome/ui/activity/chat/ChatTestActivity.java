@@ -78,6 +78,7 @@ import huanxing_print.com.cn.printhome.model.contact.NewFriendInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.GroupMessageCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.ui.activity.contact.GroupSettingActivity;
+import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.Constant;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
@@ -581,20 +582,30 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 }
 
             } else if (requestCode == REQUEST_CODE_SELECT_FILE) {
-                //send the file 文件
                 if (data != null) {
-                    Uri uri = data.getData();
-                    //判断发送的文件是图片还是其他文件
-                    /*String filePath = getRealFilePath(getSelfActivity(),uri);
-                    String fileType = getExtensionName(filePath);*/
-                    if (uri != null) {
-                        if (ChatFileType.isImage(getSelfActivity(), uri)) {
-                            sendPicByUri(uri);
+                    String path = data.getStringExtra("path");
+                    if (path != null) {
+                        if (ChatFileType.isImage(getSelfActivity(), Uri.parse(path))) {
+                            sendImageMessage(path);
                         } else {
-                            sendFileByUri(uri);
+                            sendFileMessage(path);
                         }
                     }
                 }
+//                //send the file 文件
+//                if (data != null) {
+//                    Uri uri = data.getData();
+//                    //判断发送的文件是图片还是其他文件
+//                    /*String filePath = getRealFilePath(getSelfActivity(),uri);
+//                    String fileType = getExtensionName(filePath);*/
+//                    if (uri != null) {
+//                        if (ChatFileType.isImage(getSelfActivity(), uri)) {
+//                            sendPicByUri(uri);
+//                        } else {
+//                            sendFileByUri(uri);
+//                        }
+//                    }
+//                }
             } else if (requestCode == ITEM_RED_PACKET_CALL) {
                 //红包
                 String packetId = data.getStringExtra("packetId");
@@ -1336,7 +1347,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
      * select file
      */
     protected void selectFileFromLocal() {
-        Intent intent = null;
+//        Intent intent = null;
 //        if (Build.VERSION.SDK_INT < 19) { //api 19 and later, we can't use this way, demo just select from images
 //            intent = new Intent(Intent.ACTION_GET_CONTENT);
 //            intent.setType("*/*");
@@ -1345,9 +1356,10 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
 //        } else {
 //            intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //        }
-        intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        intent = new Intent(Intent.ACTION_GET_CONTENT);
+//        intent.setType("*/*");
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        Intent intent = new Intent(getSelfActivity(), AddFileActivity.class);
         startActivityForResult(intent, REQUEST_CODE_SELECT_FILE);
     }
 

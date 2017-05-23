@@ -328,7 +328,7 @@ public class EaseChatRowApproval extends EaseChatRowText {
                         groupDialog.setImgUrl(detail.getMasterFaceUrl());
                         groupDialog.setLeaveMsg(detail.getRemark());
                         groupDialog.setRedPackageSender(detail.getMasterName());
-                        groupDialog.setMoneryNum(new java.text.DecimalFormat("#.00").format(Double.parseDouble(detail.getAmount())));
+                        groupDialog.setMoneryNum(detail.getAmount());
                         groupDialog.setClickListener(new GroupRedEnvelopesListener() {
                             @Override
                             public void closeDialog() {

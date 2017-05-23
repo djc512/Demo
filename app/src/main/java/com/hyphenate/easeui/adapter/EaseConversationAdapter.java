@@ -218,7 +218,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                 } else {
                     Glide.with(getContext())
                             .load(groupUrl)
-                            .placeholder(R.drawable.ease_group_icon)
+                            .placeholder(R.drawable.iv_head)
                             .transform(new CircleTransform(getContext()))
                             .into(holder.avatar);
                 }
