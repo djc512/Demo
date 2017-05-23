@@ -28,7 +28,7 @@ public class GroupRedEnvelopesDialog extends Dialog implements View.OnClickListe
     private String imgUrl;//图片地址
     private String redPackageSender;//名字
     private String leaveMsg;//留言
-    private double moneryNum;//金额
+    private String moneryNum;//金额
     private ImageView img_head_portrait;
     private TextView txt_name;
     private TextView txt_leave_msg;
@@ -71,11 +71,11 @@ public class GroupRedEnvelopesDialog extends Dialog implements View.OnClickListe
         this.redPackageSender = redPackageSender;
     }
 
-    public double getMoneryNum() {
+    public String getMoneryNum() {
         return moneryNum;
     }
 
-    public void setMoneryNum(double moneryNum) {
+    public void setMoneryNum(String moneryNum) {
         this.moneryNum = moneryNum;
     }
 

@@ -466,7 +466,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
             Log.d("CMCC", "-------CommonPackage----" + detail);
             DialogUtils.closeProgressDialog();
             groupDialog = new GroupRedEnvelopesDialog(getContext(), R.style.MyDialog);
-            groupDialog.setMoneryNum(Double.parseDouble(detail.getAmount()));
+            groupDialog.setMoneryNum(detail.getAmount());
             if (ObjectUtils.isNull(message.getStringAttribute("nickName", ""))) {
                 groupDialog.setRedPackageSender(message.getStringAttribute("userId", ""));
             } else {

@@ -104,35 +104,65 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         EMConversation conversation = getItem(position);
         // get username or group id
         String username = conversation.conversationId();
+        EMMessage message = conversation.getLatestMessageFromOthers();
+        EMMessage realMessage = conversation.getLastMessage();
 
         if (conversation.getType() == EMConversationType.GroupChat) {
             //群聊
-            String groupId = conversation.conversationId();
-            if (EaseAtMessageHelper.get().hasAtMeMsg(groupId)) {
-                holder.motioned.setVisibility(View.VISIBLE);
+
+
+            if (ObjectUtils.isNull(message)) {
+                //没有收到别人的消息
+                String groupName = realMessage.getStringAttribute("otherName", "");
+                String groupUrl = realMessage.getStringAttribute("otherUrl", "");
+                //群头像设置
+                if (ObjectUtils.isNull(groupUrl)) {
+                    //默认的群头像
+                    Glide.with(getContext())
+                            .load(R.drawable.ease_group_icon)
+                            .transform(new CircleTransform(getContext()))
+                            .into(holder.avatar);
+                } else {
+                    Glide.with(getContext())
+                            .load(groupUrl)
+                            .placeholder(R.drawable.ease_group_icon)
+                            .transform(new CircleTransform(getContext()))
+                            .into(holder.avatar);
+                }
+                //群名称
+                if (ObjectUtils.isNull(groupName)) {
+                    holder.name.setText(username);
+                } else {
+                    holder.name.setText(groupName);
+                }
             } else {
-                holder.motioned.setVisibility(View.GONE);
-            }
-            // group message, show group avatar
-            //群头像设置
-            if (ObjectUtils.isNull(conversation.getLastMessage().getStringAttribute("groupUrl", ""))) {
-                //默认的群头像
-                Glide.with(getContext())
-                        .load(R.drawable.ease_group_icon)
-                        .transform(new CircleTransform(getContext()))
-                        .into(holder.avatar);
-            } else {
-                Glide.with(getContext())
-                        .load(conversation.getLastMessage().getStringAttribute("groupUrl", ""))
-                        .placeholder(R.drawable.ease_group_icon)
-                        .transform(new CircleTransform(getContext()))
-                        .into(holder.avatar);
-            }
-            //群名称
-            if (ObjectUtils.isNull(conversation.getLastMessage().getStringAttribute("groupName", ""))) {
-                holder.name.setText(username);
-            } else {
-                holder.name.setText(conversation.getLastMessage().getStringAttribute("groupName", ""));
+                String groupId = conversation.conversationId();
+                if (EaseAtMessageHelper.get().hasAtMeMsg(groupId)) {
+                    holder.motioned.setVisibility(View.VISIBLE);
+                } else {
+                    holder.motioned.setVisibility(View.GONE);
+                }
+                // group message, show group avatar
+                //群头像设置
+                if (ObjectUtils.isNull(conversation.getLastMessage().getStringAttribute("groupUrl", ""))) {
+                    //默认的群头像
+                    Glide.with(getContext())
+                            .load(R.drawable.ease_group_icon)
+                            .transform(new CircleTransform(getContext()))
+                            .into(holder.avatar);
+                } else {
+                    Glide.with(getContext())
+                            .load(conversation.getLastMessage().getStringAttribute("groupUrl", ""))
+                            .placeholder(R.drawable.ease_group_icon)
+                            .transform(new CircleTransform(getContext()))
+                            .into(holder.avatar);
+                }
+                //群名称
+                if (ObjectUtils.isNull(conversation.getLastMessage().getStringAttribute("groupName", ""))) {
+                    holder.name.setText(username);
+                } else {
+                    holder.name.setText(conversation.getLastMessage().getStringAttribute("groupName", ""));
+                }
             }
 //            holder.avatar.setImageResource(R.drawable.ease_group_icon);
 //            EMGroup group = EMClient.getInstance().groupManager().getGroup(username);
@@ -175,11 +205,29 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                 }
 
             } else {
-                Glide.with(getContext())
-                        .load(R.drawable.iv_head)
-                        .transform(new CircleTransform(getContext()))
-                        .into(holder.avatar);
-                holder.name.setText(username);
+                //没有收到别人的消息
+                String groupName = realMessage.getStringAttribute("otherName", "");
+                String groupUrl = realMessage.getStringAttribute("otherUrl", "");
+                //头像设置
+                if (ObjectUtils.isNull(groupUrl)) {
+                    //默认的头像
+                    Glide.with(getContext())
+                            .load(R.drawable.iv_head)
+                            .transform(new CircleTransform(getContext()))
+                            .into(holder.avatar);
+                } else {
+                    Glide.with(getContext())
+                            .load(groupUrl)
+                            .placeholder(R.drawable.iv_head)
+                            .transform(new CircleTransform(getContext()))
+                            .into(holder.avatar);
+                }
+                //群名称
+                if (ObjectUtils.isNull(groupName)) {
+                    holder.name.setText(username);
+                } else {
+                    holder.name.setText(groupName);
+                }
 //                EaseUserUtils.setUserAvatar(getContext(), username, holder.avatar);
 //                EaseUserUtils.setUserNick(username, holder.name);
             }
@@ -228,7 +276,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                     //红包
                     holder.message.setText(nickName + ":" + "[" + packetType + "]" + EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
                             BufferType.SPANNABLE);
-                }else{
+                } else {
                     holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
                             BufferType.SPANNABLE);
                 }
