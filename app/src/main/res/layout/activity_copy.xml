@@ -20,8 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray5"
-        android:paddingBottom="3dp"
-        android:paddingTop="3dp">
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
         <include
             android:id="@+id/step"
@@ -31,11 +31,11 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:paddingBottom="5dp"
+        android:paddingBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="5dp">
+        android:paddingTop="10dp">
 
         <LinearLayout
             android:id="@+id/ll_file"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="文件"
                 android:textColor="@color/black1"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:text="身份证"
                 android:textColor="@color/gray6"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="户口本"
                 android:textColor="@color/gray6"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:text="护照"
                 android:textColor="@color/gray6"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
