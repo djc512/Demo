@@ -21,6 +21,8 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -383,6 +385,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             toast("撤销成功");
+            EventBus.getDefault().post("refreshApprovalNum");
             finishCurrentActivity();
         }
 
@@ -404,6 +407,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             toast("驳回成功");
+            EventBus.getDefault().post("refreshApprovalNum");
             finishCurrentActivity();
         }
 
@@ -424,6 +428,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
+            EventBus.getDefault().post("refreshApprovalNum");
             initData();
         }
 

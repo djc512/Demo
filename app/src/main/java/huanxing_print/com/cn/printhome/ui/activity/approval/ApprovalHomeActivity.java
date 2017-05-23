@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
@@ -15,7 +18,6 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
  */
 
 public class ApprovalHomeActivity extends BaseActivity implements View.OnClickListener {
-    private View ll_back;
     private LinearLayout ll_approval;
     private LinearLayout ll_submit;
     private LinearLayout ll_send;
@@ -36,6 +38,7 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_approval_home);
+        EventBus.getDefault().register(this);
         initView();
         initListener();
         initData();
@@ -86,6 +89,16 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
 //            tv_initiator_num.setVisibility(View.GONE);
 //        }
     }
+    @Subscriber(tag = "refreshApprovalNum")
+    private void setRefreshApprovalNum() {
+        approverNum --;
+        if (approverNum>0){
+            tv_approver_num.setVisibility(View.VISIBLE);
+            tv_approver_num.setText(approverNum+"");
+        }else{
+            tv_approver_num.setVisibility(View.GONE);
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -114,5 +127,10 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
             default:
                 break;
         }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

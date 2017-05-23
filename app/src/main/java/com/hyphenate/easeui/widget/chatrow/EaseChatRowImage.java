@@ -26,7 +26,6 @@ import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.easeui.model.EaseImageCache;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseImageUtils;
-import com.hyphenate.util.EMLog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -79,6 +78,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
     protected void onSetUpView() {
         EMImageMessageBody body = (EMImageMessageBody) message.getBody();
         localFilePath = body.getLocalUrl();
+        Log.d("CMCC", "localFilePath:" + localFilePath);
         //设置图片的宽高
         setImgSize();
 
@@ -127,8 +127,6 @@ public class EaseChatRowImage extends EaseChatRowFile {
         String filePath = imgBody.getLocalUrl();
         String thumbPath = EaseImageUtils.getThumbnailImagePath(imgBody.getLocalUrl());
         showImageView(thumbPath, imageView, filePath, message);
-        //下载原图片
-        downloadImage(message.getMsgId());
         handleSendMessage();
     }
 
@@ -137,7 +135,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
         float dimensWidth, dimensHeight;
         float density = activity.getResources().getDisplayMetrics().density;
 
-        if (em.getWidth() > em.getHeight()) {
+        /*if (em.getWidth() > em.getHeight()) {
             dimensWidth = 140f;
             dimensHeight = dimensWidth * (em.getHeight() / em.getWidth());
             int finalDimensWidth = (int) (dimensWidth * density + 0.5f);
@@ -153,8 +151,14 @@ public class EaseChatRowImage extends EaseChatRowFile {
             LinearLayout.LayoutParams imgvwDimens =
                     new LinearLayout.LayoutParams(finalDimensHeight, finalDimensHeight);
             imageView.setLayoutParams(imgvwDimens);
-        }
+        }*/
         // SET SCALETYPE
+        dimensWidth = 140f;
+        int finalDimensWidth = (int) (dimensWidth * density + 0.5f);
+        LinearLayout.LayoutParams imgvwDimens =
+                new LinearLayout.LayoutParams(finalDimensWidth, finalDimensWidth);
+        imageView.setLayoutParams(imgvwDimens);
+
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
     }
 
@@ -165,8 +169,13 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
     @Override
     protected void onBubbleClick() {
-        //预览
-        PreViewUtil.preview(context, localFilePath);
+        File file = new File(localFilePath);
+        if (!ObjectUtils.isNull(file) && file.exists()) {
+            //预览
+            PreViewUtil.preview(context, localFilePath);
+        } else {
+            downloadImage(message.getMsgId());
+        }
 //        Intent intent = new Intent(context, EaseShowBigImageActivity.class);
 //        File file = new File(imgBody.getLocalUrl());
 //        if (file.exists()) {
@@ -323,8 +332,6 @@ public class EaseChatRowImage extends EaseChatRowFile {
                                 //删除掉本地消息
                                 EMClient.getInstance().chatManager()
                                         .getConversation(toChatUserName).removeMessage(message.getMsgId());
-                                //刷新一下
-                                updateView();
                             } else {
                                 String toChatUserName = message.getFrom();
                                 Log.d("CMCC", "toChatUserName------>" + toChatUserName);
@@ -333,10 +340,6 @@ public class EaseChatRowImage extends EaseChatRowFile {
                                 EMClient.getInstance().chatManager()
                                         .getConversation(toChatUserName).removeMessage(message.getMsgId());
                             }
-                            //发消息刷新
-                            RefreshEvent event = new RefreshEvent();
-                            event.setCode(0x13);
-                            EventBus.getDefault().post(event);
 
                             String msgId = message.getMsgId();
                             Log.d("CMCC", "msgIdsend-------->" + msgId);
@@ -352,8 +355,6 @@ public class EaseChatRowImage extends EaseChatRowFile {
                                 //删除掉本地消息
                                 EMClient.getInstance().chatManager()
                                         .getConversation(toChatUserName).removeMessage(message.getMsgId());
-                                //刷新一下
-                                updateView();
                             } else {
                                 String toChatUserName = message.getFrom();
                                 //删除掉本地消息
@@ -361,6 +362,10 @@ public class EaseChatRowImage extends EaseChatRowFile {
                                         .getConversation(toChatUserName).removeMessage(message.getMsgId());
                             }
                         }
+                        //发消息刷新
+                        RefreshEvent event = new RefreshEvent();
+                        event.setCode(0x13);
+                        EventBus.getDefault().post(event);
                         break;
                 }
             }
@@ -382,11 +387,13 @@ public class EaseChatRowImage extends EaseChatRowFile {
         final String tempPath = temp.getParent() + "/temp_" + temp.getName();
         final EMCallBack callback = new EMCallBack() {
             public void onSuccess() {
-                EMLog.e(TAG, "onSuccess");
+                Log.d("CMCC", "onSuccess");
+                //预览
+                PreViewUtil.preview(context, localFilePath);
             }
 
             public void onError(int error, String msg) {
-                EMLog.e(TAG, "offline file transfer error:" + msg);
+                Log.d("CMCC", "offline file transfer error:" + msg);
                 File file = new File(tempPath);
                 if (file.exists() && file.isFile()) {
                     file.delete();
@@ -394,14 +401,14 @@ public class EaseChatRowImage extends EaseChatRowFile {
             }
 
             public void onProgress(final int progress, String status) {
-                EMLog.d(TAG, "Progress: " + progress);
+                Log.d("CMCC", "Progress: " + progress);
             }
         };
 
         EMMessage msg = EMClient.getInstance().chatManager().getMessage(msgId);
         msg.setMessageStatusCallback(callback);
 
-        EMLog.e(TAG, "downloadAttachement");
+        Log.d("CMCC", "downloadAttachement");
         EMClient.getInstance().chatManager().downloadAttachment(msg);
     }
 }

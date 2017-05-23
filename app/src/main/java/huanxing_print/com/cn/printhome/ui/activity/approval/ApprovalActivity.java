@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,6 @@ import huanxing_print.com.cn.printhome.ui.activity.fragment.ApprovalNoFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragapproval.ApprovalFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 /**
  * Created by Administrator on 2017/5/4 0004.
@@ -43,6 +45,7 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_approval);
         ctx = this;
+        EventBus.getDefault().register(this);
         initView();
         initData();
         initListener();
@@ -64,8 +67,10 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
         fragments.add(approvalFragment);
         fragments.add(approvalnoFragment);
 
-        if(!ObjectUtils.isNull(approverNum)){
+        if (approverNum>0){
             tv_approval.setText("待审批("+approverNum+")");
+        }else{
+            tv_approval.setText("待审批");
         }
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), fragments);
         vp_approval.setAdapter(adapter);
@@ -120,6 +125,16 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
         view_approval.setLayoutParams(lp);
     }
 
+
+    @Subscriber(tag = "refreshApprovalNum")
+    private void setRefreshApprovalNum() {
+        approverNum --;
+        if (approverNum>0){
+            tv_approval.setText("待审批("+approverNum+")");
+        }else{
+            tv_approval.setText("待审批");
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -133,5 +148,11 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
                 vp_approval.setCurrentItem(1);
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
