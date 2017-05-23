@@ -12,16 +12,24 @@ import android.widget.Toast;
 @SuppressLint("NewApi")
 public abstract class BaseFragment extends Fragment {
 
-	private View v;
+	private View mView;
 	//private OnekeyShare oks;
 	protected BaseApplication baseApplication;
 	@Override
 	public final View onCreateView(LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
-		v = inflater.inflate(getContextView(), null);
-	//	oks = new OnekeyShare();
+		if (mView != null) {
+			ViewGroup parent = (ViewGroup) mView.getParent();
+			if (parent != null) {
+				parent.removeView(mView);
+			}
+			return mView;
+		}
+		View rootView = null;
+		rootView = inflater.inflate(getContextView(), container, false);
+		mView = rootView;
 		init();
-		return v;
+		return rootView;
 	}
 
 
@@ -31,10 +39,10 @@ public abstract class BaseFragment extends Fragment {
 	}
 
 	protected View findViewById(int id) {
-		if (v == null) {
+		if (mView == null) {
 			return null;
 		}
-		return v.findViewById(id);
+		return mView.findViewById(id);
 	}
 
 
