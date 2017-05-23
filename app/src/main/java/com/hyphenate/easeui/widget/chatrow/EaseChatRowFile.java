@@ -289,10 +289,6 @@ public class EaseChatRowFile extends EaseChatRow {
                                 EMClient.getInstance().chatManager()
                                         .getConversation(toChatUserName).removeMessage(message.getMsgId());
                             }
-                            //发消息刷新
-                            RefreshEvent event = new RefreshEvent();
-                            event.setCode(0x13);
-                            EventBus.getDefault().post(event);
 
                             String msgId = message.getMsgId();
                             Log.d("CMCC", "msgIdsend-------->" + msgId);
@@ -317,6 +313,10 @@ public class EaseChatRowFile extends EaseChatRow {
                                         .getConversation(toChatUserName).removeMessage(message.getMsgId());
                             }
                         }
+                        //发消息刷新
+                        RefreshEvent event = new RefreshEvent();
+                        event.setCode(0x13);
+                        EventBus.getDefault().post(event);
                         break;
                 }
             }
