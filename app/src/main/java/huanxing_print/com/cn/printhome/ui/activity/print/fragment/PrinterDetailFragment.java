@@ -15,6 +15,7 @@ import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentListActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
+import huanxing_print.com.cn.printhome.util.PriceUtil;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
 
 /**
@@ -37,6 +38,7 @@ public class PrinterDetailFragment extends Fragment {
     private TextView remainTv;
     private TextView photoRemainTv;
     private LinearLayout colorLyt;
+    private TextView photoPriceTv;
 
     public PrintInfoResp.PrinterPrice getPrintPrinterPrice() {
         return printPrinterPrice;
@@ -58,7 +60,8 @@ public class PrinterDetailFragment extends Fragment {
     }
 
     private void initView(View view) {
-        colorLyt = (LinearLayout)view.    findViewById(R.id.colorLyt);
+        photoPriceTv = (TextView) view.findViewById(R.id.photoPriceTv);
+        colorLyt = (LinearLayout) view.findViewById(R.id.colorLyt);
         photoRemainTv = (TextView) view.findViewById(R.id.photoRemainTv);
         remainTv = (TextView) view.findViewById(R.id.remainTv);
         typeImg = (ImageView) view.findViewById(R.id.typeImg);
@@ -98,30 +101,31 @@ public class PrinterDetailFragment extends Fragment {
         }
     }
 
-    public void updateView(PrintInfoResp.PrinterPrice printPrinterPrice) {
+    public void updateView(PrintInfoResp.PrinterPrice printerPrice) {
         Logger.i("updateView");
-        this.printPrinterPrice = printPrinterPrice;
-        if (PrintUtil.PRINTER_TYPE_COLOR.equals(printPrinterPrice.getPrinterType())) {
+        this.printPrinterPrice = printerPrice;
+        nameTv.setText(printerPrice.getPrintName());
+        addressTv.setText("地址：" + printerPrice.getPrintAddress());
+        if (PrintUtil.PRINTER_TYPE_COLOR.equals(printerPrice.getPrinterType())) {
             typeImg.setImageResource(R.drawable.ic_colorized);
+            colorLyt.setVisibility(View.VISIBLE);
+            colorPriceTv.setText("彩色 A4 ￥" + printerPrice.getA4ColorPrice() + "   A3 ￥" + printerPrice
+                    .getA3ColorPrice());
+            photoRemainTv.setVisibility(View.VISIBLE);
+            photoRemainTv.setText("相片纸 " + printerPrice.getPhotoNum() + "张");
+            photoPriceTv.setVisibility(View.VISIBLE);
+            photoPriceTv.setText("相片纸 ￥"+ PriceUtil.getPhotoPriceStr(printerPrice));
         } else {
             typeImg.setImageResource(R.drawable.ic_black);
-        }
-        nameTv.setText(printPrinterPrice.getPrintName());
-        addressTv.setText("地址：" + printPrinterPrice.getPrintAddress());
-        if (PrintUtil.PRINTER_TYPE_COLOR.equals(printPrinterPrice.getPrinterType())) {
-            colorLyt.setVisibility(View.VISIBLE);
-            colorPriceTv.setText("彩色 A4 ￥" + printPrinterPrice.getA4ColorPrice() + "   A3 ￥" + printPrinterPrice
-                    .getA3ColorPrice());
-        } else {
+            photoPriceTv.setVisibility(View.GONE);
             colorLyt.setVisibility(View.GONE);
+            photoRemainTv.setVisibility(View.GONE);
         }
-        backPriceTv.setText("黑色 A4 ￥" + printPrinterPrice.getA4BlackPrice() + "   A3 ￥" + printPrinterPrice
+        backPriceTv.setText("黑色 A4 ￥" + printerPrice.getA4BlackPrice() + "   A3 ￥" + printerPrice
                 .getA3BlackPrice());
-        typeTv.setText(printPrinterPrice.getCapability());
-        resolutionTv.setText(printPrinterPrice.getResolution());
-        technicalTypeTv.setText(printPrinterPrice.getTechnicalType());
-        remainTv.setText("A4 " + printPrinterPrice.getA4Num() + "张 A3 " + printPrinterPrice.getA3Num() + "张");
-        photoRemainTv.setText("相片纸 " + printPrinterPrice.getPhotoNum() + "张");
+        typeTv.setText(printerPrice.getCapability());
+        resolutionTv.setText(printerPrice.getResolution());
+        technicalTypeTv.setText(printerPrice.getTechnicalType());
+        remainTv.setText("A4 " + printerPrice.getA4Num() + "张 A3 " + printerPrice.getA3Num() + "张");
     }
-
 }

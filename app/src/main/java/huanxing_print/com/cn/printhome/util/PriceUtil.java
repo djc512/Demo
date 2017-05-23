@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 
+import static huanxing_print.com.cn.printhome.util.StringUtil.stringToFloat;
+
 /**
  * Created by LGH on 2017/5/11.
  */
@@ -24,18 +26,18 @@ public class PriceUtil {
         float price;
         if (PrintUtil.SETTING_COLOR == printSetting.getColourFlag()) {
             if (PrintUtil.SETTING_SIZE_A4 == printSetting.getSizeType()) {
-                price = StringUtil.stringToFloat(printerPrice.getA4ColorPrice());
+                price = stringToFloat(printerPrice.getA4ColorPrice());
                 if (PrintUtil.SETTING_PHOTO == printSetting.getPaperType()) {
-                    price = price * 1.1f;
+                    price = getPhotoPriceFloat(printerPrice);
                 }
             } else {
-                price = StringUtil.stringToFloat(printerPrice.getA3ColorPrice());
+                price = stringToFloat(printerPrice.getA3ColorPrice());
             }
         } else {
             if (PrintUtil.SETTING_SIZE_A4 == printSetting.getSizeType()) {
-                price = StringUtil.stringToFloat(printerPrice.getA4BlackPrice());
+                price = stringToFloat(printerPrice.getA4BlackPrice());
             } else {
-                price = StringUtil.stringToFloat(printerPrice.getA3BlackPrice());
+                price = stringToFloat(printerPrice.getA3BlackPrice());
             }
         }
         if (PrintUtil.SETTING_DOUBLE_FLAG_YES == printSetting.getDoubleFlag()) {
@@ -43,7 +45,18 @@ public class PriceUtil {
         }
         price = price * printSetting.getPrintCount() * printSetting.getFilePage();
         DecimalFormat df = new DecimalFormat("0.00");
-        float f = StringUtil.stringToFloat(df.format(price));
+        float f = stringToFloat(df.format(price));
         return f;
+    }
+
+    public static String getPhotoPriceStr(final PrintInfoResp.PrinterPrice printerPrice) {
+        float price = getPhotoPriceFloat(printerPrice);
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(price);
+    }
+
+    public static float getPhotoPriceFloat(final PrintInfoResp.PrinterPrice printerPrice) {
+        float price = StringUtil.stringToFloat(printerPrice.getA4ColorPrice()) * 1.1f;
+        return price;
     }
 }
