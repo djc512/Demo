@@ -12,6 +12,9 @@ import android.widget.ListView;
 
 import com.andview.refreshview.XRefreshView;
 
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
+
 import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
@@ -49,6 +52,9 @@ public class ApprovalFragment extends Fragment implements ListView.OnItemClickLi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_approval, null);
         initView(view);
+        token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
+                "loginToken");
+        EventBus.getDefault().register(this);
         intiData();
         initListener();
 
@@ -61,9 +67,6 @@ public class ApprovalFragment extends Fragment implements ListView.OnItemClickLi
     }
 
     private void intiData() {
-        token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
-                "loginToken");
-
         xrf_czrecord.startRefresh();
         xrf_czrecord.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener() {
 
@@ -73,7 +76,7 @@ public class ApprovalFragment extends Fragment implements ListView.OnItemClickLi
                 isLoadMore = false;
                 datalist.clear();
                 pageNum = 1;
-                //获取我发起的列表
+                //查询审批的列表
                 ApprovalRequest.getQueryApprovalList(getActivity(),
                         pageNum, pageSize, 1, token, callBack);
                 xrf_czrecord.stopRefresh();
@@ -102,6 +105,11 @@ public class ApprovalFragment extends Fragment implements ListView.OnItemClickLi
         super.onResume();
     }
 
+
+    @Subscriber(tag = "refreshApprovalNum")
+    private void setRefreshApprovalList() {
+        intiData();
+    }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent();
@@ -157,8 +165,13 @@ public class ApprovalFragment extends Fragment implements ListView.OnItemClickLi
 
         @Override
         public void connectFail() {
-            ToastUtil.doToast(getActivity(), "connectFail");
+            ToastUtil.doToast(getActivity(), "网络连接失败");
         }
     };
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

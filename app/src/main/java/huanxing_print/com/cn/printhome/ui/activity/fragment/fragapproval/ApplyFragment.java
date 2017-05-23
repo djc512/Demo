@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
@@ -32,8 +35,8 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 	private int total;
 	@Override
 	protected void init() {
-
 		mContext = getActivity();
+		EventBus.getDefault().register(this);
 		initViews();
 		setListener();
 		initData();
@@ -44,6 +47,17 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 	public void onResume() {
 		super.onResume();
 
+	}
+
+	@Subscriber(tag = "refreshApprovalNum")
+	private void setRefreshApprovalNum() {
+		approverNum --;
+		if (approverNum>0){
+			tv_approve_count.setVisibility(View.VISIBLE);
+			tv_approve_count.setText(approverNum+"");
+		}else{
+			tv_approve_count.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -127,6 +141,7 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		EventBus.getDefault().unregister(this);
 	}
 
 }
