@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
@@ -27,6 +28,7 @@ public class PhotoFragment extends BaseLazyFragment {
 
     private RecyclerView mRcList;
     private PhotoRecylerAdapter mAdapter;
+    private List<String> photoList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,11 +47,7 @@ public class PhotoFragment extends BaseLazyFragment {
         if (!isPrepared || !isVisible || isLoaded) {
             return;
         }
-        final List<String> photoList = FileUtils.getImgList(context);
-        if (photoList == null || photoList.size() == 0) {
-            ShowUtil.showToast("没有相关文件");
-            return;
-        }
+        isLoaded = true;
         mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
         mRcList.setLayoutManager(new GridLayoutManager(context, 4));
         mRcList.setHasFixedSize(true);
@@ -64,7 +62,34 @@ public class PhotoFragment extends BaseLazyFragment {
                 ImgPreviewActivity.start(context, bundle);
             }
         });
-        isLoaded = true;
+        getImgFile();
+    }
+
+    private void updateView() {
+        if (photoList == null || photoList.size() == 0) {
+            ShowUtil.showToast("没有相关文件");
+            return;
+        }
+        mAdapter.setPhotoList(photoList);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void getImgFile() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                photoList = FileUtils.getImgList(context);
+                if (mActivity != null) {
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateView();
+                        }
+                    });
+                }
+            }
+        }.start();
     }
 
 }

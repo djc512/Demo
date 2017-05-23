@@ -378,7 +378,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         }
         float price = PriceUtil.getPrice(newSetting, printerPrice);
         Logger.i(price);
-        PriceUtil.getPrice(newSetting, printerPrice);
         showLoading();
         PrintRequest.queryGroup(this, price + "", new HttpListener() {
             @Override
@@ -701,6 +700,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                         iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
                         colourFlag = 0;
                     } else {//黑白
+                        if (paperType == PrintUtil.SETTING_PHOTO) {
+                            ShowUtil.showToast("相片纸不能黑白打印");
+                            return;
+                        }
                         iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                         colourFlag = 1;
                     }
@@ -713,6 +716,8 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     if (paperType == PrintUtil.SETTING_COMMON) {
                         paperImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
                         paperType = PrintUtil.SETTING_PHOTO;
+                        iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
+                        colourFlag = 0;
                         iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                         doubleFlag = 1;
                         iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));

@@ -1,5 +1,7 @@
 package huanxing_print.com.cn.printhome.util;
 
+import java.text.DecimalFormat;
+
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 
@@ -18,11 +20,14 @@ public class PriceUtil {
     // "printAddress":"江苏省南京市秦淮区东瓜匙路与明匙路交叉口西南150米","printName":"测试-教育机","printerNo":"zwf001","printerType":"1",
     // "resolution":"1200*1200dpi","technicalType":"仅支持激光","updateTime":1490925707000
 
-    public static float getPrice(PrintSetting printSetting, PrintInfoResp.PrinterPrice printerPrice) {
+    public static float getPrice(final PrintSetting printSetting, final PrintInfoResp.PrinterPrice printerPrice) {
         float price;
         if (PrintUtil.SETTING_COLOR == printSetting.getColourFlag()) {
             if (PrintUtil.SETTING_SIZE_A4 == printSetting.getSizeType()) {
                 price = StringUtil.stringToFloat(printerPrice.getA4ColorPrice());
+                if (PrintUtil.SETTING_PHOTO == printSetting.getPaperType()) {
+                    price = price * 1.1f;
+                }
             } else {
                 price = StringUtil.stringToFloat(printerPrice.getA3ColorPrice());
             }
@@ -36,7 +41,9 @@ public class PriceUtil {
         if (PrintUtil.SETTING_DOUBLE_FLAG_YES == printSetting.getDoubleFlag()) {
             price = (float) (price * 1.5);
         }
-        price = price * printSetting.getPrintCount();
-        return price;
+        price = price * printSetting.getPrintCount() * printSetting.getFilePage();
+        DecimalFormat df = new DecimalFormat("0.00");
+        float f = StringUtil.stringToFloat(df.format(price));
+        return f;
     }
 }

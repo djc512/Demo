@@ -27,6 +27,7 @@ public class PrintUtil {
     public static final int SETTING_SIZE_A4 = 0;
     public static final int SETTING_SIZE_A3 = 1;
 
+
     public static final int SETTING_DOUBLE_FLAG_YES = 0;
     public static final int SETTING_DOUBLE_FLAG_NO = 1;
 

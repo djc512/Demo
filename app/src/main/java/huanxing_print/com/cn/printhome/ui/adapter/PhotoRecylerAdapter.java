@@ -19,6 +19,15 @@ import huanxing_print.com.cn.printhome.util.ImageUtil;
 public class PhotoRecylerAdapter extends RecyclerView.Adapter<PhotoRecylerAdapter.ViewHolder> {
 
     private Context context;
+
+    public List<String> getPhotoList() {
+        return photoList;
+    }
+
+    public void setPhotoList(List<String> photoList) {
+        this.photoList = photoList;
+    }
+
     private List<String> photoList;
 
     public PhotoRecylerAdapter(Context context, List<String> fileList) {

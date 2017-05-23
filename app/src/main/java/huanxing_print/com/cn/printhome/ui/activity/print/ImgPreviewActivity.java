@@ -35,7 +35,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
 
     private String imgPath;
     private File file;
-    private boolean previewFlag;
+    private boolean previewFlag;//是否只预览
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
