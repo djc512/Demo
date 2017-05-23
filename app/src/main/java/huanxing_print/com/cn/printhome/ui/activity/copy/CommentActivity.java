@@ -102,11 +102,11 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         mResults.clear();
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
         mResults.add(bimap);
-//        orderid = getIntent().getExtras().getLong("order_id");
-//        //获取打印机编号
-//        printNum = getIntent().getExtras().getString("printNum");
-//        //打印机所在位置
-//        printLocation = getIntent().getExtras().getString("location");
+        orderid = getIntent().getExtras().getLong("order_id");
+        //获取打印机编号
+        printNum = getIntent().getExtras().getString("printNum");
+        //打印机所在位置
+        printLocation = getIntent().getExtras().getString("location");
 
         initView();
         initData();
