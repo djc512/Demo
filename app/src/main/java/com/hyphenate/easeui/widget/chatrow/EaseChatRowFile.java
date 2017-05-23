@@ -30,6 +30,8 @@ import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.CreateGroupChatActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.PreViewUtil;
+import huanxing_print.com.cn.printhome.util.ToastUtils;
 import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
 
 import static huanxing_print.com.cn.printhome.util.webserver.ChatFileType.getExtensionName;
@@ -206,6 +208,7 @@ public class EaseChatRowFile extends EaseChatRow {
 //            FileUtils.openFile(file, (Activity) context);
 //            Intent intent = FileUtil.openFile(file.getAbsolutePath());
 //            context.startActivity(intent);
+            PreViewUtil.preview(context, filePath);
         } else {
             // download the file
             context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
@@ -224,7 +227,12 @@ public class EaseChatRowFile extends EaseChatRow {
     @Override
     protected void onBubbleLongClick() {
         Log.d("CMCC", "onBubbleLongClick触发了");
-
+        String filePath = fileMessageBody.getLocalUrl();
+        File file = new File(filePath);
+        if (!file.exists()) {
+            ToastUtils.showToast(context, "请下载之后再操作!");
+            return;
+        }
         popupMenuItemList = new ArrayList<>();
         popupMenuItemList.add("打印");
         popupMenuItemList.add("转发");
@@ -242,6 +250,7 @@ public class EaseChatRowFile extends EaseChatRow {
                     case 0:
                         //打印
                         Log.d("CMCC", "打印");
+                        PreViewUtil.preview(context, localFilePath);
                         break;
                     case 1:
                         //转发
@@ -253,45 +262,61 @@ public class EaseChatRowFile extends EaseChatRow {
                         context.startActivity(intent);
                         break;
                     case 2:
-//                        if (message.direct() == EMMessage.Direct.SEND) {
-//                            //只能删除本人发出的消息
-//                        }
-                        //删除记录
-                        Log.d("CMCC", "删除");
-                        //发送透传消息代码如下：
-                        String action = context.getString(R.string.REMOVE);
-                        EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
+                        if (message.direct() == EMMessage.Direct.SEND) {
+                            //只能删除本人发出的消息
+                            //删除记录
+                            Log.d("CMCC", "删除");
+                            //发送透传消息代码如下：
+                            String action = context.getString(R.string.REMOVE);
+                            EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
 
-                        EMCmdMessageBody cmdBody = new EMCmdMessageBody(action);
-                        Log.d("CMCC", "111111");
-                        if (message.getChatType() == ChatType.GroupChat ||
-                                message.getChatType() == ChatType.ChatRoom) {
-                            cmdMessage.setChatType(ChatType.GroupChat);
-                            String toChatUserName = message.getTo();
-                            Log.d("CMCC", "toChatUserName------>" + toChatUserName);
-                            cmdMessage.setTo(toChatUserName);
-                            //删除掉本地消息
-                            EMClient.getInstance().chatManager()
-                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            EMCmdMessageBody cmdBody = new EMCmdMessageBody(action);
+                            Log.d("CMCC", "111111");
+                            if (message.getChatType() == ChatType.GroupChat ||
+                                    message.getChatType() == ChatType.ChatRoom) {
+                                cmdMessage.setChatType(ChatType.GroupChat);
+                                String toChatUserName = message.getTo();
+                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+                                cmdMessage.setTo(toChatUserName);
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            } else {
+                                String toChatUserName = message.getFrom();
+                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+                                cmdMessage.setFrom(toChatUserName);
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            }
+                            //发消息刷新
+                            RefreshEvent event = new RefreshEvent();
+                            event.setCode(0x13);
+                            EventBus.getDefault().post(event);
+
+                            String msgId = message.getMsgId();
+                            Log.d("CMCC", "msgIdsend-------->" + msgId);
+                            cmdMessage.setAttribute("msgid", msgId);
+                            cmdMessage.addBody(cmdBody);
+                            EMClient.getInstance().chatManager().sendMessage(cmdMessage);
+                            Log.d("CMCC", "发送透传success");
                         } else {
-                            String toChatUserName = message.getFrom();
-                            Log.d("CMCC", "toChatUserName------>" + toChatUserName);
-                            cmdMessage.setFrom(toChatUserName);
-                            //删除掉本地消息
-                            EMClient.getInstance().chatManager()
-                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            //删除本地消息
+                            if (message.getChatType() == ChatType.GroupChat ||
+                                    message.getChatType() == ChatType.ChatRoom) {
+                                String toChatUserName = message.getTo();
+                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            } else {
+                                String toChatUserName = message.getFrom();
+                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            }
                         }
-                        //发消息刷新
-                        RefreshEvent event = new RefreshEvent();
-                        event.setCode(0x13);
-                        EventBus.getDefault().post(event);
-
-                        String msgId = message.getMsgId();
-                        Log.d("CMCC", "msgIdsend-------->" + msgId);
-                        cmdMessage.setAttribute("msgid", msgId);
-                        cmdMessage.addBody(cmdBody);
-                        EMClient.getInstance().chatManager().sendMessage(cmdMessage);
-                        Log.d("CMCC", "发送透传success");
                         break;
                 }
             }
