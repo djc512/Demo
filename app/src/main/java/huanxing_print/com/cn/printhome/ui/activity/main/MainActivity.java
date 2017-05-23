@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void inData() {
-        EMClient.getInstance().chatManager().addMessageListener(msgListener);
+        //EMClient.getInstance().chatManager().addMessageListener(msgListener);
         //显示印信聊天未读消息数
         int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
         if (num > 0) {
@@ -160,10 +160,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         @Override
         public void onMessageReceived(List<EMMessage> list) {
-            //发消息去刷新会话列表界面
-            RefreshEvent event = new RefreshEvent();
-            event.setCode(0x14);
-            EventBus.getDefault().post(event);
 
             //显示印信聊天未读消息数
             int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
@@ -292,7 +288,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void msgNum(RefreshEvent event) {
         //显示印信聊天未读消息数
-        if (event.getCode() == 0x12) {
+        if (event.getCode() == 0x14) {
             int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
             if (num > 0) {
                 tv_count.setVisibility(View.VISIBLE);
@@ -306,7 +302,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void onDestroy() {
-        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+        //EMClient.getInstance().chatManager().removeMessageListener(msgListener);
         EventBus.getDefault().unregister(mContext);
         super.onDestroy();
     }

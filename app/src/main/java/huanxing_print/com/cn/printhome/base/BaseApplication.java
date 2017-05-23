@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -39,9 +40,11 @@ import cn.jpush.android.api.JPushInterface;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
+import huanxing_print.com.cn.printhome.ui.adapter.MessageListenerAdapter;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ThreadUtils;
@@ -415,34 +418,38 @@ public class BaseApplication extends Application {
     }
 
     private void initMessageListener() {
-//        EMClient.getInstance().chatManager().addMessageListener(new MessageListenerAdapter() {
-//            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-//            @Override
-//            public void onMessageReceived(List<EMMessage> list) {
-//                super.onMessageReceived(list);
-//                if (list != null && list.size() > 0) {
-//                    /**
-//                     * 1. 判断当前应用是否在后台运行
-//                     * 2. 如果是在后台运行，则发出通知栏
-//                     * 3. 如果是在后台发出长声音
-//                     * 4. 如果在前台发出短声音
-//                     */
-//                    Log.i("CMCC", "收到消息了666666666666666666666666666666");
-//
-//                    EventBus.getDefault().post(list.get(0));
-//                    /*if (isRuninBackground()) {
-//						sendNotification(list.get(0));
-//						//发出长声音
-//						//参数2/3：左右喇叭声音的大小
-//						mSoundPool.play(mYuluSound,1,1,0,0,1);
-//					} else {
-//						//发出短声音
-//						mSoundPool.play(mDuanSound,1,1,0,0,1);
-//					}*/
-//
-//                }
-//            }
-//        });
+        EMClient.getInstance().chatManager().addMessageListener(new MessageListenerAdapter() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onMessageReceived(List<EMMessage> list) {
+                super.onMessageReceived(list);
+                if (list != null && list.size() > 0) {
+                    /**
+                     * 1. 判断当前应用是否在后台运行
+                     * 2. 如果是在后台运行，则发出通知栏
+                     * 3. 如果是在后台发出长声音
+                     * 4. 如果在前台发出短声音
+                     */
+                    Log.d("CMCC", "收到消息了666666666666666666666666666666");
+
+                    //发消息去刷新会话列表界面
+                    RefreshEvent event = new RefreshEvent();
+                    event.setCode(0x14);
+                    EventBus.getDefault().post(event);
+
+                    if (isRuninBackground()) {
+                        sendNotification(list.get(0));
+                        //发出长声音
+                        //参数2/3：左右喇叭声音的大小
+                        mSoundPool.play(mYuluSound, 1, 1, 0, 0, 1);
+                    } else {
+                        //发出短声音
+                        mSoundPool.play(mDuanSound, 1, 1, 0, 0, 1);
+                    }
+
+                }
+            }
+        });
 
         EMClient.getInstance().groupManager().addGroupChangeListener(new EMGroupChangeListener() {
             @Override

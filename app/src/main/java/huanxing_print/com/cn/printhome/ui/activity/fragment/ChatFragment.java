@@ -207,10 +207,6 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
         }
     };
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void on(EMMessage message) {
-        refresh();
-    }
 
     /**
      * connected to server
