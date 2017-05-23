@@ -255,19 +255,15 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         tv_detail.setText(details.getPurchaseList().isEmpty() ? "" : details.getPurchaseList());
         tv_money.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
         tv_overtime.setText(details.getAddTime().isEmpty() ? "" : details.getAddTime());
-        if(null != details.getAttachmentList()) {
-            attachmentAdatper.modifyData(details.getAttachmentList());
+        attachments = details.getAttachmentList();
+        if(null != attachments && attachments.size() > 0) {
+            attachmentAdatper.modifyData(attachments);
         }
 
         ArrayList<ApprovalOrCopy> copyMemberList =  details.getCopyerList();
         if(null != copyMemberList && copyMemberList.size() > 0) {
             copyMembers = copyMemberList;
             copyMembersAdapter.modifyData(copyMembers);
-        }
-        attachments = details.getAttachmentList();
-        if(null != attachments && attachments.size() > 0) {
-            attachmentAdatper = new AttachmentAdatper(this, attachments);
-            noScrollgridview.setAdapter(attachmentAdatper);
         }
 
     }

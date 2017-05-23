@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
@@ -88,16 +87,6 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
 //        }else{
 //            tv_initiator_num.setVisibility(View.GONE);
 //        }
-    }
-    @Subscriber(tag = "refreshApprovalNum")
-    private void setRefreshApprovalNum() {
-        approverNum --;
-        if (approverNum>0){
-            tv_approver_num.setVisibility(View.VISIBLE);
-            tv_approver_num.setText(approverNum+"");
-        }else{
-            tv_approver_num.setVisibility(View.GONE);
-        }
     }
     @Override
     public void onClick(View v) {

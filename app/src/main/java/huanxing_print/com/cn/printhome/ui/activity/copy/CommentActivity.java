@@ -43,11 +43,11 @@ import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.comment.UpLoadPicCallBack;
 import huanxing_print.com.cn.printhome.net.request.commet.CommentRequest;
 import huanxing_print.com.cn.printhome.net.request.commet.UpLoadPicRequest;
+import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
-import huanxing_print.com.cn.printhome.util.picuplload.BitmapLoadUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -83,6 +83,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private String printLocation;
     private ArrayList<ImageItem> selectBitmap;
 
+    private boolean listNull =true;
+    private List<ImageUploadItem> imageUploadlist;
+
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -99,11 +102,11 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         mResults.clear();
         bimap = BitmapFactory.decodeResource(getResources(), R.drawable.add);
         mResults.add(bimap);
-        orderid = getIntent().getExtras().getLong("order_id");
-        //获取打印机编号
-        printNum = getIntent().getExtras().getString("printNum");
-        //打印机所在位置
-        printLocation = getIntent().getExtras().getString("location");
+//        orderid = getIntent().getExtras().getLong("order_id");
+//        //获取打印机编号
+//        printNum = getIntent().getExtras().getString("printNum");
+//        //打印机所在位置
+//        printLocation = getIntent().getExtras().getString("location");
 
         initView();
         initData();
@@ -233,6 +236,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             if (resultCode == RESULT_OK) {
                 ArrayList<String> result = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
                 showResult(result);
+
             }
         }
     }
@@ -246,9 +250,12 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         }
         for (int i = 0; i < paths.size(); i++) {
             // 压缩图片
-            Bitmap bitmap = BitmapLoadUtils.decodeSampledBitmapFromFd(paths.get(i), 400, 500);
-            // 针对小图也可以不压缩
-//            Bitmap bitmap = BitmapFactory.decodeFile(paths.get(i));
+            Bitmap bitmap = null;
+            try {
+                bitmap = BitmapUtils.revitionImageSize(paths.get(i));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             mResults.add(bitmap);
 
             ImageItem takePhoto = new ImageItem();
@@ -295,11 +302,120 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
      * 添加评论
      */
     private void submitComment() {
-        DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中").show();
-        ArrayList<ImageItem> items = selectBitmap;
-        if (items.size() > 0) {
-            getUrl(items);
-            uploadPic();
+
+        imageUploadlist= new ArrayList<ImageUploadItem>();
+        ImageUploadItem imageUploadItem ;
+        if (Bimp.tempSelectBitmap.size()>0) {
+            listNull=false;
+            for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
+                // 高清的压缩图片全部就在  list 路径里面了
+                // 高清的压缩过的 bmp 对象  都在 Bimp.bmp里面
+                // 完成上传服务器后 .........FileUtils.deleteDir();
+                imageUploadItem = new ImageUploadItem();
+                String filePath = FileUtils.saveFile(getSelfActivity(), "img"+i+".jpg", Bimp.tempSelectBitmap.get(i).getBitmap());
+                File file = new File(filePath);
+                //file转化成二进制
+                byte[] buffer = null;
+                FileInputStream in ;
+                int length = 0;
+                try {
+                    in = new FileInputStream(file);
+                    buffer = new byte[(int) file.length() + 100];
+                    length = in.read(buffer);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+                imageUploadItem.setFileContent(data);
+                imageUploadItem.setFileId(i+"");
+                imageUploadItem.setFileName(filePath);
+                imageUploadItem.setFileType(".jpg");
+                imageUploadlist.add(imageUploadItem);
+            }
+            upLoadImageList(imageUploadlist);
+
+        }else{
+            listNull=true;
+            sendNote(imageUrls);
+        }
+    }
+
+    /**
+     * 获取上传图片的url
+     *
+     * @param items
+     */
+    private void getUrl(ArrayList<ImageItem> items) {
+        for (int i = 0; i < items.size(); i++) {
+            Bitmap bitmap = items.get(i).getBitmap();
+            setPicToView(bitmap, i );
+        }
+    }
+
+    private void setPicToView(Bitmap bitmap, int pos) {
+        ImageUploadItem image = new ImageUploadItem();
+        String filePath = FileUtils.saveFile(getSelfActivity(), "img"+pos+".jpg", bitmap);
+        if (!ObjectUtils.isNull(filePath)) {
+            File file = new File(filePath);
+            //file转化成二进制
+            byte[] buffer = null;
+            FileInputStream in;
+            int length = 0;
+            try {
+                in = new FileInputStream(file);
+                buffer = new byte[(int) file.length() + 100];
+                length = in.read(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String data = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP);
+            image.setFileContent(data);
+            image.setFileId(pos + "");
+            image.setFileName(filePath);
+            image.setFileType(".jpg");
+
+            imageitems.add(image);
+        }
+    }
+
+    /**
+     * 上传图片
+     */
+    private void upLoadImageList(List<ImageUploadItem> images) {
+        DialogUtils.showProgressDialog(getSelfActivity(), "正在发表").show();
+        Map<String, Object> map = new HashMap<>();
+        map.put("files", images);
+        UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
+            @Override
+            public void success(List<PicDataBean> bean) {
+                if (null != bean && bean.size() > 0) {
+                    for (int i = 0; i < bean.size(); i++) {
+                        String imgUrl = bean.get(i).getImgUrl();
+                        imageUrls.add(imgUrl);
+                    }
+
+                    sendNote(imageUrls);
+                }
+            }
+
+
+
+            @Override
+            public void fail(String msg) {
+                toast(msg);
+                DialogUtils.closeProgressDialog();
+            }
+
+            @Override
+            public void connectFail() {
+                toastConnectFail();
+                DialogUtils.closeProgressDialog();
+            }
+        });
+    }
+    private void sendNote(List<String> imageUrls) {
+        if (listNull) {
+            DialogUtils.showProgressDialog(getSelfActivity(), "正在发表").show();
         }
 
         Map<String, Object> params = new HashMap<>();
@@ -316,8 +432,11 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         CommentRequest.submit(getSelfActivity(), baseApplication.getLoginToken(), params, new NullCallback() {
             @Override
             public void success(String msg) {
+                FileUtils.deleteDir();
                 DialogUtils.closeProgressDialog();
-                Toast.makeText(ctx, "发表成功", Toast.LENGTH_SHORT).show();
+                toast("发表成功");
+                Bimp.tempSelectBitmap.clear();
+                Bimp.max = 0;
                 Intent intent = new Intent(getSelfActivity(), CommentListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("printer_id", printNum + "");
@@ -336,76 +455,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
+
+
     }
-
-    /**
-     * 获取上传图片的url
-     *
-     * @param items
-     */
-    private void getUrl(ArrayList<ImageItem> items) {
-        for (int i = 0; i < items.size(); i++) {
-            Bitmap bitmap = items.get(i).getBitmap();
-            setPicToView(bitmap, i + "");
-        }
-    }
-
-    private void setPicToView(Bitmap bitmap, String fileid) {
-        ImageUploadItem image = new ImageUploadItem();
-        String filename = System.currentTimeMillis() + ".jpg";
-        String filePath = FileUtils.savePic(getSelfActivity(), filename, bitmap);
-        if (!ObjectUtils.isNull(filePath)) {
-            File file = new File(filePath);
-            //file转化成二进制
-            byte[] buffer = null;
-            FileInputStream in;
-            int length = 0;
-            try {
-                in = new FileInputStream(file);
-                buffer = new byte[(int) file.length() + 100];
-                length = in.read(buffer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
-            image.setFileContent(data);
-            image.setFileId(fileid + "");
-            image.setFileName(filename);
-            image.setFileType(".jpg");
-
-            imageitems.add(image);
-        }
-    }
-
-    /**
-     * 上传图片
-     */
-    private void uploadPic() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("files", imageitems);
-        UpLoadPicRequest.request(getSelfActivity(), map, new UpLoadPicCallBack() {
-            @Override
-            public void success(List<PicDataBean> bean) {
-                if (null != bean && bean.size() > 0) {
-                    for (int i = 0; i < bean.size(); i++) {
-                        String imgUrl = bean.get(i).getImgUrl();
-                        imageUrls.add(imgUrl);
-                    }
-                }
-            }
-
-            @Override
-            public void fail(String msg) {
-
-            }
-
-            @Override
-            public void connectFail() {
-
-            }
-        });
-    }
-
     /**
      * 适配器
      */

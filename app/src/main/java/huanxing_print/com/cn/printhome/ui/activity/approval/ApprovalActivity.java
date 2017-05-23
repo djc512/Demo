@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.simple.eventbus.EventBus;
-import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,16 +124,6 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
         view_approval.setLayoutParams(lp);
     }
 
-
-    @Subscriber(tag = "refreshApprovalNum")
-    private void setRefreshApprovalNum() {
-        approverNum --;
-        if (approverNum>0){
-            tv_approval.setText("待审批("+approverNum+")");
-        }else{
-            tv_approval.setText("待审批");
-        }
-    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

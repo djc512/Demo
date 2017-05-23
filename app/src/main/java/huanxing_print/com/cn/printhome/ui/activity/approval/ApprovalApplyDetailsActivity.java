@@ -140,8 +140,9 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         tv_number.setText(details.getApproveId().isEmpty() ? "" : details.getApproveId());
         tv_section.setText(details.getDepartment().isEmpty() ? "" : details.getDepartment());
         tv_total.setText(details.getAmountMonney().isEmpty() ? "" : details.getAmountMonney());
-        if(null != details.getAttachmentList()) {
-            attachmentAdatper.modifyData(details.getAttachmentList());
+        attachments = details.getAttachmentList();
+        if(null != attachments && attachments.size() > 0) {
+            attachmentAdatper.modifyData(attachments);
         }
 
         //审批人列表审批状态
