@@ -134,6 +134,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private void finishThis() {
         if (printTypeEvent == null) {
             startActivity(new Intent(context, MainActivity.class));
+            finish();
             return;
         }
         if (PrintTypeEvent.TYPE_COPY == printTypeEvent.getType()) {
@@ -141,6 +142,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         } else {
             startActivity(new Intent(context, MainActivity.class));
         }
+        finish();
     }
 
     static class MyHandler extends Handler {
@@ -367,7 +369,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         weiXinUtils.init(this, BaseApplication.getInstance().WX_APPID);
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
         weiXinUtils.shareToWxSceneSession(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
-                .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", "https://www.baidu.com", bmp);
+                .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧",
+                "http://106.14.77.102:22012/common/app/download?memberId=100010103", bmp);
     }
 
     private void shareToWxFriend() {
@@ -375,7 +378,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         weiXinUtils.init(this, BaseApplication.getInstance().WX_APPID);
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print);
         weiXinUtils.shareToWxFriend(String.format("%s邀请您使用印家打印", BaseApplication.getInstance()
-                .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧", "https://www.baidu.com", bmp);
+                .getNickName()), "我在用印家打印APP,打印、办公非常方便,快来下载吧",
+                "http://106.14.77.102:22012/common/app/download?memberId=100010103", bmp);
     }
 
 //    public void onSuccess(View view) {
