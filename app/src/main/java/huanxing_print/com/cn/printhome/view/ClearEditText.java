@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.view;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
