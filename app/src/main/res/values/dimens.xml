@@ -61,8 +61,8 @@
     <dimen name="yj_et_search_margin_top">5dp</dimen>
     <dimen name="yj_et_search_margin_bottom">5dp</dimen>
     <dimen name="yj_et_search_margin_l">10dp</dimen>
-    <dimen name="yj_et_search_icon_w_h">20dp</dimen>
-    <dimen name="yj_et_search_icon_margin">4dp</dimen>
+    <dimen name="yj_et_search_icon_w_h">15dp</dimen>
+    <dimen name="yj_et_search_icon_margin">7dp</dimen>
     <dimen name="yj_search_et_h">29dp</dimen>
     <dimen name="yj_cancel_search_margin_l">10dp</dimen>
     <dimen name="yj_cancel_search_margin_r">10dp</dimen>
