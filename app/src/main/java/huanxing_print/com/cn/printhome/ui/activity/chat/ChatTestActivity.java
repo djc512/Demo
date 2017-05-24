@@ -1009,23 +1009,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 chatType == EaseConstant.CHATTYPE_CHATROOM) {
             message.setAttribute("groupUrl", groupUrl);
             message.setAttribute("groupName", groupName);
-            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
-            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
-            if (ObjectUtils.isNull(emMessage1)) {
-                message.setAttribute("otherName", groupName);
-                message.setAttribute("otherUrl", groupUrl);
-            }
-        } else {
-            //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
-            EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
-            if (ObjectUtils.isNull(emMessage1)) {
-                message.setAttribute("otherName", nickName);
-                message.setAttribute("otherUrl", iconUrl);
-            }
         }
-
         sendMessage(message);
-
     }
 
 
@@ -1698,6 +1683,13 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                             } else {
                                 Log.d("CMCC", "44444444 groupHint:" + groupHint.getMessage());
                                 createGroupHintMessage(groupHint);
+                                //进群通知和退群通知更新群人数
+                                if ("502".equals(groupHint.getType()) || "503".equals(groupHint.getType())) {
+                                    if (chatType == EaseConstant.CHATTYPE_GROUP) {
+                                        GroupManagerRequest.queryGroupMessage(getSelfActivity(), baseApplication.getLoginToken(),
+                                                "", toChatUsername, callback);
+                                    }
+                                }
                             }
                         }
                     }

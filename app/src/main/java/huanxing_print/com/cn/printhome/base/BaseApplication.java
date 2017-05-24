@@ -437,6 +437,7 @@ public class BaseApplication extends Application {
                     event.setCode(0x14);
                     EventBus.getDefault().post(event);
 
+
                     /*if (isRuninBackground()) {
                         sendNotification(list.get(0));
                         //发出长声音
