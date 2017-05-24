@@ -99,8 +99,8 @@ public class MySponsorListAdapter extends BaseAdapter {
             holder.txt_status.setTextColor(context.getResources().getColor(R.color.color_status_four));
         } else if (5 == status) {
             //打印凭证
-            holder.txt_status.setText(R.string.status_five);
-            holder.txt_status.setTextColor(context.getResources().getColor(R.color.color_status_five));
+            holder.txt_status.setText(R.string.status_two);
+            holder.txt_status.setTextColor(context.getResources().getColor(R.color.color_status_two));
         } else if (6 == status) {
             //已打印
             holder.txt_status.setText(R.string.status_six);
