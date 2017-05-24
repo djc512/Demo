@@ -35,6 +35,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.event.approval.AttachmentUpdate;
 import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalCopyPeopleItem;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalPeopleItem;
 import huanxing_print.com.cn.printhome.model.approval.Approver;
 import huanxing_print.com.cn.printhome.model.approval.ChooseGroupEvent;
@@ -713,7 +714,7 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
                     Log.i("CMCC", "groupId:" + groupId);
                 }
                 ArrayList<ApprovalPeopleItem> approvals = approval.getApproverList();
-                ArrayList<ApprovalPeopleItem> copys = approval.getCopyList();
+                ArrayList<ApprovalCopyPeopleItem> copys = approval.getCopyList();
                 if (!ObjectUtils.isNull(approvals)) {
                     for (ApprovalPeopleItem approvalOrCopy : approvals) {
                         GroupMember info = new GroupMember();
@@ -724,7 +725,7 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
                     }
                 }
                 if (!ObjectUtils.isNull(copys)) {
-                    for (ApprovalPeopleItem orCopy : copys) {
+                    for (ApprovalCopyPeopleItem orCopy : copys) {
                         GroupMember info = new GroupMember();
                         info.setMemberId(orCopy.getJobNumber());
                         info.setMemberName(orCopy.getName());
