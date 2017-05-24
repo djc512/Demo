@@ -5,7 +5,7 @@ package huanxing_print.com.cn.printhome.model.approval;
  * Created by dd on 2017/5/9.
  */
 
-public class ApprovalOrCopy {
+public class ApprovalCopyPeopleItem {
     private String faceUrl;//头像
     private String jobNumber;//会员id
     private String name;//名字

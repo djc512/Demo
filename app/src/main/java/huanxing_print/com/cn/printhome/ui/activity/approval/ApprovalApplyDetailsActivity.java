@@ -27,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalDetail;
-import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalPeopleItem;
 import huanxing_print.com.cn.printhome.model.approval.Attachment;
 import huanxing_print.com.cn.printhome.model.approval.SubFormItem;
 import huanxing_print.com.cn.printhome.model.image.HeadImageBean;
@@ -71,9 +71,9 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     ArrayList<Attachment> attachments = new ArrayList<Attachment>();
     private ArrayList<String> attachmentPicPaths = new ArrayList<String>();
     private ApprovalPersonAdapter personAdapter;
-    ArrayList<ApprovalOrCopy> lists = new ArrayList<ApprovalOrCopy>();
+    ArrayList<ApprovalPeopleItem> lists = new ArrayList<ApprovalPeopleItem>();
     private ApprovalCopyMembersAdapter copyMembersAdapter;
-    ArrayList<ApprovalOrCopy> copyMembers = new ArrayList<ApprovalOrCopy>();
+    ArrayList<ApprovalPeopleItem> copyMembers = new ArrayList<ApprovalPeopleItem>();
     private SubFormAdatper subFormAdatper;
     ArrayList<SubFormItem> subFormItems = new ArrayList<SubFormItem>();
     String approveId;
@@ -156,9 +156,9 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         }
 
         //审批人列表审批状态
-        ArrayList<ApprovalOrCopy> list =  details.getApproverList();
+        ArrayList<ApprovalPeopleItem> list =  details.getApproverList();
         if(null != list && list.size() > 0) {
-            ApprovalOrCopy approvalOrCopy = new ApprovalOrCopy();
+            ApprovalPeopleItem approvalOrCopy = new ApprovalPeopleItem();
             approvalOrCopy.setName(details.getMemberName());
             approvalOrCopy.setFaceUrl(details.getMemberUrl());
             approvalOrCopy.setUpdateTime(details.getAddTime());
@@ -169,7 +169,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
             personAdapter.modifyApprovalPersons(lists);
         }
         //抄送
-        ArrayList<ApprovalOrCopy> copylist =  details.getCopyerList();
+        ArrayList<ApprovalPeopleItem> copylist =  details.getCopyerList();
         if(null != copylist && copylist.size() > 0) {
             copyMembers = copylist;
             copyMembersAdapter.modifyData(copyMembers);

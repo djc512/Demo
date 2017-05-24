@@ -9,23 +9,23 @@ import java.util.ArrayList;
 
 public class LastApproval {
 
-    private ArrayList<ApprovalOrCopy> approverList;
-    private ArrayList<ApprovalOrCopy> copyList;
+    private ArrayList<ApprovalPeopleItem> approverList;
+    private ArrayList<ApprovalCopyPeopleItem> copyList;
     private String groupId;
 
-    public ArrayList<ApprovalOrCopy> getApproverList() {
+    public ArrayList<ApprovalPeopleItem> getApproverList() {
         return approverList;
     }
 
-    public void setApproverList(ArrayList<ApprovalOrCopy> approverList) {
+    public void setApproverList(ArrayList<ApprovalPeopleItem> approverList) {
         this.approverList = approverList;
     }
 
-    public ArrayList<ApprovalOrCopy> getCopyList() {
+    public ArrayList<ApprovalCopyPeopleItem> getCopyList() {
         return copyList;
     }
 
-    public void setCopyList(ArrayList<ApprovalOrCopy> copyList) {
+    public void setCopyList(ArrayList<ApprovalCopyPeopleItem> copyList) {
         this.copyList = copyList;
     }
 

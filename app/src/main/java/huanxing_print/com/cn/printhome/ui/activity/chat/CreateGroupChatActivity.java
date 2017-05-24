@@ -176,6 +176,8 @@ public class CreateGroupChatActivity extends BaseActivity implements View.OnClic
         emMessage.setAttribute("userId", baseApplication.getMemberId());
         emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
         emMessage.setAttribute("nickName", baseApplication.getNickName());
+        emMessage.setAttribute("otherName", chooseMembers.get(0).getMemberName());
+        emMessage.setAttribute("otherUrl", chooseMembers.get(0).getMemberUrl());
         sendMessage(emMessage);
     }
 
@@ -184,6 +186,8 @@ public class CreateGroupChatActivity extends BaseActivity implements View.OnClic
         emMessage.setAttribute("userId", baseApplication.getMemberId());
         emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
         emMessage.setAttribute("nickName", baseApplication.getNickName());
+        emMessage.setAttribute("otherName", chooseMembers.get(0).getMemberName());
+        emMessage.setAttribute("otherUrl", chooseMembers.get(0).getMemberUrl());
         sendMessage(emMessage);
     }
 

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalPeopleItem;
 
 /**
  * Created by wanghao on 2017/5/13.
@@ -25,15 +25,15 @@ import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
 
 public class ApprovalCopyMembersAdapter extends BaseAdapter{
     private Context mContext;
-    private ArrayList<ApprovalOrCopy> mCopys = new ArrayList<ApprovalOrCopy>();
+    private ArrayList<ApprovalPeopleItem> mCopys = new ArrayList<ApprovalPeopleItem>();
     private LayoutInflater layoutInflater;
-    public ApprovalCopyMembersAdapter(Context context, ArrayList<ApprovalOrCopy> copys) {
+    public ApprovalCopyMembersAdapter(Context context, ArrayList<ApprovalPeopleItem> copys) {
         this.mContext = context;
         this.mCopys = copys;
         layoutInflater = LayoutInflater.from(mContext);
     }
 
-    public void modifyData(ArrayList<ApprovalOrCopy> copys) {
+    public void modifyData(ArrayList<ApprovalPeopleItem> copys) {
         this.mCopys = copys;
         notifyDataSetChanged();
     }
@@ -65,7 +65,7 @@ public class ApprovalCopyMembersAdapter extends BaseAdapter{
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ApprovalOrCopy copy = mCopys.get(i);
+        ApprovalPeopleItem copy = mCopys.get(i);
         holder.tv_memberName.setText(copy.getName());
         loadPic(holder.iv_member_icon, copy.getFaceUrl());
         return view;

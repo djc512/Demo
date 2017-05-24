@@ -2,7 +2,6 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.chat.EMNormalFileMessageBody;
@@ -50,6 +48,7 @@ public class EaseChatRowFile extends EaseChatRow {
     private LinearLayout bubble;
     protected boolean isNotifyProcessed;
     private EMNormalFileMessageBody fileMessageBody;
+    private File file;
 
     public EaseChatRowFile(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -76,6 +75,7 @@ public class EaseChatRowFile extends EaseChatRow {
 
     @Override
     protected void onSetUpView() {
+
         fileMessageBody = (EMNormalFileMessageBody) message.getBody();
         String filePath = fileMessageBody.getLocalUrl();
         localFilePath = filePath;
@@ -153,6 +153,12 @@ public class EaseChatRowFile extends EaseChatRow {
             tv_userid.setVisibility(VISIBLE);
         }
 
+        popupMenuItemList = new ArrayList<>();
+        popupMenuItemList.add("打印");
+        popupMenuItemList.add("转发");
+        popupMenuItemList.add("保存");
+        popupMenuItemList.add("删除");
+
         // until here, to sending message
         handleSendMessage();
     }
@@ -227,16 +233,8 @@ public class EaseChatRowFile extends EaseChatRow {
     @Override
     protected void onBubbleLongClick() {
 //        Log.d("CMCC", "onBubbleLongClick触发了");
-        String filePath = fileMessageBody.getLocalUrl();
-        File file = new File(filePath);
-        if (!file.exists()) {
-            ToastUtils.showToast(context, "请下载之后再操作!");
-            return;
-        }
-        popupMenuItemList = new ArrayList<>();
-        popupMenuItemList.add("打印");
-        popupMenuItemList.add("转发");
-        popupMenuItemList.add("删除");
+        file = new File(localFilePath);
+
         PopupList popupList = new PopupList(context);
         popupList.bind(bubble, popupMenuItemList, new PopupList.PopupListListener() {
             @Override
@@ -249,69 +247,73 @@ public class EaseChatRowFile extends EaseChatRow {
                 switch (position) {
                     case 0:
                         //打印
-//                        Log.d("CMCC", "打印");
-                        PreViewUtil.preview(context, localFilePath);
+                        if (!ObjectUtils.isNull(file) && file.exists()) {
+                            //文件预览页
+                            PreViewUtil.preview(context, localFilePath);
+                        } else {
+                            // download the file
+                            ToastUtils.showToast(context, "下载中...");
+                            context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+                        }
+                        if (message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked() && message.getChatType() == ChatType.Chat) {
+                            try {
+                                EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
+                            } catch (HyphenateException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
                         break;
                     case 1:
                         //转发
-//                        Log.d("CMCC", "转发");
-//                        Log.d("CMCC", "localFilePath:" + localFilePath);
-                        //跳转到选择联系人界面只能单选
-                        Intent intent = new Intent(context, CreateGroupChatActivity.class);
-                        intent.putExtra("fileUrl", localFilePath);
-                        context.startActivity(intent);
+                        if (!ObjectUtils.isNull(file) && file.exists()) {
+                            //跳转到选择联系人界面只能单选
+                            Intent intent = new Intent(context, CreateGroupChatActivity.class);
+                            intent.putExtra("fileUrl", localFilePath);
+                            context.startActivity(intent);
+                        } else {
+                            context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+                            if (message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked() && message.getChatType() == ChatType.Chat) {
+                                try {
+                                    EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
+                                } catch (HyphenateException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
                         break;
                     case 2:
-                        if (message.direct() == EMMessage.Direct.SEND) {
-                            //只能删除本人发出的消息
-                            //删除记录
-//                            Log.d("CMCC", "删除");
-                            //发送透传消息代码如下：
-                            String action = context.getString(R.string.REMOVE);
-                            EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
-
-                            EMCmdMessageBody cmdBody = new EMCmdMessageBody(action);
-                            Log.d("CMCC", "111111");
-                            if (message.getChatType() == ChatType.GroupChat ||
-                                    message.getChatType() == ChatType.ChatRoom) {
-                                cmdMessage.setChatType(ChatType.GroupChat);
-                                String toChatUserName = message.getTo();
-//                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
-                                cmdMessage.setTo(toChatUserName);
-                                //删除掉本地消息
-                                EMClient.getInstance().chatManager()
-                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
-                            } else {
-                                String toChatUserName = message.getFrom();
-//                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
-                                cmdMessage.setFrom(toChatUserName);
-                                //删除掉本地消息
-                                EMClient.getInstance().chatManager()
-                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
-                            }
-
-                            String msgId = message.getMsgId();
-//                            Log.d("CMCC", "msgIdsend-------->" + msgId);
-                            cmdMessage.setAttribute("msgid", msgId);
-                            cmdMessage.addBody(cmdBody);
-                            EMClient.getInstance().chatManager().sendMessage(cmdMessage);
-//                            Log.d("CMCC", "发送透传success");
+                        //保存
+                        if (file.exists()) {
+                            //文件预览页
+                            ToastUtils.showToast(context, "保存成功!");
                         } else {
-                            //删除本地消息
-                            if (message.getChatType() == ChatType.GroupChat ||
-                                    message.getChatType() == ChatType.ChatRoom) {
-                                String toChatUserName = message.getTo();
-//                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
-                                //删除掉本地消息
-                                EMClient.getInstance().chatManager()
-                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
-                            } else {
-                                String toChatUserName = message.getFrom();
-//                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
-                                //删除掉本地消息
-                                EMClient.getInstance().chatManager()
-                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            // download the file
+                            context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+                        }
+                        if (message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked() && message.getChatType() == ChatType.Chat) {
+                            try {
+                                EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
+                            } catch (HyphenateException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
                             }
+                        }
+                        break;
+                    case 3:
+                        //删除本地消息
+                        if (message.getChatType() == ChatType.GroupChat ||
+                                message.getChatType() == ChatType.ChatRoom) {
+                            String toChatUserName = message.getTo();
+                            //删除掉本地消息
+                            EMClient.getInstance().chatManager()
+                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                        } else {
+                            String toChatUserName = message.getFrom();
+                            //删除掉本地消息
+                            EMClient.getInstance().chatManager()
+                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
                         }
                         //发消息刷新
                         RefreshEvent event = new RefreshEvent();

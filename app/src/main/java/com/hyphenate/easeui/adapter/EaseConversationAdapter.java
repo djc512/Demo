@@ -118,11 +118,13 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                 // group message, show group avatar
                 //群头像设置
                 if (ObjectUtils.isNull(conversation.getLastMessage().getStringAttribute("groupUrl", ""))) {
-                    //默认的群头像
-                    Glide.with(getContext())
-                            .load(R.drawable.ease_group_icon)
-                            .transform(new CircleTransform(getContext()))
-                            .into(holder.avatar);
+                    //去查群信息
+                    // TODO
+                    //默认的群头像()
+//                    Glide.with(getContext())
+//                            .load(R.drawable.ease_group_icon)
+//                            .transform(new CircleTransform(getContext()))
+//                            .into(holder.avatar);
                 } else {
                     Glide.with(getContext())
                             .load(conversation.getLastMessage().getStringAttribute("groupUrl", ""))
@@ -220,7 +222,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                             .transform(new CircleTransform(getContext()))
                             .into(holder.avatar);
                 }
-                //群名称
+                //名称
                 if (ObjectUtils.isNull(groupName)) {
                     holder.name.setText(username);
                 } else {
