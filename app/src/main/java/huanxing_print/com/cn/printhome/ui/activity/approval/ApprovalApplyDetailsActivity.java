@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +47,8 @@ import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.ScrollListView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
+import static huanxing_print.com.cn.printhome.R.id.noScrollgridview;
+
 /**
  * Created by htj on 2017/5/7.
  */
@@ -66,6 +69,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     private ScrollGridView copyScrollgridview;//抄送成员展示
     private AttachmentAdatper attachmentAdatper;
     ArrayList<Attachment> attachments = new ArrayList<Attachment>();
+    private ArrayList<String> attachmentPicPaths = new ArrayList<String>();
     private ApprovalPersonAdapter personAdapter;
     ArrayList<ApprovalOrCopy> lists = new ArrayList<ApprovalOrCopy>();
     private ApprovalCopyMembersAdapter copyMembersAdapter;
@@ -88,6 +92,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         initView();
         initData();
         initListener();
+        functionModule();
     }
 
     private void initListener() {
@@ -143,6 +148,11 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         attachments = details.getAttachmentList();
         if(null != attachments && attachments.size() > 0) {
             attachmentAdatper.modifyData(attachments);
+            for(Attachment item : attachments) {
+                if(!attachmentPicPaths.contains(item.getFileUrl())){
+                    attachmentPicPaths.add(item.getFileUrl());
+                }
+            }
         }
 
         //审批人列表审批状态
@@ -182,7 +192,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         tv_total = (TextView) findViewById(R.id.tv_total);
 
         //附件
-        attachmentGridview = (ScrollGridView) findViewById(R.id.noScrollgridview);
+        attachmentGridview = (ScrollGridView) findViewById(noScrollgridview);
         attachmentAdatper = new AttachmentAdatper(ApprovalApplyDetailsActivity.this, attachments);
         attachmentGridview.setAdapter(attachmentAdatper);
 
@@ -204,7 +214,21 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
 
     }
 
+    private void functionModule() {
+        attachmentGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                Intent intent = new Intent(mContext, PhotoViewActivity.class);
+                intent.putExtra("position", "1");
+                intent.putExtra("ID", i);
+                intent.putStringArrayListExtra("attachmentPaths", attachmentPicPaths);
+                startActivity(intent);
+            }
+
+        });
+
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

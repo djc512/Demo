@@ -30,7 +30,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:src="@drawable/idcard"
+                android:src="@drawable/id"
                 android:scaleType="fitXY"
                 android:id="@+id/iv_preview"
                 android:layout_width="match_parent"
@@ -106,7 +106,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:src="@drawable/idcardf"
+                android:src="@drawable/idf"
                 android:scaleType="fitXY"
                 android:id="@+id/iv_previewf"
                 android:layout_width="match_parent"

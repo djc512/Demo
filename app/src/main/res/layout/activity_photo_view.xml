@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/titleBar"
+        style="@style/Re_title">
+
+        <include
+            layout="@layout/ll_title_back"></include>
+
+        <TextView
+            style="@style/title"
+            android:text="预览" />
+    </RelativeLayout>
+
+
+    <huanxing_print.com.cn.printhome.util.picuplload.zoom.ViewPagerFixed
+        android:id="@+id/gallery01"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/titleBar"
+        android:layout_centerHorizontal="true"
+        android:unselectedAlpha="1" />
+
+</RelativeLayout>
+  

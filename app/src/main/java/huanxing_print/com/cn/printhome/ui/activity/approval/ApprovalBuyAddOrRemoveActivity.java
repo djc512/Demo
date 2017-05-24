@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -84,6 +85,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 //    private PicAdapter adapter;
     private AttachmentAdatper attachmentAdatper;
     ArrayList<Attachment> attachments = new ArrayList<Attachment>();
+    private ArrayList<String> attachmentPicPaths = new ArrayList<String>();
     private ApprovalCopyMembersAdapter copyMembersAdapter;
     ArrayList<ApprovalOrCopy> lists = new ArrayList<ApprovalOrCopy>();
     ArrayList<ApprovalOrCopy> copyMembers = new ArrayList<ApprovalOrCopy>();
@@ -106,6 +108,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         initView();
         initData();
         initListener();
+        functionModule();
     }
 
     private void initListener() {
@@ -258,6 +261,11 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         attachments = details.getAttachmentList();
         if(null != attachments && attachments.size() > 0) {
             attachmentAdatper.modifyData(attachments);
+            for(Attachment item : attachments) {
+                if(!attachmentPicPaths.contains(item.getFileUrl())){
+                    attachmentPicPaths.add(item.getFileUrl());
+                }
+            }
         }
 
         ArrayList<ApprovalOrCopy> copyMemberList =  details.getCopyerList();
@@ -289,6 +297,23 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         copyScrollgridview = (ScrollGridView) findViewById(R.id.gridview_copy_member);
     }
 
+
+    private void functionModule() {
+        noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    Intent intent = new Intent(mContext, PhotoViewActivity.class);
+                    intent.putExtra("position", "1");
+                    intent.putExtra("ID", i);
+                    intent.putStringArrayListExtra("attachmentPaths", attachmentPicPaths);
+                    startActivity(intent);
+                }
+
+        });
+
+    }
 
     @Override
     public void onClick(View v) {
