@@ -7,27 +7,25 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp">
+        android:layout_height="50dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="共享打印"
+            android:text="印家打印"
             android:textColor="@color/text_color"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp"/>
 
         <ImageView
             android:id="@+id/iv_notice"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:padding="5dp"
-            android:src="@drawable/btn_scan"/>
+            android:padding="13dp"
+            android:src="@drawable/ic_scan"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -82,16 +80,13 @@
                         android:src="@drawable/iv_print_file"/>
 
                     <TextView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="15dp"
                         android:text="全部文件"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp"/>
-
-
+                        android:textSize="14sp"/>
                 </LinearLayout>
 
                 <View
@@ -123,7 +118,7 @@
                         android:layout_marginTop="15dp"
                         android:text="微信"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                 </LinearLayout>
 
@@ -156,7 +151,7 @@
                         android:layout_marginTop="15dp"
                         android:text="QQ"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -188,15 +183,13 @@
                         android:src="@drawable/iv_print_photo"/>
 
                     <TextView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="15dp"
                         android:text="手机相册"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp"/>
-
+                        android:textSize="14sp"/>
                 </LinearLayout>
 
                 <View
@@ -228,7 +221,7 @@
                         android:layout_marginTop="15dp"
                         android:text="电脑上传"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                 </LinearLayout>
 
@@ -261,8 +254,7 @@
                         android:layout_marginTop="15dp"
                         android:text="Wi-Fi上传"
                         android:textColor="@color/text_color"
-                        android:textSize="16sp"/>
-
+                        android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
 

@@ -65,7 +65,7 @@
             android:maxLines="1"
             android:text="正在定位..."
             android:textColor="@color/text_black"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         <ImageView
             android:id="@+id/refreshImg"

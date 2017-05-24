@@ -41,7 +41,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
-import huanxing_print.com.cn.printhome.ui.activity.chat.ChatActivity;
+import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.MessageListenerAdapter;
@@ -438,15 +438,15 @@ public class BaseApplication extends Application {
                     EventBus.getDefault().post(event);
 
 
-                    /*if (isRuninBackground()) {
+                    if (isRuninBackground()) {
                         sendNotification(list.get(0));
                         //发出长声音
                         //参数2/3：左右喇叭声音的大小
                         mSoundPool.play(mYuluSound, 1, 1, 0, 0, 1);
                     } else {
                         //发出短声音
-                        mSoundPool.play(mDuanSound, 1, 1, 0, 0, 1);
-                    }*/
+                        //mSoundPool.play(mDuanSound, 1, 1, 0, 0, 1);
+                    }
 
                 }
             }
@@ -547,7 +547,7 @@ public class BaseApplication extends Application {
          */
         Intent mainIntent = new Intent(this, MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Intent chatIntent = new Intent(this, ChatActivity.class);
+        Intent chatIntent = new Intent(this, ChatTestActivity.class);
         chatIntent.putExtra("username", message.getFrom());
 
         Intent[] intents = {mainIntent, chatIntent};
@@ -555,12 +555,12 @@ public class BaseApplication extends Application {
         Notification notification = new Notification.Builder(this)
                 .setAutoCancel(true) //当点击后自动删除
                 .setSmallIcon(R.mipmap.message) //必须设置
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.default_avatar))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.appicon_print))
                 .setContentTitle("您有一条新消息")
                 .setContentText(messageBody.getMessage())
                 .setContentInfo(message.getFrom())
                 .setContentIntent(pendingIntent)
-                //.setPriority(Notification.PRIORITY_MAX)
+                .setPriority(Notification.PRIORITY_MAX)
                 .build();
         notificationManager.notify(1, notification);
     }

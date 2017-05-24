@@ -35,7 +35,7 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.approval.ApprovalDetail;
-import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalPeopleItem;
 import huanxing_print.com.cn.printhome.model.approval.Attachment;
 import huanxing_print.com.cn.printhome.model.image.HeadImageBean;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
@@ -87,8 +87,8 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     ArrayList<Attachment> attachments = new ArrayList<Attachment>();
     private ArrayList<String> attachmentPicPaths = new ArrayList<String>();
     private ApprovalCopyMembersAdapter copyMembersAdapter;
-    ArrayList<ApprovalOrCopy> lists = new ArrayList<ApprovalOrCopy>();
-    ArrayList<ApprovalOrCopy> copyMembers = new ArrayList<ApprovalOrCopy>();
+    ArrayList<ApprovalPeopleItem> lists = new ArrayList<ApprovalPeopleItem>();
+    ArrayList<ApprovalPeopleItem> copyMembers = new ArrayList<ApprovalPeopleItem>();
     String approveId;
 
     private ApprovalDetail details;
@@ -239,9 +239,9 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
         }
         //审批人列表审批状态
-        ArrayList<ApprovalOrCopy> list =  details.getApproverList();
+        ArrayList<ApprovalPeopleItem> list =  details.getApproverList();
         if(null != list && list.size() > 0) {
-            ApprovalOrCopy approvalOrCopy = new ApprovalOrCopy();
+            ApprovalPeopleItem approvalOrCopy = new ApprovalPeopleItem();
             approvalOrCopy.setName(details.getMemberName());
             approvalOrCopy.setFaceUrl(details.getMemberUrl());
             approvalOrCopy.setUpdateTime(details.getAddTime());
@@ -268,7 +268,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             }
         }
 
-        ArrayList<ApprovalOrCopy> copyMemberList =  details.getCopyerList();
+        ArrayList<ApprovalPeopleItem> copyMemberList =  details.getCopyerList();
         if(null != copyMemberList && copyMemberList.size() > 0) {
             copyMembers = copyMemberList;
             copyMembersAdapter.modifyData(copyMembers);

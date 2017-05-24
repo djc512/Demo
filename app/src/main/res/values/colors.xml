@@ -19,12 +19,12 @@
     <color name="orange">#f6a922</color>
     <color name="text_content">#666666</color>
     <color name="transparent">#9000</color>
-    <color name="text_color">#333333</color>
+    <color name="text_color">#282828</color>
     <color name="text_black">#282828</color>
     <color name="text_gray">#818181</color>
     <color name="time_gray">#cecece</color>
     <color name="search_bc_gray">#f4f4f4</color>
-    <color name="devide_gray">#E2E2E2</color>
+    <color name="devide_gray">#E5E5E5</color>
     <color name="stepline_red">#f87161</color>
     <color name="red_package_red">#e23b11</color>
     <color name="red_package_null">#F3C4B8</color>
@@ -116,4 +116,7 @@
     <!--联系人-->
     <color name="item_character_text_color">#989898</color>
     <color name="item_contact_msg_color">#282828</color>
+    <color name="recycler_divider_color">#e5e5e5</color>
+    <color name="yinjia_search_cursor_color">#ff9102</color>
+    <color name="contact_bar_txt_color">#f6a922</color>
 </resources>

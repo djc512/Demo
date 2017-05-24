@@ -37,7 +37,8 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.event.approval.AttachmentUpdate;
 import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
-import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalCopyPeopleItem;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalPeopleItem;
 import huanxing_print.com.cn.printhome.model.approval.Approver;
 import huanxing_print.com.cn.printhome.model.approval.ChooseGroupEvent;
 import huanxing_print.com.cn.printhome.model.approval.ChooseMemberEvent;
@@ -473,13 +474,11 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
             }
             if (!ObjectUtils.isNull(approval)) {
                 groupId = approval.getGroupId();
-                if (!ObjectUtils.isNull(groupId)) {
-                    Log.i("CMCC", "groupId:" + groupId);
-                }
-                ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-                ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
-                if (!ObjectUtils.isNull(approvals)) {
-                    for (ApprovalOrCopy approvalOrCopy : approvals) {
+
+                ArrayList<ApprovalPeopleItem> approvals = approval.getApproverList();
+                ArrayList<ApprovalCopyPeopleItem> copys = approval.getCopyList();
+                if (null!=approvals&&approvals.size()>0) {
+                    for (ApprovalPeopleItem approvalOrCopy : approvals) {
                         GroupMember info = new GroupMember();
                         info.setMemberId(approvalOrCopy.getJobNumber());
                         info.setMemberName(approvalOrCopy.getName());
@@ -487,8 +486,8 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
                         approvalFriends.add(info);
                     }
                 }
-                if (!ObjectUtils.isNull(copys)) {
-                    for (ApprovalOrCopy orCopy : copys) {
+                if (null!=copys&&copys.size()>0) {
+                    for (ApprovalCopyPeopleItem orCopy : copys) {
                         GroupMember info = new GroupMember();
                         info.setMemberId(orCopy.getJobNumber());
                         info.setMemberName(orCopy.getName());
@@ -544,10 +543,7 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
 //            return;
 //        }
         //构建审批人列表和抄送人列表
-        if (0 == approvalFriends.size()) {
-            ToastUtil.doToast(getSelfActivity(), "审批人列表不能为空");
-            return;
-        }
+
         if (approvalFriends.size() > 0) {
             for (int i = 0; i < approvalFriends.size(); i++) {
                 Approver approver = new Approver();
@@ -556,6 +552,9 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
                 approvers.add(approver);
             }
             object.setApproverList(approvers);
+        }else{
+            ToastUtil.doToast(getSelfActivity(), "审批人列表不能为空");
+            return;
         }
 //        if (0 == copyFriends.size()) {
 //            ToastUtil.doToast(getSelfActivity(), "抄送人列表不能为空");
@@ -615,7 +614,7 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
         object.setGroupId(groupId);
 
         //提交图片获得图片url
-        if (attachmentPicPaths.size() >= 1) {
+        if (attachmentPicPaths.size() >0) {
            // Log.i("CMCC", "图片不为空," + attachmentPicPaths.size());
             DialogUtils.showProgressDialog(getSelfActivity(), "正在提交中").show();
             new Thread(new Runnable() {

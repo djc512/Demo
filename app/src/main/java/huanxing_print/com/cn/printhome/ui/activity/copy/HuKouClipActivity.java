@@ -60,7 +60,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
-        setContentView(R.layout.activity_idclip);
+        setContentView(R.layout.activity_hukouclip);
         saveUtil = new PicSaveUtil(ctx);
         initView();
         initData();
@@ -71,7 +71,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
 //        iv_preview = (ImageView) findViewById(iv_preview);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
         btn_reset = (TextView) findViewById(R.id.btn_reset);
-        ll = (LinearLayout) findViewById(R.id.ll);
+        ll = (LinearLayout) findViewById(R.id.ll_image_container);
     }
 
     private void initData() {
@@ -115,11 +115,22 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
      * @param mBitmap
      */
     private void scaleID(Bitmap mBitmap) {
+//        ImageView iv = new ImageView(getSelfActivity());
+//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.9586), (int) (bitmap.getHeight() * 0.9619));
+//        lp.topMargin = dip2px(50);
+//        iv.setLayoutParams(lp);
+//        iv.setImageBitmap(mBitmap);
+//        ll.setGravity(Gravity.CENTER_HORIZONTAL);
+//        ll.addView(iv);
+
+        double wImage = dip2px(261) * 0.4943;
+        double hImage = wImage * 105 / 139;
         ImageView iv = new ImageView(getSelfActivity());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.9586), (int) (bitmap.getHeight() * 0.9619));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (wImage * 1.8289), (int) (hImage * 1.6667));
         lp.topMargin = dip2px(50);
         iv.setLayoutParams(lp);
         iv.setImageBitmap(mBitmap);
+
         ll.setGravity(Gravity.CENTER_HORIZONTAL);
         ll.addView(iv);
     }
@@ -131,16 +142,31 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void initMergePic() {
+//        ImageView iv = new ImageView(getSelfActivity());
+//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.9586), (int) (bitmap.getHeight() * 0.9619));
+//        lp.topMargin = dip2px(50);
+//        iv.setLayoutParams(lp);
+//        iv.setImageBitmap(bitmap);
+        double wImage = dip2px(261) * 0.4943;
+        double hImage = wImage * 105 / 139;
         ImageView iv = new ImageView(getSelfActivity());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.9586), (int) (bitmap.getHeight() * 0.9619));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (wImage * 1.8289), (int) (hImage * 1.6667));
         lp.topMargin = dip2px(50);
         iv.setLayoutParams(lp);
         iv.setImageBitmap(bitmap);
 
+//        ImageView ivf = new ImageView(getSelfActivity());
+//        LinearLayout.LayoutParams lpf = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.9586), (int) (bitmap.getHeight() * 0.9619));
+//        lpf.topMargin = dip2px(50);
+//        ivf.setLayoutParams(lpf);
+//        ivf.setImageBitmap(bitmapf);
+
+        double wImagef = dip2px(261) * 0.4943;
+        double hImagef = wImage * 105 / 139;
         ImageView ivf = new ImageView(getSelfActivity());
-        LinearLayout.LayoutParams lpf = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.9586), (int) (bitmap.getHeight() * 0.9619));
-        lpf.topMargin = dip2px(50);
-        ivf.setLayoutParams(lpf);
+        LinearLayout.LayoutParams lpf = new LinearLayout.LayoutParams((int) (wImagef * 1.8289), (int) (hImagef * 1.6667));
+        lpf.topMargin = dip2px(20);
+        ivf.setLayoutParams(lp);
         ivf.setImageBitmap(bitmapf);
 
         ll.setGravity(Gravity.CENTER_HORIZONTAL);

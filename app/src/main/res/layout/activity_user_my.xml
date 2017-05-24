@@ -166,6 +166,7 @@
         android:padding="15dp">
 
         <TextView
+            android:id="@+id/tv_phone_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -199,6 +200,7 @@
         android:padding="15dp">
 
         <TextView
+            android:id="@+id/tv_wechat_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -207,7 +209,7 @@
             android:textColor="@color/text_color"/>
 
         <TextView
-            android:id="@+id/tv_weixin"
+            android:id="@+id/tv_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"

@@ -28,6 +28,8 @@ import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.UrlUtil;
 import huanxing_print.com.cn.printhome.view.viewpager.NoScrollViewPager;
 
+import static huanxing_print.com.cn.printhome.R.id.textView;
+
 public class PickPrinterFragment extends BaseLazyFragment {
 
     private NoScrollViewPager viewpager;
@@ -85,9 +87,6 @@ public class PickPrinterFragment extends BaseLazyFragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 changeTabSelect(tab);
-//                if (tab.getPosition() != 2) {
-//                    viewpager.setCurrentItem(tab.getPosition());
-//                }
             }
 
             @Override
@@ -175,6 +174,7 @@ public class PickPrinterFragment extends BaseLazyFragment {
         View view = tab.getCustomView();
         ImageView icImg = (ImageView) view.findViewById(R.id.icImg);
         TextView titleTv = (TextView) view.findViewById(R.id.titleTv);
+        titleTv.getPaint().setFakeBoldText(true);
         titleTv.setTextColor(ContextCompat.getColor(context, R.color.text_black));
         int position = tab.getPosition();
         switch (position) {
@@ -194,6 +194,7 @@ public class PickPrinterFragment extends BaseLazyFragment {
         View view = tab.getCustomView();
         ImageView icImg = (ImageView) view.findViewById(R.id.icImg);
         TextView titleTv = (TextView) view.findViewById(R.id.titleTv);
+        titleTv.getPaint().setFakeBoldText(false);
         titleTv.setTextColor(ContextCompat.getColor(context, R.color.text_gray));
         int position = tab.getPosition();
         switch (position) {

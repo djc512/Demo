@@ -11,8 +11,8 @@ public class ApprovalDetail {
     private String addTime;//创建时间
     private String amountMonney;//金额
     private String approveId;//	申请单号
-    private ArrayList<ApprovalOrCopy> approverList;//审核列表
-    private ArrayList<ApprovalOrCopy> copyerList;//抄送列表
+    private ArrayList<ApprovalPeopleItem> approverList;//审核列表
+    private ArrayList<ApprovalPeopleItem> copyerList;//抄送列表
     private ArrayList<Attachment> attachmentList;//附件列表
     private String bankAccount;//收款方账号
     private String bankName;//收款方开户行
@@ -53,11 +53,11 @@ public class ApprovalDetail {
         this.approveId = approveId;
     }
 
-    public ArrayList<ApprovalOrCopy> getApproverList() {
+    public ArrayList<ApprovalPeopleItem> getApproverList() {
         return approverList;
     }
 
-    public void setApproverList(ArrayList<ApprovalOrCopy> approverList) {
+    public void setApproverList(ArrayList<ApprovalPeopleItem> approverList) {
         this.approverList = approverList;
     }
 
@@ -181,11 +181,11 @@ public class ApprovalDetail {
         this.memberUrl = memberUrl;
     }
 
-    public ArrayList<ApprovalOrCopy> getCopyerList() {
+    public ArrayList<ApprovalPeopleItem> getCopyerList() {
         return copyerList;
     }
 
-    public void setCopyerList(ArrayList<ApprovalOrCopy> copyerList) {
+    public void setCopyerList(ArrayList<ApprovalPeopleItem> copyerList) {
         this.copyerList = copyerList;
     }
 }

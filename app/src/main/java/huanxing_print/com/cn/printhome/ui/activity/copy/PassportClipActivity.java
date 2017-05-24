@@ -64,7 +64,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         btn_reset = (TextView) findViewById(R.id.btn_reset);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
-        ll = (LinearLayout) findViewById(R.id.ll);
+        ll = (LinearLayout) findViewById(R.id.ll_image_container);
     }
 
     private void initData() {
@@ -76,11 +76,14 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
         byte[] bytes = intent.getByteArrayExtra("bytes");
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
+        double wImage = dip2px(348) * 0.4943;
+        double hImage = wImage * 173 / 125;
         ImageView iv = new ImageView(getSelfActivity());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(bitmap.getWidth(), bitmap.getHeight());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (wImage * 1.4535), (int) (hImage * 1.4914));
         lp.topMargin = dip2px(50);
         iv.setLayoutParams(lp);
         iv.setImageBitmap(bitmap);
+
         ll.setGravity(Gravity.CENTER_HORIZONTAL);
         ll.addView(iv);
     }

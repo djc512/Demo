@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,6 +47,7 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
         ctx = this;
         EventBus.getDefault().register(this);
         initView();
+        initMeasureSpec();
         initData();
         initListener();
     }
@@ -109,9 +111,7 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void initMeasureSpec() {
         int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         tv_approval.measure(w, h);
@@ -121,7 +121,13 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
         llWidth = screenWidth / 2;
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(tvWidth, CommonUtils.dip2px(ctx, 2));
         lp.leftMargin = (llWidth - tvWidth) / 2;
+        Log.e("wanghao","leftMargin ---- " + lp.leftMargin);
         view_approval.setLayoutParams(lp);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
