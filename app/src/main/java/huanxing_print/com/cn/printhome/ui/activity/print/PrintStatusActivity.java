@@ -273,7 +273,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                     count--;
                     countTv.setText("预计还有" + count + "s…");
                     if (count < 0) {
-                        timer.cancel();
+                        stopTimerTask();
                         countTv.setVisibility(View.GONE);
                     }
                 }
