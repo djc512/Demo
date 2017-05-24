@@ -12,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
@@ -84,14 +87,7 @@ public class FailureRedEnvelopesDialog extends Dialog implements View.OnClickLis
         txt_look_detail = (TextView) findViewById(R.id.txt_look_detail);
         rel_close = (RelativeLayout) findViewById(R.id.rel_close);
 
-        Glide.with(context)
-                .load(imgUrl)
-                .centerCrop()
-                .transform(new CircleTransform(context))
-                .crossFade()
-                .placeholder(R.drawable.iv_head)
-                .error(R.drawable.iv_head)
-                .into(img_head_portrait);
+        setImg(imgUrl, img_head_portrait);
         txt_name.setText(redPackageSender);
 
         //查看详情的点击事件
@@ -111,5 +107,21 @@ public class FailureRedEnvelopesDialog extends Dialog implements View.OnClickLis
                 listener.closeDialog();
                 break;
         }
+    }
+
+    public void setImg(String imgUrl, final ImageView imageView) {
+        Glide.with(context)
+                .load(imgUrl)
+                .centerCrop()
+                .transform(new CircleTransform(context))
+                .crossFade()
+                .placeholder(R.drawable.iv_head)
+                .error(R.drawable.iv_head)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        imageView.setImageDrawable(resource);
+                    }
+                });
     }
 }

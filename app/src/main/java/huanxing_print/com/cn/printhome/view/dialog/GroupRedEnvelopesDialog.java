@@ -12,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
@@ -101,14 +104,8 @@ public class GroupRedEnvelopesDialog extends Dialog implements View.OnClickListe
         txt_leave_msg = (TextView) findViewById(R.id.txt_leave_msg);
         rel_close = (RelativeLayout) findViewById(R.id.rel_close);
 
-        Glide.with(context)
-                .load(imgUrl)
-                .centerCrop()
-                .transform(new CircleTransform(context))
-                .crossFade()
-                .placeholder(R.drawable.iv_head)
-                .error(R.drawable.iv_head)
-                .into(img_head_portrait);
+        setImg(imgUrl, img_head_portrait);
+
         txt_name.setText(redPackageSender);
         txt_leave_msg.setText(leaveMsg);
         txt_num.setText(moneryNum + "");
@@ -125,5 +122,21 @@ public class GroupRedEnvelopesDialog extends Dialog implements View.OnClickListe
                 listener.closeDialog();
                 break;
         }
+    }
+
+    public void setImg(String imgUrl, final ImageView imageView) {
+        Glide.with(context)
+                .load(imgUrl)
+                .centerCrop()
+                .transform(new CircleTransform(context))
+                .crossFade()
+                .placeholder(R.drawable.iv_head)
+                .error(R.drawable.iv_head)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        imageView.setImageDrawable(resource);
+                    }
+                });
     }
 }

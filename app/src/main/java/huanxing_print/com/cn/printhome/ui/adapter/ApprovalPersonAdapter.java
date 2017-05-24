@@ -95,6 +95,7 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         loadPic(holder.iv_user_head, info.getFaceUrl());
         holder.tv_name.setText(info.getName());
         holder.tv_time.setText(info.getUpdateTime());
+        holder.tv_time.setVisibility(View.VISIBLE);
         String type = info.getStatus();
         if ("-2".equals(type)) {
             holder.tv_detail.setText("发起申请");
@@ -102,10 +103,13 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         } else if("-1".equals(type)) {
             holder.tv_detail.setText("未开始");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.text_yellow));
+            holder.iv_isapproval.setBackgroundResource(R.drawable.approval_ing);
+            holder.tv_time.setVisibility(View.GONE);
         }else if("0".equals(type)) {
             holder.tv_detail.setText("审批中");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.text_yellow));
             holder.iv_isapproval.setBackgroundResource(R.drawable.approval_ing);
+            holder.tv_time.setVisibility(View.GONE);
         }else if("2".equals(type)) {
             holder.tv_detail.setText("已同意");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));

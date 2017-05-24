@@ -6,6 +6,17 @@
     android:orientation="vertical"
     android:paddingTop="13dp">
 
+
+    <TextView
+        android:id="@+id/tv_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="66dp"
+        android:text="印信红包"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/timestamp"
         style="@style/chat_text_date_style"

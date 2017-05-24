@@ -2,7 +2,6 @@ package com.hyphenate.easeui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,32 +108,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
 
         if (conversation.getType() == EMConversationType.GroupChat) {
             //群聊
-            if (ObjectUtils.isNull(message)) {
-                //没有收到别人的消息
-                String groupName = realMessage.getStringAttribute("otherName", "");
-                String groupUrl = realMessage.getStringAttribute("otherUrl", "");
-                //群头像设置
-                if (ObjectUtils.isNull(groupUrl)) {
-                    //默认的群头像
-                    Glide.with(getContext())
-                            .load(R.drawable.ease_group_icon)
-                            .transform(new CircleTransform(getContext()))
-                            .into(holder.avatar);
-                } else {
-                    Glide.with(getContext())
-                            .load(groupUrl)
-                            .placeholder(R.drawable.ease_group_icon)
-                            .transform(new CircleTransform(getContext()))
-                            .into(holder.avatar);
-                }
-                //群名称
-                if (ObjectUtils.isNull(groupName)) {
-                    holder.name.setText(username);
-                } else {
-                    holder.name.setText(groupName);
-                }
-            } else {
-
+            if (!ObjectUtils.isNull(message)) {
                 String groupId = conversation.conversationId();
                 if (EaseAtMessageHelper.get().hasAtMeMsg(groupId)) {
                     holder.motioned.setVisibility(View.VISIBLE);
@@ -161,6 +135,30 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                     holder.name.setText(username);
                 } else {
                     holder.name.setText(conversation.getLastMessage().getStringAttribute("groupName", ""));
+                }
+            } else {
+                //没有收到别人的消息
+                String groupName = realMessage.getStringAttribute("otherName", "");
+                String groupUrl = realMessage.getStringAttribute("otherUrl", "");
+                //群头像设置
+                if (ObjectUtils.isNull(groupUrl)) {
+                    //默认的群头像
+                    Glide.with(getContext())
+                            .load(R.drawable.ease_group_icon)
+                            .transform(new CircleTransform(getContext()))
+                            .into(holder.avatar);
+                } else {
+                    Glide.with(getContext())
+                            .load(groupUrl)
+                            .placeholder(R.drawable.ease_group_icon)
+                            .transform(new CircleTransform(getContext()))
+                            .into(holder.avatar);
+                }
+                //群名称
+                if (ObjectUtils.isNull(groupName)) {
+                    holder.name.setText(username);
+                } else {
+                    holder.name.setText(groupName);
                 }
             }
 

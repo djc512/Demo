@@ -3,7 +3,7 @@
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
             <!-- 圆角 -->
-            <corners android:radius="5dp" />
+            <corners android:radius="@dimen/contact_btn_radius" />
             <!--填充颜色为白色-->
             <solid android:color="@color/gray7" />
         </shape>
@@ -11,7 +11,7 @@
     <item android:state_pressed="false">
         <shape android:shape="rectangle">
             <!-- 圆角 -->
-            <corners android:radius="5dp" />
+            <corners android:radius="@dimen/contact_btn_radius" />
             <!--填充颜色为白色-->
             <solid android:color="@color/theme_yellow" />
         </shape>
@@ -19,7 +19,7 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <!-- 圆角 -->
-            <corners android:radius="5dp" />
+            <corners android:radius="@dimen/contact_btn_radius" />
             <!--填充颜色为白色-->
             <solid android:color="@color/text_yellow" />
         </shape>

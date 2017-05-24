@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +25,7 @@ import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
+import static com.hyphenate.chat.EMGCMListenerService.TAG;
 import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
 
 /**
@@ -49,6 +53,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private TextView btn_reset;
     private Bitmap mergePic;
     private LinearLayout ll;
+    private int measureWidth;
 
     //  1毫米 约等于 3.78像素
     @Override
@@ -71,7 +76,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
 //        iv_preview = (ImageView) findViewById(iv_preview);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
         btn_reset = (TextView) findViewById(R.id.btn_reset);
-        ll = (LinearLayout) findViewById(R.id.ll);
+        ll = (LinearLayout) findViewById(R.id.ll_image_container);
     }
 
     private void initData() {
@@ -115,11 +120,15 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
      * @param mBitmap
      */
     private void scaleID(Bitmap mBitmap) {
+
+        double wImage = dip2px(261) * 0.4943;
+        double hImage = wImage * 54 / 86;
         ImageView iv = new ImageView(getSelfActivity());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (mBitmap.getWidth() * 0.8113 * 0.9451), (int) (mBitmap.getHeight() * 0.8710 * 0.9));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) wImage, (int) hImage);
         lp.topMargin = dip2px(50);
         iv.setLayoutParams(lp);
         iv.setImageBitmap(mBitmap);
+
         ll.setGravity(Gravity.CENTER_HORIZONTAL);
         ll.addView(iv);
     }
@@ -139,17 +148,22 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void initMergePic() {
+        double wImage = dip2px(261) * 0.4943;
+        double hImage = wImage * 54 / 86;
         ImageView iv = new ImageView(getSelfActivity());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.8113 * 0.9451), (int) (bitmap.getHeight() * 0.8710 * 0.9));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) wImage, (int) hImage);
         lp.topMargin = dip2px(50);
         iv.setLayoutParams(lp);
         iv.setImageBitmap(bitmap);
 
+        double wImagef = dip2px(261) * 0.4943;
+        double hImagef = wImage * 54 / 86;
         ImageView ivf = new ImageView(getSelfActivity());
-        LinearLayout.LayoutParams lpf = new LinearLayout.LayoutParams((int) (bitmapf.getWidth() * 0.8113 * 0.9451), (int) (bitmapf.getHeight() * 0.8710 * 0.9));
-        lpf.topMargin = dip2px(50);
-        ivf.setLayoutParams(lpf);
+        LinearLayout.LayoutParams lpf = new LinearLayout.LayoutParams((int) wImagef, (int) hImagef);
+        lpf.topMargin = dip2px(20);
+        ivf.setLayoutParams(lp);
         ivf.setImageBitmap(bitmapf);
+
 
         ll.setGravity(Gravity.CENTER_HORIZONTAL);
         ll.setOrientation(LinearLayout.VERTICAL);
@@ -226,5 +240,19 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
             mergeBitmap = null;
         }
         System.gc();
+    }
+
+    /**
+     * 获取屏幕的实际尺寸
+     */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void getScreenSizeOfDevice() {
+        Point point = new Point();
+        getWindowManager().getDefaultDisplay().getRealSize(point);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        double x = Math.pow(point.x / dm.xdpi, 2);
+        double y = Math.pow(point.y / dm.ydpi, 2);
+        double screenInches = Math.sqrt(x + y);
+        Log.d(TAG, "Screen inches : " + screenInches);
     }
 }

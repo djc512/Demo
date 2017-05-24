@@ -240,8 +240,10 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                     .getBalance()));
             if ("1".equals(groupMessageInfo.getIsManage())) {
                 findViewById(R.id.part_show_manager).setVisibility(View.VISIBLE);
+                findViewById(R.id.ll_modifyname).setEnabled(true);
             } else {
                 findViewById(R.id.part_show_manager).setVisibility(View.GONE);
+                findViewById(R.id.ll_modifyname).setEnabled(false);
             }
 
             adapter.modify(groupMessageInfo.getGroupMembers(), "1".equals(groupMessageInfo.getIsManage()) ? true :

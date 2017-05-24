@@ -116,4 +116,7 @@
     <!--联系人-->
     <color name="item_character_text_color">#989898</color>
     <color name="item_contact_msg_color">#282828</color>
+    <color name="recycler_divider_color">#e5e5e5</color>
+    <color name="yinjia_search_cursor_color">#ff9102</color>
+    <color name="contact_bar_txt_color">#f6a922</color>
 </resources>
