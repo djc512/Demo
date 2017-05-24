@@ -4,37 +4,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_preview"
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="vertical"></LinearLayout>
 
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="horizontal">
+
         <TextView
-            android:gravity="center"
-            android:textSize="18sp"
-            android:padding="10dp"
             android:id="@+id/btn_reset"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textColor="@color/black2"
-            android:text="返回" />
-        <TextView
+            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="18sp"
             android:padding="10dp"
+            android:text="返回"
+            android:textColor="@color/black2"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/btn_preview"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="打印"
             android:textColor="@color/black2"
-            android:text="打印" />
+            android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>
