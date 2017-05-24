@@ -4,15 +4,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.media.ThumbnailUtils;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
@@ -28,7 +29,7 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.ctx;
  */
 
 public class HuKouClipActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView iv_preview;
+    //    private ImageView iv_preview;
     private TextView btn_preview;
     //    private double a4Width = 210;
 //    private double a4Height = 297;
@@ -47,6 +48,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     private Bitmap mBitmap;
     private TextView btn_reset;
     private Bitmap mergePic;
+    private LinearLayout ll;
 
     //  1毫米 约等于 3.78像素
     @Override
@@ -66,9 +68,10 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initView() {
-        iv_preview = (ImageView) findViewById(R.id.iv_preview);
+//        iv_preview = (ImageView) findViewById(iv_preview);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
         btn_reset = (TextView) findViewById(R.id.btn_reset);
+        ll = (LinearLayout) findViewById(R.id.ll);
     }
 
     private void initData() {
@@ -112,15 +115,13 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
      * @param mBitmap
      */
     private void scaleID(Bitmap mBitmap) {
-        sqrtRatio = (a4Width * a4Height) / (idWidth * idHeight);//a4纸与身份证面积比
-        //计算图片在屏幕中应占的比例面积
-        ivSqrt = ((screenHeight) * (screenWidth)) / sqrtRatio;
-        double idRatio = idWidth / idHeight;//获取身份证的宽高比
-        double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
-        double ivWidth = ivHeight * idRatio;//获取图片的高
-        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(mBitmap, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
-        mergePic = mergePic(bitmap1, null, ivWidth, ivHeight);
-        iv_preview.setImageBitmap(mergePic);
+        ImageView iv = new ImageView(getSelfActivity());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.9586), (int) (bitmap.getHeight() * 0.9619));
+        lp.topMargin = dip2px(50);
+        iv.setLayoutParams(lp);
+        iv.setImageBitmap(mBitmap);
+        ll.setGravity(Gravity.CENTER_HORIZONTAL);
+        ll.addView(iv);
     }
 
     private String picName;
@@ -130,19 +131,31 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void initMergePic() {
-        sqrtRatio = (a4Width * a4Height) / (idWidth * idHeight);//a4纸与身份证面积比
-        //计算图片在屏幕中应占的比例面积
-        ivSqrt = ((screenHeight) * (screenWidth)) / sqrtRatio;
-        double idRatio = idWidth / idHeight;//获取身份证的宽高比
-        double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
-        double ivWidth = ivHeight * idRatio;//获取图片的高
+        ImageView iv = new ImageView(getSelfActivity());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.9586), (int) (bitmap.getHeight() * 0.9619));
+        lp.topMargin = dip2px(50);
+        iv.setLayoutParams(lp);
+        iv.setImageBitmap(bitmap);
 
-        Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
-        Bitmap bitmap2 = ThumbnailUtils.extractThumbnail(bitmapf, (int) (ivWidth * 0.788 * 0.8684), (int) (ivHeight * 0.7581 * 0.9101));
+        ImageView ivf = new ImageView(getSelfActivity());
+        LinearLayout.LayoutParams lpf = new LinearLayout.LayoutParams((int) (bitmap.getWidth() * 0.9586), (int) (bitmap.getHeight() * 0.9619));
+        lpf.topMargin = dip2px(50);
+        ivf.setLayoutParams(lpf);
+        ivf.setImageBitmap(bitmapf);
 
-        mergeBitmap = mergePic(bitmap1, bitmap2, ivWidth, ivHeight);
-        iv_preview.setImageBitmap(mergeBitmap);
+        ll.setGravity(Gravity.CENTER_HORIZONTAL);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        ll.addView(iv);
+        ll.addView(ivf);
 
+    }
+
+    public Bitmap createViewBitmap(LinearLayout v) {
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        v.draw(canvas);
+        return bitmap;
     }
 
     @Override
@@ -154,7 +167,8 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
             case R.id.btn_preview:
                 picName = System.currentTimeMillis() + ".jpg";
                 if (null != bitmap && null != bitmapf) {
-                    saveUtil.saveClipPic(mergeBitmap, picName);
+                    Bitmap viewBitmap = createViewBitmap(ll);
+                    saveUtil.saveClipPic(viewBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);
@@ -162,7 +176,8 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
                     startActivity(printIntent);
                     finishCurrentActivity();
                 } else {
-                    saveUtil.saveClipPic(mergePic, picName);
+                    Bitmap viewBitmap = createViewBitmap(ll);
+                    saveUtil.saveClipPic(viewBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                     Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                     printIntent.putExtra("imagepath", path);

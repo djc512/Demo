@@ -44,7 +44,7 @@ import static huanxing_print.com.cn.printhome.util.copy.ClipPicUtil.perspectiveT
  * Created by Administrator on 2017/4/26 0026.
  */
 
-public class IDPreviewActivity extends BaseActivity implements View.OnClickListener {
+public class HuKouPreviewActivity extends BaseActivity implements View.OnClickListener {
     private TextView btn_adjust;
     private TextView btn_confirm;
     private Bitmap mBitmap;
@@ -199,7 +199,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                   close();
+                                    close();
                                     iv.setVisibility(View.VISIBLE);
                                     ll.setVisibility(View.GONE);
                                     ll1.setVisibility(View.VISIBLE);
@@ -304,6 +304,12 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                     Intent intentsave = new Intent();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     compBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    int options = 100;
+                    while (baos.toByteArray().length / 1024 > 100) {
+                        baos.reset();
+                        compBitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
+                        options -= 10;
+                    }
                     byte[] bytes = baos.toByteArray();
                     intentsave.putExtra("bytes", bytes);
                     intentsave.setAction("bitmap");

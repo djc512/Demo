@@ -46,7 +46,6 @@ import huanxing_print.com.cn.printhome.model.approval.LastApproval;
 import huanxing_print.com.cn.printhome.model.comment.PicDataBean;
 import huanxing_print.com.cn.printhome.model.contact.GroupMember;
 import huanxing_print.com.cn.printhome.model.image.ImageUploadItem;
-import huanxing_print.com.cn.printhome.model.picupload.ImageItem;
 import huanxing_print.com.cn.printhome.net.callback.approval.AddApprovalCallBack;
 import huanxing_print.com.cn.printhome.net.callback.approval.QueryLastCallBack;
 import huanxing_print.com.cn.printhome.net.callback.comment.UpLoadPicCallBack;
@@ -56,12 +55,11 @@ import huanxing_print.com.cn.printhome.ui.activity.copy.PhotoPickerActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PreviewPhotoActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalAndCopyAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.AttachmentAdapter;
+import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
-import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
-import huanxing_print.com.cn.printhome.util.picuplload.BitmapLoadUtils;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
@@ -90,6 +88,7 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
     private ToggleButton button;
 
     private ArrayList<String> attachmentPicPaths = new ArrayList<String>();
+    private ImageUploadItem image;
     private ArrayList<GroupMember> approvalFriends = new ArrayList<GroupMember>();//审批人
     private ArrayList<GroupMember> copyFriends = new ArrayList<GroupMember>();//抄送人
 
@@ -451,8 +450,10 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
                 for(String picPath : result) {
                     if(!attachmentPicPaths.contains(picPath)){
                         attachmentPicPaths.add(picPath);
+
                     }
                 }
+
                 attachmentAdapter.modifyData(attachmentPicPaths);
             }
         }
@@ -615,8 +616,8 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
 
         //提交图片获得图片url
         if (attachmentPicPaths.size() >= 1) {
-            Log.i("CMCC", "图片不为空," + attachmentPicPaths.size());
-            DialogUtils.showProgressDialog(getSelfActivity(), "正在上传中...").show();
+           // Log.i("CMCC", "图片不为空," + attachmentPicPaths.size());
+            DialogUtils.showProgressDialog(getSelfActivity(), "正在提交中").show();
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -626,7 +627,7 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
             }).start();
 
         } else {
-            Log.i("CMCC", "新建采购审批22222222222");
+            //Log.i("CMCC", "新建采购审批22222222222");
             object.setAttachmentList(null);
             DialogUtils.showProgressDialog(getSelfActivity(), "正在提交中").show();
             ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
@@ -644,8 +645,15 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
     private void getUrl(ArrayList<String> attachments) {
         for (int i = 0; i < attachments.size(); i++) {
             // 压缩图片
-            Bitmap bitmap = BitmapLoadUtils.decodeSampledBitmapFromFd(attachments.get(i), 400, 500);
-            setPicToView(bitmap, i + "");
+            //Bitmap bitmap = BitmapLoadUtils.decodeSampledBitmapFromFd(attachments.get(i), 400, 500);
+            Bitmap bitmap = null;
+            try {
+                bitmap = BitmapUtils.revitionImageSize(attachments.get(i));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //if(null!=bitmap)
+            setPicToView(bitmap, i);
         }
     }
 
@@ -673,9 +681,8 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
                     urls.add(url);
                 }
 
-                Log.i("CMCC", "新建采购审批11111111111111111");
                 object.setAttachmentList(urls);
-                DialogUtils.showProgressDialog(getSelfActivity(), "正在提交中...");
+                //DialogUtils.showProgressDialog(getSelfActivity(), "正在提交中...");
                 ApprovalRequest.addApproval(getSelfActivity(), baseApplication.getLoginToken(),
                         1, object, addCallBack);
 
@@ -695,10 +702,12 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
         });
     }
 
-    private void setPicToView(Bitmap bitmap, String fileid) {
-        ImageUploadItem image = new ImageUploadItem();
-        String filename = System.currentTimeMillis() + ".jpg";
-        String filePath = FileUtils.savePic(getSelfActivity(), filename, bitmap);
+    private void setPicToView(Bitmap bitmap, int pos) {
+         image = new ImageUploadItem();
+        //String filename = System.currentTimeMillis() + ".jpg";
+        //String filePath = FileUtils.savePic(getSelfActivity(), filename, bitmap);
+        String filePath = FileUtils.saveFile(getSelfActivity(), "img"+pos+".jpg", bitmap);
+
         if (!ObjectUtils.isNull(filePath)) {
             File file = new File(filePath);
             //file转化成二进制
@@ -712,10 +721,11 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+            String data = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP);
+
             image.setFileContent(data);
-            image.setFileId(fileid + "");
-            image.setFileName(filename);
+            image.setFileId(pos + "");
+            image.setFileName(filePath);
             image.setFileType(".jpg");
 
             imageitems.add(image);
@@ -725,21 +735,21 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
     AddApprovalCallBack addCallBack = new AddApprovalCallBack() {
         @Override
         public void success(String msg, String data) {
+            FileUtils.deleteDir();
             DialogUtils.closeProgressDialog();
-            Log.i("CMCC", "新建采购审批id:" + data);
+            toast("新建采购审批成功!");
             finish();
-            ToastUtil.doToast(getSelfActivity(), "新建采购审批成功!");
         }
 
         @Override
         public void fail(String msg) {
-            Log.i("CMCC", "新建采购审批失败," + msg);
+            //Log.i("CMCC", "新建采购审批失败," + msg);
             DialogUtils.closeProgressDialog();
         }
 
         @Override
         public void connectFail() {
-            Log.i("CMCC", "新建采购审批connectFail");
+            //Log.i("CMCC", "新建采购审批connectFail");
             DialogUtils.closeProgressDialog();
         }
     };

@@ -54,12 +54,12 @@ import huanxing_print.com.cn.printhome.ui.activity.copy.PhotoPickerActivity;
 import huanxing_print.com.cn.printhome.ui.activity.copy.PreviewPhotoActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalAndCopyAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.AttachmentAdapter;
+import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.CashierInputFilter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
-import huanxing_print.com.cn.printhome.util.picuplload.BitmapLoadUtils;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.ScrollListView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -610,15 +610,21 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
     private void getUrl(ArrayList<String> attachments) {
         for (int i = 0; i < attachments.size(); i++) {
             // 压缩图片
-            Bitmap bitmap = BitmapLoadUtils.decodeSampledBitmapFromFd(attachments.get(i), 400, 500);
-            setPicToView(bitmap, i + "");
+            //Bitmap bitmap = BitmapLoadUtils.decodeSampledBitmapFromFd(attachments.get(i), 400, 500);
+            Bitmap bitmap = null;
+            try {
+                bitmap = BitmapUtils.revitionImageSize(attachments.get(i));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //if(null!=bitmap)
+            setPicToView(bitmap, i);
         }
     }
 
-    private void setPicToView(Bitmap bitmap, String fileid) {
+    private void setPicToView(Bitmap bitmap, int pos) {
         ImageUploadItem image = new ImageUploadItem();
-        String filename = System.currentTimeMillis() + ".jpg";
-        String filePath = FileUtils.savePic(getSelfActivity(), filename, bitmap);
+        String filePath = FileUtils.saveFile(getSelfActivity(), "img"+pos+".jpg", bitmap);
         if (!ObjectUtils.isNull(filePath)) {
             File file = new File(filePath);
             //file转化成二进制
@@ -632,10 +638,10 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+            String data = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP);
             image.setFileContent(data);
-            image.setFileId(fileid + "");
-            image.setFileName(filename);
+            image.setFileId(pos + "");
+            image.setFileName(filePath);
             image.setFileType(".jpg");
 
             imageitems.add(image);
@@ -653,7 +659,7 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
             @Override
             public void success(List<PicDataBean> bean) {
                 //DialogUtils.closeProgressDialog();
-                Log.d("TAG","------bean------------"+bean);
+                //Log.d("TAG","------bean------------"+bean);
                 if (null != bean && bean.size() > 0) {
                     for (int i = 0; i < bean.size(); i++) {
                         String imgUrl = bean.get(i).getImgUrl();
@@ -736,36 +742,34 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人失败," + msg);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getSelfActivity(), "请求上次的审批人和抄送人connectFail");
         }
     };
 
     AddApprovalCallBack addCallBack = new AddApprovalCallBack() {
         @Override
         public void success(String msg, String data) {
+            FileUtils.deleteDir();
             DialogUtils.closeProgressDialog();
-            Log.i("CMCC", "新建报销审批,id:" + data);
+            toast("新建报销审批成功" );
             finish();
-            ToastUtil.doToast(getSelfActivity(), "新建报销审批成功!");
-            //ToastUtil.doToast(getSelfActivity(), "新建采购审批,id:" + data);
         }
 
         @Override
         public void fail(String msg) {
-            Log.i("CMCC", "新建报销审批失败," + msg);
+            //Log.i("CMCC", "新建报销审批失败," + msg);
             //ToastUtil.doToast(getSelfActivity(), "新建采购审批失败," + msg);
+            toast("新建报销审批失败" );
             DialogUtils.closeProgressDialog();
         }
 
         @Override
         public void connectFail() {
-            Log.i("CMCC", "新建报销审批connectFail");
+            //Log.i("CMCC", "新建报销审批connectFail");
             //ToastUtil.doToast(getSelfActivity(), "新建采购审批connectFail");
             DialogUtils.closeProgressDialog();
         }

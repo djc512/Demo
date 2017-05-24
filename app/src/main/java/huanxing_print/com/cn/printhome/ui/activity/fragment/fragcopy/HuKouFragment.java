@@ -25,7 +25,7 @@ import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.ui.activity.copy.HuKouClipActivity;
-import huanxing_print.com.cn.printhome.ui.activity.copy.IDPreviewActivity;
+import huanxing_print.com.cn.printhome.ui.activity.copy.HuKouPreviewActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 
@@ -35,7 +35,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by Administrator on 2017/4/28 0028.
  */
 
-public class HuKouFragment extends Fragment implements View.OnClickListener{
+public class HuKouFragment extends Fragment implements View.OnClickListener {
     private RadioButton btn_camera;
     private RadioButton btn_galley;
     private RadioButton btn_cameraf;
@@ -67,6 +67,7 @@ public class HuKouFragment extends Fragment implements View.OnClickListener{
         initListener();
         return view;
     }
+
     private void initView(View view) {
 
         btn_camera = (RadioButton) view.findViewById(R.id.btn_camera);
@@ -90,40 +91,41 @@ public class HuKouFragment extends Fragment implements View.OnClickListener{
     }
 
     private String tag;//标识
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_camera:
                 btn_camera.setChecked(true);
                 btn_galley.setChecked(false);
-                tag ="1";
+                tag = "1";
                 gotoCarema();
                 break;
             case R.id.btn_galley:
                 btn_camera.setChecked(false);
                 btn_galley.setChecked(true);
-                tag ="1";
+                tag = "1";
                 gotoGalley();
                 break;
             case R.id.btn_cameraf:
                 btn_cameraf.setChecked(true);
                 btn_galleyf.setChecked(false);
-                tag ="2";
+                tag = "2";
                 gotoCarema();
                 break;
             case R.id.btn_galleyf:
                 btn_cameraf.setChecked(false);
                 btn_galleyf.setChecked(true);
-                tag ="2";
+                tag = "2";
                 gotoGalley();
                 break;
             case R.id.btn_preview:
                 if (bytes == null && bytesf == null) {
                     Toast.makeText(ctx, "请先上传图片", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Intent intent = new Intent(ctx, HuKouClipActivity.class);
-                    intent.putExtra("bytes",bytes);
-                    intent.putExtra("bytesf",bytesf);
+                    intent.putExtra("bytes", bytes);
+                    intent.putExtra("bytesf", bytesf);
                     startActivity(intent);
                     getActivity().finish();
                 }
@@ -171,7 +173,7 @@ public class HuKouFragment extends Fragment implements View.OnClickListener{
         try {
             Bundle bundle = new Bundle();
             bundle.putParcelable("uri", uri);
-            Intent intent = new Intent(ctx, IDPreviewActivity.class);
+            Intent intent = new Intent(ctx, HuKouPreviewActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
         } catch (Exception e) {
@@ -199,7 +201,7 @@ public class HuKouFragment extends Fragment implements View.OnClickListener{
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 iv_preview.setImageBitmap(bitmap);
                 initBtnPreview();
-            }else if ("2".equals(tag)){
+            } else if ("2".equals(tag)) {
                 bytesf = intent.getByteArrayExtra("bytes");
                 Bitmap bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
                 iv_previewf.setImageBitmap(bitmapf);
@@ -207,11 +209,13 @@ public class HuKouFragment extends Fragment implements View.OnClickListener{
             }
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private  void initBtnPreview(){
+    private void initBtnPreview() {
         btn_preview.setBackground(getResources().getDrawable(R.drawable.shape_preview_finish_bg));
         btn_preview.setTextColor(getResources().getColor(R.color.black));
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

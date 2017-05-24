@@ -9,14 +9,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.util.BitmapUtils;
 
 /**
  * 附件适配器
@@ -86,12 +84,13 @@ public class AttachmentAdapter extends BaseAdapter{
         if("+".equals(picPath)){
             Glide.with(mContext).load(R.drawable.add).diskCacheStrategy(DiskCacheStrategy.NONE).into(imageView);
         }else {
-            Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
-                @Override
-                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                    imageView.setImageDrawable(resource);
-                }
-            });
+//            Glide.with(mContext).load(picPath).placeholder(R.drawable.iv_head).into(new SimpleTarget<GlideDrawable>() {
+//                @Override
+//                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+//                    imageView.setImageDrawable(resource);
+//                }
+//            });
+            BitmapUtils.displayImage(mContext, picPath,R.drawable.icon_error, imageView);
         }
     }
 

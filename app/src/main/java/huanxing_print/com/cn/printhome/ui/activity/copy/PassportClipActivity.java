@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
@@ -26,7 +27,6 @@ import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
  */
 
 public class PassportClipActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView iv_preview;
     private TextView btn_reset;
     private TextView btn_preview;
     private double a4Width = 220;
@@ -42,6 +42,7 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
     private PicSaveUtil saveUtil;
     private Context ctx;
     private Bitmap mergePic;
+    private LinearLayout ll;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -61,9 +62,9 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initView() {
-        iv_preview = (ImageView) findViewById(R.id.iv_preview);
         btn_reset = (TextView) findViewById(R.id.btn_reset);
         btn_preview = (TextView) findViewById(R.id.btn_preview);
+        ll = (LinearLayout) findViewById(R.id.ll);
     }
 
     private void initData() {
@@ -75,42 +76,21 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
         byte[] bytes = intent.getByteArrayExtra("bytes");
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
-        //a4纸与身份证面积比
-        sqrtRatio = (a4Width * a4Height) / (passportWidth * passportHeight);
-        //计算图片在屏幕中应占的比例面积
-        ivSqrt = (screenHeight * screenWidth) / sqrtRatio;
-        double idRatio = passportWidth / passportHeight;//获取身份证的宽高比
-        double ivHeight = Math.sqrt(ivSqrt / idRatio);//获取图片的高
-        double ivWidth = ivHeight * idRatio;//获取图片的高
-
-        thumbnail = ThumbnailUtils.extractThumbnail(bitmap, (int) (ivWidth * 0.788 * 0.8684 * 0.9124), (int) (ivHeight * 0.7581 * 0.9101 * 0.9010));
-        mergePic = mergePic(thumbnail, null, ivWidth, ivHeight);
-        iv_preview.setImageBitmap(mergePic);
+        ImageView iv = new ImageView(getSelfActivity());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(bitmap.getWidth(), bitmap.getHeight());
+        lp.topMargin = dip2px(50);
+        iv.setLayoutParams(lp);
+        iv.setImageBitmap(bitmap);
+        ll.setGravity(Gravity.CENTER_HORIZONTAL);
+        ll.addView(iv);
     }
 
-    /**
-     * 合并图片
-     *
-     * @param first
-     * @param second
-     * @param ivWidth
-     * @param ivHeight @return
-     */
-    private Bitmap mergePic(Bitmap first, Bitmap second, double ivWidth, double ivHeight) {
-        int picwidth = (int) ivWidth;
-        int picheight;
-        if (null == second) {
-            picheight = (int) (ivHeight);
-        } else {
-            picheight = (int) (ivHeight * 2);
-        }
-        Bitmap result = Bitmap.createBitmap(picwidth, picheight, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(result);
-        canvas.drawBitmap(first, dip2px(50), dip2px(50), null);
-        if (null != second) {
-            canvas.drawBitmap(second, dip2px(50), first.getHeight() + dip2px(80), null);
-        }
-        return result;
+    public Bitmap createViewBitmap(LinearLayout v) {
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        v.draw(canvas);
+        return bitmap;
     }
 
     private void initListener() {
@@ -125,8 +105,9 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
                 finishCurrentActivity();
                 break;
             case R.id.btn_preview:
+                Bitmap viewBitmap = createViewBitmap(ll);
                 picName = System.currentTimeMillis() + ".jpg";
-                saveUtil.saveClipPic(mergePic, picName);
+                saveUtil.saveClipPic(viewBitmap, picName);
                 String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
                 Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
                 printIntent.putExtra("imagepath", path);

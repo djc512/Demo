@@ -248,15 +248,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 setColor(4);//yixin
                 fragTemp = fragMy;
                 break;
-
+            default:
+                break;
 
         }
         if (fragTemp.isAdded()) {
             if (fragTemp instanceof ContantsFragment) {
                 ((ContantsFragment) fragTemp).reload();
+            }else if(fragTemp instanceof MyFragment){
+                ((MyFragment) fragTemp).reload();
             }
             tran.show(fragTemp);
-        } else {
+        }else {
             tran.add(R.id.fl_main_context, fragTemp);
         }
         tran.commitAllowingStateLoss();

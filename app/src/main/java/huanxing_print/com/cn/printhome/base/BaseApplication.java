@@ -437,7 +437,7 @@ public class BaseApplication extends Application {
                     event.setCode(0x14);
                     EventBus.getDefault().post(event);
 
-                    if (isRuninBackground()) {
+                    /*if (isRuninBackground()) {
                         sendNotification(list.get(0));
                         //发出长声音
                         //参数2/3：左右喇叭声音的大小
@@ -445,7 +445,7 @@ public class BaseApplication extends Application {
                     } else {
                         //发出短声音
                         mSoundPool.play(mDuanSound, 1, 1, 0, 0, 1);
-                    }
+                    }*/
 
                 }
             }

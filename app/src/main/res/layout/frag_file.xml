@@ -9,7 +9,7 @@
        >
 
         <RelativeLayout
-            android:paddingBottom="15dp"
+            android:paddingBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_copy_bg">
@@ -19,16 +19,16 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_copy"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:button="@null"
                     android:checked="true"
-                    android:paddingRight="20dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -40,10 +40,10 @@
                 <RadioButton
                     android:id="@+id/btn_pic"
                     android:button="@null"
-                    android:paddingRight="20dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:background="@drawable/yellow_selector_right"
