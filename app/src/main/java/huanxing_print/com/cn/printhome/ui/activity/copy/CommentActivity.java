@@ -46,7 +46,6 @@ import huanxing_print.com.cn.printhome.net.request.commet.UpLoadPicRequest;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.FileUtils;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.picuplload.Bimp;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
@@ -325,7 +324,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
+                String data = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP);
                 imageUploadItem.setFileContent(data);
                 imageUploadItem.setFileId(i+"");
                 imageUploadItem.setFileName(filePath);
@@ -340,43 +339,43 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    /**
-     * 获取上传图片的url
-     *
-     * @param items
-     */
-    private void getUrl(ArrayList<ImageItem> items) {
-        for (int i = 0; i < items.size(); i++) {
-            Bitmap bitmap = items.get(i).getBitmap();
-            setPicToView(bitmap, i );
-        }
-    }
-
-    private void setPicToView(Bitmap bitmap, int pos) {
-        ImageUploadItem image = new ImageUploadItem();
-        String filePath = FileUtils.saveFile(getSelfActivity(), "img"+pos+".jpg", bitmap);
-        if (!ObjectUtils.isNull(filePath)) {
-            File file = new File(filePath);
-            //file转化成二进制
-            byte[] buffer = null;
-            FileInputStream in;
-            int length = 0;
-            try {
-                in = new FileInputStream(file);
-                buffer = new byte[(int) file.length() + 100];
-                length = in.read(buffer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String data = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP);
-            image.setFileContent(data);
-            image.setFileId(pos + "");
-            image.setFileName(filePath);
-            image.setFileType(".jpg");
-
-            imageitems.add(image);
-        }
-    }
+//    /**
+//     * 获取上传图片的url
+//     *
+//     * @param items
+//     */
+//    private void getUrl(ArrayList<ImageItem> items) {
+//        for (int i = 0; i < items.size(); i++) {
+//            Bitmap bitmap = items.get(i).getBitmap();
+//            setPicToView(bitmap, i );
+//        }
+//    }
+//
+//    private void setPicToView(Bitmap bitmap, int pos) {
+//        ImageUploadItem image = new ImageUploadItem();
+//        String filePath = FileUtils.saveFile(getSelfActivity(), "img"+pos+".jpg", bitmap);
+//        if (!ObjectUtils.isNull(filePath)) {
+//            File file = new File(filePath);
+//            //file转化成二进制
+//            byte[] buffer = null;
+//            FileInputStream in;
+//            int length = 0;
+//            try {
+//                in = new FileInputStream(file);
+//                buffer = new byte[(int) file.length() + 100];
+//                length = in.read(buffer);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            String data = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP);
+//            image.setFileContent(data);
+//            image.setFileId(pos + "");
+//            image.setFileName(filePath);
+//            image.setFileType(".jpg");
+//
+//            imageitems.add(image);
+//        }
+//    }
 
     /**
      * 上传图片

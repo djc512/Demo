@@ -43,7 +43,7 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.approval.AddApprovalObject;
-import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalPeopleItem;
 import huanxing_print.com.cn.printhome.model.approval.Approver;
 import huanxing_print.com.cn.printhome.model.approval.ChooseGroupEvent;
 import huanxing_print.com.cn.printhome.model.approval.ChooseMemberEvent;
@@ -316,10 +316,10 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                 if (!ObjectUtils.isNull(groupId)) {
                     Log.i("CMCC", "groupId:" + groupId);
                 }
-                ArrayList<ApprovalOrCopy> approvals = approval.getApproverList();
-                ArrayList<ApprovalOrCopy> copys = approval.getCopyList();
+                ArrayList<ApprovalPeopleItem> approvals = approval.getApproverList();
+                ArrayList<ApprovalPeopleItem> copys = approval.getCopyList();
                 if (!ObjectUtils.isNull(approvals)) {
-                    for (ApprovalOrCopy approvalOrCopy : approvals) {
+                    for (ApprovalPeopleItem approvalOrCopy : approvals) {
                         GroupMember info = new GroupMember();
                         info.setMemberId(approvalOrCopy.getJobNumber());
                         info.setMemberName(approvalOrCopy.getName());
@@ -328,7 +328,7 @@ public class AddExpenseApprovalActivity extends BaseActivity implements View.OnC
                     }
                 }
                 if (!ObjectUtils.isNull(copys)) {
-                    for (ApprovalOrCopy orCopy : copys) {
+                    for (ApprovalPeopleItem orCopy : copys) {
                         GroupMember info = new GroupMember();
                         info.setMemberId(orCopy.getJobNumber());
                         info.setMemberName(orCopy.getName());
