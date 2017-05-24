@@ -121,12 +121,12 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
 
             @Override
             public void fail(String msg) {
-
+                DialogUtils.closeProgressDialog();
             }
 
             @Override
             public void connectFail() {
-
+                DialogUtils.closeProgressDialog();
             }
         });
     }

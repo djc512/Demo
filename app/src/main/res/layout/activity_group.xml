@@ -25,7 +25,8 @@
             android:layout_alignParentRight="true"
             android:padding="@dimen/group_create_padding"
             android:text="@string/btn_create_group"
-            android:textColor="@color/text_yellow"/>
+            android:textSize="@dimen/contact_bar_txt_size"
+            android:textColor="@color/contact_bar_txt_color"/>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
