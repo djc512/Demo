@@ -49,7 +49,7 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
         int orderStatus = bean.getOrderStatus();
 //        3-退款中 4-已经退款完毕 5-打印成功
         if (orderStatus == 3) {
-            holder.tv_state.setText("正在退款");
+            holder.tv_state.setText("退款中");
             holder.tv_state.setBackgroundResource(R.color.orange);
         } else if (orderStatus == 4) {
             holder.tv_state.setText("已退款");
