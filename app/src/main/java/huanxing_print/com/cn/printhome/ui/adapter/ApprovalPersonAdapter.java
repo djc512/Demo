@@ -15,11 +15,9 @@ import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.approval.ApprovalOrCopy;
-import huanxing_print.com.cn.printhome.util.Info;
+import huanxing_print.com.cn.printhome.model.approval.ApprovalPeopleItem;
 
 /**
  * Created by Administrator on 2017/3/23 0023.
@@ -27,15 +25,15 @@ import huanxing_print.com.cn.printhome.util.Info;
 
 public class ApprovalPersonAdapter extends BaseAdapter {
     private Context ctx;
-    private ArrayList<ApprovalOrCopy> list;
+    private ArrayList<ApprovalPeopleItem> list;
     private HashMap<Integer, View> viewMap = new HashMap<Integer, View>();
 
-    public ApprovalPersonAdapter(Context ctx, ArrayList<ApprovalOrCopy> list) {
+    public ApprovalPersonAdapter(Context ctx, ArrayList<ApprovalPeopleItem> list) {
         this.ctx = ctx;
         this.list = list;
     }
 
-    public void modifyApprovalPersons(ArrayList<ApprovalOrCopy> ls) {
+    public void modifyApprovalPersons(ArrayList<ApprovalPeopleItem> ls) {
         this.list = ls;
         notifyDataSetChanged();
     }
@@ -91,7 +89,7 @@ public class ApprovalPersonAdapter extends BaseAdapter {
 
         holder.iv_isapproval.setBackgroundResource(R.drawable.approval_finish);
         //Info info = list.get(position);
-        ApprovalOrCopy  info = list.get(position);
+        ApprovalPeopleItem  info = list.get(position);
         loadPic(holder.iv_user_head, info.getFaceUrl());
         holder.tv_name.setText(info.getName());
         holder.tv_time.setText(info.getUpdateTime());
