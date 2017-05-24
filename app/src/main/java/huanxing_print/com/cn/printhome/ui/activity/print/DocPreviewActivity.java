@@ -307,7 +307,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         Intent intent = new Intent(context, DocPreviewActivity.class);
         intent.setData(uri);
         context.startActivity(intent);
-        EventBus.getDefault().postSticky(new PreviewFlagEvent(false));
+        EventBus.getDefault().postSticky(new PreviewFlagEvent(true));
     }
 
     private CountDownTimer timer = new CountDownTimer(timeCount, 1000) {
