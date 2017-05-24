@@ -123,7 +123,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 Bundle bundle = new Bundle();
                 bundle.putLong("order_id", orderId);
                 bundle.putString("printNum", printerPrice.getPrinterNo());
-                bundle.putString("location", printerPrice.getPrintAddress());
+                bundle.putString("location", printerPrice.getPrintName());
                 Intent intent = new Intent(context, CommentActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);

@@ -3,6 +3,7 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -85,7 +86,7 @@ public class ContantsFragment extends BaseFragment implements
         layoutManager = new LinearLayoutManager(getActivity());
         contactsView.setHasFixedSize(true);
         contactsView.setLayoutManager(layoutManager);
-        contactsView.addItemDecoration(new MyDecoration(getActivity(), MyDecoration.HORIZONTAL_LIST, 2, getActivity().getColor(R.color.recycler_divider_color)));
+        contactsView.addItemDecoration(new MyDecoration(getActivity(), MyDecoration.HORIZONTAL_LIST, 2, ContextCompat.getColor(getActivity(), R.color.recycler_divider_color)));
 
         adapter = new ContactsItemAdapter(getActivity(), friends);
         adapter.setTypeItemClickerListener(this);

@@ -99,7 +99,7 @@ public class StepLineView extends View {
         Paint p = new Paint();
         p.setStrokeWidth(STROKE_WHITH);
         if (step == STEP_DEFAULT) {
-            p.setColor(ContextCompat.getColor(context, R.color.text_black));
+            p.setColor(ContextCompat.getColor(context, R.color.step_black));
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);
             canvas.drawLine(pointX1, pointY1, pointX5, pointY5, p);
@@ -116,7 +116,7 @@ public class StepLineView extends View {
 
             p.setStyle(Paint.Style.STROKE);
             p.setPathEffect(new DashPathEffect(new float[]{10, 10}, 1));
-            p.setColor(Color.BLACK);
+            p.setColor(ContextCompat.getColor(context, R.color.step_black));
             Path path = new Path();
             path.moveTo(pointX2, pointY2);
             path.lineTo(pointX3, pointY3);
@@ -137,7 +137,7 @@ public class StepLineView extends View {
 
             p.setStyle(Paint.Style.STROKE);
             p.setPathEffect(new DashPathEffect(new float[]{10, 10}, 1));
-            p.setColor(Color.BLACK);
+            p.setColor(ContextCompat.getColor(context, R.color.step_black));
             Path path = new Path();
             path.moveTo(pointX4, pointY4);
             path.lineTo(pointX5, pointY5);

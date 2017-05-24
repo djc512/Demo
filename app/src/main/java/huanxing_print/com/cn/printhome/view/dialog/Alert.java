@@ -19,4 +19,11 @@ public class Alert {
         builder.setPositiveButton("确定", pOnClickListener);
         builder.show();
     }
+
+    public static final AlertDialog.Builder getDialog(Context context,String message,DialogInterface.OnDismissListener onDismissListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setOnDismissListener(onDismissListener);
+        builder.setMessage(message);
+        return builder;
+    }
 }
