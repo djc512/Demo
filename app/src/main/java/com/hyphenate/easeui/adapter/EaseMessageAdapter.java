@@ -17,6 +17,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -41,6 +42,10 @@ import com.hyphenate.easeui.widget.chatrow.EaseChatRowText;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowVideo;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRowVoice;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
+
+import java.util.HashMap;
+
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 public class EaseMessageAdapter extends BaseAdapter {
 
@@ -90,6 +95,7 @@ public class EaseMessageAdapter extends BaseAdapter {
     private Drawable otherBuddleBg;
 
     private ListView listView;
+    private HashMap<Integer, View> viewMap = new HashMap<Integer, View>();
 
     public EaseMessageAdapter(Context context, String username, int chatType, ListView listView) {
         this.context = context;
@@ -240,7 +246,11 @@ public class EaseMessageAdapter extends BaseAdapter {
         if (customRowProvider != null && customRowProvider.getCustomChatRow(message, position, this) != null) {
             return customRowProvider.getCustomChatRow(message, position, this);
         }
+        String packetid=message.getStringAttribute("packetId","");
+        String packettype=message.getStringAttribute("packetType","");
+        //Log.e("wanghao","packetId = " + packetid + "\n packettype = " + packettype + "\n message = " + message.getBody().toString());
         switch (message.getType()) {
+
             case TXT:
                 if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_BIG_EXPRESSION, false)) {
                     chatRow = new EaseChatRowBigExpression(context, message, position, this);
@@ -252,7 +262,10 @@ public class EaseMessageAdapter extends BaseAdapter {
                     chatRow = new EaseChatRowPackageHint(context, message, position, this);//审批通知的布局
                 } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_GROUP_HINT, false)) {
                     chatRow = new EaseChatRowGroupHint(context, message, position, this);//审批通知的布局
-                } else {
+                } else if (!(ObjectUtils.isNull(packetid)) && !(ObjectUtils.isNull(packettype))){
+                    //Log.e("wanghao","-------");
+                    chatRow = new EaseChatRowRedPackage(context, message, position, this);//审批通知的布局
+                }else {
                     chatRow = new EaseChatRowText(context, message, position, this);
                 }
                 break;
@@ -283,13 +296,28 @@ public class EaseMessageAdapter extends BaseAdapter {
     @SuppressLint("NewApi")
     public View getView(final int position, View convertView, ViewGroup parent) {
         EMMessage message = getItem(position);
-        if (convertView == null) {
+        if(!viewMap.containsKey(position) || viewMap.get(position) == null){
+            //Log.e("wanghao","---1111--");
             convertView = createChatRow(context, message, position);
+            viewMap.put(position, convertView);
+        }else {
+            convertView = viewMap.get(position);
         }
 
+        //Log.e("wanghao","==========");
         //refresh ui with messages
         ((EaseChatRow) convertView).setUpView(message, position, itemClickListener);
 
+        if(viewMap.size() > 20){
+            synchronized (convertView) {
+                for(int i = 1;i < listView.getFirstVisiblePosition() - 3;i ++){
+                    viewMap.remove(i);
+                }
+                for(int i = listView.getLastVisiblePosition() + 3;i < getCount();i ++){
+                    viewMap.remove(i);
+                }
+            }
+        }
         return convertView;
     }
 
