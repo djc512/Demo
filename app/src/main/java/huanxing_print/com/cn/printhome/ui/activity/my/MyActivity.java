@@ -83,7 +83,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     private ImageView iv_user_head;
     private LinearLayout ll_back;
 
-    private TextView tv_uniqueid, tv_userInfo_nickname, tv_phone, tv_version, tv_weixin, tv_cache;
+    private TextView tv_uniqueid, tv_userInfo_nickname, tv_phone,
+            tv_version, tv_wechat, tv_cache,tv_phone_title,tv_wechat_title;
     private String cropImagePath;
     private String uniqueId, nickName, wechatName, phone, weixin, uniqueModifyFlag;
     private Bitmap bitMap;
@@ -149,10 +150,16 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
             tv_userInfo_nickname.setText(nickName);
         }
         if (!ObjectUtils.isNull(phone)) {
+            tv_phone_title.setText("修改手机号");
             tv_phone.setText(phone);
+        }else{
+            tv_phone_title.setText("绑定手机号");
         }
         if (!ObjectUtils.isNull(wechatName)) {
-            tv_weixin.setText(wechatName);
+            tv_wechat_title.setText("修改微信号");
+            tv_wechat.setText(wechatName);
+        }else{
+            tv_wechat_title.setText("绑定微信号");
         }
         tv_version.setText("当前V" + version + "版本");
 
@@ -191,8 +198,11 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         tv_userInfo_nickname = (TextView) findViewById(R.id.tv_userInfo_nickname);
         tv_phone = (TextView) findViewById(R.id.tv_phone);
         tv_version = (TextView) findViewById(R.id.tv_version);
-        tv_weixin = (TextView) findViewById(R.id.tv_weixin);
+        tv_wechat = (TextView) findViewById(R.id.tv_wechat);
         tv_cache = (TextView) findViewById(R.id.tv_cache);
+        tv_phone_title= (TextView) findViewById(R.id.tv_phone_title);
+        tv_wechat_title= (TextView) findViewById(R.id.tv_wechat_title);
+
     }
 
     private void setListener() {
@@ -649,7 +659,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
             DialogUtils.closeProgressDialog();
             toast("绑定成功");
             if (!ObjectUtils.isNull(wechatName)) {
-                tv_weixin.setText(wechatName);
+                tv_wechat.setText(wechatName);
             }
         }
     };
