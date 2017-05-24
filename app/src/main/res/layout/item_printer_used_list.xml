@@ -32,7 +32,8 @@
             android:maxLines="1"
             android:text="红山创意工厂"
             android:textColor="@color/text_black"
-            android:textSize="16dp"/>
+            android:textSize="17dp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/detailTv"

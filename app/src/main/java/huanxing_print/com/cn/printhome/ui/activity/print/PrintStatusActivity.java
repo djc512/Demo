@@ -94,7 +94,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         findViewById(R.id.printTv).setOnClickListener(this);
         findViewById(R.id.shareRyt).setOnClickListener(this);
         findViewById(R.id.commentRyt).setOnClickListener(this);
-        findViewById(R.id.closeTv).setOnClickListener(this);
+        findViewById(R.id.backImg).setOnClickListener(this);
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
@@ -107,7 +107,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.closeTv:
+            case R.id.backImg:
                 finishThis();
                 break;
             case R.id.errorExitTv:
@@ -293,7 +293,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         AnimationDrawable queueAnum = (AnimationDrawable) animImg.getDrawable();
         queueAnum.start();
         stateTv.setText("文件发送中");
-        stateDetailTv.setText("打印机正在接受文件，请耐心等待~");
+        stateDetailTv.setText("打印机正在接收文件，请耐心等待~");
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
         exceptionLyt.setVisibility(View.GONE);

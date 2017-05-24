@@ -102,13 +102,6 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
         }
     }
 
-//    @Override
-//    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-//        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_printer_find_list, viewGroup,
-// false);
-//        return new ViewHolder(v);
-//    }
-
     @Override
     public ViewHolder getViewHolder(View view) {
         return new ViewHolder(view, false);
@@ -126,7 +119,7 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
     public void onBindViewHolder(ViewHolder viewHolder, int position, boolean isItem) {
         AroundPrinterResp.Printer printer = mPrinterList.get(position);
         viewHolder.nameTv.setText(printer.getName());
-        viewHolder.addressTv.setText(printer.getAddress());
+        viewHolder.addressTv.setText(printer.getAddress().trim());
         viewHolder.disTv.setText(StringUtil.getDistance(printer.getDistance()));
         Logger.i(StringUtil.getDistance(printer.getDistance()));
         viewHolder.commentTv.setText("评论 " + printer.getRemarkCount());

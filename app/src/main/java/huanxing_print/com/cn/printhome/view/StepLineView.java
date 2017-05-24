@@ -26,7 +26,8 @@ public class StepLineView extends View {
     public static final int STEP_PICK_PRINTER = 2;
     public static final int STEP_PAY = 3;
 
-    private final int RADIUS = 10;
+    private final int RADIUS_COMMON = 3;
+    private final int RADIUS_STEP = 4;
     private final int STROKE_WHITH = 2;
     private Context context;
 
@@ -61,11 +62,7 @@ public class StepLineView extends View {
         int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
-        // 在wrap_content的情况下默认长度为20dp
         int minSize = DisplayUtil.dip2px(getContext(), 15);
-        // wrap_content的specMode是AT_MOST模式，这种情况下宽/高等同于specSize
-        // 查表得这种情况下specSize等同于parentSize，也就是父容器当前剩余的大小
-        // 在wrap_content的情况下如果特殊处理，效果等同martch_parent
         if (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) {
             setMeasuredDimension(minSize, minSize);
         } else if (widthSpecMode == MeasureSpec.AT_MOST) {
@@ -106,16 +103,16 @@ public class StepLineView extends View {
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);
             canvas.drawLine(pointX1, pointY1, pointX5, pointY5, p);
-            canvas.drawCircle(pointX1, pointY1, RADIUS, p);
-            canvas.drawCircle(pointX3, pointY3, RADIUS, p);
-            canvas.drawCircle(pointX5, pointY5, RADIUS, p);
+            canvas.drawCircle(pointX1, pointY1, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
+            canvas.drawCircle(pointX3, pointY3, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
+            canvas.drawCircle(pointX5, pointY5, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
         }
         if (step == STEP_PICK_FILE) {
             p.setColor(ContextCompat.getColor(context, R.color.stepline_red));
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);
             canvas.drawLine(pointX1, pointY1, pointX2, pointY2, p);
-            canvas.drawCircle(pointX1, pointY1, RADIUS, p);
+            canvas.drawCircle(pointX1, pointY1, DisplayUtil.dip2px(context, RADIUS_STEP), p);
 
             p.setStyle(Paint.Style.STROKE);
             p.setPathEffect(new DashPathEffect(new float[]{10, 10}, 1));
@@ -127,16 +124,16 @@ public class StepLineView extends View {
 
             p.setStyle(Paint.Style.FILL);
             canvas.drawLine(pointX3, pointY3, pointX5, pointY5, p);
-            canvas.drawCircle(pointX3, pointY3, RADIUS, p);
-            canvas.drawCircle(pointX5, pointY5, RADIUS, p);
+            canvas.drawCircle(pointX3, pointY3, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
+            canvas.drawCircle(pointX5, pointY5, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
         }
         if (step == STEP_PICK_PRINTER) {
             p.setColor(ContextCompat.getColor(context, R.color.stepline_red));
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);
             canvas.drawLine(pointX1, pointY1, pointX4, pointY4, p);
-            canvas.drawCircle(pointX1, pointY1, RADIUS, p);
-            canvas.drawCircle(pointX3, pointY3, RADIUS, p);
+            canvas.drawCircle(pointX1, pointY1, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
+            canvas.drawCircle(pointX3, pointY3, DisplayUtil.dip2px(context, RADIUS_STEP), p);
 
             p.setStyle(Paint.Style.STROKE);
             p.setPathEffect(new DashPathEffect(new float[]{10, 10}, 1));
@@ -146,16 +143,16 @@ public class StepLineView extends View {
             path.lineTo(pointX5, pointY5);
             canvas.drawPath(path, p);
             p.setStyle(Paint.Style.FILL);
-            canvas.drawCircle(pointX5, pointY5, RADIUS, p);
+            canvas.drawCircle(pointX5, pointY5, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
         }
         if (step == STEP_PAY) {
             p.setColor(ContextCompat.getColor(context, R.color.stepline_red));
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);
             canvas.drawLine(pointX1, pointY1, pointX5, pointY5, p);
-            canvas.drawCircle(pointX1, pointY1, RADIUS, p);
-            canvas.drawCircle(pointX3, pointY3, RADIUS, p);
-            canvas.drawCircle(pointX5, pointY5, RADIUS, p);
+            canvas.drawCircle(pointX1, pointY1, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
+            canvas.drawCircle(pointX3, pointY3, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
+            canvas.drawCircle(pointX5, pointY5, DisplayUtil.dip2px(context, RADIUS_STEP), p);
         }
     }
 }

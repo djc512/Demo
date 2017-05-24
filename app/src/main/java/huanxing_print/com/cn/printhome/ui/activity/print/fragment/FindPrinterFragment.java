@@ -38,6 +38,7 @@ import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentListActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrinterLocationActivity;
+import huanxing_print.com.cn.printhome.ui.adapter.DisTextArrayAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.FindPrinterRcAdapter;
 import huanxing_print.com.cn.printhome.util.DisplayUtil;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
@@ -162,10 +163,6 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
             }
         });
         printerRcList.setAdapter(findPrinterRcAdapter);
-//        printerList.add(new AroundPrinterResp.PrintUtil());
-//        printerList.add(new AroundPrinterResp.PrintUtil());
-//        printerList.add(new AroundPrinterResp.PrintUtil());
-//        printerList.add(new AroundPrinterResp.PrintUtil());
 
         xRefreshView.setXRefreshViewListener(new SimpleXRefreshListener() {
 
@@ -223,6 +220,10 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
                 // Another interface callback
             }
         });
+
+        String []  mStringArray=getResources().getStringArray(R.array.distance);
+        DisTextArrayAdapter   mAdapter = new DisTextArrayAdapter(context,mStringArray);
+        spinner.setAdapter(mAdapter);
     }
 
     @Override
