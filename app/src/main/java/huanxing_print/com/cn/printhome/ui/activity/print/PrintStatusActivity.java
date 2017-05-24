@@ -262,18 +262,25 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 
     private Timer countTimer = new Timer();
 
+    private void stopCountTimer() {
+        if (countTimer != null) {
+            countTimer.cancel();
+            countTimer = null;
+        }
+    }
+
     private int count = 60;
 
     TimerTask countTask = new TimerTask() {
         @Override
         public void run() {
-            runOnUiThread(new Runnable() {   // UI thread
+            runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     count--;
                     countTv.setText("预计还有" + count + "s…");
                     if (count < 0) {
-                        stopTimerTask();
+                        stopCountTimer();
                         countTv.setVisibility(View.GONE);
                     }
                 }

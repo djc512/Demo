@@ -29,13 +29,12 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
-import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.FileRecyclerAdapter;
-import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.file.FileComparator;
 import huanxing_print.com.cn.printhome.view.ClearEditText;
+import huanxing_print.com.cn.printhome.view.FileFilterPopupMenu;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
@@ -45,8 +44,6 @@ import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 public class WechatFileFragment extends BaseLazyFragment {
 
-    //    private static final String PATH_WECHAT_FILE = Environment.getExternalStorageDirectory().getPath() +
-//            "/tencent/MicroMsg/Download/";
     private static final String[] PATH_WECHAT_FILE = {Environment.getExternalStorageDirectory().getPath() +
             "/tencent/MicroMsg/Download/", Environment.getExternalStorageDirectory().getPath() +
             "/tencent/MicroMsg/WeChat"};
@@ -56,6 +53,7 @@ public class WechatFileFragment extends BaseLazyFragment {
     private ClearEditText searchEditText;
     private RelativeLayout searchRyt;
     private boolean isSearch = false;
+    private FileFilterPopupMenu popupMenu;
 
     private int mode = FileComparator.MODE_NAME;
 
@@ -75,6 +73,26 @@ public class WechatFileFragment extends BaseLazyFragment {
     }
 
     private void initView(View view) {
+        popupMenu = new FileFilterPopupMenu(getActivity(), view);
+        popupMenu.setOnItemClickListener(new FileFilterPopupMenu.OnItemClickListener() {
+            @Override
+            public void onClick(int id) {
+                switch (id) {
+                    case R.id.timeTv:
+                        mode = FileComparator.MODE_TIME;
+                        updateList(mAdapter.getFileList());
+                        break;
+                    case R.id.nameTv:
+                        mode = FileComparator.MODE_NAME;
+                        updateList(mAdapter.getFileList());
+                        break;
+                    case R.id.typeTv:
+                        mode = FileComparator.MODE_TYPE;
+                        updateList(mAdapter.getFileList());
+                        break;
+                }
+            }
+        });
         searchRyt = (RelativeLayout) view.findViewById(R.id.searchRyt);
         mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
         filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
@@ -155,28 +173,8 @@ public class WechatFileFragment extends BaseLazyFragment {
     }
 
     private void showFilter() {
-        PopupMenu popup = new PopupMenu(getActivity(), filterBtn);
-        popup.getMenuInflater().inflate(R.menu.filter, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.time:
-                        mode = FileComparator.MODE_TIME;
-                        updateList(mAdapter.getFileList());
-                        break;
-                    case R.id.name:
-                        mode = FileComparator.MODE_NAME;
-                        updateList(mAdapter.getFileList());
-                        break;
-                    case R.id.type:
-                        mode = FileComparator.MODE_TYPE;
-                        updateList(mAdapter.getFileList());
-                        break;
-                }
-                return false;
-            }
-        });
-        popup.show();
+        popupMenu.setTextColor(mode);
+        popupMenu.showLocation(R.id.filterBtn);
     }
 
     private void serchFileList(String keyword) {

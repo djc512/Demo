@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="150dp"
+              android:layout_height="150dp"
+              android:background="@drawable/bc_fille_filter"
+              android:padding="10dp"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/timeTv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="按时间排序"
+        android:textColor="@color/white"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/nameTv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="按名称排序"
+        android:textColor="@color/white"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/typeTv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="按类型排序"
+        android:textColor="@color/white"
+        android:textSize="15sp"/>
+</LinearLayout>

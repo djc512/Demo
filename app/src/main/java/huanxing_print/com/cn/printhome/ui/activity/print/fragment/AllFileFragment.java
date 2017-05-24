@@ -4,10 +4,8 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.widget.PopupMenu;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -36,6 +34,7 @@ import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.file.FileComparator;
 import huanxing_print.com.cn.printhome.view.ClearEditText;
+import huanxing_print.com.cn.printhome.view.FileFilterPopupMenu;
 import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 import static huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter.FILE_OBJ;
@@ -55,6 +54,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     private ClearEditText searchEditText;
     private ImageView filterBtn;
     private RelativeLayout searchRyt;
+    private FileFilterPopupMenu popupMenu;
 
     private File showFile;
     private boolean isSearch = false;
@@ -84,6 +84,26 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     }
 
     private void initView(View view) {
+        popupMenu = new FileFilterPopupMenu(getActivity(), view);
+        popupMenu.setOnItemClickListener(new FileFilterPopupMenu.OnItemClickListener() {
+            @Override
+            public void onClick(int id) {
+                switch (id) {
+                    case R.id.timeTv:
+                        mode = FileComparator.MODE_TIME;
+                        updateList(showFile);
+                        break;
+                    case R.id.nameTv:
+                        mode = FileComparator.MODE_NAME;
+                        updateList(showFile);
+                        break;
+                    case R.id.typeTv:
+                        mode = FileComparator.MODE_TYPE;
+                        updateList(showFile);
+                        break;
+                }
+            }
+        });
         searchRyt = (RelativeLayout) view.findViewById(R.id.searchRyt);
         fileListView = (ListView) view.findViewById(R.id.fileListView);
         filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
@@ -131,28 +151,8 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     }
 
     private void showFilter() {
-        PopupMenu popup = new PopupMenu(getActivity(), filterBtn);
-        popup.getMenuInflater().inflate(R.menu.filter, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.time:
-                        mode = FileComparator.MODE_TIME;
-                        updateList(showFile);
-                        break;
-                    case R.id.name:
-                        mode = FileComparator.MODE_NAME;
-                        updateList(showFile);
-                        break;
-                    case R.id.type:
-                        mode = FileComparator.MODE_TYPE;
-                        updateList(showFile);
-                        break;
-                }
-                return false;
-            }
-        });
-        popup.show();
+        popupMenu.setTextColor(mode);
+        popupMenu.showLocation(R.id.filterBtn);
     }
 
     private void initHistory() {
@@ -180,22 +180,6 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
                 } else {
                     ((AddFileActivity) getActivity()).pickFile((String) mAdapter.getData().get
                             (position).get(AllFileListAdapter.FILE_PATH));
-//                    if (((AddFileActivity) getActivity()).getPickType() == TYPE_CHAT) {
-//                        ((AddFileActivity) getActivity()).setResult(file.getPath());
-//                        return;
-//                    }
-//                    if (!FileType.isPrintType(file.getPath())) {
-//                        ShowUtil.showToast("文件不可打印");
-//                    } else {
-//                        Bundle bundle = new Bundle();
-//                        if (FileType.getPrintType(file.getPath()) == FileType.TYPE_IMG) {
-//                            bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, (String) mAdapter.getData().get
-//                                    (position).get(AllFileListAdapter.FILE_PATH));
-//                            ImgPreviewActivity.start(context, bundle);
-//                        } else {
-//                            ((AddFileActivity) getActivity()).turnFile(file);
-//                        }
-//                    }
                 }
                 Logger.i(mHistory);
             }
