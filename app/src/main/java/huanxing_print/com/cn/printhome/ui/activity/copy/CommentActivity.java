@@ -163,11 +163,11 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    private int commentStar;
-    private int speedStar;
-    private int qulityStar;
-    private int handleStar;
-    private int priceStar;
+    private int commentStar = 5;
+    private int speedStar = 5;
+    private int qulityStar = 5;
+    private int handleStar = 5;
+    private int priceStar = 5;
 
     private void initListener() {
         iv_back.setOnClickListener(this);
@@ -300,20 +300,20 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
      */
     private void submitComment() {
 
-        imageUploadlist= new ArrayList<ImageUploadItem>();
-        ImageUploadItem imageUploadItem ;
-        if (Bimp.tempSelectBitmap.size()>0) {
-            listNull=false;
+        imageUploadlist = new ArrayList<ImageUploadItem>();
+        ImageUploadItem imageUploadItem;
+        if (Bimp.tempSelectBitmap.size() > 0) {
+            listNull = false;
             for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
                 // 高清的压缩图片全部就在  list 路径里面了
                 // 高清的压缩过的 bmp 对象  都在 Bimp.bmp里面
                 // 完成上传服务器后 .........FileUtils.deleteDir();
                 imageUploadItem = new ImageUploadItem();
-                String filePath = FileUtils.saveFile(getSelfActivity(), "img"+i+".jpg", Bimp.tempSelectBitmap.get(i).getBitmap());
+                String filePath = FileUtils.saveFile(getSelfActivity(), "img" + i + ".jpg", Bimp.tempSelectBitmap.get(i).getBitmap());
                 File file = new File(filePath);
                 //file转化成二进制
                 byte[] buffer = null;
-                FileInputStream in ;
+                FileInputStream in;
                 int length = 0;
                 try {
                     in = new FileInputStream(file);
@@ -412,17 +412,16 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         if (listNull) {
             DialogUtils.showProgressDialog(getSelfActivity(), "正在发表").show();
         }
-
         Map<String, Object> params = new HashMap<>();
         params.put("anonymous", anonymous);
-        params.put("convenienceScore", rb_handle.getCountNum());
+        params.put("convenienceScore", handleStar);
         params.put("orderId", orderid);
         params.put("imgList", imageUrls);
-        params.put("priceScore", rb_price.getCountNum());
+        params.put("priceScore", priceStar);
         params.put("remark", content);
-        params.put("speedScore", rb_speed.getCountNum());
-        params.put("totalScore", rb_comment.getCountNum());
-        params.put("qualityScore", rb_qulity.getCountNum());
+        params.put("speedScore", speedStar);
+        params.put("totalScore", commentStar);
+        params.put("qualityScore", qulityStar);
 
         CommentRequest.submit(getSelfActivity(), baseApplication.getLoginToken(), params, new NullCallback() {
             @Override

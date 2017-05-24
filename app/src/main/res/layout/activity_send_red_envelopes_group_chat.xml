@@ -202,7 +202,7 @@
             android:layout_toRightOf="@+id/tv_message"
             android:background="@null"
             android:gravity="right|center_vertical"
-            android:hint="恭喜发财,大吉大利"
+            android:hint="撸起袖子好好干"
             android:maxLength="20"
             android:maxLines="2"
             android:textSize="@dimen/text_size_sixteen" />
