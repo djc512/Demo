@@ -2,21 +2,18 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.Spannable;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TextView.BufferType;
 
 import com.bumptech.glide.Glide;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.chat.EMTextMessageBody;
-import com.hyphenate.easeui.utils.EaseSmileUtils;
 import com.hyphenate.exceptions.HyphenateException;
 
 import org.greenrobot.eventbus.EventBus;
@@ -91,11 +88,16 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
     @Override
     public void onSetUpView() {
 
-        EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
-        Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
         String packetType = message.getStringAttribute("packetType", "");
         // 设置内容
-        contentView.setText(span, BufferType.SPANNABLE);
+        String msg = ((EMTextMessageBody) message.getBody()).getMessage();
+        //得到]的下标
+        int position = msg.indexOf("]");
+        if (!ObjectUtils.isNull(msg) && !ObjectUtils.isNull(position)) {
+            contentView.setText(msg.substring(position + 1, msg.length()));
+        } else {
+            contentView.setText(msg);
+        }
         if (!ObjectUtils.isNull(packetType)) {
             tv_from.setText(packetType);
         }

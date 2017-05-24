@@ -62,8 +62,8 @@
     <dimen name="yj_et_search_margin_bottom">5dp</dimen>
     <dimen name="yj_et_search_margin_l">10dp</dimen>
     <dimen name="yj_et_search_icon_w_h">20dp</dimen>
-    <dimen name="yj_et_search_icon_margin">10dp</dimen>
-    <dimen name="yj_search_et_h">40dp</dimen>
+    <dimen name="yj_et_search_icon_margin">4dp</dimen>
+    <dimen name="yj_search_et_h">29dp</dimen>
     <dimen name="yj_cancel_search_margin_l">10dp</dimen>
     <dimen name="yj_cancel_search_margin_r">10dp</dimen>
     <dimen name="yj_result_margin_top">15dp</dimen>
@@ -86,6 +86,9 @@
     <dimen name="item_phone_btn_margin_bottom">5dp</dimen>
     <dimen name="item_phone_btn_padding_l">10dp</dimen>
     <dimen name="item_phone_btn_padding_r">10dp</dimen>
+    <dimen name="contact_btn_w">60dp</dimen>
+    <dimen name="contact_btn_h">29dp</dimen>
+    <dimen name="contact_btn_radius">2dp</dimen>
 
     <!--群组-->
     <dimen name="group_create_padding">5dp</dimen>
@@ -145,6 +148,7 @@
     <dimen name="item_result_btn_padding_b">5dp</dimen>
     <dimen name="item_result_btn_padding_l">15dp</dimen>
     <dimen name="item_result_btn_padding_r">15dp</dimen>
+    <dimen name="contact_bar_txt_size">17dp</dimen>
 
     <!--创建群组-->
     <dimen name="group_create_phone_layout_h">50dp</dimen>

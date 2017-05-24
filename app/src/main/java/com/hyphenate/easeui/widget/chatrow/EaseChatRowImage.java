@@ -39,6 +39,7 @@ import huanxing_print.com.cn.printhome.ui.activity.chat.CreateGroupChatActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.PreViewUtil;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtils;
 import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
 
@@ -266,6 +267,14 @@ public class EaseChatRowImage extends EaseChatRowFile {
     protected void onBubbleLongClick() {
         Log.d("CMCC", "onBubbleLongClick触发了");
 
+        File file = new File(localFilePath);
+        if (!file.exists()) {
+            //不存在就去下载
+            ToastUtil.doToast(context, "正在下载...");
+            downloadlongImage(message.getMsgId());
+            return;
+        }
+
         popupMenuItemList = new ArrayList<>();
         popupMenuItemList.add("打印");
         popupMenuItemList.add("转发");
@@ -283,13 +292,13 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 switch (position) {
                     case 0:
                         //打印
-                        Log.d("CMCC", "打印");
+//                        Log.d("CMCC", "打印");
                         PreViewUtil.preview(context, localFilePath);
                         break;
                     case 1:
                         //转发
-                        Log.d("CMCC", "转发");
-                        Log.d("CMCC", "localFilePath:" + localFilePath);
+//                        Log.d("CMCC", "转发");
+//                        Log.d("CMCC", "localFilePath:" + localFilePath);
                         //跳转到选择联系人界面只能单选
                         Intent intent = new Intent(context, CreateGroupChatActivity.class);
                         intent.putExtra("imgUrl", localFilePath);
@@ -390,6 +399,46 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 Log.d("CMCC", "onSuccess");
                 //预览
                 PreViewUtil.preview(context, localFilePath);
+            }
+
+            public void onError(int error, String msg) {
+                Log.d("CMCC", "offline file transfer error:" + msg);
+                File file = new File(tempPath);
+                if (file.exists() && file.isFile()) {
+                    file.delete();
+                }
+            }
+
+            public void onProgress(final int progress, String status) {
+                Log.d("CMCC", "Progress: " + progress);
+            }
+        };
+
+        EMMessage msg = EMClient.getInstance().chatManager().getMessage(msgId);
+        msg.setMessageStatusCallback(callback);
+
+        Log.d("CMCC", "downloadAttachement");
+        EMClient.getInstance().chatManager().downloadAttachment(msg);
+    }
+
+    /**
+     * download image
+     */
+    @SuppressLint("NewApi")
+    private void downloadlongImage(final String msgId) {
+        Log.d("CMCC", "download with messageId: " + msgId);
+        File temp = new File(localFilePath);
+        if (temp != null && temp.exists()) {
+            //存在就不要下载
+            Log.d("CMCC", "存在就不要下载");
+            return;
+        }
+        final String tempPath = temp.getParent() + "/temp_" + temp.getName();
+        final EMCallBack callback = new EMCallBack() {
+            public void onSuccess() {
+                Log.d("CMCC", "onSuccess");
+                //预览
+                ToastUtils.showToast(context, "下载完成!");
             }
 
             public void onError(int error, String msg) {

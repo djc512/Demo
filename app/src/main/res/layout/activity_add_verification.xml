@@ -23,8 +23,8 @@
             android:gravity="center">
             <TextView
                 android:text="@string/text_verification_send"
-                android:textSize="@dimen/verification_send_tv_size"
-                android:textColor="@color/text_yellow"
+                android:textSize="@dimen/contact_bar_txt_size"
+                android:textColor="@color/contact_bar_txt_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

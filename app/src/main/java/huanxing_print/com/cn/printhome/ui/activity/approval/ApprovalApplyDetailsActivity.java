@@ -134,7 +134,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
             iv_isapproval.setText("已撤销");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
         }else if(5 == details.getStatus()) {
-            iv_isapproval.setText("打印凭证");
+            iv_isapproval.setText("审批完成");
             iv_isapproval.setTextColor(getResources().getColor(R.color.green));
         }else if(6 == details.getStatus()) {
             iv_isapproval.setText("已打印");
