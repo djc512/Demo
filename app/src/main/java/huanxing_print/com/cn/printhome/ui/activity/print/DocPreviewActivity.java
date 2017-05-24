@@ -21,6 +21,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.event.print.FinishEvent;
+import huanxing_print.com.cn.printhome.event.print.PreviewFlagEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.DocPreviewResp;
@@ -102,6 +103,12 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         if (event != null && event.isFinishFlag()) {
             finish();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
+    public void onMessageEventPostThread(PreviewFlagEvent previewFlagEvent) {
+        Logger.i(previewFlagEvent);
+        this.previewFlag = previewFlagEvent.isPreviewFlag();
     }
 
     private void addFile(final String fileUrl) {
@@ -300,8 +307,8 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         Intent intent = new Intent(context, DocPreviewActivity.class);
         intent.setData(uri);
         context.startActivity(intent);
+        EventBus.getDefault().postSticky(new PreviewFlagEvent(false));
     }
-
 
     private CountDownTimer timer = new CountDownTimer(timeCount, 1000) {
 
@@ -321,6 +328,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         super.onDestroy();
         timer.cancel();
         Logger.i("onDestroy");
+        EventBus.getDefault().removeAllStickyEvents();
         EventBus.getDefault().unregister(context);
     }
 }
