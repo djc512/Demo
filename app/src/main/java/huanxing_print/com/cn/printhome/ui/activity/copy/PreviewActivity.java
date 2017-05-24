@@ -89,7 +89,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         Bundle bundle = intent.getExtras();
         uri = bundle.getParcelable("uri");
         ctx = this;
-        ClipPicFileUtil.ctx = ctx;
+        ClipPicFileUtil.ctx = ctx.getApplicationContext();
         saveUtil = new PicSaveUtil(ctx);
         tempFile = saveUtil.createCameraTempFile(savedInstanceState);
 
@@ -445,7 +445,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         super.onDestroy();
         if (mBitmap != null) {
             mBitmap.recycle();
-            mResult = null;
+            mBitmap = null;
         }
         if (mResult != null) {
             mResult.recycle();
