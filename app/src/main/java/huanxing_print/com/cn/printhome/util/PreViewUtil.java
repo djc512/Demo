@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import org.greenrobot.eventbus.EventBus;
+
+import huanxing_print.com.cn.printhome.event.print.PreviewFlagEvent;
 import huanxing_print.com.cn.printhome.ui.activity.print.DocPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 
@@ -28,6 +31,7 @@ public class PreViewUtil {
             bundle.putBoolean(ImgPreviewActivity.PREVIEW_FLAG, previewFlag);
             ImgPreviewActivity.start(context, bundle);
         } else {
+            EventBus.getDefault().postSticky(new PreviewFlagEvent(previewFlag));
             Uri uri = Uri.parse(Uri.encode("file://" + path));
             DocPreviewActivity.start(context, uri);
         }
