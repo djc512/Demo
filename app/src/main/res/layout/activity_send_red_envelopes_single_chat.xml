@@ -96,7 +96,7 @@
             android:layout_marginRight="15dp"
             android:background="@null"
             android:gravity="right|center_vertical"
-            android:hint="恭喜发财,大吉大利"
+            android:hint="撸起袖子好好干"
             android:textSize="@dimen/text_size_sixteen" />
     </RelativeLayout>
 
