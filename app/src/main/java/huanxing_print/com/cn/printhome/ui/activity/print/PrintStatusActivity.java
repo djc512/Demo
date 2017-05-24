@@ -322,6 +322,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 
     @Override
     protected void onDestroy() {
+        stopCountTimer();
         stopTimerTask();
         super.onDestroy();
         EventBus.getDefault().removeAllStickyEvents();
