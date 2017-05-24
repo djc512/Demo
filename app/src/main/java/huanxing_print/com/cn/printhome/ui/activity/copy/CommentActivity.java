@@ -82,7 +82,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private String printLocation;
     private ArrayList<ImageItem> selectBitmap;
 
-    private boolean listNull =true;
+    private boolean listNull = true;
     private List<ImageUploadItem> imageUploadlist;
 
     @Override
@@ -134,9 +134,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initData() {
-        tv_printNum.setText("编号:" + printNum);
+        if (null != printNum) {
+            tv_printNum.setText("编号:" + printNum);
+        }
         tv_address.setText(printLocation);
-
         adapter = new GridAdapter(this);
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -207,17 +208,15 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         et_comment_content.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = s.length();
-                if (length > 200) {
-                    Toast.makeText(ctx, "最多输入200字", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 tv_num.setText(length + "/" + 200);
+                if (length == 200) {
+                    Toast.makeText(ctx, "最多输入200字", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -235,7 +234,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             if (resultCode == RESULT_OK) {
                 ArrayList<String> result = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
                 showResult(result);
-
             }
         }
     }
@@ -326,15 +324,15 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 }
                 String data = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP);
                 imageUploadItem.setFileContent(data);
-                imageUploadItem.setFileId(i+"");
+                imageUploadItem.setFileId(i + "");
                 imageUploadItem.setFileName(filePath);
                 imageUploadItem.setFileType(".jpg");
                 imageUploadlist.add(imageUploadItem);
             }
             upLoadImageList(imageUploadlist);
 
-        }else{
-            listNull=true;
+        } else {
+            listNull = true;
             sendNote(imageUrls);
         }
     }
@@ -392,12 +390,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                         String imgUrl = bean.get(i).getImgUrl();
                         imageUrls.add(imgUrl);
                     }
-
                     sendNote(imageUrls);
                 }
             }
-
-
 
             @Override
             public void fail(String msg) {
@@ -412,6 +407,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+
     private void sendNote(List<String> imageUrls) {
         if (listNull) {
             DialogUtils.showProgressDialog(getSelfActivity(), "正在发表").show();
@@ -454,9 +450,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-
-
     }
+
     /**
      * 适配器
      */
@@ -473,8 +468,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         }
 
         public int getCount() {
-            if (selectBitmap.size() == 9) {
-                return 9;
+            if (selectBitmap.size() == 3) {
+                return 3;
             }
             return (selectBitmap.size() + 1);
         }
@@ -502,8 +497,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             if (position == selectBitmap.size()) {
                 holder.image.setImageBitmap(BitmapFactory.decodeResource(
                         getResources(), R.drawable.add));
-                if (position == 9) {
+                if (position == 3) {
                     holder.image.setVisibility(View.GONE);
+                } else {
+                    holder.image.setVisibility(View.VISIBLE);
                 }
             } else {
                 holder.image.setImageBitmap(selectBitmap.get(position).getBitmap());
