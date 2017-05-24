@@ -311,16 +311,27 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 gotoCamera();
             case R.id.btn_photoconfirm://跳转到印家打印
                 if (compBitmap != null) {
-                    show();
-                    String nameConfirm = System.currentTimeMillis() + ".jpg";
-                    saveUtil.saveClipPic(compBitmap, nameConfirm);
-                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + nameConfirm;
-                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
-                    printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("print_type", PrintUtil.PRINT_TYPE_FILE);
-                    startActivity(printIntent);
-                    close();
-                    finishCurrentActivity();
+                    DialogUtils.showProgressDialog(getSelfActivity(), "处理中，请稍等").show();
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            String nameConfirm = System.currentTimeMillis() + ".jpg";
+                            saveUtil.saveClipPic(compBitmap, nameConfirm);
+                            String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + nameConfirm;
+                            Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
+                            printIntent.putExtra("imagepath", path);
+                            printIntent.putExtra("print_type", PrintUtil.PRINT_TYPE_FILE);
+                            startActivity(printIntent);
+                            finishCurrentActivity();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    DialogUtils.closeProgressDialog();
+                                }
+                            });
+                        }
+                    }.start();
                 }
                 break;
             case R.id.btn_save:
@@ -346,23 +357,24 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
             Utils.bitmapToMat(mBitmap, images);
             PointF[] point = ClipPicFileUtil.getPoints(images);
             List<PointF> points = Arrays.asList(point);
-            selectionView.setPoints(resizePioints(points,images));
+            selectionView.setPoints(resizePioints(points, images));
             images.release();
         }
     }
 
     private List<PointF> resizePioints(List<PointF> points, Mat orig) {
-            double ratio = orig.size().height / MAX_HEIGHT;
-            List<PointF> resutl = new ArrayList<>();
-            for (PointF point : points) {
-                PointF obj = new PointF();
-                Float x =Float.parseFloat(String.valueOf(point.x*ratio));
-                Float y =Float.parseFloat(String.valueOf(point.y*ratio));
-                obj.set(x, y);
-                resutl.add(obj);
-            }
-            return resutl;
+        double ratio = orig.size().height / MAX_HEIGHT;
+        List<PointF> resutl = new ArrayList<>();
+        for (PointF point : points) {
+            PointF obj = new PointF();
+            Float x = Float.parseFloat(String.valueOf(point.x * ratio));
+            Float y = Float.parseFloat(String.valueOf(point.y * ratio));
+            obj.set(x, y);
+            resutl.add(obj);
         }
+        return resutl;
+    }
+
     /**
      * 比例缩放图片
      *
