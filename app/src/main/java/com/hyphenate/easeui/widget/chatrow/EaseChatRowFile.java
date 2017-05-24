@@ -214,7 +214,7 @@ public class EaseChatRowFile extends EaseChatRow {
 //            FileUtils.openFile(file, (Activity) context);
 //            Intent intent = FileUtil.openFile(file.getAbsolutePath());
 //            context.startActivity(intent);
-            PreViewUtil.preview(context, filePath);
+            PreViewUtil.preview(context, filePath, true);
         } else {
             // download the file
             context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
@@ -249,7 +249,7 @@ public class EaseChatRowFile extends EaseChatRow {
                         //打印
                         if (!ObjectUtils.isNull(file) && file.exists()) {
                             //文件预览页
-                            PreViewUtil.preview(context, localFilePath);
+                            PreViewUtil.preview(context, localFilePath, false);
                         } else {
                             // download the file
                             ToastUtils.showToast(context, "下载中...");

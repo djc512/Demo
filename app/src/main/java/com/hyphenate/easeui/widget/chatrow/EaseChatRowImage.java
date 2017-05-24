@@ -327,7 +327,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
         File temp = new File(localFilePath);
         if (temp != null && temp.exists()) {
             //存在就不要下载
-            PreViewUtil.preview(context, localFilePath);
+            PreViewUtil.preview(context, localFilePath, true);
             return;
         }
         DialogUtils.showProgressDialog(context, "下载中");
@@ -337,7 +337,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 Log.d("CMCC", "onSuccess");
                 //预览
                 DialogUtils.closeProgressDialog();
-                PreViewUtil.preview(context, localFilePath);
+                PreViewUtil.preview(context, localFilePath, true);
             }
 
             public void onError(int error, String msg) {
@@ -372,7 +372,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
             //存在就不要下载
             switch (code) {
                 case 0:
-                    PreViewUtil.preview(context, localFilePath);
+                    PreViewUtil.preview(context, localFilePath,false);
                     break;
                 case 1:
                     //跳转到选择联系人界面只能单选
@@ -411,7 +411,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 //预览
                 switch (code) {
                     case 0:
-                        PreViewUtil.preview(context, localFilePath);
+                        PreViewUtil.preview(context, localFilePath,false);
                         break;
                     case 1:
                         //跳转到选择联系人界面只能单选
