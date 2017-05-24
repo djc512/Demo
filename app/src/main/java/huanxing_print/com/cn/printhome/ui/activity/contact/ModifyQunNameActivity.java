@@ -18,6 +18,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.event.contacts.GroupMessageUpdate;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
+import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
@@ -109,6 +110,11 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
                 EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
                 groupMessageInfo.setGroupName(name);
                 EventBus.getDefault().post(new GroupMessageUpdate("updateName", groupMessageInfo));
+                //更新UI
+                RefreshEvent event = new RefreshEvent();
+                event.setCode(0x15);
+                EventBus.getDefault().post(event);
+
                 setResult(RESULT_OK);
                 finishCurrentActivity();
             }

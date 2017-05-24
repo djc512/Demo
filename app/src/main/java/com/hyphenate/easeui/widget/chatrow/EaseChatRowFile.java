@@ -118,19 +118,19 @@ public class EaseChatRowFile extends EaseChatRow {
         }
         String iconUrl = message.getStringAttribute("iconUrl", "");
         String nickName = message.getStringAttribute("nickName", "");
-        Log.i("CCCC", "iconUrl=============================================" + iconUrl);
-        Log.i("PPPP", "iconUrl=============================================" + iconUrl);
+//        Log.i("CCCC", "iconUrl=============================================" + iconUrl);
+//        Log.i("PPPP", "iconUrl=============================================" + iconUrl);
         //头像
         if (ObjectUtils.isNull(iconUrl)) {
-            Log.i("PPPP", "=============================================我走了为空的");
-            Log.i("CCCC", "=============================================我走了为空的");
+//            Log.i("PPPP", "=============================================我走了为空的");
+//            Log.i("CCCC", "=============================================我走了为空的");
             Glide.with(getContext())
                     .load(R.drawable.iv_head)
                     .transform(new CircleTransform(getContext()))
                     .into(iv_userhead);
         } else {
-            Log.i("PPPP", "=============================================我走了不为空，网络的");
-            Log.i("CCCC", "=============================================我走了不为空，网络的");
+//            Log.i("PPPP", "=============================================我走了不为空，网络的");
+//            Log.i("CCCC", "=============================================我走了不为空，网络的");
             Glide.with(getContext())
                     .load(iconUrl)
                     .transform(new CircleTransform(getContext()))
@@ -139,13 +139,13 @@ public class EaseChatRowFile extends EaseChatRow {
         //昵称
         if (ObjectUtils.isNull(nickName)) {
             tv_userid.setText(message.getFrom());
-            Log.i("DDDD", "=============================================我走了空");
+//            Log.i("DDDD", "=============================================我走了空");
         } else {
             tv_userid.setText(nickName);
-            Log.i("DDDD", "=============================================我走了不为空，网络的");
+//            Log.i("DDDD", "=============================================我走了不为空，网络的");
         }
-        Log.i("DDDD", "message.getFrom()=============================================" + message.getFrom());
-        Log.i("DDDD", "nickName=============================================" + nickName);
+//        Log.i("DDDD", "message.getFrom()=============================================" + message.getFrom());
+//        Log.i("DDDD", "nickName=============================================" + nickName);
         //隐藏发送文件的用户名
         if (message.getChatType().equals(ChatType.Chat)) {
             tv_userid.setVisibility(GONE);
@@ -226,7 +226,7 @@ public class EaseChatRowFile extends EaseChatRow {
 
     @Override
     protected void onBubbleLongClick() {
-        Log.d("CMCC", "onBubbleLongClick触发了");
+//        Log.d("CMCC", "onBubbleLongClick触发了");
         String filePath = fileMessageBody.getLocalUrl();
         File file = new File(filePath);
         if (!file.exists()) {
@@ -249,13 +249,13 @@ public class EaseChatRowFile extends EaseChatRow {
                 switch (position) {
                     case 0:
                         //打印
-                        Log.d("CMCC", "打印");
+//                        Log.d("CMCC", "打印");
                         PreViewUtil.preview(context, localFilePath);
                         break;
                     case 1:
                         //转发
-                        Log.d("CMCC", "转发");
-                        Log.d("CMCC", "localFilePath:" + localFilePath);
+//                        Log.d("CMCC", "转发");
+//                        Log.d("CMCC", "localFilePath:" + localFilePath);
                         //跳转到选择联系人界面只能单选
                         Intent intent = new Intent(context, CreateGroupChatActivity.class);
                         intent.putExtra("fileUrl", localFilePath);
@@ -265,7 +265,7 @@ public class EaseChatRowFile extends EaseChatRow {
                         if (message.direct() == EMMessage.Direct.SEND) {
                             //只能删除本人发出的消息
                             //删除记录
-                            Log.d("CMCC", "删除");
+//                            Log.d("CMCC", "删除");
                             //发送透传消息代码如下：
                             String action = context.getString(R.string.REMOVE);
                             EMMessage cmdMessage = EMMessage.createSendMessage(EMMessage.Type.CMD);
@@ -276,14 +276,14 @@ public class EaseChatRowFile extends EaseChatRow {
                                     message.getChatType() == ChatType.ChatRoom) {
                                 cmdMessage.setChatType(ChatType.GroupChat);
                                 String toChatUserName = message.getTo();
-                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+//                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
                                 cmdMessage.setTo(toChatUserName);
                                 //删除掉本地消息
                                 EMClient.getInstance().chatManager()
                                         .getConversation(toChatUserName).removeMessage(message.getMsgId());
                             } else {
                                 String toChatUserName = message.getFrom();
-                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+//                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
                                 cmdMessage.setFrom(toChatUserName);
                                 //删除掉本地消息
                                 EMClient.getInstance().chatManager()
@@ -291,23 +291,23 @@ public class EaseChatRowFile extends EaseChatRow {
                             }
 
                             String msgId = message.getMsgId();
-                            Log.d("CMCC", "msgIdsend-------->" + msgId);
+//                            Log.d("CMCC", "msgIdsend-------->" + msgId);
                             cmdMessage.setAttribute("msgid", msgId);
                             cmdMessage.addBody(cmdBody);
                             EMClient.getInstance().chatManager().sendMessage(cmdMessage);
-                            Log.d("CMCC", "发送透传success");
+//                            Log.d("CMCC", "发送透传success");
                         } else {
                             //删除本地消息
                             if (message.getChatType() == ChatType.GroupChat ||
                                     message.getChatType() == ChatType.ChatRoom) {
                                 String toChatUserName = message.getTo();
-                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+//                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
                                 //删除掉本地消息
                                 EMClient.getInstance().chatManager()
                                         .getConversation(toChatUserName).removeMessage(message.getMsgId());
                             } else {
                                 String toChatUserName = message.getFrom();
-                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
+//                                Log.d("CMCC", "toChatUserName------>" + toChatUserName);
                                 //删除掉本地消息
                                 EMClient.getInstance().chatManager()
                                         .getConversation(toChatUserName).removeMessage(message.getMsgId());
