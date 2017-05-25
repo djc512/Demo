@@ -51,9 +51,35 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             finishCurrentActivity();
-            EventBus.getDefault().post(new WechatPayEvent(true));
+            switch (resp.errCode) {
+                case 0:
+                    EventBus.getDefault().post(new WechatPayEvent(true));
+                    String successUrl = "http://print.inkin.cc/src/success.html";
+                    send(successUrl);
+                    break;
+                case -1:
+                    String faileUrl = "http://print.inkin.cc/src/payFailed.html";
+                    send(faileUrl);
+                    break;
+                case -2:
+                    String faileUrl1 = "http://print.inkin.cc/src/payFailed.html";
+                    send(faileUrl1);
+                    break;
+            }
         } else {
             EventBus.getDefault().post(new WechatPayEvent(true));
         }
+    }
+
+    /**
+     * 发消息通知页面跳转
+     *
+     * @param
+     */
+    private void send(String url) {
+        Intent intentsave = new Intent();
+        intentsave.setAction("url");
+        intentsave.putExtra("url", url);
+        sendBroadcast(intentsave);
     }
 }

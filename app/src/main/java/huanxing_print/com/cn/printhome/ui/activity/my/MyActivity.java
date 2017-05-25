@@ -160,13 +160,13 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
             tv_userInfo_nickname.setText(nickName);
         }
         if (!ObjectUtils.isNull(phone)) {
-            tv_phone_title.setText("修改手机号");
+            tv_phone_title.setText("更新手机号");
             tv_phone.setText(phone);
         }else{
             tv_phone_title.setText("绑定手机号");
         }
         if (!ObjectUtils.isNull(wechatName)) {
-            tv_wechat_title.setText("修改微信号");
+            tv_wechat_title.setText("更新微信号");
             tv_wechat.setText(wechatName);
         }else{
             tv_wechat_title.setText("绑定微信号");
