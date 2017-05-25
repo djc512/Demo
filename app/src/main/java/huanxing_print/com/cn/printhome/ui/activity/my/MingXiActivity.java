@@ -59,6 +59,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
     private void initData() {
         DialogUtils.showProgressDialog(getSelfActivity(), "正在加载...").show();
         OrderListRequest.request(getSelfActivity(), "1", new MyCallBack());
+        getReceiptAccount();
     }
 
     private void setListener() {
@@ -109,32 +110,13 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 finishCurrentActivity();
                 break;
             case R.id.tv_bill_debit://开发票
-                //根据后台判断能否开发票
-                Go2DebitRequest.getRequset(getSelfActivity(), new Go2PayCallBack() {
-                    @Override
-                    public void success(String msg, String s) {
-                        billValue = s;
-                        if (billValue.equals("0")) {
-                            ToastUtil.doToast(getSelfActivity(), "可开发票金额为0");
-                            return;
-                        } else {
-                            Intent intent = new Intent(getSelfActivity(), ReceiptNewActivity.class);
-                            intent.putExtra("billValue", s);
-                            startActivity(intent);
-                        }
-                    }
-
-                    @Override
-                    public void fail(String msg) {
-                        xrf_zdmx.stopLoadMore();
-                        xrf_zdmx.stopRefresh();
-                    }
-
-                    @Override
-                    public void connectFail() {
-
-                    }
-                });
+                if (billValue.equals("0.00")) {
+                    ToastUtil.doToast(getSelfActivity(), "可开发票金额为0");
+                } else {
+                    Intent intent = new Intent(getSelfActivity(), ReceiptNewActivity.class);
+                    intent.putExtra("billValue", billValue);
+                    startActivity(intent);
+                }
                 break;
         }
     }
@@ -189,4 +171,32 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    /**
+     * 获取发票金额
+     */
+    private void getReceiptAccount() {
+        //根据后台判断能否开发票
+        Go2DebitRequest.getRequset(getSelfActivity(), new Go2PayCallBack() {
+            @Override
+            public void success(String msg, String s) {
+                billValue = s;
+                if (billValue.equals("0.00")) {
+                    tv_bill_debit.setTextColor(getResources().getColor(R.color.gray8));
+                } else {
+                    tv_bill_debit.setTextColor(getResources().getColor(R.color.yellow2));
+                }
+            }
+
+            @Override
+            public void fail(String msg) {
+                xrf_zdmx.stopLoadMore();
+                xrf_zdmx.stopRefresh();
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+        });
+    }
 }
