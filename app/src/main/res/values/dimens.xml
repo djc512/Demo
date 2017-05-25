@@ -162,7 +162,7 @@
     <dimen name="group_create_phone_layout_h">50dp</dimen>
     <dimen name="group_create_phone_icon_w_h">40dp</dimen>
     <dimen name="group_create_phone_icon_margin">15dp</dimen>
-    <dimen name="group_create_member_layout_h">50dp</dimen>
+    <dimen name="group_create_member_layout_h">60dp</dimen>
     <dimen name="group_create_member_cb_margin">15dp</dimen>
     <dimen name="group_create_member_cb_w_h">20dp</dimen>
     <dimen name="group_create_icon_w_h">40dp</dimen>
