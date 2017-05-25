@@ -28,6 +28,7 @@ import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
  * Created by wanghao on 2017/5/5.
@@ -39,6 +40,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     private ArrayList<GroupInfo> groups = new ArrayList<GroupInfo>();
     private GroupAdatper adatper;
     private String token;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -57,6 +59,7 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(this);
         recyclerView = (RecyclerView) findViewById(R.id.groupView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
@@ -71,7 +74,8 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     private void initData() {
         token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(this, "加载中").show();
+//        DialogUtils.showProgressDialog(this, "加载中").show();
+        loadingDialog.show();
         GroupManagerRequest.queryGroupList(this, token, groupListCallback);
     }
 
@@ -135,7 +139,8 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
     GroupListCallback groupListCallback = new GroupListCallback() {
         @Override
         public void success(String msg, ArrayList<GroupInfo> groupInfos) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             if (null != groupInfos) {
                 groups = groupInfos;
                 adatper.modifyData(groups);
@@ -144,13 +149,15 @@ public class GroupActivity extends BaseActivity implements View.OnClickListener,
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(GroupActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };

@@ -17,7 +17,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -136,6 +135,7 @@ public class EaseMessageAdapter extends BaseAdapter {
     };
 
     public void refresh() {
+        viewMap.clear();
         if (handler.hasMessages(HANDLER_MESSAGE_REFRESH_LIST)) {
             return;
         }
@@ -246,8 +246,8 @@ public class EaseMessageAdapter extends BaseAdapter {
         if (customRowProvider != null && customRowProvider.getCustomChatRow(message, position, this) != null) {
             return customRowProvider.getCustomChatRow(message, position, this);
         }
-        String packetid=message.getStringAttribute("packetId","");
-        String packettype=message.getStringAttribute("packetType","");
+        String packetid = message.getStringAttribute("packetId", "");
+        String packettype = message.getStringAttribute("packetType", "");
         //Log.e("wanghao","packetId = " + packetid + "\n packettype = " + packettype + "\n message = " + message.getBody().toString());
         switch (message.getType()) {
 
@@ -262,10 +262,10 @@ public class EaseMessageAdapter extends BaseAdapter {
                     chatRow = new EaseChatRowPackageHint(context, message, position, this);//审批通知的布局
                 } else if (message.getBooleanAttribute(EaseConstant.MESSAGE_ATTR_IS_GROUP_HINT, false)) {
                     chatRow = new EaseChatRowGroupHint(context, message, position, this);//审批通知的布局
-                } else if (!(ObjectUtils.isNull(packetid)) && !(ObjectUtils.isNull(packettype))){
+                } else if (!(ObjectUtils.isNull(packetid)) && !(ObjectUtils.isNull(packettype))) {
                     //Log.e("wanghao","-------");
                     chatRow = new EaseChatRowRedPackage(context, message, position, this);//审批通知的布局
-                }else {
+                } else {
                     chatRow = new EaseChatRowText(context, message, position, this);
                 }
                 break;
@@ -296,11 +296,11 @@ public class EaseMessageAdapter extends BaseAdapter {
     @SuppressLint("NewApi")
     public View getView(final int position, View convertView, ViewGroup parent) {
         EMMessage message = getItem(position);
-        if(!viewMap.containsKey(position) || viewMap.get(position) == null){
+        if (!viewMap.containsKey(position) || viewMap.get(position) == null) {
             //Log.e("wanghao","---1111--");
             convertView = createChatRow(context, message, position);
             viewMap.put(position, convertView);
-        }else {
+        } else {
             convertView = viewMap.get(position);
         }
 
@@ -308,12 +308,12 @@ public class EaseMessageAdapter extends BaseAdapter {
         //refresh ui with messages
         ((EaseChatRow) convertView).setUpView(message, position, itemClickListener);
 
-        if(viewMap.size() > 20){
+        if (viewMap.size() > 20) {
             synchronized (convertView) {
-                for(int i = 1;i < listView.getFirstVisiblePosition() - 3;i ++){
+                for (int i = 1; i < listView.getFirstVisiblePosition() - 3; i++) {
                     viewMap.remove(i);
                 }
-                for(int i = listView.getLastVisiblePosition() + 3;i < getCount();i ++){
+                for (int i = listView.getLastVisiblePosition() + 3; i < getCount(); i++) {
                     viewMap.remove(i);
                 }
             }

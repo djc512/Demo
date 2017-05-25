@@ -23,6 +23,7 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
  * Created by wanghao on 2017/5/3.
@@ -33,6 +34,7 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
     private View show_search_content;
     private TextView hint_content;
     private View del_icon;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -50,6 +52,7 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(this);
         searchEt = (EditText) findViewById(R.id.search_et);
         show_search_content = findViewById(R.id.show_search_content);
         hint_content = (TextView) findViewById(R.id.hint_content);
@@ -79,7 +82,8 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
                 if (searchStr.length() >= 6 && searchStr.length() <= 14 && (isStartLetter(searchStr) || isStartNum(searchStr))) {
                     String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                             "loginToken");
-                    DialogUtils.showProgressDialog(this, "加载中").show();
+//                    DialogUtils.showProgressDialog(this, "加载中").show();
+                    loadingDialog.show();
                     FriendManagerRequest.friendSearch(this, token, searchStr, friendSearchCallback);
                 } else {
                     ToastUtil.doToast(this, "内容不能小于6,以数字字母开头");
@@ -131,7 +135,8 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
     FriendSearchCallback friendSearchCallback = new FriendSearchCallback() {
         @Override
         public void success(String msg, FriendSearchInfo friendSearchInfo) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             if (null != friendSearchInfo) {
                 if (1 == friendSearchInfo.getIsFriend()) {
                     Intent intent = new Intent(SearchYinJiaNumActivity.this, ChatTestActivity.class);
@@ -147,13 +152,15 @@ public class SearchYinJiaNumActivity extends BaseActivity implements View.OnClic
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(SearchYinJiaNumActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };
