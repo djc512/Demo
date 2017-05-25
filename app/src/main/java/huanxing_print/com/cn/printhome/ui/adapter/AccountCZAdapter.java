@@ -66,7 +66,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
 
         BigDecimal bd = new BigDecimal(discount);
         double value = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-        holder.tv_discount.setText(value+"折");
+        holder.tv_discount.setText(value * 10 + "折");
 
         if (clickTemp == position) {
             holder.iv_check.setBackgroundResource(R.drawable.select);
