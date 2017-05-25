@@ -51,6 +51,7 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
         registerReceiver(mBroadcastReceiver, intentFilter);
+
         initView();
         initMeasureSpec();
         initData();
@@ -157,6 +158,7 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
             String action = intent.getAction();
             if (action.equals(BROADCAST_ACTION_APPROVALNUM_REFRESH)) {
                 approverNum--;
+
                 if (approverNum>0){
                     tv_approval.setText("待审批("+approverNum+")");
                 }else{

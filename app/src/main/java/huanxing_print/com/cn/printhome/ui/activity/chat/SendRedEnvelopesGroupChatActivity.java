@@ -13,9 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.event.chat.GroupMessageUpdateInRed;
 import huanxing_print.com.cn.printhome.model.chat.LuckyPackage;
 import huanxing_print.com.cn.printhome.model.chat.RedPackageObject;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
@@ -66,6 +68,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         // 改变状态栏的颜色使其与APP风格一体化
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_send_red_envelopes_group_chat);
+        EventBus.getDefault().register(this);
         groupInfo = getIntent().getParcelableExtra("groupInfo");
         init();
         inData();
@@ -169,10 +172,10 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
 
     }
 
-
+    int groupMemberNum = 0;
     private void inData() {
         if (null != groupInfo) {
-            int groupMemberNum = groupInfo.getGroupMembers().size();
+            groupMemberNum = groupInfo.getGroupMembers().size();
             txt_group_num.setText(groupMemberNum + "");
         }
 
@@ -377,5 +380,23 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         public void connectFail() {
             DialogUtils.closeProgressDialog();
         }
+    }
+
+    @Subscribe
+    public void updateMessage(GroupMessageUpdateInRed updateInRed) {
+        if ("updateMember".equals(updateInRed.getTag()) && groupInfo.getEasemobGroupId().equals(updateInRed.getGroupId())) {
+            if (updateInRed.isAdd()) {
+                groupMemberNum++;
+            } else {
+                groupMemberNum--;
+            }
+            txt_group_num.setText(groupMemberNum + "");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

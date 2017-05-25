@@ -2,6 +2,7 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.chat.EMNormalFileMessageBody;
@@ -49,6 +51,9 @@ public class EaseChatRowFile extends EaseChatRow {
     protected boolean isNotifyProcessed;
     private EMNormalFileMessageBody fileMessageBody;
     private File file;
+    private PopupList popupList;
+    private float mRawX;
+    private float mRawY;
 
     public EaseChatRowFile(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -76,6 +81,23 @@ public class EaseChatRowFile extends EaseChatRow {
     @Override
     protected void onSetUpView() {
 
+        bubble.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mRawX = event.getRawX();
+                mRawY = event.getRawY();
+                return false;
+            }
+        });
+
+        popupMenuItemList = new ArrayList<>();
+        popupMenuItemList.add("打印");
+        popupMenuItemList.add("转发");
+        popupMenuItemList.add("保存");
+        popupMenuItemList.add("删除");
+
+        popupList = new PopupList(context);
+
         fileMessageBody = (EMNormalFileMessageBody) message.getBody();
         String filePath = fileMessageBody.getLocalUrl();
         localFilePath = filePath;
@@ -101,7 +123,7 @@ public class EaseChatRowFile extends EaseChatRow {
                         iv_file_type.setImageResource(R.drawable.file_pptx);
                         break;
                     default:
-                        iv_file_type.setImageResource(R.drawable.file_doc);
+                        iv_file_type.setImageResource(R.drawable.iv_apply_copy);
                         break;
                 }
             }
@@ -152,12 +174,6 @@ public class EaseChatRowFile extends EaseChatRow {
         } else {
             tv_userid.setVisibility(VISIBLE);
         }
-
-        popupMenuItemList = new ArrayList<>();
-        popupMenuItemList.add("打印");
-        popupMenuItemList.add("转发");
-        popupMenuItemList.add("保存");
-        popupMenuItemList.add("删除");
 
         // until here, to sending message
         handleSendMessage();
@@ -235,8 +251,7 @@ public class EaseChatRowFile extends EaseChatRow {
 //        Log.d("CMCC", "onBubbleLongClick触发了");
         file = new File(localFilePath);
 
-        PopupList popupList = new PopupList(context);
-        popupList.bind(bubble, popupMenuItemList, new PopupList.PopupListListener() {
+        popupList.showPopupListWindow(bubble, position, mRawX, mRawY, popupMenuItemList, new PopupList.PopupListListener() {
             @Override
             public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
                 return true;
@@ -266,10 +281,12 @@ public class EaseChatRowFile extends EaseChatRow {
                         break;
                     case 1:
                         //转发
+                        EMFileMessageBody body = (EMFileMessageBody) message.getBody();
                         if (!ObjectUtils.isNull(file) && file.exists()) {
                             //跳转到选择联系人界面只能单选
                             Intent intent = new Intent(context, CreateGroupChatActivity.class);
                             intent.putExtra("fileUrl", localFilePath);
+                            intent.putExtra("fileName", body.getFileName());
                             context.startActivity(intent);
                         } else {
                             context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
@@ -310,10 +327,18 @@ public class EaseChatRowFile extends EaseChatRow {
                             EMClient.getInstance().chatManager()
                                     .getConversation(toChatUserName).removeMessage(message.getMsgId());
                         } else {
-                            String toChatUserName = message.getFrom();
-                            //删除掉本地消息
-                            EMClient.getInstance().chatManager()
-                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            if (message.direct() == EMMessage.Direct.SEND) {
+                                //自己发的
+                                String toChatUserName = message.getTo();
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            } else if (message.direct() == EMMessage.Direct.RECEIVE) {
+                                String toChatUserName = message.getFrom();
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            }
                         }
                         //发消息刷新
                         RefreshEvent event = new RefreshEvent();

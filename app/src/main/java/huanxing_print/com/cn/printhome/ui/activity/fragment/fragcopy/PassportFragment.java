@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -104,9 +105,14 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
                 Intent intent = new Intent(ctx, PassportClipActivity.class);
-                intent.putExtra("bytes",bytes);
+                intent.putExtra("bytes", bytes);
                 startActivity(intent);
-                getActivity().finish();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        iv_preview.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.passport));
+                    }
+                }, 200);
                 break;
         }
     }
@@ -182,11 +188,13 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private  void initBtnPreview(){
+    private void initBtnPreview() {
         btn_preview.setBackground(getResources().getDrawable(R.drawable.shape_preview_finish_bg));
         btn_preview.setTextColor(getResources().getColor(R.color.black));
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -157,7 +157,7 @@ public class PreviewPhotoActivity extends BaseActivity {
             if(isApproval) {
                 if(listViews.size() == 1) {
                     attachmentPaths.clear();
-                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 3");
+                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 5");
                     EventBus.getDefault().post(new AttachmentUpdate("update", attachmentPaths));
                     finish();
                 }else{
@@ -165,7 +165,7 @@ public class PreviewPhotoActivity extends BaseActivity {
                     pager.removeAllViews();
                     listViews.remove(location);
                     adapter.setListViews(listViews);
-                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 3");
+                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 5");
                     adapter.notifyDataSetChanged();
                 }
 

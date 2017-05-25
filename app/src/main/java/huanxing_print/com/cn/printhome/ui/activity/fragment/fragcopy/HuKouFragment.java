@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -127,7 +128,14 @@ public class HuKouFragment extends Fragment implements View.OnClickListener {
                     intent.putExtra("bytes", bytes);
                     intent.putExtra("bytesf", bytesf);
                     startActivity(intent);
-                    getActivity().finish();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            iv_preview.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hukou));
+                            iv_previewf.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hukouf));
+                        }
+                    }, 200);
                 }
                 break;
         }

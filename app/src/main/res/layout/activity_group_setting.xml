@@ -51,6 +51,7 @@
                     android:layout_marginLeft="@dimen/group_man_margin_l_r"
                     android:layout_weight="1"
                     android:text="群名称"
+                    android:textSize="17dp"
                     android:id="@+id/textView4" />
 
                 <TextView
@@ -60,6 +61,7 @@
                     android:ellipsize="end"
                     android:gravity="right"
                     android:maxLines="1"
+                    android:textSize="17dp"
                     android:text="求求"/>
 
                 <ImageView
@@ -94,6 +96,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/group_man_margin_l_r"
                             android:layout_weight="1"
+                            android:textSize="17dp"
                             android:text="群主转让"/>
 
                         <ImageView
@@ -130,6 +133,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/group_man_margin_l_r"
                             android:layout_weight="1"
+                            android:textSize="17dp"
                             android:text="群解散"/>
 
                         <ImageView
@@ -158,16 +162,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/group_part_layout_h"
-                    android:layout_marginTop="@dimen/group_man_margin"
                     android:background="@color/white"
                     android:gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/textView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/group_man_margin_l_r"
                         android:layout_weight="1"
-                        android:text="群红包余额"/>
+                        android:textSize="17dp"
+                        android:text="群红包余额" />
 
                     <TextView
                         android:id="@+id/tv_balance"
@@ -178,6 +183,7 @@
                         android:gravity="right"
                         android:maxLines="1"
                         android:text="200元"
+                        android:textSize="17dp"
                         android:textColor="@color/yellow2"/>
                 </LinearLayout>
             </LinearLayout>
@@ -201,6 +207,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/group_man_margin_l_r"
                         android:layout_weight="1"
+                        android:textSize="17dp"
                         android:text="聊天文件"/>
 
                     <ImageView
@@ -237,7 +244,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/group_man_margin_l_r"
                         android:layout_weight="1"
-                        android:text="清空聊天记录"/>
+                        android:text="清空聊天记录"
+                        android:textSize="17dp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -254,7 +262,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="删除并退出"
-                    android:textColor="#f73d34"/>
+                    android:textColor="#f73d34"
+                    android:textSize="18dp"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

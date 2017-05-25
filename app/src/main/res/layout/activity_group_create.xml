@@ -22,7 +22,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/btn_cancel"
-                android:textColor="@color/text_yellow" />
+                android:textSize="17dp"
+                android:textColor="@color/text_yellow2" />
         </LinearLayout>
 
 
@@ -39,13 +40,12 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/click_bottom"
         android:layout_below="@+id/titleBar"
-        android:layout_marginBottom="@dimen/recycler_margin_top"
-        android:layout_marginTop="@dimen/recycler_margin_bottom" />
+        android:layout_marginBottom="@dimen/recycler_margin_top" />
 
     <LinearLayout
         android:id="@+id/click_bottom"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/layout_group_choose_bottom_h"
+        android:layout_height="49dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:gravity="center_vertical"
@@ -59,6 +59,7 @@
             android:layout_marginRight="@dimen/tv_group_choose_hint_margin"
             android:layout_weight="1"
             android:text="已选择:0人"
+            android:textSize="14dp"
             android:textColor="@color/text_yellow" />
 
         <Button
@@ -69,6 +70,7 @@
             android:background="@drawable/btn_contact_add_selector"
             android:enabled="false"
             android:padding="@dimen/btn_group_ok_padding"
+            android:textColor="@color/text_yellow"
             android:text="确定(0/4)" />
     </LinearLayout>
 </RelativeLayout>

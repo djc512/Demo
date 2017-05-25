@@ -60,7 +60,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private GridView noScrollgridview;
     private GridAdapter adapter;
     private Context ctx;
-    private ImageView iv_back;
     private LinearLayout ll_back;
     private EditText et_comment_content;
     private TextView tv_num;
@@ -117,7 +116,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 
-        iv_back = (ImageView) findViewById(R.id.iv_back);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         et_comment_content = (EditText) findViewById(R.id.et_comment_content);
         tv_num = (TextView) findViewById(R.id.tv_num);
@@ -171,7 +169,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private int priceStar = 5;
 
     private void initListener() {
-        iv_back.setOnClickListener(this);
+        ll_back.setOnClickListener(this);
         tv_submit.setOnClickListener(this);
         iv_comment.setOnClickListener(this);
 
@@ -275,7 +273,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_back:
+            case R.id.ll_back:
                 finishCurrentActivity();
                 break;
             case R.id.tv_submit:
@@ -433,7 +431,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 toast("发表成功");
 
                 Intent intentsave = new Intent();
-                intentsave.putExtra("commnet",false);
+                intentsave.putExtra("commnet", false);
                 intentsave.setAction("bitmap");
                 sendBroadcast(intentsave);
                 finishCurrentActivity();
@@ -501,17 +499,22 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-
-            if (position == selectBitmap.size()) {
-                holder.image.setImageBitmap(BitmapFactory.decodeResource(
-                        getResources(), R.drawable.add));
-                if (position == 3) {
-                    holder.image.setVisibility(View.GONE);
-                } else {
-                    holder.image.setVisibility(View.VISIBLE);
-                }
+            if (Bimp.tempSelectBitmap.size() == 0) {
+                Bimp.tempSelectBitmap.clear();
+                notifyDataSetChanged();
+                holder.image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.add));
             } else {
-                holder.image.setImageBitmap(selectBitmap.get(position).getBitmap());
+                if (position == selectBitmap.size()) {
+                    holder.image.setImageBitmap(BitmapFactory.decodeResource(
+                            getResources(), R.drawable.add));
+                    if (position == 3) {
+                        holder.image.setVisibility(View.GONE);
+                    } else {
+                        holder.image.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    holder.image.setImageBitmap(selectBitmap.get(position).getBitmap());
+                }
             }
             return convertView;
         }

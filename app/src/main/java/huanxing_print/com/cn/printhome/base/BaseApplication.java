@@ -11,11 +11,13 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.dreamlive.cn.clog.CollectLog;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.EMGroupChangeListener;
@@ -31,6 +33,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -39,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 import cn.jpush.android.api.JPushInterface;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.chat.GroupMessageUpdateInRed;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
@@ -351,8 +355,8 @@ public class BaseApplication extends Application {
             StrictMode.setVmPolicy(builder.build());
         }
         EaseUI.getInstance().init(this, null);
-//        CollectLog clog = CollectLog.getInstance();
-//        clog.init(this, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "YinJia");
+        CollectLog clog = CollectLog.getInstance();
+        clog.init(this, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "YinJia");
         api = WXAPIFactory.createWXAPI(this, WX_APPID, true);
         api.registerApp(WX_APPID);
         //initJPush();
@@ -527,11 +531,15 @@ public class BaseApplication extends Application {
             @Override
             public void onMemberJoined(final String groupId, final String member) {
                 //群组加入新成员通知
+                GroupMessageUpdateInRed updateInRed = new GroupMessageUpdateInRed("updateMember", groupId, member, true);
+                EventBus.getDefault().post(updateInRed);
             }
 
             @Override
             public void onMemberExited(final String groupId, final String member) {
                 //群成员退出通知
+                GroupMessageUpdateInRed updateInRed = new GroupMessageUpdateInRed("updateMember", groupId, member, false);
+                EventBus.getDefault().post(updateInRed);
             }
 
         });
