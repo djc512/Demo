@@ -307,9 +307,21 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                             BufferType.SPANNABLE);
                 }
                 if (!ObjectUtils.isNull(packetId) && !ObjectUtils.isNull(packetType)) {
-                    //红包
-                    holder.message.setText(nickName + ":" + "[" + packetType + "]" + EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
-                            BufferType.SPANNABLE);
+                    //红包 EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext())))
+                    // 设置内容
+                    String test = "" + EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext())));
+                    //得到]的下标
+                    if (test.contains("]")) {
+                        //ios
+                        int position1 = test.indexOf("]");
+                        if (!ObjectUtils.isNull(test) && !ObjectUtils.isNull(position1)) {
+                            holder.message.setText(nickName + ":" + "[" + packetType + "]" + test.substring(position1 + 1, test.length()), BufferType.SPANNABLE);
+                        }
+                    } else {
+                        holder.message.setText(nickName + ":" + "[" + packetType + "]" + EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
+                                BufferType.SPANNABLE);
+                    }
+
                 }
 
                 if (content != null) {
@@ -318,8 +330,21 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             } else {
                 if (!ObjectUtils.isNull(packetId) && !ObjectUtils.isNull(packetType)) {
                     //红包
-                    holder.message.setText(nickName + ":" + "[" + packetType + "]" + EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
-                            BufferType.SPANNABLE);
+                    String test = "" + EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext())));
+                    if (test.contains("]")) {
+                        //ios的红包信息
+                        //得到]的下标
+                        int index = test.indexOf("]");
+                        if (!ObjectUtils.isNull(test) && !ObjectUtils.isNull(index)) {
+                            String result = test.substring(index + 1, test.length());
+                            holder.message.setText("[" + packetType + "]" + result,
+                                    BufferType.SPANNABLE);
+                        }
+                    } else {
+                        holder.message.setText("[" + packetType + "]" + test,
+                                BufferType.SPANNABLE);
+                    }
+
                 } else {
                     holder.message.setText(EaseSmileUtils.getSmiledText(getContext(), EaseCommonUtils.getMessageDigest(lastMessage, (this.getContext()))),
                             BufferType.SPANNABLE);

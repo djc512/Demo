@@ -29,8 +29,10 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.CreateGroupChatActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
+import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.PreViewUtil;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtils;
 import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
 
@@ -54,6 +56,7 @@ public class EaseChatRowFile extends EaseChatRow {
     private PopupList popupList;
     private float mRawX;
     private float mRawY;
+    private String fileReName;//修改之后的文件名称
 
     public EaseChatRowFile(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -102,6 +105,7 @@ public class EaseChatRowFile extends EaseChatRow {
         String filePath = fileMessageBody.getLocalUrl();
         localFilePath = filePath;
         fileNameView.setText(fileMessageBody.getFileName());
+
         if (message.getType() == EMMessage.Type.FILE) {
             //设置不同文件类型的图标
             String fileType = getExtensionName(filePath);
@@ -230,7 +234,13 @@ public class EaseChatRowFile extends EaseChatRow {
 //            FileUtils.openFile(file, (Activity) context);
 //            Intent intent = FileUtil.openFile(file.getAbsolutePath());
 //            context.startActivity(intent);
-            PreViewUtil.preview(context, filePath, true);
+            if (!ObjectUtils.isNull(filePath)) {
+                if (FileType.isPrintType(filePath)) {
+                    PreViewUtil.preview(context, filePath, true);
+                } else {
+                    ToastUtil.doToast(context, "不支持此类文件的预览!");
+                }
+            }
         } else {
             // download the file
             context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
