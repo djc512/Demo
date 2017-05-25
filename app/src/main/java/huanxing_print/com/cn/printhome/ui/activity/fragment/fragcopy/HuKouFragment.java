@@ -225,6 +225,12 @@ public class HuKouFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        bytes = null;
+        bytesf = null;
+    }
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (receiveBroadCast != null) {
