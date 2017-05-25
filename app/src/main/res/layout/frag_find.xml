@@ -17,7 +17,6 @@
             android:layout_width="@dimen/add_w_h"
             android:layout_height="@dimen/add_w_h"
             android:layout_alignParentRight="true"
-            android:background="@drawable/bg_recycler_click_selector"
             android:gravity="center">
 
             <ImageView
