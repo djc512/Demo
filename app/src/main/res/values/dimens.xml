@@ -146,7 +146,7 @@
     <dimen name="new_friend_status_size">14dp</dimen>
 
     <!--印家搜索好友结果页-->
-    <dimen name="item_result_layout_h">50dp</dimen>
+    <dimen name="item_result_layout_h">60dp</dimen>
     <dimen name="item_result_icon_w_h">40dp</dimen>
     <dimen name="item_result_icon_margin">15dp</dimen>
     <dimen name="item_result_yj_name_size">15dp</dimen>

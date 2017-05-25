@@ -58,10 +58,6 @@
             android:id="@+id/btn_add_contact"
             android:layout_width="@dimen/contact_btn_w"
             android:layout_height="@dimen/contact_btn_h"
-            android:paddingLeft="@dimen/item_result_btn_padding_l"
-            android:paddingRight="@dimen/item_result_btn_padding_r"
-            android:paddingTop="@dimen/item_result_btn_padding_t"
-            android:paddingBottom="@dimen/item_result_btn_padding_b"
             android:layout_marginLeft="@dimen/item_result_btn_margin"
             android:layout_marginRight="@dimen/item_result_btn_margin"
             android:text="@string/btn_contact_add"/>

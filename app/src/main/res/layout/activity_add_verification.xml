@@ -16,7 +16,6 @@
             android:text="@string/text_verification_friend"/>
         <LinearLayout
             android:id="@+id/verification_send"
-            android:background="@drawable/bg_recycler_click_selector"
             android:layout_width="@dimen/add_w_h"
             android:layout_height="@dimen/add_w_h"
             android:layout_alignParentRight="true"
