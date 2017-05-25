@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.contact;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -61,7 +62,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         friendRecycler.setHasFixedSize(true);
         friendRecycler.setLayoutManager(layoutManager);
-        friendRecycler.addItemDecoration(new MyDecoration(this,MyDecoration.HORIZONTAL_LIST));
+        friendRecycler.addItemDecoration(new MyDecoration(this,MyDecoration.HORIZONTAL_LIST, 1, ContextCompat.getColor(this, R.color.recycler_divider_color)));
 
         adapter = new NewFriendRecycelAdapter(this,friendInfos);
         adapter.setOnAddItemClickListener(this);
