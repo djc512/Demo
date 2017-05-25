@@ -13,6 +13,9 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 
 public class PinYinUtil {
     public static String getPingYin(String inputString) {
+        if(null == inputString || inputString.isEmpty()) {
+            return "Null";
+        }
         HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
         format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
         format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
