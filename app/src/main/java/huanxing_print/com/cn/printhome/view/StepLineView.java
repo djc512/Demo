@@ -132,7 +132,7 @@ public class StepLineView extends View {
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);
             canvas.drawLine(pointX1, pointY1, pointX4, pointY4, p);
-            canvas.drawCircle(pointX1, pointY1, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
+            canvas.drawCircle(pointX1, pointY1, DisplayUtil.dip2px(context, RADIUS_STEP), p);
             canvas.drawCircle(pointX3, pointY3, DisplayUtil.dip2px(context, RADIUS_STEP), p);
 
             p.setStyle(Paint.Style.STROKE);
@@ -150,8 +150,8 @@ public class StepLineView extends View {
             p.setStyle(Paint.Style.FILL);
             p.setAntiAlias(true);
             canvas.drawLine(pointX1, pointY1, pointX5, pointY5, p);
-            canvas.drawCircle(pointX1, pointY1, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
-            canvas.drawCircle(pointX3, pointY3, DisplayUtil.dip2px(context, RADIUS_COMMON), p);
+            canvas.drawCircle(pointX1, pointY1, DisplayUtil.dip2px(context, RADIUS_STEP), p);
+            canvas.drawCircle(pointX3, pointY3, DisplayUtil.dip2px(context, RADIUS_STEP), p);
             canvas.drawCircle(pointX5, pointY5, DisplayUtil.dip2px(context, RADIUS_STEP), p);
         }
     }

@@ -32,6 +32,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.event.print.PayTypeEvent;
 import huanxing_print.com.cn.printhome.event.print.WechatPayEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.CommonResp;
@@ -57,6 +58,7 @@ import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.util.PriceUtil;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
@@ -165,14 +167,28 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         EventBus.getDefault().register(CopySettingActivity.this);
         ctx = this;
         CommonUtils.initSystemBar(this);
-        StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PAY);
         initData();
         log();
+    }
+
+    private void initCommonStep() {
+        StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PAY);
+    }
+
+    private void initCopyStep() {
+        StepViewUtil.init(ctx, findViewById(R.id.step), StepLineView.STEP_PAY);
+        TextView pickFileTv = (TextView) findViewById(R.id.pickFileTv);
+        pickFileTv.setText("采集制作");
     }
 
     private void initData() {
         Bundle bundle = getIntent().getExtras();
         printFileInfo = bundle.getParcelable(FILE_INFO);
+        if (printFileInfo.getFileType() == PrintFileInfo.TYPE_COPY) {
+            initCopyStep();
+        } else {
+            initCommonStep();
+        }
         Logger.i(printFileInfo.toString());
         previewPath = bundle.getString(PREVIEW_PATH);
         printType = bundle.getInt(PRINT_TYPE);
@@ -730,8 +746,12 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.paperImg://纸张类型
-                if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
+                if (PrintUtil.PRINTER_TYPE_PHOTO == printerPrice.getPaperType()) {
                     ShowUtil.showToast("打印机不支持相片纸打印");
+                    return;
+                }
+                if (StringUtil.stringToInt(printerPrice.getPhotoNum()) == 0) {
+                    ShowUtil.showToast("纸张不足");
                 } else {
                     if (paperType == PrintUtil.SETTING_COMMON) {
                         paperImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));
@@ -893,6 +913,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void wechatPay(WeChatPayBean bean) {
+        SharedPreferencesUtils.putShareValue(CopySettingActivity.this, "wechatFlag", true);
         PayUtil.getInstance(getSelfActivity()).weChatPay(bean);
     }
 
@@ -918,7 +939,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
-    public void onMessageEventPostThread(WechatPayEvent wechatPayEvent) {
+    public void onMessageEvent(WechatPayEvent wechatPayEvent) {
+        Logger.i(wechatPayEvent.toString());
+        SharedPreferencesUtils.putShareValue(CopySettingActivity.this, "wechatFlag", false);
         if (wechatPayEvent.isResult()) {
             print();
         } else {
