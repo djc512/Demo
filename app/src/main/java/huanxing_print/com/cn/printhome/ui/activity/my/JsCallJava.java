@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -19,6 +20,7 @@ import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
 import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
+import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.util.WeiXinUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -120,5 +122,13 @@ public class JsCallJava {
         weiXinUtils.init(ctx, BaseApplication.getInstance().WX_APPID);
         Bitmap bmp = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.appicon_print);
         weiXinUtils.shareToWxFriend("印家共享打印", "大家帮我支持一下打印点投放！", shareAppUrl, bmp);
+    }
+    /**
+     * 返回主页面
+     */
+    @JavascriptInterface
+    public void go(){
+        Toast.makeText(ctx, "go", Toast.LENGTH_SHORT).show();
+        ctx.startActivity(new Intent(ctx, MainActivity.class));
     }
 }

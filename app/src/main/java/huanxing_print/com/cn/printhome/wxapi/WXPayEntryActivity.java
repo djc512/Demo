@@ -70,15 +70,15 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 switch (resp.errCode) {
                     case 0:
                         String successUrl = "http://print.inkin.cc/src/success.html";
-                        send(successUrl);
+                        send(successUrl,true);
                         break;
                     case -1:
                         String faileUrl = "http://print.inkin.cc/src/payFailed.html";
-                        send(faileUrl);
+                        send(faileUrl,false);
                         break;
                     case -2:
                         String faileUrl1 = "http://print.inkin.cc/src/payFailed.html";
-                        send(faileUrl1);
+                        send(faileUrl1,false);
                         break;
                 }
             }
@@ -91,10 +91,11 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
      *
      * @param
      */
-    private void send(String url) {
+    private void send(String url,boolean state) {
         Intent intentsave = new Intent();
         intentsave.setAction("url");
         intentsave.putExtra("url", url);
+        intentsave.putExtra("state", state);
         sendBroadcast(intentsave);
     }
 }
