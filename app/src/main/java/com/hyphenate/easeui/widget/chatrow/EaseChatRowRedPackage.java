@@ -488,6 +488,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(context, "" + msg);
             Log.d("CMCC", "" + msg);
         }
 
