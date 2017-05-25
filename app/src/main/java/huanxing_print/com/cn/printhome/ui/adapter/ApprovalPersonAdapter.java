@@ -1,6 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +28,16 @@ public class ApprovalPersonAdapter extends BaseAdapter {
     private Context ctx;
     private ArrayList<ApprovalPeopleItem> list;
     private HashMap<Integer, View> viewMap = new HashMap<Integer, View>();
+    private boolean isRevok = false;
 
     public ApprovalPersonAdapter(Context ctx, ArrayList<ApprovalPeopleItem> list) {
         this.ctx = ctx;
         this.list = list;
     }
 
-    public void modifyApprovalPersons(ArrayList<ApprovalPeopleItem> ls) {
+    public void modifyApprovalPersons(ArrayList<ApprovalPeopleItem> ls, boolean isRevok) {
         this.list = ls;
+        this.isRevok = isRevok;
         notifyDataSetChanged();
     }
 
@@ -94,6 +97,7 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         holder.tv_name.setText(info.getName());
         holder.tv_time.setText(info.getUpdateTime());
         holder.tv_time.setVisibility(View.VISIBLE);
+        holder.tv_detail.setVisibility(View.VISIBLE);
         String type = info.getStatus();
         if ("-2".equals(type)) {
             holder.tv_detail.setText("发起申请");
@@ -103,11 +107,22 @@ public class ApprovalPersonAdapter extends BaseAdapter {
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.text_yellow));
             holder.iv_isapproval.setBackgroundResource(R.drawable.approval_ing);
             holder.tv_time.setVisibility(View.GONE);
+            if (isRevok) {
+                holder.tv_detail.setVisibility(View.INVISIBLE);
+            }else{
+                holder.tv_detail.setVisibility(View.VISIBLE);
+            }
         }else if("0".equals(type)) {
             holder.tv_detail.setText("审批中");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.text_yellow));
             holder.iv_isapproval.setBackgroundResource(R.drawable.approval_ing);
             holder.tv_time.setVisibility(View.GONE);
+            if (isRevok) {
+                Log.e("wanghao","isRevok");
+                holder.tv_detail.setVisibility(View.INVISIBLE);
+            }else{
+                holder.tv_detail.setVisibility(View.VISIBLE);
+            }
         }else if("2".equals(type)) {
             holder.tv_detail.setText("已同意");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
@@ -118,9 +133,19 @@ public class ApprovalPersonAdapter extends BaseAdapter {
         }else if("4".equals(type)) {
             holder.tv_detail.setText("申请人撤销");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+            if (isRevok) {
+                holder.tv_detail.setVisibility(View.INVISIBLE);
+            }else{
+                holder.tv_detail.setVisibility(View.VISIBLE);
+            }
         }else if("5".equals(type)) {
             holder.tv_detail.setText("完成-未读");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+            if (isRevok) {
+                holder.tv_detail.setVisibility(View.INVISIBLE);
+            }else{
+                holder.tv_detail.setVisibility(View.VISIBLE);
+            }
         }else if("6".equals(type)) {
             holder.tv_detail.setText("完成");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));

@@ -126,6 +126,9 @@ public class ChatFileType {
                 case "jpg":
                     isFile = true;
                     break;
+                case "jpeg":
+                    isFile = true;
+                    break;
                 case "png":
                     isFile = true;
                     break;

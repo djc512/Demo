@@ -56,6 +56,7 @@ public class DialogUtils {
     public static Dialog mActivityDialog;
     public static Dialog mPackageDialog;
     public static Dialog mSinglePackageDialog;
+    public static Dialog mCallDialog;
 
     public interface ShareDialogCallBack {
 
@@ -71,6 +72,9 @@ public class DialogUtils {
         public void ok();
     }
 
+    public interface CallDialogCallBack {
+        public void ok();
+    }
     public interface PackageDialogCallBack {
         public void open();
 
@@ -196,6 +200,49 @@ public class DialogUtils {
 
         return mTipsDialog;
     }
+
+
+    public static Dialog showCallDialog(Context context, String content, final CallDialogCallBack callDialogCallBack) {
+
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.dialog_tips, null);
+        mCallDialog = new Dialog(context, R.style.loading_dialog);
+        mCallDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        Window window = mCallDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+
+        WindowManager windowManager = ((Activity) context).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = mCallDialog.getWindow().getAttributes();
+        lp.width = display.getWidth() - 100;
+        mCallDialog.getWindow().setAttributes(lp);
+        mCallDialog.setCanceledOnTouchOutside(true);
+
+        Button okCancel = (Button) view.findViewById(R.id.btn_canncel);
+        Button okBtn = (Button) view.findViewById(R.id.btn_ok);
+        TextView contentTv = (TextView) view.findViewById(tv_content);
+        contentTv.setText(content);
+        okBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mCallDialog.dismiss();
+                callDialogCallBack.ok();
+            }
+        });
+        okCancel.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mCallDialog.dismiss();
+
+            }
+        });
+
+        return mCallDialog;
+    }
+
+
 
     public static Dialog showShareDialog(final Context context, final ShareDialogCallBack shareDialogCallBack) {
 

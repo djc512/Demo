@@ -167,7 +167,11 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
             lists.clear();
             lists.add(approvalOrCopy);
             lists.addAll(list);
-            personAdapter.modifyApprovalPersons(lists);
+            if(4 == details.getStatus()) {
+                personAdapter.modifyApprovalPersons(lists, true);
+            }else {
+                personAdapter.modifyApprovalPersons(lists, false);
+            }
         }
         //抄送
         ArrayList<ApprovalPeopleItem> copylist =  details.getCopyerList();

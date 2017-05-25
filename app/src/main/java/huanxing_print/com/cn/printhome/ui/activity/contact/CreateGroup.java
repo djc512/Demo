@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,7 @@ import java.util.Map;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
 import huanxing_print.com.cn.printhome.model.contact.GroupInfo;
 import huanxing_print.com.cn.printhome.net.callback.contact.CreateGroupCallback;
@@ -152,14 +155,15 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
 //            DialogUtils.closeProgressDialog();
             loadingDialog.dismiss();
             if(null != groupInfo) {
-                if (isGoChat) {
+//                if (isGoChat) {
                     Intent intent = new Intent(CreateGroup.this, ChatTestActivity.class);
                     intent.putExtra("GroupInfo", groupInfo);
                     startActivity(intent);
+                    EventBus.getDefault().post(new GroupUpdate("groupUpdate"));
                     finish();
-                } else {
-                    createSuccess(groupInfo);
-                }
+//                } else {
+//                    createSuccess(groupInfo);
+//                }
             }
         }
 

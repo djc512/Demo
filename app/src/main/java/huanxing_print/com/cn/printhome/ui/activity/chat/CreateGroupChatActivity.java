@@ -62,6 +62,7 @@ public class CreateGroupChatActivity extends BaseActivity implements View.OnClic
     }
 
     private void initView() {
+        findViewById(R.id.click_bottom).setVisibility(View.GONE);
         btn_create = (Button) findViewById(R.id.btn_create);
         tv_hint_member = (TextView) findViewById(R.id.hint_member);
 
