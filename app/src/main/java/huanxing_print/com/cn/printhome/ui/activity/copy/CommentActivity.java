@@ -433,8 +433,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 toast("发表成功");
 
                 Intent intentsave = new Intent();
-                intentsave.putExtra("commnet", false);
-                intentsave.setAction("comment");
+                intentsave.putExtra("commnet",false);
+                intentsave.setAction("bitmap");
                 sendBroadcast(intentsave);
                 finishCurrentActivity();
 
