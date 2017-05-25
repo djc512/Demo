@@ -394,6 +394,7 @@
         <!-- 发表评论界面 -->
         <activity
             android:name=".ui.activity.copy.CommentActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 评论列表界面 -->
         <activity
