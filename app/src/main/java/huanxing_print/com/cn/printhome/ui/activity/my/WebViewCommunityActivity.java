@@ -3,12 +3,15 @@ package huanxing_print.com.cn.printhome.ui.activity.my;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,6 +48,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private ReceiveBroadCast receiveBroadCast;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -90,7 +94,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         s.setDomStorageEnabled(true);
         webview.requestFocus();
         webview.setScrollBarStyle(0);
-        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()),"pay");
+        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()), "pay");
 
         synCookies(getSelfActivity(), url);
         webview.loadUrl(url);
@@ -284,5 +288,24 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        receiveBroadCast = new ReceiveBroadCast();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("url");    //只有持有相同的action的接受者才能接收此广播
+        getSelfActivity().registerReceiver(receiveBroadCast, filter);
+    }
+
+    public class ReceiveBroadCast extends BroadcastReceiver {
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //得到广播中得到的数据，并显示出来
+            String url = intent.getStringExtra("url");
+            webview.loadUrl(url);
+        }
     }
 }

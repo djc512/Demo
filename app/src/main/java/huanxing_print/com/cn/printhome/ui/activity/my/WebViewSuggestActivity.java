@@ -3,12 +3,17 @@ package huanxing_print.com.cn.printhome.ui.activity.my;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +35,10 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+
+import static android.R.attr.tag;
+import static huanxing_print.com.cn.printhome.R.id.iv_preview;
+import static huanxing_print.com.cn.printhome.R.id.iv_previewf;
 
 public class WebViewSuggestActivity extends BaseActivity implements OnClickListener {
     private WebView webview;
@@ -90,7 +99,7 @@ public class WebViewSuggestActivity extends BaseActivity implements OnClickListe
         webview.requestFocus();
         webview.setScrollBarStyle(0);
 
-        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()),"share");
+        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()), "share");
         synCookies(getSelfActivity(), url);
         webview.loadUrl(url);
         webview.setWebViewClient(new WebViewClient() {

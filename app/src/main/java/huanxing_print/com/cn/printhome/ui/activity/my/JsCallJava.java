@@ -37,7 +37,6 @@ public class JsCallJava {
 
     @JavascriptInterface
     public void pay(String orderid) {
-        Toast.makeText(ctx, "支付", Toast.LENGTH_SHORT).show();
         DialogUtils.showProgressDialog(ctx, "正在加载");
         Go2PayRequest.go2PWeChat(ctx, orderid, "JM", new WeChatCallBack() {
             @Override
