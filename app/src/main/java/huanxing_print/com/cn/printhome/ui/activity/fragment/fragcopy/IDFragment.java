@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -225,8 +226,11 @@ public class IDFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStop() {
         super.onStop();
-        bytes = null;
-        bytesf = null;
+        boolean screenon = isScreenon();
+        if (screenon) {
+            bytes = null;
+            bytesf = null;
+        }
     }
 
     @Override
@@ -235,5 +239,16 @@ public class IDFragment extends Fragment implements View.OnClickListener {
         if (receiveBroadCast != null) {
             ctx.unregisterReceiver(receiveBroadCast);
         }
+    }
+
+    /**
+     * 获取手机的屏幕状态
+     * true为打开，false为关闭
+     */
+    public boolean isScreenon() {
+        PowerManager powerManager = (PowerManager) getActivity()
+                .getSystemService(Context.POWER_SERVICE);
+        boolean ifOpen = powerManager.isScreenOn();
+        return ifOpen;
     }
 }

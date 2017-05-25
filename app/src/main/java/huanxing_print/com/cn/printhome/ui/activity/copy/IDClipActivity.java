@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.copy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
@@ -61,6 +63,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         return this;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +82,7 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         ll = (LinearLayout) findViewById(R.id.ll_image_container);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void initData() {
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -96,22 +100,18 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
             bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
             mBitmap = bitmapf;
         }
-    }
 
-    private void initListener() {
-        btn_preview.setOnClickListener(this);
-        btn_reset.setOnClickListener(this);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (null != bitmap && null != bitmapf) {
             initMergePic();
         } else {
             scaleID(mBitmap);
         }
+
+    }
+
+    private void initListener() {
+        btn_preview.setOnClickListener(this);
+        btn_reset.setOnClickListener(this);
     }
 
     /**
@@ -254,5 +254,15 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         double y = Math.pow(point.y / dm.ydpi, 2);
         double screenInches = Math.sqrt(x + y);
         Log.d(TAG, "Screen inches : " + screenInches);
+    }
+    /**
+     * 获取手机的屏幕状态
+     * true为打开，false为关闭
+     */
+    public boolean isScreenon() {
+        PowerManager powerManager = (PowerManager) getSelfActivity()
+                .getSystemService(Context.POWER_SERVICE);
+        boolean ifOpen = powerManager.isScreenOn();
+        return ifOpen;
     }
 }

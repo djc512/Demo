@@ -1,5 +1,6 @@
 package huanxing_print.com.cn.printhome.ui.activity.copy;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,6 +8,7 @@ import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.view.Display;
@@ -56,6 +58,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
         return this;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
         ll = (LinearLayout) findViewById(R.id.ll_image_container);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void initData() {
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -91,22 +95,16 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
             bitmapf = BitmapFactory.decodeByteArray(bytesf, 0, bytesf.length);
             mBitmap = bitmapf;
         }
-    }
-
-    private void initListener() {
-        btn_preview.setOnClickListener(this);
-        btn_reset.setOnClickListener(this);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (null != bitmap && null != bitmapf) {
             initMergePic();
         } else {
             scaleID(mBitmap);
         }
+    }
+
+    private void initListener() {
+        btn_preview.setOnClickListener(this);
+        btn_reset.setOnClickListener(this);
     }
 
     /**
@@ -253,5 +251,16 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
             mergeBitmap = null;
         }
         System.gc();
+    }
+
+    /**
+     * 获取手机的屏幕状态
+     * true为打开，false为关闭
+     */
+    public boolean isScreenon() {
+        PowerManager powerManager = (PowerManager) getSelfActivity()
+                .getSystemService(Context.POWER_SERVICE);
+        boolean ifOpen = powerManager.isScreenOn();
+        return ifOpen;
     }
 }
