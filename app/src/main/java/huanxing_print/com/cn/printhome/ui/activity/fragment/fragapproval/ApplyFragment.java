@@ -53,6 +53,10 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 		super.onResume();
 
 	}
+	public void reload() {
+		initData();
+	}
+
 
 	@Override
 	protected int getContextView() {
@@ -75,9 +79,9 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 		token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
 				"loginToken");
 		DialogUtils.showProgressDialog(getActivity(), "加载中");
-		//网络请求，获取用户信息
 		ApprovalRequest.queryUnreadMessage(getActivity(), token, queryMessageCallBack);
 	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

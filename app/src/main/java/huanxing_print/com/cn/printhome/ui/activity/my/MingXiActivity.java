@@ -183,7 +183,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 if (billValue.equals("0.00")) {
                     tv_bill_debit.setTextColor(getResources().getColor(R.color.gray8));
                 } else {
-                    tv_bill_debit.setTextColor(getResources().getColor(R.color.yellow2));
+                    tv_bill_debit.setTextColor(getResources().getColor(R.color.yellow3));
                 }
             }
 

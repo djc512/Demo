@@ -253,7 +253,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         }
         if (fragTemp.isAdded()) {
-            if (fragTemp instanceof ContantsFragment) {
+           if(fragTemp instanceof ApplyFragment){
+                ((ApplyFragment) fragTemp).reload();
+            }else if (fragTemp instanceof ContantsFragment) {
                 ((ContantsFragment) fragTemp).reload();
             }else if(fragTemp instanceof MyFragment){
                 ((MyFragment) fragTemp).reload();

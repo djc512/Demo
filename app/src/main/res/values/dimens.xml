@@ -21,6 +21,7 @@
     <dimen name="distance_thirty">30dip</dimen>
     <dimen name="distance_forty">40dip</dimen>
     <dimen name="distance_fifty">50dip</dimen>
+    <dimen name="distance_forty_nine">49dip</dimen>
     <dimen name="distance_sixty">60dip</dimen>
     <dimen name="titlebar_height">50dp</dimen>
 
