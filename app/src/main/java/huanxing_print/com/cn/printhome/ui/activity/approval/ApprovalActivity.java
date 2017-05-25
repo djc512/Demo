@@ -1,6 +1,9 @@
 package huanxing_print.com.cn.printhome.ui.activity.approval;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,8 +13,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.simple.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +39,18 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
     private List<Fragment> fragments;
     private ViewPagerAdapter adapter;
     private int approverNum;
-
+    private final String BROADCAST_ACTION_APPROVALNUM_REFRESH= "approvalnum.refresh";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_approval);
         ctx = this;
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
+        // 注册广播
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
+        registerReceiver(mBroadcastReceiver, intentFilter);
         initView();
         initMeasureSpec();
         initData();
@@ -145,9 +150,25 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
         }
     }
 
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(BROADCAST_ACTION_APPROVALNUM_REFRESH)) {
+                approverNum--;
+                if (approverNum>0){
+                    tv_approval.setText("待审批("+approverNum+")");
+                }else{
+                    tv_approval.setText("待审批");
+                }
+            }
+        }
+    };
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
+        unregisterReceiver(mBroadcastReceiver);
     }
 }

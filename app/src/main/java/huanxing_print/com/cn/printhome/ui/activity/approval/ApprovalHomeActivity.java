@@ -1,12 +1,13 @@
 package huanxing_print.com.cn.printhome.ui.activity.approval;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.simple.eventbus.EventBus;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
@@ -26,7 +27,7 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
     private int approverNum;//待我审批
     private int copyerNum;//抄送我的
     private int initiatorNum;//我发起的
-
+    private final String BROADCAST_ACTION_APPROVALNUM_REFRESH= "approvalnum.refresh";
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -37,7 +38,11 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_approval_home);
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
+        // 注册广播
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
+        registerReceiver(mBroadcastReceiver, intentFilter);
         initView();
         initListener();
         initData();
@@ -117,9 +122,27 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
                 break;
         }
     }
+
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(BROADCAST_ACTION_APPROVALNUM_REFRESH)) {
+                approverNum--;
+                if (approverNum>0){
+                    tv_approver_num.setVisibility(View.VISIBLE);
+                    tv_approver_num.setText(approverNum+"");
+                }else{
+                    tv_approver_num.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
+        unregisterReceiver(mBroadcastReceiver);
     }
 }
