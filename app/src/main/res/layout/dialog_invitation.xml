@@ -52,11 +52,13 @@
         android:background="@drawable/bg_recycler_click_selector"
         android:layout_marginTop="@dimen/invitation_btn_margin_t"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/invitation_btn_cancel_h"
+        android:layout_height="@dimen/contact_dialog_cancel_h"
         android:gravity="center"
         android:orientation="horizontal">
         <TextView
             android:text="取消"
+            android:textSize="@dimen/contact_dialog_cancel"
+            android:textColor="#282828"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
