@@ -124,7 +124,7 @@ public class PrinterDetailFragment extends Fragment {
             photoPriceTv.setVisibility(View.GONE);
             photoRemainTv.setVisibility(View.GONE);
         }
-        backPriceTv.setText("黑色 A4 ￥" + printerPrice.getA4BlackPrice() + "   A3 ￥" + printerPrice
+        backPriceTv.setText("黑白 A4 ￥" + printerPrice.getA4BlackPrice() + "   A3 ￥" + printerPrice
                 .getA3BlackPrice());
         typeTv.setText(printerPrice.getCapability());
         resolutionTv.setText(printerPrice.getResolution());

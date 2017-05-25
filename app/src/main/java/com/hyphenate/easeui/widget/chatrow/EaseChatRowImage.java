@@ -1,11 +1,14 @@
 package com.hyphenate.easeui.widget.chatrow;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -26,11 +29,17 @@ import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.easeui.model.EaseImageCache;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseImageUtils;
+import com.hyphenate.util.EMLog;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -42,7 +51,7 @@ import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.PreViewUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtils;
-import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.util.webserver.ChatFileType;
 import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
 
 public class EaseChatRowImage extends EaseChatRowFile {
@@ -59,6 +68,9 @@ public class EaseChatRowImage extends EaseChatRowFile {
     private ExecutorService service = Executors.newSingleThreadExecutor();
     private float mRawX;
     private float mRawY;
+    private ProgressDialog pd;
+    private String tempPath;
+    private String iosFilePath;
 
     public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -103,6 +115,8 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
         EMImageMessageBody body = (EMImageMessageBody) message.getBody();
         localFilePath = body.getLocalUrl();
+        File temp = new File(localFilePath);
+        iosFilePath = temp.getParent() + "/temp_" + temp.getName() + ".jpg";
         Log.d("CMCC", "localFilePath:" + localFilePath);
         //设置图片的宽高
         setImgSize();
@@ -348,20 +362,63 @@ public class EaseChatRowImage extends EaseChatRowFile {
     @SuppressLint("NewApi")
     private void downloadImage(final String msgId) {
         Log.d("CMCC", "download with messageId: " + msgId);
-        File temp = new File(localFilePath);
+        final File temp = new File(localFilePath);
         if (temp != null && temp.exists()) {
             //存在就不要下载
-            PreViewUtil.preview(context, localFilePath, true);
+            if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                PreViewUtil.preview(context, localFilePath, true);
+            } else {
+                PreViewUtil.preview(context, iosFilePath, true);
+            }
             return;
         }
-        DialogUtils.showProgressDialog(context, "下载中");
-        final String tempPath = temp.getParent() + "/temp_" + temp.getName();
+
+        String str1 = getResources().getString(R.string.Download_the_pictures);
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setMessage(str1);
+        pd.show();
+
+        tempPath = temp.getParent() + "/temp_" + temp.getName();
+        Log.d("CMCC", "tempPath:" + tempPath);
+        Log.d("CMCC", "imgName:" + temp.getName());
+        Log.d("CMCC", "localFilePath:" + localFilePath);
         final EMCallBack callback = new EMCallBack() {
             public void onSuccess() {
                 Log.d("CMCC", "onSuccess");
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        new File(tempPath).renameTo(new File(localFilePath));
+
+                        if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                            //不理会
+                        } else {
+                            iosFilePath = temp.getParent() + "/temp_" + temp.getName() + ".jpg";
+                            //复制文件
+                            service.submit(new Runnable() {
+                                @Override
+                                public void run() {
+                                    copyFile(localFilePath, iosFilePath, true);
+                                }
+                            });
+                        }
+                        if (pd != null) {
+                            pd.dismiss();
+                        }
+                    }
+                });
                 //预览
-                DialogUtils.closeProgressDialog();
-                PreViewUtil.preview(context, localFilePath, true);
+                if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                    Log.d("CMCC", "iosFilePath:" + iosFilePath);
+                    PreViewUtil.preview(context, localFilePath, true);
+                } else {
+                    PreViewUtil.preview(context, iosFilePath, true);
+                }
+
+
             }
 
             public void onError(int error, String msg) {
@@ -370,18 +427,33 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 if (file.exists() && file.isFile()) {
                     file.delete();
                 }
-                DialogUtils.closeProgressDialog();
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        pd.dismiss();
+                    }
+                });
             }
 
             public void onProgress(final int progress, String status) {
                 Log.d("CMCC", "Progress: " + progress);
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String str2 = getResources().getString(R.string.Download_the_pictures_new);
+                        pd.setMessage(str2 + progress + "%");
+                    }
+                });
+
             }
         };
 
         EMMessage msg = EMClient.getInstance().chatManager().getMessage(msgId);
         msg.setMessageStatusCallback(callback);
 
-        Log.d("CMCC", "downloadAttachement");
+        EMLog.e(TAG, "downloadAttachement");
         EMClient.getInstance().chatManager().downloadAttachment(msg);
     }
 
@@ -391,17 +463,25 @@ public class EaseChatRowImage extends EaseChatRowFile {
     @SuppressLint("NewApi")
     private void downloadlongImage(final String msgId, final int code) {
         Log.d("CMCC", "download with messageId: " + msgId);
-        File temp = new File(localFilePath);
+        final File temp = new File(localFilePath);
         if (temp != null && temp.exists()) {
             //存在就不要下载
             switch (code) {
                 case 0:
-                    PreViewUtil.preview(context, localFilePath, false);
+                    if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                        PreViewUtil.preview(context, localFilePath, false);
+                    } else {
+                        PreViewUtil.preview(context, iosFilePath, false);
+                    }
                     break;
                 case 1:
                     //跳转到选择联系人界面只能单选
                     Intent intent = new Intent(context, CreateGroupChatActivity.class);
-                    intent.putExtra("imgUrl", localFilePath);
+                    if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                        intent.putExtra("imgUrl", localFilePath);
+                    } else {
+                        intent.putExtra("imgUrl", iosFilePath);
+                    }
                     context.startActivity(intent);
                     break;
                 case 2:
@@ -411,36 +491,79 @@ public class EaseChatRowImage extends EaseChatRowFile {
                             EMImageMessageBody body = (EMImageMessageBody) message.getBody();
                             // 其次把文件插入到系统图库
                             try {
-                                String url = MediaStore.Images.Media.insertImage(context.getContentResolver(),
-                                        localFilePath, body.getFileName(), null);
-                                // 最后通知图库更新
-                                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(url)));
+                                if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                                    String url = MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                                            localFilePath, body.getFileName(), null);
+                                    // 最后通知图库更新
+                                    context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(url)));
+                                } else {
+                                    String url = MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                                            iosFilePath, body.getFileName(), null);
+                                    // 最后通知图库更新
+                                    context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(url)));
+                                }
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             }
                         }
                     });
-                    ToastUtils.showToast(context, "保存成功了...");
+                    ToastUtils.showToast(context, "保存成功");
                     break;
             }
             return;
         }
-        DialogUtils.showProgressDialog(context, "下载中");
 
-        final String tempPath = temp.getParent() + "/temp_" + temp.getName();
+        String str1 = getResources().getString(R.string.Download_the_pictures);
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setMessage(str1);
+        pd.show();
+
+        tempPath = temp.getParent() + "/temp_" + temp.getName();
         final EMCallBack callback = new EMCallBack() {
             public void onSuccess() {
                 Log.d("CMCC", "onSuccess");
-                DialogUtils.closeProgressDialog();
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        new File(tempPath).renameTo(new File(localFilePath));
+
+                        if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                            //不理会
+                        } else {
+                            iosFilePath = temp.getParent() + "/temp_" + temp.getName() + ".jpg";
+                            //复制文件
+                            service.submit(new Runnable() {
+                                @Override
+                                public void run() {
+                                    copyFile(localFilePath, iosFilePath, true);
+                                }
+                            });
+                        }
+                        if (pd != null) {
+                            pd.dismiss();
+                        }
+                    }
+                });
                 //预览
                 switch (code) {
                     case 0:
-                        PreViewUtil.preview(context, localFilePath, false);
+                        if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                            PreViewUtil.preview(context, localFilePath, false);
+                        } else {
+                            PreViewUtil.preview(context, iosFilePath, false);
+                        }
                         break;
                     case 1:
                         //跳转到选择联系人界面只能单选
                         Intent intent = new Intent(context, CreateGroupChatActivity.class);
-                        intent.putExtra("imgUrl", localFilePath);
+                        if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                            intent.putExtra("imgUrl", localFilePath);
+                        } else {
+                            intent.putExtra("imgUrl", iosFilePath);
+                        }
                         context.startActivity(intent);
                         break;
                     case 2:
@@ -450,10 +573,17 @@ public class EaseChatRowImage extends EaseChatRowFile {
                                 EMImageMessageBody body = (EMImageMessageBody) message.getBody();
                                 // 其次把文件插入到系统图库
                                 try {
-                                    String url = MediaStore.Images.Media.insertImage(context.getContentResolver(),
-                                            localFilePath, body.getFileName(), null);
-                                    // 最后通知图库更新
-                                    context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(url)));
+                                    if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
+                                        String url = MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                                                localFilePath, body.getFileName(), null);
+                                        // 最后通知图库更新
+                                        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(url)));
+                                    } else {
+                                        String url = MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                                                iosFilePath, body.getFileName(), null);
+                                        // 最后通知图库更新
+                                        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(url)));
+                                    }
                                 } catch (FileNotFoundException e) {
                                     e.printStackTrace();
                                 }
@@ -470,11 +600,25 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 if (file.exists() && file.isFile()) {
                     file.delete();
                 }
-                DialogUtils.closeProgressDialog();
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        pd.dismiss();
+                    }
+                });
             }
 
             public void onProgress(final int progress, String status) {
                 Log.d("CMCC", "Progress: " + progress);
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String str2 = getResources().getString(R.string.Download_the_pictures_new);
+                        pd.setMessage(str2 + progress + "%");
+                    }
+                });
             }
         };
 
@@ -483,5 +627,93 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
         Log.d("CMCC", "downloadAttachement");
         EMClient.getInstance().chatManager().downloadAttachment(msg);
+    }
+
+
+    /*
+    *缓冲输入输出流方式复制文件
+    */
+    public static boolean copyFile(String srcFileName, String destFileName, boolean overlay) {
+        File srcFile = new File(srcFileName); //根据一个路径得到File对象
+        //判断源文件是否存在
+        if (!srcFile.exists()) {
+            try {
+                throw new Exception("源文件：" + srcFileName + "不存在！");
+            } catch (Exception e) {
+                e.printStackTrace();//将异常内容存到日志文件中
+            }
+            return false;
+        } else if (!srcFile.isFile()) {//判断是不是一个文件
+            try {
+                throw new Exception("复制文件失败，源文件：" + srcFileName + "不是一个文件！");
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+            return false;
+
+        }
+        //判断目标文件是否存在
+        File destFile = new File(destFileName);//目标文件对象destFile
+        if (destFile.exists()) {
+            //如果目标文件存在并允许覆盖
+            if (overlay) {
+                //删除已经存在的目标文件
+                new File(destFileName).delete();
+
+            }
+        } else {
+            //如果目标文件所在目录不存在，则创建 目录
+            if (!destFile.getParentFile().exists()) {
+                //目标文件所在目录不存在
+                //mkdirs()：创建此抽象路径名指定的目录，包括所有必需但不存在的父目录
+                if (!destFile.getParentFile().mkdirs()) {
+                    //复制文件失败：创建目标文件所在目录失败
+                    return false;
+                }
+            }
+        }
+
+        //复制文件
+        int byteread = 0;//读取的字节数
+        InputStream in = null;
+        OutputStream out = null;
+
+        try {
+            in = new FileInputStream(srcFile);
+            out = new FileOutputStream(destFile);
+            byte[] buffer = new byte[1024];
+                /*
+                 * 方法说明：
+                 * ①：将指定 byte 数组中从偏移量 off 开始的 len 个字节写入此输出流。
+                 *      write(byte[] b, int off, int len)
+                 *          b - 数据
+                 *          off - 数据中的起始偏移量。
+                 *          len - 要写入的字节数。
+                 * ②：in.read(buffer))!=-1,是从流buffer中读取一个字节，当流结束的时候read返回-1
+                 */
+
+            while ((byteread = in.read(buffer)) != -1) {
+                out.write(buffer, 0, byteread);
+            }
+            return true;
+        } catch (FileNotFoundException e) {
+
+            return false;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+        }
     }
 }
