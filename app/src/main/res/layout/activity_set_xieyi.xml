@@ -12,7 +12,7 @@
 
         <TextView
             style="@style/title"
-            android:text="印家打印协议" />
+            android:text="充值协议" />
     </RelativeLayout>
     <WebView
         android:id="@+id/wv_xieyi"

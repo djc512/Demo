@@ -337,7 +337,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
             case R.id.btn_save:
                 if (compBitmap != null) {
                     String nameSave = System.currentTimeMillis() + ".jpg";
-                    saveUtil.saveClipPic(compBitmap, nameSave);
+                    saveUtil.saveClipPic(compBitmap, nameSave, true);
                     Toast.makeText(ctx, "保存成功", Toast.LENGTH_SHORT).show();
                 }
                 break;
