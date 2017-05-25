@@ -323,7 +323,13 @@ public class FileUtils {
         for (String myPath : path) {
             File file = new File(myPath);
             File[] files = file.listFiles();
+            if (files == null) {
+                continue;
+            }
             for (File f : files) {
+                if (f == null) {
+                    continue;
+                }
                 if (f.isDirectory()) {
                     searchFileList(keyword, list, new String[]{f.getPath()});
                 } else if (f.getName().indexOf(keyword) >= 0) {
