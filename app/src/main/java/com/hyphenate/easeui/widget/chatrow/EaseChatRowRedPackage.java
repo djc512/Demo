@@ -175,6 +175,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
     @Override
     protected void onBubbleClick() {
         packetId = message.getStringAttribute("packetId", "");
+        String packetType = message.getStringAttribute("packetType", "");
         Log.d("CMCC", "packetId:" + packetId);
 
         // 红包弹出来dialog
@@ -186,13 +187,13 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
             if (ChatType.GroupChat == message.getChatType() ||
                     ChatType.ChatRoom == message.getChatType()) {
                 //普通红包(直接展示)
-                if (1 == message.getIntAttribute("groupType", -1)) {
+                if (context.getString(R.string.group_common_Red_package).equals(packetType)) {
                     //Log.d("CMCC", "普通红包!!");
                     DialogUtils.showProgressDialog(getContext(), "正在加载").show();
                     ChatRequest.getCommonPackageDetail(getContext(), token,
                             message.getTo(), "", packetId, commonCallBack);
                 }//手气红包(直接展示)
-                else if (2 == message.getIntAttribute("groupType", -1)) {
+                else if (context.getString(R.string.group_lucky_Red_package).equals(packetType)) {
                     //Log.d("CMCC", "手气红包!!");
                     DialogUtils.showProgressDialog(getContext(), "正在加载").show();
                     ChatRequest.getLuckyPackageDetail(getContext(), token,
@@ -337,7 +338,8 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                     public void checkDetail() {
                         Intent intent = new Intent(context, RedPackageRecordActivity.class);
                         intent.putExtra("easemobGroupId", message.getTo());
-                        intent.putExtra("type", message.getIntAttribute("groupType", -1));
+                        intent.putExtra("singleType", false);
+                        intent.putExtra("type", 2);
                         intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                         context.startActivity(intent);
                         dialog.dismiss();
@@ -354,11 +356,11 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                 //未失效 判断是否抢过
                 if (!ObjectUtils.isNull(detail.isSnatch())) {
                     if (detail.isSnatch()) {
-                        //已经抢过了
-                        // snatch  true 已抢  false 未抢   //查看红包
+                        //已经抢过了 到详情界面
                         Intent intent = new Intent(context, RedPackageRecordActivity.class);
                         intent.putExtra("easemobGroupId", message.getTo());
-                        intent.putExtra("type", message.getIntAttribute("groupType", -1));
+                        intent.putExtra("singleType", false);
+                        intent.putExtra("type", 2);
                         intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                         context.startActivity(intent);
                     } else {
@@ -385,7 +387,8 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                                 public void checkDetail() {
                                     Intent intent = new Intent(context, RedPackageRecordActivity.class);
                                     intent.putExtra("easemobGroupId", message.getTo());
-                                    intent.putExtra("type", message.getIntAttribute("groupType", -1));
+                                    intent.putExtra("singleType", false);
+                                    intent.putExtra("type", 2);
                                     intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                                     context.startActivity(intent);
                                     singleDialog.dismiss();
@@ -407,7 +410,8 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                                 public void checkDetail() {
                                     Intent intent = new Intent(context, RedPackageRecordActivity.class);
                                     intent.putExtra("easemobGroupId", message.getTo());
-                                    intent.putExtra("type", message.getIntAttribute("groupType", -1));
+                                    intent.putExtra("singleType", false);
+                                    intent.putExtra("type", 2);
                                     intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                                     context.startActivity(intent);
                                     goneDialog.dismiss();
@@ -551,7 +555,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
             //跳转到详情页
             Intent intent = new Intent(context, RedPackageRecordActivity.class);
             intent.putExtra("easemobGroupId", message.getTo());
-            intent.putExtra("type", message.getIntAttribute("groupType", -1));
+            intent.putExtra("type", 2);
             intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
             context.startActivity(intent);
         }

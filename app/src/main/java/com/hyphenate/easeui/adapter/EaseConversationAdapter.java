@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.TextView.BufferType;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -28,13 +30,16 @@ import com.hyphenate.easeui.utils.EaseUserUtils;
 import com.hyphenate.easeui.widget.EaseConversationList.EaseConversationListHelper;
 import com.hyphenate.util.DateUtils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.model.chat.GroupMessageObject;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 
 /**
  * conversation list adapter
@@ -45,6 +50,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
     private List<EMConversation> copyConversationList;
     private ConversationFilter conversationFilter;
     private boolean notiyfyByFilter;
+    private Context context;
 
     protected int primaryColor;
     protected int secondaryColor;
@@ -56,6 +62,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
     public EaseConversationAdapter(Context context, int resource,
                                    List<EMConversation> objects) {
         super(context, resource, objects);
+        this.context = context;
         conversationList = objects;
         copyConversationList = new ArrayList<EMConversation>();
         copyConversationList.addAll(objects);
@@ -117,27 +124,53 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                 }
                 // group message, show group avatar
                 //群头像设置
-                if (ObjectUtils.isNull(conversation.getLastMessage().getStringAttribute("groupUrl", ""))) {
-                    //去查群信息
-                    // TODO
+                Gson gson = new Gson();
+                String group = SharedPreferencesUtils.getShareString(context, "group");
+                Type type = new TypeToken<ArrayList<GroupMessageObject>>() {
+                }.getType();
+                if (!ObjectUtils.isNull(group)) {
+                    ArrayList<GroupMessageObject> infos = gson.fromJson(group, type);
+                    //找到头像和昵称
+                    for (GroupMessageObject info : infos) {
+                        if (info.getGroupEaseId().equals(message.getTo())) {
+                            Glide.with(getContext())
+                                    .load(info.getGroupUrl())
+                                    .placeholder(R.drawable.ease_group_icon)
+                                    .transform(new CircleTransform(getContext()))
+                                    .into(holder.avatar);
+                            holder.name.setText(info.getGroupName());
+                            break;
+                        }
+                    }
+                } else {
                     //默认的群头像()
+                    Glide.with(getContext())
+                            .load(R.drawable.ease_group_icon)
+                            .transform(new CircleTransform(getContext()))
+                            .into(holder.avatar);
+                    holder.name.setText(username);
+                }
+//                if (ObjectUtils.isNull(conversation.getLastMessage().getStringAttribute("groupUrl", ""))) {
+//                    //去查群信息
+//                    // TODO
+//                    //默认的群头像()
 //                    Glide.with(getContext())
 //                            .load(R.drawable.ease_group_icon)
 //                            .transform(new CircleTransform(getContext()))
 //                            .into(holder.avatar);
-                } else {
-                    Glide.with(getContext())
-                            .load(conversation.getLastMessage().getStringAttribute("groupUrl", ""))
-                            .placeholder(R.drawable.ease_group_icon)
-                            .transform(new CircleTransform(getContext()))
-                            .into(holder.avatar);
-                }
-                //群名称
-                if (ObjectUtils.isNull(conversation.getLastMessage().getStringAttribute("groupName", ""))) {
-                    holder.name.setText(username);
-                } else {
-                    holder.name.setText(conversation.getLastMessage().getStringAttribute("groupName", ""));
-                }
+//                } else {
+//                    Glide.with(getContext())
+//                            .load(conversation.getLastMessage().getStringAttribute("groupUrl", ""))
+//                            .placeholder(R.drawable.ease_group_icon)
+//                            .transform(new CircleTransform(getContext()))
+//                            .into(holder.avatar);
+//                }
+//                //群名称
+//                if (ObjectUtils.isNull(conversation.getLastMessage().getStringAttribute("groupName", ""))) {
+//                    holder.name.setText(username);
+//                } else {
+//                    holder.name.setText(conversation.getLastMessage().getStringAttribute("groupName", ""));
+//                }
             } else {
                 //没有收到别人的消息
                 String groupName = realMessage.getStringAttribute("otherName", "");
