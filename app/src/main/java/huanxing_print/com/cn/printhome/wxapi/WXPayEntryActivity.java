@@ -14,6 +14,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.event.print.WechatPayEvent;
+import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 
 import static huanxing_print.com.cn.printhome.base.BaseApplication.WX_APPID;
 
@@ -47,13 +49,20 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public void onReq(BaseReq req) {
     }
 
+
     @Override
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            if (SharedPreferencesUtils.getShareBoolean(WXPayEntryActivity.this, "wechatFlag", false)) {
+                Logger.i("打印支付成功");
+                EventBus.getDefault().post(new WechatPayEvent(true));
+            }
             finishCurrentActivity();
-            EventBus.getDefault().post(new WechatPayEvent(true));
-        } else {
-            EventBus.getDefault().post(new WechatPayEvent(true));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

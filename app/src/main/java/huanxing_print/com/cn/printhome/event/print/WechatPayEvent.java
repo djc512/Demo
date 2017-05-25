@@ -8,6 +8,13 @@ public class WechatPayEvent {
 
     private boolean result;
 
+    @Override
+    public String toString() {
+        return "WechatPayEvent{" +
+                "result=" + result +
+                '}';
+    }
+
     public WechatPayEvent(boolean result) {
         this.result = result;
     }

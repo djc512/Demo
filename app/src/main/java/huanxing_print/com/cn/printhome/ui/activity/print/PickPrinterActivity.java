@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,6 +83,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
     private void initData() {
         printSetting = getIntent().getExtras().getParcelable(SETTING);
         if (printSetting == null) {
+            initStepView();
             printType = getIntent().getIntExtra("print_type", 0);
             imagePath = getIntent().getStringExtra(IMAGE_PATH);
             isFileCopy = getIntent().getBooleanExtra(COPY_FLAG, false);
@@ -94,6 +96,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
             printFileInfo = new PrintFileInfo(PrintFileInfo.TYPE_COPY, 1);
             turnFile();
         } else {
+            initStepLine();
             printFileInfo = getIntent().getExtras().getParcelable(FILE_INFO);
             imagePath = getIntent().getStringExtra(IMAGE_PATH);
             printType = PrintUtil.PRINT_TYPE_PRINT;
@@ -102,6 +105,12 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
             Logger.i(printFileInfo.toString());
             initFragment();
         }
+    }
+
+    private void initStepView() {
+        StepViewUtil.init(context, findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
+        TextView pickFileTv = (TextView) findViewById(R.id.pickFileTv);
+        pickFileTv.setText("采集制作");
     }
 
     static class MyHandler extends Handler {
@@ -207,7 +216,6 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
 
 
     private void initView() {
-        initStepLine();
         initTitleBar("选打印机");
     }
 

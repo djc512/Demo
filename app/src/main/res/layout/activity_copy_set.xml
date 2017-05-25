@@ -588,7 +588,7 @@
             android:background="@drawable/shape_preview_finish_bg"
             android:gravity="center_horizontal"
             android:padding="10dp"
-            android:shadowColor="@color/black2"
+            android:shadowColor="@color/text_gray"
             android:text="确认"
             android:textSize="18sp"/>
     </LinearLayout>
