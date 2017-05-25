@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -56,6 +57,8 @@ public class EaseChatRowImage extends EaseChatRowFile {
     private PopupList popupList;
     private String localFilePath;
     private ExecutorService service = Executors.newSingleThreadExecutor();
+    private float mRawX;
+    private float mRawY;
 
     public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -80,6 +83,15 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
     @Override
     protected void onSetUpView() {
+
+        bubble.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mRawX = event.getRawX();
+                mRawY = event.getRawY();
+                return false;
+            }
+        });
 
         popupMenuItemList = new ArrayList<>();
         popupMenuItemList.add("打印");
@@ -275,7 +287,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
         Log.d("CMCC", "onBubbleLongClick触发了");
 
-        popupList.bind(bubble, popupMenuItemList, new PopupList.PopupListListener() {
+        popupList.showPopupListWindow(bubble, position, mRawX, mRawY, popupMenuItemList, new PopupList.PopupListListener() {
             @Override
             public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
                 return true;

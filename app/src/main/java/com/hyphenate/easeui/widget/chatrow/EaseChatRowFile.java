@@ -2,6 +2,7 @@ package com.hyphenate.easeui.widget.chatrow;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -49,6 +50,9 @@ public class EaseChatRowFile extends EaseChatRow {
     protected boolean isNotifyProcessed;
     private EMNormalFileMessageBody fileMessageBody;
     private File file;
+    private PopupList popupList;
+    private float mRawX;
+    private float mRawY;
 
     public EaseChatRowFile(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -75,6 +79,23 @@ public class EaseChatRowFile extends EaseChatRow {
 
     @Override
     protected void onSetUpView() {
+
+        bubble.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mRawX = event.getRawX();
+                mRawY = event.getRawY();
+                return false;
+            }
+        });
+
+        popupMenuItemList = new ArrayList<>();
+        popupMenuItemList.add("打印");
+        popupMenuItemList.add("转发");
+        popupMenuItemList.add("保存");
+        popupMenuItemList.add("删除");
+
+        popupList = new PopupList(context);
 
         fileMessageBody = (EMNormalFileMessageBody) message.getBody();
         String filePath = fileMessageBody.getLocalUrl();
@@ -153,12 +174,6 @@ public class EaseChatRowFile extends EaseChatRow {
             tv_userid.setVisibility(VISIBLE);
         }
 
-        popupMenuItemList = new ArrayList<>();
-        popupMenuItemList.add("打印");
-        popupMenuItemList.add("转发");
-        popupMenuItemList.add("保存");
-        popupMenuItemList.add("删除");
-
         // until here, to sending message
         handleSendMessage();
     }
@@ -235,8 +250,7 @@ public class EaseChatRowFile extends EaseChatRow {
 //        Log.d("CMCC", "onBubbleLongClick触发了");
         file = new File(localFilePath);
 
-        PopupList popupList = new PopupList(context);
-        popupList.bind(bubble, popupMenuItemList, new PopupList.PopupListListener() {
+        popupList.showPopupListWindow(bubble, position, mRawX, mRawY, popupMenuItemList, new PopupList.PopupListListener() {
             @Override
             public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
                 return true;
