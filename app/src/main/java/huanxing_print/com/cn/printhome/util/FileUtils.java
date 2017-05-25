@@ -123,6 +123,21 @@ public class FileUtils {
         return false;
     }
 
+    public static void delImageDir(File file) {
+        if (file.exists()) {
+            if (file.isFile()) {
+                file.delete();
+            } else if (file.isDirectory()) {
+                File files[] = file.listFiles();
+                for (int i = 0; i < files.length; i++) {
+                    delImageDir(files[i]);
+                }
+            }
+            file.delete();
+        } else {
+        }
+    }
+
     public static boolean makeFile(String path) {
         File file = new File(path);
         if (path.endsWith(FILE_SEPARATOR)) {
