@@ -57,8 +57,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private OrderStatusResp orderStatusResp;
     private PrintInfoResp.PrinterPrice printerPrice;
     private long orderId;
-    private int awakeAccount = 0;
-
+    private boolean isAwaking;
+    private boolean isAwaked = false;
     private PrintTypeEvent printTypeEvent;
 
     @Override
@@ -167,11 +167,17 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     }
 
     public void update() {
+        if (isAwaking) {
+            return;
+        }
         OrderStatusResp.OrderStatus orderStatus = orderStatusResp.getData();
-        if (orderStatus.isNeedAwake() && awakeAccount < 3) {
-            awakeAccount++;
-            setAwake();
-        } else if (orderStatus.getWaitingCount() > 0) {
+        if (orderStatus.isNeedAwake()) {
+            if (!isAwaked) {
+                setAwake();
+                return;
+            }
+        }
+        if (orderStatus.getWaitingCount() > 0) {
             setQueueView(orderStatus.getWaitingCount());
         } else {
             switch (orderStatus.getStatus()) {
@@ -246,6 +252,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void setAwake() {
+        isAwaking = true;
         animImg.setImageResource(R.drawable.anim_awake);
         AnimationDrawable queueAnum = (AnimationDrawable) animImg.getDrawable();
         queueAnum.start();
@@ -279,7 +286,9 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 public void run() {
                     count--;
                     countTv.setText("预计还有" + count + "s…");
-                    if (count < 0) {
+                    if (count <= 0) {
+                        isAwaked = true;
+                        isAwaking = false;
                         stopCountTimer();
                         countTv.setVisibility(View.GONE);
                     }
@@ -393,7 +402,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 HttpUrl.getInstance().getPostUrl() + HttpUrl.appDownLoad + "?memberId=" + BaseApplication.getInstance
                         ().getMemberId(), bmp);
     }
-
+//
 //    public void onSuccess(View view) {
 //        setSuccessView();
 //    }
@@ -404,7 +413,6 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 //
 //    public void onQueue(View view) {
 //        setQueueView(10);
-//
 //    }
 //
 //    public void onAWake(View view) {
