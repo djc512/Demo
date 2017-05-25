@@ -49,7 +49,6 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private String wechatId;
     private String uniqueModifyFlag;//能否修改印家号
 
-
     @Override
     protected void init() {
         EventBus.getDefault().register(this);

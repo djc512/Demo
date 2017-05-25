@@ -96,6 +96,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_comment);
         ctx = this;
+
         selectBitmap = Bimp.tempSelectBitmap;
         selectBitmap.clear();
         mResults.clear();
@@ -281,6 +282,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 //打印感受
                 content = et_comment_content.getText().toString().trim();
                 submitComment();
+                finishCurrentActivity();
                 break;
             case R.id.iv_comment:
                 if (isHideName) {
@@ -429,14 +431,21 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 FileUtils.deleteDir();
                 DialogUtils.closeProgressDialog();
                 toast("发表成功");
-                Bimp.tempSelectBitmap.clear();
-                Bimp.max = 0;
-                Intent intent = new Intent(getSelfActivity(), CommentListActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("printer_id", printNum + "");
-                intent.putExtras(bundle);
-                startActivity(intent);
+
+                Intent intentsave = new Intent();
+                intentsave.putExtra("commnet", false);
+                intentsave.setAction("comment");
+                sendBroadcast(intentsave);
                 finishCurrentActivity();
+
+
+//                Bimp.tempSelectBitmap.clear();
+//                Bimp.max = 0;
+//                Intent intent = new Intent(getSelfActivity(), CommentListActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("printer_id", printNum + "");
+//                intent.putExtras(bundle);
+//                startActivity(intent);
             }
 
             @Override
