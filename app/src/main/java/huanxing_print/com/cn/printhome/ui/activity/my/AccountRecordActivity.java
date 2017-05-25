@@ -166,9 +166,6 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             if (!ObjectUtils.isNull(bean)) {
                 list = bean.getList();
             }
-            if (null != bean) {
-                list = bean.getList();
-            }
             if (isLoadMore) {//如果是加载更多
                 if (!ObjectUtils.isNull(bean)) {
                     xrf_czrecord.stopLoadMore();
