@@ -746,7 +746,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.paperImg://纸张类型
-                if (PrintUtil.PRINTER_TYPE_PHOTO == printerPrice.getPaperType()) {
+                if (PrintUtil.PRINTER_TYPE_PHOTO != printerPrice.getPaperType()) {
                     ShowUtil.showToast("打印机不支持相片纸打印");
                     return;
                 }
