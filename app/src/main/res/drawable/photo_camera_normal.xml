@@ -4,8 +4,8 @@
 
     <gradient
         android:angle="90"
-        android:endColor="#EBEBEB"
-        android:startColor="#EBEBEB" />
+        android:endColor="@color/white"
+        android:startColor="@color/white" />
     <!--
     <stroke
         android:dashGap="2dp"
@@ -13,12 +13,14 @@
         android:width="2dp"
         android:color="#FF00ff00" >
     </stroke>
-		描边
+		描边
+
+
     -->
 
     <corners
-        android:bottomLeftRadius="5dp"
-        android:bottomRightRadius="5dp"
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="0dp"
         android:topLeftRadius="0dp"
         android:topRightRadius="0dp" />
 

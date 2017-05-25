@@ -61,7 +61,7 @@
         android:id="@+id/ll_uniqueid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="15dip"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -227,8 +227,8 @@
         android:background="#e5e5e5" />
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dip"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="15dip"
         android:background="#e5e5e5" />
 
     <LinearLayout
@@ -314,13 +314,12 @@
         <ImageView
             style="@style/arrow_right" />
     </LinearLayout>
-    <include layout="@layout/viewline"/>
-
+            <include layout="@layout/viewline" />
             <View
                 android:layout_width="match_parent"
                 android:background="#e5e5e5"
-                android:layout_height="1dp"
-                android:layout_marginTop="15dip"/>
+                android:layout_height="0.1dp"
+                android:layout_marginTop="30dip"/>
 
             <RelativeLayout
                 android:id="@+id/ll_loginout"
