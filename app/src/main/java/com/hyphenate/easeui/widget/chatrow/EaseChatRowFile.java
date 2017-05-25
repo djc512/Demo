@@ -122,7 +122,7 @@ public class EaseChatRowFile extends EaseChatRow {
                         iv_file_type.setImageResource(R.drawable.file_pptx);
                         break;
                     default:
-                        iv_file_type.setImageResource(R.drawable.file_doc);
+                        iv_file_type.setImageResource(R.drawable.iv_apply_copy);
                         break;
                 }
             }
