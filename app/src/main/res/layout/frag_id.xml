@@ -1,56 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray5"
     android:orientation="vertical">
-    <ScrollView
+
+    <RelativeLayout
+        android:paddingTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/ll_preview"
-        android:layout_marginBottom="20dp">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/tv_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:text="身份证正面" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_id"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <ImageView
                 android:src="@drawable/id"
                 android:scaleType="fitXY"
                 android:id="@+id/iv_preview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_above="@+id/rg_idcard"
                 />
 
             <RadioGroup
                 android:id="@+id/rg_idcard"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-10dp"
-                android:layout_alignLeft="@+id/iv_preview"
-                android:layout_alignRight="@+id/iv_preview"
-                android:layout_below="@+id/iv_preview"
+                android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -87,14 +80,14 @@
                 </LinearLayout>
             </RadioGroup>
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:paddingBottom="5dp"
-        android:orientation="vertical">
+        android:paddingBottom="5dp">
 
         <TextView
             android:id="@+id/tv_idf"
@@ -103,30 +96,28 @@
             android:layout_centerHorizontal="true"
             android:text="身份证背面" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_idf"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <ImageView
                 android:src="@drawable/idf"
                 android:scaleType="fitXY"
                 android:id="@+id/iv_previewf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                 />
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1" />
 
             <RadioGroup
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="-10dp"
-                android:layout_alignLeft="@+id/iv_previewf"
-                android:layout_alignRight="@+id/iv_previewf"
-                android:layout_below="@+id/iv_previewf"
+                android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -162,17 +153,14 @@
                         android:textSize="15sp" />
                 </LinearLayout>
             </RadioGroup>
-        </RelativeLayout>
-    </LinearLayout>
-    </LinearLayout>
-    </ScrollView>
+        </LinearLayout>
+    </RelativeLayout>
+
     <LinearLayout
-        android:id="@+id/ll_preview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/btn_preview"
@@ -186,4 +174,4 @@
             android:textColor="@color/gray7"
             android:text="完成" />
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
