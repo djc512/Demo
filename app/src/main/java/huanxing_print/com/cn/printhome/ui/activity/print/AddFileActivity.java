@@ -352,8 +352,10 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
                 DownloadListener() {
                     @Override
                     public void onSucceed(String content) {
+                        if (isLoading()) {
+                            setResult(FileUtils.getDownloadPath() + fileInfo.getFileName());
+                        }
                         dismissLoading();
-                        setResult(FileUtils.getDownloadPath() + fileInfo.getFileName());
                     }
 
                     @Override
