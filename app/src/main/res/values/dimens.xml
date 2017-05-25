@@ -84,7 +84,7 @@
     <dimen name="item_phone_icon_margin_r">15dp</dimen>
     <dimen name="item_phone_name_tv_size">15dp</dimen>
     <dimen name="item_phone_num_tv_size">10dp</dimen>
-    <dimen name="item_phone_btn_margin_r">20dp</dimen>
+    <dimen name="item_phone_btn_margin_r">15dp</dimen>
     <dimen name="item_phone_btn_margin_top">5dp</dimen>
     <dimen name="item_phone_btn_margin_bottom">5dp</dimen>
     <dimen name="item_phone_btn_padding_l">10dp</dimen>
