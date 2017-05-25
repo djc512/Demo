@@ -73,7 +73,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 super.onRefresh();
                 isLoadMore = false;
                 if (null == datalist) {
-                    Toast.makeText(getSelfActivity(), "没有充值记录", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getSelfActivity(), "没有打印记录", Toast.LENGTH_SHORT).show();
                     xrf_zdmx.stopRefresh();
                     return;
                 }
@@ -146,7 +146,7 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                         lv_bill_detail.setAdapter(adapter);
                     }
                 } else {
-                    Toast.makeText(getSelfActivity(), "没有充值数据", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getSelfActivity(), "没有打印记录", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }

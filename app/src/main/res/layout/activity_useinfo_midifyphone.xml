@@ -13,7 +13,7 @@
 
         <TextView
             style="@style/title"
-            android:text="手机号修改" />
+            android:text="更新手机号" />
 
         <TextView
             android:id="@+id/iv_modifyName_finish"

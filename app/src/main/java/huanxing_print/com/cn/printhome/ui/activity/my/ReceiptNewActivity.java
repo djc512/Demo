@@ -172,6 +172,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
                     public void success(String msg, String bean) {
                         DialogUtils.closeProgressDialog();
                         Toast.makeText(ctx, "开票成功", Toast.LENGTH_SHORT).show();
+                        finishCurrentActivity();
                     }
 
                     @Override

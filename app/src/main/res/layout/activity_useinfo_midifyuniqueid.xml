@@ -13,7 +13,7 @@
 
         <TextView
             style="@style/title"
-            android:text="印家号修改" />
+            android:text="更新印家号" />
 
         <TextView
             android:id="@+id/iv_modifyName_finish"
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
+            android:digits="0123456789abcdefghijgklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
             android:background="@null"
             android:maxLength="14"
             android:textColor="@color/text_color"
