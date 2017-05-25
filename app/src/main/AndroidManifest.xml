@@ -604,7 +604,6 @@
         <!-- 聊天界面 -->
         <activity
             android:name=".ui.activity.chat.ChatTestActivity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!-- 查看图片详情界面 -->
         <activity
