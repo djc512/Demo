@@ -19,6 +19,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.contact.FriendInfo;
+import huanxing_print.com.cn.printhome.model.contact.GroupMember;
 import huanxing_print.com.cn.printhome.net.callback.NullCallback;
 import huanxing_print.com.cn.printhome.net.callback.contact.MyFriendListCallback;
 import huanxing_print.com.cn.printhome.net.request.contact.FriendManagerRequest;
@@ -42,6 +43,7 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
     private ArrayList<FriendInfo> friends = new ArrayList<FriendInfo>();
     private ArrayList<FriendInfo> chooseMembers;
     private String currentGroupId;
+    private ArrayList<GroupMember> groupMembers;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -73,6 +75,7 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
 
     private void initData() {
         currentGroupId = getIntent().getStringExtra("groupId");
+        groupMembers = getIntent().getParcelableArrayListExtra("groupMember");
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
         DialogUtils.showProgressDialog(this,"加载中").show();
@@ -174,10 +177,19 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
                         info.setMemberName("Null");
                     }
                 }
-                friends = friendInfos;
                 btn_create.setText(String.format(getString(R.string.btn_hint_members), 0, friends.size()));
-
-                adapter.modify(friendInfos);
+                ArrayList<FriendInfo> chooseFriends = new ArrayList<FriendInfo>();
+                if (groupMembers != null && groupMembers.size() > 0) {
+                    for (FriendInfo friendInfo : friendInfos) {
+                        if(!isGroupMember(friendInfo)) {
+                            chooseFriends.add(friendInfo);
+                        }
+                    }
+                }else {
+                    chooseFriends = friendInfos;
+                }
+                friends = chooseFriends;
+                adapter.modify(friends);
             }
         }
 
@@ -193,4 +205,13 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
             toastConnectFail();
         }
     };
+
+    private boolean isGroupMember(FriendInfo friendInfo) {
+        for(GroupMember groupMember : groupMembers) {
+            if(friendInfo.getMemberId().equals(groupMember.getMemberId())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
