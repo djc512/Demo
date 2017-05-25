@@ -652,7 +652,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             return false;
         }
         if (PrintFileInfo.TYPE_COPY == printFileInfo.getFileType()) {
-            ShowUtil.showToast("复印文件只能单面打印");
+            ShowUtil.showToast("图片只能单面打印");
             return false;
         }
         if (printFileInfo.getPageCount() <= 1) {
