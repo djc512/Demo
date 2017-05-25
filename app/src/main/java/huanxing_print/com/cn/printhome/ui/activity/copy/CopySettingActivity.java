@@ -304,6 +304,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private void modifySetting() {
         PrintRequest.modifySetting(this, newSetting.getColourFlag(), newSetting.getDirectionFlag(), newSetting
                         .getDoubleFlag(), newSetting.getId(), newSetting.getPrintCount(), newSetting.getSizeType(),
+                newSetting.getPaperType(),
                 newSetting.getScaleRatio(),
                 new HttpListener() {
                     @Override
@@ -694,7 +695,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_color://色彩
                 if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
-                    ShowUtil.showToast("黑白机不可选色彩");
+                    ShowUtil.showToast("黑白机不可选彩色");
                 } else {
                     if (colourFlag == 1) {
                         iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
@@ -711,7 +712,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.paperImg://纸张类型
                 if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
-                    ShowUtil.showToast("黑白机不可选照片纸");
+                    ShowUtil.showToast("打印机不支持相片纸打印");
                 } else {
                     if (paperType == PrintUtil.SETTING_COMMON) {
                         paperImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), on));

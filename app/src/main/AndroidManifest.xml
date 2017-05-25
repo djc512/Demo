@@ -417,6 +417,7 @@
         <activity
             android:name=".ui.activity.contact.SearchYinJiaNumActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- 账号查询结果界面 -->
         <activity
@@ -427,16 +428,19 @@
         <activity
             android:name=".ui.activity.contact.AddVerificationActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- 新的朋友界面 -->
         <activity
             android:name=".ui.activity.contact.NewFriendActivity"
             android:launchMode="standard"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- 新的朋友界面 -->
         <activity
             android:name=".ui.activity.contact.AddByAddressBookActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- 我的二维码名片 -->
         <activity
@@ -466,6 +470,7 @@
         <activity
             android:name=".ui.activity.contact.CreateGroup"
             android:launchMode="standard"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
 
         <!-- 群设置 -->
@@ -569,6 +574,7 @@
         <activity
             android:name=".ui.activity.approval.ChooseGroupActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- 红包详情页 -->
         <activity
@@ -589,6 +595,7 @@
         <activity
             android:name=".ui.activity.contact.ListAddContactActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- 聊天界面 -->
         <activity

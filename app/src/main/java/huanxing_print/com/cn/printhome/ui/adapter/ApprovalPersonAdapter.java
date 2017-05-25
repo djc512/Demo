@@ -113,7 +113,8 @@ public class ApprovalPersonAdapter extends BaseAdapter {
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
         }else if("3".equals(type)) {
             holder.tv_detail.setText("已拒绝");
-            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
+            holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.color_status_three));
+            holder.iv_isapproval.setBackgroundResource(R.drawable.approval_bohui);
         }else if("4".equals(type)) {
             holder.tv_detail.setText("申请人撤销");
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));

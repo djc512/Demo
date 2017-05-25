@@ -3,6 +3,8 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -164,13 +166,21 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
     }
 
     private void showConnectedDialog(final PrintInfoResp.PrinterPrice printPrinterPrice) {
-        Alert.show(getActivity(), "提示", "已连接" + printPrinterPrice.getPrintName(), null, new DialogInterface
-                .OnClickListener() {
+        AlertDialog.Builder builder = Alert.getDialog(getActivity(), "已连接" + printPrinterPrice.getPrintName(), new
+                DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        turnPickFile(printPrinterPrice);
+                    }
+                });
+        final AlertDialog dialog = builder.show();
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                turnPickFile(printPrinterPrice);
+            public void run() {
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
             }
-        });
+        }, 2000);
     }
 
 

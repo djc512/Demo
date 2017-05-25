@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/bg_recycler_click_selector">
+              android:background="@color/gray5">
 
     <LinearLayout
+        android:layout_marginTop="@dimen/recycler_margin_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/recycler_new_friend_h"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@drawable/bg_recycler_click_selector"
         >
 
         <de.hdodenhof.circleimageview.CircleImageView

@@ -53,7 +53,7 @@
     <string name="file_outtime">文件超时，请重新上传</string>
     <string name="file_outpage">不可打印大于200页的文档</string>
     <string name="page_out">打印页数不能超过剩余纸张数</string>
-    <string name="page_limit">只能单页打印</string>
+    <string name="page_limit">只能单面打印</string>
     <string name="printer_error">打印机故障</string>
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -218,7 +218,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         if (isLuck) {
             //Todo 手气红包
             String amount = edt_single_money.getText().toString();
-            String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
+            String remark = edt_leave_word.getText().toString().isEmpty() ? "撸起袖子好好干" : edt_leave_word.getText().toString();
             int number = Integer.parseInt(edt_red_package_num.getText().toString());
             String easemobGroupId = "";
             //String easemobGroupId = null == groupInfo.getEasemobGroupId() ? "" : groupInfo.getEasemobGroupId();
@@ -232,7 +232,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         } else {
             //Todo 群红包
             String amount = edt_single_money.getText().toString();
-            String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
+            String remark = edt_leave_word.getText().toString().isEmpty() ? "撸起袖子好好干" : edt_leave_word.getText().toString();
             String easemobGroupId = "";
             //String easemobGroupId = null == groupInfo.getEasemobGroupId() ? "" : groupInfo.getEasemobGroupId();
             String groupId = null == groupInfo.getGroupId() ? "" : groupInfo.getGroupId();
@@ -261,7 +261,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         @Override
         public void success(String msg, RedPackageObject id) {
             DialogUtils.closeProgressDialog();
-            String remark = edt_leave_word.getText().toString().isEmpty() ? "恭喜发财,大吉大利" : edt_leave_word.getText().toString();
+            String remark = edt_leave_word.getText().toString().isEmpty() ? "撸起袖子好好干" : edt_leave_word.getText().toString();
             if (null != id) {
 
                 //EvenBus发个消息更新余额

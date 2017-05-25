@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,6 +39,8 @@ import huanxing_print.com.cn.printhome.view.FileFilterPopupMenu;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
+import static huanxing_print.com.cn.printhome.R.id.filterBtn;
+
 /**
  * Created by LGH on 2017/4/27.
  */
@@ -49,7 +52,7 @@ public class WechatFileFragment extends BaseLazyFragment {
             "/tencent/MicroMsg/WeChat"};
     private RecyclerView mRcList;
     private FileRecyclerAdapter mAdapter;
-    private ImageView filterBtn;
+    private LinearLayout filterLyt;
     private ClearEditText searchEditText;
     private RelativeLayout searchRyt;
     private boolean isSearch = false;
@@ -95,8 +98,8 @@ public class WechatFileFragment extends BaseLazyFragment {
         });
         searchRyt = (RelativeLayout) view.findViewById(R.id.searchRyt);
         mRcList = (RecyclerView) view.findViewById(R.id.mRecView);
-        filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
-        filterBtn.setOnClickListener(new View.OnClickListener() {
+        filterLyt = (LinearLayout) view.findViewById(R.id.filterLyt);
+        filterLyt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFilter();
@@ -174,7 +177,7 @@ public class WechatFileFragment extends BaseLazyFragment {
 
     private void showFilter() {
         popupMenu.setTextColor(mode);
-        popupMenu.showLocation(R.id.filterBtn);
+        popupMenu.showLocation(R.id.filterLyt);
     }
 
     private void serchFileList(String keyword) {

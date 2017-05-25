@@ -39,6 +39,7 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.IndexSideBar;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 public class ContantsFragment extends BaseFragment implements
         OnClickListener, IndexSideBar.OnTouchLetterListener, ContactsItemAdapter.OnTypeItemClickerListener {
@@ -49,6 +50,7 @@ public class ContantsFragment extends BaseFragment implements
     private ContactsItemAdapter adapter;
     private LinearLayoutManager layoutManager;
     private String token;
+    private LoadingDialog loadingDialog;
 
     @Override
     public void onAttach(Context context) {
@@ -80,6 +82,7 @@ public class ContantsFragment extends BaseFragment implements
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(getActivity());
         indexSideBar = (IndexSideBar) findViewById(R.id.contacts_sidebar);
         indexSideBar.setOnTouchLetterListener(this);
         contactsView = (RecyclerView) findViewById(R.id.contactsView);
@@ -106,7 +109,8 @@ public class ContantsFragment extends BaseFragment implements
     }
 
     private void getData() {
-        DialogUtils.showProgressDialog(getActivity(), "Loading").show();
+        loadingDialog.show();
+//        DialogUtils.showProgressDialog(getActivity(), "Loading").show();
         FriendManagerRequest.queryFriendList(getActivity(), token, myFriendListCallback);
     }
 
@@ -188,7 +192,8 @@ public class ContantsFragment extends BaseFragment implements
     MyFriendListCallback myFriendListCallback = new MyFriendListCallback() {
         @Override
         public void success(String msg, ArrayList<FriendInfo> friendInfos) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
+//            DialogUtils.closeProgressDialog();
             if (null != friendInfos) {
                 for (FriendInfo info : friendInfos) {
                     if (null == info.getMemberName()) {
@@ -202,7 +207,8 @@ public class ContantsFragment extends BaseFragment implements
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
+//            DialogUtils.closeProgressDialog();
             if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
                 SharedPreferencesUtils.clearAllShareValue(getActivity());
                 ActivityHelper.getInstance().finishAllActivity();
@@ -215,7 +221,8 @@ public class ContantsFragment extends BaseFragment implements
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
+//            DialogUtils.closeProgressDialog();
             ToastUtil.doToast(getActivity(), "网络连接超时");
         }
     };

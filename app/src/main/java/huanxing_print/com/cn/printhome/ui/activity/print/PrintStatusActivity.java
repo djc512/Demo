@@ -1,14 +1,18 @@
 package huanxing_print.com.cn.printhome.ui.activity.print;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,6 +65,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private int awakeAccount = 0;
 
     private PrintTypeEvent printTypeEvent;
+    private boolean comment;
+    private ReceiveBroadCast receiveBroadCast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +110,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         Logger.i(printTypeEvent.toString());
     }
 
+    private boolean isComment = true;
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -120,16 +129,21 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 showInvitation();
                 break;
             case R.id.commentRyt:
-                Bundle bundle = new Bundle();
-                bundle.putLong("order_id", orderId);
-                bundle.putString("printNum", printerPrice.getPrinterNo());
-                bundle.putString("location", printerPrice.getPrintAddress());
-                Intent intent = new Intent(context, CommentActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (isComment) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("order_id", orderId);
+                    bundle.putString("printNum", printerPrice.getPrinterNo());
+                    bundle.putString("location", printerPrice.getPrintName());
+                    Intent intent = new Intent(context, CommentActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(context, "您已评价过啦，请不要重复评价~", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
+
 
     private void finishThis() {
         EventBus.getDefault().post(new FinishEvent(true));
@@ -327,6 +341,10 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         super.onDestroy();
         EventBus.getDefault().removeAllStickyEvents();
         EventBus.getDefault().unregister(context);
+
+        if (null != receiveBroadCast) {
+            unregisterReceiver(receiveBroadCast);
+        }
     }
 
     @Override
@@ -394,7 +412,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                         ().getMemberId(), bmp);
     }
 
-//    public void onSuccess(View view) {
+    //    public void onSuccess(View view) {
 //        setSuccessView();
 //    }
 //
@@ -414,4 +432,22 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 //    public void onUpload(View view) {
 //        setUpload();
 //    }
+    public class ReceiveBroadCast extends BroadcastReceiver {
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //得到广播中得到的数据，并显示出来
+            comment = intent.getBooleanExtra("comment", false);
+            isComment = comment;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        receiveBroadCast = new ReceiveBroadCast();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("comment");    //只有持有相同的action的接受者才能接收此广播
+        context.registerReceiver(receiveBroadCast, filter);
+    }
 }

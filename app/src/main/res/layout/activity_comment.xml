@@ -8,15 +8,6 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <RelativeLayout style="@style/Re_title">
-
-        <include layout="@layout/ll_title_back"></include>
-
-        <TextView
-            style="@style/title"
-            android:text="发表评论" />
-    </RelativeLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -40,43 +31,49 @@
                     android:text="普田科技园" />
 
                 <TextView
+                    android:id="@+id/tv_printNum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="编号:"
-                    android:textColor="@color/gray8"
-                    android:id="@+id/tv_printNum" />
+                    android:textColor="@color/gray8" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
 
-            <RelativeLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@drawable/shape_feedback_bg"
-                android:padding="15sp">
+                android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/et_comment_content"
-                    style="?android:attr/textViewStyle"
-                    android:gravity="left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:hint="感觉打印的怎么样?打印速度、打印质量、操作便捷性、价格合理性都还满意吗?说几句吧~"
-                    android:textColor="@color/gray8"
-                    android:textSize="16dp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:background="@drawable/shape_feedback_bg"
+                    android:padding="10sp">
 
-                <TextView
-                    android:id="@+id/tv_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:text="0/200"
-                    android:textColor="#999999"
-                    android:textSize="16sp" />
-            </RelativeLayout>
+                    <EditText
+                        android:maxLength="200"
+                        android:id="@+id/et_comment_content"
+                        style="?android:attr/textViewStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:gravity="left"
+                        android:hint="感觉打印的怎么样?打印速度、打印质量、操作便捷性、价格合理性都还满意吗?说几句吧~"
+                        android:textColor="@color/gray8"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/tv_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:text="0/200"
+                        android:textColor="#999999"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+            </ScrollView>
 
             <include layout="@layout/viewline" />
 
@@ -87,17 +84,16 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <include
-                    layout="@layout/item_gradview"/>
+                <include layout="@layout/item_gradview" />
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_pic_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="最多可上传9张"
                     android:textColor="@color/gray8"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <include layout="@layout/viewline" />
@@ -276,8 +272,8 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/iv_comment"
                     android:background="@null"
-                    android:padding="10dp"
-                    android:hint="匿名评价" />
+                    android:hint="匿名评价"
+                    android:padding="10dp" />
 
                 <TextView
                     android:id="@+id/tv_submit"
@@ -292,6 +288,15 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
+
+    <RelativeLayout style="@style/Re_title">
+
+        <include layout="@layout/ll_title_back"></include>
+
+        <TextView
+            style="@style/title"
+            android:text="发表评论" />
+    </RelativeLayout>
 
     <include layout="@layout/viewline" />
 

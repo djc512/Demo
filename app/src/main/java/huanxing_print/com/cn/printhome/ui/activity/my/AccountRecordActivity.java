@@ -60,6 +60,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
         //获取充值记录
         ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
+        getReceiptAccount();
     }
 
     private void initView() {
@@ -108,11 +109,18 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                 finishCurrentActivity();
                 break;
             case R.id.tv_receipt://开票
-                DialogUtils.showProgressDialog(getSelfActivity(), "加载中").show();
-                getReceiptAccount();
+                if ("0.00".equals(money)) {
+                    Toast.makeText(getSelfActivity(), "可开发票为0", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getSelfActivity(), ReceiptNewActivity.class);
+                    intent.putExtra("billValue", money);
+                    startActivity(intent);
+                }
                 break;
         }
     }
+
+    private String money;
 
     /**
      * 获取发票金额
@@ -122,14 +130,12 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         Go2DebitRequest.getRequset(getSelfActivity(), new Go2PayCallBack() {
             @Override
             public void success(String msg, String s) {
+                money = s;
                 DialogUtils.closeProgressDialog();
                 if ("0.00".equals(s)) {
-                    ToastUtil.doToast(getSelfActivity(), "可开发票金额为0");
-                    return;
+                    tv_receipt.setTextColor(getResources().getColor(R.color.gray8));
                 } else {
-                    Intent intent = new Intent(getSelfActivity(), ReceiptNewActivity.class);
-                    intent.putExtra("billValue", s);
-                    startActivity(intent);
+                    tv_receipt.setTextColor(getResources().getColor(R.color.yellow2));
                 }
             }
 
@@ -198,5 +204,10 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         public void connectFail() {
             toast("网络连接错误");
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

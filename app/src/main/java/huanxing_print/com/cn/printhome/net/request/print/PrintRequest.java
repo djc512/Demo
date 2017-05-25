@@ -30,6 +30,7 @@ public class PrintRequest extends BaseRequst {
     public static final String COLOUR_FLAG = "colourFlag";
     public static final String PRINT_COUNT = "printCount";
     public static final String SIZE_TYPE = "sizeType";
+    public static final String PAPER_TYPE = "paperType";
     public static final String DIRECTION_FLAG = "directionFlag";
     public static final String SCALE_RATIO = "scaleRatio";
     public static final String PAGE_NUM = "pageNum";
@@ -179,7 +180,7 @@ public class PrintRequest extends BaseRequst {
      * @param callback
      */
     public static final void modifySetting(Activity activity, int colourFlag, int directionFlag, int doubleFlag, int
-            id, int printCount, int sizeType, int scaleRatio, final HttpListener callback) {
+            id, int printCount, int sizeType, int scaleRatio,int paperType, final HttpListener callback) {
         String url = BASE_URL + SETTING_MODIFY;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put(COLOUR_FLAG, colourFlag);
@@ -188,6 +189,7 @@ public class PrintRequest extends BaseRequst {
         params.put(ID, id);
         params.put(PRINT_COUNT, printCount);
         params.put(SIZE_TYPE, sizeType);
+        params.put(PAPER_TYPE, paperType);
         params.put(SCALE_RATIO, scaleRatio);
         Http.postString(activity, url, params, getHeaderTokenMap(), callback, false);
     }

@@ -45,10 +45,19 @@ public class EaseChatRowPackageHint extends EaseChatRowText {
         // 设置内容
         String msg = message.getStringAttribute(EaseConstant.MESSAGE_HINT_MESSAGE, "");
         if (!ObjectUtils.isNull(msg)) {
-            SpannableStringBuilder style=new SpannableStringBuilder(msg);
-            style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.yellow3)),msg.length() - 2,msg.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            // 设置内容
-            txt_message.setText(style);
+            if (msg.contains("，")) {
+                //String ms = msg.substring(0, msg.indexOf("，"));
+                msg.getBytes();
+                SpannableStringBuilder style = new SpannableStringBuilder(msg);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.yellow3)), msg.indexOf("，")-2, msg.indexOf("，"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                // 设置内容
+                txt_message.setText(style);
+            }else {
+                SpannableStringBuilder style = new SpannableStringBuilder(msg);
+                style.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.yellow3)), msg.length() - 2, msg.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                // 设置内容
+                txt_message.setText(style);
+            }
         }
         handleTextMessage();
     }

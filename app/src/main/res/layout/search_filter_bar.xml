@@ -10,9 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="15dp"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/filterBtn"
+        android:layout_marginLeft="15dp"
+        android:layout_toLeftOf="@+id/filterLyt"
+        android:layout_toStartOf="@+id/filterLyt"
         android:background="@drawable/shape_rectangle_rounded_gray"
         android:drawableLeft="@drawable/ic_search"
         android:drawablePadding="8dp"
@@ -25,16 +26,36 @@
         android:textColor="@color/text_black"
         android:textSize="12sp"/>
 
-    <ImageView
-        android:id="@+id/filterBtn"
+
+    <LinearLayout
+        android:id="@+id/filterLyt"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="15dp"
-        android:layout_centerVertical="true"
         android:background="@null"
-        android:padding="10dp"
-        app:srcCompat="@drawable/ic_filtrate"/>
+        android:padding="3dp"
+        android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/filterBtn"
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_filtrate"/>
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="3dp"
+            android:text="筛选"
+            android:textColor="@color/text_black"
+            android:textSize="10dp"/>
+    </LinearLayout>
 </RelativeLayout>

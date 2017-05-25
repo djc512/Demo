@@ -21,6 +21,7 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
  * Created by wanghao on 2017/5/3.
@@ -31,6 +32,7 @@ public class AddVerificationActivity extends BaseActivity implements View.OnClic
     private EditText et_hint_content;
     private FriendSearchInfo friendSearchInfo;
     private InputLengthFilter filter;
+    private LoadingDialog loadingDialog;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -47,6 +49,7 @@ public class AddVerificationActivity extends BaseActivity implements View.OnClic
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(this);
         et_hint_content = (EditText) findViewById(R.id.et_hint_content);
         filter = new InputLengthFilter(30);
         et_hint_content.setFilters(new InputFilter[]{filter});
@@ -71,7 +74,8 @@ public class AddVerificationActivity extends BaseActivity implements View.OnClic
 
     private void request() {
         if(null != friendSearchInfo && !et_hint_content.getText().toString().isEmpty()) {
-            DialogUtils.showProgressDialog(this, "添加好友验证中").show();
+//            DialogUtils.showProgressDialog(this, "添加好友验证中").show();
+            loadingDialog.show();
             String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                     "loginToken");
 
@@ -85,20 +89,23 @@ public class AddVerificationActivity extends BaseActivity implements View.OnClic
     NullCallback nullCallback = new NullCallback() {
         @Override
         public void success(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
+//            DialogUtils.closeProgressDialog();
 //            ToastUtil.doToast(AddVerificationActivity.this, "添加成功");
             finishCurrentActivity();
         }
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
+//            DialogUtils.closeProgressDialog();
             ToastUtil.doToast(AddVerificationActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
+//            DialogUtils.closeProgressDialog();
             toastConnectFail();
         }
     };

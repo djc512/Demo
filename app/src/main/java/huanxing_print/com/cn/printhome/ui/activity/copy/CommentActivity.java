@@ -82,7 +82,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private String printLocation;
     private ArrayList<ImageItem> selectBitmap;
 
-    private boolean listNull =true;
+    private boolean listNull = true;
     private List<ImageUploadItem> imageUploadlist;
 
     @Override
@@ -96,6 +96,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_comment);
         ctx = this;
+
         selectBitmap = Bimp.tempSelectBitmap;
         selectBitmap.clear();
         mResults.clear();
@@ -134,9 +135,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void initData() {
-        tv_printNum.setText("编号:" + printNum);
+        if (null != printNum) {
+            tv_printNum.setText("编号:" + printNum);
+        }
         tv_address.setText(printLocation);
-
         adapter = new GridAdapter(this);
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -162,11 +164,11 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         });
     }
 
-    private int commentStar;
-    private int speedStar;
-    private int qulityStar;
-    private int handleStar;
-    private int priceStar;
+    private int commentStar = 5;
+    private int speedStar = 5;
+    private int qulityStar = 5;
+    private int handleStar = 5;
+    private int priceStar = 5;
 
     private void initListener() {
         iv_back.setOnClickListener(this);
@@ -207,17 +209,15 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         et_comment_content.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = s.length();
-                if (length > 200) {
-                    Toast.makeText(ctx, "最多输入200字", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 tv_num.setText(length + "/" + 200);
+                if (length == 200) {
+                    Toast.makeText(ctx, "最多输入200字", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -235,7 +235,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             if (resultCode == RESULT_OK) {
                 ArrayList<String> result = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
                 showResult(result);
-
             }
         }
     }
@@ -283,6 +282,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 //打印感受
                 content = et_comment_content.getText().toString().trim();
                 submitComment();
+                finishCurrentActivity();
                 break;
             case R.id.iv_comment:
                 if (isHideName) {
@@ -302,20 +302,20 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
      */
     private void submitComment() {
 
-        imageUploadlist= new ArrayList<ImageUploadItem>();
-        ImageUploadItem imageUploadItem ;
-        if (Bimp.tempSelectBitmap.size()>0) {
-            listNull=false;
+        imageUploadlist = new ArrayList<ImageUploadItem>();
+        ImageUploadItem imageUploadItem;
+        if (Bimp.tempSelectBitmap.size() > 0) {
+            listNull = false;
             for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
                 // 高清的压缩图片全部就在  list 路径里面了
                 // 高清的压缩过的 bmp 对象  都在 Bimp.bmp里面
                 // 完成上传服务器后 .........FileUtils.deleteDir();
                 imageUploadItem = new ImageUploadItem();
-                String filePath = FileUtils.saveFile(getSelfActivity(), "img"+i+".jpg", Bimp.tempSelectBitmap.get(i).getBitmap());
+                String filePath = FileUtils.saveFile(getSelfActivity(), "img" + i + ".jpg", Bimp.tempSelectBitmap.get(i).getBitmap());
                 File file = new File(filePath);
                 //file转化成二进制
                 byte[] buffer = null;
-                FileInputStream in ;
+                FileInputStream in;
                 int length = 0;
                 try {
                     in = new FileInputStream(file);
@@ -326,15 +326,15 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 }
                 String data = Base64.encodeToString(buffer, 0, length, Base64.NO_WRAP);
                 imageUploadItem.setFileContent(data);
-                imageUploadItem.setFileId(i+"");
+                imageUploadItem.setFileId(i + "");
                 imageUploadItem.setFileName(filePath);
                 imageUploadItem.setFileType(".jpg");
                 imageUploadlist.add(imageUploadItem);
             }
             upLoadImageList(imageUploadlist);
 
-        }else{
-            listNull=true;
+        } else {
+            listNull = true;
             sendNote(imageUrls);
         }
     }
@@ -392,12 +392,9 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                         String imgUrl = bean.get(i).getImgUrl();
                         imageUrls.add(imgUrl);
                     }
-
                     sendNote(imageUrls);
                 }
             }
-
-
 
             @Override
             public void fail(String msg) {
@@ -412,21 +409,21 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             }
         });
     }
+
     private void sendNote(List<String> imageUrls) {
         if (listNull) {
             DialogUtils.showProgressDialog(getSelfActivity(), "正在发表").show();
         }
-
         Map<String, Object> params = new HashMap<>();
         params.put("anonymous", anonymous);
-        params.put("convenienceScore", rb_handle.getCountNum());
+        params.put("convenienceScore", handleStar);
         params.put("orderId", orderid);
         params.put("imgList", imageUrls);
-        params.put("priceScore", rb_price.getCountNum());
+        params.put("priceScore", priceStar);
         params.put("remark", content);
-        params.put("speedScore", rb_speed.getCountNum());
-        params.put("totalScore", rb_comment.getCountNum());
-        params.put("qualityScore", rb_qulity.getCountNum());
+        params.put("speedScore", speedStar);
+        params.put("totalScore", commentStar);
+        params.put("qualityScore", qulityStar);
 
         CommentRequest.submit(getSelfActivity(), baseApplication.getLoginToken(), params, new NullCallback() {
             @Override
@@ -434,14 +431,21 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 FileUtils.deleteDir();
                 DialogUtils.closeProgressDialog();
                 toast("发表成功");
-                Bimp.tempSelectBitmap.clear();
-                Bimp.max = 0;
-                Intent intent = new Intent(getSelfActivity(), CommentListActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("printer_id", printNum + "");
-                intent.putExtras(bundle);
-                startActivity(intent);
+
+                Intent intentsave = new Intent();
+                intentsave.putExtra("commnet", false);
+                intentsave.setAction("comment");
+                sendBroadcast(intentsave);
                 finishCurrentActivity();
+
+
+//                Bimp.tempSelectBitmap.clear();
+//                Bimp.max = 0;
+//                Intent intent = new Intent(getSelfActivity(), CommentListActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("printer_id", printNum + "");
+//                intent.putExtras(bundle);
+//                startActivity(intent);
             }
 
             @Override
@@ -454,9 +458,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-
-
     }
+
     /**
      * 适配器
      */
@@ -473,8 +476,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         }
 
         public int getCount() {
-            if (selectBitmap.size() == 9) {
-                return 9;
+            if (selectBitmap.size() == 3) {
+                return 3;
             }
             return (selectBitmap.size() + 1);
         }
@@ -502,8 +505,10 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             if (position == selectBitmap.size()) {
                 holder.image.setImageBitmap(BitmapFactory.decodeResource(
                         getResources(), R.drawable.add));
-                if (position == 9) {
+                if (position == 3) {
                     holder.image.setVisibility(View.GONE);
+                } else {
+                    holder.image.setVisibility(View.VISIBLE);
                 }
             } else {
                 holder.image.setImageBitmap(selectBitmap.get(position).getBitmap());

@@ -113,7 +113,7 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
                 str_money = edt_single_money.getText().toString().trim();
                 str_word = edt_leave_word.getText().toString().trim();
                 if (ObjectUtils.isNull(str_word)) {
-                    str_word = "恭喜发财，大吉大利";
+                    str_word = "撸起袖子好好干";
                 }
                 //网络请求，获取用户信息
                 DialogUtils.showProgressDialog(this, "装红包中").show();

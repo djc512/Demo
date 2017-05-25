@@ -12,7 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,7 +52,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
     private ListView fileListView;
     private int mode = FileComparator.MODE_NAME;
     private ClearEditText searchEditText;
-    private ImageView filterBtn;
+    private LinearLayout filterLyt;
     private RelativeLayout searchRyt;
     private FileFilterPopupMenu popupMenu;
 
@@ -106,8 +106,8 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
         });
         searchRyt = (RelativeLayout) view.findViewById(R.id.searchRyt);
         fileListView = (ListView) view.findViewById(R.id.fileListView);
-        filterBtn = (ImageView) view.findViewById(R.id.filterBtn);
-        filterBtn.setOnClickListener(new View.OnClickListener() {
+        filterLyt = (LinearLayout) view.findViewById(R.id.filterLyt);
+        filterLyt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFilter();
@@ -152,7 +152,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
 
     private void showFilter() {
         popupMenu.setTextColor(mode);
-        popupMenu.showLocation(R.id.filterBtn);
+        popupMenu.showLocation(R.id.filterLyt);
     }
 
     private void initHistory() {

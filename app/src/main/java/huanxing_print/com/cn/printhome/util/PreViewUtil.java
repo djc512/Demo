@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import org.greenrobot.eventbus.EventBus;
+
+import huanxing_print.com.cn.printhome.event.print.PreviewFlagEvent;
 import huanxing_print.com.cn.printhome.ui.activity.print.DocPreviewActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 
@@ -13,7 +16,7 @@ import huanxing_print.com.cn.printhome.ui.activity.print.ImgPreviewActivity;
 
 public class PreViewUtil {
 
-    public static void preview(Context context, String path) {
+    public static void preview(Context context, String path, boolean previewFlag) {
         if (path == null) {
             ShowUtil.showToast("文件错误");
             return;
@@ -25,8 +28,10 @@ public class PreViewUtil {
         if (FileType.getPrintType(path) == FileType.TYPE_IMG) {
             Bundle bundle = new Bundle();
             bundle.putCharSequence(ImgPreviewActivity.KEY_IMG_URI, path);
+            bundle.putBoolean(ImgPreviewActivity.PREVIEW_FLAG, previewFlag);
             ImgPreviewActivity.start(context, bundle);
         } else {
+            EventBus.getDefault().postSticky(new PreviewFlagEvent(previewFlag));
             Uri uri = Uri.parse(Uri.encode("file://" + path));
             DocPreviewActivity.start(context, uri);
         }

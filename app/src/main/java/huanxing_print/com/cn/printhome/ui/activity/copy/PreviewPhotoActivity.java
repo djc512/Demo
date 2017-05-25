@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -158,7 +157,7 @@ public class PreviewPhotoActivity extends BaseActivity {
             if(isApproval) {
                 if(listViews.size() == 1) {
                     attachmentPaths.clear();
-                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 9");
+                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 3");
                     EventBus.getDefault().post(new AttachmentUpdate("update", attachmentPaths));
                     finish();
                 }else{
@@ -166,7 +165,7 @@ public class PreviewPhotoActivity extends BaseActivity {
                     pager.removeAllViews();
                     listViews.remove(location);
                     adapter.setListViews(listViews);
-                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 9");
+                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 3");
                     adapter.notifyDataSetChanged();
                 }
 
@@ -174,7 +173,7 @@ public class PreviewPhotoActivity extends BaseActivity {
                 if (listViews.size() == 1) {
                     Bimp.tempSelectBitmap.clear();
                     Bimp.max = 0;
-                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 9");
+                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 3");
                     Intent intent = new Intent("data.broadcast.action");
                     sendBroadcast(intent);
                     finish();
@@ -184,7 +183,7 @@ public class PreviewPhotoActivity extends BaseActivity {
                     pager.removeAllViews();
                     listViews.remove(location);
                     adapter.setListViews(listViews);
-                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 9");
+                    back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 3");
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -209,7 +208,7 @@ public class PreviewPhotoActivity extends BaseActivity {
     public void isShowOkBt() {
         if(isApproval) {
             if(null != attachmentPaths && attachmentPaths.size() > 0) {
-                back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 9");
+                back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 3");
                 send_bt.setPressed(true);
                 send_bt.setClickable(true);
                 send_bt.setTextColor(Color.WHITE);
@@ -222,7 +221,7 @@ public class PreviewPhotoActivity extends BaseActivity {
         }
 
         if (Bimp.tempSelectBitmap.size() > 0) {
-            back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 9");
+            back_bt.setText("" + Bimp.tempSelectBitmap.size() + " / 3");
             send_bt.setPressed(true);
             send_bt.setClickable(true);
             send_bt.setTextColor(Color.WHITE);
