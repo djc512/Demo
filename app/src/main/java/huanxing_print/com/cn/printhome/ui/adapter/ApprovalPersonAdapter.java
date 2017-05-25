@@ -135,6 +135,7 @@ public class ApprovalPersonAdapter extends BaseAdapter {
             holder.tv_detail.setTextColor(ctx.getResources().getColor(R.color.green));
             if (isRevok) {
                 holder.tv_detail.setVisibility(View.INVISIBLE);
+                holder.tv_time.setVisibility(View.GONE);
             }else{
                 holder.tv_detail.setVisibility(View.VISIBLE);
             }
