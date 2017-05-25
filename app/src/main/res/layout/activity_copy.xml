@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="身份证"
-                android:textColor="@color/gray6"
+                android:textColor="@color/gray8"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="户口本"
-                android:textColor="@color/gray6"
+                android:textColor="@color/gray8"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="护照"
-                android:textColor="@color/gray6"
+                android:textColor="@color/gray8"
                 android:textSize="16sp" />
         </LinearLayout>
 

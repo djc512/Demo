@@ -78,6 +78,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     ArrayList<SubFormItem> subFormItems = new ArrayList<SubFormItem>();
     String approveId;
     private ApprovalDetail details;
+    private final String BROADCAST_ACTION_APPROVALNUM_REFRESH= "approvalnum.refresh";
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -433,6 +434,10 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             ToastUtil.doToast(ApprovalApplyDetailsActivity.this, "驳回成功");
+            //发送一个广播让审批页面数量更新
+            Intent intent = new Intent();
+            intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
+            sendBroadcast(intent);
             finishCurrentActivity();
         }
 
@@ -453,6 +458,10 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
+            //发送一个广播让审批页面数量更新
+            Intent intent = new Intent();
+            intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
+            sendBroadcast(intent);
             initData();
         }
 

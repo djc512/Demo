@@ -123,8 +123,8 @@
             android:layout_toRightOf="@+id/tv_approve"
             android:background="@drawable/shape_circle"
             android:gravity="center"
-            android:text="8"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/iv_mingxi"

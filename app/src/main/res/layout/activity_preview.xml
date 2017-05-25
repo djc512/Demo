@@ -51,7 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="重拍"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/btn_confirm"
@@ -59,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text="完成"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
         </RelativeLayout>
     </LinearLayout>
 
@@ -83,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:text="返回"
                 android:textColor="@color/yellow"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/btn_save"
@@ -92,7 +94,7 @@
                 android:layout_alignParentRight="true"
                 android:text="保存"
                 android:textColor="@color/yellow"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
         </RelativeLayout>
 
         <com.github.chrisbanes.photoview.PhotoView
@@ -151,7 +153,7 @@
                 android:layout_height="wrap_content"
                 android:text="重拍"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/btn_photoconfirm"
@@ -160,7 +162,7 @@
                 android:layout_alignParentRight="true"
                 android:text="完成"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
