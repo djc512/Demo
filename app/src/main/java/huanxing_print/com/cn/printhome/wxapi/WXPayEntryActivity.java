@@ -14,6 +14,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.event.print.WechatPayEvent;
+import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 
 import static huanxing_print.com.cn.printhome.base.BaseApplication.WX_APPID;
 
@@ -50,25 +52,27 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     @Override
     public void onResp(BaseResp resp) {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            finishCurrentActivity();
-            switch (resp.errCode) {
-                case 0:
-                    EventBus.getDefault().post(new WechatPayEvent(true));
-                    String successUrl = "http://print.inkin.cc/src/success.html";
-                    send(successUrl);
-                    break;
-                case -1:
-                    String faileUrl = "http://print.inkin.cc/src/payFailed.html";
-                    send(faileUrl);
-                    break;
-                case -2:
-                    String faileUrl1 = "http://print.inkin.cc/src/payFailed.html";
-                    send(faileUrl1);
-                    break;
+            if (SharedPreferencesUtils.getShareBoolean(WXPayEntryActivity.this, "wechatFlag", false)) {
+                Logger.i("打印支付成功");
+                EventBus.getDefault().post(new WechatPayEvent(true));
+            } else {
+                switch (resp.errCode) {
+                    case 0:
+                        String successUrl = "http://print.inkin.cc/src/success.html";
+                        send(successUrl);
+                        break;
+                    case -1:
+                        String faileUrl = "http://print.inkin.cc/src/payFailed.html";
+                        send(faileUrl);
+                        break;
+                    case -2:
+                        String faileUrl1 = "http://print.inkin.cc/src/payFailed.html";
+                        send(faileUrl1);
+                        break;
+                }
             }
-        } else {
-            EventBus.getDefault().post(new WechatPayEvent(true));
         }
+        finishCurrentActivity();
     }
 
     /**
