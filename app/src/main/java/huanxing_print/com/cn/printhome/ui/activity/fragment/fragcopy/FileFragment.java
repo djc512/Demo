@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -117,17 +115,17 @@ public class FileFragment extends Fragment implements View.OnClickListener {
      */
     private void getBitMap(Uri uri) {
         try {
-            Bitmap mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-            int m = mBitmap.getByteCount() / 1024 / 1024;
-            if (m > 6) {
-                Toast.makeText(ctx, "图片过大，请重新拍照或者选择", Toast.LENGTH_SHORT).show();
-            } else {
+//            Bitmap mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+//            int m = mBitmap.getByteCount() / 1024 / 1024;
+//            if (m > 6) {
+//                Toast.makeText(ctx, "图片过大，请重新拍照或者选择", Toast.LENGTH_SHORT).show();
+//            } else {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("uri", uri);
                 Intent intent = new Intent(ctx, PreviewActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
-            }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
