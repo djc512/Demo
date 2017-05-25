@@ -129,6 +129,8 @@ public class IDFragment extends Fragment implements View.OnClickListener {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            bytesf = null;
+                            bytes = null;
                             iv_preview.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.id));
                             iv_previewf.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.idf));
                         }
@@ -221,16 +223,6 @@ public class IDFragment extends Fragment implements View.OnClickListener {
     private void initBtnPreview() {
         btn_preview.setBackground(getResources().getDrawable(R.drawable.shape_preview_finish_bg));
         btn_preview.setTextColor(getResources().getColor(R.color.black));
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        boolean screenon = isScreenon();
-        if (screenon) {
-            bytes = null;
-            bytesf = null;
-        }
     }
 
     @Override

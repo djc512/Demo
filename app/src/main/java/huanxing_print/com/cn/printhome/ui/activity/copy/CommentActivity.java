@@ -434,8 +434,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 intentsave.putExtra("commnet", false);
                 intentsave.setAction("bitmap");
                 sendBroadcast(intentsave);
-                finishCurrentActivity();
-
 
 //                Bimp.tempSelectBitmap.clear();
 //                Bimp.max = 0;

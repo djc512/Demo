@@ -111,6 +111,7 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        bytes = null;
                         iv_preview.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.passport));
                     }
                 }, 200);
@@ -197,21 +198,13 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        boolean screenon = isScreenon();
-        if (screenon) {
-            bytes = null;
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         if (receiveBroadCast != null) {
             ctx.unregisterReceiver(receiveBroadCast);
         }
     }
+
     /**
      * 获取手机的屏幕状态
      * true为打开，false为关闭

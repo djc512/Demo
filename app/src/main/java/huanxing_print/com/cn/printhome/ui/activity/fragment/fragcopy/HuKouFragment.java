@@ -133,6 +133,8 @@ public class HuKouFragment extends Fragment implements View.OnClickListener {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            bytes = null;
+                            bytesf = null;
                             iv_preview.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hukou));
                             iv_previewf.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hukouf));
                         }
@@ -226,22 +228,13 @@ public class HuKouFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        boolean screenon = isScreenon();
-        if (screenon) {
-            bytes = null;
-            bytesf = null;
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         if (receiveBroadCast != null) {
             ctx.unregisterReceiver(receiveBroadCast);
         }
     }
+
     /**
      * 获取手机的屏幕状态
      * true为打开，false为关闭
