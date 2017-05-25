@@ -14,7 +14,7 @@ public class ChongZhiRecordBean {
      */
 
     private int count;
-    private List<ListBean> list;
+    private List<ChongZhiRecordListBean> list;
 
     public int getCount() {
         return count;
@@ -24,92 +24,11 @@ public class ChongZhiRecordBean {
         this.count = count;
     }
 
-    public List<ListBean> getList() {
+    public List<ChongZhiRecordListBean> getList() {
         return list;
     }
 
-    public void setList(List<ListBean> list) {
+    public void setList(List<ChongZhiRecordListBean> list) {
         this.list = list;
-    }
-
-    public static class ListBean {
-        /**
-         * date : 2017年03月
-         * detail : [{"amount":"0.01","context":"打印文件1份","date":"03月08日   00:29","type":0}]
-         */
-
-        private String date;
-        private List<DetailBean> detail;
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public List<DetailBean> getDetail() {
-            return detail;
-        }
-
-        public void setDetail(List<DetailBean> detail) {
-            this.detail = detail;
-        }
-
-        public static class DetailBean {
-            /**
-             * amount : 0.01
-             * context : 打印文件1份
-             * date : 03月08日   00:29
-             * type : 0
-             */
-
-            private String amount;
-            private String context;
-            private String date;
-            private int type;
-            private String  orderId;
-
-            public String getAmount() {
-                return amount;
-            }
-
-            public void setAmount(String amount) {
-                this.amount = amount;
-            }
-
-            public String getContext() {
-                return context;
-            }
-
-            public void setContext(String context) {
-                this.context = context;
-            }
-
-            public String getDate() {
-                return date;
-            }
-
-            public void setDate(String date) {
-                this.date = date;
-            }
-
-            public int getType() {
-                return type;
-            }
-
-            public void setType(int type) {
-                this.type = type;
-            }
-
-            public String getOrderId() {
-                return orderId;
-            }
-
-            public void setOrderId(String orderId) {
-                this.orderId = orderId;
-            }
-        }
     }
 }

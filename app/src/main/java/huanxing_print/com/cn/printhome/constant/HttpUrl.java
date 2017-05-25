@@ -6,7 +6,8 @@ public class HttpUrl {
 
     public static final String POSTHTTP_DAILY = "http://106.14.77.102:22012/";// 线下
 
-    public static final String POSTHTTP_RELEASE = "http://appprint.inkin.cc/";// 测试
+   // public static final String POSTHTTP_RELEASE = "http://appprint.inkin.cc/";// 测试
+    public static final String POSTHTTP_RELEASE = "http://appprint.oao2o.com/";// 测试
 
     public static final String login = "member/login";// 登录
     public static final String loginWeiXin = "member/loginByWechat";// 微信登录

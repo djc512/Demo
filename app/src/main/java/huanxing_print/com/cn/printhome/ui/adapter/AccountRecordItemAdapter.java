@@ -10,61 +10,56 @@ import android.widget.TextView;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
+import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordListDetailBean;
 
 /**
  * Created by Administrator on 2017/3/23 0023.
  */
 
-public class AccountRecordItemAdapter extends RecyclerView.Adapter<AccountRecordItemAdapter.MyViewHolder> {
+public class AccountRecordItemAdapter extends RecyclerView.Adapter<AccountRecordItemAdapter.MyHolder> {
+
     private Context ctx;
-    private List<ChongZhiRecordBean.ListBean.DetailBean> detail;
-    public AccountRecordItemAdapter(Context ctx, List<ChongZhiRecordBean.ListBean.DetailBean> detail) {
+    private List<ChongZhiRecordListDetailBean> list;
+
+    public AccountRecordItemAdapter(Context ctx, List<ChongZhiRecordListDetailBean> list) {
         this.ctx = ctx;
-        this.detail = detail;
+        this.list = list;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        MyViewHolder holder = new MyViewHolder(LayoutInflater.from(ctx).inflate(R.layout.activity_account_record_item,
-                null));
+    public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        MyHolder holder = new MyHolder(LayoutInflater.from(
+                ctx).inflate(R.layout.activity_account_record_item, parent,
+                false));
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyHolder holder, int position) {
+        ChongZhiRecordListDetailBean detailBean = list.get(position);
 
-        ChongZhiRecordBean.ListBean.DetailBean detailBean = detail.get(position);
-        String date = detailBean.getDate();//充值时间
-        int type = detailBean.getType();//充值类型
-        String amount = detailBean.getAmount();//充值金额
-
-        holder.tv_record_time.setText(date);//设置充值时间
-        if (type == 0) {//微信充值
-            holder.tv_record_czway.setText("充值—微信支付");
-        } else {//支付宝充值
-            holder.tv_record_czway.setText("充值-支付宝支付");
-        }
-        holder.tv_record_money.setText("+"+amount);
+        holder.tv_rechargerecord_money.setText(detailBean.getAmount()+"");
+        holder.tv_rechargerecord_num.setText("订单编号:" + detailBean.getOrderId());
+        holder.tv_rechargerecord_time.setText(detailBean.getDate()+"");
     }
 
     @Override
     public int getItemCount() {
-        return detail.size();
+        return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_record_time;
-        TextView tv_record_money;
-        TextView tv_record_czway;
+    public class MyHolder extends RecyclerView.ViewHolder {
+        private TextView tv_rechargerecord_money;
+        private  TextView tv_rechargerecord_num;
+        private TextView tv_rechargerecord_time;
 
-        public MyViewHolder(View view) {
-            super(view);
+        public MyHolder(View convertView) {
+            super(convertView);
+            tv_rechargerecord_time = (TextView) convertView.findViewById(R.id.tv_rechargerecord_time);
+            tv_rechargerecord_num = (TextView) convertView.findViewById(R.id.tv_rechargerecord_num);
+            tv_rechargerecord_money = (TextView) convertView.findViewById(R.id.tv_rechargerecord_money);
 
-            tv_record_czway = (TextView) view.findViewById(R.id.tv_record_czway);
-            tv_record_time = (TextView) view.findViewById(R.id.tv_record_time);
-            tv_record_money = (TextView) view.findViewById(R.id.tv_record_money);
         }
     }
 }
