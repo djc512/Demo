@@ -16,11 +16,13 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordBean;
+import huanxing_print.com.cn.printhome.model.my.ChongZhiRecordListBean;
 import huanxing_print.com.cn.printhome.net.callback.my.ChongZhiRecordCallBack;
 import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.ChongZhiRecordRequest;
 import huanxing_print.com.cn.printhome.net.request.my.Go2DebitRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountRecordAdapter;
+import huanxing_print.com.cn.printhome.ui.adapter.AccountRecordItemAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -36,11 +38,11 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
     private LinearLayout ll_back;
     private ListView lv_account_record;
     private int pageNum = 1;
-    private AccountRecordAdapter adapter;
+    private AccountRecordItemAdapter adapter;
     private XRefreshView xrf_czrecord;
     private boolean isLoadMore = false;
-    private List<ChongZhiRecordBean.ListBean> datalist;
-    private List<ChongZhiRecordBean.ListBean> list = new ArrayList<>();
+    private List<ChongZhiRecordListBean> datalist;
+    private List<ChongZhiRecordListBean> list = new ArrayList<>();
     private TextView tv_receipt;
 
     @Override
@@ -62,7 +64,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
         //获取充值记录
         ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
-        //getReceiptAccount();
+        getReceiptAccount();
     }
 
     private void initView() {
@@ -161,11 +163,13 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
             if(null!=list&&list.size()>0){
                 list.clear();
             }
-            list = bean.getList();
+            if (!ObjectUtils.isNull(bean)) {
+                list = bean.getList();
+            }
             if (isLoadMore) {//如果是加载更多
                 if (!ObjectUtils.isNull(bean)) {
                     xrf_czrecord.stopLoadMore();
-                    if (!ObjectUtils.isNull(list)) {
+                    if (null!=list&&list.size()>0) {
                         datalist.addAll(list);
                         adapter.notifyDataSetChanged();
                     } else {
@@ -179,7 +183,9 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                 }
             } else {
                 if (bean != null) {
-                    datalist = list;
+                    if (null!=list&&list.size()>0) {
+                        datalist = list;
+                    }
                     if (null != datalist && datalist.size() > 0) {
                         AccountRecordAdapter adapter = new AccountRecordAdapter(getSelfActivity(), datalist);
 
