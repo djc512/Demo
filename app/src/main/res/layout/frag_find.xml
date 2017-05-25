@@ -33,8 +33,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/titleBar"
-        android:layout_marginBottom="@dimen/recycler_margin_bottom"
-        android:layout_marginTop="@dimen/recycler_margin_top"
         android:background="@color/gray5" />
 
     <huanxing_print.com.cn.printhome.view.IndexSideBar
@@ -43,8 +41,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/titleBar"
-        android:layout_marginBottom="@dimen/sidebar_margin_bottom"
-        android:layout_marginTop="@dimen/sidebar_margin_top"
         android:visibility="gone" />
 
 
