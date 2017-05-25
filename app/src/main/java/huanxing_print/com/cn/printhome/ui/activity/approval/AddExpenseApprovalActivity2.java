@@ -507,8 +507,23 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
         if (requestNum == 0) {
             edt_request_num.setText("");
         }else {
-            edt_request_num.setText(String.valueOf(requestNum));
+            edt_request_num.setText(formatFloatNumber(requestNum));
         }
+    }
+
+    /**
+     * 当浮点型数据位数超过10位之后，数据变成科学计数法显示。用此方法可以使其正常显示。
+     * @param value
+     * @return Sting
+     */
+    public static String formatFloatNumber(double value) {
+        if(value != 0.00){
+            java.text.DecimalFormat df = new java.text.DecimalFormat("########.00");
+            return df.format(value);
+        }else{
+            return "0.00";
+        }
+
     }
 
     /**
