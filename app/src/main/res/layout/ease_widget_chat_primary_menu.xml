@@ -9,7 +9,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/btn_white_normal" />
+        android:background="@color/btn_gray_normal" />
 
     <LinearLayout
         android:id="@+id/rl_bottom"
@@ -62,11 +62,13 @@
             android:id="@+id/edittext_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:gravity="bottom">
+            android:gravity="center"
+            android:background="@drawable/broder_gray_full2">
 
             <EditText
                 android:id="@+id/et_sendmessage"
@@ -95,8 +97,8 @@
 
             <ImageView
                 android:id="@+id/iv_face_normal"
-                android:layout_width="24dip"
-                android:layout_height="24dip"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
                 android:layout_margin="1dip"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ease_chatting_biaoqing_btn_normal"
@@ -104,8 +106,8 @@
 
             <ImageView
                 android:id="@+id/iv_face_checked"
-                android:layout_width="24dip"
-                android:layout_height="24dip"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
                 android:layout_margin="1dip"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ease_chatting_biaoqing_btn_enable"
@@ -115,17 +117,18 @@
 
         <Button
             android:id="@+id/btn_more"
-            android:layout_width="24dip"
-            android:layout_height="24dip"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="10dp"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="15dp"
             android:background="@drawable/ease_type_select_btn" />
 
         <Button
             android:id="@+id/btn_send"
             android:layout_width="wrap_content"
-            android:layout_height="24dip"
-            android:layout_marginRight="4dp"
+            android:layout_height="30dip"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="15dp"
             android:background="@drawable/ease_chat_send_btn_selector"
             android:gravity="center"
             android:text="@string/button_send"

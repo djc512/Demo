@@ -64,7 +64,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
         //获取充值记录
         ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
-        getReceiptAccount();
+        //getReceiptAccount();
     }
 
     private void initView() {
@@ -160,10 +160,13 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         @Override
         public void success(String msg, ChongZhiRecordBean bean) {
             DialogUtils.closeProgressDialog();
-            if(null!=list&&list.size()>0){
+            if (null != list && list.size() > 0) {
                 list.clear();
             }
             if (!ObjectUtils.isNull(bean)) {
+                list = bean.getList();
+            }
+            if (null != bean) {
                 list = bean.getList();
             }
             if (isLoadMore) {//如果是加载更多
