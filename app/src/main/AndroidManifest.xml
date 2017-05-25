@@ -452,6 +452,7 @@
         <activity
             android:name=".ui.activity.contact.GroupActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- 转让群主 -->
         <activity
