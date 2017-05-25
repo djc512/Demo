@@ -43,6 +43,7 @@
         android:layout_marginBottom="@dimen/recycler_margin_top" />
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/click_bottom"
         android:layout_width="match_parent"
         android:layout_height="49dp"
