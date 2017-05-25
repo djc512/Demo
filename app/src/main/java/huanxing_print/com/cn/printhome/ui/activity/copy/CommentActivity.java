@@ -433,7 +433,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
                 toast("发表成功");
 
                 Intent intentsave = new Intent();
-                intentsave.putExtra("commnet",false);
+                intentsave.putExtra("commnet", false);
                 intentsave.setAction("bitmap");
                 sendBroadcast(intentsave);
                 finishCurrentActivity();
@@ -501,17 +501,22 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-
-            if (position == selectBitmap.size()) {
-                holder.image.setImageBitmap(BitmapFactory.decodeResource(
-                        getResources(), R.drawable.add));
-                if (position == 3) {
-                    holder.image.setVisibility(View.GONE);
-                } else {
-                    holder.image.setVisibility(View.VISIBLE);
-                }
+            if (Bimp.tempSelectBitmap.size() == 0) {
+                Bimp.tempSelectBitmap.clear();
+                notifyDataSetChanged();
+                holder.image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.add));
             } else {
-                holder.image.setImageBitmap(selectBitmap.get(position).getBitmap());
+                if (position == selectBitmap.size()) {
+                    holder.image.setImageBitmap(BitmapFactory.decodeResource(
+                            getResources(), R.drawable.add));
+                    if (position == 3) {
+                        holder.image.setVisibility(View.GONE);
+                    } else {
+                        holder.image.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    holder.image.setImageBitmap(selectBitmap.get(position).getBitmap());
+                }
             }
             return convertView;
         }
