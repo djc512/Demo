@@ -201,6 +201,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                             message.getTo(), "", packetId, luckyCallBack);
                 }
             } else {
+                DialogUtils.showProgressDialog(getContext(), "正在加载").show();
                 //私聊查询红包记录
                 ChatRequest.queryPackageDetail(getContext(), token, packetId, callBack);
             }
@@ -210,7 +211,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
     PackageDetailCallBack callBack = new PackageDetailCallBack() {
         @Override
         public void success(String msg, RedPackageDetail detail) {
-
+            DialogUtils.closeProgressDialog();
             Log.d("detail", "------------->" + detail);
 
             if (!ObjectUtils.isNull(detail)) {
@@ -220,11 +221,13 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
 
         @Override
         public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
             ToastUtil.doToast(context, "" + msg);
         }
 
         @Override
         public void connectFail() {
+            DialogUtils.closeProgressDialog();
             Log.d("CMCC", "connectFail");
         }
     };
@@ -291,6 +294,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                     singleDialog.setRedPackageSender(detail.getMasterName());
                     singleDialog.setImgUrl(detail.getMasterFaceUrl());
                     singleDialog.setLeaveMsg(detail.getRemark());
+                    singleDialog.setCheckDetail(false);
                     singleDialog.setClickListener(new NormalRedEnvelopesListener() {
                         @Override
                         public void open() {
@@ -484,6 +488,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(context, "" + msg);
             Log.d("CMCC", "" + msg);
         }
 

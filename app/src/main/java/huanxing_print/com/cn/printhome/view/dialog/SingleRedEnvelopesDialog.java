@@ -39,6 +39,15 @@ public class SingleRedEnvelopesDialog extends Dialog implements View.OnClickList
     private TextView txt_look_detail;
     private RelativeLayout rel_close;
     private NormalRedEnvelopesListener listener;
+    private boolean checkDetail=true;
+
+    public boolean isCheckDetail() {
+        return checkDetail;
+    }
+
+    public void setCheckDetail(boolean checkDetail) {
+        this.checkDetail = checkDetail;
+    }
 
     public SingleRedEnvelopesDialog(@NonNull Context context) {
         super(context);
@@ -98,7 +107,12 @@ public class SingleRedEnvelopesDialog extends Dialog implements View.OnClickList
         txt_leave_msg = (TextView) findViewById(R.id.txt_leave_msg);
         txt_look_detail = (TextView) findViewById(R.id.txt_look_detail);
         rel_close = (RelativeLayout) findViewById(R.id.rel_close);
-
+        if (checkDetail){
+            //有查看详情
+            txt_look_detail.setVisibility(View.VISIBLE);
+        }else{
+            txt_look_detail.setVisibility(View.GONE);
+        }
         setImg(imgUrl, img_head_portrait);
         txt_name.setText(redPackageSender);
         txt_leave_msg.setText(leaveMsg);

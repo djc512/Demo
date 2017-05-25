@@ -22,7 +22,8 @@
             android:id="@+id/groupName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:textSize="@dimen/recycler_new_friend_tv_size"
+            android:textColor="#282828"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="印信群印信群印信群印信群印信群印信群印信群印信群"/>
@@ -31,6 +32,8 @@
             android:id="@+id/groupMembers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#989898"
+            android:textSize="@dimen/new_friend_status_size"
             android:layout_marginLeft="@dimen/item_group_members_margin_l"
             android:layout_marginRight="@dimen/item_group_members_margin_r"
             android:layout_weight="1"

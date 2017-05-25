@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="@dimen/group_create_padding"
+            android:layout_marginRight="@dimen/item_phone_icon_margin_l"
             android:text="@string/btn_create_group"
             android:textSize="@dimen/contact_bar_txt_size"
             android:textColor="@color/contact_bar_txt_color"/>
