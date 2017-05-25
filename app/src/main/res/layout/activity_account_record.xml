@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="开具发票"
-            android:textColor="@color/yellow2"
+            android:textColor="@color/gray8"
             android:textSize="20dp" />
     </RelativeLayout>
 
