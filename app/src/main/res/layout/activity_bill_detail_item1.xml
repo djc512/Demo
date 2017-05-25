@@ -72,7 +72,7 @@
         android:padding="10dp"
         android:visibility="gone">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -83,6 +83,7 @@
                 android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:text="打印点:"
                 android:textColor="@color/gray8"
                 android:textSize="13sp" />
@@ -90,13 +91,15 @@
             <TextView
                 android:layout_marginLeft="5dp"
                 android:id="@+id/tv_location"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_address"
+                android:gravity="center_vertical|right"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/gray8"
                 android:textSize="13sp" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

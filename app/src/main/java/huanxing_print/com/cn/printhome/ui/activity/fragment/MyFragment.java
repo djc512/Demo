@@ -33,6 +33,7 @@ import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.WebViewCommunityActivity;
+import huanxing_print.com.cn.printhome.ui.activity.my.WebViewSuggestActivity;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -141,6 +142,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 }
                 SharedPreferencesUtils.putShareValue(getActivity(),
                         "totleBalance", totleBalance);
+                SharedPreferencesUtils.putShareValue(getActivity(),"nickName", nickName);
                 tv_name.setText(nickName);
                 tv_uniqueid.setText("印家号:" + uniqueId);
                 tv_print_count.setText(printCount);
@@ -212,7 +214,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 startActivity(accIntent);
                 break;
             case R.id.ll_station://布点建议
-                Intent stationIntent = new Intent(getActivity(), WebViewCommunityActivity.class);
+                Intent stationIntent = new Intent(getActivity(), WebViewSuggestActivity.class);
                 stationIntent.putExtra("titleName", "布点建议");
                 stationIntent.putExtra("webUrl", HttpUrl.myLay);
                 startActivity(stationIntent);

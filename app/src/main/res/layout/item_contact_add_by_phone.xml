@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="ABC"
                 android:textSize="@dimen/item_phone_name_tv_size"
-                android:textStyle="bold"/>
+                android:textColor="#282828"/>
 
             <TextView
                 android:id="@+id/tv_yjNum"
@@ -57,6 +57,7 @@
                 android:id="@+id/btn_add"
                 android:layout_width="@dimen/contact_btn_w"
                 android:layout_height="@dimen/contact_btn_h"
+                android:textSize="@dimen/contact_btn_txt_size"
                 android:layout_centerInParent="true"
                 android:background="@drawable/btn_contact_add_selector"
                 android:text="@string/btn_contact_him"/>

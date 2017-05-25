@@ -12,12 +12,11 @@
 
         <RelativeLayout
             android:id="@+id/rel_close"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:paddingLeft="@dimen/distance_twenty"
-            android:paddingRight="@dimen/distance_twenty"
-            android:paddingTop="@dimen/distance_twenty">
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -81,7 +80,7 @@
                 android:id="@+id/img_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/distance_sixty"
+                android:layout_marginTop="@dimen/distance_forty"
                 android:src="@drawable/open_red_package" />
 
         </LinearLayout>

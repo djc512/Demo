@@ -25,6 +25,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -49,6 +50,7 @@ import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.MessageListenerAdapter;
+import huanxing_print.com.cn.printhome.util.Constant;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ThreadUtils;
@@ -446,11 +448,12 @@ public class BaseApplication extends Application {
                         sendNotification(list.get(0));
                         //发出长声音
                         //参数2/3：左右喇叭声音的大小
-                        mSoundPool.play(mYuluSound, 1, 1, 0, 0, 1);
+                        //mSoundPool.play(mYuluSound, 1, 1, 0, 0, 1);
                     } else {
                         //发出短声音
                         //mSoundPool.play(mDuanSound, 1, 1, 0, 0, 1);
                     }
+                    //EventBus.getDefault().post(list.get(0));
 
                 }
             }
@@ -556,7 +559,15 @@ public class BaseApplication extends Application {
         Intent mainIntent = new Intent(this, MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Intent chatIntent = new Intent(this, ChatTestActivity.class);
-        chatIntent.putExtra("username", message.getFrom());
+        if (message.getChatType()==EMMessage.ChatType.Chat){
+            chatIntent.putExtra(Constant.EXTRA_USER_ID, message.getFrom());
+        }else {
+            chatIntent.putExtra(Constant.EXTRA_USER_ID, message.getTo());
+            chatIntent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
+        }
+
+        chatIntent.putExtra("nickName", message.getStringAttribute("nickName",""));
+        chatIntent.putExtra("iconUrl", message.getStringAttribute("iconUrl",""));
 
         Intent[] intents = {mainIntent, chatIntent};
         PendingIntent pendingIntent = PendingIntent.getActivities(this, 1, intents, PendingIntent.FLAG_UPDATE_CURRENT);

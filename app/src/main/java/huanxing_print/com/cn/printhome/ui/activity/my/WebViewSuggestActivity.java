@@ -8,6 +8,8 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
-import android.webkit.GeolocationPermissions;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -35,7 +36,11 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
-public class WebViewCommunityActivity extends BaseActivity implements OnClickListener {
+import static android.R.attr.tag;
+import static huanxing_print.com.cn.printhome.R.id.iv_preview;
+import static huanxing_print.com.cn.printhome.R.id.iv_previewf;
+
+public class WebViewSuggestActivity extends BaseActivity implements OnClickListener {
     private WebView webview;
     private TextView tv_title;
     private String url, loginToken;
@@ -49,7 +54,6 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private ReceiveBroadCast receiveBroadCast;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -71,7 +75,6 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
     @SuppressLint("JavascriptInterface")
     private void initViews() {
         url = getIntent().getStringExtra("webUrl");
-
 
         titleName = getIntent().getStringExtra("titleName");
         loginToken = baseApplication.getLoginToken();
@@ -95,8 +98,8 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         s.setDomStorageEnabled(true);
         webview.requestFocus();
         webview.setScrollBarStyle(0);
-        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()), "pay");
 
+        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()), "share");
         synCookies(getSelfActivity(), url);
         webview.loadUrl(url);
         webview.setWebViewClient(new WebViewClient() {
@@ -114,13 +117,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
 
 
         webview.setWebChromeClient(new WebChromeClient() {
-            //配置权限（同样在WebChromeClient中实现）
-            @Override
-            public void onGeolocationPermissionsShowPrompt(String origin,
-                                                           GeolocationPermissions.Callback callback) {
-                callback.invoke(origin, true, false);
-                super.onGeolocationPermissionsShowPrompt(origin, callback);
-            }
+
             // For Android < 3.0
             public void openFileChooser(ValueCallback<Uri> valueCallback) {
                 uploadMessage = valueCallback;
@@ -295,24 +292,5 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        receiveBroadCast = new ReceiveBroadCast();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("url");    //只有持有相同的action的接受者才能接收此广播
-        getSelfActivity().registerReceiver(receiveBroadCast, filter);
-    }
-
-    public class ReceiveBroadCast extends BroadcastReceiver {
-        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //得到广播中得到的数据，并显示出来
-            String url = intent.getStringExtra("url");
-            webview.loadUrl(url);
-        }
     }
 }

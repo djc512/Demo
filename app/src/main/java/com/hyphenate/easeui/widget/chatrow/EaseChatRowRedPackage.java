@@ -37,6 +37,7 @@ import huanxing_print.com.cn.printhome.util.GroupRedEnvelopesListener;
 import huanxing_print.com.cn.printhome.util.NormalRedEnvelopesListener;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.view.dialog.FailureRedEnvelopesDialog;
 import huanxing_print.com.cn.printhome.view.dialog.GoneRedEnvelopesDialog;
@@ -219,7 +220,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
 
         @Override
         public void fail(String msg) {
-            Log.d("CMCC", "" + msg);
+            ToastUtil.doToast(context, "" + msg);
         }
 
         @Override
@@ -532,13 +533,12 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            Log.d("CMCC", "" + msg);
+            ToastUtil.doToast(context, "" + msg);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
-            Log.d("CMCC", "connectFail");
         }
     };
 
@@ -563,13 +563,12 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            Log.d("CMCC", "" + msg);
+            ToastUtil.doToast(context, "" + msg);
         }
 
         @Override
         public void connectFail() {
             DialogUtils.closeProgressDialog();
-            Log.d("CMCC", "connectFail");
         }
     };
 }

@@ -90,6 +90,9 @@
     <dimen name="contact_btn_w">60dp</dimen>
     <dimen name="contact_btn_h">29dp</dimen>
     <dimen name="contact_btn_radius">2dp</dimen>
+    <dimen name="contact_btn_txt_size">12dp</dimen>
+    <dimen name="contact_dialog_cancel">16dp</dimen>
+    <dimen name="contact_dialog_cancel_h">49dp</dimen>
 
     <!--群组-->
     <dimen name="group_create_padding">5dp</dimen>

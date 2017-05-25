@@ -22,7 +22,7 @@
             android:layout_alignParentRight="true"
             android:text="开具发票"
             android:textColor="@color/gray8"
-            android:textSize="20dp" />
+            android:textSize="17dp" />
     </RelativeLayout>
 
     <com.andview.refreshview.XRefreshView
@@ -35,7 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
-            android:background="@color/white"
-            android:scrollbars="none"></ListView>
+            android:scrollbars="none">
+
+        </ListView>
     </com.andview.refreshview.XRefreshView>
 </LinearLayout>
