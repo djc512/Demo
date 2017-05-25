@@ -64,11 +64,13 @@
     <dimen name="yj_et_search_margin_l">10dp</dimen>
     <dimen name="yj_et_search_icon_w_h">15dp</dimen>
     <dimen name="yj_et_search_icon_margin">7dp</dimen>
-    <dimen name="yj_search_et_h">29dp</dimen>
+    <dimen name="yj_search_et_h">25dp</dimen>
     <dimen name="yj_cancel_search_margin_l">10dp</dimen>
     <dimen name="yj_cancel_search_margin_r">10dp</dimen>
     <dimen name="yj_result_margin_top">15dp</dimen>
-    <dimen name="yj_result_h">50dp</dimen>
+    <dimen name="yj_result_h">60dp</dimen>
+    <dimen name="yj_et_search_txt_size">13dp</dimen>
+    <dimen name="yj_et_search_result_size">17dp</dimen>
 
     <!--添加搜索联系人验证-->
     <dimen name="verification_send_tv_size">15dp</dimen>
