@@ -201,6 +201,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                             message.getTo(), "", packetId, luckyCallBack);
                 }
             } else {
+                DialogUtils.showProgressDialog(getContext(), "正在加载").show();
                 //私聊查询红包记录
                 ChatRequest.queryPackageDetail(getContext(), token, packetId, callBack);
             }
@@ -210,7 +211,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
     PackageDetailCallBack callBack = new PackageDetailCallBack() {
         @Override
         public void success(String msg, RedPackageDetail detail) {
-
+            DialogUtils.closeProgressDialog();
             Log.d("detail", "------------->" + detail);
 
             if (!ObjectUtils.isNull(detail)) {
@@ -220,11 +221,13 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
 
         @Override
         public void fail(String msg) {
+            DialogUtils.closeProgressDialog();
             ToastUtil.doToast(context, "" + msg);
         }
 
         @Override
         public void connectFail() {
+            DialogUtils.closeProgressDialog();
             Log.d("CMCC", "connectFail");
         }
     };
@@ -287,21 +290,50 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
                     intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
                     context.startActivity(intent);
                 } else {
-                    DialogUtils.showSinglePackageDialog(getContext(),
-                            detail.getMasterFaceUrl(), detail.getMasterName(),
-                            detail.getRemark(), detail.getInvalid(), detail.getSnatch(),
-                            new DialogUtils.SinglePackageDialogCallBack() {
-                                @Override
-                                public void open() {
-                                    //抢红包
-                                    String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
-                                            "loginToken");
-                                    DialogUtils.showProgressDialog(getContext(), "加载中").show();
-                                    ChatRequest.receivePackage(getContext(), token,
-                                            message.getStringAttribute("packetId", ""), receiveCallBack);
-                                }
+                    singleDialog = new SingleRedEnvelopesDialog(context, R.style.MyDialog);
+                    singleDialog.setRedPackageSender(detail.getMasterName());
+                    singleDialog.setImgUrl(detail.getMasterFaceUrl());
+                    singleDialog.setLeaveMsg(detail.getRemark());
+                    singleDialog.setCheckDetail(false);
+                    singleDialog.setClickListener(new NormalRedEnvelopesListener() {
+                        @Override
+                        public void open() {
+                            //抢红包
+                            String token = SharedPreferencesUtils.getShareString(getContext(), ConFig.SHAREDPREFERENCES_NAME,
+                                    "loginToken");
+                            DialogUtils.showProgressDialog(getContext(), "加载中").show();
+                            ChatRequest.receivePackage(getContext(), token,
+                                    message.getStringAttribute("packetId", ""), receiveCallBack);
+                            singleDialog.dismiss();
+                        }
 
-                            }).show();
+                        @Override
+                        public void checkDetail() {
+                            Intent intent = new Intent(context, RedPackageRecordActivity.class);
+                            intent.putExtra("easemobGroupId", message.getTo());
+                            intent.putExtra("type", message.getIntAttribute("groupType", -1));
+                            intent.putExtra("singleType", true);
+                            intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+                            context.startActivity(intent);
+                            singleDialog.dismiss();
+                        }
+
+                        @Override
+                        public void closeDialog() {
+                            singleDialog.dismiss();
+                        }
+                    });
+                    singleDialog.show();
+//                    DialogUtils.showSinglePackageDialog(getContext(),
+//                            detail.getMasterFaceUrl(), detail.getMasterName(),
+//                            detail.getRemark(), detail.getInvalid(), detail.getSnatch(),
+//                            new DialogUtils.SinglePackageDialogCallBack() {
+//                                @Override
+//                                public void open() {
+//
+//                                }
+//
+//                            }).show();
                 }
 //                if (detail.getSendMemberId().equals(memberId)) {
 //                    //直接进入详情
@@ -456,6 +488,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
+            ToastUtil.doToast(context, "" + msg);
             Log.d("CMCC", "" + msg);
         }
 

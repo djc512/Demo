@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.contact;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -71,7 +72,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
+        recyclerView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST, 1, ContextCompat.getColor(this, R.color.recycler_divider_color)));
 
         adapter = new ChooseGroupContactAdapter(this, friends);
         recyclerView.setAdapter(adapter);

@@ -23,6 +23,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/btn_cancel"
                 android:textSize="17dp"
+                android:layout_marginLeft="@dimen/recycler_icon_margin_l"
                 android:textColor="@color/text_yellow2" />
         </LinearLayout>
 
@@ -60,7 +61,7 @@
             android:layout_weight="1"
             android:text="已选择:0人"
             android:textSize="14dp"
-            android:textColor="@color/text_yellow" />
+            android:textColor="@color/text_yellow2" />
 
         <Button
             android:id="@+id/btn_create"
@@ -69,7 +70,7 @@
             android:layout_marginRight="@dimen/btn_group_ok_margin_r"
             android:background="@drawable/btn_contact_add_selector"
             android:enabled="false"
-            android:textColor="@color/text_yellow"
+            android:textColor="#282828"
             android:text="确定(0/4)" />
     </LinearLayout>
 </RelativeLayout>

@@ -297,7 +297,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 @Override
                 public void onMainError(int i, String s) {
                     DialogUtils.closeProgressDialog();
-                    toast("环信登录失败");
+                    toastConnectFail();
 
                 }
             });
