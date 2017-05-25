@@ -253,6 +253,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
             isSearch = false;
             initHistory();
             File file = new File(mHistory.get(0));
+            showFile = file;
             updateList(file);
             return true;
         }
@@ -262,6 +263,7 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
         mHistory.removeLast();
         String previousPath = mHistory.getLast();
         File file = new File(previousPath);
+        showFile = file;
         updateList(file);
         Logger.i(mHistory);
         return true;
