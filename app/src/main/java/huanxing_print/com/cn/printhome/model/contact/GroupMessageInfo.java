@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class GroupMessageInfo implements Parcelable{
     private String balance;//群余额
+    private String easemobGroupId;//群环信ID
     private String groupId;//群id
     private ArrayList<GroupMember> groupMembers;//群成员列表
     private String groupName;//群名称
@@ -24,12 +25,30 @@ public class GroupMessageInfo implements Parcelable{
 
     protected GroupMessageInfo(Parcel in) {
         balance = in.readString();
+        easemobGroupId = in.readString();
         groupId = in.readString();
         groupMembers = in.createTypedArrayList(GroupMember.CREATOR);
         groupName = in.readString();
         groupNotice = in.readString();
         groupUrl = in.readString();
         isManage = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(balance);
+        dest.writeString(easemobGroupId);
+        dest.writeString(groupId);
+        dest.writeTypedList(groupMembers);
+        dest.writeString(groupName);
+        dest.writeString(groupNotice);
+        dest.writeString(groupUrl);
+        dest.writeString(isManage);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<GroupMessageInfo> CREATOR = new Creator<GroupMessageInfo>() {
@@ -50,6 +69,14 @@ public class GroupMessageInfo implements Parcelable{
 
     public void setBalance(String balance) {
         this.balance = balance;
+    }
+
+    public String getEasemobGroupId() {
+        return easemobGroupId;
+    }
+
+    public void setEasemobGroupId(String easemobGroupId) {
+        this.easemobGroupId = easemobGroupId;
     }
 
     public String getGroupId() {
@@ -100,19 +127,4 @@ public class GroupMessageInfo implements Parcelable{
         this.isManage = isManage;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(balance);
-        parcel.writeString(groupId);
-        parcel.writeTypedList(groupMembers);
-        parcel.writeString(groupName);
-        parcel.writeString(groupNotice);
-        parcel.writeString(groupUrl);
-        parcel.writeString(isManage);
-    }
 }

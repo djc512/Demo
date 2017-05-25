@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 import cn.jpush.android.api.JPushInterface;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
+import huanxing_print.com.cn.printhome.event.chat.GroupMessageUpdateInRed;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
@@ -530,11 +531,15 @@ public class BaseApplication extends Application {
             @Override
             public void onMemberJoined(final String groupId, final String member) {
                 //群组加入新成员通知
+                GroupMessageUpdateInRed updateInRed = new GroupMessageUpdateInRed("updateMember", groupId, member, true);
+                EventBus.getDefault().post(updateInRed);
             }
 
             @Override
             public void onMemberExited(final String groupId, final String member) {
                 //群成员退出通知
+                GroupMessageUpdateInRed updateInRed = new GroupMessageUpdateInRed("updateMember", groupId, member, false);
+                EventBus.getDefault().post(updateInRed);
             }
 
         });
