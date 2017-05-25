@@ -111,7 +111,6 @@ public class MingXiActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.tv_bill_debit://开发票
                 if (billValue.equals("0.00")) {
-                    ToastUtil.doToast(getSelfActivity(), "可开发票金额为0");
                 } else {
                     Intent intent = new Intent(getSelfActivity(), ReceiptNewActivity.class);
                     intent.putExtra("billValue", billValue);
