@@ -131,13 +131,14 @@ public class CreateGroupChatActivity extends BaseActivity implements View.OnClic
     public void choose(ArrayList<FriendInfo> infos) {
         chooseMembers = infos;
         if (null != infos) {
-            tv_hint_member.setText(String.format(getString(R.string.hint_choose_members), infos.size()));
-            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), 1));
-            if (infos.size() > 0) {
-                btn_create.setEnabled(true);
-            } else {
-                btn_create.setEnabled(false);
-            }
+//            tv_hint_member.setText(String.format(getString(R.string.hint_choose_members), infos.size()));
+//            btn_create.setText(String.format(getString(R.string.btn_hint_members), infos.size(), 1));
+//            if (infos.size() > 0) {
+//                btn_create.setEnabled(true);
+//            } else {
+//                btn_create.setEnabled(false);
+//            }
+            createGroup();
         }
     }
 
