@@ -62,7 +62,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
         //获取充值记录
         ChongZhiRecordRequest.getCzRecord(getSelfActivity(), pageNum, new MyChongzhiRecordCallBack());
-        //getReceiptAccount();
+        getReceiptAccount();
     }
 
     private void initView() {
@@ -112,7 +112,6 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.tv_receipt://开票
                 if ("0.00".equals(money)) {
-                    Toast.makeText(getSelfActivity(), "可开发票为0", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(getSelfActivity(), ReceiptNewActivity.class);
                     intent.putExtra("billValue", money);
@@ -158,10 +157,12 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
         @Override
         public void success(String msg, ChongZhiRecordBean bean) {
             DialogUtils.closeProgressDialog();
-            if(null!=list&&list.size()>0){
+            if (null != list && list.size() > 0) {
                 list.clear();
             }
-            list = bean.getList();
+            if (null != bean) {
+                list = bean.getList();
+            }
             if (isLoadMore) {//如果是加载更多
                 if (!ObjectUtils.isNull(bean)) {
                     xrf_czrecord.stopLoadMore();
