@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
@@ -29,6 +30,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,6 +46,7 @@ import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.WeiXinUtils;
@@ -73,10 +76,19 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_status);
         EventBus.getDefault().register(context);
+        delImageView();
         initData();
         initView();
         setUpload();
         timer.schedule(task, 1000 * 3, 1000 * 2);
+    }
+
+    private void delImageView() {
+        String path = Environment.getExternalStorageDirectory().getPath() + "/image/";
+        File f = new File(Environment.getExternalStorageDirectory().getPath() + "/image/");
+        if (f != null) {
+            FileUtils.delImageDir(f);
+        }
     }
 
     private void initData() {
