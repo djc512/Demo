@@ -105,6 +105,7 @@ public class EaseMessageAdapter extends BaseAdapter {
 
     Handler handler = new Handler() {
         private void refreshList() {
+            viewMap.clear();
             // you should not call getAllMessages() in UI thread
             // otherwise there is problem when refreshing UI and there is new message arrive
             java.util.List<EMMessage> var = conversation.getAllMessages();
