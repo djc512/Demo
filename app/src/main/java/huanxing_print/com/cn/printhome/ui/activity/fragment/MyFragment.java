@@ -1,8 +1,12 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment;
 
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -28,7 +32,6 @@ import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MingXiActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.MyActivity;
-import huanxing_print.com.cn.printhome.ui.activity.my.MyContactActivity;
 import huanxing_print.com.cn.printhome.ui.activity.my.WebViewCommunityActivity;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
@@ -221,7 +224,12 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 startActivity(joinIntent);
                 break;
             case R.id.ll_my_contact:
-                startActivity(new Intent(getActivity(), MyContactActivity.class));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "400-666-2060"));
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                startActivity(intent);
+                //startActivity(new Intent(getActivity(), MyContactActivity.class));
                 break;
             case R.id.ll_my_community:
                 //startActivity(new Intent(getActivity(), CommunityListActivity.class));

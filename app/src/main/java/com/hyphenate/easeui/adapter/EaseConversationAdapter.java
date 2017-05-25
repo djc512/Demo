@@ -124,6 +124,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                 }
                 // group message, show group avatar
                 //群头像设置
+                boolean isTwo = false;
                 Gson gson = new Gson();
                 String group = SharedPreferencesUtils.getShareString(context, "group");
                 Type type = new TypeToken<ArrayList<GroupMessageObject>>() {
@@ -133,6 +134,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                     //找到头像和昵称
                     for (GroupMessageObject info : infos) {
                         if (info.getGroupEaseId().equals(message.getTo())) {
+                            isTwo = true;
                             Glide.with(getContext())
                                     .load(info.getGroupUrl())
                                     .placeholder(R.drawable.ease_group_icon)
@@ -141,6 +143,15 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
                             holder.name.setText(info.getGroupName());
                             break;
                         }
+                    }
+                    //判断有没有找到群头像
+                    if (!isTwo) {
+                        //默认的群头像()
+                        Glide.with(getContext())
+                                .load(R.drawable.ease_group_icon)
+                                .transform(new CircleTransform(getContext()))
+                                .into(holder.avatar);
+                        holder.name.setText(username);
                     }
                 } else {
                     //默认的群头像()

@@ -5,7 +5,7 @@
             <!-- 圆角 -->
             <corners android:radius="@dimen/contact_btn_radius" />
             <!--填充颜色为白色-->
-            <solid android:color="@color/gray7" />
+            <solid android:color="@color/theme_yellow" />
         </shape>
     </item>
     <item android:state_pressed="false">

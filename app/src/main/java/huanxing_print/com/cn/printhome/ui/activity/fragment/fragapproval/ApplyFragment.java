@@ -41,6 +41,7 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
 		getActivity().registerReceiver(mBroadcastReceiver, intentFilter);
+
 		initViews();
 		setListener();
 		initData();
@@ -138,14 +139,17 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
+
 			if (action.equals(BROADCAST_ACTION_APPROVALNUM_REFRESH)) {
-				approverNum--;
-				if (approverNum>0){
-					tv_approve_count.setVisibility(View.VISIBLE);
-					tv_approve_count.setText(approverNum+"");
-				}else{
-					tv_approve_count.setVisibility(View.GONE);
-				}
+//				approverNum--;
+//				if (approverNum>0){
+//					tv_approve_count.setVisibility(View.VISIBLE);
+//					tv_approve_count.setText(approverNum+"");
+//				}else{
+//					tv_approve_count.setVisibility(View.GONE);
+//				}
+				//网络请求，获取用户信息
+				ApprovalRequest.queryUnreadMessage(getActivity(), token, queryMessageCallBack);
 			}
 		}
 	};

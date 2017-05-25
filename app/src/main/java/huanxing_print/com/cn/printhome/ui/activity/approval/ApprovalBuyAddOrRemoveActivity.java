@@ -22,8 +22,6 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -415,11 +413,11 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             toast("撤销成功");
-            EventBus.getDefault().post("refreshApprovalNum");
-            //发送一个广播让审批页面数量更新
-            Intent intent = new Intent();
-            intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
-            sendBroadcast(intent);
+            //EventBus.getDefault().post("refreshApprovalNum");
+//            //发送一个广播让审批页面数量更新
+//            Intent intent = new Intent();
+//            intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
+//            sendBroadcast(intent);
             finishCurrentActivity();
         }
 
@@ -446,6 +444,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             Intent intent = new Intent();
             intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
             sendBroadcast(intent);
+
             finishCurrentActivity();
         }
 
@@ -471,7 +470,8 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             Intent intent = new Intent();
             intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
             sendBroadcast(intent);
-            initData();
+
+            finishCurrentActivity();
         }
 
         @Override
@@ -535,7 +535,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
                                 // );
                                 String imgUrl = bean.getImgUrl()+"";
                                 ApprovalRequest.approval(getSelfActivity(),baseApplication.getLoginToken(),
-                                        approveId,1,imgUrl,nullcallback);
+                                        approveId,1,imgUrl,passCallback);
                             }
                         });
             }

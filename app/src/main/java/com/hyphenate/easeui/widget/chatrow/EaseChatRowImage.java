@@ -194,6 +194,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
     @Override
     protected void onBubbleClick() {
+        Log.d("CMCC", "图片地址:" + localFilePath);
         downloadImage(message.getMsgId());
 
 //        Intent intent = new Intent(context, EaseShowBigImageActivity.class);
@@ -317,10 +318,19 @@ public class EaseChatRowImage extends EaseChatRowFile {
                             EMClient.getInstance().chatManager()
                                     .getConversation(toChatUserName).removeMessage(message.getMsgId());
                         } else {
-                            String toChatUserName = message.getFrom();
-                            //删除掉本地消息
-                            EMClient.getInstance().chatManager()
-                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            if (message.direct() == EMMessage.Direct.SEND) {
+                                //自己发的
+                                String toChatUserName = message.getTo();
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            } else if (message.direct() == EMMessage.Direct.RECEIVE) {
+                                String toChatUserName = message.getFrom();
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            }
+
                         }
                         //发消息刷新
                         RefreshEvent event = new RefreshEvent();

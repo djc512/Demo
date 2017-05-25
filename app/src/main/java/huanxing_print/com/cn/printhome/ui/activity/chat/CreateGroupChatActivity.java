@@ -108,11 +108,11 @@ public class CreateGroupChatActivity extends BaseActivity implements View.OnClic
             DialogUtils.showProgressDialog(this, "创建中").show();
             if (!ObjectUtils.isNull(fileUrl)) {
                 //发送图片
-                toChatUsername = chooseMembers.get(0).getMemberId();
+                toChatUsername = chooseMembers.get(0).getEasemobId();
                 sendFileMessage(fileUrl);
             } else if (!ObjectUtils.isNull(imgUrl)) {
                 //发送图片
-                toChatUsername = chooseMembers.get(0).getMemberId();
+                toChatUsername = chooseMembers.get(0).getEasemobId();
                 sendImageMessage(imgUrl);
             }
         }

@@ -122,7 +122,7 @@ public class EaseChatRowFile extends EaseChatRow {
                         iv_file_type.setImageResource(R.drawable.file_pptx);
                         break;
                     default:
-                        iv_file_type.setImageResource(R.drawable.file_doc);
+                        iv_file_type.setImageResource(R.drawable.iv_apply_copy);
                         break;
                 }
             }
@@ -324,10 +324,18 @@ public class EaseChatRowFile extends EaseChatRow {
                             EMClient.getInstance().chatManager()
                                     .getConversation(toChatUserName).removeMessage(message.getMsgId());
                         } else {
-                            String toChatUserName = message.getFrom();
-                            //删除掉本地消息
-                            EMClient.getInstance().chatManager()
-                                    .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            if (message.direct() == EMMessage.Direct.SEND) {
+                                //自己发的
+                                String toChatUserName = message.getTo();
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            } else if (message.direct() == EMMessage.Direct.RECEIVE) {
+                                String toChatUserName = message.getFrom();
+                                //删除掉本地消息
+                                EMClient.getInstance().chatManager()
+                                        .getConversation(toChatUserName).removeMessage(message.getMsgId());
+                            }
                         }
                         //发消息刷新
                         RefreshEvent event = new RefreshEvent();
