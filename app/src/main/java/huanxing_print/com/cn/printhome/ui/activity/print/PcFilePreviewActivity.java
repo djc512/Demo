@@ -10,6 +10,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
+import huanxing_print.com.cn.printhome.model.print.PrintFileInfo;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
@@ -18,8 +19,9 @@ import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ImageUtil;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.StringUtil;
 
-public class PcFilePreviewActivity extends BasePrintActivity implements View.OnClickListener{
+public class PcFilePreviewActivity extends BasePrintActivity implements View.OnClickListener {
 
     private PrintListBean.FileInfo fileInfo;
 
@@ -84,6 +86,8 @@ public class PcFilePreviewActivity extends BasePrintActivity implements View.OnC
     private void turnPrintSetting(PrintSetting printSetting) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
+        bundle.putParcelable(PickPrinterActivity.FILE_INFO, new PrintFileInfo(PrintFileInfo.TYPE_FILE, StringUtil
+                .stringToInt(fileInfo.getFilePage())));
         bundle.putString(PickPrinterActivity.IMAGE_PATH, fileInfo.getPreviewUrl());
         PickPrinterActivity.start(context, bundle);
     }

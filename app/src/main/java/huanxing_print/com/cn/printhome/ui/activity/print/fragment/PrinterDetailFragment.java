@@ -111,14 +111,17 @@ public class PrinterDetailFragment extends Fragment {
             colorLyt.setVisibility(View.VISIBLE);
             colorPriceTv.setText("彩色 A4 ￥" + printerPrice.getA4ColorPrice() + "   A3 ￥" + printerPrice
                     .getA3ColorPrice());
+        } else {
+            typeImg.setImageResource(R.drawable.ic_black);
+            colorLyt.setVisibility(View.GONE);
+        }
+        if (PrintUtil.PRINTER_TYPE_PHOTO == printPrinterPrice.getPaperType()) {
             photoRemainTv.setVisibility(View.VISIBLE);
             photoRemainTv.setText("相片纸 " + printerPrice.getPhotoNum() + "张");
             photoPriceTv.setVisibility(View.VISIBLE);
-            photoPriceTv.setText("相片纸 ￥"+ PriceUtil.getPhotoPriceStr(printerPrice));
+            photoPriceTv.setText("相片纸 ￥" + PriceUtil.getPhotoPriceStr(printerPrice));
         } else {
-            typeImg.setImageResource(R.drawable.ic_black);
             photoPriceTv.setVisibility(View.GONE);
-            colorLyt.setVisibility(View.GONE);
             photoRemainTv.setVisibility(View.GONE);
         }
         backPriceTv.setText("黑色 A4 ￥" + printerPrice.getA4BlackPrice() + "   A3 ￥" + printerPrice

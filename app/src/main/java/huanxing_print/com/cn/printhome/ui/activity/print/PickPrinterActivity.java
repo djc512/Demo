@@ -23,6 +23,7 @@ import huanxing_print.com.cn.printhome.event.print.FinishEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.IsOnlineResp;
+import huanxing_print.com.cn.printhome.model.print.PrintFileInfo;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
@@ -53,6 +54,7 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
     private File file;
     private int printType;
     private boolean isFileCopy = false;
+    private PrintFileInfo printFileInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +91,15 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
                 ShowUtil.showToast(getString(R.string.file_error));
                 finish();
             }
+            printFileInfo = new PrintFileInfo(PrintFileInfo.TYPE_COPY, 1);
             turnFile();
         } else {
-            Logger.i(printSetting.toString());
+            printFileInfo = getIntent().getExtras().getParcelable(FILE_INFO);
             imagePath = getIntent().getStringExtra(IMAGE_PATH);
             printType = PrintUtil.PRINT_TYPE_PRINT;
             isFileCopy = false;
+            Logger.i(printSetting.toString());
+            Logger.i(printFileInfo.toString());
             initFragment();
         }
     }
@@ -310,12 +315,14 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
         bundle.putParcelable(CopySettingActivity.PRINT_SETTING, printSetting);
         bundle.putBoolean(CopySettingActivity.COPY_FILE_FLAG, isFileCopy);
         bundle.putString(CopySettingActivity.PREVIEW_PATH, imagePath);
+        bundle.putParcelable(CopySettingActivity.FILE_INFO, printFileInfo);
         CopySettingActivity.start(context, bundle);
     }
 
     public static final String SETTING = "setting";
     public static final String IMAGE_PATH = "imagepath";
     public static final String COPY_FLAG = "copyfile";
+    public static final String FILE_INFO = "fileInfo";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, PickPrinterActivity.class);

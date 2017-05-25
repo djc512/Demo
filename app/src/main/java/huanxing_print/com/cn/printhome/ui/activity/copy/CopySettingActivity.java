@@ -39,6 +39,7 @@ import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
 import huanxing_print.com.cn.printhome.model.print.AddOrderRespBean;
 import huanxing_print.com.cn.printhome.model.print.FileBean;
 import huanxing_print.com.cn.printhome.model.print.GroupResp;
+import huanxing_print.com.cn.printhome.model.print.PrintFileInfo;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.net.callback.my.Go2PayCallBack;
@@ -123,6 +124,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private RelativeLayout imgBcRyt;
 
     private String previewPath;
+    private PrintFileInfo printFileInfo;
 
     private List<GroupResp.Group> groupList = new ArrayList<>();
     private String printerNo;
@@ -170,6 +172,8 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     private void initData() {
         Bundle bundle = getIntent().getExtras();
+        printFileInfo = bundle.getParcelable(FILE_INFO);
+        Logger.i(printFileInfo.toString());
         previewPath = bundle.getString(PREVIEW_PATH);
         printType = bundle.getInt(PRINT_TYPE);
         printerNo = bundle.getString(PRINTER_NO);
@@ -304,8 +308,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private void modifySetting() {
         PrintRequest.modifySetting(this, newSetting.getColourFlag(), newSetting.getDirectionFlag(), newSetting
                         .getDoubleFlag(), newSetting.getId(), newSetting.getPrintCount(), newSetting.getSizeType(),
-                newSetting.getPaperType(),
-                newSetting.getScaleRatio(),
+                newSetting.getScaleRatio(), newSetting.getPaperType(),
                 new HttpListener() {
                     @Override
                     public void onSucceed(String content) {
@@ -581,7 +584,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     private void setPreviewScale(int progress) {
         Logger.i(progress);
-        scaleRatio = (int) (25 + (progress / 100) * 0.75);
+        scaleRatio = (int) (25 + (((float) progress / 100)) * 75);
         Logger.i(scaleRatio);
         int newWidth;
         int vWidth = DensityUtil.dip2px(ctx, 43);
@@ -641,6 +644,22 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         imgBcRyt.getLayoutParams().height = height;
         imgBcRyt.getLayoutParams().width = width;
         imgBcRyt.setLayoutParams(layoutParams);
+    }
+
+    private boolean isDoublePrint() {
+        if (PrintFileInfo.TYPE_IMAGE == printFileInfo.getFileType()) {
+            ShowUtil.showToast("图片只能单面打印");
+            return false;
+        }
+        if (PrintFileInfo.TYPE_COPY == printFileInfo.getFileType()) {
+            ShowUtil.showToast("复印文件只能单面打印");
+            return false;
+        }
+        if (printFileInfo.getPageCount() <= 1) {
+            ShowUtil.showToast("单页文件只能单面打印");
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -749,8 +768,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.iv_print_type://单双面
-                if (pageCount == 1 || paperType == PrintUtil.SETTING_PHOTO) {
-                    ShowUtil.showToast(getString(R.string.page_limit));
+                if (!isDoublePrint()) {
                     return;
                 }
                 if (doubleFlag == 1) {
@@ -913,6 +931,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     public static final String PRINTER_NO = "pinter_no";
     public static final String COPY_FILE_FLAG = "copy_file_flag";
     public static final String PREVIEW_PATH = "previewPath";
+    public static final String FILE_INFO = "fileInfo";
 
     public static void start(Context context, Bundle bundle) {
         Intent intent = new Intent(context, CopySettingActivity.class);

@@ -25,6 +25,7 @@ import huanxing_print.com.cn.printhome.event.print.PreviewFlagEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
 import huanxing_print.com.cn.printhome.model.print.DocPreviewResp;
+import huanxing_print.com.cn.printhome.model.print.PrintFileInfo;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
@@ -148,6 +149,8 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
+        bundle.putParcelable(PickPrinterActivity.FILE_INFO, new PrintFileInfo(PrintFileInfo.TYPE_FILE, fileUrlList
+                .size()));
         bundle.putString(PickPrinterActivity.IMAGE_PATH, fileUrlList.get(0));
         PickPrinterActivity.start(context, bundle);
     }

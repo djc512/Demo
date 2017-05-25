@@ -20,6 +20,7 @@ import java.lang.ref.WeakReference;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.event.print.FinishEvent;
 import huanxing_print.com.cn.printhome.model.print.AddFileSettingBean;
+import huanxing_print.com.cn.printhome.model.print.PrintFileInfo;
 import huanxing_print.com.cn.printhome.model.print.PrintSetting;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
@@ -188,6 +189,7 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
         EventBus.getDefault().postSticky(new Integer(1));
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
+        bundle.putParcelable(PickPrinterActivity.FILE_INFO, new PrintFileInfo(PrintFileInfo.TYPE_IMAGE, 1));
         bundle.putString(PickPrinterActivity.IMAGE_PATH, imgPath);
         PickPrinterActivity.start(context, bundle);
     }
