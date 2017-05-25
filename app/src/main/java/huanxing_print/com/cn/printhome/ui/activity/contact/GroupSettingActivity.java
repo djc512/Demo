@@ -273,6 +273,11 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                         GroupManagerRequest.dissolution(getSelfActivity(), baseApplication.getLoginToken(), params,
                                 dissolutinQunCallBack);
                     }
+
+                    @Override
+                    public void cancle() {
+                        DialogUtils.closeProgressDialog();
+                    }
                 }).show();
                 break;
             case R.id.ll_contactfile:
@@ -287,22 +292,32 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
                     public void dissolution() {
                         clearChatHistory(easemobGroupId);
                     }
+
+                    @Override
+                    public void cancle() {
+                        DialogUtils.closeProgressDialog();
+                    }
                 }).show();
                 break;
             case R.id.ll_modifyname:
-                if(null != groupMessageInfo) {
+                if (null != groupMessageInfo) {
                     Intent modifyIntent = new Intent(getSelfActivity(), ModifyQunNameActivity.class);
                     modifyIntent.putExtra("groupMessageInfo", groupMessageInfo);
                     modifyIntent.putExtra("groupid", currentGroupId);
                     modifyIntent.putExtra("groupurl", groupMessageInfo.getGroupUrl());
                     startActivityForResult(modifyIntent, modifynameRequsetCoder);
-                }else {
-                    ToastUtil.doToast(GroupSettingActivity.this,"还没有查到群信息");
+                } else {
+                    ToastUtil.doToast(GroupSettingActivity.this, "还没有查到群信息");
                 }
                 break;
             case R.id.btn_exit:
                 DialogUtils.showexitGroupDialog(getSelfActivity(), "您确定要退群吗?", new DialogUtils
                         .ExitGroupDialogCallback() {
+                    @Override
+                    public void cancle() {
+                        DialogUtils.closeProgressDialog();
+                    }
+
                     @Override
                     public void exit() {
                         exitGroupReq();
