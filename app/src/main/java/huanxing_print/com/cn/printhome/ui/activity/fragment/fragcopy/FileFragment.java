@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.ui.activity.fragment.fragcopy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -33,6 +35,7 @@ public class FileFragment extends Fragment implements View.OnClickListener {
     private File tempFile;
     private Context ctx;
     private PicSaveUtil saveUtil;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class FileFragment extends Fragment implements View.OnClickListener {
 
     private void initData() {
     }
+
     private void initListener() {
         btn_camera.setOnClickListener(this);
         btn_pic.setOnClickListener(this);
@@ -74,6 +78,7 @@ public class FileFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
     /**
      * 图库
      */
@@ -83,6 +88,7 @@ public class FileFragment extends Fragment implements View.OnClickListener {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
+
     /**
      * 拍照
      */
@@ -106,15 +112,22 @@ public class FileFragment extends Fragment implements View.OnClickListener {
 
     /**
      * 获取照片
+     *
      * @param uri
      */
     private void getBitMap(Uri uri) {
         try {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("uri", uri);
-            Intent intent = new Intent(ctx, PreviewActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            Bitmap mBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
+            int m = mBitmap.getByteCount() / 1024 / 1024;
+            if (m > 6) {
+                Toast.makeText(ctx, "图片过大，请重新拍照或者选择", Toast.LENGTH_SHORT).show();
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("uri", uri);
+                Intent intent = new Intent(ctx, PreviewActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
