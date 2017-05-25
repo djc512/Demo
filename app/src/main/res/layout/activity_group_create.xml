@@ -43,7 +43,6 @@
         android:layout_marginBottom="@dimen/recycler_margin_top" />
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/click_bottom"
         android:layout_width="match_parent"
         android:layout_height="49dp"
@@ -66,11 +65,10 @@
         <Button
             android:id="@+id/btn_create"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/contact_btn_h"
             android:layout_marginRight="@dimen/btn_group_ok_margin_r"
             android:background="@drawable/btn_contact_add_selector"
             android:enabled="false"
-            android:padding="@dimen/btn_group_ok_padding"
             android:textColor="@color/text_yellow"
             android:text="确定(0/4)" />
     </LinearLayout>
