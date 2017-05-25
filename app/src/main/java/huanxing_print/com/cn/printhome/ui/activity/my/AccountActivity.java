@@ -30,6 +30,7 @@ import huanxing_print.com.cn.printhome.net.request.my.TotleBalanceRequest;
 import huanxing_print.com.cn.printhome.ui.adapter.AccountCZAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -148,6 +149,7 @@ public class AccountActivity extends BaseActivity implements View.OnClickListene
                 Go2PayRequest.go2PWeChat(getSelfActivity(), orderid, "CZ", new WeChatCallBack() {
                     @Override
                     public void success(WeChatPayBean bean) {
+                        SharedPreferencesUtils.putShareValue(getSelfActivity(),"CZ",true);
                         PayUtil.getInstance(getSelfActivity()).weChatPay(bean);
                     }
 
