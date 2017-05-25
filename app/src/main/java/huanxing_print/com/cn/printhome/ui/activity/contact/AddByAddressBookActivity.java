@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.PhoneNumberUtils;
@@ -80,7 +81,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
         layoutManager = new LinearLayoutManager(this);
         contactsView.setHasFixedSize(true);
         contactsView.setLayoutManager(layoutManager);
-        contactsView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST));
+        contactsView.addItemDecoration(new MyDecoration(this, MyDecoration.HORIZONTAL_LIST, 1, ContextCompat.getColor(this, R.color.recycler_divider_color)));
 
         adapter = new AddAddressBookAdapter(this, contactInfos);
         adapter.setOnItemBtnListener(this);
