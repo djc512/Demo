@@ -1,14 +1,14 @@
 package huanxing_print.com.cn.printhome.ui.activity.fragment.fragapproval;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
-
-import org.simple.eventbus.EventBus;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
@@ -32,10 +32,15 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 	private int copyerNum;//抄送我的
 	private int initiatorNum;//我发起的
 	private int total;
+	private final String BROADCAST_ACTION_APPROVALNUM_REFRESH= "approvalnum.refresh";
 	@Override
 	protected void init() {
 		mContext = getActivity();
-		EventBus.getDefault().register(this);
+		//EventBus.getDefault().register(this);
+		// 注册广播
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
+		getActivity().registerReceiver(mBroadcastReceiver, intentFilter);
 		initViews();
 		setListener();
 		initData();
@@ -127,10 +132,28 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 			DialogUtils.closeProgressDialog();
 		}
 	};
+
+	private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+			if (action.equals(BROADCAST_ACTION_APPROVALNUM_REFRESH)) {
+				approverNum--;
+				if (approverNum>0){
+					tv_approve_count.setVisibility(View.VISIBLE);
+					tv_approve_count.setText(approverNum+"");
+				}else{
+					tv_approve_count.setVisibility(View.GONE);
+				}
+			}
+		}
+	};
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		EventBus.getDefault().unregister(this);
+		//EventBus.getDefault().unregister(this);
+		getActivity().unregisterReceiver(mBroadcastReceiver);
 	}
 
 }

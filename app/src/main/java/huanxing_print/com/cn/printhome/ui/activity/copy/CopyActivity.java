@@ -198,7 +198,7 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
             if (index == i) {
                 tvList.get(index).setTextColor(getResources().getColor(R.color.black1));
             } else {
-                tvList.get(i).setTextColor(getResources().getColor(R.color.gray6));
+                tvList.get(i).setTextColor(getResources().getColor(R.color.gray8));
             }
         }
     }

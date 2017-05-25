@@ -22,6 +22,7 @@ import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.UrlUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
  * Created by wanghao on 2017/5/3.
@@ -30,6 +31,7 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 public class AddContactActivity extends BaseActivity implements View.OnClickListener {
     private static final int SCANQR = 1000;
     private LinearLayout ll_back;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -46,6 +48,7 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(this);
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
     }
 
@@ -106,14 +109,16 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
     private void search(String searchContent) {
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(this, "加载中").show();
+//        DialogUtils.showProgressDialog(this, "加载中").show();
+        loadingDialog.show();
         FriendManagerRequest.friendSearch(this, token, searchContent, friendSearchCallback);
     }
 
     FriendSearchCallback friendSearchCallback = new FriendSearchCallback() {
         @Override
         public void success(String msg, FriendSearchInfo friendSearchInfo) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             if (null != friendSearchInfo) {
                 if (1 == friendSearchInfo.getIsFriend()) {
                     Intent intent = new Intent(AddContactActivity.this, ChatTestActivity.class);
@@ -129,13 +134,15 @@ public class AddContactActivity extends BaseActivity implements View.OnClickList
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(AddContactActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };

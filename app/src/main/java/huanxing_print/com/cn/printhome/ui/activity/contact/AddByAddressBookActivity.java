@@ -39,6 +39,7 @@ import huanxing_print.com.cn.printhome.util.contact.GetContactsUtils;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.IndexSideBar;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
  * Created by wanghao on 2017/5/4.
@@ -52,6 +53,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private LinearLayoutManager layoutManager;
     private PhoneContactInfo currentClickPhoneContact;
     private String shareAppUrl;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -70,6 +72,7 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(this);
         indexSideBar = (IndexSideBar) findViewById(R.id.contacts_sidebar);
         indexSideBar.setOnTouchLetterListener(this);
         contactsView = (RecyclerView) findViewById(R.id.contactsView);
@@ -87,7 +90,8 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private void initData() {
         shareAppUrl = String.format(HttpUrl.getInstance().getPostUrl()+HttpUrl.appDownLoad+
                 "?memberId="+baseApplication.getMemberId()+"&platform="+ConFig.PHONE_TYPE);
-        DialogUtils.showProgressDialog(this, "加载中").show();
+//        DialogUtils.showProgressDialog(this, "加载中").show();
+        loadingDialog.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -103,7 +107,8 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
         @Override
         public void run() {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             //更新UI
             adapter.modifyData(contactInfos);
         }
@@ -150,7 +155,8 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     private void checkPhone() {
         String token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(this, "验证中").show();
+//        DialogUtils.showProgressDialog(this, "验证中").show();
+        loadingDialog.show();
         ArrayList<PhoneContactInfo> infos = new ArrayList<PhoneContactInfo>();
         infos.add(currentClickPhoneContact);
         Map<String, Object> params = new HashMap<String, Object>();
@@ -161,7 +167,8 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     PhoneContactCallback phoneContactCallback = new PhoneContactCallback() {
         @Override
         public void success(String msg, ArrayList<FriendSearchInfo> searchInfos) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             if (null != searchInfos) {
                 FriendSearchInfo friendSearchInfo = getClickPhoneFriend(searchInfos);
                 checkNextStep(friendSearchInfo);
@@ -170,13 +177,15 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(AddByAddressBookActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };

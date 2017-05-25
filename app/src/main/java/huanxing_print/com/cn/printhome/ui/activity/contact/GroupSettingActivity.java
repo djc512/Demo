@@ -348,6 +348,7 @@ public class GroupSettingActivity extends BaseActivity implements View.OnClickLi
     public void clickAdd() {
         Intent intent = new Intent(GroupSettingActivity.this, GroupMemberAddActivity.class);
         intent.putExtra("groupId", currentGroupId);
+        intent.putExtra("groupMember", groupMessageInfo.getGroupMembers());
         startActivityForResult(intent, ADD_MEMBER);
     }
 

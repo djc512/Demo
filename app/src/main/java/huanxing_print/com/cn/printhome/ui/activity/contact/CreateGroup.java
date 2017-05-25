@@ -28,6 +28,7 @@ import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
  * Created by wanghao on 2017/5/5.
@@ -42,6 +43,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     private ArrayList<FriendInfo> chooseMembers;
     private String token;
     private boolean isGoChat = false;
+    private LoadingDialog loadingDialog;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -58,6 +60,7 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(this);
         btn_create = (Button) findViewById(R.id.btn_create);
         tv_hint_member = (TextView) findViewById(R.id.hint_member);
 
@@ -75,7 +78,8 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
         isGoChat = getIntent().getBooleanExtra("goChat", false);
         token = SharedPreferencesUtils.getShareString(this, ConFig.SHAREDPREFERENCES_NAME,
                 "loginToken");
-        DialogUtils.showProgressDialog(this,"加载中").show();
+//        DialogUtils.showProgressDialog(this,"加载中").show();
+        loadingDialog.show();
         FriendManagerRequest.queryFriendList(this,token,myFriendListCallback);
     }
 
@@ -100,7 +104,8 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
 
     private void createGroup(){
         if(null != chooseMembers && chooseMembers.size() > 0) {
-            DialogUtils.showProgressDialog(this, "创建中").show();
+//            DialogUtils.showProgressDialog(this, "创建中").show();
+            loadingDialog.show();
 
             ArrayList<String> arrayList = new ArrayList<String>();
             for(FriendInfo info : chooseMembers) {
@@ -144,7 +149,8 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     CreateGroupCallback createGroupCallback = new CreateGroupCallback() {
         @Override
         public void success(String msg, GroupInfo groupInfo) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             if(null != groupInfo) {
                 if (isGoChat) {
                     Intent intent = new Intent(CreateGroup.this, ChatTestActivity.class);
@@ -159,13 +165,15 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(CreateGroup.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };
@@ -173,7 +181,8 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     MyFriendListCallback myFriendListCallback = new MyFriendListCallback() {
         @Override
         public void success(String msg, ArrayList<FriendInfo> friendInfos) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             if(null !=  friendInfos) {
                 for(FriendInfo info : friendInfos) {
                     if(null == info.getMemberName()) {
@@ -189,13 +198,15 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(CreateGroup.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };

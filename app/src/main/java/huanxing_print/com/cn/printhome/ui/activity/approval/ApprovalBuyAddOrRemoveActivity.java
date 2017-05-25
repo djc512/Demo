@@ -92,7 +92,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     String approveId;
 
     private ApprovalDetail details;
-
+    private final String BROADCAST_ACTION_APPROVALNUM_REFRESH= "approvalnum.refresh";
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -416,6 +416,10 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             DialogUtils.closeProgressDialog();
             toast("撤销成功");
             EventBus.getDefault().post("refreshApprovalNum");
+            //发送一个广播让审批页面数量更新
+            Intent intent = new Intent();
+            intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
+            sendBroadcast(intent);
             finishCurrentActivity();
         }
 
@@ -437,7 +441,11 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
             toast("驳回成功");
-            EventBus.getDefault().post("refreshApprovalNum");
+            //EventBus.getDefault().post("refreshApprovalNum");
+            //发送一个广播让审批页面数量更新
+            Intent intent = new Intent();
+            intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
+            sendBroadcast(intent);
             finishCurrentActivity();
         }
 
@@ -458,7 +466,11 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
         @Override
         public void success(String msg) {
             DialogUtils.closeProgressDialog();
-            EventBus.getDefault().post("refreshApprovalNum");
+            //EventBus.getDefault().post("refreshApprovalNum");
+            //发送一个广播让审批页面数量更新
+            Intent intent = new Intent();
+            intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
+            sendBroadcast(intent);
             initData();
         }
 
@@ -530,4 +542,5 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
         }
     }
+
 }

@@ -53,6 +53,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
     private RelativeLayout bubble;
     private LinearLayout lin_group;
     private ArrayList<String> popupMenuItemList;
+    private PopupList popupList;
     private String localFilePath;
     private ExecutorService service = Executors.newSingleThreadExecutor();
 
@@ -85,6 +86,8 @@ public class EaseChatRowImage extends EaseChatRowFile {
         popupMenuItemList.add("转发");
         popupMenuItemList.add("保存");
         popupMenuItemList.add("删除");
+
+        popupList = new PopupList(context);
 
         EMImageMessageBody body = (EMImageMessageBody) message.getBody();
         localFilePath = body.getLocalUrl();
@@ -272,7 +275,6 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
         Log.d("CMCC", "onBubbleLongClick触发了");
 
-        PopupList popupList = new PopupList(context);
         popupList.bind(bubble, popupMenuItemList, new PopupList.PopupListListener() {
             @Override
             public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
@@ -372,7 +374,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
             //存在就不要下载
             switch (code) {
                 case 0:
-                    PreViewUtil.preview(context, localFilePath,false);
+                    PreViewUtil.preview(context, localFilePath, false);
                     break;
                 case 1:
                     //跳转到选择联系人界面只能单选
@@ -411,7 +413,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
                 //预览
                 switch (code) {
                     case 0:
-                        PreViewUtil.preview(context, localFilePath,false);
+                        PreViewUtil.preview(context, localFilePath, false);
                         break;
                     case 1:
                         //跳转到选择联系人界面只能单选

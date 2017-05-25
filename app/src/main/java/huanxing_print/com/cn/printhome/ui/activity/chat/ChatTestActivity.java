@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatRoom;
@@ -60,6 +61,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.BuildConfig;
@@ -67,6 +70,7 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.event.contacts.GroupMessageUpdate;
 import huanxing_print.com.cn.printhome.model.chat.GroupHint;
+import huanxing_print.com.cn.printhome.model.chat.GroupMessageObject;
 import huanxing_print.com.cn.printhome.model.chat.MessageTypeObject;
 import huanxing_print.com.cn.printhome.model.chat.RedPacketHint;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
@@ -82,6 +86,7 @@ import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.Constant;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 import huanxing_print.com.cn.printhome.util.webserver.ChatFileType;
@@ -199,6 +204,45 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 groupName = groupInfo.getGroupName();
                 groupUrl = groupInfo.getGroupUrl();
                 tv_title.setText(groupInfo.getGroupName() + "(" + groupInfo.getGroupMembers().size() + ")");
+
+                GroupMessageObject object = new GroupMessageObject();
+                object.setGroupId(groupMessageInfo.getGroupId());
+                object.setGroupEaseId(toChatUsername);
+                object.setGroupName(groupMessageInfo.getGroupName());
+                object.setGroupUrl(groupMessageInfo.getGroupUrl());
+
+                Gson gson = new Gson();
+                //存储到sp里面
+                String group = SharedPreferencesUtils.getShareString(getSelfActivity(), "group");
+                if (!ObjectUtils.isNull(group)) {
+                    //不是第一次存储
+                    Type type = new TypeToken<ArrayList<GroupMessageObject>>() {
+                    }.getType();
+                    ArrayList<GroupMessageObject> objects = gson.fromJson(group, type);
+                    //判断有没有重复
+                    boolean isTwo = false;
+                    for (int i = 0; i < objects.size(); i++) {
+                        if (objects.get(i).getGroupEaseId().equals(toChatUsername)) {
+                            //更新数据
+                            objects.add(i, object);
+                            //重复标识
+                            isTwo = true;
+                            break;
+                        }
+                    }
+                    if (!isTwo) {
+                        objects.add(object);
+                    }
+                    //存储
+                    SharedPreferencesUtils.putShareValue(getSelfActivity(), "group", gson.toJson(objects));
+
+                } else {
+                    //第一次存储
+                    ArrayList<GroupMessageObject> objects = new ArrayList<>();
+                    objects.add(object);
+                    SharedPreferencesUtils.putShareValue(getSelfActivity(), "group", gson.toJson(objects));
+                }
+
             }
         }
 
