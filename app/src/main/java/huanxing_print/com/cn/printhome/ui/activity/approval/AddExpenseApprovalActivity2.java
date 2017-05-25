@@ -500,8 +500,10 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
     private void updateRequestNum(){
         double requestNum = 0;
         for (SubFormItem item : subFormItems) {
-            if(item.getAmount().length() > 0) {
-                requestNum += Double.parseDouble(item.getAmount());
+            if(item.getAmount() != null) {
+                if (item.getAmount().length() > 0) {
+                    requestNum += Double.parseDouble(item.getAmount());
+                }
             }
         }
         if (requestNum == 0) {
