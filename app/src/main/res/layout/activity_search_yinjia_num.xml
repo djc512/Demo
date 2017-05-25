@@ -37,6 +37,8 @@
                 android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
                 android:maxLength="14"
                 android:background="@null"
+                android:textSize="@dimen/yj_et_search_txt_size"
+                android:textColor="#989898"
                 android:textCursorDrawable="@color/yinjia_search_cursor_color"
                 android:hint="@string/text_search_hint"
                 android:maxLines="1"/>
@@ -84,12 +86,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/yj_et_search_result_size"
             android:text="@string/text_search_result_hint"/>
 
         <TextView
             android:id="@+id/hint_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/yj_et_search_result_size"
             android:textColor="@color/text_yellow"/>
     </LinearLayout>
 </LinearLayout>
