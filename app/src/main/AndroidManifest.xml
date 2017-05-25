@@ -274,6 +274,11 @@
         <activity
             android:name=".ui.activity.my.WebViewCommunityActivity"
             android:screenOrientation="portrait" />
+        <!-- 布点建议 -->
+        <activity
+            android:name=".ui.activity.my.WebViewSuggestActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 我的设置里的微信号修改 -->
         <activity
             android:name=".ui.activity.my.MyModifyPhoneActivty"

@@ -31,7 +31,7 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
-public class WebViewCommunityActivity extends BaseActivity implements OnClickListener {
+public class WebViewSuggestActivity extends BaseActivity implements OnClickListener {
     private WebView webview;
     private TextView tv_title;
     private String url, loginToken;
@@ -67,7 +67,6 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
     private void initViews() {
         url = getIntent().getStringExtra("webUrl");
 
-
         titleName = getIntent().getStringExtra("titleName");
         loginToken = baseApplication.getLoginToken();
 
@@ -90,8 +89,8 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         s.setDomStorageEnabled(true);
         webview.requestFocus();
         webview.setScrollBarStyle(0);
-        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()),"pay");
 
+        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()),"share");
         synCookies(getSelfActivity(), url);
         webview.loadUrl(url);
         webview.setWebViewClient(new WebViewClient() {
