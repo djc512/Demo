@@ -247,7 +247,11 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
             lists.clear();
             lists.add(approvalOrCopy);
             lists.addAll(list);
-            personAdapter.modifyApprovalPersons(lists);
+            if (4 == details.getStatus()) {
+                personAdapter.modifyApprovalPersons(lists, true);
+            } else {
+                personAdapter.modifyApprovalPersons(lists, false);
+            }
         }
 
         tv_number.setText(details.getApproveId().isEmpty() ? "" : details.getApproveId());
