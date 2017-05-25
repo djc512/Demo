@@ -52,7 +52,7 @@
 
     <!--添加联系人-->
     <dimen name="add_contact_margin_top">15dp</dimen>
-    <dimen name="add_line_h">1dp</dimen>
+    <dimen name="add_line_h">1px</dimen>
     <dimen name="add_my_qr_tv_size">15dp</dimen>
     <dimen name="add_qr_icon_w_h">20dp</dimen>
     <dimen name="add_my_qr_margin">5dp</dimen>
@@ -84,7 +84,7 @@
     <dimen name="item_phone_icon_margin_r">15dp</dimen>
     <dimen name="item_phone_name_tv_size">15dp</dimen>
     <dimen name="item_phone_num_tv_size">10dp</dimen>
-    <dimen name="item_phone_btn_margin_r">20dp</dimen>
+    <dimen name="item_phone_btn_margin_r">15dp</dimen>
     <dimen name="item_phone_btn_margin_top">5dp</dimen>
     <dimen name="item_phone_btn_margin_bottom">5dp</dimen>
     <dimen name="item_phone_btn_padding_l">10dp</dimen>
