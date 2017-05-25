@@ -193,7 +193,6 @@ public class IDFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-
         receiveBroadCast = new ReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
         filter.addAction("bitmap");    //只有持有相同的action的接受者才能接收此广播

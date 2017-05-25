@@ -93,6 +93,8 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
     private ArrayList<GroupMember> approvalFriends = new ArrayList<GroupMember>();//审批人
     private ArrayList<GroupMember> copyFriends = new ArrayList<GroupMember>();//抄送人
 
+    private ArrayList<GroupMember> infos = new ArrayList<>();
+
     private String groupId;//群组id
 
     private AttachmentAdapter attachmentAdapter;
@@ -271,9 +273,12 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onChooseEvent(ChooseMemberEvent event) {
+        if (null!=infos&&infos.size()>0){
+            infos.clear();
+        }
         if (0x11 == event.getMsgCode()) {
             //审批人选择
-            ArrayList<GroupMember> infos = event.getGroupMembers();
+            infos = event.getGroupMembers();
             //判断一下抄送人中是否包含审批人
             if (0 != copyFriends.size()) {
                 //审批人不为空,判断审批人和传过来的抄送人是否重复
@@ -316,7 +321,7 @@ public class AddPurchaseApprovalActivity2 extends BaseActivity implements View.O
             //抄送
             Log.i("CMCC", "抄送人返回");
             //抄送人选择
-            ArrayList<GroupMember> infos = event.getGroupMembers();
+            infos = event.getGroupMembers();
             //判断一下审批人中是否包含抄送人
             if (0 != approvalFriends.size()) {
                 //审批人不为空,判断审批人和传过来的抄送人是否重复
