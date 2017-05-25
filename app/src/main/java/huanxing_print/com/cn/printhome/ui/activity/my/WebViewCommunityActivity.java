@@ -95,7 +95,10 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         // 设置android下容许执行js的脚本,前端 window.javaObject.callWechatPay(name)
         s.setJavaScriptEnabled(true);     // enable navigator.geolocation
         s.setGeolocationEnabled(true);
-        s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
+        s.setAllowFileAccess(true);
+        s.setGeolocationDatabasePath(this.getApplicationContext().getDir("database",
+                Context.MODE_PRIVATE).getPath());
+        //s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
         s.setDomStorageEnabled(true);
         webview.requestFocus();
         webview.setScrollBarStyle(0);
