@@ -4,8 +4,8 @@
 
     <gradient
         android:angle="90"
-        android:endColor="#CACACB"
-        android:startColor="#CACACB" />
+        android:endColor="@color/gray6"
+        android:startColor="@color/gray6" />
     <!--
     <stroke
         android:dashGap="2dp"

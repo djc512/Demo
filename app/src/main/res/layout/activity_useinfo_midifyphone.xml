@@ -20,29 +20,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:text="完成"
             android:textColor="@color/yellow3"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="15dp"
         android:background="#e5e5e5" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/distance_forty_nine"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:layout_marginTop="15dp"
+        android:paddingLeft="@dimen/distance_fifteen"
         android:orientation="horizontal"
-        android:padding="20dp">
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:gravity="center_vertical"
             android:text="手机号"
             android:textColor="@color/black2"
@@ -58,8 +58,9 @@
             android:background="@null"
             android:hint="@string/hint_phone"
             android:textColorHint="@color/gray8"
-            android:textColor="@color/text_content"
-            android:textSize="18sp" />
+            android:textColor="@color/black2"
+            android:textSize="18sp"
+            />
 
         <ImageView
             android:id="@+id/iv_phone_delete"
@@ -73,16 +74,15 @@
     <include layout="@layout/viewline" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/distance_forty_nine"
         android:gravity="center_vertical"
         android:background="@color/white"
-        android:padding="20dip"
+        android:paddingLeft="@dimen/distance_fifteen"
         android:orientation="horizontal" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:gravity="center_vertical"
             android:text="验证码"
             android:textColor="@color/black2"
@@ -102,6 +102,7 @@
             android:maxLength="6"
             android:textColorHint="@color/gray8"
             android:textSize="16sp"
+            android:textColor="@color/black2"
             />
         <ImageView
             android:id="@+id/iv_code_detele"
@@ -117,7 +118,7 @@
             android:layout_marginRight="10dp"
             android:text="@string/eagerly_fetch"
             android:textColor="@color/yellow3"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>

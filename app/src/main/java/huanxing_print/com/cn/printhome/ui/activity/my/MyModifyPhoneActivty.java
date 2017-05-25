@@ -116,6 +116,7 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
         ll_back.setOnClickListener(this);
         iv_modifyName_finish.setOnClickListener(this);
         iv_phone_delete.setOnClickListener(this);
+        iv_code_detele.setOnClickListener(this);
         getCodeTv.setOnClickListener(this);
     }
 
@@ -143,8 +144,11 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
                 UpdatePersonInfoRequest.update(getSelfActivity(),  baseApplication.getLoginToken(),params, callback);
 
                 break;
-            case R.id.code_btn:// 获取验证码
-                getVerCode();
+            case R.id.iv_phone_delete://
+                et_phone.setText("");
+                break;
+            case R.id.iv_code_detele://
+                et_code.setText("");
                 break;
             default:
                 break;
