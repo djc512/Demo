@@ -24,6 +24,7 @@ import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
  * Created by wanghao on 2017/5/4.
@@ -36,6 +37,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     private String token;
     private NewFriendInfo clickOperationInfo;
     private boolean isAgreeFriend = false;
+    private LoadingDialog loadingDialog;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -54,6 +56,7 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(this);
         friendRecycler = (RecyclerView) findViewById(R.id.friend_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         friendRecycler.setHasFixedSize(true);
@@ -66,7 +69,8 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initData() {
-        DialogUtils.showProgressDialog(this,"加载中").show();
+        loadingDialog.show();
+//        DialogUtils.showProgressDialog(this,"加载中").show();
         FriendManagerRequest.queryNewFriendList(this, token, newFriendCallback);
     }
 
@@ -114,7 +118,8 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     public void onItemNewFriendPassClick(NewFriendInfo newFriendInfo) {
         clickOperationInfo = null;
         clickOperationInfo = newFriendInfo;
-        DialogUtils.showProgressDialog(this, "操作中").show();
+//        DialogUtils.showProgressDialog(this, "操作中").show();
+        loadingDialog.show();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("isPass", 1);
         params.put("memberId", newFriendInfo.getMemberId());
@@ -124,7 +129,8 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     NewFriendCallback newFriendCallback = new NewFriendCallback() {
         @Override
         public void success(String msg, ArrayList<NewFriendInfo> newFriendInfos) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             if(null != newFriendInfos) {
                 friendInfos = newFriendInfos;
                 for(NewFriendInfo info : newFriendInfos) {
@@ -138,13 +144,15 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(NewFriendActivity.this,msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };
@@ -152,7 +160,8 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
     NullCallback nullCallback = new NullCallback() {
         @Override
         public void success(String msg) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             /*//发送第一句话
             EMMessage message = EMMessage.createTxtSendMessage("我们已经是好友了", clickOperationInfo.getMemberId());
             message.setAttribute("userId",baseApplication.getMemberId());
@@ -173,13 +182,15 @@ public class NewFriendActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(NewFriendActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+//            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };
