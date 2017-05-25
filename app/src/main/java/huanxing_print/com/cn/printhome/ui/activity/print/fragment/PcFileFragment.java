@@ -68,7 +68,7 @@ public class PcFileFragment extends BaseLazyFragment {
             @Override
             public void onItemClick(final View view, int position) {
                 if (((AddFileActivity) getActivity()).getPickType() == AddFileActivity.TYPE_CHAT) {
-                    ShowUtil.showToast("云端文件不可发送");
+                    ((AddFileActivity) getActivity()).downloadFile(mAdapter.getFileList().get(position));
                     return;
                 }
                 Bundle bundle = new Bundle();

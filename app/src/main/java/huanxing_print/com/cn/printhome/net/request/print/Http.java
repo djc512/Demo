@@ -210,14 +210,13 @@ public class Http {
         });
     }
 
-    public static final void download() {
-        Request request = new Request.Builder().url("http://gdown.baidu" +
-                ".com/data/wisegame/0852f6d39ee2e213/QQ_676.apk").build();
+    public static final void download(final String path, final String url, final DownloadListener callback) {
+        Request request = new Request.Builder().url(url).build();
         new OkHttpClient().newCall(request).enqueue(new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
-
+                callback.onFailed(e.getMessage());
             }
 
             @Override
@@ -229,15 +228,18 @@ public class Http {
                 try {
                     is = response.body().byteStream();
                     long total = response.body().contentLength();
-                    FileUtils.makeFile(FileUtils.getDownloadPath() + "asp.apk");
-                    File file = new File(FileUtils.getDownloadPath() + "asp.apk");
+                    FileUtils.makeFile(path);
+                    File file = new File(path);
                     fos = new FileOutputStream(file);
                     long sum = 0;
+                    int progress = 0;
                     while ((len = is.read(buf)) != -1) {
                         fos.write(buf, 0, len);
                         sum += len;
-                        int progress = (int) (sum * 1.0f / total * 100);
-                        Logger.i(progress);
+                        if ((int) (sum * 1.0f / total * 100) - progress > 1) {
+                            progress = (int) (sum * 1.0f / total * 100);
+                            Logger.i(progress);
+                        }
                     }
                     fos.flush();
                 } catch (Exception e) {
@@ -256,6 +258,7 @@ public class Http {
                         e.printStackTrace();
                     }
                 }
+                callback.onSucceed(response.toString());
             }
         });
     }

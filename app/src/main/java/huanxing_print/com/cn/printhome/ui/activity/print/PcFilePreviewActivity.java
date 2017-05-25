@@ -70,7 +70,7 @@ public class PcFilePreviewActivity extends BasePrintActivity implements View.OnC
                             return;
                         }
                         if (addFileSettingBean.isSuccess()) {
-                            turnPrintSetting(addFileSettingBean.getData());
+                            turnPickPrinter(addFileSettingBean.getData());
                         } else {
                             ShowUtil.showToast(addFileSettingBean.getErrorMsg());
                         }
@@ -83,7 +83,7 @@ public class PcFilePreviewActivity extends BasePrintActivity implements View.OnC
                 }, false);
     }
 
-    private void turnPrintSetting(PrintSetting printSetting) {
+    private void turnPickPrinter(PrintSetting printSetting) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(PickPrinterActivity.SETTING, printSetting);
         bundle.putParcelable(PickPrinterActivity.FILE_INFO, new PrintFileInfo(PrintFileInfo.TYPE_FILE, StringUtil

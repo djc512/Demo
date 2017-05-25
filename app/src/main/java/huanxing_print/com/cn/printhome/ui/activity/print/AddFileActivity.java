@@ -29,7 +29,10 @@ import huanxing_print.com.cn.printhome.event.print.FinishEvent;
 import huanxing_print.com.cn.printhome.event.print.PrintTypeEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.DocPreviewResp;
+import huanxing_print.com.cn.printhome.model.print.PrintListBean;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
+import huanxing_print.com.cn.printhome.net.request.print.DownloadListener;
+import huanxing_print.com.cn.printhome.net.request.print.Http;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.AllFileFragment;
@@ -38,17 +41,16 @@ import huanxing_print.com.cn.printhome.ui.activity.print.fragment.PhotoFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.QQFileFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WechatFileFragment;
 import huanxing_print.com.cn.printhome.ui.activity.print.fragment.WifiImportFragment;
-import huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter;
 import huanxing_print.com.cn.printhome.ui.adapter.FinderFragmentAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
+import huanxing_print.com.cn.printhome.util.file.FileUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
-import static huanxing_print.com.cn.printhome.R.string.file;
 import static huanxing_print.com.cn.printhome.constant.ConFig.IMG_CACHE_PATH;
 
 public class AddFileActivity extends BasePrintActivity implements View.OnClickListener {
@@ -342,6 +344,24 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
                 ShowUtil.showToast(getString(R.string.net_error));
             }
         });
+    }
+
+    public void downloadFile(final PrintListBean.FileInfo fileInfo) {
+        showLoading();
+        Http.download(FileUtils.getDownloadPath() + fileInfo.getFileName(), fileInfo.getFileUrl(), new
+                DownloadListener() {
+                    @Override
+                    public void onSucceed(String content) {
+                        dismissLoading();
+                        setResult(FileUtils.getDownloadPath() + fileInfo.getFileName());
+                    }
+
+                    @Override
+                    public void onFailed(String exception) {
+                        dismissLoading();
+                        ShowUtil.showToast("文件下载失败");
+                    }
+                });
     }
 
     @Override
