@@ -87,10 +87,10 @@ public final class ViewfinderView extends View {
         }
 
         // 扫描框的宽度
-        CameraManager.FRAME_WIDTH = (int) ta.getDimension(R.styleable.innerrect_inner_width, DisplayUtil.screenWidthPx / 2);
+        CameraManager.FRAME_WIDTH = (int) ta.getDimension(R.styleable.innerrect_inner_width, DisplayUtil.screenWidthPx * 2 / 3);
 
         // 扫描框的高度
-        CameraManager.FRAME_HEIGHT = (int) ta.getDimension(R.styleable.innerrect_inner_height, DisplayUtil.screenWidthPx / 2);
+        CameraManager.FRAME_HEIGHT = (int) ta.getDimension(R.styleable.innerrect_inner_height, DisplayUtil.screenWidthPx * 2 / 3);
 
         // 扫描框边角颜色
         innercornercolor = ta.getColor(R.styleable.innerrect_inner_corner_color, Color.parseColor("#45DDDD"));
