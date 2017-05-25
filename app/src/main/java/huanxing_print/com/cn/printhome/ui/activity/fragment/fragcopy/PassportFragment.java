@@ -196,6 +196,12 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        bytes = null;
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (receiveBroadCast != null) {
