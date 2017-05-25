@@ -82,6 +82,7 @@ import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.Constant;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.copy.PicSaveUtil;
 import huanxing_print.com.cn.printhome.util.webserver.ChatFileType;
@@ -199,6 +200,12 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 groupName = groupInfo.getGroupName();
                 groupUrl = groupInfo.getGroupUrl();
                 tv_title.setText(groupInfo.getGroupName() + "(" + groupInfo.getGroupMembers().size() + ")");
+                //存储到sp里面
+                String group = SharedPreferencesUtils.getShareString(getSelfActivity(), "group");
+                if (ObjectUtils.isNull(group)) {
+
+                }
+                //存储到数据库中
             }
         }
 
