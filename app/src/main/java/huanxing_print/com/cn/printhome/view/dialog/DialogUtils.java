@@ -120,6 +120,7 @@ public class DialogUtils {
 
     public interface QunOwnerDissolutionDialogCallBack {
         void dissolution();
+        void cancle();
     }
 
     public interface GroupDelMemDialogCallback {
@@ -127,6 +128,7 @@ public class DialogUtils {
     }
 
     public interface ExitGroupDialogCallback {
+        void cancle();
         void exit();
     }
 
@@ -521,7 +523,7 @@ public class DialogUtils {
         tv_cancle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressDialog.dismiss();
+               callbak.cancle();
             }
         });
         tv_confirm.setOnClickListener(new OnClickListener() {
@@ -566,7 +568,7 @@ public class DialogUtils {
         tv_cancle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgressDialog.dismiss();
+               callbak.cancle();
             }
         });
         tv_confirm.setOnClickListener(new OnClickListener() {
