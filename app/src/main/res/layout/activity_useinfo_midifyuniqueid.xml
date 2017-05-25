@@ -23,7 +23,7 @@
             android:layout_centerVertical="true"
             android:text="完成"
             android:textColor="@color/yellow3"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
     </RelativeLayout>
 
     <include layout="@layout/view1" />
@@ -43,7 +43,6 @@
             style="?android:attr/textViewStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
             android:background="@null"

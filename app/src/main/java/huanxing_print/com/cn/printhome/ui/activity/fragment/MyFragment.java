@@ -141,6 +141,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 }
                 SharedPreferencesUtils.putShareValue(getActivity(),
                         "totleBalance", totleBalance);
+                SharedPreferencesUtils.putShareValue(getActivity(),"nickName", nickName);
                 tv_name.setText(nickName);
                 tv_uniqueid.setText("印家号:" + uniqueId);
                 tv_print_count.setText(printCount);
