@@ -317,7 +317,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
             case R.id.btn_save:
                 if (compBitmap != null) {
                     saveName = System.currentTimeMillis() + ".jpg";
-                    saveUtil.saveClipPic(compBitmap, saveName);
+                    saveUtil.saveClipPic(compBitmap, saveName, true);
                     Toast.makeText(ctx, "保存成功", Toast.LENGTH_SHORT).show();
                 }
                 break;

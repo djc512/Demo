@@ -59,6 +59,36 @@ public class PicSaveUtil {
     /**
      * 保存处理过的图片
      */
+    public void saveClipPic(Bitmap bm, String name, boolean isSystem) {
+        // Log.e(TAG, "保存图片");
+        File f = new File(checkDirPath(Environment.getExternalStorageDirectory().getPath() + "/yjpath/"), name);
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+            // 其次把文件插入到系统图库
+            try {
+                MediaStore.Images.Media.insertImage(ctx.getContentResolver(),
+                        f.getAbsolutePath(), System.currentTimeMillis() + ".jpg", null);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            // 最后通知图库更新
+            String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + name;
+            ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 保存处理过的图片
+     */
     public void saveClipPic(Bitmap bm, String name) {
        // Log.e(TAG, "保存图片");
         File f = new File(checkDirPath(Environment.getExternalStorageDirectory().getPath() + "/image/"), name);
