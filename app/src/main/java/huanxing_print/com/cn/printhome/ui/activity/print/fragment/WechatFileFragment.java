@@ -49,7 +49,8 @@ public class WechatFileFragment extends BaseLazyFragment {
 
     private static final String[] PATH_WECHAT_FILE = {Environment.getExternalStorageDirectory().getPath() +
             "/tencent/MicroMsg/Download/", Environment.getExternalStorageDirectory().getPath() +
-            "/tencent/MicroMsg/WeChat"};
+            "/tencent/MicroMsg/WeChat",Environment.getExternalStorageDirectory().getPath() +
+            "/tencent/MicroMsg/WeiXin"};
     private RecyclerView mRcList;
     private FileRecyclerAdapter mAdapter;
     private LinearLayout filterLyt;
