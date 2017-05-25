@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMMessage;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class CreateGroupChatActivity extends BaseActivity implements View.OnClic
     private String imgUrl;
     private String fileUrl;
     private String toChatUsername;
+    private String fileName;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -74,6 +76,7 @@ public class CreateGroupChatActivity extends BaseActivity implements View.OnClic
 
         imgUrl = getIntent().getStringExtra("imgUrl");
         fileUrl = getIntent().getStringExtra("fileUrl");
+        fileName = getIntent().getStringExtra("fileName");
     }
 
     private void initData() {
@@ -188,6 +191,8 @@ public class CreateGroupChatActivity extends BaseActivity implements View.OnClic
         emMessage.setAttribute("nickName", baseApplication.getNickName());
         emMessage.setAttribute("otherName", chooseMembers.get(0).getMemberName());
         emMessage.setAttribute("otherUrl", chooseMembers.get(0).getMemberUrl());
+        EMFileMessageBody body = (EMFileMessageBody) emMessage.getBody();
+        body.setFileName(fileName);
         sendMessage(emMessage);
     }
 

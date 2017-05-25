@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.chat.EMNormalFileMessageBody;
@@ -280,10 +281,12 @@ public class EaseChatRowFile extends EaseChatRow {
                         break;
                     case 1:
                         //转发
+                        EMFileMessageBody body = (EMFileMessageBody) message.getBody();
                         if (!ObjectUtils.isNull(file) && file.exists()) {
                             //跳转到选择联系人界面只能单选
                             Intent intent = new Intent(context, CreateGroupChatActivity.class);
                             intent.putExtra("fileUrl", localFilePath);
+                            intent.putExtra("fileName", body.getFileName());
                             context.startActivity(intent);
                         } else {
                             context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
