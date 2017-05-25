@@ -19,6 +19,7 @@
     <string name="login_failure">登录失败，请重新登录</string>
     <string name="exit_program">再按一次退出程序</string>
     <string name="dlg_content_loginout">是否确定退出当前账号&#063;</string>
+    <string name="dlg_call">是否立即拨打热线电话&#063;</string>
     <!-- RegisterActivity -->
     <string name="register">注册</string>
     <string name="hint_code">请输入验证码</string>

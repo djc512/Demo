@@ -80,7 +80,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     private final int PHONE_CODE = 104;
     private final int WEIXIN_CODE = 105;
     private String oriPath = ConFig.IMG_CACHE_PATH + File.separator + "headImg.jpg";
-    private ImageView iv_user_head;
+    private ImageView iv_user_head,iv_userinfo_uniqueid;
     private LinearLayout ll_back;
 
     private TextView tv_uniqueid, tv_userInfo_nickname, tv_phone,
@@ -145,7 +145,16 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
 
         if (!ObjectUtils.isNull(uniqueId)) {
             tv_uniqueid.setText(uniqueId);
+            if(!ObjectUtils.isNull(uniqueModifyFlag)&&"true".equals(uniqueModifyFlag)) {
+                tv_uniqueid.setTextColor(getResources().getColor(R.color.text_color));
+                iv_userinfo_uniqueid.setVisibility(View.VISIBLE);
+            }else{
+                tv_uniqueid.setTextColor(getResources().getColor(R.color.gray4));
+                iv_userinfo_uniqueid.setVisibility(View.GONE);
+            }
+
         }
+
         if (!ObjectUtils.isNull(nickName)) {
             tv_userInfo_nickname.setText(nickName);
         }
@@ -202,7 +211,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         tv_cache = (TextView) findViewById(R.id.tv_cache);
         tv_phone_title= (TextView) findViewById(R.id.tv_phone_title);
         tv_wechat_title= (TextView) findViewById(R.id.tv_wechat_title);
-
+        iv_userinfo_uniqueid= (ImageView) findViewById(R.id.iv_userinfo_uniqueid);
     }
 
     private void setListener() {

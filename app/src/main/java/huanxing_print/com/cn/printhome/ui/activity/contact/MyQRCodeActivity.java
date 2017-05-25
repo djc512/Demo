@@ -72,6 +72,7 @@ public class MyQRCodeActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void setListener() {
+
         findViewById(R.id.ll_back).setOnClickListener(this);
     }
 

@@ -224,11 +224,18 @@ public class MyFragment extends BaseFragment implements OnClickListener {
                 startActivity(joinIntent);
                 break;
             case R.id.ll_my_contact:
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "400-666-2060"));
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                startActivity(intent);
+                DialogUtils.showCallDialog(getActivity(), getResources().getString(R.string.dlg_call),
+                        new DialogUtils.CallDialogCallBack() {
+                            @Override
+                            public void ok() {
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "400-666-2060"));
+                                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                    return;
+                                }
+                                startActivity(intent);
+                            }
+                        }).show();
+
                 //startActivity(new Intent(getActivity(), MyContactActivity.class));
                 break;
             case R.id.ll_my_community:

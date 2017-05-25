@@ -11,7 +11,7 @@
         android:id="@+id/titleBar"
         style="@style/Re_contact_title">
 
-        <include layout="@layout/layout_contact_back"></include>
+        <include layout="@layout/ll_title_back"></include>
 
         <TextView
             style="@style/title"
