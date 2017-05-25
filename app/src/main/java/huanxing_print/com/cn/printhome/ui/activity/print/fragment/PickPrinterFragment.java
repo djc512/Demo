@@ -15,20 +15,21 @@ import android.widget.TextView;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
-import org.simple.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.event.print.NoUsedPrinterEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.ui.activity.print.PickPrinterActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.PrinterFragmentAdapter;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.UrlUtil;
 import huanxing_print.com.cn.printhome.view.viewpager.NoScrollViewPager;
-
-import static huanxing_print.com.cn.printhome.R.id.textView;
 
 public class PickPrinterFragment extends BaseLazyFragment {
 
@@ -156,6 +157,13 @@ public class PickPrinterFragment extends BaseLazyFragment {
                     ShowUtil.showToast("解析二维码失败");
                 }
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onMessageEventPostThread(NoUsedPrinterEvent noUsedPrinterEvent) {
+        if (noUsedPrinterEvent.isFlag()) {
+            setTabIndex(1);
         }
     }
 

@@ -273,40 +273,39 @@
 
         </RelativeLayout>
     </FrameLayout>
-    <!--
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onAWake"
-            android:text="onAWake"/>
+    <!--  <Button
+          android:id="@+id/button"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:onClick="onAWake"
+          android:text="onAWake"/>
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onSuccess"
-            android:text="onSuccess"/>
+      <Button
+          android:id="@+id/button3"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:onClick="onSuccess"
+          android:text="onSuccess"/>
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onQueue"
-            android:text="onQueue"/>
+      <Button
+          android:id="@+id/button4"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:onClick="onQueue"
+          android:text="onQueue"/>
 
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onException"
-            android:text="onException"/>
+      <Button
+          android:id="@+id/button5"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:onClick="onException"
+          android:text="onException"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="onUpload"
-            android:text="onUpload"/>-->
+      <Button
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:onClick="onUpload"
+          android:text="onUpload"/>-->
 
 
 </LinearLayout>

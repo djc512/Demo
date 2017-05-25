@@ -215,6 +215,11 @@ public class ChooseGroupContactAdapter extends RecyclerView.Adapter<RecyclerView
         public void bind(int position) {
             contactInfo = mInfos.get(position);
             if (null != contactInfo) {
+                if(chooseInfos.contains(contactInfo)){
+                    cb_choose.setChecked(true);
+                }else{
+                    cb_choose.setChecked(false);
+                }
                 tv_contactName.setText(contactInfo.getMemberName());
                 loadPic();
             }

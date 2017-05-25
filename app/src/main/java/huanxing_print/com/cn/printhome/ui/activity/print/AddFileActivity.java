@@ -78,7 +78,6 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
         setContentView(R.layout.activity_pickfile);
         EventBus.getDefault().register(context);
         Logger.i(IMG_CACHE_PATH);
-        initStepLine();
         initData();
         initView();
     }
@@ -143,6 +142,10 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
 
     private void initView() {
         initTitleBar("选取文件");
+        initStepLine();
+        if (pickType == TYPE_CHAT) {
+            findViewById(R.id.step).setVisibility(View.GONE);
+        }
         findViewById(R.id.titleTv).setOnClickListener(this);
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);

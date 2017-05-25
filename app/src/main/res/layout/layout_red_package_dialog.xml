@@ -12,8 +12,8 @@
 
         <RelativeLayout
             android:id="@+id/rel_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:gravity="center"
             android:paddingLeft="@dimen/distance_twenty"
             android:paddingRight="@dimen/distance_twenty"

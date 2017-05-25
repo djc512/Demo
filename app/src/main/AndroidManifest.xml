@@ -412,6 +412,7 @@
         <activity
             android:name=".ui.activity.contact.AddContactActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- 添加联系人 -->
         <activity
@@ -423,6 +424,7 @@
         <activity
             android:name=".ui.activity.contact.SearchAddResultActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
         <!-- 账号查询结果界面 -->
         <activity
@@ -446,6 +448,7 @@
         <activity
             android:name=".ui.activity.contact.MyQRCodeActivity"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:screenOrientation="portrait" />
 
         <!-- 我的群组 -->

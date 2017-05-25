@@ -252,7 +252,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="15dp"
-                        android:text="Wi-Fi上传"
+                        android:text="Wi-Fi导入"
                         android:textColor="@color/text_color"
                         android:textSize="14sp"/>
                 </LinearLayout>

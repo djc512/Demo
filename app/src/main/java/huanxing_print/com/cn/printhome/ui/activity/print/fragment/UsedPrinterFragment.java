@@ -9,12 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.simple.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.event.print.NoUsedPrinterEvent;
 import huanxing_print.com.cn.printhome.model.print.UsedPrinterResp;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
@@ -32,14 +33,13 @@ import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
 public class UsedPrinterFragment extends BaseLazyFragment {
 
     private RecyclerView printerRcList;
-
+    private boolean isFirst = true;
     private List<UsedPrinterResp.Printer> printerList = new ArrayList<>();
     private UsedPrinterRcAdapter usedPrinterRcAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -100,7 +100,11 @@ public class UsedPrinterFragment extends BaseLazyFragment {
                 if (usedPrinterResp.isSuccess()) {
                     printerList = usedPrinterResp.getData();
                     if (printerList == null || printerList.isEmpty()) {
-                        ShowUtil.showToast("没有已用打印机");
+                        if (isFirst) {
+                            isFirst = false;
+                            EventBus.getDefault().post(new NoUsedPrinterEvent(true));
+                            ShowUtil.showToast("没有已用打印机");
+                        }
                         return;
                     }
                     usedPrinterRcAdapter.setPrinterList(printerList);
@@ -123,7 +127,6 @@ public class UsedPrinterFragment extends BaseLazyFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
 }
