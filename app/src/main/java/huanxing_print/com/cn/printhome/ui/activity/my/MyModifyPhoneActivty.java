@@ -137,7 +137,7 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
                     return;
                 }
                 Map<String, Object> params = new HashMap<String, Object>();
-                params.put("phone", phone);
+                params.put("mobileNumber", phone);
                 params.put("validCode", code);
                 DialogUtils.showProgressDialog(getSelfActivity(), "正在保存").show();
                 UpdatePersonInfoRequest.update(getSelfActivity(),  baseApplication.getLoginToken(),params, callback);
@@ -169,7 +169,7 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
         if (!ObjectUtils.isNull(phone)) {
             getCodeTv.setClickable(false);
             DialogUtils.showProgressDialog(getSelfActivity(), "正在获取验证码").show();
-            RegisterRequst.getVerCode(getSelfActivity(), "0", phone, 0, getVerCodeCallback);
+            RegisterRequst.getVerCode(getSelfActivity(), baseApplication.getLoginToken(), phone, 4, getVerCodeCallback);
         }
     }
 
