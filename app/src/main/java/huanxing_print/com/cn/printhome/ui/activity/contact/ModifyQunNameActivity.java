@@ -58,6 +58,7 @@ public class ModifyQunNameActivity extends BaseActivity implements View.OnClickL
 //        groupurl = intent.getStringExtra("groupurl");
         groupid = groupMessageInfo.getGroupId();
         groupurl = groupMessageInfo.getGroupUrl();
+        et_modify.setText(groupMessageInfo.getGroupName());
     }
 
     private void initListener() {
