@@ -24,6 +24,7 @@ import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentG
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentMediumFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -57,6 +58,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     private CommentMediumFragment mediumFragment;
     private CommentBadFragment badFragment;
     private String printno;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +147,10 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
             public void success(CommentListBean bean) {
                 DialogUtils.closeProgressDialog();
                 List<CommentListBean.DetailBean> detail = bean.getDetail();
+                if (detail == null || detail.isEmpty()) {
+                    ShowUtil.showToast("没有评论");
+                    return;
+                }
                 CommentListBean.DetailBean detailBean = detail.get(0);
                 tv_address.setText(detailBean.getPrinterName());
                 tv_printno.setText("编号:" + detailBean.getPrinterNo());
