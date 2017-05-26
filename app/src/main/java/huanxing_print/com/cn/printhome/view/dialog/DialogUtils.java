@@ -683,6 +683,7 @@ public class DialogUtils {
         lp.width = display.getWidth() - 100;
         mVersionDialog.getWindow().setAttributes(lp);
         mVersionDialog.setCanceledOnTouchOutside(false);
+        mVersionDialog.setCancelable(false);
 
         Button okBtn = (Button) view.findViewById(R.id.btn_ok);
 //		TextView contentTv = (TextView) view.findViewById(R.id.tv_content);

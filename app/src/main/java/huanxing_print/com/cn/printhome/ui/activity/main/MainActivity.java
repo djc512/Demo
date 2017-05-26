@@ -6,7 +6,9 @@ import android.app.FragmentTransaction;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,12 +33,19 @@ import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
+import huanxing_print.com.cn.printhome.model.welcome.GetVersionBean;
+import huanxing_print.com.cn.printhome.net.callback.welcome.VersionCallback;
+import huanxing_print.com.cn.printhome.net.request.welcome.VersionRequset;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ChatFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.ContantsFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.MyFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.PrintFragment;
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragapproval.ApplyFragment;
+import huanxing_print.com.cn.printhome.util.AppUtils;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+import huanxing_print.com.cn.printhome.util.ToastUtil;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
@@ -80,7 +89,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView tv_my;
     private List<ImageView> imageViewList;
     private List<TextView> textViewList;
-
+    private String version;
+    private static final int delayMillis = 2000;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -93,6 +103,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
+        version = AppUtils.getVersionName(getSelfActivity());
         EventBus.getDefault().register(mContext);
         initView();
         initListener();
@@ -154,6 +165,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         findViewById(R.id.ll_print).performClick();
 
+
+        // 判断是否有网络
+        if (CommonUtils.isNetWorkConnected(this)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // autoLogin();
+                    VersionRequset.updateVersion(getSelfActivity(), version,callback);
+                }
+            }, delayMillis);
+        }else{
+            toast("没有可用的网络连接，请打开蜂窝数据或者wifi");
+        }
     }
 
     EMMessageListener msgListener = new EMMessageListener() {
@@ -335,8 +359,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.READ_CONTACTS};
+            Manifest.permission.READ_CONTACTS
+    };
 
     private boolean isPermissionsGranted() {
         boolean isPermission;
@@ -400,4 +427,51 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //            tv_count.setVisibility(View.GONE);
 //        }
 //    }
+
+    private VersionCallback callback = new VersionCallback() {
+
+        @Override
+        public void success(GetVersionBean bean) {
+            baseApplication.setHasLoginEvent(false);
+            if (!ObjectUtils.isNull(bean)) {
+                //String deployTime = bean.getDeployTime(); // 发布日期
+                final String downloadUrl = bean.getDownloadUrl(); // 下载地址
+                String isForceUpdate = bean.getIsForceUpdate(); // 是否要强制更新
+                String isNew = bean.getIsNew(); // 是否是最新版本0 否 1 是最新版本
+                String versionCode = bean.getVersionCode(); // 版本号
+                //String versionDetail = bean.getVersionDetail(); // 版本更新细节
+                baseApplication.setApkUrl(downloadUrl);
+                if ("0".equals(isNew)) {
+                    baseApplication.setNewApp(false);
+                    if(!ObjectUtils.isNull(isForceUpdate)&&"1".equals(isForceUpdate)){
+                        DialogUtils.showVersionDialog(getSelfActivity(),new DialogUtils.VersionDialogCallBack() {
+
+                            public void update() {
+                                if (!ObjectUtils.isNull(downloadUrl)) {
+                                    Uri uri = Uri.parse(downloadUrl);
+                                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                                    startActivity(it);
+                                }
+                            }
+                        }).show();
+
+                    }
+                }else{
+                    baseApplication.setNewApp(true);
+                }
+            }
+
+        }
+        @Override
+        public void fail(String msg) {
+            ToastUtil.doToast(getSelfActivity(),"服务器连接失败，请检查网络！");
+        }
+
+        @Override
+        public void connectFail() {
+            ToastUtil.doToast(getSelfActivity(),"网络连接失败，请检查网络！");
+            //autoLogin();
+        }
+
+    };
 }
