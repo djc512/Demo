@@ -8,8 +8,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/btn_gray_normal" />
+        android:layout_height="1px"
+        android:background="@color/btn_white_normal" />
 
     <LinearLayout
         android:id="@+id/rl_bottom"
@@ -62,7 +62,7 @@
             android:id="@+id/edittext_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp"
@@ -73,7 +73,7 @@
             <EditText
                 android:id="@+id/et_sendmessage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_marginRight="35dip"
                 android:background="@null"
                 android:imeOptions="actionSend"
