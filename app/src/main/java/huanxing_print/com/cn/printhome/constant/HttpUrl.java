@@ -7,16 +7,17 @@ public class HttpUrl {
     public static final String POSTHTTP_DAILY = "http://106.14.77.102:22012/";// 线下
 
    // public static final String POSTHTTP_RELEASE = "http://appprint.inkin.cc/";// 测试
-    public static final String POSTHTTP_RELEASE = "http://appprint.oao2o.com/";// 测试
+    public static final String POSTHTTP_RELEASE = "http://appprint.oao2o.com/";// 正式
+
+    public static final String POSTHTM5HTTP_RELEASE = "http://print.oao2o.com";// 正式
+
+    public static final String POSTHTM5HTTP_DAILY = "http://print.inkin.cc";// 测试
 
     public static final String login = "member/login";// 登录
     public static final String loginWeiXin = "member/loginByWechat";// 微信登录
     public static final String bindWechat = "member/bindWechat";// 绑定微信
     public static final String LoginOut = "member/signOut";// 退出登录
     public static final String register = "member/sign";// 注册
-    public static final String community = "http://print.inkin.cc/#/bbs";// 印家社区
-    public static final String myLay = "http://print.inkin.cc/offerManage/lay/";//布点建议
-    public static final String myEarn = "http://print.inkin.cc/offerManage/earn/";// 打印点加盟
     public static final String getVeryCode = "common/getValidCode"; // 获取短信验证码
     public static final String resetPasswd = "member/resetPasswd"; // 重置密码
     public static final String fileUpload = "common/fileUpload"; // 文件上传
@@ -81,7 +82,15 @@ public class HttpUrl {
     public static final String getMemberHead = "chat/getMemberHead";//查询用户头像名称
     public static final String getGroupHead = "chat/getGroupHead";//查询群头像名称
     public static final String groupManagerApproval = "group/adult";//查询群头像名称
+
+
+    public static final String community ="/#/bbs";// 印家社区
+    public static final String myLay ="/offerManage/lay/";//布点建议
+    public static final String myEarn ="/offerManage/earn/";// 打印点加盟
+
     private static String postUrl;
+
+    private static String htmUrl;
 
     private static HttpUrl httpUrl;
 
@@ -93,6 +102,13 @@ public class HttpUrl {
         HttpUrl.postUrl = postUrl;
     }
 
+    public static String getHtmUrl() {
+        return htmUrl;
+    }
+
+    public static void setHtmUrl(String htmUrl) {
+        HttpUrl.htmUrl = htmUrl;
+    }
 
     public static HttpUrl getInstance() {
         if (null != httpUrl) {
@@ -107,9 +123,11 @@ public class HttpUrl {
         switch (ConFig.CURRENT_ENVIRONMENT) {
             case RELEASE:
                 setPostUrl(POSTHTTP_RELEASE);
+                setHtmUrl(POSTHTM5HTTP_RELEASE);
                 break;
             case DAILY:
                 setPostUrl(POSTHTTP_DAILY);
+                setHtmUrl(POSTHTM5HTTP_DAILY);
                 break;
             default:
                 break;

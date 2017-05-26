@@ -260,7 +260,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="19dp"
                     android:layout_weight="1"
                     android:text="打印点加盟"
                     android:textColor="@color/text_color"
@@ -317,7 +317,7 @@
                     android:id="@+id/tv_lianxi"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="18dp"
                     android:layout_weight="1"
                     android:text="联系我们"
                     android:textColor="@color/text_color"

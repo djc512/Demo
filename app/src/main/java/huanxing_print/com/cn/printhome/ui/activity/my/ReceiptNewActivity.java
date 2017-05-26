@@ -75,7 +75,6 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
-        iv_back = (ImageView) findViewById(R.id.iv_back);
         et_companyName = (EditText) findViewById(R.id.et_companyName);
         tv_money = (TextView) findViewById(R.id.tv_money);
         et_receiver = (EditText) findViewById(R.id.et_receiver);
@@ -92,7 +91,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initListener() {
-        iv_back.setOnClickListener(this);
+        findViewById(R.id.ll_back).setOnClickListener(this);
         tv_location.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
     }
@@ -100,7 +99,7 @@ public class ReceiptNewActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_back:
+            case R.id.ll_back:
                 finishCurrentActivity();
                 break;
             case R.id.tv_location:
