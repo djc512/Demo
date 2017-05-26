@@ -49,7 +49,7 @@ public class SingleRedPackageAdapter extends RecyclerView.Adapter<RecyclerView.V
                     false);
             return new HeaderViewHolder(v);
         } else {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_redpackage_list, viewGroup,
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_single_redpackage_list, viewGroup,
                     false);
             return new NormalViewHolder(v);
         }
