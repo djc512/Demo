@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.DecimalFormat;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.model.chat.RedPackage;
@@ -81,7 +83,9 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
                 String change = String.valueOf(s);
                 if (!ObjectUtils.isNull(change)) {
                     //改变下面的金额 以及按钮的颜色
-                    txt_num.setText(s);
+                    //TODO 保留小数点后两位
+                    String result = roundByScale(Double.parseDouble(change), 2);
+                    txt_num.setText(result);
                     btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_red);
                     btn_plug_money.setEnabled(true);
                 } else {
@@ -208,5 +212,27 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
         public void connectFail() {
             DialogUtils.closeProgressDialog();
         }
+    }
+
+    /**
+     * 将double格式化为指定小数位的String，不足小数位用0补全
+     *
+     * @param v     需要格式化的数字
+     * @param scale 小数点后保留几位
+     * @return
+     */
+    public static String roundByScale(double v, int scale) {
+        if (scale < 0) {
+            throw new IllegalArgumentException(
+                    "The   scale   must   be   a   positive   integer   or   zero");
+        }
+        if (scale == 0) {
+            return new DecimalFormat("0").format(v);
+        }
+        String formatStr = "0.";
+        for (int i = 0; i < scale; i++) {
+            formatStr = formatStr + "0";
+        }
+        return new DecimalFormat(formatStr).format(v);
     }
 }

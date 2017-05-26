@@ -122,7 +122,7 @@
     <string name="group_left">本群共</string>
     <string name="red_group_num_unit">人</string>
     <string name="red_group_bottom_hint">未领取的红包,将于24小时候退至个人账户</string>
-    <string name="red_group_bottom_hint_no">未使用的红包,将于群解散后退至各人账户</string>
+    <string name="red_group_bottom_hint_no">未使用的群红包,将于群解散后退至各人账户</string>
     <string name="red_group_bottom_hint_no_get">群红包不可领取,群成员打印时可选择群红包支付</string>
     <string name="red_package_default_msg">给你发了一个红包</string>
     <string name="red_package_group_msg">发了一个群红包</string>
