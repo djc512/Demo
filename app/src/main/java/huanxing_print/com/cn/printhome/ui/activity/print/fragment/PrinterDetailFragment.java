@@ -91,6 +91,7 @@ public class PrinterDetailFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("printer_id", printPrinterPrice.getPrinterNo());
+                bundle.putString("printer_name", printPrinterPrice.getPrintName());
                 Intent intent = new Intent(getActivity(), CommentListActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
