@@ -15,6 +15,8 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.DecimalFormat;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.event.chat.GroupMessageUpdateInRed;
@@ -53,6 +55,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     private TextView txt_group_bottom;//群红包不可领取说明
     private TextView txt_group_num;//群人数
     private TextView txt_red_packge_money;//红包
+    private TextView txt_hint_bottom;//提示
     private Button btn_plug_money;
     private boolean isLuck = false;//群红包
     private GroupMessageInfo groupInfo;
@@ -80,6 +83,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
         edt_leave_word = (EditText) findViewById(R.id.edt_leave_word);
         txt_num = (TextView) findViewById(R.id.txt_num);
         txt_left = (TextView) findViewById(R.id.txt_left);
+        txt_hint_bottom = (TextView) findViewById(R.id.txt_hint_bottom);
         txt_red_packge_money = (TextView) findViewById(R.id.tv_red_packge_money);
         txt_group_num = (TextView) findViewById(R.id.txt_group_num);
         txt_group_bottom = (TextView) findViewById(R.id.txt_group_bottom);
@@ -114,7 +118,9 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                     } else {
                         btn_plug_money.setBackgroundResource(R.drawable.broder_red_package_red);
                     }
-                    txt_num.setText(s);
+                    //TODO 保留小数点后两位
+                    String result = roundByScale(Double.parseDouble(change), 2);
+                    txt_num.setText(result);
 
                 } else {
                     txt_num.setText("0.00");
@@ -173,6 +179,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     }
 
     int groupMemberNum = 0;
+
     private void inData() {
         if (null != groupInfo) {
             groupMemberNum = groupInfo.getGroupMembers().size();
@@ -195,6 +202,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                 //改变红包类型
                 isLuck = !isLuck;
                 if (isLuck) {
+                    txt_hint_bottom.setText(getString(R.string.red_group_bottom_hint));
                     //显示红包个数和群描述 隐藏掉群红包不可领取说明
                     rel_group_description.setVisibility(View.VISIBLE);
                     rel_red_package_num.setVisibility(View.VISIBLE);
@@ -204,6 +212,7 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
                     txt_red_packge_money.setText("拼手气红包金额");
                     txt_action_change.setText(getString(R.string.red_package_other_name_group));
                 } else {
+                    txt_hint_bottom.setText(getString(R.string.red_group_bottom_hint_no));
                     //隐藏红包个数和群描述 显示群红包不可领取说明
                     rel_group_description.setVisibility(View.GONE);
                     rel_red_package_num.setVisibility(View.GONE);
@@ -398,5 +407,27 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * 将double格式化为指定小数位的String，不足小数位用0补全
+     *
+     * @param v     需要格式化的数字
+     * @param scale 小数点后保留几位
+     * @return
+     */
+    public static String roundByScale(double v, int scale) {
+        if (scale < 0) {
+            throw new IllegalArgumentException(
+                    "The   scale   must   be   a   positive   integer   or   zero");
+        }
+        if (scale == 0) {
+            return new DecimalFormat("0").format(v);
+        }
+        String formatStr = "0.";
+        for (int i = 0; i < scale; i++) {
+            formatStr = formatStr + "0";
+        }
+        return new DecimalFormat(formatStr).format(v);
     }
 }

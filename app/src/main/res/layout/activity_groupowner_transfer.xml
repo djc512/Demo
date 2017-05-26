@@ -10,19 +10,7 @@
         android:id="@+id/titleBar"
         style="@style/Re_contact_title">
 
-        <LinearLayout
-            android:id="@+id/ll_back"
-            android:layout_width="@dimen/add_w_h"
-            android:layout_height="@dimen/add_w_h"
-            android:background="@drawable/bg_recycler_click_selector"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@drawable/ic_back"/>
-        </LinearLayout>
+        <include layout="@layout/layout_contact_back"/>
 
 
         <TextView

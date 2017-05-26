@@ -65,6 +65,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
     private String type;
     private String packetId;
     private TextView tv_from;
+    private GroupLuckyPackageDetail packageDetail;
 
     public EaseChatRowRedPackage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -359,6 +360,7 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
      */
 
     private void handleGroupLuckyRedPackage(GroupLuckyPackageDetail detail) {
+        packageDetail = detail;
         //判断是否已经失效
         if (!ObjectUtils.isNull(detail.isInvalid())) {
             if (detail.isInvalid()) {
@@ -596,7 +598,32 @@ public class EaseChatRowRedPackage extends EaseChatRowText {
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(context, "" + msg);
+            //弹出已经抢完dialog
+            if (!ObjectUtils.isNull(packageDetail)) {
+                Log.d("CMCC", "没抢到!!");
+
+                goneDialog = new GoneRedEnvelopesDialog(context, R.style.MyDialog);
+                goneDialog.setRedPackageSender(packageDetail.getSendMemberName());
+                goneDialog.setImgUrl(packageDetail.getSendMemberUrl());
+                goneDialog.setClickListener(new FailureRedEnvelopesListener() {
+                    @Override
+                    public void checkDetail() {
+                        Intent intent = new Intent(context, RedPackageRecordActivity.class);
+                        intent.putExtra("easemobGroupId", message.getTo());
+                        intent.putExtra("singleType", false);
+                        intent.putExtra("type", 2);
+                        intent.putExtra("packetId", message.getStringAttribute("packetId", ""));
+                        context.startActivity(intent);
+                        goneDialog.dismiss();
+                    }
+
+                    @Override
+                    public void closeDialog() {
+                        goneDialog.dismiss();
+                    }
+                });
+                goneDialog.show();
+            }
         }
 
         @Override

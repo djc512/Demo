@@ -34,7 +34,7 @@ import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickListener{
     private LinearLayout ll_back;
-    private TextView iv_modifyName_finish,getCodeTv;
+    private TextView iv_modifyName_finish,getCodeTv,tv_title;
     private EditText et_phone,et_code;
     private ImageView iv_phone_delete,iv_code_detele;
     private String phone,code;
@@ -58,6 +58,9 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
         phone = getIntent().getStringExtra("phone");
         if (!ObjectUtils.isNull(phone)) {
             et_phone.setText(phone);
+            tv_title.setText("更新手机号");
+        }else{
+            tv_title.setText("绑定手机号");
         }
 
         et_phone.addTextChangedListener(new TextWatcher() {
@@ -106,6 +109,7 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
         ll_back = (LinearLayout) findViewById(R.id.ll_back);
         iv_modifyName_finish = (TextView) findViewById(R.id.iv_modifyName_finish);
         getCodeTv = (TextView) findViewById(R.id.code_btn);
+        tv_title= (TextView) findViewById(R.id.tv_title);
         et_phone = (EditText) findViewById(R.id.et_phone);
         et_code= (EditText) findViewById(R.id.et_code);
         iv_phone_delete = (ImageView) findViewById(R.id.iv_phone_delete);
@@ -143,6 +147,9 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
                 DialogUtils.showProgressDialog(getSelfActivity(), "正在保存").show();
                 UpdatePersonInfoRequest.update(getSelfActivity(),  baseApplication.getLoginToken(),params, callback);
 
+                break;
+            case R.id.code_btn://
+                getVerCode();
                 break;
             case R.id.iv_phone_delete://
                 et_phone.setText("");

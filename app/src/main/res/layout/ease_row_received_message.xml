@@ -39,7 +39,7 @@
                 android:layout_height="@dimen/size_avatar"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="@dimen/margin_chat_activity"
+                android:layout_marginLeft="15dp"
                 android:scaleType="fitXY" />
 
             <TextView
@@ -56,9 +56,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_userid"
-                android:layout_marginLeft="@dimen/margin_chat_activity"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/iv_userhead"
-                android:background="@drawable/ease_chatfrom_bg">
+                android:background="@drawable/bg_chat_file_receive_selector">
 
 
                 <TextView
@@ -71,8 +71,10 @@
                     android:lineSpacingExtra="2dp"
                     android:maxWidth="225.0dip"
                     android:minHeight="38dp"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="1dp"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:textColor="#ff000000"
                     android:textSize="15sp" />
 
