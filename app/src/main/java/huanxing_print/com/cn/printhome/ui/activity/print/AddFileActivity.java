@@ -46,8 +46,8 @@ import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.StatusBarCompat;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
-import huanxing_print.com.cn.printhome.util.file.FileUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
@@ -78,6 +78,7 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pickfile);
+//        setStatusBarColor();
         EventBus.getDefault().register(context);
         Logger.i(IMG_CACHE_PATH);
         initData();

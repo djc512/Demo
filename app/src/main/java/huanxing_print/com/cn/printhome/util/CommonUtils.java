@@ -1,10 +1,10 @@
 /**
  * Copyright (C) 2013-2014 EaseMob Technologies. All rights reserved.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,7 +33,9 @@ import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -52,168 +54,174 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.util.FileUtils.FileDeleteCallback;
 
+
 public class CommonUtils {
-	private static final String KEY = "GjZbaGry7m7sfTy0WllHvfyH";
-	private final static String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDO++7KywM8g/51KQacb4GRC7fJDZLU1KdlZJwB6ROy7As7bSr8H2q4INtOu12uBNPVvozOVdoanybgvTiISyvj1pw8a5/fgYAbdiUam3FWkoKCI9v2rxJMEhvql+aMws7diCXqovnMgT3AO0hIrTK5o9+dfvpveeTbkPDhGSkSlQIDAQAB";
-	/**
-	 * 检测网络是否可用?
-	 * 
-	 * @param context
-	 * @return
-	 */
-	public static boolean isNetWorkConnected(Context context) {
-		if (context != null) {
-			ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-					.getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo mNetworkInfo = mConnectivityManager
-					.getActiveNetworkInfo();
-			if (mNetworkInfo != null) {
-				return mNetworkInfo.isAvailable();
-			}
-		}
+    private static final String KEY = "GjZbaGry7m7sfTy0WllHvfyH";
+    private final static String PUBLIC_KEY =
+            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDO++7KywM8g" +
+					"/51KQacb4GRC7fJDZLU1KdlZJwB6ROy7As7bSr8H2q4INtOu12uBNPVvozOVdoanybgvTiISyvj1pw8a5" +
+					"/fgYAbdiUam3FWkoKCI9v2rxJMEhvql+aMws7diCXqovnMgT3AO0hIrTK5o9+dfvpveeTbkPDhGSkSlQIDAQAB";
 
-		return false;
-	}
+    /**
+     * 检测网络是否可用?
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetWorkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager
+                    .getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
 
-	public static void autoBindBaiduYunTuiSong(Context context) {
+        return false;
+    }
 
-		// if (!HttpUrls.bind) {
-		PushManager.startWork(context, PushConstants.LOGIN_TYPE_API_KEY, KEY);
-		// }
-	}
+    public static void autoBindBaiduYunTuiSong(Context context) {
 
-	/**
-	 * 检测Sdcard是否存在
-	 * 
-	 * @return
-	 */
-	public static boolean isExitsSdcard() {
-		if (android.os.Environment.getExternalStorageState().equals(
-				android.os.Environment.MEDIA_MOUNTED))
-			return true;
-		else
-			return false;
-	}
+        // if (!HttpUrls.bind) {
+        PushManager.startWork(context, PushConstants.LOGIN_TYPE_API_KEY, KEY);
+        // }
+    }
 
-	static String getString(Context context, int resId) {
-		return context.getResources().getString(resId);
-	}
+    /**
+     * 检测Sdcard是否存在
+     *
+     * @return
+     */
+    public static boolean isExitsSdcard() {
+        if (android.os.Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED))
+            return true;
+        else
+            return false;
+    }
 
-	public static String getTopActivity(Context context) {
-		ActivityManager manager = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
-		List<RunningTaskInfo> runningTaskInfos = manager.getRunningTasks(1);
+    static String getString(Context context, int resId) {
+        return context.getResources().getString(resId);
+    }
 
-		if (runningTaskInfos != null)
-			return runningTaskInfos.get(0).topActivity.getClassName();
-		else
-			return "";
-	}
+    public static String getTopActivity(Context context) {
+        ActivityManager manager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<RunningTaskInfo> runningTaskInfos = manager.getRunningTasks(1);
 
-	/**
-	 * 判断邀请码格式只能为字母和数字
-	 * 
-	 */
-	public static boolean isInviteCode(String inviteCode) {
-		Pattern p = Pattern.compile("^[0-9a-zA-Z]{6}$");
-		Matcher m = p.matcher(inviteCode);
-		return m.matches();
-	}
+        if (runningTaskInfos != null)
+            return runningTaskInfos.get(0).topActivity.getClassName();
+        else
+            return "";
+    }
 
-	/**
-	 * 判断是否为手机号
-	 * 
-	 */
+    /**
+     * 判断邀请码格式只能为字母和数字
+     *
+     */
+    public static boolean isInviteCode(String inviteCode) {
+        Pattern p = Pattern.compile("^[0-9a-zA-Z]{6}$");
+        Matcher m = p.matcher(inviteCode);
+        return m.matches();
+    }
+
+    /**
+     * 判断是否为手机号
+     *
+     */
 //	public static boolean isPhone(String phone) {
 //		Pattern p = Pattern
 //				.compile("^((13[0-9])|(14[0-9])|(15[^4,\\D])|(17[0-9])|(18[0-9]))\\d{8}$");
 //		Matcher m = p.matcher(phone);
 //		return m.matches();
 //	}
-	public static boolean isPhone(String phone) {
-	Pattern p = Pattern.compile("^(1[0-9])\\d{9}$");
-	Matcher m = p.matcher(phone);
-	return m.matches();
-}
+    public static boolean isPhone(String phone) {
+        Pattern p = Pattern.compile("^(1[0-9])\\d{9}$");
+        Matcher m = p.matcher(phone);
+        return m.matches();
+    }
 
-	// MD5加密
-	public final static String MD5(String s) {
-		char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-				'A', 'B', 'C', 'D', 'E', 'F' };
-		try {
-			byte[] btInput = s.getBytes();
-			// 获得MD5摘要算法的 MessageDigest 对象
-			MessageDigest mdInst = MessageDigest.getInstance("MD5");
-			// 使用指定的字节更新摘要
-			mdInst.update(btInput);
-			// 获得密文
-			byte[] md = mdInst.digest();
-			// 把密文转换成十六进制的字符串形式
-			int j = md.length;
-			char str[] = new char[j * 2];
-			int k = 0;
-			for (int i = 0; i < j; i++) {
-				byte byte0 = md[i];
-				str[k++] = hexDigits[byte0 >>> 4 & 0xf];
-				str[k++] = hexDigits[byte0 & 0xf];
-			}
-			return new String(str);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+    // MD5加密
+    public final static String MD5(String s) {
+        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'A', 'B', 'C', 'D', 'E', 'F'};
+        try {
+            byte[] btInput = s.getBytes();
+            // 获得MD5摘要算法的 MessageDigest 对象
+            MessageDigest mdInst = MessageDigest.getInstance("MD5");
+            // 使用指定的字节更新摘要
+            mdInst.update(btInput);
+            // 获得密文
+            byte[] md = mdInst.digest();
+            // 把密文转换成十六进制的字符串形式
+            int j = md.length;
+            char str[] = new char[j * 2];
+            int k = 0;
+            for (int i = 0; i < j; i++) {
+                byte byte0 = md[i];
+                str[k++] = hexDigits[byte0 >>> 4 & 0xf];
+                str[k++] = hexDigits[byte0 & 0xf];
+            }
+            return new String(str);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-	public static int isYesterday(String date) {
-		int day = 0;
-		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			Date nowtime = new Date();// 当前时间
-			Date d1 = sdf.parse(sdf.format(nowtime));
-			Date d2 = sdf.parse(date);// 传进的时间
-			long cha = d2.getTime() - d1.getTime();
-			day = (int) (cha / (24 * 60 * 60 * 1000));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    public static int isYesterday(String date) {
+        int day = 0;
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date nowtime = new Date();// 当前时间
+            Date d1 = sdf.parse(sdf.format(nowtime));
+            Date d2 = sdf.parse(date);// 传进的时间
+            long cha = d2.getTime() - d1.getTime();
+            day = (int) (cha / (24 * 60 * 60 * 1000));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		return day;
-	}
+        return day;
+    }
 
-	/** 
+    /**
      * 判断 用户是否安装微信客户端 
-    */  
-   public static boolean isWeixinAvilible(Context context) {  
-       final PackageManager packageManager = context.getPackageManager();// 获取packagemanager  
-       List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息  
-       if (pinfo != null) {  
-           for (int i = 0; i < pinfo.size(); i++) {  
-               String pn = pinfo.get(i).packageName;  
-               if (pn.equals("com.tencent.mm")) {  
-                   return true;  
-               }  
-           }  
-       }  
-       return false;  
-   }  
-	/** * 根据手机的分辨率从dp 的单位 转成为px(像素) */ 
-   public static int dip2px(Context context, float dpValue) { 
-           final float scale = context.getResources().getDisplayMetrics().density; 
-           return (int) (dpValue * scale + 0.5f); 
-   } 
+     */
+    public static boolean isWeixinAvilible(Context context) {
+        final PackageManager packageManager = context.getPackageManager();// 获取packagemanager
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mm")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-   /** * 根据手机的分辨率从px(像素) 的单位 转成为dp */ 
-   public static int px2dip(Context context, float pxValue) { 
-           final float scale = context.getResources().getDisplayMetrics().density; 
-           return (int) (pxValue / scale + 0.5f); 
-   } 
+    /** * 根据手机的分辨率从dp 的单位 转成为px(像素) */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /** * 根据手机的分辨率从px(像素) 的单位 转成为dp */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
 
 /*	*//**
-	 * 将日期信息转换成今天、明天、后天、星期
-	 * 
-	 * @param date
-	 * @return
-	 *//*
+     * 将日期信息转换成今天、明天、后天、星期
+     *
+     * @param date
+     * @return
+     *//*
 	public static String getDateDetail(String date) {
 		Calendar today = Calendar.getInstance();
 		Calendar target = Calendar.getInstance();
@@ -240,11 +248,11 @@ public class CommonUtils {
 
 	}*/
 
-	/**
-	 * 将日期差显示为日期或者星期
-	 *
-	 * @return
-	 *//*
+    /**
+     * 将日期差显示为日期或者星期
+     *
+     * @return
+     *//*
 	private static String showDateDetail(int xcts, Calendar target) {
 		switch (xcts) {
 		case 0:
@@ -281,170 +289,184 @@ public class CommonUtils {
 
 		}
 	}*/
+    public static String changeTime(int value) {
+        return value < 10 ? ("0" + value) : (value + "");
+    }
 
-	public static String changeTime(int value) {
-		return value < 10 ? ("0" + value) : (value + "");
-	}
-	/**
-	 * 设置银行卡号中间为"*"号
-	 */
-	public static String changeBankCardNO(String bankCardNO) {
-		 if(!TextUtils.isEmpty(bankCardNO) ){
-			 int bankCardNOlenth = bankCardNO.length()-4;
-			 bankCardNO = bankCardNO.substring(0, 4)+"****"+bankCardNO.substring(bankCardNOlenth);
-	     }
-		return bankCardNO;
-	}
-	
-	/**
-	 * 设置银行卡号中间为"*"号
-	 */
-	public static String changePhone(String phone) {
-		 if(!TextUtils.isEmpty(phone) ){
-			 int bankCardNOlenth = phone.length()-4;
-			 phone = phone.substring(0, 3)+"****"+phone.substring(bankCardNOlenth);
-	     }
-		return phone;
-	}
-	
-	/**
-	 * 设置我的钱包<收入明细>大客户订单号中间为"*"号
-	 */
-	public static String changeOrderCode(String orderCode) {
-		 if(!TextUtils.isEmpty(orderCode) ){
-			 int bankCardNOlenth = orderCode.length()-5;
-			 orderCode = orderCode.substring(0, 3)+"***"+orderCode.substring(bankCardNOlenth);
-	     }
-		return orderCode;
-	}
-	/**
-	 * 铃声提示
-	 */
-	public static void mediaplayer(Context context) {
-		MediaPlayer mp = new MediaPlayer();
-		try {
-			Ringtone rt = RingtoneManager.getRingtone(context, RingtoneManager
-					.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-			rt.play();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    /**
+     * 设置银行卡号中间为"*"号
+     */
+    public static String changeBankCardNO(String bankCardNO) {
+        if (!TextUtils.isEmpty(bankCardNO)) {
+            int bankCardNOlenth = bankCardNO.length() - 4;
+            bankCardNO = bankCardNO.substring(0, 4) + "****" + bankCardNO.substring(bankCardNOlenth);
+        }
+        return bankCardNO;
+    }
 
-	/**
-	 * 
-	 * 判定输入汉字
-	 * 
-	 * 
-	 * 
-	 * @param c
-	 * 
-	 * @return
-	 */
+    /**
+     * 设置银行卡号中间为"*"号
+     */
+    public static String changePhone(String phone) {
+        if (!TextUtils.isEmpty(phone)) {
+            int bankCardNOlenth = phone.length() - 4;
+            phone = phone.substring(0, 3) + "****" + phone.substring(bankCardNOlenth);
+        }
+        return phone;
+    }
 
-	public static boolean isChinese(char c) {
+    /**
+     * 设置我的钱包<收入明细>大客户订单号中间为"*"号
+     */
+    public static String changeOrderCode(String orderCode) {
+        if (!TextUtils.isEmpty(orderCode)) {
+            int bankCardNOlenth = orderCode.length() - 5;
+            orderCode = orderCode.substring(0, 3) + "***" + orderCode.substring(bankCardNOlenth);
+        }
+        return orderCode;
+    }
 
-		Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+    /**
+     * 铃声提示
+     */
+    public static void mediaplayer(Context context) {
+        MediaPlayer mp = new MediaPlayer();
+        try {
+            Ringtone rt = RingtoneManager.getRingtone(context, RingtoneManager
+                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            rt.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-		if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
-				|| ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
-				|| ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
-				|| ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
-				|| ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
-				|| ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
+    /**
+     *
+     * 判定输入汉字
+     *
+     *
+     *
+     * @param c
+     *
+     * @return
+     */
 
-			return true;
+    public static boolean isChinese(char c) {
 
-		}
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
 
-		return false;
+        if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {
 
-	}
+            return true;
 
-	/**
-	 * 
-	 * 检测String是否全是中文
-	 * 
-	 * 
-	 * 
-	 * @param name
-	 * 
-	 * @return
-	 */
+        }
 
-	public static boolean checkNameChese(String name) {
-
-		boolean res = true;
-
-		char[] cTemp = name.toCharArray();
-
-		for (int i = 0; i < name.length(); i++) {
-
-			if (!isChinese(cTemp[i])) {
-
-				res = false;
-
-				break;
-
-			}
-
-		}
-
-		return res;
-
-	}
-	
-	
-	/**
-	 * 
-	 * 检测Str是否有中文
-	 * 
-	 * 
-	 * 
-	 * @param name
-	 * 
-	 * @return
-	 */
-
-	public static boolean checkStrChese(String name) {
-
-		boolean res = false;
-
-		char[] cTemp = name.toCharArray();
-
-		for (int i = 0; i < name.length(); i++) {
-
-			if (isChinese(cTemp[i])) {
-
-				res = true;
-
-				break;
-
-			}
-
-		}
-
-		return res;
-
-	}
-
-	public static void initSystemBar(Activity activity) {
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
-			setTranslucentStatus(activity, true);
-
-		}
-
-		SystemBarTintManager tintManager = new SystemBarTintManager(activity);
-
-		tintManager.setStatusBarTintEnabled(true);
-
-		// 使用颜色资源
-
-		tintManager.setStatusBarTintResource(R.color.white);
+        return false;
 
     }
+
+    /**
+     *
+     * 检测String是否全是中文
+     *
+     *
+     *
+     * @param name
+     *
+     * @return
+     */
+
+    public static boolean checkNameChese(String name) {
+
+        boolean res = true;
+
+        char[] cTemp = name.toCharArray();
+
+        for (int i = 0; i < name.length(); i++) {
+
+            if (!isChinese(cTemp[i])) {
+
+                res = false;
+
+                break;
+
+            }
+
+        }
+
+        return res;
+
+    }
+
+
+    /**
+     *
+     * 检测Str是否有中文
+     *
+     *
+     *
+     * @param name
+     *
+     * @return
+     */
+
+    public static boolean checkStrChese(String name) {
+
+        boolean res = false;
+
+        char[] cTemp = name.toCharArray();
+
+        for (int i = 0; i < name.length(); i++) {
+
+            if (isChinese(cTemp[i])) {
+
+                res = true;
+
+                break;
+
+            }
+
+        }
+
+        return res;
+
+    }
+
+    public static void initSystemBar(Activity activity) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View
+//					.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//        }
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//
+//            setTranslucentStatus(activity, true);
+//
+//        }
+//        StatusBarCompat.compat(activity);
+//        SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+//
+//        tintManager.setStatusBarTintEnabled(true);
+//
+//        // 使用颜色资源
+//        tintManager.setStatusBarTintResource(R.color.white);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = activity.getWindow();
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams
+                    .FLAG_TRANSLUCENT_STATUS);
+            activity. getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity. getWindow().addFlags(WindowManager.LayoutParams
+                    .FLAG_TRANSLUCENT_NAVIGATION);
+        }
+        StatusBarUtil.setColor(activity, ContextCompat.getColor(activity, R.color.statusbar_gray));
+    }
+
 
     public static void initSystemBar(Activity activity, int color) {
 
@@ -466,55 +488,53 @@ public class CommonUtils {
 
     public static void initSystemBarBlack(Activity activity) {
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
-			setTranslucentStatus(activity, true);
+            setTranslucentStatus(activity, true);
 
-		}
+        }
 
-		SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+        SystemBarTintManager tintManager = new SystemBarTintManager(activity);
 
-		tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintEnabled(true);
 
-		// 使用颜色资源
+        // 使用颜色资源
 
-		tintManager.setStatusBarTintResource(R.color.black);
+        tintManager.setStatusBarTintResource(R.color.black);
 
-	}
+    }
 
-	@SuppressLint("InlinedApi")
-	private static void setTranslucentStatus(Activity activity, boolean on) {
+    @SuppressLint("InlinedApi")
+    private static void setTranslucentStatus(Activity activity, boolean on) {
 
-		Window win = activity.getWindow();
+        Window win = activity.getWindow();
 
-		WindowManager.LayoutParams winParams = win.getAttributes();
+        WindowManager.LayoutParams winParams = win.getAttributes();
 
-		final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 
-		if (on) {
+        if (on) {
 
-			winParams.flags |= bits;
+            winParams.flags |= bits;
 
-		} else {
+        } else {
 
-			winParams.flags &= ~bits;
+            winParams.flags &= ~bits;
 
-		}
+        }
 
-		win.setAttributes(winParams);
+        win.setAttributes(winParams);
 
-	}
+    }
 
     /**
      * 图片圆形处理
-     * 
+     *
      * @param img
      * @return
      */
-    public static Bitmap bitmapCircle(Bitmap img)
-    {
-        if (img == null)
-        {
+    public static Bitmap bitmapCircle(Bitmap img) {
+        if (img == null) {
             return null;
         }
         int w = img.getWidth();
@@ -531,7 +551,7 @@ public class CommonUtils {
         p.setXfermode(null);
         p.setStrokeWidth(10);
         p.setStyle(Paint.Style.STROKE);
-        
+
         return bitmap;
     }
 //	public static String sig(String value) {
@@ -547,14 +567,14 @@ public class CommonUtils {
 //		}
 //		
 //	}
-    
-    public static void clearCache() {
-		FileUtils.deleteFile(ConFig.IMG_CACHE_PATH, new FileDeleteCallback() {
-			@Override
-			public void result(int state) {
 
-			}
-		}, true);
-	}
-	
+    public static void clearCache() {
+        FileUtils.deleteFile(ConFig.IMG_CACHE_PATH, new FileDeleteCallback() {
+            @Override
+            public void result(int state) {
+
+            }
+        }, true);
+    }
+
 }

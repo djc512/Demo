@@ -4,7 +4,7 @@ public class HttpUrl {
 
     public static final String test = "http://106.14.77.102:22012/";//测试的，正式环境替换
 
-    public static final String POSTHTTP_DAILY = "http://106.14.77.102:22012/";// 线下
+    public static final String POSTHTTP_DAILY = "http://appprint.oao2o.com/";// 线下
 
    // public static final String POSTHTTP_RELEASE = "http://appprint.inkin.cc/";// 测试
     public static final String POSTHTTP_RELEASE = "http://appprint.oao2o.com/";// 测试

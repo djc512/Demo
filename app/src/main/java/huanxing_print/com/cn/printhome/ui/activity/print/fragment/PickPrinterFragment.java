@@ -78,7 +78,7 @@ public class PickPrinterFragment extends BaseLazyFragment {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(new UsedPrinterFragment());
         fragments.add(new FindPrinterFragment());
-        fragments.add(new PcFileFragment());
+        fragments.add(new ScanFragment());
         PrinterFragmentAdapter mFragmentAdapteradapter = new PrinterFragmentAdapter(getFragmentManager(),
                 fragments, titles);
         viewpager.setAdapter(mFragmentAdapteradapter);

@@ -23,6 +23,7 @@
     <color name="text_black">#282828</color>
     <color name="step_black">#656565</color>
     <color name="text_gray">#818181</color>
+    <color name="statusbar_gray">#d4d4d4</color>
     <color name="time_gray">#cecece</color>
     <color name="search_bc_gray">#f4f4f4</color>
     <color name="devide_gray">#E5E5E5</color>
