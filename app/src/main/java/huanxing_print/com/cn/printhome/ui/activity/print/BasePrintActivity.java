@@ -48,7 +48,7 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
     }
 
     protected void setStatusBarColor() {
-        StatusBarUtil.setColor(activity, ContextCompat.getColor(context, R.color.green));
+        StatusBarUtil.setColor(activity, ContextCompat.getColor(context, R.color.statusbar_gray));
     }
 
     protected void initTitleBar(String title) {

@@ -12,8 +12,19 @@
         -->
     </style>
 
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/statusbar_gray</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="ThemeApp" parent="@style/BaseAppTheme">
+
+    </style>
+
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="AppTheme" parent="BaseAppTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 

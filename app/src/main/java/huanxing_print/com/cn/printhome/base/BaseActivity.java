@@ -2,6 +2,7 @@ package huanxing_print.com.cn.printhome.base;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -69,7 +70,19 @@ public abstract class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		//在当前界面注册一个订阅者
 		EventBus.getDefault().register(this);
+		initStatusBar();
 		init();
+	}
+
+	protected void initStatusBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			Window window = getWindow();
+			window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams
+					.FLAG_TRANSLUCENT_STATUS);
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			getWindow().addFlags(WindowManager.LayoutParams
+					.FLAG_TRANSLUCENT_NAVIGATION);
+		}
 	}
 
 	@Override
@@ -105,10 +118,10 @@ public abstract class BaseActivity extends Activity {
 	private void init() {
 		baseApplication = (BaseApplication) getApplication();
 		ActivityHelper.getInstance().addActivity(getSelfActivity());
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-//		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-				| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
+////		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+//				| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 	}
 
