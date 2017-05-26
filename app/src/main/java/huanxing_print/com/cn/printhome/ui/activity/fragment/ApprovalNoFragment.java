@@ -22,7 +22,6 @@ import huanxing_print.com.cn.printhome.net.request.approval.ApprovalRequest;
 import huanxing_print.com.cn.printhome.ui.activity.approval.ApprovalApplyDetailsActivity;
 import huanxing_print.com.cn.printhome.ui.activity.approval.ApprovalBuyAddOrRemoveActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.ApprovalListAdapter;
-import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.refresh.CustomerFooter;
@@ -104,28 +103,23 @@ public class ApprovalNoFragment extends Fragment implements ListView.OnItemClick
         public void success(String msg, ArrayList<ApprovalObject> approvalObjects) {
             //ToastUtil.doToast(getSelfActivity(), "查询我发起的列表成功");
             if (isLoadMore) {//如果是加载更多
-                if (!ObjectUtils.isNull(approvalObjects)) {
+                if (null!=approvalObjects&&approvalObjects.size()>0) {
                     xrf_czrecord.stopLoadMore();
-                    if (!ObjectUtils.isNull(approvalObjects.size())) {
-                        datalist.addAll(approvalObjects);
-                        lvAdapter.notifyDataSetChanged();
-                    } else {
-                        ToastUtil.doToast(getActivity(), "没有更多数据");
-                        return;
-                    }
+                    datalist.addAll(approvalObjects);
+                    lvAdapter.notifyDataSetChanged();
                 } else {
                     ToastUtil.doToast(getActivity(), "没有更多数据");
                     xrf_czrecord.stopLoadMore();
                     return;
                 }
             } else {
-                if (ObjectUtils.isNull(approvalObjects)) {
-                    ToastUtil.doToast(getActivity(), "暂无数据");
-                } else {
+                if (null!=approvalObjects&&approvalObjects.size()>0) {
                     datalist = approvalObjects;
+                    lvAdapter = new ApprovalListAdapter(getActivity(), datalist);
+                    lv_my_list.setAdapter(lvAdapter);
+                } else {
+                    //ToastUtil.doToast(getActivity(), "暂无数据");
                 }
-                lvAdapter = new ApprovalListAdapter(getActivity(), datalist);
-                lv_my_list.setAdapter(lvAdapter);
             }
             xrf_czrecord.setPullLoadEnable(true);
             xrf_czrecord.setAutoLoadMore(false);

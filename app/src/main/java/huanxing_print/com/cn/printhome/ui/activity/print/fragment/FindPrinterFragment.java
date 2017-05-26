@@ -127,22 +127,21 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
         printerRcList.setItemAnimator(new DefaultItemAnimator());
         printerRcList.addItemDecoration(new RecyclerViewDivider(context, LinearLayoutManager.VERTICAL, DisplayUtil
                 .dip2px(context, 10), ContextCompat.getColor(context, R.color.bc_gray)));
-        findPrinterRcAdapter = new FindPrinterRcAdapter(printerList);
+        findPrinterRcAdapter = new FindPrinterRcAdapter(printerList, context);
         findPrinterRcAdapter.setCustomLoadMoreView(new XRefreshViewFooter(context));
         findPrinterRcAdapter.setOnItemClickListener(new FindPrinterRcAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                AroundPrinterResp.Printer printer = findPrinterRcAdapter.getPrinterList().get(position);
                 switch (view.getId()) {
                     case R.id.printerLyt:
-                        ((PickPrinterActivity) getActivity()).turnSetting(findPrinterRcAdapter.getPrinterList().get
-                                (position).getPrinterNo());
+                        ((PickPrinterActivity) getActivity()).turnSetting(printer.getPrinterNo());
                         break;
                     case R.id.detailTv:
-                        turnDetail(findPrinterRcAdapter.getPrinterList().get(position).getPrinterNo());
+                        turnDetail(printer.getPrinterNo());
                         break;
                     case R.id.navLty:
-                        LatLng latLng = StringUtil.getLatLng(findPrinterRcAdapter.getPrinterList().get(position)
-                                .getLocation());
+                        LatLng latLng = StringUtil.getLatLng(printer.getLocation());
                         Logger.i(latLng.toString());
                         if (latLng != null) {
                             Bundle bundle = new Bundle();
@@ -153,6 +152,9 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
                         }
                         break;
                     case R.id.commentTv:
+                        if (findPrinterRcAdapter.isCommentEnpty(printer)) {
+                            return;
+                        }
                         Bundle bundle = new Bundle();
                         bundle.putString("printer_id", findPrinterRcAdapter.getPrinterList().get(position)
                                 .getPrinterNo());

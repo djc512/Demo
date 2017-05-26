@@ -12,6 +12,7 @@
         <include layout="@layout/ll_title_back"></include>
 
         <TextView
+            android:id="@id/tv_title"
             style="@style/title"
             android:text="更新手机号" />
 

@@ -73,7 +73,6 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.GLOBAL_SEARCH" />
 
     <application
         android:name=".base.BaseApplication"
@@ -549,7 +548,12 @@
         <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="1195170420115339#ecostar" />
+            android:value="1196170420115735#ecostardev" />
+
+        <!-- 设置环信应用的线上环境 -->
+        <!--<meta-data-->
+            <!--android:name="EASEMOB_APPKEY"-->
+            <!--android:value="1195170420115339#ecostar" />-->
         <!-- 声明SDK所需的service SDK核心功能 -->
         <service
             android:name="com.hyphenate.chat.EMChatService"
