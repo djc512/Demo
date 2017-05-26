@@ -253,8 +253,8 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                     finish();
                     return;
                 }
-                if (docPreviewResp.getData() == null || docPreviewResp.getData().getPaperNum() > 200) {
-                    ShowUtil.showToast(getString(R.string.file_outpage));
+                if (docPreviewResp.getData() == null || docPreviewResp.getData().getPaperNum() == 0) {
+                    ShowUtil.showToast(getString(R.string.file_empty));
                     finish();
                     return;
                 }

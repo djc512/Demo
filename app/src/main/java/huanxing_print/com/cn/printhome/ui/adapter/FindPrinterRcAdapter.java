@@ -119,7 +119,11 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
     public void onBindViewHolder(ViewHolder viewHolder, int position, boolean isItem) {
         AroundPrinterResp.Printer printer = mPrinterList.get(position);
         viewHolder.nameTv.setText(printer.getName());
-        viewHolder.addressTv.setText(printer.getAddress().trim());
+        if (printer.getAddress() == null) {
+            viewHolder.addressTv.setText("无");
+        } else {
+            viewHolder.addressTv.setText(printer.getAddress().trim());
+        }
         viewHolder.disTv.setText(StringUtil.getDistance(printer.getDistance()));
         Logger.i(StringUtil.getDistance(printer.getDistance()));
         viewHolder.commentTv.setText("评论 " + printer.getRemarkCount());

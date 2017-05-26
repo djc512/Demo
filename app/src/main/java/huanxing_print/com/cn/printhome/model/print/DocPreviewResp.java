@@ -33,6 +33,9 @@ public class DocPreviewResp extends CommonResp {
         }
 
         public ArrayList<String> getArryList() {
+            if (fileUrlList == null) {
+                return null;
+            }
             ArrayList<String> list = new ArrayList<>();
             for (String str : fileUrlList) {
                 list.add(str);

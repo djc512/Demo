@@ -50,6 +50,7 @@
     <string name="file_pick">选取文件</string>
     <string name="size_out">文件大小超限</string>
     <string name="file_error">文件错误</string>
+    <string name="file_empty">文件为空</string>
     <string name="price_error">打印机价格错误</string>
     <string name="file_outtime">文件超时，请重新上传</string>
     <string name="file_outpage">不可打印大于200页的文档</string>

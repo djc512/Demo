@@ -23,6 +23,7 @@ import com.amap.api.maps2d.model.LatLng;
 import com.andview.refreshview.XRefreshView;
 import com.andview.refreshview.XRefreshView.SimpleXRefreshListener;
 import com.andview.refreshview.XRefreshViewFooter;
+import com.zhy.http.okhttp.utils.L;
 
 import org.simple.eventbus.EventBus;
 
@@ -192,6 +193,9 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
     }
 
     private void initSpinner() {
+        String[] mStringArray = getResources().getStringArray(R.array.distance);
+        DisTextArrayAdapter mAdapter = new DisTextArrayAdapter(context, mStringArray);
+        spinner.setAdapter(mAdapter);
         spinner.setSelection(1);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -220,10 +224,6 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
                 // Another interface callback
             }
         });
-
-        String []  mStringArray=getResources().getStringArray(R.array.distance);
-        DisTextArrayAdapter   mAdapter = new DisTextArrayAdapter(context,mStringArray);
-        spinner.setAdapter(mAdapter);
     }
 
     @Override
