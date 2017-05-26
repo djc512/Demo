@@ -215,6 +215,7 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
                             finish();
                             return;
                         }
+
                         if (uploadFileBean.isSuccess()) {
                             if (isLoading()) {
                                 fileUrl = uploadFileBean.getData().getImgUrl();
