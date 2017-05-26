@@ -18,6 +18,8 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.dreamlive.cn.clog.CollectLog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.EMGroupChangeListener;
@@ -35,6 +37,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +48,11 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.event.chat.GroupMessageUpdateInRed;
 import huanxing_print.com.cn.printhome.event.contacts.GroupUpdate;
+import huanxing_print.com.cn.printhome.model.chat.GroupMessageObject;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
+import huanxing_print.com.cn.printhome.model.contact.GroupMessageInfo;
+import huanxing_print.com.cn.printhome.net.callback.contact.GroupMessageCallback;
+import huanxing_print.com.cn.printhome.net.request.contact.GroupManagerRequest;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
@@ -98,6 +105,8 @@ public class BaseApplication extends Application {
     private IWXAPI api;
 
     private static BaseApplication mInstance;
+    private ArrayList<GroupMessageObject> infos;
+    private Gson gson;
 
     public synchronized static BaseApplication getInstance() {
         return mInstance;
@@ -455,6 +464,104 @@ public class BaseApplication extends Application {
                     }
                     //EventBus.getDefault().post(list.get(0));
 
+                    //群聊才处理
+                    final EMMessage message = list.get(0);
+                    gson = new Gson();
+                    if (message.getChatType() == EMMessage.ChatType.GroupChat ||
+                            message.getChatType() == EMMessage.ChatType.ChatRoom) {
+                        //跟本地群信息对比没有就插入
+                        boolean isTwo = false;
+                        String group = SharedPreferencesUtils.getShareString(getBaseContext(), "group");
+                        Type type = new TypeToken<ArrayList<GroupMessageObject>>() {
+                        }.getType();
+                        if (!ObjectUtils.isNull(group)) {
+                            //不为空解析
+                            infos = gson.fromJson(group, type);
+                            //找到头像和昵称
+                            for (GroupMessageObject info : infos) {
+                                if (info.getGroupEaseId().equals(message.getTo())) {
+                                    isTwo = true;
+                                }
+                            }
+                            //判断有没有找到群头像
+                            if (!isTwo) {
+                                //去请求群信息
+                                GroupManagerRequest.queryGroupMessage(getBaseContext(),
+                                        getLoginToken(), "", message.getTo(),
+                                        new GroupMessageCallback() {
+                                            @Override
+                                            public void success(String msg, GroupMessageInfo groupMessageInfo) {
+                                                Log.d("CMCC", "111" + msg);
+                                                if (!ObjectUtils.isNull(groupMessageInfo)) {
+                                                    Log.d("CMCC", "groupMessageInfo");
+                                                    GroupMessageObject object = new GroupMessageObject();
+                                                    object.setGroupId(groupMessageInfo.getGroupId());
+                                                    object.setGroupEaseId(message.getTo());
+                                                    object.setGroupName(groupMessageInfo.getGroupName());
+                                                    object.setGroupUrl(groupMessageInfo.getGroupUrl());
+
+                                                    infos.add(object);
+                                                    //存储
+                                                    SharedPreferencesUtils.putShareValue(getBaseContext(), "group", gson.toJson(infos));
+                                                    //发消息去刷新会话列表界面
+                                                    RefreshEvent event = new RefreshEvent();
+                                                    event.setCode(0x14);
+                                                    EventBus.getDefault().post(event);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void fail(String msg) {
+                                                Log.d("CMCC", "11fail" + msg);
+                                            }
+
+                                            @Override
+                                            public void connectFail() {
+                                                Log.d("CMCC", "connectFail");
+                                            }
+                                        });
+                            }
+                        } else {
+                            //为空
+                            //去请求群信息
+                            GroupManagerRequest.queryGroupMessage(getBaseContext(),
+                                    getLoginToken(), "", message.getTo(),
+                                    new GroupMessageCallback() {
+                                        @Override
+                                        public void success(String msg, GroupMessageInfo groupMessageInfo) {
+                                            Log.d("CMCC", "222" + msg);
+                                            if (!ObjectUtils.isNull(groupMessageInfo)) {
+                                                GroupMessageObject object = new GroupMessageObject();
+                                                object.setGroupId(groupMessageInfo.getGroupId());
+                                                object.setGroupEaseId(message.getTo());
+                                                object.setGroupName(groupMessageInfo.getGroupName());
+                                                object.setGroupUrl(groupMessageInfo.getGroupUrl());
+                                                //第一次存储
+                                                ArrayList<GroupMessageObject> objects = new ArrayList<>();
+                                                objects.add(object);
+                                                SharedPreferencesUtils.putShareValue(getBaseContext(), "group", gson.toJson(objects));
+
+                                                //发消息去刷新会话列表界面
+                                                RefreshEvent event = new RefreshEvent();
+                                                event.setCode(0x14);
+                                                EventBus.getDefault().post(event);
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void fail(String msg) {
+                                            Log.d("CMCC", "222fail" + msg);
+                                        }
+
+                                        @Override
+                                        public void connectFail() {
+                                            Log.d("CMCC", "connectFail");
+                                        }
+                                    });
+                        }
+                    }
+
                 }
             }
         });
@@ -559,15 +666,15 @@ public class BaseApplication extends Application {
         Intent mainIntent = new Intent(this, MainActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Intent chatIntent = new Intent(this, ChatTestActivity.class);
-        if (message.getChatType()==EMMessage.ChatType.Chat){
+        if (message.getChatType() == EMMessage.ChatType.Chat) {
             chatIntent.putExtra(Constant.EXTRA_USER_ID, message.getFrom());
-        }else {
+        } else {
             chatIntent.putExtra(Constant.EXTRA_USER_ID, message.getTo());
             chatIntent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
         }
 
-        chatIntent.putExtra("nickName", message.getStringAttribute("nickName",""));
-        chatIntent.putExtra("iconUrl", message.getStringAttribute("iconUrl",""));
+        chatIntent.putExtra("nickName", message.getStringAttribute("nickName", ""));
+        chatIntent.putExtra("iconUrl", message.getStringAttribute("iconUrl", ""));
 
         Intent[] intents = {mainIntent, chatIntent};
         PendingIntent pendingIntent = PendingIntent.getActivities(this, 1, intents, PendingIntent.FLAG_UPDATE_CURRENT);
