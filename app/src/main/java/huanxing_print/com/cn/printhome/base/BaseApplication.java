@@ -41,6 +41,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import cn.jpush.android.api.JPushInterface;
@@ -107,6 +109,7 @@ public class BaseApplication extends Application {
     private static BaseApplication mInstance;
     private ArrayList<GroupMessageObject> infos;
     private Gson gson;
+    private ExecutorService service = Executors.newSingleThreadExecutor();
 
     public synchronized static BaseApplication getInstance() {
         return mInstance;
@@ -469,97 +472,103 @@ public class BaseApplication extends Application {
                     gson = new Gson();
                     if (message.getChatType() == EMMessage.ChatType.GroupChat ||
                             message.getChatType() == EMMessage.ChatType.ChatRoom) {
-                        //跟本地群信息对比没有就插入
-                        boolean isTwo = false;
-                        String group = SharedPreferencesUtils.getShareString(getBaseContext(), "group");
-                        Type type = new TypeToken<ArrayList<GroupMessageObject>>() {
-                        }.getType();
-                        if (!ObjectUtils.isNull(group)) {
-                            //不为空解析
-                            infos = gson.fromJson(group, type);
-                            //找到头像和昵称
-                            for (GroupMessageObject info : infos) {
-                                if (info.getGroupEaseId().equals(message.getTo())) {
-                                    isTwo = true;
+                        //放到线程里面去处理
+                        service.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                //跟本地群信息对比没有就插入
+                                boolean isTwo = false;
+                                String group = SharedPreferencesUtils.getShareString(getBaseContext(), "group");
+                                Type type = new TypeToken<ArrayList<GroupMessageObject>>() {
+                                }.getType();
+                                if (!ObjectUtils.isNull(group)) {
+                                    //不为空解析
+                                    infos = gson.fromJson(group, type);
+                                    //找到头像和昵称
+                                    for (GroupMessageObject info : infos) {
+                                        if (info.getGroupEaseId().equals(message.getTo())) {
+                                            isTwo = true;
+                                        }
+                                    }
+                                    //判断有没有找到群头像
+                                    if (!isTwo) {
+                                        //去请求群信息
+                                        GroupManagerRequest.queryGroupMessage(getBaseContext(),
+                                                getLoginToken(), "", message.getTo(),
+                                                new GroupMessageCallback() {
+                                                    @Override
+                                                    public void success(String msg, GroupMessageInfo groupMessageInfo) {
+                                                        Log.d("CMCC", "111" + msg);
+                                                        if (!ObjectUtils.isNull(groupMessageInfo)) {
+                                                            Log.d("CMCC", "groupMessageInfo");
+                                                            GroupMessageObject object = new GroupMessageObject();
+                                                            object.setGroupId(groupMessageInfo.getGroupId());
+                                                            object.setGroupEaseId(message.getTo());
+                                                            object.setGroupName(groupMessageInfo.getGroupName());
+                                                            object.setGroupUrl(groupMessageInfo.getGroupUrl());
+
+                                                            infos.add(object);
+                                                            //存储
+                                                            SharedPreferencesUtils.putShareValue(getBaseContext(), "group", gson.toJson(infos));
+                                                            //发消息去刷新会话列表界面
+                                                            RefreshEvent event = new RefreshEvent();
+                                                            event.setCode(0x14);
+                                                            EventBus.getDefault().post(event);
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void fail(String msg) {
+                                                        Log.d("CMCC", "11fail" + msg);
+                                                    }
+
+                                                    @Override
+                                                    public void connectFail() {
+                                                        Log.d("CMCC", "connectFail");
+                                                    }
+                                                });
+                                    }
+                                } else {
+                                    //为空
+                                    //去请求群信息
+                                    GroupManagerRequest.queryGroupMessage(getBaseContext(),
+                                            getLoginToken(), "", message.getTo(),
+                                            new GroupMessageCallback() {
+                                                @Override
+                                                public void success(String msg, GroupMessageInfo groupMessageInfo) {
+                                                    Log.d("CMCC", "222" + msg);
+                                                    if (!ObjectUtils.isNull(groupMessageInfo)) {
+                                                        GroupMessageObject object = new GroupMessageObject();
+                                                        object.setGroupId(groupMessageInfo.getGroupId());
+                                                        object.setGroupEaseId(message.getTo());
+                                                        object.setGroupName(groupMessageInfo.getGroupName());
+                                                        object.setGroupUrl(groupMessageInfo.getGroupUrl());
+                                                        //第一次存储
+                                                        ArrayList<GroupMessageObject> objects = new ArrayList<>();
+                                                        objects.add(object);
+                                                        SharedPreferencesUtils.putShareValue(getBaseContext(), "group", gson.toJson(objects));
+
+                                                        //发消息去刷新会话列表界面
+                                                        RefreshEvent event = new RefreshEvent();
+                                                        event.setCode(0x14);
+                                                        EventBus.getDefault().post(event);
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void fail(String msg) {
+                                                    Log.d("CMCC", "222fail" + msg);
+                                                }
+
+                                                @Override
+                                                public void connectFail() {
+                                                    Log.d("CMCC", "connectFail");
+                                                }
+                                            });
                                 }
                             }
-                            //判断有没有找到群头像
-                            if (!isTwo) {
-                                //去请求群信息
-                                GroupManagerRequest.queryGroupMessage(getBaseContext(),
-                                        getLoginToken(), "", message.getTo(),
-                                        new GroupMessageCallback() {
-                                            @Override
-                                            public void success(String msg, GroupMessageInfo groupMessageInfo) {
-                                                Log.d("CMCC", "111" + msg);
-                                                if (!ObjectUtils.isNull(groupMessageInfo)) {
-                                                    Log.d("CMCC", "groupMessageInfo");
-                                                    GroupMessageObject object = new GroupMessageObject();
-                                                    object.setGroupId(groupMessageInfo.getGroupId());
-                                                    object.setGroupEaseId(message.getTo());
-                                                    object.setGroupName(groupMessageInfo.getGroupName());
-                                                    object.setGroupUrl(groupMessageInfo.getGroupUrl());
-
-                                                    infos.add(object);
-                                                    //存储
-                                                    SharedPreferencesUtils.putShareValue(getBaseContext(), "group", gson.toJson(infos));
-                                                    //发消息去刷新会话列表界面
-                                                    RefreshEvent event = new RefreshEvent();
-                                                    event.setCode(0x14);
-                                                    EventBus.getDefault().post(event);
-                                                }
-                                            }
-
-                                            @Override
-                                            public void fail(String msg) {
-                                                Log.d("CMCC", "11fail" + msg);
-                                            }
-
-                                            @Override
-                                            public void connectFail() {
-                                                Log.d("CMCC", "connectFail");
-                                            }
-                                        });
-                            }
-                        } else {
-                            //为空
-                            //去请求群信息
-                            GroupManagerRequest.queryGroupMessage(getBaseContext(),
-                                    getLoginToken(), "", message.getTo(),
-                                    new GroupMessageCallback() {
-                                        @Override
-                                        public void success(String msg, GroupMessageInfo groupMessageInfo) {
-                                            Log.d("CMCC", "222" + msg);
-                                            if (!ObjectUtils.isNull(groupMessageInfo)) {
-                                                GroupMessageObject object = new GroupMessageObject();
-                                                object.setGroupId(groupMessageInfo.getGroupId());
-                                                object.setGroupEaseId(message.getTo());
-                                                object.setGroupName(groupMessageInfo.getGroupName());
-                                                object.setGroupUrl(groupMessageInfo.getGroupUrl());
-                                                //第一次存储
-                                                ArrayList<GroupMessageObject> objects = new ArrayList<>();
-                                                objects.add(object);
-                                                SharedPreferencesUtils.putShareValue(getBaseContext(), "group", gson.toJson(objects));
-
-                                                //发消息去刷新会话列表界面
-                                                RefreshEvent event = new RefreshEvent();
-                                                event.setCode(0x14);
-                                                EventBus.getDefault().post(event);
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void fail(String msg) {
-                                            Log.d("CMCC", "222fail" + msg);
-                                        }
-
-                                        @Override
-                                        public void connectFail() {
-                                            Log.d("CMCC", "connectFail");
-                                        }
-                                    });
-                        }
+                        });
                     }
 
                 }
