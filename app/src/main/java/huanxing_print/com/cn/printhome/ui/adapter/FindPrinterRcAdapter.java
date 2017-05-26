@@ -1,5 +1,7 @@
 package huanxing_print.com.cn.printhome.ui.adapter;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +26,12 @@ import huanxing_print.com.cn.printhome.util.StringUtil;
 
 public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapter.ViewHolder> {
 
+    private Context context;
+
     private List<AroundPrinterResp.Printer> mPrinterList;
 
-    public FindPrinterRcAdapter(List<AroundPrinterResp.Printer> printerList) {
+    public FindPrinterRcAdapter(List<AroundPrinterResp.Printer> printerList, Context context) {
+        this.context = context;
         this.mPrinterList = printerList;
     }
 
@@ -126,12 +131,25 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
         }
         viewHolder.disTv.setText(StringUtil.getDistance(printer.getDistance()));
         Logger.i(StringUtil.getDistance(printer.getDistance()));
+        if (isCommentEnpty(printer)) {
+            viewHolder.commentTv.setTextColor(ContextCompat.getColor(context, R.color.text_gray));
+        } else {
+            viewHolder.commentTv.setTextColor(ContextCompat.getColor(context, R.color.text_black));
+        }
         viewHolder.commentTv.setText("评论 " + printer.getRemarkCount());
         viewHolder.printCountTv.setText("已打印 " + printer.getPageCount());
         if (PrintUtil.PRINTER_TYPE_COLOR.equals(printer.getPrinterType())) {
             viewHolder.typeImg.setImageResource(R.drawable.ic_colorized);
         } else {
             viewHolder.typeImg.setImageResource(R.drawable.ic_black);
+        }
+    }
+
+    public boolean isCommentEnpty(AroundPrinterResp.Printer printer) {
+        if ("0".equals(printer.getRemarkCount())) {
+            return true;
+        } else {
+            return false;
         }
     }
 
