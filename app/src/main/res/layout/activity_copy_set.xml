@@ -495,7 +495,7 @@
                         android:id="@+id/tv_qun"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="共印群"
+                        android:text="群支付"
                         android:textColor="@color/black2"
                         android:textSize="16sp"/>
                 </LinearLayout>
