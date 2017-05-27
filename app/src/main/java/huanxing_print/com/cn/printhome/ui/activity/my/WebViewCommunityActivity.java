@@ -104,11 +104,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         s.setDomStorageEnabled(true);
         webview.requestFocus();
         webview.setScrollBarStyle(0);
-        if (state) {
-            webview.addJavascriptInterface(new JsCallJava(getSelfActivity()), "go");
-        } else {
-            webview.addJavascriptInterface(new JsCallJava(getSelfActivity()), "pay");
-        }
+        webview.addJavascriptInterface(new JsCallJava(getSelfActivity()), "pay");
 
         synCookies(getSelfActivity(), HttpUrl.getInstance().getHtmUrl());
         webview.loadUrl(url);
@@ -326,21 +322,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         public void onReceive(Context context, Intent intent) {
             //得到广播中得到的数据，并显示出来
             String url = intent.getStringExtra("url");
-            state = intent.getBooleanExtra("state", false);
-            if (state) {
-//                Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
-//
-//                Intent goIntent = new Intent(getSelfActivity(), WebViewGoActivity.class);
-//                goIntent.putExtra("webUrl", url);
-//                startActivity(goIntent);
-                webview.loadUrl(url);
-            } else {
-                webview.loadUrl(url);
-//                Toast.makeText(context, "支付失败", Toast.LENGTH_SHORT).show();
-//                Intent goIntent = new Intent(getSelfActivity(), WebViewGoActivity.class);
-//                goIntent.putExtra("webUrl", url);
-//                startActivity(goIntent);
-            }
+            webview.loadUrl(url);
         }
     }
 }
