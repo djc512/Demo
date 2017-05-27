@@ -84,18 +84,18 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 switch (resp.errCode) {
                     case 0:
                         String successUrl = "http://print.inkin.cc/src/success.html";
-                        send(successUrl, true);
+                        send(successUrl);
                         Toast.makeText(getSelfActivity(), "支付成功", Toast.LENGTH_SHORT).show();
                         break;
                     case -1:
                         Toast.makeText(getSelfActivity(), "支付失败", Toast.LENGTH_SHORT).show();
-                        String faileUrl = "http://print.inkin.cc/src/payFailed.html";
-                        send(faileUrl, false);
+                        String successUrl1 = "http://print.inkin.cc/src/success.html";
+                        send(successUrl1);
                         break;
                     case -2:
                         Toast.makeText(getSelfActivity(), "支付失败", Toast.LENGTH_SHORT).show();
                         String faileUrl1 = "http://print.inkin.cc/src/payFailed.html";
-                        send(faileUrl1, false);
+                        send(faileUrl1);
                         break;
                 }
             }
@@ -108,11 +108,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
      *
      * @param
      */
-    private void send(String url, boolean state) {
+    private void send(String url) {
         Intent intentsave = new Intent();
         intentsave.setAction("url");
         intentsave.putExtra("url", url);
-        intentsave.putExtra("state", state);
         sendBroadcast(intentsave);
     }
 }

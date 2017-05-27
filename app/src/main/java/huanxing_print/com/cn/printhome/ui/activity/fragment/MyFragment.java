@@ -216,13 +216,13 @@ public class MyFragment extends BaseFragment implements OnClickListener {
             case R.id.ll_station://布点建议
                 Intent stationIntent = new Intent(getActivity(), WebViewSuggestActivity.class);
                 stationIntent.putExtra("titleName", "布点建议");
-                stationIntent.putExtra("webUrl", HttpUrl.myLay);
+                stationIntent.putExtra("webUrl", HttpUrl.getInstance().getHtmUrl()+HttpUrl.myLay);
                 startActivity(stationIntent);
                 break;
             case R.id.ll_join://打印点加盟
                 Intent joinIntent = new Intent(getActivity(), WebViewCommunityActivity.class);
                 joinIntent.putExtra("titleName", "打印点加盟");
-                joinIntent.putExtra("webUrl", HttpUrl.myEarn);
+                joinIntent.putExtra("webUrl", HttpUrl.getInstance().getHtmUrl()+HttpUrl.myEarn);
                 startActivity(joinIntent);
                 break;
             case R.id.ll_my_contact:
@@ -243,7 +243,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
             case R.id.ll_my_community:
                 //startActivity(new Intent(getActivity(), CommunityListActivity.class));
                 Intent communityIntent = new Intent(getActivity(), WebViewCommunityActivity.class);
-                communityIntent.putExtra("webUrl", HttpUrl.community);
+                communityIntent.putExtra("webUrl", HttpUrl.getInstance().getHtmUrl()+HttpUrl.community);
                 startActivity(communityIntent);
                 break;
 //            case R.id.ll_my_set:

@@ -24,7 +24,7 @@ import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentG
 import huanxing_print.com.cn.printhome.ui.activity.fragment.fragcomment.CommentMediumFragment;
 import huanxing_print.com.cn.printhome.ui.adapter.ViewPagerAdapter;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 
 /**
@@ -57,7 +57,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     private CommentGoodFragment goodFragment;
     private CommentMediumFragment mediumFragment;
     private CommentBadFragment badFragment;
-    private String printno;
+    private String printno,name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,7 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
         setContentView(R.layout.activity_comment_list);
         ctx = this;
         printno = getIntent().getExtras().getString("printer_id");
+        name= getIntent().getExtras().getString("printer_name");
         initView();
         initData();
         initListener();
@@ -90,6 +91,12 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     }
 
     private void initData() {
+        if (!ObjectUtils.isNull(name)){
+            tv_address.setText(name);
+        }
+        if (!ObjectUtils.isNull(printno)){
+            tv_printno.setText("编号:" + printno);
+        }
         int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         tv_all.measure(w, h);
@@ -147,13 +154,11 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
             public void success(CommentListBean bean) {
                 DialogUtils.closeProgressDialog();
                 List<CommentListBean.DetailBean> detail = bean.getDetail();
-                if (detail == null || detail.isEmpty()) {
-                    ShowUtil.showToast("没有评论");
-                    return;
+                if(null!=detail) {
+                    CommentListBean.DetailBean detailBean = detail.get(0);
+                    tv_address.setText(detailBean.getPrinterName());
+                    tv_printno.setText("编号:" + detailBean.getPrinterNo());
                 }
-                CommentListBean.DetailBean detailBean = detail.get(0);
-                tv_address.setText(detailBean.getPrinterName());
-                tv_printno.setText("编号:" + detailBean.getPrinterNo());
             }
 
             @Override

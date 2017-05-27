@@ -138,7 +138,7 @@ public class AccountRecordActivity extends BaseActivity implements View.OnClickL
                 if ("0.00".equals(s)) {
                     tv_receipt.setTextColor(getResources().getColor(R.color.gray8));
                 } else {
-                    tv_receipt.setTextColor(getResources().getColor(R.color.yellow2));
+                    tv_receipt.setTextColor(getResources().getColor(R.color.yellow3));
                 }
             }
 
