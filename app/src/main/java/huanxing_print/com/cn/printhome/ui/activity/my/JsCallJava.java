@@ -2,7 +2,6 @@ package huanxing_print.com.cn.printhome.ui.activity.my;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -20,7 +19,6 @@ import huanxing_print.com.cn.printhome.base.BaseApplication;
 import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
 import huanxing_print.com.cn.printhome.net.callback.my.WeChatCallBack;
 import huanxing_print.com.cn.printhome.net.request.my.Go2PayRequest;
-import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.util.WeiXinUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
@@ -129,6 +127,6 @@ public class JsCallJava {
     @JavascriptInterface
     public void go(){
         Toast.makeText(ctx, "go", Toast.LENGTH_SHORT).show();
-        ctx.startActivity(new Intent(ctx, MainActivity.class));
+//        ctx.startActivity(new Intent(ctx, MainActivity.class));
     }
 }

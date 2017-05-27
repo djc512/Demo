@@ -24,7 +24,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -36,8 +35,6 @@ import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-
-import static com.baidu.location.b.k.cl;
 
 public class WebViewCommunityActivity extends BaseActivity implements OnClickListener {
     private WebView webview;
@@ -54,7 +51,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
      */
     private GoogleApiClient client;
     private ReceiveBroadCast receiveBroadCast;
-    private boolean state;
+    private boolean state = true;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -103,9 +100,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         //s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
         s.setDomStorageEnabled(true);
         webview.requestFocus();
-        webview.setScrollBarStyle(0);
         webview.addJavascriptInterface(new JsCallJava(getSelfActivity()), "pay");
-
         synCookies(getSelfActivity(), HttpUrl.getInstance().getHtmUrl());
         webview.loadUrl(url);
         webview.setWebViewClient(new WebViewClient() {
