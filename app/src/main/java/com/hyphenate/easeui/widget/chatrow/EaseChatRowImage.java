@@ -45,11 +45,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.CreateGroupChatActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.PreViewUtil;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtils;
 import huanxing_print.com.cn.printhome.util.webserver.ChatFileType;
 import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
@@ -71,6 +73,8 @@ public class EaseChatRowImage extends EaseChatRowFile {
     private ProgressDialog pd;
     private String tempPath;
     private String iosFilePath;
+    private String fileReName;//修改之后的文件名称
+    private String fileName;//文件名字
 
     public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -115,6 +119,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
         EMImageMessageBody body = (EMImageMessageBody) message.getBody();
         localFilePath = body.getLocalUrl();
+        fileName = body.getFileName();
         File temp = new File(localFilePath);
         iosFilePath = temp.getParent() + "/temp_" + temp.getName() + ".jpg";
         Log.d("CMCC", "localFilePath:" + localFilePath);
@@ -395,6 +400,21 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
                         if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
                             //不理会
+                            if (message.getChatType() == ChatType.GroupChat ||
+                                    message.getChatType() == ChatType.ChatRoom) {
+                                //文件路径 个人环信号/群环信号/
+                                String easemobIdPersonal = SharedPreferencesUtils
+                                        .getShareString(context, "easemobId");
+                                fileReName = ConFig.FILE_SAVE + File.separator + easemobIdPersonal +
+                                        File.separator + message.getTo() + File.separator + fileName;
+                                Log.d("CMCC", "fileReName:" + fileReName);
+                                service.submit(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        copyFile(localFilePath, fileReName, false);
+                                    }
+                                });
+                            }
                         } else {
                             iosFilePath = temp.getParent() + "/temp_" + temp.getName() + ".jpg";
                             //复制文件
@@ -402,6 +422,16 @@ public class EaseChatRowImage extends EaseChatRowFile {
                                 @Override
                                 public void run() {
                                     copyFile(localFilePath, iosFilePath, true);
+                                    if (message.getChatType() == ChatType.GroupChat ||
+                                            message.getChatType() == ChatType.ChatRoom) {
+                                        //文件路径 个人环信号/群环信号/
+                                        String easemobIdPersonal = SharedPreferencesUtils
+                                                .getShareString(context, "easemobId");
+                                        fileReName = ConFig.FILE_SAVE + File.separator + easemobIdPersonal +
+                                                File.separator + message.getTo() + File.separator + temp.getName() + ".jpg";
+                                        Log.d("CMCC", "fileReName:" + fileReName);
+                                        copyFile(iosFilePath, fileReName, false);
+                                    }
                                 }
                             });
                         }
@@ -532,6 +562,20 @@ public class EaseChatRowImage extends EaseChatRowFile {
 
                         if (ChatFileType.isImage(context, Uri.fromFile(temp))) {
                             //不理会
+                            if (message.getChatType() == ChatType.GroupChat ||
+                                    message.getChatType() == ChatType.ChatRoom) {
+                                //文件路径 个人环信号/群环信号/
+                                String easemobIdPersonal = SharedPreferencesUtils
+                                        .getShareString(context, "easemobId");
+                                fileReName = ConFig.FILE_SAVE + File.separator + easemobIdPersonal +
+                                        File.separator + message.getTo() + File.separator + fileName;
+                                service.submit(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        copyFile(localFilePath, fileReName, false);
+                                    }
+                                });
+                            }
                         } else {
                             iosFilePath = temp.getParent() + "/temp_" + temp.getName() + ".jpg";
                             //复制文件
@@ -539,6 +583,16 @@ public class EaseChatRowImage extends EaseChatRowFile {
                                 @Override
                                 public void run() {
                                     copyFile(localFilePath, iosFilePath, true);
+                                    if (message.getChatType() == ChatType.GroupChat ||
+                                            message.getChatType() == ChatType.ChatRoom) {
+                                        //文件路径 个人环信号/群环信号/
+                                        String easemobIdPersonal = SharedPreferencesUtils
+                                                .getShareString(context, "easemobId");
+                                        fileReName = ConFig.FILE_SAVE + File.separator + easemobIdPersonal +
+                                                File.separator + message.getTo() + File.separator + temp.getName() + ".jpg";
+                                        Log.d("CMCC", "fileReName:" + fileReName);
+                                        copyFile(iosFilePath, fileReName, false);
+                                    }
                                 }
                             });
                         }
@@ -633,7 +687,7 @@ public class EaseChatRowImage extends EaseChatRowFile {
     /*
     *缓冲输入输出流方式复制文件
     */
-    public static boolean copyFile(String srcFileName, String destFileName, boolean overlay) {
+    public boolean copyFile(String srcFileName, String destFileName, boolean overlay) {
         File srcFile = new File(srcFileName); //根据一个路径得到File对象
         //判断源文件是否存在
         if (!srcFile.exists()) {

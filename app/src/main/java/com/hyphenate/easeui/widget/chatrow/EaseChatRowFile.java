@@ -1,7 +1,11 @@
 package com.hyphenate.easeui.widget.chatrow;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -16,22 +20,32 @@ import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.chat.EMNormalFileMessageBody;
-import com.hyphenate.easeui.ui.EaseShowNormalFileActivity;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.TextFormater;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.ui.activity.chat.CreateGroupChatActivity;
 import huanxing_print.com.cn.printhome.util.CircleTransform;
 import huanxing_print.com.cn.printhome.util.FileType;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.PreViewUtil;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.ToastUtils;
 import huanxing_print.com.cn.printhome.view.popupwindow.PopupList;
@@ -57,6 +71,9 @@ public class EaseChatRowFile extends EaseChatRow {
     private float mRawX;
     private float mRawY;
     private String fileReName;//修改之后的文件名称
+    private String fileName;//文件名字
+    private ExecutorService service = Executors.newSingleThreadExecutor();
+    private ProgressDialog pd;
 
     public EaseChatRowFile(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
@@ -102,13 +119,14 @@ public class EaseChatRowFile extends EaseChatRow {
         popupList = new PopupList(context);
 
         fileMessageBody = (EMNormalFileMessageBody) message.getBody();
-        String filePath = fileMessageBody.getLocalUrl();
-        localFilePath = filePath;
+        localFilePath = fileMessageBody.getLocalUrl();
+        file = new File(localFilePath);
+        fileName = fileMessageBody.getFileName();
         fileNameView.setText(fileMessageBody.getFileName());
 
         if (message.getType() == EMMessage.Type.FILE) {
             //设置不同文件类型的图标
-            String fileType = getExtensionName(filePath);
+            String fileType = getExtensionName(localFilePath);
             if (!ObjectUtils.isNull(fileType)) {
                 switch (fileType) {
                     case "pdf":
@@ -134,7 +152,7 @@ public class EaseChatRowFile extends EaseChatRow {
         }
         fileSizeView.setText(TextFormater.getDataSize(fileMessageBody.getFileSize()));
         if (message.direct() == EMMessage.Direct.RECEIVE) {
-            File file = new File(filePath);
+            File file = new File(localFilePath);
             if (file.exists()) {
                 fileStateView.setText(R.string.Have_downloaded);
             } else {
@@ -243,7 +261,8 @@ public class EaseChatRowFile extends EaseChatRow {
             }
         } else {
             // download the file
-            context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+            //context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+            downLoadFile(message);
         }
         if (message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked() && message.getChatType() == ChatType.Chat) {
             try {
@@ -277,8 +296,9 @@ public class EaseChatRowFile extends EaseChatRow {
                             PreViewUtil.preview(context, localFilePath, false);
                         } else {
                             // download the file
-                            ToastUtils.showToast(context, "下载中...");
-                            context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+                            //ToastUtils.showToast(context, "下载中...");
+                            //context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+                            downLoadFile(message);
                         }
                         if (message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked() && message.getChatType() == ChatType.Chat) {
                             try {
@@ -299,7 +319,8 @@ public class EaseChatRowFile extends EaseChatRow {
                             intent.putExtra("fileName", body.getFileName());
                             context.startActivity(intent);
                         } else {
-                            context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+                            //context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+                            downLoadFile(message);
                             if (message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked() && message.getChatType() == ChatType.Chat) {
                                 try {
                                     EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
@@ -317,7 +338,8 @@ public class EaseChatRowFile extends EaseChatRow {
                             ToastUtils.showToast(context, "保存成功!");
                         } else {
                             // download the file
-                            context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+                            //context.startActivity(new Intent(context, EaseShowNormalFileActivity.class).putExtra("msg", message));
+                            downLoadFile(message);
                         }
                         if (message.direct() == EMMessage.Direct.RECEIVE && !message.isAcked() && message.getChatType() == ChatType.Chat) {
                             try {
@@ -358,5 +380,178 @@ public class EaseChatRowFile extends EaseChatRow {
                 }
             }
         });
+    }
+
+    /*
+  *缓冲输入输出流方式复制文件
+  */
+    public boolean copyFile(String srcFileName, String destFileName, boolean overlay) {
+        File srcFile = new File(srcFileName); //根据一个路径得到File对象
+        //判断源文件是否存在
+        if (!srcFile.exists()) {
+            try {
+                throw new Exception("源文件：" + srcFileName + "不存在！");
+            } catch (Exception e) {
+                e.printStackTrace();//将异常内容存到日志文件中
+            }
+            return false;
+        } else if (!srcFile.isFile()) {//判断是不是一个文件
+            try {
+                throw new Exception("复制文件失败，源文件：" + srcFileName + "不是一个文件！");
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+            return false;
+
+        }
+        //判断目标文件是否存在
+        File destFile = new File(destFileName);//目标文件对象destFile
+        if (destFile.exists()) {
+            //生成新的文件名称
+            String lastPath = FileUtils.getFileName(destFileName);
+            destFile = new File(lastPath);
+        } else {
+            //如果目标文件所在目录不存在，则创建 目录
+            if (!destFile.getParentFile().exists()) {
+                //目标文件所在目录不存在
+                //mkdirs()：创建此抽象路径名指定的目录，包括所有必需但不存在的父目录
+                if (!destFile.getParentFile().mkdirs()) {
+                    //复制文件失败：创建目标文件所在目录失败
+                    return false;
+                }
+            }
+        }
+
+        //复制文件
+        int byteread = 0;//读取的字节数
+        InputStream in = null;
+        OutputStream out = null;
+
+        try {
+            in = new FileInputStream(srcFile);
+            out = new FileOutputStream(destFile);
+            byte[] buffer = new byte[1024];
+                /*
+                 * 方法说明：
+                 * ①：将指定 byte 数组中从偏移量 off 开始的 len 个字节写入此输出流。
+                 *      write(byte[] b, int off, int len)
+                 *          b - 数据
+                 *          off - 数据中的起始偏移量。
+                 *          len - 要写入的字节数。
+                 * ②：in.read(buffer))!=-1,是从流buffer中读取一个字节，当流结束的时候read返回-1
+                 */
+
+            while ((byteread = in.read(buffer)) != -1) {
+                out.write(buffer, 0, byteread);
+            }
+            return true;
+        } catch (FileNotFoundException e) {
+
+            return false;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    /**
+     * description: 下载文件
+     * author LSW
+     * date 2017/5/26 0:27
+     * update 2017/5/26
+     */
+    public void downLoadFile(final EMMessage emMessage) {
+
+        String str1 = "下载文件:0%";
+        pd = new ProgressDialog(context);
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setMessage(str1);
+        pd.show();
+
+        if (!(message.getBody() instanceof EMFileMessageBody)) {
+            ToastUtil.doToast(context, "不支持的消息类型");
+            return;
+        }
+        final File file = new File(((EMFileMessageBody) message.getBody())
+                .getLocalUrl());
+
+        message.setMessageStatusCallback(new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                //TODO 已经下载了文件
+                //自己拼凑新的文件名称
+
+                if (emMessage.getChatType() == ChatType.GroupChat ||
+                        emMessage.getChatType() == ChatType.ChatRoom) {
+                    if (!ObjectUtils.isNull(file) && file.exists()) {
+                        //文件路径 个人环信号/群环信号/
+                        String easemobIdPersonal = SharedPreferencesUtils
+                                .getShareString(context, "easemobId");
+                        fileReName = ConFig.FILE_SAVE + File.separator + easemobIdPersonal +
+                                File.separator + emMessage.getTo() + File.separator + fileName;
+                        Log.d("CMCC", "fileReName:" + fileReName);
+                        //复制文件
+                        service.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                copyFile(localFilePath, fileReName, false);
+                            }
+                        });
+                    }
+                }
+
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (pd != null) {
+                            pd.dismiss();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int code, String error) {
+                if (file != null && file.exists() && file.isFile()) {
+                    file.delete();
+                }
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        pd.dismiss();
+                        ToastUtil.doToast(context, "下载失败,请重试!");
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(final int progress, String status) {
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String str2 = "下载文件:";
+                        pd.setMessage(str2 + progress + "%");
+                    }
+                });
+            }
+        });
+        EMClient.getInstance().chatManager().downloadAttachment(message);
     }
 }
