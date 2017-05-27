@@ -153,22 +153,26 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
             @Override
             public void success(CommentListBean bean) {
                 DialogUtils.closeProgressDialog();
-                List<CommentListBean.DetailBean> detail = bean.getDetail();
-                if(null!=detail) {
-                    CommentListBean.DetailBean detailBean = detail.get(0);
-                    tv_address.setText(detailBean.getPrinterName());
-                    tv_printno.setText("编号:" + detailBean.getPrinterNo());
+                if (null!=bean) {
+                    List<CommentListBean.DetailBean> detail = bean.getDetail();
+                    if (null != detail&&detail.size()>0) {
+                        CommentListBean.DetailBean detailBean = detail.get(0);
+                        if (null != detailBean) {
+                            tv_address.setText(detailBean.getPrinterName() + "");
+                            tv_printno.setText("编号:" + detailBean.getPrinterNo());
+                        }
+                    }
                 }
             }
 
             @Override
             public void fail(String msg) {
-
+                DialogUtils.closeProgressDialog();
             }
 
             @Override
             public void connectFail() {
-
+                DialogUtils.closeProgressDialog();
             }
         });
     }

@@ -100,6 +100,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         //s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
         s.setDomStorageEnabled(true);
         webview.requestFocus();
+        webview.setScrollBarStyle(0);
         webview.addJavascriptInterface(new JsCallJava(getSelfActivity()), "pay");
         synCookies(getSelfActivity(), HttpUrl.getInstance().getHtmUrl());
         webview.loadUrl(url);

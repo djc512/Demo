@@ -15,7 +15,6 @@ import com.andview.refreshview.recyclerview.BaseRecyclerAdapter;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.AroundPrinterResp;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
@@ -128,14 +127,14 @@ public class FindPrinterRcAdapter extends BaseRecyclerAdapter<FindPrinterRcAdapt
         if (!ObjectUtils.isNull(printer.getName())) {
             viewHolder.nameTv.setText(printer.getName());
         }
-        if (!ObjectUtils.isNull(printer.getAddress())) {
+        if (ObjectUtils.isNull(printer.getAddress())) {
             viewHolder.addressTv.setText("无");
         } else {
             viewHolder.addressTv.setText(printer.getAddress()+"");
         }
         viewHolder.disTv.setText(StringUtil.getDistance(printer.getDistance())+"");
 
-        Logger.i(StringUtil.getDistance(printer.getDistance()));
+        //Logger.i(StringUtil.getDistance(printer.getDistance()));
         if (isCommentEnpty(printer)) {
             viewHolder.commentTv.setTextColor(ContextCompat.getColor(context, R.color.text_gray));
         } else {
