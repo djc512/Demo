@@ -41,8 +41,8 @@ public class CommunityListActivity extends FragmentActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_community);
+        CommonUtils.initSystemBar(this);
         ctx = this;
         initView();
         initData();

@@ -19,7 +19,7 @@ public class DebitListDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_debitdetail);
+        CommonUtils.initSystemBar(this);
     }
 }

@@ -55,8 +55,8 @@ public class OrderDetailActivity1 extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_order_detail1);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

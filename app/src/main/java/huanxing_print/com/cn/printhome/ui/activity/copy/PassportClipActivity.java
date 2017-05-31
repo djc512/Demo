@@ -52,8 +52,8 @@ public class PassportClipActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_passportclip);
+        CommonUtils.initSystemBar(this);
         ctx = this;
         saveUtil = new PicSaveUtil(ctx);
         initView();

@@ -62,8 +62,8 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_hukouclip);
+        CommonUtils.initSystemBar(this);
         saveUtil = new PicSaveUtil(ctx);
         initView();
         initData();

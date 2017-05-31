@@ -35,8 +35,8 @@ public class ClipeImageActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_clip_image);
+        CommonUtils.initSystemBar(this);
         initView();
         setListener();
     }

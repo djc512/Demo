@@ -33,9 +33,8 @@ public class SearchAddResultActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_search_add_result);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

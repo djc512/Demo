@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
  * Created by Administrator on 2017/5/5 0005.
@@ -36,8 +35,8 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_approval_home);
+        CommonUtils.initSystemBar(this);
         //EventBus.getDefault().register(this);
         // 注册广播
         IntentFilter intentFilter = new IntentFilter();

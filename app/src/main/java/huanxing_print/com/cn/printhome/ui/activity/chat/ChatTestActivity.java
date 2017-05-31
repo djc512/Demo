@@ -168,9 +168,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 改变状态栏的颜色使其与APP风格一体化
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_chat_test);
-
+        CommonUtils.initSystemBar(this);
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
         //聊天类型
         chatType = getIntent().getIntExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);

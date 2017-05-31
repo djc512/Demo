@@ -35,8 +35,8 @@ public class MyContactActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activty_user_contact);
+        CommonUtils.initSystemBar(this);
         initView();
         setListener();
     }

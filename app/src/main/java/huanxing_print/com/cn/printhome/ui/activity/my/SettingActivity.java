@@ -47,8 +47,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_user_setting);
+        CommonUtils.initSystemBar(this);
         initView();
         setListener();
     }

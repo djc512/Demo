@@ -34,8 +34,8 @@ public class SuggestActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_user_suggest);
+        CommonUtils.initSystemBar(this);
         initView();
         setListener();
     }

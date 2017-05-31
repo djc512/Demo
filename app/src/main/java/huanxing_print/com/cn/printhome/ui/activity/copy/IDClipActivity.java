@@ -67,8 +67,8 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_idclip);
+        CommonUtils.initSystemBar(this);
         saveUtil = new PicSaveUtil(ctx);
         initView();
         initData();

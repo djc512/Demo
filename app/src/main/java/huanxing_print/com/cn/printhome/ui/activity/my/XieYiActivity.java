@@ -25,8 +25,8 @@ public class XieYiActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_set_xieyi);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

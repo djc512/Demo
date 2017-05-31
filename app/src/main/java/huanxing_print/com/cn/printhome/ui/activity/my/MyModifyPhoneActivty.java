@@ -47,8 +47,8 @@ public class MyModifyPhoneActivty extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_useinfo_midifyphone);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();
