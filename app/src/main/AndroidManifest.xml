@@ -105,27 +105,32 @@
         <!-- 引导页 -->
         <activity
             android:name=".ui.activity.welcome.GuideActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 登录页 -->
         <activity
             android:name=".ui.activity.login.LoginActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 忘记密码 -->
         <activity
             android:name=".ui.activity.login.ForgetPasswodActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 修改密码 -->
         <activity
             android:name=".ui.activity.login.ModifyPassWordActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 注册 -->
         <activity
             android:name=".ui.activity.login.RegisterActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 主页 -->
         <activity
             android:name=".ui.activity.main.MainActivity"
@@ -216,31 +221,38 @@
         <!-- 充值界面 -->
         <activity
             android:name=".ui.activity.my.AccountActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 明细界面 -->
         <activity
             android:name=".ui.activity.my.MingXiActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 打印详情界面 -->
         <activity
             android:name=".ui.activity.my.DaYinActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 操作说明 -->
         <activity
             android:name=".ui.activity.print.OperatingInstructionsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 联系我们界面 -->
         <activity
             android:name=".ui.activity.my.MyContactActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 设置界面 -->
         <activity
             android:name=".ui.activity.my.SettingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 设置界面 -->
         <activity
             android:name=".ui.activity.my.SetDefaultPrinterActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 建议界面 -->
         <activity
             android:name=".ui.activity.my.SuggestActivity"
@@ -248,89 +260,109 @@
         <!-- 分享界面 -->
         <activity
             android:name=".ui.activity.my.ShareActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 通知界面 -->
         <activity
             android:name=".ui.activity.my.NoticeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 通知列表界面 -->
         <activity
             android:name=".ui.activity.my.NoticeListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 我的界面 -->
         <activity
             android:name=".ui.activity.my.MyActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 裁剪界面 -->
         <activity
             android:name=".ui.activity.my.ClipeImageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 修改昵称界面 -->
         <activity
             android:name=".ui.activity.my.MyModifyNameActivty"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 印家社区 -->
         <activity
             android:name=".ui.activity.my.WebViewCommunityActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- 布点建议 -->
         <activity
             android:name=".ui.activity.my.WebViewSuggestActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 布点建议 -->
         <activity
             android:name=".ui.activity.my.WebViewGoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <!-- 我的设置里的微信号修改 -->
         <activity
             android:name=".ui.activity.my.MyModifyPhoneActivty"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 我的设置里的微信号修改 -->
         <activity
             android:name=".ui.activity.my.MyModifyUniqueIdActivty"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 我的设置里的印家号修改 -->
         <activity
             android:name=".ui.activity.my.MyModifyWeixinActivty"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 打印协议 -->
         <activity
             android:name=".ui.activity.my.XieYiActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 充值记录 -->
         <activity
             android:name=".ui.activity.my.AccountRecordActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 发票页面 -->
         <!-- 发票详情页面 -->
         <activity
             android:name=".ui.activity.my.BillDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 充值界面 -->
         <activity
             android:name=".ui.activity.my.PayActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 订单详情界面 -->
         <activity
             android:name=".ui.activity.my.OrderDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 我的社区 -->
         <activity
             android:name=".ui.activity.my.CommunityListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 支付宝相关 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" />
+            android:screenOrientation="behind"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" />
+            android:screenOrientation="behind"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <!-- 微信支付 -->
         <activity
@@ -341,10 +373,12 @@
         <!-- 开发票列表界面 -->
         <activity
             android:name=".ui.activity.my.DebitListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.my.ReceiptNewActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <service
             android:name=".util.webserver.WebServer"
@@ -357,38 +391,45 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:launchMode="singleTask"
-            android:screenOrientation="behind" />
+            android:screenOrientation="behind"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 文件矫正 -->
         <activity
             android:name=".ui.activity.copy.PreviewActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" />
+            android:screenOrientation="behind"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 身份证矫正页面 -->
         <activity
             android:name=".ui.activity.copy.IDPreviewActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 户口本矫正页面 -->
         <activity
             android:name=".ui.activity.copy.HuKouPreviewActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 身份证拼接界面 -->
         <activity
             android:name=".ui.activity.copy.IDClipActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 户口拼接界面 -->
         <activity
             android:name=".ui.activity.copy.HuKouClipActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 护照拼接界面 -->
         <activity
             android:name=".ui.activity.copy.PassportClipActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 复印设置界面 -->
         <activity
             android:name=".ui.activity.copy.CopySettingActivity"
@@ -399,16 +440,19 @@
         <activity
             android:name=".ui.activity.approval.ApprovalActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 发表评论界面 -->
         <activity
             android:name=".ui.activity.copy.CommentActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 评论列表界面 -->
         <activity
             android:name=".ui.activity.copy.CommentListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 上传图片 -->
         <activity
             android:name=".ui.activity.copy.PhotoPickerActivity"
@@ -416,7 +460,8 @@
         <activity
             android:name=".ui.activity.copy.PreviewPhotoActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 联系人模块 -->
         <!-- 添加联系人 -->
         <activity
@@ -470,16 +515,19 @@
         <!-- 转让群主 -->
         <activity
             android:name=".ui.activity.contact.GroupOwnerTransferActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 修改群昵称 -->
         <activity
             android:name=".ui.activity.contact.ModifyQunNameActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 群聊天文件 -->
         <activity
             android:name=".ui.activity.contact.ContactFileActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 创建群组 -->
         <activity
             android:name=".ui.activity.contact.CreateGroup"
@@ -491,60 +539,73 @@
         <activity
             android:name=".ui.activity.contact.GroupSettingActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <!-- 群设置 -->
         <activity
             android:name=".ui.activity.contact.GroupMemberAddActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 图片预览界面 -->
         <activity
             android:name=".ui.activity.approval.PhotoViewActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 采购审批界面 -->
         <activity
             android:name=".ui.activity.approval.ApprovalBuyActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 审批界面 -->
         <activity
             android:name=".ui.activity.approval.ApprovalHomeActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 创建群组 -->
         <activity
             android:name=".ui.activity.approval.ApprovalBuyAddOrRemoveActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <!-- 新建采购审批 -->
         <activity
             android:name=".ui.activity.approval.AddPurchaseApprovalActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 新建采购审批 -->
         <activity
             android:name=".ui.activity.approval.AddPurchaseApprovalActivity2"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 新建报销审批 -->
         <activity
             android:name=".ui.activity.approval.AddExpenseApprovalActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 新建报销审批 -->
         <activity
             android:name=".ui.activity.approval.AddExpenseApprovalActivity2"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.approval.MySponsorListActivity" />
-        <activity android:name=".ui.activity.approval.CopyToMeActivity" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".ui.activity.approval.MySponsorListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".ui.activity.approval.CopyToMeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 新建采购审批 -->
         <activity
             android:name=".ui.activity.approval.ApprovalApplyDetailsActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <!-- 设置环信应用的AppKey -->
 <!--        <meta-data
@@ -576,19 +637,22 @@
         <activity
             android:name=".ui.activity.chat.ChatActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <!--  -->
         <activity
             android:name=".ui.activity.approval.VoucherPreviewActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <!-- 选择审批人、抄送人 -->
         <activity
             android:name=".ui.activity.approval.ChoosePeopleOfAddressActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 审批选择群组 -->
         <activity
             android:name=".ui.activity.approval.ChooseGroupActivity"
@@ -598,13 +662,16 @@
         <!-- 红包详情页 -->
         <activity
             android:name=".ui.activity.yinxin.RedPackageRecordActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.chat.SendRedEnvelopesSingleChatActivity" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".ui.activity.chat.SendRedEnvelopesSingleChatActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
-        <activity android:name=".ui.activity.chat.SendRedEnvelopesGroupChatActivity" />
+        <activity android:name=".ui.activity.chat.SendRedEnvelopesGroupChatActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -619,20 +686,24 @@
         <!-- 聊天界面 -->
         <activity
             android:name=".ui.activity.chat.ChatTestActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!-- 查看图片详情界面 -->
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.activity.chat.ChatApprovalActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowNormalFileActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <!-- 7.0调用相机崩溃 -->
         <provider

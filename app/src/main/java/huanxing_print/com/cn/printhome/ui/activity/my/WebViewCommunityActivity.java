@@ -80,8 +80,8 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 改变状态栏的颜色使其与APP风格一体化
         setContentView(R.layout.webview);
+        // 改变状态栏的颜色使其与APP风格一体化
         CommonUtils.initSystemBar(this);
         initViews();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
