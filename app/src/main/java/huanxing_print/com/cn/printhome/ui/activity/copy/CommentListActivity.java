@@ -62,8 +62,8 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_comment_list);
+        CommonUtils.initSystemBar(this);
         ctx = this;
         printno = getIntent().getExtras().getString("printer_id");
         name= getIntent().getExtras().getString("printer_name");

@@ -31,7 +31,6 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
-import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
@@ -56,8 +55,8 @@ public class CreateGroup extends BaseActivity implements View.OnClickListener, C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_group_create);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

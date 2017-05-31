@@ -43,8 +43,8 @@ public class MyModifyNameActivty extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_useinfo_midifyname);
+        CommonUtils.initSystemBar(this);
         EventBus.getDefault().register(this);
         initView();
         initData();

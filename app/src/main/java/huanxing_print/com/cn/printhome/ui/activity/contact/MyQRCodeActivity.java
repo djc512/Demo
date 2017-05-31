@@ -35,8 +35,8 @@ public class MyQRCodeActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_my_qrcode);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

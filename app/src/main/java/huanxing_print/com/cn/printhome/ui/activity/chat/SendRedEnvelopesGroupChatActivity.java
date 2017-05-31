@@ -68,9 +68,9 @@ public class SendRedEnvelopesGroupChatActivity extends BaseActivity implements V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_send_red_envelopes_group_chat);
         // 改变状态栏的颜色使其与APP风格一体化
         CommonUtils.initSystemBar(this);
-        setContentView(R.layout.activity_send_red_envelopes_group_chat);
         EventBus.getDefault().register(this);
         groupInfo = getIntent().getParcelableExtra("groupInfo");
         init();

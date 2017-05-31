@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.chat.EMVideoMessageBody;
 import com.hyphenate.easeui.model.EaseImageCache;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.utils.EaseSmileUtils;
@@ -26,34 +26,34 @@ import huanxing_print.com.cn.printhome.ui.activity.chat.SendRedEnvelopesGroupCha
 
 public class EaseChatRowVideo extends EaseChatRowFile {
 
-	private ImageView imageView;
+    private ImageView imageView;
     private TextView tv_detail;
     private TextView timeLengthView;
 
     public EaseChatRowVideo(Context context, EMMessage message, int position, BaseAdapter adapter) {
-		super(context, message, position, adapter);
-	}
+        super(context, message, position, adapter);
+    }
 
-	@Override
-	protected void onInflateView() {
-		inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
-				R.layout.ease_row_received_red_packet : R.layout.ease_row_sent_red_packet, this);
-	}
+    @Override
+    protected void onInflateView() {
+        inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ?
+                R.layout.ease_row_received_red_packet : R.layout.ease_row_sent_red_packet, this);
+    }
 
-	@Override
-	protected void onFindViewById() {
+    @Override
+    protected void onFindViewById() {
         tv_detail = (TextView) findViewById(R.id.tv_detail);
-	}
+    }
 
-	@Override
-	protected void onSetUpView() {
-        EMTextMessageBody txtBody = (EMTextMessageBody) message.getBody();
-        Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getMessage());
+    @Override
+    protected void onSetUpView() {
+        EMVideoMessageBody txtBody = (EMVideoMessageBody) message.getBody();
+        Spannable span = EaseSmileUtils.getSmiledText(context, txtBody.getFileName());
         // 设置内容
         tv_detail.setText(span, TextView.BufferType.SPANNABLE);
         //handle sending message
         handleSendMessage();
-	}
+    }
 
     protected void handleSendMessage() {
         if (message.direct() == EMMessage.Direct.SEND) {
@@ -78,8 +78,8 @@ public class EaseChatRowVideo extends EaseChatRowFile {
                 default:
                     break;
             }
-        }else{
-            if(!message.isAcked() && message.getChatType() == EMMessage.ChatType.Chat){
+        } else {
+            if (!message.isAcked() && message.getChatType() == EMMessage.ChatType.Chat) {
                 try {
                     EMClient.getInstance().chatManager().ackMessageRead(message.getFrom(), message.getMsgId());
                 } catch (HyphenateException e) {
@@ -88,21 +88,19 @@ public class EaseChatRowVideo extends EaseChatRowFile {
             }
         }
     }
-	
-	@Override
-	protected void onBubbleClick() {
-	    Intent intent = new Intent(context, SendRedEnvelopesGroupChatActivity.class);
+
+    @Override
+    protected void onBubbleClick() {
+        Intent intent = new Intent(context, SendRedEnvelopesGroupChatActivity.class);
         activity.startActivity(intent);
-	}
-	
-	/**
+    }
+
+    /**
      * show video thumbnails
-     * 
-     * @param localThumb
-     *            local path for thumbnail
+     *
+     * @param localThumb   local path for thumbnail
      * @param iv
-     * @param thumbnailUrl
-     *            Url on server for thumbnails
+     * @param thumbnailUrl Url on server for thumbnails
      * @param message
      */
     private void showVideoThumbView(final String localThumb, final ImageView iv, String thumbnailUrl, final EMMessage message) {
@@ -123,7 +121,7 @@ public class EaseChatRowVideo extends EaseChatRowFile {
                         return null;
                     }
                 }
-                
+
                 @Override
                 protected void onPostExecute(Bitmap result) {
                     super.onPostExecute(result);
@@ -142,7 +140,7 @@ public class EaseChatRowVideo extends EaseChatRowFile {
                 }
             }.execute();
         }
-        
+
     }
 
 }

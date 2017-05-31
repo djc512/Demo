@@ -28,8 +28,8 @@ public class NoticeActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_user_nitice);
+        CommonUtils.initSystemBar(this);
         initView();
         setListener();
     }

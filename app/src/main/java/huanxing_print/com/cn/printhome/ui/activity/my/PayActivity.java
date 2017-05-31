@@ -51,8 +51,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_pay);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

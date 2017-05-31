@@ -131,8 +131,8 @@ public class AddPurchaseApprovalActivity extends BaseActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 改变状态栏的颜色使其与APP风格一体化
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_add_purchase);
+        CommonUtils.initSystemBar(this);
         ctx = this;
         EventBus.getDefault().register(this);
         initData();

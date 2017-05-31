@@ -43,8 +43,8 @@ public class MyModifyUniqueIdActivty extends BaseActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_useinfo_midifyuniqueid);
+        CommonUtils.initSystemBar(this);
         EventBus.getDefault().register(this);
         initView();
         initData();

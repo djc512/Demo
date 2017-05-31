@@ -61,13 +61,22 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import huanxing_print.com.cn.printhome.BuildConfig;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.event.contacts.GroupMessageUpdate;
 import huanxing_print.com.cn.printhome.model.chat.GroupHint;
 import huanxing_print.com.cn.printhome.model.chat.GroupMessageObject;
@@ -85,6 +94,7 @@ import huanxing_print.com.cn.printhome.ui.activity.contact.GroupSettingActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.Constant;
+import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
@@ -147,6 +157,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     private ImageView addImg;
     private String groupName;//群昵称
     private String groupUrl;//群头像地址
+    private ExecutorService service = Executors.newSingleThreadExecutor();
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -157,9 +168,8 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 改变状态栏的颜色使其与APP风格一体化
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_chat_test);
-
+        CommonUtils.initSystemBar(this);
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
         //聊天类型
         chatType = getIntent().getIntExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
@@ -1112,7 +1122,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         sendMessage(emMessage);
     }
 
-    protected void sendImageMessage(String imagePath) {
+    protected void sendImageMessage(final String imagePath) {
         EMMessage emMessage = EMMessage.createImageSendMessage(imagePath, false, toChatUsername);
         emMessage.setAttribute("userId", baseApplication.getMemberId());
         emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
@@ -1127,6 +1137,20 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 emMessage.setAttribute("otherName", groupName);
                 emMessage.setAttribute("otherUrl", groupUrl);
             }
+            //复制文件
+            service.submit(new Runnable() {
+                @Override
+                public void run() {
+                    //文件路径 个人环信号/群环信号/
+                    File file = new File(imagePath);
+                    String easemobIdPersonal = SharedPreferencesUtils
+                            .getShareString(getSelfActivity(), "easemobId");
+                    String fileReName = ConFig.FILE_SAVE + File.separator + easemobIdPersonal +
+                            File.separator + toChatUsername + File.separator + file.getName();
+                    //Log.d("CMCC", "fileReName:" + fileReName);
+                    copyFile(imagePath, fileReName, false);
+                }
+            });
         } else {
             //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
             EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
@@ -1193,7 +1217,7 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
         sendMessage(emMessage);
     }
 
-    protected void sendFileMessage(String filePath) {
+    protected void sendFileMessage(final String filePath) {
         EMMessage emMessage = EMMessage.createFileSendMessage(filePath, toChatUsername);
         emMessage.setAttribute("userId", baseApplication.getMemberId());
         emMessage.setAttribute("iconUrl", baseApplication.getHeadImg());
@@ -1208,6 +1232,20 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
                 emMessage.setAttribute("otherName", groupName);
                 emMessage.setAttribute("otherUrl", groupUrl);
             }
+            //复制文件
+            service.submit(new Runnable() {
+                @Override
+                public void run() {
+                    //文件路径 个人环信号/群环信号/
+                    File file = new File(filePath);
+                    String easemobIdPersonal = SharedPreferencesUtils
+                            .getShareString(getSelfActivity(), "easemobId");
+                    String fileReName = ConFig.FILE_SAVE + File.separator + easemobIdPersonal +
+                            File.separator + toChatUsername + File.separator + file.getName();
+                    //Log.d("CMCC", "fileReName:" + fileReName);
+                    copyFile(filePath, fileReName, false);
+                }
+            });
         } else {
             //这里判断一下对面有没有给你发过消息,没有的话携带上对方的昵称和头像
             EMMessage emMessage1 = EMClient.getInstance().chatManager().getConversation(toChatUsername).getLatestMessageFromOthers();
@@ -1828,6 +1866,91 @@ public class ChatTestActivity extends BaseActivity implements EMMessageListener 
     public void onUpdateGroupMessage(GroupMessageUpdate messageUpdate) {
         if ("updateName".equals(messageUpdate.getTag())) {
             tv_title.setText(messageUpdate.getGroupMessageInfo().getGroupName() + String.format("(%s)", messageUpdate.getGroupMessageInfo().getGroupMembers().size()));
+        }
+    }
+
+
+    /*
+*缓冲输入输出流方式复制文件
+*/
+    public boolean copyFile(String srcFileName, String destFileName, boolean overlay) {
+        File srcFile = new File(srcFileName); //根据一个路径得到File对象
+        //判断源文件是否存在
+        if (!srcFile.exists()) {
+            try {
+                throw new Exception("源文件：" + srcFileName + "不存在！");
+            } catch (Exception e) {
+                e.printStackTrace();//将异常内容存到日志文件中
+            }
+            return false;
+        } else if (!srcFile.isFile()) {//判断是不是一个文件
+            try {
+                throw new Exception("复制文件失败，源文件：" + srcFileName + "不是一个文件！");
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+            return false;
+
+        }
+        //判断目标文件是否存在
+        File destFile = new File(destFileName);//目标文件对象destFile
+        if (destFile.exists()) {
+            //生成新的文件名称
+            String lastPath = FileUtils.getFileName(destFileName);
+            destFile = new File(lastPath);
+        } else {
+            //如果目标文件所在目录不存在，则创建 目录
+            if (!destFile.getParentFile().exists()) {
+                //目标文件所在目录不存在
+                //mkdirs()：创建此抽象路径名指定的目录，包括所有必需但不存在的父目录
+                if (!destFile.getParentFile().mkdirs()) {
+                    //复制文件失败：创建目标文件所在目录失败
+                    return false;
+                }
+            }
+        }
+
+        //复制文件
+        int byteread = 0;//读取的字节数
+        InputStream in = null;
+        OutputStream out = null;
+
+        try {
+            in = new FileInputStream(srcFile);
+            out = new FileOutputStream(destFile);
+            byte[] buffer = new byte[1024];
+                /*
+                 * 方法说明：
+                 * ①：将指定 byte 数组中从偏移量 off 开始的 len 个字节写入此输出流。
+                 *      write(byte[] b, int off, int len)
+                 *          b - 数据
+                 *          off - 数据中的起始偏移量。
+                 *          len - 要写入的字节数。
+                 * ②：in.read(buffer))!=-1,是从流buffer中读取一个字节，当流结束的时候read返回-1
+                 */
+
+            while ((byteread = in.read(buffer)) != -1) {
+                out.write(buffer, 0, byteread);
+            }
+            return true;
+        } catch (FileNotFoundException e) {
+
+            return false;
+        } catch (IOException e) {
+            return false;
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
         }
     }
 }

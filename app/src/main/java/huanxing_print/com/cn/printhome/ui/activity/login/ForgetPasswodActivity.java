@@ -44,9 +44,9 @@ public class ForgetPasswodActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_forgetpwd);
         // 改变状态栏的颜色使其与APP风格一体化
         CommonUtils.initSystemBar(this);
-        setContentView(R.layout.activity_forgetpwd);
         initView();
         setListener();
     }

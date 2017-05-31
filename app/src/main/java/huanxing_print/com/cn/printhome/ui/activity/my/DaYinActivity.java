@@ -43,8 +43,8 @@ public class DaYinActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activty_user_dayin);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

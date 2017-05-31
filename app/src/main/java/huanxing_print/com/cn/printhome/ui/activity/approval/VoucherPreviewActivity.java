@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -48,10 +47,9 @@ public class VoucherPreviewActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_voucher_preview);
         // 改变状态栏的颜色使其与APP风格一体化
         CommonUtils.initSystemBar(this);
-        setContentView(R.layout.activity_voucher_preview);
-
         init();
     }
 

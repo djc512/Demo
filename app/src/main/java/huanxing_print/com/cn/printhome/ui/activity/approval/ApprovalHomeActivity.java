@@ -36,8 +36,8 @@ public class ApprovalHomeActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_approval_home);
+        CommonUtils.initSystemBar(this);
         //EventBus.getDefault().register(this);
         // 注册广播
         IntentFilter intentFilter = new IntentFilter();

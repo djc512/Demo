@@ -43,8 +43,8 @@ public class ApprovalActivity extends FragmentActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_approval);
+        CommonUtils.initSystemBar(this);
         ctx = this;
         //EventBus.getDefault().register(this);
         // 注册广播

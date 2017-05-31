@@ -43,8 +43,8 @@ public class GroupOwnerTransferActivity extends BaseActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_groupowner_transfer);
+        CommonUtils.initSystemBar(this);
         EventBus.getDefault().register(getSelfActivity());
         initView();
         initData();

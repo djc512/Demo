@@ -25,8 +25,8 @@ public class OperatingInstructionsActivity extends BaseActivity implements View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_print_instructions);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

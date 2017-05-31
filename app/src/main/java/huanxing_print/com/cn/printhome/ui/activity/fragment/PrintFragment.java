@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.hyphenate.chat.EMClient;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -16,6 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
@@ -29,8 +31,10 @@ import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.chat.ChatTestActivity;
 import huanxing_print.com.cn.printhome.ui.activity.contact.SearchAddResultActivity;
+import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.AddFileActivity;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
@@ -279,7 +283,16 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
         @Override
         public void fail(String msg) {
             DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(getActivity(), msg);
+            if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
+                // 这里实现你的逻辑即可
+                SharedPreferencesUtils.clearAllShareValue(getActivity());
+                ActivityHelper.getInstance().finishAllActivity();
+                EMClient.getInstance().logout(true);//环信退出
+                // activityExitAnim();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+            }else{
+                showToast(msg);
+            }
         }
 
         @Override

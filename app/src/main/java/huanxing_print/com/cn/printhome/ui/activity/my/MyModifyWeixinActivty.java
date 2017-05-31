@@ -41,8 +41,8 @@ public class MyModifyWeixinActivty extends BaseActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_useinfo_midifyweixin);
+        CommonUtils.initSystemBar(this);
         EventBus.getDefault().register(this);
         initView();
         initData();

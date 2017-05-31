@@ -39,7 +39,6 @@ import huanxing_print.com.cn.printhome.util.WeiXinUtils;
 import huanxing_print.com.cn.printhome.util.contact.GetContactsUtils;
 import huanxing_print.com.cn.printhome.util.contact.MyDecoration;
 import huanxing_print.com.cn.printhome.view.IndexSideBar;
-import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
 import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 /**
@@ -64,8 +63,8 @@ public class AddByAddressBookActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_add_by_address_book);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

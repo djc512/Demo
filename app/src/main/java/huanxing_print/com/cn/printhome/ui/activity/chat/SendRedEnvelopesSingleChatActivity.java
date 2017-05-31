@@ -53,9 +53,8 @@ public class SendRedEnvelopesSingleChatActivity extends BaseActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 改变状态栏的颜色使其与APP风格一体化
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_send_red_envelopes_single_chat);
-
+        CommonUtils.initSystemBar(this);
         init();
     }
 

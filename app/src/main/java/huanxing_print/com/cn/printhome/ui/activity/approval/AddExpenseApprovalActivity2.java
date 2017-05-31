@@ -111,9 +111,9 @@ public class AddExpenseApprovalActivity2 extends BaseActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_expense_approval);
         // 改变状态栏的颜色使其与APP风格一体化
         CommonUtils.initSystemBar(this);
-        setContentView(R.layout.activity_add_expense_approval);
         EventBus.getDefault().register(this);
         ctx = this;
         initView();

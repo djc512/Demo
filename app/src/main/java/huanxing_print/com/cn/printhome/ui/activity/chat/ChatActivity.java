@@ -104,8 +104,8 @@ public class ChatActivity extends BaseActivity implements TextWatcher, ChatView,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 改变状态栏的颜色使其与APP风格一体化
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_chat);
+        CommonUtils.initSystemBar(this);
         //设置布局不被顶出去
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

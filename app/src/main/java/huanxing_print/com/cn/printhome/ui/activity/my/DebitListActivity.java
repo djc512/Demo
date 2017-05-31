@@ -30,8 +30,8 @@ public class DebitListActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_debitlist);
+        CommonUtils.initSystemBar(this);
         initView();
         setListener();
     }

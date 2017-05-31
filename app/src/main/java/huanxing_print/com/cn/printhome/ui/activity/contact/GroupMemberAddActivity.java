@@ -52,8 +52,8 @@ public class GroupMemberAddActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_group_create);
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();
