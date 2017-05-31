@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -61,11 +60,16 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pick_printer);
+
         EventBus.getDefault().register(context);
         initData();
         initView();
         isPermissionsGranted();
+    }
+
+    @Override
+    protected void setContent() {
+        setContentView(R.layout.activity_pick_printer);
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)

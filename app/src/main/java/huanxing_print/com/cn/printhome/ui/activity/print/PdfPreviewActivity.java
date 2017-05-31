@@ -42,10 +42,14 @@ public class PdfPreviewActivity extends BasePrintActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pdt_preview);
         initData();
         initTitleBar(file.getName());
         initView();
+    }
+
+    @Override
+    protected void setContent() {
+        setContentView(R.layout.activity_pdt_preview);
     }
 
     private void initData() {

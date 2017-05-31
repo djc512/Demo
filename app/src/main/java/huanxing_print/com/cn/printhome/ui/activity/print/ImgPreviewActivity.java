@@ -44,10 +44,14 @@ public class ImgPreviewActivity extends BasePrintActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_img_priview);
         EventBus.getDefault().register(context);
         initData();
         initView();
+    }
+
+    @Override
+    protected void setContent() {
+        setContentView(R.layout.activity_img_priview);
     }
 
     private void initData() {

@@ -32,7 +32,6 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
-import huanxing_print.com.cn.printhome.event.print.PayTypeEvent;
 import huanxing_print.com.cn.printhome.event.print.WechatPayEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.CommonResp;
@@ -60,6 +59,7 @@ import huanxing_print.com.cn.printhome.util.PriceUtil;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.StatusBarCompat;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
 import huanxing_print.com.cn.printhome.view.RecyclerViewDivider;
@@ -164,9 +164,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_copy_set);
+        StatusBarCompat.compat(CopySettingActivity.this, ContextCompat.getColor(CopySettingActivity.this, R.color
+                .statusbar_gray));
         EventBus.getDefault().register(CopySettingActivity.this);
         ctx = this;
-        CommonUtils.initSystemBar(this);
         initData();
         log();
     }

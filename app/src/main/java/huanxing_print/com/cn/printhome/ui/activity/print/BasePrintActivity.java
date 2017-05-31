@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.util.CommonUtils;
+import huanxing_print.com.cn.printhome.util.StatusBarCompat;
 import huanxing_print.com.cn.printhome.util.StatusBarUtil;
 import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
@@ -30,10 +30,12 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContent();
         context = this;
         activity = this;
-        initStatusBar();
-        CommonUtils.initSystemBar(this);
+        StatusBarCompat.compat(activity, ContextCompat.getColor(activity, R.color.statusbar_gray));
+//        initStatusBar();
+//        CommonUtils.initSystemBar(this);
     }
 
     protected void initStatusBar() {
@@ -46,6 +48,8 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
                     .FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
+
+    protected abstract void setContent();
 
     protected void setStatusBarColor() {
         StatusBarUtil.setColor(activity, ContextCompat.getColor(context, R.color.statusbar_gray));

@@ -55,9 +55,13 @@ public class DocPreviewActivity extends BasePrintActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doc_preview);
         EventBus.getDefault().register(context);
         initData();
+    }
+
+    @Override
+    protected void setContent() {
+        setContentView(R.layout.activity_doc_preview);
     }
 
     private void initView() {

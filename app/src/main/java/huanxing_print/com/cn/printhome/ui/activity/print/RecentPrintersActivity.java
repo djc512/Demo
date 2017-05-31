@@ -25,8 +25,12 @@ public class RecentPrintersActivity extends BasePrintActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recent_printers);
         queryPrinters();
+    }
+
+    @Override
+    protected void setContent() {
+        setContentView(R.layout.activity_recent_printers);
     }
 
     private void initView() {

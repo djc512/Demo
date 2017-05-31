@@ -77,12 +77,17 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pickfile);
+
 //        setStatusBarColor();
         EventBus.getDefault().register(context);
         Logger.i(IMG_CACHE_PATH);
         initData();
         initView();
+    }
+
+    @Override
+    protected void setContent() {
+        setContentView(R.layout.activity_pickfile);
     }
 
     private void initData() {

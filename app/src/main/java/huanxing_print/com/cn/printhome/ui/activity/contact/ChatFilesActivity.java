@@ -49,9 +49,13 @@ public class ChatFilesActivity extends BasePrintActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_files);
         initData();
         initView();
+    }
+
+    @Override
+    protected void setContent() {
+        setContentView(R.layout.activity_chat_files);
     }
 
     private void initData() {

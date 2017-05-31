@@ -30,9 +30,13 @@ public class PcFilePreviewActivity extends BasePrintActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pc_file_preview);
         initData();
         initView();
+    }
+
+    @Override
+    protected void setContent() {
+        setContentView(R.layout.activity_pc_file_preview);
     }
 
     private void initData() {

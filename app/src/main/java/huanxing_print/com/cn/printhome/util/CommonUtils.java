@@ -59,8 +59,8 @@ public class CommonUtils {
     private static final String KEY = "GjZbaGry7m7sfTy0WllHvfyH";
     private final static String PUBLIC_KEY =
             "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDO++7KywM8g" +
-					"/51KQacb4GRC7fJDZLU1KdlZJwB6ROy7As7bSr8H2q4INtOu12uBNPVvozOVdoanybgvTiISyvj1pw8a5" +
-					"/fgYAbdiUam3FWkoKCI9v2rxJMEhvql+aMws7diCXqovnMgT3AO0hIrTK5o9+dfvpveeTbkPDhGSkSlQIDAQAB";
+                    "/51KQacb4GRC7fJDZLU1KdlZJwB6ROy7As7bSr8H2q4INtOu12uBNPVvozOVdoanybgvTiISyvj1pw8a5" +
+                    "/fgYAbdiUam3FWkoKCI9v2rxJMEhvql+aMws7diCXqovnMgT3AO0hIrTK5o9+dfvpveeTbkPDhGSkSlQIDAQAB";
 
     /**
      * 检测网络是否可用?
@@ -119,7 +119,6 @@ public class CommonUtils {
 
     /**
      * 判断邀请码格式只能为字母和数字
-     *
      */
     public static boolean isInviteCode(String inviteCode) {
         Pattern p = Pattern.compile("^[0-9a-zA-Z]{6}$");
@@ -129,7 +128,6 @@ public class CommonUtils {
 
     /**
      * 判断是否为手机号
-     *
      */
 //	public static boolean isPhone(String phone) {
 //		Pattern p = Pattern
@@ -188,7 +186,7 @@ public class CommonUtils {
     }
 
     /**
-     * 判断 用户是否安装微信客户端 
+     * 判断 用户是否安装微信客户端
      */
     public static boolean isWeixinAvilible(Context context) {
         final PackageManager packageManager = context.getPackageManager();// 获取packagemanager
@@ -204,13 +202,17 @@ public class CommonUtils {
         return false;
     }
 
-    /** * 根据手机的分辨率从dp 的单位 转成为px(像素) */
+    /**
+     * 根据手机的分辨率从dp 的单位 转成为px(像素)
+     */
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
-    /** * 根据手机的分辨率从px(像素) 的单位 转成为dp */
+    /**
+     * 根据手机的分辨率从px(像素) 的单位 转成为dp
+     */
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
@@ -222,7 +224,7 @@ public class CommonUtils {
      * @param date
      * @return
      *//*
-	public static String getDateDetail(String date) {
+    public static String getDateDetail(String date) {
 		Calendar today = Calendar.getInstance();
 		Calendar target = Calendar.getInstance();
 
@@ -253,7 +255,7 @@ public class CommonUtils {
      *
      * @return
      *//*
-	private static String showDateDetail(int xcts, Calendar target) {
+    private static String showDateDetail(int xcts, Calendar target) {
 		switch (xcts) {
 		case 0:
 			return Constant.TODAY;
@@ -341,13 +343,9 @@ public class CommonUtils {
     }
 
     /**
-     *
      * 判定输入汉字
      *
-     *
-     *
      * @param c
-     *
      * @return
      */
 
@@ -371,13 +369,9 @@ public class CommonUtils {
     }
 
     /**
-     *
      * 检测String是否全是中文
      *
-     *
-     *
      * @param name
-     *
      * @return
      */
 
@@ -405,13 +399,9 @@ public class CommonUtils {
 
 
     /**
-     *
      * 检测Str是否有中文
      *
-     *
-     *
      * @param name
-     *
      * @return
      */
 
@@ -456,15 +446,16 @@ public class CommonUtils {
 //        // 使用颜色资源
 //        tintManager.setStatusBarTintResource(R.color.white);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = activity.getWindow();
-            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams
-                    .FLAG_TRANSLUCENT_STATUS);
-            activity. getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            activity. getWindow().addFlags(WindowManager.LayoutParams
-                    .FLAG_TRANSLUCENT_NAVIGATION);
-        }
-        StatusBarUtil.setColor(activity, ContextCompat.getColor(activity, R.color.statusbar_gray));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            Window window = activity.getWindow();
+//            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams
+//                    .FLAG_TRANSLUCENT_STATUS);
+//            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            activity.getWindow().addFlags(WindowManager.LayoutParams
+//                    .FLAG_TRANSLUCENT_NAVIGATION);
+//        }
+        StatusBarCompat.compat(activity, ContextCompat.getColor(activity, R.color.theme_yellow));
+//        StatusBarUtil.setColor(activity, ContextCompat.getColor(activity, R.color.statusbar_gray));
     }
 
 

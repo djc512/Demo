@@ -24,8 +24,12 @@ public class ApprovalInformActivity extends BasePrintActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_approval_inform);
         initView();
+    }
+
+    @Override
+    protected void setContent() {
+        setContentView(R.layout.activity_approval_inform);
     }
 
     private void initView() {
