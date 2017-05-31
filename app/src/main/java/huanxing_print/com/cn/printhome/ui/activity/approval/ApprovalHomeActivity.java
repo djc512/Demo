@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 /**
  * Created by Administrator on 2017/5/5 0005.
