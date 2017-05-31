@@ -35,7 +35,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -454,7 +453,7 @@ public class CommonUtils {
 //            activity.getWindow().addFlags(WindowManager.LayoutParams
 //                    .FLAG_TRANSLUCENT_NAVIGATION);
 //        }
-        StatusBarCompat.compat(activity, ContextCompat.getColor(activity, R.color.theme_yellow));
+        StatusBarCompat.compat(activity, ContextCompat.getColor(activity, R.color.statusbar_gray));
 //        StatusBarUtil.setColor(activity, ContextCompat.getColor(activity, R.color.statusbar_gray));
     }
 

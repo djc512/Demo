@@ -54,9 +54,8 @@ public class ChoosePeopleOfAddressActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_choose_people_of_address);
-
+        CommonUtils.initSystemBar(this);
         initView();
         initData();
         setListener();

@@ -84,8 +84,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 改变状态栏的颜色使其与APP风格一体化
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_login);
+        CommonUtils.initSystemBar(this);
         initViews();
         initData();
     }

@@ -70,7 +70,7 @@ public abstract class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		//在当前界面注册一个订阅者
 		EventBus.getDefault().register(this);
-		initStatusBar();
+		//initStatusBar();
 		init();
 	}
 

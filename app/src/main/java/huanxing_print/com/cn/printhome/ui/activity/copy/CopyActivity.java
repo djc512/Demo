@@ -52,8 +52,8 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_copy);
+        CommonUtils.initSystemBar(this);
         ctx = this;
         initStepView();
         initView();

@@ -100,8 +100,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 改变状态栏的颜色使其与APP风格一体化
-        CommonUtils.initSystemBar(this);
         setContentView(R.layout.activity_main);
+        CommonUtils.initSystemBar(this);
         mContext = MainActivity.this;
         version = AppUtils.getVersionName(getSelfActivity());
         EventBus.getDefault().register(mContext);
