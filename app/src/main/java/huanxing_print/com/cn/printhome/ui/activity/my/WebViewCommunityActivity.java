@@ -344,7 +344,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         i.addCategory(Intent.CATEGORY_OPENABLE);
         i.setType("image/*");
-        Intent chooserIntent = Intent.createChooser(i,"Image Chooser");
+        Intent chooserIntent = Intent.createChooser(i,"选择图片");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
         WebViewCommunityActivity.this.startActivityForResult(chooserIntent,  FILECHOOSER_RESULTCODE);
     }
