@@ -8,9 +8,8 @@ import android.os.Message;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
-
-import com.hyphenate.util.PathUtil;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseApplication;
+import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.DocPreviewResp;
 import huanxing_print.com.cn.printhome.model.print.UploadFileBean;
@@ -31,9 +31,10 @@ import huanxing_print.com.cn.printhome.ui.adapter.ChatFilesRecylerAdapter;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
+import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
 
-public class ChatFilesActivity extends BasePrintActivity implements View.OnClickListener{
+public class ChatFilesActivity extends BasePrintActivity implements View.OnClickListener {
 
     private String path;
     private RecyclerView mRcList;
@@ -60,8 +61,13 @@ public class ChatFilesActivity extends BasePrintActivity implements View.OnClick
 
     private void initData() {
         groupId = getIntent().getExtras().getString(GROUP_ID);
-        path = PathUtil.getInstance().getFilePath().toString().replace(easemobId + "/file", "files/" + easemobId +
-                "/" + groupId + "/");
+//        path = PathUtil.getInstance().getFilePath().toString().replace(easemobId + "/file", "files/" + easemobId +
+//                "/" + groupId + "/");
+        String easemobIdPersonal = SharedPreferencesUtils
+                .getShareString(context, "easemobId");
+        path = ConFig.FILE_SAVE + File.separator + easemobIdPersonal +
+                File.separator + groupId + File.separator;
+        Log.d("CMCC", "path:" + path);
         Logger.i(groupId);
         Logger.i(path);
     }
