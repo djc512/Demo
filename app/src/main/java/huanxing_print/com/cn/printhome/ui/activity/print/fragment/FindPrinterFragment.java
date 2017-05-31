@@ -266,7 +266,7 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
                 if (type == REFRESH) {
                     xRefreshView.stopRefresh();
                 } else {
-                    xRefreshView.stopLoadMore(false);
+                    xRefreshView.stopLoadMore(true);
                 }
             }
 

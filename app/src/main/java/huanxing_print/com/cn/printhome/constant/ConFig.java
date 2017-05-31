@@ -36,7 +36,7 @@ public class ConFig {
 	public static final String PAGESIZE = "10"; // 一页个数
 
 	public static final long FILE_UPLOAD_MAX = 20 * 1024 * 1024;
-
+	public static final String FILE_SAVE = FileUtils.getSDCardPath() + "print_home" + File.separator + "file";
 	//微信登录
 	public static final String spName = "WX_SP";
 	public static final String CODE = "code";
