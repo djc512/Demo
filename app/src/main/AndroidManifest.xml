@@ -35,6 +35,7 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <!-- 相机 -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <supports-screens
         android:anyDensity="true"

@@ -7,7 +7,7 @@ import huanxing_print.com.cn.printhome.util.FileUtils;
 
 public class ConFig {
 
-    public static final Environment CURRENT_ENVIRONMENT = Environment.DAILY;
+    public static final Environment CURRENT_ENVIRONMENT = Environment.RELEASE;
 
     public static final String SHAREDPREFERENCES_NAME = "print_home";
 
