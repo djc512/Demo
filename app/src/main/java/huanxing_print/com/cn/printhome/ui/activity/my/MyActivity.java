@@ -60,6 +60,7 @@ import huanxing_print.com.cn.printhome.util.MyDataCleanManager;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 import static com.zhy.http.okhttp.log.LoggerInterceptor.TAG;
 
@@ -96,6 +97,8 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     //微信登录
     private IWXAPI api;
     private ReceiveBroadCast receiveBroadCast;
+
+    private LoadingDialog loadingDialog;
 
     @Override
     protected BaseActivity getSelfActivity() {
@@ -200,6 +203,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(getSelfActivity());
         version = AppUtils.getVersionName(getSelfActivity());
         ApkUrl = baseApplication.getApkUrl();
         iv_user_head = (ImageView) findViewById(R.id.iv_user_head);
@@ -321,7 +325,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                         new DialogUtils.TipsDialogCallBack() {
                             @Override
                             public void ok() {
-                                DialogUtils.showProgressDialog(getSelfActivity(), "正在退出登录").show();
+                                loadingDialog.show();
                                 LoginRequset.loginOut(getSelfActivity(),
                                         baseApplication.getLoginToken(), loginoutcallback);
                             }
@@ -434,7 +438,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                 }
                 String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
 
-                DialogUtils.showProgressDialog(getSelfActivity(), "文件上传中").show();
+                loadingDialog.show();
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("fileContent", data);
                 params.put("fileName", filePath);
@@ -445,13 +449,13 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                             @Override
                             public void fail(String msg) {
                                 toast(msg);
-                                DialogUtils.closeProgressDialog();
+                                loadingDialog.dismiss();
                             }
 
                             @Override
                             public void connectFail() {
                                 toastConnectFail();
-                                DialogUtils.closeProgressDialog();
+                                loadingDialog.dismiss();
                             }
 
                             @Override
@@ -474,18 +478,18 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void fail(String msg) {
             toast(msg);
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
 
         @Override
         public void success(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             EventBus.getDefault().post(bitMap, "head");
             BitmapUtils.displayImage(getSelfActivity(), baseApplication.getHeadImg(), R.drawable.iv_head, iv_user_head);
             toast("头像更新成功");
@@ -498,18 +502,18 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void fail(String msg) {
             toast(msg);
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
 
         @Override
         public void success(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             clearUserData();// 清空数据
             EMClient.getInstance().logout(true);//环信退出
             ActivityHelper.getInstance().finishAllActivity();
@@ -632,6 +636,7 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
                     String headImgurl = jsonObject.getString("headimgurl");
                     String privilege = jsonObject.getString("privilege");
                     String unionId = jsonObject.getString("unionid");
+                    //loadingDialog.show();
                     MyInfoRequest.bindWechat(getSelfActivity(), baseApplication.getLoginToken(),
                             city, country, headImgurl, nickName, openid,
                             privilege, sex, unionId, weiXinCallback);
@@ -653,19 +658,19 @@ public class MyActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toast(msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
 
         @Override
         public void success(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toast("绑定成功");
             if (!ObjectUtils.isNull(wechatName)) {
                 tv_wechat.setText(wechatName);

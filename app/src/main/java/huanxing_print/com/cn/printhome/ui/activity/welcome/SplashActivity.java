@@ -12,7 +12,7 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 public class SplashActivity extends BaseActivity {
 
-	private static final int delayMillis = 3000;
+	private static final int delayMillis = 1000;
 	private boolean isFirst;
 	private String version;
 

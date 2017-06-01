@@ -30,6 +30,7 @@ import android.webkit.GeolocationPermissions;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -47,7 +48,6 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
-import huanxing_print.com.cn.printhome.ui.activity.main.MainActivity;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
 
 public class WebViewCommunityActivity extends BaseActivity implements OnClickListener {
@@ -111,12 +111,13 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         // 设置android下容许执行js的脚本,前端 window.javaObject.callWechatPay(name)
         s.setAllowFileAccess(true);
         s.setDatabaseEnabled(true);
+        String dir = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
+        //String dir = getFilesDir().getPath();
         s.setGeolocationEnabled(true);
-        s.setGeolocationDatabasePath(this.getApplicationContext().getDir("database",
-                Context.MODE_PRIVATE).getPath());
+        s.setGeolocationDatabasePath(dir);
+        //s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
         s.setJavaScriptEnabled(true);
         s.setBuiltInZoomControls(true);
-        //s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
         s.setDomStorageEnabled(true);
         webview.requestFocus();
         webview.setScrollBarStyle(0);
@@ -141,7 +142,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
             //配置权限（同样在WebChromeClient中实现）
             @Override
             public void onGeolocationPermissionsShowPrompt(String origin,
-                                                           GeolocationPermissions.Callback callback) {
+                GeolocationPermissions.Callback callback) {
                 callback.invoke(origin, true, false);
                 super.onGeolocationPermissionsShowPrompt(origin, callback);
             }
@@ -344,7 +345,7 @@ public class WebViewCommunityActivity extends BaseActivity implements OnClickLis
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         i.addCategory(Intent.CATEGORY_OPENABLE);
         i.setType("image/*");
-        Intent chooserIntent = Intent.createChooser(i,"Image Chooser");
+        Intent chooserIntent = Intent.createChooser(i,"选择图片");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
         WebViewCommunityActivity.this.startActivityForResult(chooserIntent,  FILECHOOSER_RESULTCODE);
     }

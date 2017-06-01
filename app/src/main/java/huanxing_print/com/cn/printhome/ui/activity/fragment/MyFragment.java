@@ -38,6 +38,7 @@ import huanxing_print.com.cn.printhome.util.BitmapUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 public class MyFragment extends BaseFragment implements OnClickListener {
 
@@ -52,6 +53,8 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     private String uniqueId;//印家号
     private String wechatId;
     private String uniqueModifyFlag;//能否修改印家号
+
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void init() {
@@ -112,7 +115,8 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         getData();
     }
     private void getData() {
-        DialogUtils.showProgressDialog(getActivity(), "加载中").show();
+        loadingDialog.show();
+        // DialogUtils.showProgressDialog(getActivity(), "加载中").show();
         //网络请求，获取用户信息
         MyInfoRequest.getMyInfo(getActivity(), token, new MyMyInfoCallBack());
     }
@@ -121,7 +125,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
         @Override
         public void success(String msg, MyInfoBean bean) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
 
             if (!ObjectUtils.isNull(bean)) {
                 headUrl = bean.getFaceUrl();
@@ -154,7 +158,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
                 // 这里实现你的逻辑即可
                 SharedPreferencesUtils.clearAllShareValue(getActivity());
@@ -169,7 +173,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
         }
     }
 
@@ -183,6 +187,7 @@ public class MyFragment extends BaseFragment implements OnClickListener {
     }
 
     private void initViews() {
+        loadingDialog = new LoadingDialog(getActivity());
         tv_uniqueid = (TextView) findViewById(R.id.tv_uniqueid);
         tv_name = (TextView) findViewById(R.id.tv_name);
         tv_print_count = (TextView) findViewById(R.id.tv_print_count);
