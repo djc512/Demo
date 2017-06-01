@@ -681,6 +681,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        boolean priceFlag = false;
         switch (v.getId()) {
             case R.id.scaleImg://缩放
                 if (isStandard) {
@@ -706,6 +707,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     printCount--;
                 }
                 tv_mount.setText(printCount + "");
+                priceFlag = true;
                 break;
             case R.id.iv_plus://加
                 if (sizeType == 0 && StringUtil.stringToInt(printerPrice.getA4Num()) <= printCount) {
@@ -718,6 +720,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 }
                 printCount++;
                 tv_mount.setText(printCount + "");
+                priceFlag = true;
                 break;
             case R.id.iv_orientation://方向
                 if (directionFlag == 1) {
@@ -732,6 +735,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             case R.id.iv_color://色彩
                 if (PrintUtil.PRINTER_TYPE_BLACK.equals(printerPrice.getPrinterType())) {
                     ShowUtil.showToast("黑白机不可选彩色");
+                    return;
                 } else {
                     if (colourFlag == 1) {
                         iv_color.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.on));
@@ -745,6 +749,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                         colourFlag = 1;
                     }
                 }
+                priceFlag = true;
                 break;
             case R.id.paperImg://纸张类型
                 if (PrintUtil.PRINTER_TYPE_PHOTO != printerPrice.getPaperType()) {
@@ -768,6 +773,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                         paperType = PrintUtil.SETTING_COMMON;
                     }
                 }
+                priceFlag = true;
                 break;
             case R.id.iv_a43://纸张大小
                 if (sizeType == 1) {
@@ -787,6 +793,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     paperImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                     paperType = PrintUtil.SETTING_COMMON;
                 }
+                priceFlag = true;
                 break;
             case R.id.iv_print_type://单双面
                 if (!isDoublePrint()) {
@@ -799,6 +806,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                     iv_print_type.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                     doubleFlag = 1;
                 }
+                priceFlag = true;
                 break;
             case R.id.iv_copy_cz://支付方式
                 if (isPersion) {
@@ -823,6 +831,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         }
         updateSetting();
         log();
+        if (priceFlag && !isPersion) {
+            queryGroup();
+        }
     }
 
     private void showGroupDialog() {
