@@ -22,7 +22,7 @@ import huanxing_print.com.cn.printhome.ui.activity.copy.CopyActivity;
 import huanxing_print.com.cn.printhome.ui.activity.login.LoginActivity;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
-import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 public class ApplyFragment extends BaseFragment implements OnClickListener {
 	private Context mContext;
@@ -33,6 +33,7 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 	private int initiatorNum;//我发起的
 	private int total;
 	private final String BROADCAST_ACTION_APPROVALNUM_REFRESH= "approvalnum.refresh";
+	private LoadingDialog loadingDialog;
 	@Override
 	protected void init() {
 		mContext = getActivity();
@@ -65,6 +66,7 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 
 
 	private void initViews() {
+		loadingDialog = new LoadingDialog(getActivity());
 		tv_approve_count = (TextView) findViewById(R.id.tv_approve_count);
 
 	}
@@ -78,7 +80,7 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 	private void initData() {
 		token = SharedPreferencesUtils.getShareString(getActivity(), ConFig.SHAREDPREFERENCES_NAME,
 				"loginToken");
-		DialogUtils.showProgressDialog(getActivity(), "加载中");
+		loadingDialog.show();
 		ApprovalRequest.queryUnreadMessage(getActivity(), token, queryMessageCallBack);
 	}
 
@@ -104,7 +106,7 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 
 		@Override
 		public void success(String msg, UnreadMessage bean) {
-			DialogUtils.closeProgressDialog();
+			loadingDialog.dismiss();
 			if (!ObjectUtils.isNull(bean)) {
 				approverNum = bean.getApproverNum();
 				copyerNum= bean.getCopyerNum();
@@ -121,7 +123,7 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 
 		@Override
 		public void fail(String msg) {
-			DialogUtils.closeProgressDialog();
+			loadingDialog.dismiss();
 			if (!ObjectUtils.isNull(msg)&&"用户未登录".equals(msg)){
 				SharedPreferencesUtils.clearAllShareValue(getActivity());
 				ActivityHelper.getInstance().finishAllActivity();
@@ -134,7 +136,7 @@ public class ApplyFragment extends BaseFragment implements OnClickListener {
 
 		@Override
 		public void connectFail() {
-			DialogUtils.closeProgressDialog();
+			loadingDialog.dismiss();
 		}
 	};
 
