@@ -3,7 +3,6 @@ package huanxing_print.com.cn.printhome.ui.activity.chat;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -125,7 +124,7 @@ public class ChatApprovalActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public boolean onBubbleClick(EMMessage message) {
-                Log.i("CCCP", "chatFragmentHelper+++++++++++++++++++" + chatFragmentHelper);
+                //Log.i("CCCP", "chatFragmentHelper+++++++++++++++++++" + chatFragmentHelper);
                 if (chatFragmentHelper == null) {
                     return false;
                 }

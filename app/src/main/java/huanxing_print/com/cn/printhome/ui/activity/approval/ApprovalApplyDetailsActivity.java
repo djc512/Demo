@@ -46,6 +46,7 @@ import huanxing_print.com.cn.printhome.util.ToastUtil;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.ScrollListView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 import static huanxing_print.com.cn.printhome.R.id.noScrollgridview;
 
@@ -55,8 +56,6 @@ import static huanxing_print.com.cn.printhome.R.id.noScrollgridview;
 
 public class ApprovalApplyDetailsActivity extends BaseActivity implements View.OnClickListener {
     public Context mContext;
-
-
     private TextView iv_name;
     private TextView tv_number;
     private TextView tv_section;
@@ -79,6 +78,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     String approveId;
     private ApprovalDetail details;
     private final String BROADCAST_ACTION_APPROVALNUM_REFRESH= "approvalnum.refresh";
+    private LoadingDialog loadingDialog;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -107,6 +107,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
 
     private void initData() {
         approveId = getIntent().getStringExtra("approveId");
+        loadingDialog.show();
         ApprovalRequest.getQueryApprovalDetail(getSelfActivity(),
                 baseApplication.getLoginToken(),approveId,callBack);
     }
@@ -189,6 +190,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(getSelfActivity());
         iv_isapproval = (TextView) findViewById(R.id.iv_isapproval);
         iv_name = (TextView) findViewById(R.id.iv_name);
         iv_user_head = (CircleImageView) findViewById(R.id.iv_user_head);
@@ -286,7 +288,8 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     }
 
     private void revoke() {
-        DialogUtils.showProgressDialog(this, "撤销审批中").show();
+        //DialogUtils.showProgressDialog(this, "撤销审批中").show();
+        loadingDialog.show();
         ApprovalRequest.revokeReq(this, baseApplication.getLoginToken(), approveId, revokeCallback);
     }
 
@@ -295,7 +298,8 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
      * @param signUrl
      */
     private void pass(String signUrl) {
-        DialogUtils.showProgressDialog(this, "处理中").show();
+        //DialogUtils.showProgressDialog(this, "处理中").show();
+        loadingDialog.show();
         ApprovalRequest.approval(this, baseApplication.getLoginToken(), approveId, 1, signUrl, passCallback);
     }
 
@@ -303,7 +307,8 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
      * 驳回
      */
     private void reject() {
-        DialogUtils.showProgressDialog(this, "驳回处理中").show();
+        //DialogUtils.showProgressDialog(this, "驳回处理中").show();
+        loadingDialog.show();
         ApprovalRequest.approval(this, baseApplication.getLoginToken(), approveId, 2, "", rejectCallBack);
     }
 
@@ -324,7 +329,8 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
                 }
                 String data = Base64.encodeToString(buffer, 0, length, Base64.DEFAULT);
 
-                DialogUtils.showProgressDialog(getSelfActivity(), "文件上传中").show();
+                //DialogUtils.showProgressDialog(getSelfActivity(), "文件上传中").show();
+                loadingDialog.show();
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("fileContent", data);
                 params.put("fileName", filePath);
@@ -335,13 +341,13 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
                             @Override
                             public void fail(String msg) {
                                 toast(msg);
-                                DialogUtils.closeProgressDialog();
+                                loadingDialog.dismiss();
                             }
 
                             @Override
                             public void connectFail() {
                                 toastConnectFail();
-                                DialogUtils.closeProgressDialog();
+                                loadingDialog.dismiss();
                             }
 
                             @Override
@@ -361,7 +367,7 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     QueryApprovalDetailCallBack callBack = new QueryApprovalDetailCallBack() {
         @Override
         public void success(String msg, ApprovalDetail approvalDetail) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             details = approvalDetail;
             if(null != details) {
                 showData();
@@ -401,13 +407,13 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toast(msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };
@@ -415,20 +421,20 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     NullCallback revokeCallback = new NullCallback() {
         @Override
         public void success(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(ApprovalApplyDetailsActivity.this, "报销审批撤销成功");
             finishCurrentActivity();
         }
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(ApprovalApplyDetailsActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             connectFail();
         }
     };
@@ -436,7 +442,8 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     NullCallback rejectCallBack = new NullCallback() {
         @Override
         public void success(String msg) {
-            DialogUtils.closeProgressDialog();
+            //DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(ApprovalApplyDetailsActivity.this, "驳回成功");
             //发送一个广播让审批页面数量更新
             Intent intent = new Intent();
@@ -447,13 +454,15 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+            //DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             ToastUtil.doToast(ApprovalApplyDetailsActivity.this, msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            //DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             connectFail();
         }
     };
@@ -461,7 +470,8 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
     NullCallback passCallback = new NullCallback() {
         @Override
         public void success(String msg) {
-            DialogUtils.closeProgressDialog();
+            //DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             //发送一个广播让审批页面数量更新
             Intent intent = new Intent();
             intent.setAction(BROADCAST_ACTION_APPROVALNUM_REFRESH);
@@ -471,13 +481,15 @@ public class ApprovalApplyDetailsActivity extends BaseActivity implements View.O
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
-            ToastUtil.doToast(ApprovalApplyDetailsActivity.this, msg);
+            //DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
+            toast(msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            //DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             connectFail();
         }
     };

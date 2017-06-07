@@ -3,22 +3,18 @@ package huanxing_print.com.cn.printhome.ui.activity.my;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.GeolocationPermissions;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -35,10 +31,6 @@ import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.BaseActivity;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.util.CommonUtils;
-
-import static android.R.attr.tag;
-import static huanxing_print.com.cn.printhome.R.id.iv_preview;
-import static huanxing_print.com.cn.printhome.R.id.iv_previewf;
 
 public class WebViewSuggestActivity extends BaseActivity implements OnClickListener {
     private WebView webview;
@@ -90,11 +82,20 @@ public class WebViewSuggestActivity extends BaseActivity implements OnClickListe
         s.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         s.setUseWideViewPort(true);
         s.setLoadWithOverviewMode(true);
+        // 设置android下容许执行js的脚本,前端 window.javaObject.callWechatPay(name)
+        s.setAllowFileAccess(true);
+
+        s.setDatabaseEnabled(true);
+        String dir = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
+        //String dir = getFilesDir().getPath();
+        s.setGeolocationEnabled(true);
+        s.setGeolocationDatabasePath(dir);
         s.setSaveFormData(true);
         // 设置android下容许执行js的脚本,前端 window.javaObject.callWechatPay(name)
         s.setJavaScriptEnabled(true);     // enable navigator.geolocation
-        s.setGeolocationEnabled(true);
-        s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
+//        s.setGeolocationEnabled(true);
+//        s.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
+        s.setBuiltInZoomControls(true);
         s.setDomStorageEnabled(true);
         webview.requestFocus();
         webview.setScrollBarStyle(0);
@@ -117,6 +118,13 @@ public class WebViewSuggestActivity extends BaseActivity implements OnClickListe
 
 
         webview.setWebChromeClient(new WebChromeClient() {
+            //配置权限（同样在WebChromeClient中实现）
+            @Override
+            public void onGeolocationPermissionsShowPrompt(String origin,
+                                                           GeolocationPermissions.Callback callback) {
+                callback.invoke(origin, true, false);
+                super.onGeolocationPermissionsShowPrompt(origin, callback);
+            }
 
             // For Android < 3.0
             public void openFileChooser(ValueCallback<Uri> valueCallback) {

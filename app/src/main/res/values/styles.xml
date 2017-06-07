@@ -220,7 +220,7 @@
     <style name="SplashTheme" parent="AppBaseTheme">
         <item name="android:windowBackground">@drawable/welcome_bg</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="windowNoTitle">true</item>
+        <item name="android:windowNoTitle">true</item>
         <!--<item name="android:windowIsTranslucent">false</item>-->
         <!--<item name="android:windowDisablePreview">true</item>-->
     </style>
