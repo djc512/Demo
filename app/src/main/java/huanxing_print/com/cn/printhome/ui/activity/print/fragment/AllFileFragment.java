@@ -37,7 +37,6 @@ import huanxing_print.com.cn.printhome.view.ClearEditText;
 import huanxing_print.com.cn.printhome.view.FileFilterPopupMenu;
 import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
-import static huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter.FILE_OBJ;
 import static huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter.FILE_TYPE_DIR;
 import static huanxing_print.com.cn.printhome.ui.adapter.AllFileListAdapter.FILE_TYPE_FILE;
 
@@ -312,7 +311,8 @@ public class AllFileFragment extends BaseLazyFragment implements AllFileListAdap
                 map.put(AllFileListAdapter.FILE_SIZE, fileSize);
                 map.put(AllFileListAdapter.FILE_UPDATE_TIME, fileUpdateTime);
                 map.put(AllFileListAdapter.FILE_TYPE, fileType);
-                map.put(FILE_OBJ, file);
+                map.put(AllFileListAdapter.FILE_PATH, file.getPath());
+                map.put(AllFileListAdapter.FILE_OBJ, file);
                 mAdapter.addData(map);
             }
             return null;
