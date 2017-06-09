@@ -48,6 +48,7 @@ import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 import huanxing_print.com.cn.printhome.view.ScrollGridView;
 import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 
 /**
@@ -91,7 +92,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
     private ApprovalDetail details;
     private final String BROADCAST_ACTION_APPROVALNUM_REFRESH= "approvalnum.refresh";
-
+    private LoadingDialog loadingDialog;
     @Override
     protected BaseActivity getSelfActivity() {
         return this;
@@ -121,7 +122,8 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     QueryApprovalDetailCallBack callBack = new QueryApprovalDetailCallBack() {
         @Override
         public void success(String msg, ApprovalDetail approvalDetail) {
-            DialogUtils.closeProgressDialog();
+            //DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             if(null != attachments && attachments.size() > 0) {
                 attachments.clear();
             }
@@ -164,19 +166,22 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
 
         @Override
         public void fail(String msg) {
-            DialogUtils.closeProgressDialog();
+            //DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toast(msg);
         }
 
         @Override
         public void connectFail() {
-            DialogUtils.closeProgressDialog();
+            //DialogUtils.closeProgressDialog();
+            loadingDialog.dismiss();
             toastConnectFail();
         }
     };
     private void initData() {
         approveId = getIntent().getStringExtra("approveId");
-        DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
+        //DialogUtils.showProgressDialog(getSelfActivity(), "正在加载").show();
+        loadingDialog.show();
         ApprovalRequest.getQueryApprovalDetail(getSelfActivity(),baseApplication.getLoginToken(),
                 approveId,callBack);
 
@@ -279,6 +284,7 @@ public class ApprovalBuyAddOrRemoveActivity extends BaseActivity implements View
     }
 
     private void initView() {
+        loadingDialog = new LoadingDialog(getSelfActivity());
         iv_isapproval = (TextView) findViewById(R.id.iv_isapproval);
         iv_name = (TextView) findViewById(R.id.iv_name);
         tv_use = (TextView) findViewById(R.id.tv_use);

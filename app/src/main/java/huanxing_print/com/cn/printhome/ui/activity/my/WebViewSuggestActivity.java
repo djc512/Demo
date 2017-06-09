@@ -86,8 +86,8 @@ public class WebViewSuggestActivity extends BaseActivity implements OnClickListe
         s.setAllowFileAccess(true);
 
         s.setDatabaseEnabled(true);
-        String dir = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
-        //String dir = getFilesDir().getPath();
+        //String dir = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
+        String dir = getFilesDir().getPath();
         s.setGeolocationEnabled(true);
         s.setGeolocationDatabasePath(dir);
         s.setSaveFormData(true);

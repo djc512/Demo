@@ -104,6 +104,8 @@ public class BaseApplication extends Application {
     //测试
 //    public static final String WX_APPID = "wx4c877768d9a9fc08";
 //    public static final String WX_APPSecret = "d7ba93d327cfdd1d02b8d5a4b43b1223";
+
+    private static final String HW_APPID = "100015649";
     private IWXAPI api;
 
     private static BaseApplication mInstance;
@@ -390,6 +392,7 @@ public class BaseApplication extends Application {
         // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
         options.setAutoLogin(true);
+        options.setHuaweiPushAppId(HW_APPID);//设置华为手机推送服务
         int pid = android.os.Process.myPid();
         String processAppName = getAppName(pid);
 // 如果APP启用了远程的service，此application:onCreate会被调用2次
@@ -726,9 +729,10 @@ public class BaseApplication extends Application {
                      *  将当前任务栈中所有的Activity给清空掉
                      *  重新打开登录界面
                      */
-                    for (BaseActivity baseActivity : mBaseActivityList) {
-                        baseActivity.finish();
-                    }
+                    // 这里实现你的逻辑即可
+                    SharedPreferencesUtils.clearAllShareValue(BaseApplication.this);
+                    ActivityHelper.getInstance().finishAllActivity();
+                    EMClient.getInstance().logout(true);//环信退出
 
                     Intent intent = new Intent(BaseApplication.this, LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
