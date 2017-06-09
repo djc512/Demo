@@ -606,10 +606,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        <!-- 设置环信应用的AppKey -->
-<!--        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="1196170420115735#ecostardev" />-->
+        <!-- 设置环信应用的AppKey 测试环境-->
+        <!--<meta-data-->
+            <!--android:name="EASEMOB_APPKEY"-->
+            <!--android:value="1196170420115735#ecostardev" />-->
 
         <!-- 设置环信应用的线上环境 -->
         <meta-data
@@ -623,7 +623,6 @@
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
                 <data android:scheme="package" />
             </intent-filter>
             <!-- 可选filter -->
@@ -632,6 +631,35 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+        <!-- 设置环信应用华为手机推送环境-->
+        <receiver android:name="com.hyphenate.chat.EMHuaweiPushReceiver" >
+            <intent-filter>
+                必须,用于接收token
+                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
+                必须，用于接收消息
+                <action android:name="com.huawei.android.push.intent.RECEIVE" />
+            </intent-filter>
+            />
+            <meta-data android:name="CS_cloud_ablitity" android:value="successRateAnalytics"/>
+        </receiver>
+
+        PushSDK:PushSDK接收外部请求事件入口
+        <receiver
+            android:name="com.huawei.android.pushagent.PushEventReceiver"
+            android:process=":pushservice" >
+            <intent-filter>
+                <action android:name="com.huawei.android.push.intent.REFRESH_PUSH_CHANNEL" />
+                <action android:name="com.huawei.intent.action.PUSH" />
+                <action android:name="com.huawei.intent.action.PUSH_ON" />
+                <action android:name="com.huawei.android.push.PLUGIN" />
+            </intent-filter>
+        </receiver>
+        <!-- PushSDK:Push服务 -->
+        <service
+            android:name="com.huawei.android.pushagent.PushService"
+            android:process=":pushservice" >
+        </service>
+
 
         <activity
             android:name=".ui.activity.chat.ChatActivity"

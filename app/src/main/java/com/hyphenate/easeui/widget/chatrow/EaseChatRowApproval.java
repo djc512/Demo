@@ -130,8 +130,8 @@ public class EaseChatRowApproval extends EaseChatRowText {
     @Override
     protected void onBubbleClick() {
 
-        Log.i("CCCC", "=======================" + message.getStringAttribute("type", ""));
-        Log.i("CCCC", "=======================" + message.getFrom());
+//        Log.i("CCCC", "=======================" + message.getStringAttribute("type", ""));
+//        Log.i("CCCC", "=======================" + message.getFrom());
         if (type != null) {
             switch (type) {
                 case "101"://采购审核
