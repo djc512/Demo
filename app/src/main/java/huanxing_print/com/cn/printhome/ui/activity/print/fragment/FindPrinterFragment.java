@@ -258,7 +258,7 @@ public class FindPrinterFragment extends BaseLazyFragment implements AMapLocatio
                     }
                 }
                 findPrinterRcAdapter.notifyDataSetChanged();
-                if (printerList.size() < 20) {
+                if (printerList.isEmpty()) {
                     xRefreshView.setLoadComplete(true);
                 } else {
                     xRefreshView.setLoadComplete(false);
