@@ -105,8 +105,10 @@ public class PcFileFragment extends BaseLazyFragment {
     }
 
     private void updateView(List<PrintListBean.FileInfo> fileList) {
-        mAdapter.setFileList(fileList);
-        mAdapter.notifyDataSetChanged();
+        if (fileList != null) {
+            mAdapter.setFileList(fileList);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     TimerTask task = new TimerTask() {
