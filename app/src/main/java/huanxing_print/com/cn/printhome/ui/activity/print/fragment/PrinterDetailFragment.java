@@ -130,7 +130,6 @@ public class PrinterDetailFragment extends Fragment {
         typeTv.setText(printerPrice.getCapability());
         resolutionTv.setText(printerPrice.getResolution());
         technicalTypeTv.setText(printerPrice.getTechnicalType());
-//        remainTv.setText("A4 " + printerPrice.getA4Num() + "张 A3 " + printerPrice.getA3Num() + "张");
         remainTv.setText(getA4NumStr(printerPrice) + " " + getA3NumStr(printerPrice));
     }
 
