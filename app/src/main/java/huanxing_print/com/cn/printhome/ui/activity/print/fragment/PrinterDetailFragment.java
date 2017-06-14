@@ -118,7 +118,7 @@ public class PrinterDetailFragment extends Fragment {
         }
         if (PrintUtil.PRINTER_TYPE_PHOTO == printPrinterPrice.getPaperType()) {
             photoRemainTv.setVisibility(View.VISIBLE);
-            photoRemainTv.setText("相片纸 " + printerPrice.getPhotoNum() + "张");
+            photoRemainTv.setText(getPhotoNumStr(printerPrice));
             photoPriceTv.setVisibility(View.VISIBLE);
             photoPriceTv.setText("相片纸 ￥" + PriceUtil.getPhotoPriceStr(printerPrice));
         } else {
@@ -130,6 +130,29 @@ public class PrinterDetailFragment extends Fragment {
         typeTv.setText(printerPrice.getCapability());
         resolutionTv.setText(printerPrice.getResolution());
         technicalTypeTv.setText(printerPrice.getTechnicalType());
-        remainTv.setText("A4 " + printerPrice.getA4Num() + "张 A3 " + printerPrice.getA3Num() + "张");
+//        remainTv.setText("A4 " + printerPrice.getA4Num() + "张 A3 " + printerPrice.getA3Num() + "张");
+        remainTv.setText(getA4NumStr(printerPrice) + " " + getA3NumStr(printerPrice));
     }
+
+    private String getPhotoNumStr(PrintInfoResp.PrinterPrice printerPrice) {
+        if (printerPrice.getPhotoNum() == null)
+            return "";
+        return "相片纸 " + printerPrice.getPhotoNum() + "张";
+    }
+
+    private String getA3NumStr(PrintInfoResp.PrinterPrice printerPrice) {
+        if (printerPrice.getA3Num() == null) {
+            return "";
+        }
+        return "A3 " + printerPrice.getA3Num() + "张";
+    }
+
+    private String getA4NumStr(PrintInfoResp.PrinterPrice printerPrice) {
+        if (printerPrice.getA4Num() == null) {
+            return "";
+        }
+        return "A4 " + printerPrice.getA4Num() + "张";
+    }
+
+
 }
