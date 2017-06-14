@@ -777,14 +777,16 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_a43://纸张大小
                 if (sizeType == 1) {
-                    if (printCount > StringUtil.stringToInt(printerPrice.getA4Num())) {
+                    if (printerPrice.getA4Num() != null && printCount > StringUtil.stringToInt(printerPrice.getA4Num
+                            ())) {
                         printCount = StringUtil.stringToInt(printerPrice.getA4Num());
                         tv_mount.setText(printCount + "");
                     }
                     iv_a43.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
                     sizeType = 0;
                 } else {
-                    if (printCount > StringUtil.stringToInt(printerPrice.getA3Num())) {
+                    if (printerPrice.getA3Num() != null && printCount > StringUtil.stringToInt(printerPrice.getA3Num
+                            ())) {
                         printCount = StringUtil.stringToInt(printerPrice.getA3Num());
                         tv_mount.setText(printCount + "");
                     }
