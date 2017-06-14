@@ -276,7 +276,7 @@
             <LinearLayout
                 android:id="@+id/lin_request_money"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/distance_fifty"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -307,8 +307,8 @@
 
                 <ToggleButton
                     android:id="@+id/toggleButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/distance_forty_six"
+                    android:layout_height="@dimen/distance_twenty_four"
                     android:background="@drawable/toggle_selector"
                     android:checked="false"
                     android:textOff=""
