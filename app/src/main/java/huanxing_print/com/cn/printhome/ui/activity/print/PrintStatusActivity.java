@@ -300,6 +300,10 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
             return;
         }
         OrderStatusResp.OrderStatus orderStatus = orderStatusResp.getData();
+        if (orderStatus == null) {
+            setUpload();
+            return;
+        }
         if (orderStatus.isNeedAwake()) {
             if (!isAwaked) {
                 setAwake();
