@@ -14,6 +14,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.my.OrderListBean;
+import huanxing_print.com.cn.printhome.model.my.PrintDetailBean;
 
 /**
  * Created by Administrator on 2017/3/24 0024.
@@ -68,7 +69,7 @@ public class MyBillAdapter extends BaseAdapter {
                 holder.rl_bill_time.setVisibility(View.VISIBLE);
             }
         }
-        List<OrderListBean.PrintListBean> printList = dataBean.getPrintList();
+        List<PrintDetailBean> printList = dataBean.getPrintList();
         MyBillItemAdapter adapter = new MyBillItemAdapter(ctx, printList);
         holder.rv_item_bill.setLayoutManager(new LinearLayoutManager(ctx));
         holder.rv_item_bill.setAdapter(adapter);

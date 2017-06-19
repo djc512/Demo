@@ -14,6 +14,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import org.greenrobot.eventbus.EventBus;
 
 import huanxing_print.com.cn.printhome.base.BaseActivity;
+import huanxing_print.com.cn.printhome.event.print.PrintPaySuccessEvent;
 import huanxing_print.com.cn.printhome.event.print.WechatPayEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.util.SharedPreferencesUtils;
@@ -72,6 +73,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 switch (resp.errCode) {
                     case 0:
                         Toast.makeText(getSelfActivity(), "支付成功", Toast.LENGTH_SHORT).show();
+                        EventBus.getDefault().post(new PrintPaySuccessEvent(true));
                         break;
                     case -1:
                         Toast.makeText(getSelfActivity(), "支付失败", Toast.LENGTH_SHORT).show();

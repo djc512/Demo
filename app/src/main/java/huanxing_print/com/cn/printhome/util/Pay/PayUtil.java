@@ -13,8 +13,11 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Map;
 
+import huanxing_print.com.cn.printhome.event.print.PrintPaySuccessEvent;
 import huanxing_print.com.cn.printhome.model.my.AuthResult;
 import huanxing_print.com.cn.printhome.model.my.PayResult;
 import huanxing_print.com.cn.printhome.model.my.WeChatPayBean;
@@ -59,7 +62,7 @@ public class PayUtil {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(mContext, "支付成功", Toast.LENGTH_SHORT).show();
-
+                        EventBus.getDefault().post(new PrintPaySuccessEvent(true));
                         if (null != callBack) {
                             callBack.paySuccess();
                         }

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.model.my.OrderListBean;
+import huanxing_print.com.cn.printhome.model.my.PrintDetailBean;
 import huanxing_print.com.cn.printhome.util.ObjectUtils;
 
 /**
@@ -25,9 +25,9 @@ import huanxing_print.com.cn.printhome.util.ObjectUtils;
 public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.MyHolder> {
 
     private Context ctx;
-    private List<OrderListBean.PrintListBean> detail;
+    private List<PrintDetailBean> detail;
 
-    public MyBillItemAdapter(Context ctx, List<OrderListBean.PrintListBean> detail) {
+    public MyBillItemAdapter(Context ctx, List<PrintDetailBean> detail) {
         this.ctx = ctx;
         this.detail = detail;
     }
@@ -45,7 +45,7 @@ public class MyBillItemAdapter extends RecyclerView.Adapter<MyBillItemAdapter.My
     @Override
     public void onBindViewHolder(final MyHolder holder, final int position) {
 
-        OrderListBean.PrintListBean bean = detail.get(position);
+        PrintDetailBean bean = detail.get(position);
         int orderStatus = bean.getOrderStatus();
 //        3-退款中 4-已经退款完毕 5-打印成功
         if (orderStatus == 3) {

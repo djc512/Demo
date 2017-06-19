@@ -24,6 +24,7 @@ import huanxing_print.com.cn.printhome.base.ActivityHelper;
 import huanxing_print.com.cn.printhome.base.BaseFragment;
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.constant.HttpUrl;
+import huanxing_print.com.cn.printhome.event.print.PrintPaySuccessEvent;
 import huanxing_print.com.cn.printhome.model.chat.RefreshEvent;
 import huanxing_print.com.cn.printhome.model.my.MyInfoBean;
 import huanxing_print.com.cn.printhome.net.callback.my.MyInfoCallBack;
@@ -99,6 +100,10 @@ public class MyFragment extends BaseFragment implements OnClickListener {
         this.uniqueId = uniqueId;
     }
 
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onMessageEvent(PrintPaySuccessEvent printPaySuccessEvent) {
+        getData();
+    }
     @Override
     protected int getContextView() {
         return R.layout.frag_usercenter;

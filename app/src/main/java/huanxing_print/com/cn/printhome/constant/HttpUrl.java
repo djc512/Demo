@@ -19,6 +19,7 @@ public class HttpUrl {
     public static final String register = "member/sign";// 注册
     public static final String getVeryCode = "common/getValidCode"; // 获取短信验证码
     public static final String resetPasswd = "member/resetPasswd"; // 重置密码
+    public static final String printBanner = "cms/print/banner"; // 广告轮播图获取接口
     public static final String fileUpload = "common/fileUpload"; // 文件上传
     public static final String versionCheck = "common/versionCheck"; // 版本检查
     public static final String appDownLoad = "common/app/download"; // 微信分享地址
@@ -41,6 +42,7 @@ public class HttpUrl {
     public static final String setDefaultprinter = "print/printer/setDefault"; // 设置默认打印机
     public static final String go2Debit = "pay/bill/getBillAmount"; // 获取能否开发票的接口
     public static final String orderDetail = "order/getOrderDetail"; // 查询订单详情
+    public static final String queryDetail = "order/queryDetail"; // 查询打印成功订单详情
     public static final String orderList = "order/getPrintHistory"; // 订单列表
     public static final String queryOrderDetail = "pay/recharge/queryOrderDetail"; // 充值订单详情查询
     public static final String queryFriendList = "friend/list";//好友列表

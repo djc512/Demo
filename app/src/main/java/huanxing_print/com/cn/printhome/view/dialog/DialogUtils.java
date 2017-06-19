@@ -30,6 +30,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.base.ActivityHelper;
+import huanxing_print.com.cn.printhome.model.my.PrintDetailBean;
 import huanxing_print.com.cn.printhome.model.print.GroupResp;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupRecylerAdapter;
 import huanxing_print.com.cn.printhome.util.BitmapUtils;
@@ -392,6 +393,82 @@ public class DialogUtils {
                 callBack.alipay();
             }
         });
+        return mPicChooseDialog;
+    }
+
+    /**
+     * 打印成功查看详情对话框
+     *
+     * @param context
+     * @return
+     */
+    public static Dialog showPrintSuccessDetailDialog(Context context, PrintDetailBean bean) {
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_print_success_detail, null);
+        mPicChooseDialog = new Dialog(context, R.style.paytransparentFrameWindowStyle);
+        mPicChooseDialog.setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        Window window = mPicChooseDialog.getWindow();
+        window.setWindowAnimations(R.style.main_menu_animstyle);
+        WindowManager.LayoutParams wl = window.getAttributes();
+        wl.x = 0;
+        wl.y = ((Activity) context).getWindowManager().getDefaultDisplay().getHeight();
+        wl.width = LayoutParams.MATCH_PARENT;
+        wl.height = LayoutParams.WRAP_CONTENT;
+
+        mPicChooseDialog.onWindowAttributesChanged(wl);
+        mPicChooseDialog.setCanceledOnTouchOutside(true);
+        mPicChooseDialog.show();
+        TextView tv_bill_time= (TextView) view.findViewById(R.id.tv_bill_time);
+        TextView tv_bill_orderid= (TextView) view.findViewById(R.id.tv_bill_orderid);
+        TextView tv_bill_money= (TextView) view.findViewById(R.id.tv_bill_money);
+        TextView tv_location= (TextView) view.findViewById(R.id.tv_location);
+        TextView tv_filetype= (TextView) view.findViewById(R.id.tv_filetype);
+        TextView tv_printCount= (TextView) view.findViewById(R.id.tv_printCount);
+        TextView tv_price= (TextView) view.findViewById(R.id.tv_price);
+        TextView tv_color= (TextView) view.findViewById(R.id.tv_color);
+        TextView tv_papertype= (TextView) view.findViewById(R.id.tv_papertype);
+        TextView tv_pay= (TextView) view.findViewById(R.id.tv_pay);
+        TextView tv_state= (TextView) view.findViewById(R.id.tv_state);
+        ImageView iv_colse= (ImageView) view.findViewById(R.id.iv_colse);
+
+        String date = bean.getAddTime();//日期
+        tv_bill_time.setText(date);
+        String amount = bean.getAmount();//金额
+        tv_bill_money.setText("￥" + amount);
+        String orderId = bean.getOrderId();//订单号
+        tv_bill_orderid.setText("订单编号:" + orderId);
+        String printAddress = bean.getPrintAddress();//打印店
+        tv_location.setText(printAddress);
+        String fileType = bean.getFileType();//文件类型
+        tv_filetype.setText(fileType);
+        int printPage = bean.getPrintPage();//打印页数
+        tv_printCount.setText(printPage + "页");
+        String printPrice = bean.getPrintPrice();//单价
+        tv_price.setText(printPrice + "元/张");
+        int color = bean.getColor();//色彩
+        if (color == 0) {
+            tv_color.setText("彩色");
+        } else {
+            tv_color.setText("黑白");
+        }
+        int printSize = bean.getPrintSize();//纸张
+        if (printSize == 0) {
+            tv_papertype.setText("A4");
+        } else {
+            tv_papertype.setText("A3");
+        }
+        String payType = bean.getPayType();//支付类型
+        if (!ObjectUtils.isNull(payType)){
+            tv_pay.setText(payType);
+        }
+
+        iv_colse.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                mPicChooseDialog.dismiss();
+            }
+        });
+
         return mPicChooseDialog;
     }
 

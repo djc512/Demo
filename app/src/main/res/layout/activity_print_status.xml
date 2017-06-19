@@ -22,13 +22,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp">
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <RelativeLayout
             android:id="@+id/successRyt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/linearLayout5"
@@ -112,6 +113,32 @@
                 android:layout_marginBottom="20dp"
                 app:srcCompat="@drawable/ic_success"/>
 
+            <LinearLayout
+                android:id="@+id/ll_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/printingTv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="您的账户当前余额为"
+                    android:textColor="@color/gray8"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/yellow3"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/shareRyt"
                 android:layout_width="match_parent"
@@ -148,7 +175,7 @@
                 android:id="@+id/commentRyt"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_alignParentBottom="true"
+                android:layout_above="@+id/fragment_cycle_viewpager_content"
                 android:background="@drawable/shape_rectangle_rounded_h_gray"
                 android:gravity="center">
 
@@ -161,7 +188,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        app:srcCompat="@drawable/ic_comment"/>
+                        app:srcCompat="@drawable/iv_print_detail"/>
 
                     <TextView
                         android:id="@+id/shareTv"
@@ -169,18 +196,27 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
-                        android:text="评价本次打印"
+                        android:text="查看本次打印明细"
                         android:textColor="@color/text_black"
                         android:textSize="16sp"/>
                 </LinearLayout>
             </RelativeLayout>
+
+            <fragment
+                android:id="@+id/fragment_cycle_viewpager_content"
+                android:name="huanxing_print.com.cn.printhome.view.cycleviewpager.CycleViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentBottom="true"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/stateRyt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/stateTv"
@@ -267,7 +303,35 @@
                     android:padding="15dp"
                     android:text="退出"
                     android:textColor="@color/text_black"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/distance_forty_nine"
+                    android:gravity="center_horizontal"
+                    android:background="@drawable/shape_preview_finish_bg"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/iv_contact_service"
+                        android:layout_gravity="center_vertical"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="联系客服"
+                        android:textColor="@color/black2"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="@dimen/distance_five"/>
+                </LinearLayout>
             </LinearLayout>
 
 

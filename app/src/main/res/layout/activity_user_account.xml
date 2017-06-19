@@ -22,7 +22,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="充值记录"
-            android:textColor="@color/yellow1"
+            android:textColor="@color/yellow3"
             android:textSize="17sp" />
     </RelativeLayout>
 
@@ -41,7 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -75,14 +76,15 @@
                 android:layout_height="wrap_content"
                 android:background="@color/gray5"
                 android:padding="15dp"
-                android:text="充值金额"
-                android:textColor="@color/gray3"
-                android:textSize="15sp" />
+                android:text="选择优惠套餐"
+                android:textColor="@color/gray8"
+                android:textSize="14sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="15dp"
                 android:background="@color/white" />
 
             <LinearLayout
@@ -112,22 +114,78 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="印家不会要求您以任何形式输入银行账户和密码"
-                android:textColor="@color/gray2"
+                android:text="印家不会以任何形式要求您输入银行账户和密码"
+                android:textColor="@color/gray8"
                 android:textSize="12sp" />
 
-            <Button
-                android:id="@+id/btn_chongzhi"
+            <LinearLayout
+                android:id="@+id/ll_wechat"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="15dp"
+                android:layout_height="@dimen/distance_forty_nine"
+                android:gravity="center_horizontal"
+                android:background="@drawable/shape_preview_finish_bg"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_account_wechat"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="微信支付"
+                    android:textColor="@color/black2"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="@dimen/distance_five"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_alipay"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/distance_forty_nine"
+                android:gravity="center_horizontal"
                 android:background="@drawable/shape_preview_finish_bg"
-                android:text="支付"
-                android:textColor="@color/black2"
-                android:textSize="18sp" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="50dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_account_alipay"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="支付宝支付"
+                    android:textColor="@color/black2"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="@dimen/distance_five"/>
+            </LinearLayout>
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_chongzhi"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginBottom="15dp"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginRight="15dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:background="@drawable/shape_preview_finish_bg"-->
+                <!--android:drawableLeft="@drawable/iv_account_wechat"-->
+                <!--android:gravity="center"-->
+                <!--android:text="微信支付"-->
+                <!--android:textColor="@color/black2"-->
+                <!--android:textSize="18sp" />-->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

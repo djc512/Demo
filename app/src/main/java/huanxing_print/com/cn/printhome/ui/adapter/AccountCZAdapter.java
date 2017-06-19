@@ -6,14 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.my.ChongZhiBean;
+import huanxing_print.com.cn.printhome.util.ObjectUtils;
+
+import static huanxing_print.com.cn.printhome.R.id.tv_account_song;
 
 /**
  * Created by Administrator on 2017/3/23 0023.
@@ -48,7 +50,7 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
-                ctx).inflate(R.layout.item_cz_money, parent,
+                ctx).inflate(R.layout.item_account_money, parent,
                 false));
         return holder;
     }
@@ -56,26 +58,26 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         ChongZhiBean bean = data.get(position);
-        holder.tv_chong.setText("充" + bean.getRechargeAmout() + "元");
-        holder.tv_song.setText("送" + bean.getSendAmount() + "元");
-
-        double rechargeAmout = Double.parseDouble(bean.getRechargeAmout());
-        double sendAmount = Double.parseDouble(bean.getSendAmount());
-
-        double discount = rechargeAmout / (rechargeAmout + sendAmount);
-
-        BigDecimal bd = new BigDecimal(discount);
-        double value = bd.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-        holder.tv_discount.setText(value * 10 + "折");
-
+        holder.tv_chong.setText("充￥" + bean.getRechargeAmout());
+        holder.tv_song.setText("送￥" + bean.getSendAmount());
+        String blackPrice = bean.getBlackPrice();
+        String colorPrice = bean.getColorPrice();
+        if(!ObjectUtils.isNull(blackPrice)) {
+            holder.tv_blackprice.setText("黑白:￥" + blackPrice + "/页");
+        }
+        if(!ObjectUtils.isNull(colorPrice)) {
+            holder.tv_colorprice.setText("彩色:￥" +colorPrice + "/页");
+        }
         if (clickTemp == position) {
-            holder.iv_check.setBackgroundResource(R.drawable.select);
+            holder.rl_cz.setBackgroundResource(R.drawable.broder_line_yellow);
+            holder.iv_check.setVisibility(View.VISIBLE);
         } else {
-            holder.iv_check.setBackgroundResource(R.drawable.select_no);
+            holder.rl_cz.setBackgroundResource(R.drawable.broder_line);
+            holder.iv_check.setVisibility(View.GONE);
         }
 
         if (mOnItemClickLitener != null) {
-            holder.ll_cz.setOnClickListener(new View.OnClickListener() {
+            holder.rl_cz.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mOnItemClickLitener.onItemClick(holder.iv_check, position);
@@ -93,16 +95,17 @@ public class AccountCZAdapter extends RecyclerView.Adapter<AccountCZAdapter.MyVi
 
         TextView tv_chong;
         TextView tv_song;
-        LinearLayout ll_cz;
-        TextView tv_discount;
+        RelativeLayout rl_cz;
+        TextView tv_blackprice;
+        TextView tv_colorprice;
         ImageView iv_check;
-
         public MyViewHolder(View view) {
             super(view);
-            ll_cz = (LinearLayout) view.findViewById(R.id.ll_account_cz);
+            rl_cz = (RelativeLayout) view.findViewById(R.id.rl_cz);
             tv_chong = (TextView) view.findViewById(R.id.tv_account_chong);
-            tv_song = (TextView) view.findViewById(R.id.tv_account_song);
-            tv_discount = (TextView) view.findViewById(R.id.tv_discount);
+            tv_song = (TextView) view.findViewById(tv_account_song);
+            tv_blackprice = (TextView) view.findViewById(R.id.tv_blackprice);
+            tv_colorprice = (TextView) view.findViewById(R.id.tv_colorprice);
             iv_check = (ImageView) view.findViewById(R.id.iv_check);
         }
     }

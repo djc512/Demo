@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 边框 -->
+    <stroke
+        android:width="0.5dp"
+        android:color="#dadada" />
+    <!--&lt;!&ndash; 四个角的圆角半径，左边右边中间的区别就是在这里体现的 &ndash;&gt;-->
+    <!--<corners-->
+        <!--android:topLeftRadius="20dp"-->
+        <!--android:bottomLeftRadius="20dp"-->
+        <!--android:topRightRadius="20dp"-->
+        <!--android:bottomRightRadius="20dp" />-->
+</shape>

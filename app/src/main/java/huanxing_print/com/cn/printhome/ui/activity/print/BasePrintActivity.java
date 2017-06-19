@@ -62,7 +62,18 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
             findViewById(R.id.backImg).setOnClickListener(this);
         }
     }
-
+    protected void initTitleRight(String name,boolean flag) {
+        TextView rightTv = (TextView) findViewById(R.id.rightTv);
+        if (flag) {
+            rightTv.setVisibility(View.VISIBLE);
+            rightTv.setText(name);
+            if (rightTv != null) {
+                rightTv.setOnClickListener(this);
+            }
+        }else{
+            rightTv.setVisibility(View.GONE);
+        }
+    }
     @Override
     public void onClick(View v) {
         int id = v.getId();

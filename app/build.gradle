@@ -19,8 +19,8 @@ android {
         applicationId "huanxing_print.com.cn.printhome"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 5
-        versionName "1.0.3"
+        versionCode 6
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -87,4 +87,5 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
     compile files('libs/HwPush_SDK_V2705_nomap.jar')
+    compile files('libs/universal-image-loader-1.9.2-SNAPSHOT-with-sources.jar')
 }

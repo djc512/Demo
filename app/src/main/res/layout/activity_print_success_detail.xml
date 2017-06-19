@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/distance_forty_nine"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="装机地址"
+            android:textColor="@color/black2"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/iv_colse"
+            android:layout_marginRight="@dimen/distance_fifteen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/distance_five"
+            android:src="@drawable/iv_print_detail_colse"
+            />
+    </RelativeLayout>
+
+    <include layout="@layout/viewline" />
+    <RelativeLayout
+        android:id="@+id/rl_bill_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_bill_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2012-02-21"
+            android:textColor="@color/black2"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_bill_time"
+            android:background="@color/green2"
+            android:padding="3dp"
+            android:text="打印成功"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_bill_orderid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_bill_time"
+            android:layout_marginTop="5dp"
+            android:text="订单编号:"
+            android:textColor="@color/gray8"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_bill_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:text="+10.00"
+            android:textColor="@color/black2"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <include layout="@layout/viewline2" />
+
+    <LinearLayout
+        android:id="@+id/ll_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp">
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="打印点:"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/tv_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_address"
+                android:gravity="center_vertical|right"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="文件类型:"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_filetype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="打印页数:"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_printCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="打印单价:"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="色彩选择:"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="纸张大小:"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_papertype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingTop="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付类型:"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/gray8"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <include layout="@layout/viewline" />
+</LinearLayout>

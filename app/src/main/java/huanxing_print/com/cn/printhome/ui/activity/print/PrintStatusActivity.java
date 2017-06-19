@@ -1,19 +1,24 @@
 package huanxing_print.com.cn.printhome.ui.activity.print;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +29,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -32,6 +42,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,25 +53,39 @@ import huanxing_print.com.cn.printhome.constant.HttpUrl;
 import huanxing_print.com.cn.printhome.event.print.FinishEvent;
 import huanxing_print.com.cn.printhome.event.print.PrintTypeEvent;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.model.my.PrintDetailBean;
+import huanxing_print.com.cn.printhome.model.my.TotleBalanceBean;
+import huanxing_print.com.cn.printhome.model.print.ADInfo;
 import huanxing_print.com.cn.printhome.model.print.OrderStatusResp;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
+import huanxing_print.com.cn.printhome.net.callback.my.ADCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.PrintDetailCallBack;
+import huanxing_print.com.cn.printhome.net.callback.my.TotleBalanceCallBack;
+import huanxing_print.com.cn.printhome.net.request.my.ADListRequest;
+import huanxing_print.com.cn.printhome.net.request.my.PrintDetailRequest;
+import huanxing_print.com.cn.printhome.net.request.my.TotleBalanceRequest;
 import huanxing_print.com.cn.printhome.net.request.print.HttpListener;
 import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
-import huanxing_print.com.cn.printhome.ui.activity.copy.CommentActivity;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
+import huanxing_print.com.cn.printhome.util.ViewFactory;
 import huanxing_print.com.cn.printhome.util.WeiXinUtils;
+import huanxing_print.com.cn.printhome.view.cycleviewpager.CycleViewPager;
+import huanxing_print.com.cn.printhome.view.cycleviewpager.CycleViewPager.ImageCycleViewListener;
+import huanxing_print.com.cn.printhome.view.dialog.DialogUtils;
+import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 
 public class PrintStatusActivity extends BasePrintActivity implements View.OnClickListener {
 
-    private TextView stateTv;
+    private TextView stateTv,tv_money;
     private TextView stateDetailTv;
     private TextView countTv;
     private RelativeLayout successRyt;
     private RelativeLayout stateRyt;
     private LinearLayout exceptionLyt;
+    private LinearLayout ll_contact;
     private ImageView animImg;
 
     private OrderStatusResp orderStatusResp;
@@ -71,14 +97,20 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private boolean comment;
     private ReceiveBroadCast receiveBroadCast;
 
+    private List<ImageView> views = new ArrayList<ImageView>();
+    private List<ADInfo> infos = new ArrayList<ADInfo>();
+    private CycleViewPager cycleViewPager;
+
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         EventBus.getDefault().register(context);
         delImageView();
-        initData();
         initView();
+        initData();
         setUpload();
         timer.schedule(task, 1000 * 3, 1000 * 2);
     }
@@ -99,18 +131,50 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private void initData() {
         orderId = getIntent().getExtras().getLong(ORDER_ID);
         printerPrice = getIntent().getExtras().getParcelable(PRINTER_PRICE);
-        Logger.i(printerPrice.toString());
-        Logger.i(orderId);
+        if (null!=infos&&infos.size()>0){
+            infos.clear();
+        }
+        ADListRequest.request(context,adCallback);
+//        Logger.i(printerPrice.toString());
+//        Logger.i(orderId);
     }
+
+
+    private ADCallBack adCallback = new ADCallBack() {
+
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
+        }
+
+        @Override
+        public void success(List<ADInfo> bean) {
+            if (null!=bean&&bean.size()>0){
+                infos.addAll(bean);
+                configImageLoader();
+                initialize();
+            }
+        }
+    };
+
 
     private void initView() {
         initTitleBar("打印");
+        loadingDialog = new LoadingDialog(context);
         successRyt = (RelativeLayout) findViewById(R.id.successRyt);
         stateRyt = (RelativeLayout) findViewById(R.id.stateRyt);
         exceptionLyt = (LinearLayout) findViewById(R.id.exceptionLyt);
+        ll_contact = (LinearLayout) findViewById(R.id.ll_contact);
 
         animImg = (ImageView) findViewById(R.id.animImg);
         stateTv = (TextView) findViewById(R.id.stateTv);
+        tv_money = (TextView) findViewById(R.id.tv_money);
         stateDetailTv = (TextView) findViewById(R.id.stateDetailTv);
         countTv = (TextView) findViewById(R.id.countTv);
 
@@ -119,6 +183,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         findViewById(R.id.shareRyt).setOnClickListener(this);
         findViewById(R.id.commentRyt).setOnClickListener(this);
         findViewById(R.id.backImg).setOnClickListener(this);
+        findViewById(R.id.rightTv).setOnClickListener(this);
+        ll_contact.setOnClickListener(this);
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
@@ -136,6 +202,19 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
             case R.id.backImg:
                 finishThis();
                 break;
+            case R.id.rightTv:
+                DialogUtils.showCallDialog(context, getResources().getString(R.string.dlg_call),
+                        new DialogUtils.CallDialogCallBack() {
+                            @Override
+                            public void ok() {
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "400-666-2060"));
+                                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                    return;
+                                }
+                                startActivity(intent);
+                            }
+                        }).show();
+                break;
             case R.id.errorExitTv:
                 finish();
                 break;
@@ -146,17 +225,36 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 showInvitation();
                 break;
             case R.id.commentRyt:
-                if (isComment) {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("order_id", orderId);
-                    bundle.putString("printNum", printerPrice.getPrinterNo());
-                    bundle.putString("location", printerPrice.getPrintName());
-                    Intent intent = new Intent(context, CommentActivity.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(context, "您已评价过啦，请不要重复评价~", Toast.LENGTH_SHORT).show();
-                }
+//                if (isComment) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putLong("order_id", orderId);
+//                    bundle.putString("printNum", printerPrice.getPrinterNo());
+//                    bundle.putString("location", printerPrice.getPrintName());
+//                    Intent intent = new Intent(context, CommentActivity.class);
+//                    intent.putExtras(bundle);
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(context, "您已评价过啦，请不要重复评价~", Toast.LENGTH_SHORT).show();
+//                }
+
+                //DialogUtils.showPrintSuccessDetailDialog(context)
+                loadingDialog.show();
+                PrintDetailRequest.getPrintDetail(context,orderId+"",callback);
+                break;
+            case R.id.ll_contact:
+                DialogUtils.showCallDialog(context, getResources().getString(R.string.dlg_call),
+                        new DialogUtils.CallDialogCallBack() {
+                            @Override
+                            public void ok() {
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "400-666-2060"));
+                                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                    return;
+                                }
+                                startActivity(intent);
+                            }
+                        }).show();
+                break;
+            default:
                 break;
         }
     }
@@ -266,17 +364,23 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void setSuccessView() {
+        //查询余额接口
+        TotleBalanceRequest.request(context, new MyTotleBalanceCallBack());
+        initTitleRight("联系客服",true);
         successRyt.setVisibility(View.VISIBLE);
         stateRyt.setVisibility(View.GONE);
         exceptionLyt.setVisibility(View.GONE);
+        ll_contact.setVisibility(View.GONE);
     }
 
     private void setExceptionView() {
+        initTitleRight("联系客服",false);
         findViewById(R.id.errorExitTv).setVisibility(View.INVISIBLE);
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
         exceptionLyt.setVisibility(View.VISIBLE);
         countTv.setVisibility(View.GONE);
+        ll_contact.setVisibility(View.VISIBLE);
         animImg.setImageResource(R.drawable.ic_exception);
         stateTv.setText("打印异常");
         stateDetailTv.setText("很抱歉打印机发生了故障，未能正常打印，\n     系统会在两个小时后完成自动退款");
@@ -337,6 +441,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
         exceptionLyt.setVisibility(View.GONE);
+        ll_contact.setVisibility(View.GONE);
     }
 
     private void setQueueView(int count) {
@@ -438,6 +543,47 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                         ().getMemberId(), bmp);
     }
 
+    private PrintDetailCallBack callback = new PrintDetailCallBack() {
+
+
+        @Override
+        public void fail(String msg) {
+            loadingDialog.dismiss();
+        }
+
+        @Override
+        public void connectFail() {
+            loadingDialog.dismiss();
+        }
+
+        @Override
+        public void success(String msg, PrintDetailBean bean) {
+            loadingDialog.dismiss();
+            if (null!=bean) {
+                DialogUtils.showPrintSuccessDetailDialog(context, bean);
+            }
+        }
+    };
+
+
+    public class MyTotleBalanceCallBack extends TotleBalanceCallBack {
+
+        @Override
+        public void fail(String msg) {
+
+        }
+
+        @Override
+        public void connectFail() {
+
+        }
+
+        @Override
+        public void success(String msg, TotleBalanceBean bean) {
+            String totleBalance = bean.getTotleBalance();
+            tv_money.setText("￥" + totleBalance);
+        }
+    }
     //    public void onSuccess(View view) {
 //        setSuccessView();
 //    }
@@ -475,5 +621,75 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         IntentFilter filter = new IntentFilter();
         filter.addAction("comment");    //只有持有相同的action的接受者才能接收此广播
         context.registerReceiver(receiveBroadCast, filter);
+    }
+
+
+
+    @SuppressLint("NewApi")
+    private void initialize() {
+
+        cycleViewPager = (CycleViewPager) getFragmentManager()
+                .findFragmentById(R.id.fragment_cycle_viewpager_content);
+//
+//        for(int i = 0; i < imageUrls.length; i ++){
+//            ADInfo info = new ADInfo();
+////            info.setUrl(imageUrls[i]);
+////            info.setContent("图片-->" + i );
+//            infos.add(info);
+//        }
+
+        // 将最后一个ImageView添加进来
+        views.add(ViewFactory.getImageView(this, infos.get(infos.size() - 1).getImageUrl()));
+        for (int i = 0; i < infos.size(); i++) {
+            views.add(ViewFactory.getImageView(this, infos.get(i).getImageUrl()));
+        }
+        // 将第一个ImageView添加进来
+        views.add(ViewFactory.getImageView(this, infos.get(0).getImageUrl()));
+
+        // 设置循环，在调用setData方法前调用
+        cycleViewPager.setCycle(true);
+
+        // 在加载数据前设置是否循环
+        cycleViewPager.setData(views, infos, mAdCycleViewListener);
+        //设置轮播
+        cycleViewPager.setWheel(true);
+
+        // 设置轮播时间，默认5000ms
+        cycleViewPager.setTime(2000);
+        //设置圆点指示图标组居中显示，默认靠右
+        cycleViewPager.setIndicatorCenter();
+    }
+    private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
+
+
+        public void onImageClick(ADInfo info, int position, View imageView) {
+            if (cycleViewPager.isCycle()) {
+                position = position - 1;
+//                Toast.makeText(context,
+//                        "position-->" + info.getContent(), Toast.LENGTH_SHORT)
+//                        .show();
+            }
+
+        }
+
+    };
+    /**
+     * 配置ImageLoder
+     */
+    private void configImageLoader() {
+        // 初始化ImageLoader
+        @SuppressWarnings("deprecation")
+        DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.icon_stub) // 设置图片下载期间显示的图片
+                .showImageForEmptyUri(R.drawable.icon_empty) // 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.drawable.icon_error) // 设置图片加载或解码过程中发生错误显示的图片
+                .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
+                .cacheOnDisc(true) // 设置下载的图片是否缓存在SD卡中
+                // .displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
+                .build(); // 创建配置过得DisplayImageOption对象
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(options)
+                .threadPriority(Thread.NORM_PRIORITY - 2).denyCacheImageMultipleSizesInMemory()
+                .discCacheFileNameGenerator(new Md5FileNameGenerator()).tasksProcessingOrder(QueueProcessingType.LIFO).build();
+        ImageLoader.getInstance().init(config);
     }
 }

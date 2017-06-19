@@ -50,7 +50,6 @@ import huanxing_print.com.cn.printhome.net.request.print.PrintRequest;
 import huanxing_print.com.cn.printhome.ui.activity.my.AccountActivity;
 import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupRecylerAdapter;
-import huanxing_print.com.cn.printhome.util.CommonUtils;
 import huanxing_print.com.cn.printhome.util.DisplayUtil;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ImageUtil;
@@ -203,9 +202,9 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         doubleFlag = newSetting.getDoubleFlag();
         printCount = newSetting.getPrintCount();
         sizeType = newSetting.getSizeType();
-        Logger.i(previewPath);
-        Logger.i(printerNo);
-        Logger.i(printSetting.toString());
+//        Logger.i(previewPath);
+//        Logger.i(printerNo);
+//        Logger.i(printSetting.toString());
         requeryPrice(printerNo);
     }
 
@@ -279,11 +278,11 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                             balancePay();
                         } else {
                             showPayType();
-                            Logger.i("余额不足,调用第三方支付");
+                            //Logger.i("余额不足,调用第三方支付");
                         }
                     } else {
                         groupPay();
-                        Logger.i("使用群支付");
+                        //Logger.i("使用群支付");
                     }
                 } else {
                     dismissLoading();
@@ -303,10 +302,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         PrintRequest.groupPay(this, group.getGroupId(), orderId, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                Logger.i("groupPay onSucceed");
+                //Logger.i("groupPay onSucceed");
                 CommonResp resp = new Gson().fromJson(content, CommonResp.class);
                 if (resp.isSuccess() && isLoading()) {
-                    Logger.i("modifySetting onSucceed");
+                    //Logger.i("modifySetting onSucceed");
                     print();
                 } else {
                     dismissLoading();
@@ -329,7 +328,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 new HttpListener() {
                     @Override
                     public void onSucceed(String content) {
-                        Logger.i("modifySetting onSucceed");
+                       // Logger.i("modifySetting onSucceed");
                         CommonResp resp = new Gson().fromJson(content, CommonResp.class);
                         if (resp.isSuccess() && isLoading()) {
                             addOrder();
@@ -350,10 +349,10 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         PrintRequest.balancePay(this, orderId, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-                Logger.i("balancePay onSucceed");
+               // Logger.i("balancePay onSucceed");
                 CommonResp resp = new Gson().fromJson(content, CommonResp.class);
                 if (resp.isSuccess() && isLoading()) {
-                    Logger.i("modifySetting onSucceed");
+                    //Logger.i("modifySetting onSucceed");
                     print();
                 } else {
                     dismissLoading();
@@ -398,7 +397,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         float price = PriceUtil.getPrice(newSetting, printerPrice);
-        Logger.i(price);
+        //Logger.i(price);
         showLoading();
         PrintRequest.queryGroup(this, price + "", new HttpListener() {
             @Override
@@ -600,7 +599,6 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     private boolean isPersion = true;
 
     private void setPreviewScale(int progress) {
-        Logger.i(progress);
         scaleRatio = (int) (25 + (((float) progress / 100)) * 75);
         Logger.i(scaleRatio);
         int newWidth;
@@ -949,12 +947,12 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
     public void onMessageEventPostThread(Integer i) {
         this.pageCount = i;
-        Logger.i(pageCount);
+       // Logger.i(pageCount);
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void onMessageEvent(WechatPayEvent wechatPayEvent) {
-        Logger.i(wechatPayEvent.toString());
+        //Logger.i(wechatPayEvent.toString());
         SharedPreferencesUtils.putShareValue(CopySettingActivity.this, "wechatFlag", false);
         if (wechatPayEvent.isResult()) {
             print();
