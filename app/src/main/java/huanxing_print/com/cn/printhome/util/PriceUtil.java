@@ -56,7 +56,8 @@ public class PriceUtil {
     }
 
     public static float getPhotoPriceFloat(final PrintInfoResp.PrinterPrice printerPrice) {
-        float price = StringUtil.stringToFloat(printerPrice.getA4ColorPrice()) * 1.1f;
+//        float price = StringUtil.stringToFloat(printerPrice.getA4ColorPrice()) * 1.1f;
+        float price = 1.2f;
         return price;
     }
 }
