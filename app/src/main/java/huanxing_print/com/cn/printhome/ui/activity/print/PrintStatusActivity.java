@@ -548,8 +548,6 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     }
 
     private PrintDetailCallBack callback = new PrintDetailCallBack() {
-
-
         @Override
         public void fail(String msg) {
             loadingDialog.dismiss();
