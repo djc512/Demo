@@ -624,7 +624,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         receiveBroadCast = new ReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
         filter.addAction("comment");    //只有持有相同的action的接受者才能接收此广播
-        context.registerReceiver(receiveBroadCast, filter);
+        context.registerReceiver(receiveBroadCast,filter);
     }
 
 
