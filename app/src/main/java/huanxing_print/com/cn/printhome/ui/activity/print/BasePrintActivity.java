@@ -11,6 +11,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.StatusBarCompat;
 import huanxing_print.com.cn.printhome.util.StatusBarUtil;
@@ -74,6 +76,19 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
             rightTv.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();

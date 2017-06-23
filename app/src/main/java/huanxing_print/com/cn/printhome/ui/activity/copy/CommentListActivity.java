@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -240,8 +242,15 @@ public class CommentListActivity extends FragmentActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         lp.leftMargin = marginLeft;
         view_line.setLayoutParams(lp);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

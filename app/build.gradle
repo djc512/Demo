@@ -33,6 +33,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+
+        yingyongbao {}
+        c360 {}
+
+        productFlavors.all { flavor ->
+            flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+        }
+    }
 }
 
 dependencies {
@@ -88,4 +98,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/HwPush_SDK_V2705_nomap.jar')
     compile files('libs/universal-image-loader-1.9.2-SNAPSHOT-with-sources.jar')
+    compile 'com.umeng.analytics:analytics:6.1.1'
 }

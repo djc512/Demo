@@ -24,6 +24,7 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.MyLocationStyle;
 import com.amap.api.maps2d.overlay.WalkRouteOverlay;
+import com.umeng.analytics.MobclickAgent;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
@@ -115,6 +116,7 @@ public class PrinterLocationActivity extends AppCompatActivity implements Locati
     protected void onResume() {
         super.onResume();
         mapView.onResume();
+        MobclickAgent.onResume(this);
     }
 
     /**
@@ -124,6 +126,7 @@ public class PrinterLocationActivity extends AppCompatActivity implements Locati
     protected void onPause() {
         super.onPause();
         mapView.onPause();
+        MobclickAgent.onPause(this);
         deactivate();
     }
 

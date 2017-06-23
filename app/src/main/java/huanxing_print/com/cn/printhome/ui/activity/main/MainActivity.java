@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -231,6 +232,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_off));
                 setColor(0);//yixin
                 fragTemp = fragChat;
+                MobclickAgent.onEvent(this, "YinXin_Tab");
                 break;
             case R.id.ll_apply:
                 ll_bg.setBackgroundResource(R.color.gray5);
@@ -241,6 +243,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_off));
                 setColor(1);//yixin
                 fragTemp = fragApply;
+                MobclickAgent.onEvent(this, "Application_Tab");
                 break;
             case R.id.ll_print:
                 ll_bg.setBackgroundResource(R.color.white);
@@ -251,6 +254,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_off));
                 setColor(2);//yixin
                 fragTemp = fragPrint;
+                MobclickAgent.onEvent(this, "Print_Tab");
                 break;
             case R.id.ll_contacts:
                 ll_bg.setBackgroundResource(R.color.gray5);
@@ -261,6 +265,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_off));
                 setColor(3);//yixin
                 fragTemp = fragContants;
+                MobclickAgent.onEvent(this, "Contact_Tab");
                 break;
             case R.id.ll_my:
                 ll_bg.setBackgroundResource(R.color.gray5);
@@ -271,6 +276,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 iv_my.setImageDrawable(getResources().getDrawable(R.drawable.main_tab_my_on));
                 setColor(4);//yixin
                 fragTemp = fragMy;
+                MobclickAgent.onEvent(this, "Mine_Tab");
                 break;
             default:
                 break;
@@ -362,7 +368,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             Manifest.permission.CALL_PHONE,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.READ_CONTACTS
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.READ_PHONE_STATE
     };
 
     private boolean isPermissionsGranted() {

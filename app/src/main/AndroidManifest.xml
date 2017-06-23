@@ -82,6 +82,15 @@
         android:largeHeap="true"
         android:theme="@android:style/Theme.Light.NoTitleBar"
         tools:replace="Android:icon, android:theme">
+        <!--umeng-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="594cbf5299f0c76aaa0000d3"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}"/>
+        <!--umeng end-->
+
         <meta-data
             android:name="huanxing_print.com.cn.printhome.constant.CachingGlideModule"
             android:value="GlideModule" />

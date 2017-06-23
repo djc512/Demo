@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,9 +130,15 @@ public class CommunityListActivity extends FragmentActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
-
+        MobclickAgent.onResume(this);
         lp.leftMargin = marginLeft;
         view_line.setLayoutParams(lp);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override
