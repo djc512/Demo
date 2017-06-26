@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -53,7 +55,7 @@ import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 import static huanxing_print.com.cn.printhome.constant.ConFig.IMG_CACHE_PATH;
 
-public class AddFileActivity extends BasePrintActivity implements View.OnClickListener {
+public class AddFileActivity extends BasePrintActivity implements View.OnClickListener,ViewPager.OnPageChangeListener {
 
     public static final int TYPE_PRINT = 1;
     public static final int TYPE_CHAT = 2;
@@ -172,6 +174,7 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
         FinderFragmentAdapter mFragmentAdapteradapter = new FinderFragmentAdapter(getSupportFragmentManager(),
                 fragments, titleList);
         viewpager.setAdapter(mFragmentAdapteradapter);
+        viewpager.setOnPageChangeListener(this);
         tabLayout.setupWithViewPager(viewpager);
         for (int i = 0; i < titles.length; i++) {
             tabLayout.getTabAt(i).setCustomView(getTabView(i));
@@ -242,6 +245,32 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
         intent.putExtra("path", path);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        String page = titles[position];
+        if ("全部文件".equals(page)) {
+            MobclickAgent.onEvent(this, "All_File_Choose");
+        } else if("微信".equals(page)) {
+            MobclickAgent.onEvent(this, "WeChat_Choose");
+        } else if("QQ".equals(page)) {
+            MobclickAgent.onEvent(this, "QQ_Choose");
+        } else if("手机相册".equals(page)) {
+            MobclickAgent.onEvent(this, "Photo_Choose");
+        } else if("电脑上传".equals(page)) {
+            MobclickAgent.onEvent(this, "Computer_Upload_Choose");
+        } else if("WIFI导入".equals(page)) {
+            MobclickAgent.onEvent(this, "Wifi_Choose");
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
     }
 
     static class MyHandler extends Handler {

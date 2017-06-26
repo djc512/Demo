@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.hyphenate.chat.EMClient;
+import com.umeng.analytics.MobclickAgent;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -90,26 +91,32 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
             case R.id.ll_file:
                 index = 0;
                 //startActivity(new Intent(getActivity(), CopyActivity.class));
+                MobclickAgent.onEvent(getActivity(), "All_File_Choose");
                 break;
             case R.id.ll_weixin:
                 index = 1;
                 //startActivity(new Intent(getActivity(), AddFileActivity.class));
+                MobclickAgent.onEvent(getActivity(), "WeChat_Choose");
                 break;
             case R.id.ll_qq:
                 index = 2;
                 //startActivity(new Intent(getActivity(), OperatingInstructionsActivity.class));
+                MobclickAgent.onEvent(getActivity(), "QQ_Choose");
                 break;
             case R.id.ll_photo:
                 index = 3;
                 //startActivity(new Intent(getActivity(), CopyActivity.class));
+                MobclickAgent.onEvent(getActivity(), "Photo_Choose");
                 break;
             case R.id.ll_computer:
                 index = 4;
                 //startActivity(new Intent(getActivity(), AddFileActivity.class));
+                MobclickAgent.onEvent(getActivity(), "Computer_Upload_Choose");
                 break;
             case R.id.ll_wifi:
                 index = 5;
                 //startActivity(new Intent(getActivity(), OperatingInstructionsActivity.class));
+                MobclickAgent.onEvent(getActivity(), "Wifi_Choose");
                 break;
             default:
                 break;
