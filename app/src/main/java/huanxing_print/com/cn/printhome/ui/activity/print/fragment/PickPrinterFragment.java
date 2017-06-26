@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -111,6 +112,14 @@ public class PickPrinterFragment extends BaseLazyFragment {
                 if (position == 2) {
                     turnScan();
                     setTabIndex(0);
+                }
+                String type = titles.get(position);
+                if("已用打印机".equals(type)) {
+                    MobclickAgent.onEvent(getActivity(), "Used_Printer");
+                }else if("找打印机".equals(type)) {
+                    MobclickAgent.onEvent(getActivity(), "Find_Printer");
+                }else if("扫码连机".equals(type)) {
+                    MobclickAgent.onEvent(getActivity(), "Scan_Printer");
                 }
             }
 
