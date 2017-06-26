@@ -150,15 +150,19 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
                 switch (position) {
                     case 0:
                         setTextState(0);
+                        MobclickAgent.onEvent(CopyActivity.this,"File_Type");
                         break;
                     case 1:
                         setTextState(1);
+                        MobclickAgent.onEvent(CopyActivity.this,"ID_Card_Type");
                         break;
                     case 2:
                         setTextState(2);
+                        MobclickAgent.onEvent(CopyActivity.this,"Residence_booklet_Type");
                         break;
                     case 3:
                         setTextState(3);
+                        MobclickAgent.onEvent(CopyActivity.this,"Passport_Type");
                         break;
                 }
             }
