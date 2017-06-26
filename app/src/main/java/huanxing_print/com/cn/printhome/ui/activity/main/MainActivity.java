@@ -346,6 +346,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             tv_count.setVisibility(View.GONE);
         }
         super.onResume();
+        MobclickAgent.onPageStart("打印首页");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("打印首页");
     }
 
     @Override

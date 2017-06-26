@@ -35,6 +35,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -619,13 +620,18 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("打印状态");
         receiveBroadCast = new ReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
         filter.addAction("comment");    //只有持有相同的action的接受者才能接收此广播
         context.registerReceiver(receiveBroadCast,filter);
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("打印状态");
+    }
 
     @SuppressLint("NewApi")
     private void initialize() {

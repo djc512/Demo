@@ -72,6 +72,7 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("复印");
         MobclickAgent.onResume(this);
         lp.leftMargin = marginLeft;
         view_line.setLayoutParams(lp);
@@ -80,6 +81,7 @@ public class CopyActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onPause() {
         super.onPause();
+        MobclickAgent.onPageEnd("复印");
         MobclickAgent.onPause(this);
     }
 

@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -116,6 +118,18 @@ public class PickPrinterActivity extends BasePrintActivity implements EasyPermis
         StepViewUtil.init(context, findViewById(R.id.step), StepLineView.STEP_PICK_FILE);
         TextView pickFileTv = (TextView) findViewById(R.id.pickFileTv);
         pickFileTv.setText("采集制作");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("选打印机");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("选打印机");
     }
 
     static class MyHandler extends Handler {

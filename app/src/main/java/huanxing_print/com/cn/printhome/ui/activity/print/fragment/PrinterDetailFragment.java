@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.log.Logger;
 import huanxing_print.com.cn.printhome.model.print.PrintInfoResp;
@@ -131,6 +133,18 @@ public class PrinterDetailFragment extends Fragment {
         resolutionTv.setText(printerPrice.getResolution());
         technicalTypeTv.setText(printerPrice.getTechnicalType());
         remainTv.setText(getA4NumStr(printerPrice) + " " + getA3NumStr(printerPrice));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("打印机详情");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("打印机详情");
     }
 
     private String getPhotoNumStr(PrintInfoResp.PrinterPrice printerPrice) {

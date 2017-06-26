@@ -209,6 +209,18 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         requeryPrice(printerNo);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("设置输出");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("设置输出");
+    }
+
     private boolean isSettingChange() {
         updateSetting();
         if (newSetting.toString().equals(printSetting.toString())) {

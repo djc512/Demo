@@ -23,6 +23,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
+
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
@@ -170,10 +172,17 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("复印裁剪");
         receiveBroadCast = new ReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
         filter.addAction("bitmap");    //只有持有相同的action的接受者才能接收此广播
         ctx.registerReceiver(receiveBroadCast, filter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("复印裁剪");
     }
 
     public class ReceiveBroadCast extends BroadcastReceiver {

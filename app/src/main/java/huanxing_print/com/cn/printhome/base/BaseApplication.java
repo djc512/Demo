@@ -31,6 +31,7 @@ import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -379,6 +380,10 @@ public class BaseApplication extends Application {
         initHttpConnection();
         ZXingLibrary.initDisplayOpinion(this);
         initHuanxin();
+        //禁止默认的Activity页面统计方式
+        MobclickAgent.openActivityDurationTrack(false);
+//        //Umeng测试集成实时显示
+//        MobclickAgent.setDebugMode(true);
     }
 
     @Override

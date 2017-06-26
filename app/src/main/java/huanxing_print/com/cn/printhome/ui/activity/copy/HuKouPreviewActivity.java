@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
@@ -98,6 +99,7 @@ public class HuKouPreviewActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("复印裁剪");
         bitmpaUtil = new BitmpaUtil();
         show();
         new Handler().postDelayed(new Runnable() {
@@ -107,6 +109,12 @@ public class HuKouPreviewActivity extends BaseActivity implements View.OnClickLi
                 btn_adjust.performClick();
             }
         }, 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("复印裁剪");
     }
 
     private void initView() {

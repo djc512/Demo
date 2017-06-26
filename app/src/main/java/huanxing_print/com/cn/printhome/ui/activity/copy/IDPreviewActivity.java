@@ -99,6 +99,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("复印裁剪");
         bitmpaUtil = new BitmpaUtil();
         show();
         new Handler().postDelayed(new Runnable() {
@@ -108,6 +109,12 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 btn_adjust.performClick();
             }
         }, 1000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("复印裁剪");
     }
 
     private void initView() {
