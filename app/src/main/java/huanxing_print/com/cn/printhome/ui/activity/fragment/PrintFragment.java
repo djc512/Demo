@@ -83,6 +83,7 @@ public class PrintFragment extends BaseFragment implements OnClickListener {
     public void onClick(View v) {
         int index = 0;
         if (v.getId() == R.id.iv_notice) {
+            MobclickAgent.onEvent(getActivity(), "Scan_Qrcode_Home");
             Intent intent = new Intent(getActivity(), CaptureActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
             return;
