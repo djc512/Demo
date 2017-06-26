@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
+import com.umeng.analytics.MobclickAgent;
 
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
@@ -242,6 +243,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btn_gray:
                 show();
+                MobclickAgent.onEvent(this,"Gray_Level");
                 new Thread() {
                     @Override
                     public void run() {
@@ -270,6 +272,7 @@ public class IDPreviewActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btn_original:
                 show();
+                MobclickAgent.onEvent(this,"Original");
                 new Thread() {
                     @Override
                     public void run() {
