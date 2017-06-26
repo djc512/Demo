@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hyphenate.util.DensityUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -624,6 +625,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         ll_cz_persion.setVisibility(View.GONE);
         ll_cz_qun.setVisibility(View.VISIBLE);
         isPersion = false;
+        MobclickAgent.onEvent(this, "Group");
     }
 
     private void setGroupViewGone() {
@@ -631,6 +633,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         ll_cz_persion.setVisibility(View.VISIBLE);
         ll_cz_qun.setVisibility(View.GONE);
         isPersion = true;
+        MobclickAgent.onEvent(this, "Personal");
     }
 
     /**
