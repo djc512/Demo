@@ -110,6 +110,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initListener();
         inData();
         initPermission();
+        if (!ObjectUtils.isNull(baseApplication.getMemberId())) {
+            MobclickAgent.onProfileSignIn(baseApplication.getMemberId());
+        }
     }
 
     private void initView() {
