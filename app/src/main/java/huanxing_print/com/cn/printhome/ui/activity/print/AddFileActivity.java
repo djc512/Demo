@@ -406,4 +406,16 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
         super.onDestroy();
         EventBus.getDefault().unregister(context);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("选取文件");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("选取文件");
+    }
 }
