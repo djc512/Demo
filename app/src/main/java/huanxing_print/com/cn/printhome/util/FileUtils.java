@@ -417,9 +417,11 @@ public class FileUtils {
             String name = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
             String desc = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DESCRIPTION));
             byte[] data = cursor.getBlob(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            String photoPath = new String(data, 0, data.length - 1);
-            imgList.add(photoPath);
-            Logger.i(name + photoPath);
+            if (data != null) {
+                String photoPath = new String(data, 0, data.length - 1);
+                imgList.add(photoPath);
+                Logger.i(name + photoPath);
+            }
         } while (cursor.moveToPrevious());
         return imgList;
     }
@@ -480,10 +482,10 @@ public class FileUtils {
 
     /**
      * 将Bitmap 图片保存到本地路径，并返回路径
-     * @param c
-    //* @param mType 资源类型，参照  MultimediaContentType 枚举，根据此类型，保存时可自动归类
+     *
+     * @param c        //* @param mType 资源类型，参照  MultimediaContentType 枚举，根据此类型，保存时可自动归类
      * @param fileName 文件名称
-     * @param bitmap 图片
+     * @param bitmap   图片
      * @return
      */
     public static String saveFile(Context c, String fileName, Bitmap bitmap) {
@@ -509,7 +511,7 @@ public class FileUtils {
         try {
             String suffix = "";
             if (filePath == null || filePath.trim().length() == 0) {
-                filePath = ConFig.IMG_CACHE_PATH  + "/";
+                filePath = ConFig.IMG_CACHE_PATH + "/";
             }
             File file = new File(filePath);
             if (!file.exists()) {
@@ -534,7 +536,7 @@ public class FileUtils {
     }
 
     public static void deleteDir() {
-        File dir = new File(ConFig.IMG_CACHE_PATH );
+        File dir = new File(ConFig.IMG_CACHE_PATH);
         if (dir == null || !dir.exists() || !dir.isDirectory())
             return;
 

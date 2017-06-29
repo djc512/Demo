@@ -3,6 +3,8 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -48,14 +50,13 @@ import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
 import huanxing_print.com.cn.printhome.util.ShowUtil;
-import huanxing_print.com.cn.printhome.util.StatusBarCompat;
 import huanxing_print.com.cn.printhome.util.StepViewUtil;
 import huanxing_print.com.cn.printhome.view.StepLineView;
 import huanxing_print.com.cn.printhome.view.dialog.Alert;
 
 import static huanxing_print.com.cn.printhome.constant.ConFig.IMG_CACHE_PATH;
 
-public class AddFileActivity extends BasePrintActivity implements View.OnClickListener,ViewPager.OnPageChangeListener {
+public class AddFileActivity extends BasePrintActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     public static final int TYPE_PRINT = 1;
     public static final int TYPE_CHAT = 2;
@@ -256,15 +257,15 @@ public class AddFileActivity extends BasePrintActivity implements View.OnClickLi
         String page = titles[position];
         if ("全部文件".equals(page)) {
             MobclickAgent.onEvent(this, "All_File_Choose");
-        } else if("微信".equals(page)) {
+        } else if ("微信".equals(page)) {
             MobclickAgent.onEvent(this, "WeChat_Choose");
-        } else if("QQ".equals(page)) {
+        } else if ("QQ".equals(page)) {
             MobclickAgent.onEvent(this, "QQ_Choose");
-        } else if("手机相册".equals(page)) {
+        } else if ("手机相册".equals(page)) {
             MobclickAgent.onEvent(this, "Photo_Choose");
-        } else if("电脑上传".equals(page)) {
+        } else if ("电脑上传".equals(page)) {
             MobclickAgent.onEvent(this, "Computer_Upload_Choose");
-        } else if("WIFI导入".equals(page)) {
+        } else if ("WIFI导入".equals(page)) {
             MobclickAgent.onEvent(this, "Wifi_Choose");
         }
     }

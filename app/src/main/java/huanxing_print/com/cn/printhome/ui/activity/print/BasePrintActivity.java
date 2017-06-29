@@ -2,6 +2,8 @@ package huanxing_print.com.cn.printhome.ui.activity.print;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -64,7 +66,8 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
             findViewById(R.id.backImg).setOnClickListener(this);
         }
     }
-    protected void initTitleRight(String name,boolean flag) {
+
+    protected void initTitleRight(String name, boolean flag) {
         TextView rightTv = (TextView) findViewById(R.id.rightTv);
         if (flag) {
             rightTv.setVisibility(View.VISIBLE);
@@ -72,7 +75,7 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
             if (rightTv != null) {
                 rightTv.setOnClickListener(this);
             }
-        }else{
+        } else {
             rightTv.setVisibility(View.GONE);
         }
     }
@@ -98,6 +101,16 @@ public abstract class BasePrintActivity extends AppCompatActivity implements Vie
                 break;
         }
     }
+//
+//    @Override
+//    public Resources getResources() {
+//        Resources resources = super.getResources();
+//        Configuration configuration = resources.getConfiguration();
+//        configuration.setToDefaults();
+//        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+//        return resources;
+//    }
+
 
     protected void showLoading() {
         if (loadingDialog == null) {
