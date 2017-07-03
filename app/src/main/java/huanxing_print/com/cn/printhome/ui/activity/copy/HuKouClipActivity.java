@@ -190,7 +190,16 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btn_preview:
                 picName = System.currentTimeMillis() + ".jpg";
-                if (null != bitmap && null != bitmapf) {
+//                if (null != bitmap && null != bitmapf) {
+//                    Bitmap viewBitmap = createViewBitmap(ll);
+//                    saveUtil.saveClipPic(viewBitmap, picName);
+//                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
+//                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
+//                    printIntent.putExtra("imagepath", path);
+//                    printIntent.putExtra("copyfile", false);
+//                    startActivity(printIntent);
+//                    finishCurrentActivity();
+//                } else {
                     Bitmap viewBitmap = createViewBitmap(ll);
                     saveUtil.saveClipPic(viewBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
@@ -199,16 +208,7 @@ public class HuKouClipActivity extends BaseActivity implements View.OnClickListe
                     printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
                     finishCurrentActivity();
-                } else {
-                    Bitmap viewBitmap = createViewBitmap(ll);
-                    saveUtil.saveClipPic(viewBitmap, picName);
-                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
-                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
-                    printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("copyfile", false);
-                    startActivity(printIntent);
-                    finishCurrentActivity();
-                }
+//                }
                 break;
         }
     }
