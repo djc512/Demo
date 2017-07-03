@@ -43,8 +43,8 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     private double a4Height = 307;
     private double idWidth = 85.5;
     private double idHeight = 54;
-    private int screenWidth;
-    private int screenHeight;
+//    private int screenWidth;
+//    private int screenHeight;
     private double sqrtRatio;
     private double ivSqrt;
     private Bitmap mergeBitmap;
@@ -85,9 +85,9 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void initData() {
 
-        Display display = getWindowManager().getDefaultDisplay();
-        screenWidth = display.getWidth();
-        screenHeight = display.getHeight();
+//        Display display = getWindowManager().getDefaultDisplay();
+//        screenWidth = display.getWidth();
+//        screenHeight = display.getHeight();
 
         Intent intent = getIntent();
         byte[] bytes = intent.getByteArrayExtra("bytes");
@@ -179,7 +179,16 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_preview:
                 picName = System.currentTimeMillis() + ".jpg";
-                if (null != bitmap && null != bitmapf) {
+//                if (null != bitmap && null != bitmapf) {
+//                    Bitmap viewBitmap = createViewBitmap(ll);
+//                    saveUtil.saveClipPic(viewBitmap, picName);
+//                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
+//                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
+//                    printIntent.putExtra("imagepath", path);
+//                    printIntent.putExtra("copyfile", false);
+//                    startActivity(printIntent);
+//                    finishCurrentActivity();
+//                } else {
                     Bitmap viewBitmap = createViewBitmap(ll);
                     saveUtil.saveClipPic(viewBitmap, picName);
                     String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
@@ -188,45 +197,36 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
                     printIntent.putExtra("copyfile", false);
                     startActivity(printIntent);
                     finishCurrentActivity();
-                } else {
-                    Bitmap viewBitmap = createViewBitmap(ll);
-                    saveUtil.saveClipPic(viewBitmap, picName);
-                    String path = Environment.getExternalStorageDirectory().getPath() + "/image/" + picName;
-                    Intent printIntent = new Intent(getSelfActivity(), PickPrinterActivity.class);
-                    printIntent.putExtra("imagepath", path);
-                    printIntent.putExtra("copyfile", false);
-                    startActivity(printIntent);
-                    finishCurrentActivity();
-                }
+//                }
                 break;
         }
     }
 
-    /**
-     * 合并图片
-     *
-     * @param first
-     * @param second
-     * @param ivWidth
-     * @param ivHeight @return
-     */
-    private Bitmap mergePic(Bitmap first, Bitmap second, double ivWidth, double ivHeight) {
-        int picwidth = (int) ivWidth;
-        int picheight;
-        if (null == second) {
-            picheight = (int) (ivHeight);
-        } else {
-            picheight = (int) (ivHeight * 2);
-        }
-        Bitmap result = Bitmap.createBitmap(picwidth, picheight, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(result);
-        canvas.drawBitmap(first, dip2px(50), dip2px(50), null);
-        if (null != second) {
-            canvas.drawBitmap(second, dip2px(50), first.getHeight() + dip2px(80), null);
-
-        }
-        return result;
-    }
+//    /**
+//     * 合并图片
+//     *
+//     * @param first
+//     * @param second
+//     * @param ivWidth
+//     * @param ivHeight @return
+//     */
+//    private Bitmap mergePic(Bitmap first, Bitmap second, double ivWidth, double ivHeight) {
+//        int picwidth = (int) ivWidth;
+//        int picheight;
+//        if (null == second) {
+//            picheight = (int) (ivHeight);
+//        } else {
+//            picheight = (int) (ivHeight * 2);
+//        }
+//        Bitmap result = Bitmap.createBitmap(picwidth, picheight, Bitmap.Config.ARGB_8888);
+//        Canvas canvas = new Canvas(result);
+//        canvas.drawBitmap(first, dip2px(50), dip2px(50), null);
+//        if (null != second) {
+//            canvas.drawBitmap(second, dip2px(50), first.getHeight() + dip2px(80), null);
+//
+//        }
+//        return result;
+//    }
 
     @Override
     protected void onDestroy() {
@@ -242,27 +242,27 @@ public class IDClipActivity extends BaseActivity implements View.OnClickListener
         System.gc();
     }
 
-    /**
-     * 获取屏幕的实际尺寸
-     */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void getScreenSizeOfDevice() {
-        Point point = new Point();
-        getWindowManager().getDefaultDisplay().getRealSize(point);
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        double x = Math.pow(point.x / dm.xdpi, 2);
-        double y = Math.pow(point.y / dm.ydpi, 2);
-        double screenInches = Math.sqrt(x + y);
-        Log.d(TAG, "Screen inches : " + screenInches);
-    }
-    /**
-     * 获取手机的屏幕状态
-     * true为打开，false为关闭
-     */
-    public boolean isScreenon() {
-        PowerManager powerManager = (PowerManager) getSelfActivity()
-                .getSystemService(Context.POWER_SERVICE);
-        boolean ifOpen = powerManager.isScreenOn();
-        return ifOpen;
-    }
+//    /**
+//     * 获取屏幕的实际尺寸
+//     */
+//    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+//    private void getScreenSizeOfDevice() {
+//        Point point = new Point();
+//        getWindowManager().getDefaultDisplay().getRealSize(point);
+//        DisplayMetrics dm = getResources().getDisplayMetrics();
+//        double x = Math.pow(point.x / dm.xdpi, 2);
+//        double y = Math.pow(point.y / dm.ydpi, 2);
+//        double screenInches = Math.sqrt(x + y);
+//        Log.d(TAG, "Screen inches : " + screenInches);
+//    }
+//    /**
+//     * 获取手机的屏幕状态
+//     * true为打开，false为关闭
+//     */
+//    public boolean isScreenon() {
+//        PowerManager powerManager = (PowerManager) getSelfActivity()
+//                .getSystemService(Context.POWER_SERVICE);
+//        boolean ifOpen = powerManager.isScreenOn();
+//        return ifOpen;
+//    }
 }
