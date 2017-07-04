@@ -53,7 +53,7 @@ import huanxing_print.com.cn.printhome.ui.activity.print.PrintStatusActivity;
 import huanxing_print.com.cn.printhome.ui.adapter.GroupRecylerAdapter;
 import huanxing_print.com.cn.printhome.util.DisplayUtil;
 import huanxing_print.com.cn.printhome.util.GsonUtil;
-import huanxing_print.com.cn.printhome.util.ImageUtil;
+import huanxing_print.com.cn.printhome.util.image.ImageUtil;
 import huanxing_print.com.cn.printhome.util.Pay.PayUtil;
 import huanxing_print.com.cn.printhome.util.PriceUtil;
 import huanxing_print.com.cn.printhome.util.PrintUtil;
@@ -341,7 +341,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
                 new HttpListener() {
                     @Override
                     public void onSucceed(String content) {
-                       // Logger.i("modifySetting onSucceed");
+                        // Logger.i("modifySetting onSucceed");
                         CommonResp resp = new Gson().fromJson(content, CommonResp.class);
                         if (resp.isSuccess() && isLoading()) {
                             addOrder();
@@ -362,7 +362,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         PrintRequest.balancePay(this, orderId, new HttpListener() {
             @Override
             public void onSucceed(String content) {
-               // Logger.i("balancePay onSucceed");
+                // Logger.i("balancePay onSucceed");
                 CommonResp resp = new Gson().fromJson(content, CommonResp.class);
                 if (resp.isSuccess() && isLoading()) {
                     //Logger.i("modifySetting onSucceed");
@@ -491,7 +491,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
 
         groupTv = (TextView) findViewById(R.id.groupTv);
         iv_paper = (ImageView) findViewById(R.id.iv_paper);
-        ImageUtil.showImageView(ctx, previewPath, iv_paper);
+        ImageUtil.showImageRotated(ctx, previewPath, iv_paper);
         iv_minus = (ImageView) findViewById(R.id.iv_minus);
         tv_mount = (TextView) findViewById(R.id.tv_mount);
         iv_plus = (ImageView) findViewById(R.id.iv_plus);
@@ -962,7 +962,7 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
     public void onMessageEventPostThread(Integer i) {
         this.pageCount = i;
-       // Logger.i(pageCount);
+        // Logger.i(pageCount);
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)

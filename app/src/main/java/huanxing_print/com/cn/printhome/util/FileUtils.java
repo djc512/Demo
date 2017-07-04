@@ -26,6 +26,7 @@ import java.util.Random;
 
 import huanxing_print.com.cn.printhome.constant.ConFig;
 import huanxing_print.com.cn.printhome.log.Logger;
+import huanxing_print.com.cn.printhome.util.image.ImageRolateUtil;
 
 public class FileUtils {
 
@@ -421,6 +422,7 @@ public class FileUtils {
                 String photoPath = new String(data, 0, data.length - 1);
                 imgList.add(photoPath);
                 Logger.i(name + photoPath);
+                Logger.i(ImageRolateUtil.getExifOrientation(photoPath));
             }
         } while (cursor.moveToPrevious());
         return imgList;

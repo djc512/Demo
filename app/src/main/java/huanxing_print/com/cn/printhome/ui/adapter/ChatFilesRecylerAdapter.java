@@ -15,12 +15,8 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.FileType;
-import huanxing_print.com.cn.printhome.util.ImageUtil;
+import huanxing_print.com.cn.printhome.util.image.ImageUtil;
 import huanxing_print.com.cn.printhome.view.RectangleLayout;
-
-import static com.baidu.location.b.k.co;
-import static huanxing_print.com.cn.printhome.R.string.confirm_forward_to;
-import static huanxing_print.com.cn.printhome.R.string.file;
 
 /**
  * Created by LGH on 2017/5/20.

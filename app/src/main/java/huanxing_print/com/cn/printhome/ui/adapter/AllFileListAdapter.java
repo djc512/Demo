@@ -16,7 +16,7 @@ import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.FileType;
-import huanxing_print.com.cn.printhome.util.ImgIconUtil;
+import huanxing_print.com.cn.printhome.util.image.ImgIconUtil;
 
 /**
  * Created by LGH on 16/11/19.

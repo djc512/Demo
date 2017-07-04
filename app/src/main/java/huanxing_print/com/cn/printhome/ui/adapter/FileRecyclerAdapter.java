@@ -18,9 +18,7 @@ import java.util.Locale;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.util.FileType;
 import huanxing_print.com.cn.printhome.util.FileUtils;
-import huanxing_print.com.cn.printhome.util.ImgIconUtil;
-
-import static com.baidu.location.b.g.I;
+import huanxing_print.com.cn.printhome.util.image.ImgIconUtil;
 
 public class FileRecyclerAdapter extends RecyclerView.Adapter<FileRecyclerAdapter.ViewHolder> {
 

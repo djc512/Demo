@@ -1,8 +1,9 @@
-package huanxing_print.com.cn.printhome.util;
+package huanxing_print.com.cn.printhome.util.image;
 
 import java.io.File;
 
 import huanxing_print.com.cn.printhome.R;
+import huanxing_print.com.cn.printhome.util.FileType;
 
 /**
  * Created by LGH on 2017/5/18.

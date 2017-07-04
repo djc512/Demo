@@ -15,7 +15,7 @@ import java.util.List;
 import huanxing_print.com.cn.printhome.R;
 import huanxing_print.com.cn.printhome.model.print.PrintListBean;
 import huanxing_print.com.cn.printhome.util.FileUtils;
-import huanxing_print.com.cn.printhome.util.ImgIconUtil;
+import huanxing_print.com.cn.printhome.util.image.ImgIconUtil;
 import huanxing_print.com.cn.printhome.util.StringUtil;
 
 /**

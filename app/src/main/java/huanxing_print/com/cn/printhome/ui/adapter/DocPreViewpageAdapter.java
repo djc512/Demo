@@ -10,7 +10,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import java.util.List;
 
 import huanxing_print.com.cn.printhome.R;
-import huanxing_print.com.cn.printhome.util.ImageUtil;
+import huanxing_print.com.cn.printhome.util.image.ImageUtil;
 
 /**
  * Created by LGH on 2017/5/9.
