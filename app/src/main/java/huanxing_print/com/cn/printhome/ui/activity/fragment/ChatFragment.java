@@ -8,7 +8,7 @@ import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMConversationListener;
@@ -45,7 +45,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
     protected boolean hidden;
     protected List<EMConversation> conversationList = new ArrayList<EMConversation>();
     protected EaseConversationList conversationListView;
-    protected FrameLayout errorItemContainer;
+    protected LinearLayout errorItemContainer;
 
     protected boolean isConflict;
 
@@ -64,7 +64,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
         EventBus.getDefault().register(this);
         Logger.i("init");
         conversationListView = (EaseConversationList) findViewById(R.id.list);
-        errorItemContainer = (FrameLayout) findViewById(R.id.fl_error_item);
+        errorItemContainer = (LinearLayout) findViewById(R.id.fl_error_item);
         findViewById(R.id.addImg).setOnClickListener(this);
 
         conversationList.addAll(loadConversationList());
@@ -77,15 +77,15 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = conversationListView.getItem(position);
                 //单聊
-                EMMessage message = conversation.getLatestMessageFromOthers();
-                EMMessage groupMsg = conversation.getLastMessage();
+                EMMessage otherLastMsg = conversation.getLatestMessageFromOthers();
+                EMMessage lastMsg = conversation.getLastMessage();
                 if ("notice".equals(conversation.getLastMessage().getUserName())) {
                     Log.e("CMCC", "notice");
                     Intent intent = new Intent(getActivity(), ChatApprovalActivity.class);
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-                    if (message != null) {
-                        intent.putExtra(Constant.EXTRA_USER_ID, message.getFrom());
-                        intent.putExtra("name", message.getStringAttribute("nickName", ""));
+                    if (otherLastMsg != null) {
+                        intent.putExtra(Constant.EXTRA_USER_ID, otherLastMsg.getFrom());
+                        intent.putExtra("name", otherLastMsg.getStringAttribute("nickName", ""));
                     }
                     startActivity(intent);
                     return;
@@ -96,38 +96,38 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
                         conversation.getType()) {
 //                    intent.putExtra("type", EaseConstant.CHATTYPE_GROUP);
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
-                    intent.putExtra(Constant.EXTRA_USER_ID, groupMsg.getTo());
-                    if (ObjectUtils.isNull(message)) {
+                    intent.putExtra(Constant.EXTRA_USER_ID, lastMsg.getTo());
+                    if (ObjectUtils.isNull(otherLastMsg)) {
                         //别人没有说话
-                        intent.putExtra("nickName", groupMsg.getStringAttribute("otherName", ""));
-                        intent.putExtra("iconUrl", groupMsg.getStringAttribute("otherUrl", ""));
+                        intent.putExtra("nickName", lastMsg.getStringAttribute("otherName", ""));
+                        intent.putExtra("iconUrl", lastMsg.getStringAttribute("otherUrl", ""));
                     } else {
-                        intent.putExtra("nickName", message.getStringAttribute("groupName", ""));
-                        intent.putExtra("iconUrl", message.getStringAttribute("groupUrl", ""));
+                        intent.putExtra("nickName", otherLastMsg.getStringAttribute("groupName", ""));
+                        intent.putExtra("iconUrl", otherLastMsg.getStringAttribute("groupUrl", ""));
                     }
                 } else if (EMConversation.EMConversationType.ChatRoom ==
                         conversation.getType()) {
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_CHATROOM);
-                    intent.putExtra(Constant.EXTRA_USER_ID, groupMsg.getTo());
-                    if (ObjectUtils.isNull(message)) {
+                    intent.putExtra(Constant.EXTRA_USER_ID, lastMsg.getTo());
+                    if (ObjectUtils.isNull(otherLastMsg)) {
                         //别人没有说话
-                        intent.putExtra("nickName", groupMsg.getStringAttribute("otherName", ""));
-                        intent.putExtra("iconUrl", groupMsg.getStringAttribute("otherUrl", ""));
+                        intent.putExtra("nickName", lastMsg.getStringAttribute("otherName", ""));
+                        intent.putExtra("iconUrl", lastMsg.getStringAttribute("otherUrl", ""));
                     } else {
-                        intent.putExtra("nickName", message.getStringAttribute("groupName", ""));
-                        intent.putExtra("iconUrl", message.getStringAttribute("groupUrl", ""));
+                        intent.putExtra("nickName", otherLastMsg.getStringAttribute("groupName", ""));
+                        intent.putExtra("iconUrl", otherLastMsg.getStringAttribute("groupUrl", ""));
                     }
                 } else {
                     intent.putExtra(Constant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-                    if (ObjectUtils.isNull(message)) {
+                    if (ObjectUtils.isNull(otherLastMsg)) {
                         //别人没有说话
-                        intent.putExtra(Constant.EXTRA_USER_ID, groupMsg.getTo());
-                        intent.putExtra("nickName", groupMsg.getStringAttribute("otherName", ""));
-                        intent.putExtra("iconUrl", groupMsg.getStringAttribute("otherUrl", ""));
+                        intent.putExtra(Constant.EXTRA_USER_ID, lastMsg.getTo());
+                        intent.putExtra("nickName", lastMsg.getStringAttribute("otherName", ""));
+                        intent.putExtra("iconUrl", lastMsg.getStringAttribute("otherUrl", ""));
                     } else {
-                        intent.putExtra(Constant.EXTRA_USER_ID, message.getFrom());
-                        intent.putExtra("nickName", message.getStringAttribute("nickName", ""));
-                        intent.putExtra("iconUrl", message.getStringAttribute("iconUrl", ""));
+                        intent.putExtra(Constant.EXTRA_USER_ID, otherLastMsg.getFrom());
+                        intent.putExtra("nickName", otherLastMsg.getStringAttribute("nickName", ""));
+                        intent.putExtra("iconUrl", otherLastMsg.getStringAttribute("iconUrl", ""));
                     }
                 }
                 startActivity(intent);
