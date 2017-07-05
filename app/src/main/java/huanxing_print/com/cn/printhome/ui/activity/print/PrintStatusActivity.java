@@ -80,7 +80,7 @@ import huanxing_print.com.cn.printhome.view.dialog.LoadingDialog;
 
 public class PrintStatusActivity extends BasePrintActivity implements View.OnClickListener {
 
-    private TextView stateTv,tv_money;
+    private TextView stateTv, tv_money;
     private TextView stateDetailTv;
     private TextView countTv;
     private RelativeLayout successRyt;
@@ -132,10 +132,10 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private void initData() {
         orderId = getIntent().getExtras().getLong(ORDER_ID);
         printerPrice = getIntent().getExtras().getParcelable(PRINTER_PRICE);
-        if (null!=infos&&infos.size()>0){
+        if (null != infos && infos.size() > 0) {
             infos.clear();
         }
-        ADListRequest.request(context,adCallback);
+        ADListRequest.request(context, adCallback);
 //        Logger.i(printerPrice.toString());
 //        Logger.i(orderId);
     }
@@ -156,7 +156,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 
         @Override
         public void success(List<ADInfo> bean) {
-            if (null!=bean&&bean.size()>0){
+            if (null != bean && bean.size() > 0) {
                 infos.addAll(bean);
                 configImageLoader();
                 initialize();
@@ -209,7 +209,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                             @Override
                             public void ok() {
                                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "400-666-2060"));
-                                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) !=
+                                        PackageManager.PERMISSION_GRANTED) {
                                     return;
                                 }
                                 startActivity(intent);
@@ -240,7 +241,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
 
                 //DialogUtils.showPrintSuccessDetailDialog(context)
                 loadingDialog.show();
-                PrintDetailRequest.getPrintDetail(context,orderId+"",callback);
+                PrintDetailRequest.getPrintDetail(context, orderId + "", callback);
                 break;
             case R.id.ll_contact:
                 DialogUtils.showCallDialog(context, getResources().getString(R.string.dlg_call),
@@ -248,7 +249,8 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                             @Override
                             public void ok() {
                                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "400-666-2060"));
-                                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) !=
+                                        PackageManager.PERMISSION_GRANTED) {
                                     return;
                                 }
                                 startActivity(intent);
@@ -371,7 +373,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     private void setSuccessView() {
         //查询余额接口
         TotleBalanceRequest.request(context, new MyTotleBalanceCallBack());
-        initTitleRight("联系客服",true);
+        initTitleRight("联系客服", true);
         successRyt.setVisibility(View.VISIBLE);
         stateRyt.setVisibility(View.GONE);
         exceptionLyt.setVisibility(View.GONE);
@@ -379,7 +381,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
     }
 
     private void setExceptionView() {
-        initTitleRight("联系客服",false);
+        initTitleRight("联系客服", false);
         findViewById(R.id.errorExitTv).setVisibility(View.INVISIBLE);
         successRyt.setVisibility(View.GONE);
         stateRyt.setVisibility(View.VISIBLE);
@@ -562,7 +564,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         @Override
         public void success(String msg, PrintDetailBean bean) {
             loadingDialog.dismiss();
-            if (null!=bean) {
+            if (null != bean) {
                 DialogUtils.showPrintSuccessDetailDialog(context, bean);
             }
         }
@@ -587,6 +589,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
             tv_money.setText("￥" + totleBalance);
         }
     }
+
     //    public void onSuccess(View view) {
 //        setSuccessView();
 //    }
@@ -624,7 +627,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         receiveBroadCast = new ReceiveBroadCast();
         IntentFilter filter = new IntentFilter();
         filter.addAction("comment");    //只有持有相同的action的接受者才能接收此广播
-        context.registerReceiver(receiveBroadCast,filter);
+        context.registerReceiver(receiveBroadCast, filter);
     }
 
     @Override
@@ -667,6 +670,7 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         //设置圆点指示图标组居中显示，默认靠右
         cycleViewPager.setIndicatorCenter();
     }
+
     private ImageCycleViewListener mAdCycleViewListener = new ImageCycleViewListener() {
 
 
@@ -681,13 +685,15 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
         }
 
     };
+
     /**
      * 配置ImageLoder
      */
     private void configImageLoader() {
         // 初始化ImageLoader
         @SuppressWarnings("deprecation")
-        DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.icon_stub) // 设置图片下载期间显示的图片
+        DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.icon_stub) //
+                // 设置图片下载期间显示的图片
                 .showImageForEmptyUri(R.drawable.icon_empty) // 设置图片Uri为空或是错误的时候显示的图片
                 .showImageOnFail(R.drawable.icon_error) // 设置图片加载或解码过程中发生错误显示的图片
                 .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
@@ -695,9 +701,11 @@ public class PrintStatusActivity extends BasePrintActivity implements View.OnCli
                 // .displayer(new RoundedBitmapDisplayer(20)) // 设置成圆角图片
                 .build(); // 创建配置过得DisplayImageOption对象
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(options)
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .defaultDisplayImageOptions(options)
                 .threadPriority(Thread.NORM_PRIORITY - 2).denyCacheImageMultipleSizesInMemory()
-                .discCacheFileNameGenerator(new Md5FileNameGenerator()).tasksProcessingOrder(QueueProcessingType.LIFO).build();
+                .discCacheFileNameGenerator(new Md5FileNameGenerator()).tasksProcessingOrder(QueueProcessingType
+                        .LIFO).build();
         ImageLoader.getInstance().init(config);
     }
 }
