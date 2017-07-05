@@ -562,7 +562,11 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
             seekLyt.setVisibility(View.GONE);
             scaleImg.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.off));
             isStandard = true;
-            scaleRatio = 100;
+            if (printFileInfo.getFileType() == PrintFileInfo.TYPE_COPY) {
+                scaleRatio = 100;
+            } else {
+                scaleRatio = -1;
+            }
             seekBar.setProgress(100);
         } else {
             seekLyt.setVisibility(View.VISIBLE);
