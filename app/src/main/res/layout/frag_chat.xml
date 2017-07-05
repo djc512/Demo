@@ -35,11 +35,12 @@
         android:layout_width="match_parent"
         android:layout_height="1px" />
 
-    <FrameLayout
-        android:id="@+id/fl_error_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"/>
+    <include layout="@layout/em_chat_neterror_item"/>
+    <!--<FrameLayout-->
+        <!--android:id="@+id/fl_error_item"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"/>-->
 
     <com.hyphenate.easeui.widget.EaseConversationList
         android:id="@+id/list"

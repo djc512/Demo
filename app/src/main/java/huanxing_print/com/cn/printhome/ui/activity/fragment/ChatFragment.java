@@ -8,7 +8,7 @@ import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMConversationListener;
@@ -45,7 +45,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
     protected boolean hidden;
     protected List<EMConversation> conversationList = new ArrayList<EMConversation>();
     protected EaseConversationList conversationListView;
-    protected FrameLayout errorItemContainer;
+    protected LinearLayout errorItemContainer;
 
     protected boolean isConflict;
 
@@ -64,7 +64,7 @@ public class ChatFragment extends BaseFragment implements OnClickListener {
         EventBus.getDefault().register(this);
         Logger.i("init");
         conversationListView = (EaseConversationList) findViewById(R.id.list);
-        errorItemContainer = (FrameLayout) findViewById(R.id.fl_error_item);
+        errorItemContainer = (LinearLayout) findViewById(R.id.fl_error_item);
         findViewById(R.id.addImg).setOnClickListener(this);
 
         conversationList.addAll(loadConversationList());
