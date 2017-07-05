@@ -17,9 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMMessage;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -146,15 +144,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void inData() {
-        //EMClient.getInstance().chatManager().addMessageListener(msgListener);
-        //显示印信聊天未读消息数
-        int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-        if (num > 0) {
-            tv_count.setVisibility(View.VISIBLE);
-            tv_count.setText(num + "");
-        } else {
-            tv_count.setVisibility(View.GONE);
-        }
+        showUnreadMsgCount();
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         ll_bg = (LinearLayout) findViewById(R.id.ll_bg);
 
@@ -183,42 +173,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             toast("没有可用的网络连接，请打开蜂窝数据或者wifi");
         }
     }
-
-    EMMessageListener msgListener = new EMMessageListener() {
-
-        @Override
-        public void onMessageReceived(List<EMMessage> list) {
-
-            //显示印信聊天未读消息数
-            int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-            if (num > 0) {
-                tv_count.setVisibility(View.VISIBLE);
-                tv_count.setText(num + "");
-            } else {
-                tv_count.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onCmdMessageReceived(List<EMMessage> list) {
-
-        }
-
-        @Override
-        public void onMessageRead(List<EMMessage> list) {
-
-        }
-
-        @Override
-        public void onMessageDelivered(List<EMMessage> list) {
-
-        }
-
-        @Override
-        public void onMessageChanged(EMMessage emMessage, Object o) {
-
-        }
-    };
 
     public void onClick(View v) {
         FragmentTransaction tran = fragMananger.beginTransaction();
@@ -327,27 +281,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void msgNum(RefreshEvent event) {
         //显示印信聊天未读消息数
         if (event.getCode() == 0x14) {
-            int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-            if (num > 0) {
-                tv_count.setVisibility(View.VISIBLE);
-                tv_count.setText(num + "");
-            } else {
-                tv_count.setVisibility(View.GONE);
-            }
-            //getChatNum();
+            showUnreadMsgCount();
         }
     }
 
     @Override
     protected void onResume() {
-        //显示印信聊天未读消息数
-        int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-        if (num > 0) {
-            tv_count.setVisibility(View.VISIBLE);
-            tv_count.setText(num + "");
-        } else {
-            tv_count.setVisibility(View.GONE);
-        }
+        showUnreadMsgCount();
         super.onResume();
         MobclickAgent.onPageStart("打印首页");
     }
@@ -360,7 +300,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void onDestroy() {
-        //EMClient.getInstance().chatManager().removeMessageListener(msgListener);
         EventBus.getDefault().unregister(mContext);
         super.onDestroy();
     }
@@ -428,23 +367,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
 
-    /**
-     * 显示印信聊天未读消息数
-     */
-//    private void getChatNum(){
-//        int num = EMClient.getInstance().chatManager().getUnreadMessageCount();
-//        if (num>0){
-//            tv_count.setVisibility(View.VISIBLE);
-//            if (num<99){
-//                tv_count.setText(num+"");
-//            }else{
-//                tv_count.setText("99+");
-//            }
-//        }else {
-//            tv_count.setVisibility(View.GONE);
-//        }
-//    }
-
     private VersionCallback callback = new VersionCallback() {
 
         @Override
@@ -491,4 +413,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
 
     };
+
+    int unReadNum = 0;
+    /**
+     * 显示印信聊天未读消息数
+     */
+    public void showUnreadMsgCount() {
+        unReadNum = EMClient.getInstance().chatManager().getUnreadMessageCount();
+        if (unReadNum > 0) {
+            tv_count.setVisibility(View.VISIBLE);
+            tv_count.setText(unReadNum + "");
+        } else {
+            tv_count.setVisibility(View.GONE);
+        }
+    }
 }
