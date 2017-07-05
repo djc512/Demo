@@ -190,7 +190,9 @@ public class PrintRequest extends BaseRequst {
         params.put(PRINT_COUNT, printCount);
         params.put(SIZE_TYPE, sizeType);
         params.put(PAPER_TYPE, paperType);
-        params.put(SCALE_RATIO, scaleRatio);
+        if (scaleRatio > 0) {
+            params.put(SCALE_RATIO, scaleRatio);
+        }
         Http.postString(activity, url, params, getHeaderTokenMap(), callback, false);
     }
 

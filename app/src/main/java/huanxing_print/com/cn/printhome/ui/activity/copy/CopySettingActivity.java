@@ -196,7 +196,13 @@ public class CopySettingActivity extends BaseActivity implements View.OnClickLis
         printerNo = bundle.getString(PRINTER_NO);
         printSetting = bundle.getParcelable(PRINT_SETTING);
         newSetting = printSetting.clone();
-        newSetting.setScaleRatio(100);
+        if (printFileInfo.getFileType() == PrintFileInfo.TYPE_COPY) {
+            newSetting.setScaleRatio(100);
+            scaleRatio = 100;
+        } else {
+            newSetting.setScaleRatio(-1);
+            scaleRatio = -1;
+        }
         newSetting.setPaperType(PrintUtil.SETTING_COMMON);
         colourFlag = newSetting.getColourFlag();
         directionFlag = newSetting.getDirectionFlag();
